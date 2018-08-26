@@ -1,0 +1,1 @@
+#include <stdarg.h> // or <cstdarg.h>?declare::declare(const char* c, ...){va_list ap ;va_start(ap, c) ;int i = 0 ;while (ap != NULL) // (ap)?	{	names[i] = va_arg(ap, declare) ;	i++ ;	}va_end(ap) ;}

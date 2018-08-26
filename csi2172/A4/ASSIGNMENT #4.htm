@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0073)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/ -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>ASSIGNMENT #4</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>ASSIGNMENT #4</H1>Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules">general 
+rules</A> about submitting course work! Also read ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#marker">how 
+can I make my marker's life easier</A>'' and ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#nocompile">what 
+if my code does not compile?</A>''. 
+<H2><FONT color=red>Due date:</FONT></H2>
+<UL>
+  <H4>December 8<SUP>th</SUP>, by 18:00 in the hand in boxes located on the 
+  3<SUP>rd</SUP> floor of McDonald building. <BR><BR></H4></UL>
+<HR>
+
+<H1>Virtual Constructors [ 100 marks ]</H1>It is a well known problem in Object 
+Oriented Programming that constructors cannot be made <TT>virtual</TT>. 
+Throughout this course we used polymorhism and inheritance to achieve 
+maintainability and ease of integration of new features and extensions. 
+<BR><BR>Unfortunately this does not apply to constructors. Consider the class 
+diagram below: 
+<CENTER><A href="ASSIGNMENT #4_files/shapes.gif"><IMG border=0 
+src="ASSIGNMENT #4_files/shapes.gif" width="60%"></A> 
+</CENTER><BR><BR><TT>shape</TT> is an abstract class. Suppose I would like to 
+read instances of shapes from the console: <PRE>      shape** array = new shape*[10];
+
+      for(int i=0; i&lt;10; ++i) {
+         array[i]-&gt;read(cin); 
+      }
+   </PRE>To be able to invoke the polymorphic method <TT>read</TT>, 
+<TT>array[i]</TT> must be allocated! But how can it be allocated when you cannot 
+possible know which subclass of <I>shape</I> the object to be read from the 
+console belongs to. In philosophy this situation is referred to as a 
+<IT>paradox</I>. To be able to invoke a constructor to create the instance I 
+have to know its <I>exact</I> type but to be able to call a method I need the 
+instance. While <TT>operator&lt;&lt;</TT> can be implemented as <PRE>
+   ostream&amp; <B>operator&lt;&lt;</B>(ostream&amp; <I>os</I>, const shape&amp; <I>s</I>) {
+      s.print(<I>os</I>);   // <FONT color=darkgreen>print is polymorphic</FONT>
+      return <I>os</I>;
+   }
+
+   </PRE><TT>operator&gt;&gt;</TT> <B><FONT color=red>cannot</FONT></B> be 
+implemented as <PRE>
+   istream&amp; <B>operator&gt;&gt;</B>(istream&amp; <I>is</I>, shape&amp; <I>s</I>) {
+      s.read(<I>is</I>);  
+      return <I>is</I>;
+   }
+
+   </PRE>because you would need an instance <TT>s</TT>, but you don't know the 
+exact <I>subclass</I> until you actually executed <TT>read</TT>. <BR><BR>Because 
+of this paradox, there is no support to implement virtual constructors in 
+<TT>C++</TT>. However, one can implement something similar which would 
+effectively implement a polymorphic read method. The term <I>virtual 
+constructor</I> refers to a mechanism implemented by the programmer which can 
+create instances of the run-time subclass by invoking a method of the base 
+class. The <TT>clone</TT> method for your second assignment -- in this sense -- 
+is a virtual constructor. Virtual constructors which can create instances from 
+streams are much more difficult to implement. In your second assignment, you had 
+a parser, which took instantiator functions and syntax definitions to recognize 
+expressions from a stream. <BR><BR>For this assignment, I provide you with the 
+<I>implementation</I> of this mechanism. The way it works is that for every 
+subclass of <TT>shape</TT>, a tiny subclass of <TT>shape_instantiator</TT> must 
+be implemented which would be used by the <TT>shape::read</TT> method to 
+instantiate the particular instance. <BR><BR>Your task is to 
+<LI><B>Comment the Code I gave you [ 20 marks ]</B> 
+<UL>Add comments to <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/shape.h">shape.h</A> 
+  and <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/shape.cpp">shape.cpp</A> 
+  which would explain the person who reads the code <I>how</I> the actual 
+  mechanism is implemented. Also add comments to <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/main.cpp">main.cpp</A> 
+  which would explain how this is used. <BR><BR>Please do not do anything like <PRE>  int i; // i is an integer
+  for(...) // is a for loop
+          </PRE>In-line comments are not supposed to clutter the code with 
+  stating the obvious. They are specifically provided so the implementor can 
+  quickly re-acquaint himself with the code he wrote years before and to guide 
+  those developers who will have to maintain it. In other words, they should be 
+  short explanations of non-obvious mechanisms. If you need help how to do this, 
+  you can take a look at the comments in <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/lexer.h">lexer.h</A> 
+  and <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/lexer.cpp">lexer.cpp</A> 
+  (or <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.h">heap.h</A> 
+  and <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.cpp">heap.cpp</A>) 
+</UL>
+<LI><B>Provide a short description [ 20 marks ]</B> 
+<UL>Describe how virtual construction is implemented for shapes. You are 
+  limited to one typed page. You <I>may</I> use one diagram if you feel it would 
+  aid your description. <BR><BR>A good description is brief with <B>no code</B>. 
+  It is supposed to describe how one would go about implementing virtual 
+  construction in any object oriented language using inheritance, polymorphism, 
+  class methods and class variables ... </UL>
+<LI><B>Implement the missing subclasses of <TT>shape</TT> [ 60 marks ]</B> 
+<UL>implement <TT>rectangle</TT>, <TT>square</TT> and <TT>triangle</TT> so 
+  they can be read from a stream. <PRE>   ass4 "circle 2" "square 2" "rectangle 4 5" "triangle  3 4 5"
+          </PRE>should produce: <PRE>   square 2  has area: 4
+   triangle 3 4 5  has area: 6
+   circle 2  has area: 12.5664
+   rectangle 4 5  has area: 20
+          </PRE></UL>
+<HR>
+<PRE>      ass4.exe [ .exe ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/shape.h">shape.h</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/shape.cpp">shape.cpp</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/circle.h">circle.h</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/circle.cpp">circle.cpp</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/lexer.h">lexer.h</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/lexer.cpp">lexer.cpp</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/qsort.h">qsort.h</A>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass4/main.cpp">main.cpp</A>
+
+
+      C:\work&gt;ass4 "circle 2" "circle 1" "circle 7" "circle 2"
+      C:\work&gt;type shapes.txt
+ </PRE>
+<HR>
+
+<H1>What Do I hand in?</H1>The following files on diskette and their printout: 
+<UL>
+  <LI>shape.h <FONT color=green>// commented </FONT>
+  <LI>shape.cpp <FONT color=green>// commented </FONT>
+  <LI>rectangle.h 
+  <LI>rectangle.cpp 
+  <LI>triangle.h 
+  <LI>triangle.cpp 
+  <LI>square.h 
+  <LI>square.cpp 
+  <LI>main.cpp (<I>modified</I>) <FONT color=green>// commented </FONT></LI></UL>
+<H1>Good Luck!!!</H1></LI></BODY></HTML>

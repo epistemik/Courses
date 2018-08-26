@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 97">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.06 [en] (Win95; U) [Netscape]">
+   <TITLE>CSI 2114</TITLE>
+</HEAD>
+<BODY TEXT="#000000">
+<B><FONT FACE="Times New Roman,Times"><FONT SIZE=+2>CSI 2114 Assignment
+1 Summer 1999</FONT></FONT></B>
+<P><FONT FACE="Times New Roman,Times">In this assignment, you will design
+a Turbo Pascal "unit" that implements a "collection" data structure. A
+collection, as its name implies, is the most general of all data structures.
+The type of collection you will implement behaves like a big bag that holds
+everything you put in it without preserving the order you put things in.
+In practice it could be implemented using almost any type of data structure,
+but the easiest thing to do will be to use a linked list.</FONT>
+<P><FONT FACE="Times New Roman,Times"><B>Question 1.</B> Use the type definitions
+and specifications below to write a Pascal unit ("a1unit.pas") with the
+implementations for all the operations listed below. Try to make your implementations
+as time-efficient as possible (hint: don't traverse a list unless you have
+to.) A <A HREF="a1test.pas">separate test program</A> will compile using
+the unit to make sure everything works. See chapter 4 of the text for information
+on Pascal units.</FONT> Borland Pascal for Windows also has a good help
+section (search for keyword "unit").
+<P><FONT FACE="Times New Roman,Times"><B>Question 2.</B> For each of the
+procedures you implement, state on a separate sheet of paper whether the
+operation is constant time O(k), linear time O(n), or quadratic time O(n<SUP>2</SUP>),
+where <I>n</I> is the number of nodes in the collection.</FONT>
+<P><B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Marking Scheme:</FONT></FONT></U></B>
+<BR>&nbsp;
+<TABLE COLS=2 WIDTH="359" >
+<TR>
+<TD WIDTH="80%"><FONT FACE="Times New Roman,Times">Code for question 1:</FONT>
+<BR><FONT FACE="Times New Roman,Times">Programming Standards for question
+1:*</FONT>
+<BR><FONT FACE="Times New Roman,Times">Question 2&nbsp;
+<HR WIDTH="100%">Total:</FONT></TD>
+
+<TD WIDTH="20%">20&nbsp;
+<BR>20&nbsp;
+<BR>10&nbsp;
+<HR WIDTH="100%">50</TD>
+</TR>
+</TABLE>
+<FONT FACE="Times New Roman,Times">*Programming Standards covers the layout
+of the TPU file, comments, and indenting.</FONT>
+<P><B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Type Definitions:</FONT></FONT></U></B>
+<P><FONT FACE="Times New Roman,Times">To be included in the "interface"
+section of the file"a1unit.pas".</FONT>
+<P><FONT FACE="Courier New,Courier">(********************** TYPE DEFINITIONS
+***************************)</FONT>
+<P><FONT FACE="Courier New,Courier">type</FONT>
+<P><FONT FACE="Courier New,Courier">(*Collection_element = the data type
+to store in the collection *)</FONT>
+<P><FONT FACE="Courier New,Courier">&nbsp;&nbsp; collection_element = string;</FONT>
+<P><FONT FACE="Courier New,Courier">(*Collection_node = a node in the linked
+list storing the collection elements *)</FONT>
+<P><FONT FACE="Courier New,Courier">&nbsp;&nbsp; collection_node_pointer
+= ^collection_node;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; collection_node = record</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value:
+collection_element;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next:
+collection_node_pointer;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; end;</FONT>
+<P><FONT FACE="Courier New,Courier">(*Collection_header = a record containing
+information about the size of the</FONT>
+<BR><FONT FACE="Courier New,Courier">collection, as well as pointers to
+the first and last elements *)</FONT>
+<P><FONT FACE="Courier New,Courier">&nbsp;&nbsp; collection_header = record</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size:
+integer;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first:
+collection_node_pointer;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last:
+collection_node_pointer;</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; end;</FONT>
+<P><FONT FACE="Courier New,Courier">(*Collection = the main data type of
+the collection. It is a pointer to a</FONT>
+<BR><FONT FACE="Courier New,Courier">collection header *)</FONT>
+<P><FONT FACE="Courier New,Courier">&nbsp;&nbsp; collection = ^collection_header;</FONT>
+<P><B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Specifications:</FONT></FONT></U></B>
+<P>These headers should go in the "implementation" section of "a1unit.pas".&nbsp;
+Each header should be followed by your code to implement the operation.
+<P><B><FONT FACE="Times New Roman,Times">(* Create(C)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is undefined</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: C is the empty collection
+with storage allocated as needed. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Destroy(C)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is a defined collection</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: C' is undefined. All
+dynamically allocated memory *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Size(C)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is a defined collection.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: returns the number of
+elements in C. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Is_Empty(C)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is a defined collection.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: returns true if C is
+empty, false otherwise. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Insert(C,V)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is a defined collection,
+V is a collection element.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: C has value V added.
+Storage is allocated as needed. If V already occurs in C an additional
+copy is added. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Delete(C,V)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C is a defined collection,
+V is a collection element</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: C has the value V removed.
+If V occurs more than once, only one occurrence is removed. If V does not
+occur in C, no change is made. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Join(C1,C2)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C1 and C2 are two different
+defined collections.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: C1 is the union of the
+two collections (i.e. it contains all the elements originally in C1 and
+C2). C2 is undefined. *)</FONT></LI>
+</UL>
+<B><FONT FACE="Times New Roman,Times">(* Print(C1)</FONT></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">preconditions: C1 is a defined collection.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">postconditions: The elements in C1 are
+printed to the screen in any order.&nbsp; If C1 is empty, the message "EMPTY
+COLLECTION" is printed to the screen. *)</FONT></LI>
+</UL>
+<B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Memory Management</FONT></FONT></U></B>
+<P><FONT FACE="Times New Roman,Times">The following code will help you
+do memory management on the Collection Nodes.&nbsp; Always use "Get_CNode"
+and "Return_CNode" instead of "new" and "dispose", and the "MemCount" variable
+will keep track of memory leaks for you.&nbsp; This code goes in the TPU
+file above the procedures that call it, except for the initialization section,
+which goes at the end.&nbsp; You will also have to include the "Memcheck"
+function in the interface section so it can be called from the main program.&nbsp;
+Note that these functions only keep track of Collection Nodes.&nbsp; Don't
+try to use them for allocating the Collection Header.</FONT>
+<P><FONT FACE="Courier New,Courier">(***************** Special memory management
+stuff *******************)</FONT>
+<BR><FONT FACE="Courier New,Courier">(* Place the following ABOVE the collection
+procedures and functions *)</FONT>
+<P><FONT FACE="Courier New,Courier">var MemCount: integer;</FONT>
+<P><FONT FACE="Courier New,Courier">(* Use Get_CNode instead of "new" *)</FONT>
+<BR><FONT FACE="Courier New,Courier">procedure Get_CNode(var C: collection_node_pointer);</FONT>
+<BR><FONT FACE="Courier New,Courier">begin</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; new(C);</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; MemCount := MemCount
++ 1;</FONT>
+<BR><FONT FACE="Courier New,Courier">end;</FONT>
+<P><FONT FACE="Courier New,Courier">(* Use Return_CNode instead of "dispose"
+*)</FONT>
+<BR><FONT FACE="Courier New,Courier">procedure Return_CNode(var C: collection_node_pointer);</FONT>
+<BR><FONT FACE="Courier New,Courier">begin</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; dispose(C);</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; MemCount := MemCount
+- 1;</FONT>
+<BR><FONT FACE="Courier New,Courier">end;</FONT>
+<P><FONT FACE="Courier New,Courier">function MemCheck: boolean;</FONT>
+<BR><FONT FACE="Courier New,Courier">begin</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; MemCheck := (MemCount
+= 0);</FONT>
+<BR><FONT FACE="Courier New,Courier">end;</FONT>
+<P><FONT FACE="Courier New,Courier">(******************** INITIALIZATION
+CODE **********************)</FONT>
+<BR><FONT FACE="Courier New,Courier">(* this must be placed AT THE END
+of the TPU file.&nbsp; If you want</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; to initialize other globals,
+you may do so by adding code to</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; this section *)</FONT>
+<P><FONT FACE="Courier New,Courier">begin</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp; MemCount := 0;</FONT>
+<BR><FONT FACE="Courier New,Courier">end.</FONT>
+<P><B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Hints and advice:</FONT></FONT></U></B>
+<P><FONT FACE="Times New Roman,Times">Don't write any new code if you don't
+have to. The implementation specified in the type definitions is a linked-list
+implementation, so you should be able to paste in a lot of code from the
+1101 assignments or assignment solutions. Of course you will have to modify
+the headers to use the type definitions "collection" and "collection_element",
+and possibly to deal with the "last" pointer. You will also have to organize
+the code within a Pascal unit instead of within the main program file.</FONT>
+<P><FONT FACE="Times New Roman,Times">For example, you have probably already
+written several types of "insert" procedures for linked lists. You can
+re-use this code for the "insert" procedure above, but you will have to
+change the parameters so that:</FONT>
+<DIR>
+<DIR><FONT FACE="Times New Roman,Times">a. it takes a collection (pointer
+to a collection_header) rather than a linked list (pointer to a list node).</FONT>
+<BR><FONT FACE="Times New Roman,Times">b. it takes a collection_element
+as its value type</FONT>
+<BR><FONT FACE="Times New Roman,Times">c. it updates both the first and
+last pointers if necessary.</FONT></DIR>
+</DIR>
+<B><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Final notes:</FONT></FONT></U></B>
+<UL>
+<LI>
+<FONT FACE="Times New Roman,Times">Always follow the <A HREF="assignments.html">assignment
+guidelines</A>.&nbsp; Don't forget to include the "IdentifyMyself" procedure
+in your TPU file.&nbsp; You will have to make it part of the interface
+too.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">Name your unit "a1unit.pas", and make
+sure the first line is "</FONT><FONT FACE="Courier New,Courier">unit a1unit;</FONT><FONT FACE="Times New Roman,Times">".&nbsp;
+Failure to do this will cause errors.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">You should use the test program "<A HREF="a1test.pas">a1test.pas</A>"
+to test your unit, but this program may not reveal all bugs, so make sure
+you test as thoroughly as possible using your own code.&nbsp; You will
+have to compile your unit (F9 in Pascal for windows) before a1test.pas
+can run.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">Don't forget to hand in an executable
+file.&nbsp; You can create one by compiling "a1test.pas" using your unit
+to a file named "a1test.exe"</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">Watch out for the parameters types.&nbsp;
+Make sure you use VAR when you need it and don't use VAR when you don't
+need it</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">Make sure your unit is documented properly.
+Separate the sections clearly using comments, and include the specifications
+in a header before each procedure.&nbsp; If there is anything special about
+your implementation, make sure you note that in comments.</FONT></LI>
+
+<LI>
+<FONT FACE="Times New Roman,Times">Use clear and consistent indenting when
+you lay out the unit.</FONT></LI>
+</UL>
+
+</BODY>
+</HTML>

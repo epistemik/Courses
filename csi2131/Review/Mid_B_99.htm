@@ -1,0 +1,495 @@
+
+<html>
+<head>
+<title>CSI 2131B - Winter 1999 Midterm Exam</title>
+</head>
+
+<body bgcolor=#FFFFFF>
+
+<!----------><table border=0 cellpadding=0 width="100%"><tr><td><!---------->
+
+<center>
+<font size=+2><b><i>CSI 2131B</font><br>
+<font size=+1>Winter 1999 Midterm Exam</i></b></font><p>
+
+Tuesday, February 16, 1999<p>
+
+<table border=1 cellpadding=15 width="50%">
+<tr>
+<td align=right width="30%"><b><i>Family Name</i></b></td>
+<td width="70%">&nbsp;</td>
+</tr>
+<tr>
+<td align=right><b><i>Given Name</i></b></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td align=right><b><i>Student Number</i></b></td>
+<td>&nbsp;</td>
+</tr>
+</table><p>
+
+</center>
+
+<hr><p>
+
+<b><i>Notes:</i></b>
+<ol>
+<li>This is a closed book exam. Textbooks, notes, cheat sheets and
+stuff written under the brim of your baseball cap are <b>not</b> allowed.
+<li>Calculators are <b>not</b> allowed.
+<li>Anything other foreign entity, abstract or concrete, that would
+help you answer questions on the exam is <b>not</b> allowed.
+<li>There are 10 pages. Write your name and student number on
+<i>every</i> page.
+<li>Answer <i>all</i> of the questions on the exam in <i>all three
+parts</i> of the exam.
+<li>You have 100 minutes to complete the exam.
+</ol><p>
+
+<b><i>Marks:</i></b><p>
+
+<center>
+<table border=1 cellpadding=5>
+<tr>
+<td colspan=6 align=center><b><i>Question</i></b></td>
+<td rowspan=2>&nbsp;</td>
+</tr>
+<td colspan=2 align=center><i>Part A</i></td>
+<td colspan=3 align=center><i>Part B</i></td>
+<td align=center><i>Part C</i></td>
+</tr>
+<tr>
+<td align=center>1<br>(4 marks)</td>
+<td align=center>2<br>(4 marks)</td>
+<td align=center>3<br>(3 marks)</td>
+<td align=center>4<br>(3 marks)</td>
+<td align=center>5<br>(3 marks)</td>
+<td align=center>6<br>(4 marks)</td>
+<td align=center><i>Total</i><br>(20 marks)</td>
+</tr>
+<tr>
+<td><br>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+</tr>
+</table>
+</center>
+
+<div align=right>1 of 10</div>
+
+<!--------------------------></td></tr></table><!--------------------------->
+
+<hr>
+
+<h2>Part A</h2>
+
+<h3>Question 1:</h3>
+
+Here is an algorithm that reads from <i>four</i> files. The first file
+is an index file containing offsets into the other three files, which
+are data files.<p>
+
+<center>
+<table border=1 cellpadding=5>
+<tr><td><pre>
+open "disasters.ndx" and assign it to IndexFile
+open "tornados.dat" and assign it to TornadoFile
+open "earthquakes.dat" and assign it to QuakeFile
+open "floods.dat" and assign it to FloodFile
+
+while not at end of IndexFile
+   read Toffset,Qoffset,Foffset from IndexFile
+
+   seek to Toffset in TornadoFile
+   read line from TornadoFile into Outstring
+   print Outstring
+
+   seek to Qoffset in QuakeFile
+   read line from QuakeFile into Outstring
+   print Outstring
+
+   seek to Foffset in FloodFile
+   read line from FloodFile
+   print Outstring
+end while
+
+close all files.</pre></td></tr>
+</table><p>
+</center>
+
+Assume that <tt>disasters.ndx</tt> occupies cluster 10 on disk. It
+contains (tornado, earthquake, flood) offsets for 6 cities.<p>
+
+Assume that <tt>tornados.dat</tt>, <tt>earthquakes.dat</tt> and
+<tt>floods.dat</tt> each have 6 records (one for each city).<p>
+
+Records 1, 2 and 3 in <tt>tornados.dat</tt> occupy cluster 11.<br>
+Records 4, 5 and 6 in <tt>tornados.dat</tt> occupy cluster 12.<p>
+
+Records 1, 2 and 3 in <tt>earthquakes.dat</tt> occupy cluster 13.<br>
+Records 4, 5 and 6 in <tt>earthquakes.dat</tt> occupy cluster 14.<p>
+
+Records 1, 2 and 3 in <tt>floods.dat</tt> occupy cluster 15.<br>
+Records 4, 5 and 6 in <tt>floods.dat</tt> occupy cluster 16.<p>
+
+The question follows...
+
+<div align=right>2 of 10</div>
+
+<hr>
+
+<ol type=a>
+<li>List (in order) the cluster requests made by the algorithm.<p>
+
+
+<li>Assuming there are only <i>three</i> system I/O buffers, give a
+better algorithm that produces the exact same screen output. You can
+assume that <tt>disasters.ndx</tt> will never contain more than 30
+(tornado, earthquake, flood) offsets and that the offsets are all
+integers.<p>
+
+</ol>
+
+<div align=right>3 of 10</div>
+
+<hr>
+
+<h3>Question 2:</h3>
+
+Here is a picture of the beginning of a 16-bit File Allocation Table.
+Clusters are exactly 1000 bytes long:<p>
+
+<center>
+<table border=1 cellpadding=10>
+<tr>
+<td>0xFFFF</td>
+<td>0x0002</td>
+<td>0x0003</td>
+<td>0x0004</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x000E</td>
+<td>0x0008</td>
+</tr>
+<tr>
+<td>0x0009</td>
+<td>0x000A</td>
+<td>0x000B</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td>0x0011</td>
+<td>0x0012</td>
+<td>0x0019</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0017</td>
+<td>0x0010</td>
+</tr>
+<tr>
+<td>0x0000</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td colspan=8>. . .</td>
+</tr>
+</table><p>
+</center>
+
+Here is a portion of the <i>directory</i> structure:
+
+<center>
+<table border=1 cellpadding=5>
+<tr>
+<td align=center bgcolor=#D0D0D0>File Name</td>
+<td align=center bgcolor=#D0D0D0>...</td>
+<td align=center bgcolor=#D0D0D0>Size</td>
+<td align=center bgcolor=#D0D0D0>First Cluster</td>
+<td align=center bgcolor=#D0D0D0>...</td>
+</tr>
+<tr>
+<td>foo.bin</td>
+<td align=center>...</td>
+<td align=right>???</td>
+<td align=center>0x0007</td>
+<td align=center>...</td>
+</tr>
+<tr>
+<td>bar.bin</td>
+<td align=center>...</td>
+<td align=right>???</td>
+<td align=center>0x0001</td>
+<td align=center>...</td>
+</tr>
+<tr>
+<td>foobar.dat</td>
+<td align=center>...</td>
+<td align=right>???</td>
+<td align=center>0x0006</td>
+<td align=center>...</td>
+</tr>
+<tr>
+<td>foobat.dat</td>
+<td align=center>...</td>
+<td align=right>???</td>
+<td align=center>0x0016</td>
+<td align=center>...</td>
+</tr>
+</table><p>
+</center>
+
+<ol type=a>
+<li>List <i>in order</i> the clusters occupied by each file.<p>
+
+
+<li>Without knowing the file sizes, make an educated guess at how much
+total disk space is being wasted by the four files?<p>
+
+<div align=right>__________ bytes</div>
+<br>
+
+<li>Give an algorithm for determining what file occupies any given cluster.
+(That is, for any cluster N, what file occupies cluster N?).<p>
+
+<div align=right>4 of 10</div>
+<hr>
+
+
+</ol>
+
+<div align=right>5 of 10</div>
+
+<hr>
+
+<h2>Part B</h2>
+
+<h3>Question 3:</h3>
+
+Have a look at the following ASCII file. Records and fields are variable 
+length. Fields are separated by the comma ',' delimiter. Records are 
+separated by the semi-colon ';' delimiter. There are no spaces, there are 
+no newline or carriage return characters.<p>
+
+<center>
+<table border=1 cellpadding=5>
+<tr><td><tt>1,Huntsville,AL,464</font>,373</font>;2,Topeka,KS,445</font>,357</font>;3,Lubbock,TX,285</font>,<br>
+229</font>;4,Overland_Park,KS,269</font>,216</font>;5,Minneapolis,MN,219</font>,176</font>;6,<br>
+Oklahoma_City,OK,209</font>,168</font>;7,Kansas_City,KS,208</font>,167</font>;8,St._Paul,<br>
+MN,206</font>,165</font>;9,St._Louis,MO,202</font>,162</font>;10</font>,Kansas_City,MO,200</font>,160</font>;</tt></td></tr>
+</table><p>
+</center>
+
+<ol type=a>
+<li>The file currently occupies 240 bytes (with numbers like 464 being
+represented by three bytes: the ASCII codes for '4', '6', '4'). If we 
+allow this file to contain binary data, we could represent each numeric 
+field with fewer bytes. For this particular file, how many bytes could 
+we save (use only as many bytes as needed for each numeric field)?<p>
+
+
+<div align=right>__________ bytes</div>
+<br>
+
+<li>Here is an index file containing the offset of each record in the 
+data file (exactly as displayed above). Give an algorithm (in pseudocode,
+Pascal or C) for generating the index file by reading through the data file.<p>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign=top>
+<table border=1 cellpadding=15>
+<tr><td><tt>Hunstville,0<br>
+Topeka,24<br>
+Lubbock,44<br>
+Overland_Park,65<br>
+Minneapolis,92<br>
+Oklahoma_City,117<br>
+Kansas_City,144<br>
+St._Paul,169<br>
+St._Louis,191<br>
+Kansas_City,214</tt></td></tr>
+</table><p>
+</td>
+
+<td>
+</td></tr></table>
+
+</ol>
+
+<div align=right>6 of 10</div>
+<hr>
+
+<h3>Question 4:</h3>
+
+Assume we have a tiny little disk with only 5 tracks. The <i>average
+seek time</i> is defined as the average of the seek times between every
+pair of tracks.<p>
+
+<ol type=a>
+<li>If it takes 1ms to move from one track to an adjacent track, what is 
+the average seek time for our little disk? You may express your answer
+as a fraction.
+
+<div align=right>_________ ms</div>
+<br>
+<br>
+
+<li>If the disk is spinning at 100 revolutions per second, which is slower:
+<ol type=i>
+<li>average seek time
+<li>average rotational delay (latency)
+</ol>
+
+
+<li>Assume this same tiny disk has 100 sectors per track. How long would
+it take to read the entire contents of the disk? You must start at
+sector 1 on track 1, read all 100 sectors on track 1, then move to
+sector 1 on track 2, and so on up to sector 100 on track 5. Assume
+that sector 1 starts at the same position physically on each track.<p>
+
+<div align=right>_________ ms</div>
+
+</ol>
+
+<div align=right>7 of 10</div>
+
+<hr>
+
+<h3>Question 5:</h3>
+
+You have four system I/O buffers. A program requests five different
+clusters (21, 22, 23, 24, 25) in the following order:<p>
+<center>
+22&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;25
+</center><p>
+
+Which of the following buffer replacement policies performs the best 
+(makes the fewest replacements): First-In-First-Out (FIFO), Least 
+Recently Used (LRU), Least Frequently Used (LFU)?
+
+<div align=right>8 of 10</div>
+
+<hr>
+
+<h2>Part C:</h2>
+
+<h3>Question 6:</h3>
+
+For all 10 questions (i to x), circle exactly one answer letter,
+a, b, c, d <i>or</i> e.<p>
+
+<ol type=i>
+<li>A logical file:
+<ol type=a>
+   <li>has records ordered in some meaningful way.
+   <li>is a program's connection to a physical file.</font>
+   <li>represents some I/O device that is not a physical file.
+   <li>is a binary file.
+   <li>none of the above.
+</ol><p>
+
+<li>An ASCII file:
+<ol type=a>
+   <li>is stored on disk as a series of bytes.</font>
+   <li>does not contain bytes with values less than 0x20.
+   <li>must be used to store text.
+   <li>is not made up of individual bytes.
+   <li>none of the above.
+</ol><p>
+
+<li>Sequential access is often used for:
+<ol type=a>
+   <li>finding records in unsorted files.</font>
+   <li>finding records in sorted files.
+   <li>finding records in logical files.
+   <li>finding records in fixed length files.
+   <li>none of the above.
+</ol><p>
+
+<li>On average, the longest disk delay is:
+<ol type=a>
+   <li>rotational latency.
+   <li>transfer rate.
+   <li>seek time.</font>
+   <li>CAV.
+   <li>none of the above.
+</ol><p>
+
+<li>A file occupying clusters 0x0132, 0x0133, 0x0134, 0x0232 and 0x0233:
+<ol type=a>
+   <li>occupies two cylinders.
+   <li>occupies two extents.</font>
+   <li>contains 40,960 bytes of data.
+   <li>results in long seek times.
+   <li>none of the above.
+</ol><p>
+</ol><p>
+
+<div align=right>9 of 10</div>
+
+<hr>
+
+<ol type=i start=6>
+<li>Tape drives these days:
+<ol type=a>
+   <li>are no longer built.
+   <li>are used for medium capacity storage.
+   <li>are used only in big government or industry installations.
+   <li>are capable of random access to records.
+   <li>none of the above.</font>
+</ol><p>
+
+<li>The Open File Table:
+<ol type=a>
+   <li>prevents more than two programs from accessing the same file.
+   <li>lists all clusters in use by open files.
+   <li>keeps track of which clusters are currently in buffers.
+   <li>keeps track of the current read/write position in open files.</font>
+   <li>none of the above.
+</ol><p>
+
+<li>The smallest unit of disk accessed by the operating system is:
+<ol type=a>
+   <li>one byte.
+   <li>one sector.
+   <li>one cluster.</font>
+   <li>one cylinder.
+   <li>none of the above.
+</ol><p>
+ 
+<li>The File Allocation Table:
+<ol type=a>
+   <li>records a history of updates to files on disk.
+   <li>cannot be changed by software.
+   <li>contains two bytes for each cluster in use by a file.
+   <li>is used by the I/O processor to map clusters to sectors on disk.
+   <li>none of the above.</font>
+</ol><p>
+
+<li>The Optimal Replacement Policy:
+<ol type=a>
+   <li>would accommodate all cluster requests without replacing buffers.  
+   <li>could be implemented if operating system designers knew what
+       software packages would be running on the machine.
+   <li>is useful as a standard for comparing replacement policies.</font>
+   <li>is optimal for multiple buffering only.
+   <li>none of the above.
+</ol><p>
+</ol><p>
+
+<div align=right>10 of 10</div>
+
+
+</body>
+</html>
+

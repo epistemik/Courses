@@ -1,0 +1,48 @@
+
+Hi 
+What is the IEEE single precision representation of -1.1E-135 ?? 
+
+Answer: 
+
+Notice that 1.1E-135 = 1.1 x 10^{-135} < 1.1 x 8^{-135} << 2^{-150} 
+Hence the closest representation value is 0. Hence if truncation or rouding to
+the nearest is used, the value stored would be zero. 
+However if you do 
+.data 
+A dd -1.1E-135 
+The assembler will return a "value out of range" error because the assembler 
+program does not mask underflows. 
+---------------------------------------------------------------------------- 
+
+Ok, let's face it, I blew it! This was not my intention. What I really wanted 
+to ask you was to compute the IEEE single precision representation of some 
+number which must be represented as a denormalized number. 
+So let us pick one. I choose 1.1E-41 
+
+You can check that this is indeed a denormalized number by noticing that 
+10^{-41} = 2^{e} for some e.  Solving for e gives: 
+-41 = e x log(2) where the log is a base-10 log. 
+This gives e = -136 - y for (0 < y < 1) 
+Hence e < -127, so it is definitely a denormalized number. 
+
+Now, to find the IEEE representation of 1.1E-41, we must convert it 
+to the form 0.f x 2^{-127} 
+
+1.1E-41 = 1.1 x 10^{-41} = 1.1 x 2^{e} 
+again, solving for e gives: 
+e = -41/log(2) = -136.19905189... = -127 - 9.19905189... (this is precise enough) 
+So 1.1E-41 = 1.1 x 2^{-9.19905189..} x 2^{-127} = 0.00187155301857 x 2^{-127} 
+
+Now you only need to use the algorithm on page 5 and 6 of chap7 to find the 
+bits of the fraction .00187155301857, 
+the exponent, of course is -127 which is E = 00000000b. 
+So it is not that hard once we have done it... 
+
+Want to check your result with TD32? Unfortunately you are out of luck, 
+the Assembler will generate an "value out of range" error on 
+A dd 1.1E-41 
+but it could load this value since it *has* a IEEE single precision representation 
+but an exception is generated (by default) when a value gives a denormalized number. 
+
+Regards -mario 
+http://www.site.uottawa.ca/~marchand/

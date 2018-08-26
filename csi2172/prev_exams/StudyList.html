@@ -1,0 +1,147 @@
+<!DOCTYPE HTML SYSTEM "html.dtd">
+<!-- bgcolor=#004570 -->
+<HTML><HEAD><TITLE>MIDTERM STUDY LIST</TITLE></HEAD>
+<BODY 
+      bgcolor=#FFFFFD
+      text=black link=blue vlink=red alink=green>
+
+<CENTER>
+<H1>MIDTERM STUDY LIST</H1>
+<hr>
+</CENTER>
+   Start with last year's <A HREF="Winter/study.html">study list</A>
+   This should convince you that it pretty much described what was on
+   the actual midterms
+   (<A HREF="Winter/solA.html">section A</A>, 
+    <A HREF="Winter/solB.html">section B</A>)<br><br>
+
+
+   This year will be no exception.
+
+<hr>
+
+   <LI>You will have a question to chase pointers -- <i>like question 1 
+   on last year's midterm (both sections)</i>.
+
+   <LI>You will have a question on constructors and destructors
+   -- <i>like question 4 on on last year's midterm (both sections)</i>.
+   I also have the perfect way to prepare for it: 
+   <i>do question 1 part A on your <A HREF="../assignments/ass2">
+   assignment</A></i>.
+
+   <LI>We will have something like question 2 on last year's 
+       midterms -- <i>both sections</i>, but it will be moreover like this:
+   <UL>
+
+
+   <CENTER>
+       <A HREF="pointers.gif"><IMG SRC="pointers.gif" WIDTH=80% BORDER=0></A>
+   </CENTER>      
+
+
+   Suppose the variable <tt>a</tt> of type <tt>char***</tt> has the
+   <i>value</i> <tt>0x2009</tt>.
+
+   <H4>Question a</H4>
+   Rewrite the following expressions in <i>pure pointer</i>
+   and <i>pure array notation</i>:
+
+   <PRE>
+      1. (**(a + 1))[4]
+
+      2. (a[2]-1)[2]
+
+   </PRE>
+
+   <H4>Pure Pointer Notation:</H4>
+   <PRE>
+      1. *(**(a+1) + 4)
+
+      2. *(*(a+2) - 1 + 2) = *(*(a+2) + 1)
+   </PRE>
+      
+   <H4>Pure Array Notation:</H4>
+   <PRE>
+      1. a[1][0][4]
+
+      2. a[2][1]
+   </PRE>
+
+   <H4>Question b</H4>
+   Where are 1. and 2. on the diagram?
+
+   <UL>
+      1. is the character value held at address <tt>0x300D</tt>
+      <br><br>
+      2. is the address <tt>0x2015</tt>; it is held at address
+         <tt>0x3006</tt>
+   </UL>
+
+   <H4>Question c</H4>
+   Write a the few lines of code which allocates this structure and
+   saves it in variable <tt>char*** a</tt>.
+   You may assume that the addresses returned by <tt>new</tt>
+   are exactly as on the diagram. 
+
+   <H4>One correct answer:</H4>
+
+   <PRE>
+      a = new char**[3]; // on diagram: 0x2009
+
+      a[0] = new char*[2]; // on diagram: 0x3004
+
+      a[1] = new char*[2]; // on diagram: 0x2002
+
+      a[2] = a[0]; // aliasing! same address as a[0]
+
+      a[0][0] = new char[5]; // on diagram: 0x4007
+      a[0][1] = new char[4];  // on diagram: 0x2015
+
+      a[1][0] = new char[8];  // on diagram: 0x3009
+      a[1][1] = new char[7];  // on diagram: 0x400C
+                            
+   </PRE>
+
+   <H4>Another correct answer:</H4>
+
+   <PRE>
+      a = new char**[3]; // on diagram: 0x2009
+
+      a[0] = new char*[2]; // on diagram: 0x3004
+
+      a[1] = new char*[2]; // on diagram: 0x2002
+
+      a[2] = a[0]; // aliasing! same address as a[0]
+
+      a[0][0] = new char[<FONT COLOR=red>12</FONT>]; // on diagram: 0x4007
+      a[0][1] = new char[4];  // on diagram: 0x2015
+
+      a[1][0] = new char[8];  // on diagram: 0x3009
+      a[1][1] = <FONT COLOR=red>&a[0][0][5]</FONT>;  // or a[0][0] + 5
+                              // this is aliasing too! 
+   </PRE>
+   </UL>
+
+<LI>You will have to write little functions which deal with
+    arrays, like in your first assignment, but nothing as long
+    as <tt>quick_sort</tt>. The may involve dynamic memory allocation
+    up to two dimensions and you may be asked to pass a function.
+    The algorithms should pose no challange! -- you may need a loop
+    or recursion.
+
+<hr>
+The bottom line is that if you go through your first assignment, study
+the problems on this list and last year's midterm, you should have
+no problem!
+
+<H2>Good Luck!</H2>
+    
+
+ 
+   
+       
+
+<!-- date -->
+</BODY>
+</HTML>
+

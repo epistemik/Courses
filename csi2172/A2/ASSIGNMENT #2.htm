@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0073)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/ -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>ASSIGNMENT #2</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>ASSIGNMENT #2</H1>Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules">general 
+rules</A> about submitting course work! Also read ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#marker">how 
+can I make my marker's life easier</A>'' and ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#nocompile">what 
+if my code does not compile?</A>''. 
+<H2><FONT color=red>Due date:</FONT></H2>
+<UL>
+  <H4>November 16<SUP>th</SUP>, by 18:00 in the hand in boxes located on the 
+  3<SUP>rd</SUP> floor of McDonald building. <BR><FONT color=red>Do Question #1 
+  part A before the Midterm!</FONT> </H4></UL>
+<HR>
+
+<H2>Question #1 [ 20 marks ] (<I>No code!</I>)</H2><PRE>
+    trace  [ .exe ]
+     |
+     +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/trace/trace.cpp">trace.cpp</A>
+
+    </PRE>Running the above program produces this <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/trace/trace.out">output</A> 
+using Borland 5. 
+<H3>part A [ 10 marks ]</H3>Explain each line of the 42 lines of output in a 
+word or so. For example: <PRE>
+      lines 1-2:    a1 is constructed and every instance of A
+                    has an X object which is constructed by its
+                    default constructor
+
+      lines 3-4:    same as 1,2 but for a2
+   
+      lines 5-8:    a3 is constructed: the default constructor
+                    of A is called on each slot (like 1-2)
+
+      <FONT color=red>you continue ...</FONT>
+     
+    </PRE>
+<H3>part B [ 10 marks ]</H3>Explain each line of the 41 lines of output. 
+<H3>HINTS</H3>
+<H3><FONT color=red>USE THE DEBUGGER!!!</FONT></H3>
+<H2>Question #2 [ 80 marks ]</H2>This exercise is meant to demonstrate object 
+oriented development (<I> with appropriate object oriented design and 
+model</I>). That is, you are given an existing application and you have to add 
+features. As we have discussed a good design can accommodate feature extensions 
+without code rewrite! -- instead we <I>subclass</I>. To make it even more 
+realistic, you are given the already existing classes bundled into a <A 
+href="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2.lib">library</A> 
+with the header files <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/expression.h">expression.h</A>, 
+<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/parser.h">parser.h</A>, 
+<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/lexer.h">lexer.h</A> 
+and an API (<I>Application Programming Interface</I>) <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/api/">documentation</A>, 
+but you cannot see the source code! ( <I>if you bought a commercial package -- 
+say from Microsoft -- this is exactly what you would get</I>). 
+<H2>The Microsoft Visual C++ 6.0 version of the <A 
+href="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2VC6.lib">ass2VC6.lib</A></H2><BR><BR>As 
+it stands, you can put together an application in a matter of <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/simple.cpp">few 
+lines</A> which can evaluate constants (<I>and parenthesized constants</I>). In 
+other words, not very useful. To make it useful, you are to implement some 
+operators and functions so it can carry out calculations. As promised, you will 
+not have to modify code <B>at all</B>, just create a new subclass for each 
+operator and function and it should all work. <BR><BR>
+<H3>Implement the following operators and functions</H3>: <BR><BR>
+<CENTER>
+<TABLE border=1>
+  <TBODY>
+  <TR>
+    <TD align=middle><B>Name</B></TD>
+    <TD align=middle><B>Type</B></TD>
+    <TD align=middle><B>Syntax</B></TD>
+    <TD align=middle><B>Result</B></TD>
+    <TD align=middle><B>Marks</B></TD></TR>
+  <TR></TR>
+  <TR>
+    <TD align=middle>unary +</TD>
+    <TD align=middle>unary</TD>
+    <TD align=middle><TT><B>+</B> <I>e</I></TT></TD>
+    <TD align=middle><TT><I>e</I></TT></TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>unary -</TD>
+    <TD align=middle>unary</TD>
+    <TD align=middle><TT><B>-</B> <I>e</I></TT></TD>
+    <TD align=middle><TT><I>-e</I></TT> (<I>e</I> negated)</TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>addition</TD>
+    <TD align=middle>binary</TD>
+    <TD align=middle><TT><I>e<SUB>1</SUB><B>+</B><I>e<SUB>2</SUB></I> 
+    </TT></I></TD>
+    <TD align=middle>sum of <I>e<SUB>1</SUB></I> and <I>e<SUB>2</SUB></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>subtraction</TD>
+    <TD align=middle>binary</TD>
+    <TD align=middle><TT><I>e<SUB>1</SUB><B>-</B><I>e<SUB>2</SUB></I> 
+    </TT></I></TD>
+    <TD align=middle><I>e<SUB>1</SUB></I> minus <I>e<SUB>2</SUB></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>multiplication</TD>
+    <TD align=middle>binary</TD>
+    <TD align=middle><TT><I>e<SUB>1</SUB><B>*</B><I>e<SUB>2</SUB></I> 
+    </TT></I></TD>
+    <TD align=middle><I>e<SUB>1</SUB></I> times <I>e<SUB>2</SUB></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>division</TD>
+    <TD align=middle>binary</TD>
+    <TD align=middle><TT><I>e<SUB>1</SUB><B>/</B><I>e<SUB>2</SUB></I> 
+    </TT></I></TD>
+    <TD align=middle><I>e<SUB>1</SUB></I> divided by <I>e<SUB>2</SUB></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>power</TD>
+    <TD align=middle>binary</TD>
+    <TD align=middle><TT><I>e<SUB>1</SUB><B>^</B><I>e<SUB>2</SUB></I> 
+    </TT></I></TD>
+    <TD align=middle><I>e<SUB>1</SUB></I> raised to <I>e<SUB>2</SUB></I> </TD>
+    <TD align=right><B>10</B></TD></TR>
+  <TR>
+    <TD align=middle>sin</TD>
+    <TD align=middle>function</TD>
+    <TD align=middle><TT><I>sin(e)</I></TT></TD>
+    <TD align=middle><I>sin</I> of <I>e</I></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>cos</TD>
+    <TD align=middle>function</TD>
+    <TD align=middle><TT><I>cos(e)</I></TT></TD>
+    <TD align=middle><I>cos</I> of <I>e</I></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>tan</TD>
+    <TD align=middle>function</TD>
+    <TD align=middle><TT><I>tan(e)</I></TT></TD>
+    <TD align=middle><I>tangent</I> of <I>e</I></I> </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>_e</TD>
+    <TD align=middle>function</TD>
+    <TD align=middle><TT><I>_e()</I></TT></TD>
+    <TD align=middle><I>exp(1)</I> = 2.71828 </TD>
+    <TD align=right><B>6</B></TD></TR>
+  <TR>
+    <TD align=middle>log</TD>
+    <TD align=middle>function</TD>
+    <TD align=middle><TT><I>log(a,b)</I></TT></TD>
+    <TD align=middle><I>base <TT>b</TT> logarithm of <TT>a</TT></I> </TD>
+    <TD align=right><B>10</B></TD></TR></TBODY></TABLE></CENTER><BR><BR>For each you 
+have to declare a class and 
+<UL>
+  <LI><I>implement</I> the constructor 
+  <LI><I>implement</I> the copy constructor 
+  <LI><I>implement</I> the assignment operator 
+  <LI><I>implement</I> the destructor 
+  <LI><I>overload</I> <TT>expression* expression::<A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/api/expression/#clone" 
+  A <><B>clone</B></A>() const</TT></A> 
+  <LI><I>overload</I> <TT>void expression::<A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/api/expression/#print" 
+  A <><B>print</B></A>(ostream&amp;) const</TT></A> 
+  <LI><I>overload</I> <TT>double expression::<A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/api/expression/#evaluate" 
+  A <><B>evaluate</B></A>() const</TT></A> 
+  <LI><I>implement</I> an instantiator </LI></UL>The class prototypes of the 
+expressions indicated as <I>unary</I> should be put to the file named 
+<TT>unary.h</TT> and implemented in the file named <TT>unary.cpp</TT>. The class 
+prototypes of the expressions indicated as <I>binary</I> should be put to the 
+file named <TT>binary.h</TT> and implemented in the file named 
+<TT>binary.cpp</TT>. The class prototypes of the expressions indicated as 
+<I>function</I> should be put to the file named <TT>function.h</TT> and 
+implemented in the file named <TT>function.cpp</TT>. <TT>main</TT> program must 
+be in the file named <TT>main.cpp</TT> (<I>feel free to edit <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/simple.cpp">simple.cpp</A>, 
+also see the hints!</I>). <TT>main</TT> must call as its first line 
+<TT>me(cout)</TT> which you implemented for the last assignment! <FONT 
+color=red>
+<H3>HINTS</H3></FONT>It is very rare that a developer is assigned the task to 
+single handedly design and develop an application from scratch not even using 
+any third party products (<I>in this case software libraries</I>). It is much 
+more realistic that the task is to be part of a team and to enhance, redevelop, 
+rewrite or extend an existing application and to use possibly many commercially 
+available software products (<I>like the RSA cryptography libraries, OpenGL 
+graphics libraries, networking libraries, database connectivity and interface 
+libraries, ... and so on!</I>). This also implies that the developer 
+<UL>
+  <LI>will not have access to all the source code 
+  <LI>may not be knowledgeable or competent in all components 
+  <LI>will use functions, classes and methods from libraries which he would not 
+  be capable to implement 
+  <LI>must read documentation and selectively choose <I>only</I> information he 
+  needs and skip everything else </LI></UL>In this respect this exercise is very 
+different from typical academic assignments where everything is developed from 
+scratch. C++ (and C) was developed to build huge software projects with multi 
+site teams. This exercise hence is more geared towards software engineering and 
+to simulate software development. These hints apply for "real" software 
+development as well 
+<UL>
+  <LI>try to draw or otherwise visualize what you have to do, do not start 
+  thinking in terms of code 
+  <LI>it is ok that you do not understand how a lexer or a parser works, this 
+  assignment does not require it! (<I>people who write database interfaces most 
+  probably have no idea how to implement efficient "hash-joins", yet they 
+  <B>use</B> it all the time!</I>) 
+  <LI>API documentation, reference books, collections of poems, the yellow pages 
+  and the TV-guide are not meant to be read from cover to cover. These books are 
+  meant to provide information on selected topics. Browse through the API docs 
+  (<I>do not even bother with lexer!</I>) and select methods that you think you 
+  may need. 
+  <LI>Reference books and API docs most often come with examples and sample 
+  code. Well here we go: <PRE>        sample.exe [ .exe ]
+          |
+          +- <A href="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2.lib">ass2.lib</A> [ .lib ]  (<FONT color=green><A href="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2v501.lib">ass2v501.lib</A></FONT>)
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/expression.h">expression.h</A> [ .h ]
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/parser.h">parser.h</A> [ .h ]
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/lexer.h">lexer.h</A> [ .h ]
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sample.h">sample.h</A> <FONT color=green>[ .h ]</FONT>
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sample.cpp">sample.cpp</A> <FONT color=green>[ .cpp ]</FONT>
+          |
+          +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sm.cpp">sm.cpp</A> <FONT color=green>[ .cpp ]</FONT>
+
+   </PRE><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sample.h"><TT>sample.h</TT></A> 
+  contains the declarations of two binary operators (<I><TT>mod</TT> and 
+  <TT>div</TT></I>) one unary operator (<I><TT>@</TT></I>) which truncates 
+  floating point numbers to integers and one function <TT>hyp</TT> which can be 
+  used to calculate the hypotenuse of a triangle. <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sample.cpp"><TT>sample.cpp</TT></A> 
+  implements these operators and functions. <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/sm.cpp"><TT>sm.cpp</TT></A> 
+  is has <TT>main</TT> and all the lines that have to be added to <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/sol2/simple.cpp"><TT>simple.cpp</TT></A> 
+  have the comment <TT><FONT color=green>// NEW</FONT></TT>. After compiling 
+  <TT>sample</TT> you can have the following session: <PRE>         C:&gt;sample
+         <FONT color=green>8 div 3;</FONT>
+         8 div 3 == 2
+         <FONT color=green>8 mod 3;</FONT>
+         8 mod 3 == 2
+         <FONT color=green>101 div 20 mod 3;</FONT>
+         101 div 20 mod 3 == 2
+         <FONT color=green>101 div (20 mod 3);</FONT>
+         101 div (20 mod 3) == 50
+         <FONT color=green>@3.4;</FONT>
+         @3.4 == 3
+         <FONT color=green>hyp(300 div 10 div 3, @hyp(7, 32 div 9));</FONT>
+         hyp(300 div 10 div 3,@hyp(7,32 div 9)) == 100.245
+         <FONT color=green>exit;</FONT>
+       </PRE>What you type is in <FONT color=green>green</FONT>. 
+  <LI>One more hint: the implementation of the unary operators, the binary 
+  operators and the functions will be so strikingly similar that they may only 
+  differ in one word or so. Well, this should give you the hint that maybe you 
+  should create your own hierarchies of unary, binary and function expressions 
+  to save typing (<I>or cut-and-paste</I>). </LI></UL>
+<H2>BONUS 1 [ 25 marks ]</H2>The parser is capable of instantiating variables 
+but the context class is not capable to do anything with them! Read the API docs 
+for <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass2/api/expression/#context">context</A> 
+and create a subclass of <TT>context</TT> called <TT>varcontext</TT> and 
+overload the methods so it will be capable of storing and looking up variables. 
+<BR><BR>Implement function <TT>declare</TT> (<I> a subclass of 
+<TT>expression</TT></I>) which can take 0 or more arguments, and is used to 
+declare variables in the context. The value returned by <TT>declare</TT> is 0 
+<BR><BR>Implement the binary operator <TT>assignment</TT> (<I> a subclass of 
+<TT>expression</TT></I>) which is is used to assign the right-hand-side to the 
+<I>variable</I> on the left hand side. When registered with the parser, make 
+sure that <TT>assignment</TT> has lower precedence than any other operator. 
+<BR><BR>You should be able to have the following session with your compiled 
+program: <PRE>      C:&gt;bonus
+      <FONT color=green>declare(A,B);</FONT>
+      declare(A,B) == 0
+      <FONT color=green>A = (B = 8) ^ (1/3);</FONT>
+      A=(B=8)^(1/3) == 2
+      <FONT color=green>B;</FONT>
+      B == 8
+      <FONT color=green>D = declare(D) + 10*(A + log(B,2));</FONT>
+      D=declare(D)+10*(A+log(B,2)) == 50
+      <FONT color=green>exit;</FONT>
+   </PRE>Put the prototype of the class varcontext in the file named 
+<TT>varcontext.h</TT> and implement it in <TT>varcontext.cpp</TT>. Put the 
+prototype of <TT>assignment</TT> and <TT>declare</TT> in the file named 
+<TT>contextfun.h</TT> and implement them in <TT>contextfun.cpp</TT>. Also hand 
+in the modified <TT>main</TT> in <TT>main2.cpp</TT>. 
+<H2>BONUS 2 [ 5 marks ] (<I>and no code!</I>)</H2>It is common with object 
+oriented programs that they are ``overdesigned''. The designers often put in so 
+called ``hooks'' into the application because they anticipate that it is likely 
+that the application will be extended along those lines. This application was 
+also designed that way. 
+<CENTER><A href="ASSIGNMENT #2_files/des.gif"><IMG border=0 
+src="ASSIGNMENT #2_files/des.gif" width="80%"></A> </CENTER>Originally only 
+constants and variables are implemented but all kinds of other expressions can 
+be added as far as they implement the methods <TT>evaluate</TT> and 
+<TT>print</TT>. Also, the hook for having variables is there. The parser knows 
+how to instantiate them and a simple (<I>in fact useless</I>) <TT>context</TT> 
+class is provided so subclasses implementing its methods will be able to handle 
+variables. <BR><BR>A design said to be saturated when it can no longer handle 
+easy feature extensions just by subclassing. This model can easily be extended 
+by adding new expressions (like unary and binary operators and functions) and by 
+providing subclasses of context to handle variables. <BR><BR>Your task for this 
+exercise is to come up with some simple idea to extend this model which would 
+require some rework (adding more subclasses of expression and context do not 
+require model rework!) and suggest a solution (<I>no code</I>) strategy. You are 
+limited to the maximum of half a page typed text or 12 sentences and one diagram 
+(<I>like the one above</I>) which shows where your extensions lie! 
+<BR><BR><I>Large companies often have departments called ``Venture Capitals'' 
+who investigate and occasionally finance new development and enhancment ideas. 
+They evaluate hundreds or possibly more ideas every so often. The first pass is 
+usually a <B>one page</B> description which is strictly enforced. The motto is 
+"get me interested" and if it sounds good it will be further investigated. The 
+space restrictions on this question will be enforced by the marker so be very 
+brief and clear, your diagram should say it all and your text should only 
+provide support for your figure.</I> 
+<HR>
+
+<H3>DOWNLOAD THE EXECUTABLE OF THE MODEL SOLUTION (<I>INCLUDES BONUS</I>)</H3>
+<H4><A 
+href="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/eval.exe">eval.exe</A></H4>
+<HR>
+<B>What do I hand in???</B> 
+<UL>Your answer for Question 1: make sure it is neatly written if not typed. 
+  Be very brief!<BR><BR>A diskette with only the following files: 
+  <UL>
+    <LI>me.cpp 
+    <LI>unary.h 
+    <LI>unary.cpp 
+    <LI>binary.h 
+    <LI>binary.cpp 
+    <LI>function.h 
+    <LI>function.cpp 
+    <LI>main.cpp </LI></UL>Printouts of <I>only</I> the following files: 
+  <UL>
+    <LI>unary.h 
+    <LI>unary.cpp 
+    <LI>binary.h 
+    <LI>binary.cpp 
+    <LI>function.h 
+    <LI>function.cpp 
+    <LI>main.cpp </LI></UL><BR><BR>If you did bonus 1, also have the following 
+  files on the diskette: 
+  <UL>
+    <LI>varcontext.h 
+    <LI>varcontext.cpp 
+    <LI>contextfun.h 
+    <LI>contextfun.cpp 
+    <LI>main2.cpp </LI></UL>A printouts of: 
+  <UL>
+    <LI>varcontext.h 
+    <LI>varcontext.cpp 
+    <LI>contextfun.h 
+    <LI>contextfun.cpp 
+    <LI>main2.cpp </LI></UL><BR><BR>If you also did bonus 2, hand in your maximum 
+  half a page idea with one neatly drawn diagram (<I>you do not have to use the 
+  computer to draw, but please do use a ruler and pen</I>). 
+  <BR><BR><B>Absolutely nothing else! Do not have any other files on the 
+  diskette! Those generated by Borland should be removed. Do not hand in 
+  printouts of files not explicitly asked for!</B> </UL>
+<H1>Good Luck!!!</H1></BODY></HTML>

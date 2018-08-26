@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/ass04.html -->
+<HTML><HEAD><TITLE>CSI 2131 Assignment #4</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY background="Assignment #4_files/heartfade.jpeg" bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Assignment #4_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Assignment #4</FONT></TD></TR></TBODY></TABLE>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><B>Marks:</B></TD>
+    <TD><B>8</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Time:</B></TD>
+    <TD><B>Monday, April 3, 2000, 12:00pm (NOON!)... <I>No Late Assignments 
+      Accepted</I></B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Place:</B></TD>
+    <TD><B>Locked box for CSI2131A or CSI2131B (depending on the course 
+      section you're registered in), 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P><I>N.B. Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/standards.html">assignment 
+standards</A> very carefully. You will lose marks if you don't follow those 
+instructions.</I>
+<P>
+<HR>
+
+<H2>Looking for 'love'</H2>Many people spend much of their life looking for 
+love. But I'm a busy man. I can't be sitting around waiting for love to show up. 
+So your job is to help me out be writing three programs to find love. 
+<H2>The Assignment</H2>You must write three C programs for this assignment:
+<OL>
+  <LI><TT>find_seq.c</TT>: a program that searches sequentially through a file, 
+  looking for <TT>love</TT> (among other things) 
+  <LI><TT>find_bs.c</TT>: a program that does a binary search through a file, 
+  looking for <TT>love</TT> (among other things) 
+  <LI><TT>find_btr.c</TT>: a program that searches through a b-tree, looking for 
+  (you guessed it) <TT>love</TT> (among other things) </LI></OL>
+<P>This time, it is up to you to come up with the algorithms for the programs. I 
+will give you the files to search through, and the output of my programs on 
+those files. All three programs must accept any number of words on the command 
+line, then search for those words (one at a time) through the file specified as 
+the last command line argument. For each word, the program must output the 
+number of records (lines) read while searching for the word along with a message 
+stating whether the word was found.
+<P>
+<H2>The Sample Output</H2>Here is how my programs behave on the test files 
+(supplied below):
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD><PRE>{tamale1.site.uottawa.ca}kbarker(1) <B>find_seq love</B>
+Usage: find_seq &lt;word1&gt; [ &lt;words&gt;... ] file
+
+{tamale1}kbarker(2) <B>find_seq love randfil</B>
+I searched through 59048 records but I never found love
+
+{tamale1}kbarker(3) <B>find_seq love money fame my_car_keys self_assurance failure waldo randfil</B>
+I searched through 59048 records but I never found love
+I searched through 49816 records and then I found money
+I searched through 37395 records and then I found fame
+I searched through 59048 records but I never found my_car_keys
+I searched through 10266 records and then I found self_assurance
+I searched through 54 records and then I found failure
+I searched through 59048 records but I never found waldo
+
+{tamale1}kbarker(4) <B>find_bs money</B>
+Usage: find_bs &lt;word1&gt; [ &lt;words&gt;... ] file
+
+{tamale1}kbarker(5) <B>find_bs love money fame my_car_keys self_assurance failure waldo sortfil</B>
+I searched through 15 records but I never found love
+I searched through 14 records and then I found money
+I searched through 15 records and then I found fame
+I searched through 16 records but I never found my_car_keys
+I searched through 16 records and then I found self_assurance
+I searched through 13 records and then I found failure
+I searched through 15 records but I never found waldo
+
+{tamale1}kbarker(6) <B>find_btr love money fame my_car_keys self_assurance failure waldo beer enlightenment bstarfil</B>
+I searched through 5 records but I never found love
+I searched through 5 records and then I found money
+I searched through 5 records and then I found fame
+I searched through 5 records but I never found my_car_keys
+I searched through 2 records and then I found self_assurance
+I searched through 5 records and then I found failure
+I searched through 5 records but I never found waldo
+I searched through 5 records but I never found beer
+I searched through 5 records but I never found enlightenment
+
+{tamale1}kbarker(7) 
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<H2>The Test Files</H2>Here are the three test files in one compressed file: <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/testfils.zip"><TT>testfils.zip</TT></A>. 
+When you download the files, unzip them and then make sure that they have the 
+exact same number of bytes as I show below. Note that these files are for DOS. 
+If you want to develop your programs in Unix, email me.
+<OL>
+  <LI><TT>randfil</TT> (734983 bytes): an ASCII file with one key value per 
+  line; keys are in random order; you should only use this file for your 
+  <TT>find_seq</TT> program 
+  <LI><TT>sortfil</TT> (2184776 bytes): an ASCII file with one key value per 
+  line; every line is exactly the same length (exactly 37 bytes including the 
+  line feeds) with spaces following the key value; keys are in sorted order 
+  (ascending); you should only use this file for your <TT>find_bs</TT> program 
+  <LI><TT>bstarfil</TT> (2288110 bytes): an ASCII file with eight (8) key values 
+  and nine (9) child pointers per line; every line is exactly the same length 
+  (exactly 310 bytes including the line feeds); the child pointers refer to 
+  record numbers (line numbers) where the first record in the file is record 
+  number 1; records corresponding to leaf nodes have all child pointers set to 
+  0; you should only use this file for your <TT>find_btr</TT> program </LI></OL>
+<P>
+<HR>
+Look at <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sol04.html">the 
+solution</A> to this assignment.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update March 21, 2000)</I></FONT> </P></BODY></HTML>

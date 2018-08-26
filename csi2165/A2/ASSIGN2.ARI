@@ -1,0 +1,97 @@
+/*	Mark Sattolo  428500
+	CSI2165A,  J.Sayyad
+	Assignment #2
+*/
+
+/*Q1 - if the main functor is not '+', check for '+' in each side 
+of the expression. */
+has_addition( _ + _ ).
+has_addition(X) :- X =.. [_|[LHS,RHS]] , 
+			   ( ( nonvar(LHS) , has_addition(LHS) ) ; 
+			   ( nonvar(RHS) ,  has_addition(RHS) ) ).
+
+
+%Q2
+join( [] , X , X ). 
+join( [Head|Tail] , List , [Head|T2] ) :- join( Tail, List, T2 ).
+% fold the list recursively.
+fold( [] , [] ).
+fold( [Single] , [Single] ).
+fold( [Head|Tail ] , List) :- fold(Tail, Tfold) , 
+			      join( Tfold , [Head] , List ).
+
+
+/*Q3 - if an expression, check each side; otherwise check if an atom 
+or number.*/
+variable_free( LHS + RHS ) :- nonvar(LHS) ,  variable_free(LHS) , 
+			      nonvar(RHS) ,  variable_free(RHS).
+variable_free(Arg) :- atomic(Arg).
+
+
+/*Q4 - a non-expression is converted directly, or convert each side of an 
+expression recursively, then join. */
+expr_2_list(Exp, [Exp]) :- var(Exp) ; atomic(Exp).
+expr_2_list(Exp, List) :- Exp =.. [ _|[ LHS , RHS ] ] , 
+				  expr_2_list(LHS, LL) , 
+				  expr_2_list(RHS, RL) , 
+				  join( LL , RL , List ) .
+
+
+/* Q5 - There must be a way to do this directly, but I didn't have time 
+to find it.  So, I have implemented 'shift_vars_right' using two 
+recursive predicates. */
+find_vars([], []).
+find_vars([Single], L) :- ifthenelse( var(Single) , L = [Single] , L = [] ).
+find_vars([Head|Tail], List) :- find_vars(Tail, Tlist), 
+	   ifthenelse( var(Head) , join([Head], Tlist, List) , List = Tlist).
+
+find_non_vars([], []).
+find_non_vars([Single], L) :- ifthenelse( nonvar(Single) , L = [Single] , L = [] ).
+find_non_vars([Head|Tail], List) :- find_non_vars(Tail, Tlist), 
+        ifthenelse( nonvar(Head) , join([Head], Tlist, List) , List = Tlist).
+
+shift_vars_right([Arg] , List ) :- find_vars([Arg] , Vlist), 
+				   find_non_vars([Arg] , Nlist), 
+			    	   join(Nlist, Vlist, List).
+
+
+%Q6
+member(X, [X|_]).
+member(X, [_|Tail]) :- member(X,Tail).
+/* check if the head of L1 is in L2 or not, and if it is already in 
+the intersection list or not, then recursively call 'intersection'
+on the tail and join the appropriate lists into the final list. */
+intersection( [] , L , [] ).
+intersection( L , [] , [] ).
+intersection( [Head|Tail] , List , Intx ) :- not(member(Head, List)), 
+					intersection( Tail , List , Intx ).
+intersection( [Head|Tail] , List , Intx ) :- member(Head, List), 
+					intersection( Tail , List , Tintx ),
+ 					not(member(Head, Tintx)), 
+					Intx = [Head|Tintx].
+intersection( [Head|Tail] , List , Intx ) :- member(Head, List), 
+					intersection( Tail , List , Tintx ), 
+					member(Head, Tintx), Intx = Tintx.
+
+
+%Q7
+% max( [], no_max_in_empty_list ). // 'max' will crash on ';' with this line.
+max( [Max] , Max ) :- number(Max).
+max( [Head|Tail] , List ) :- max( Tail , L2 ) , ifthenelse( Head > L2 , List = Head , List = L2 ) .
+
+
+/* Q8 - There are a lot if 'if-then's in this predicate, but it seemed 
+the best way to handle all the possible cases.  If an element is not a 
+number (i.e. is a list), then it can't be the max and supermax is 
+called recursively. */
+
+supermax( [] , no_max_in_empty_list ).
+supermax( [Single] , Single ) :- number(Single).
+supermax( [ Head|Tail ] , List ) :- ifthenelse(number(Head), Hlist = Head, 
+				    supermax( Head, Hlist )),
+				    supermax( Tail, Tlist ) , 
+			      	    ifthenelse( atom(Tlist) , List = Hlist , 
+				     ifthenelse( atom(Hlist) , List = Tlist , 
+				      ifthenelse( Hlist > Tlist , 
+					List = Hlist , List = Tlist ) ) ).
+

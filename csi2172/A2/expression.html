@@ -1,0 +1,207 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>EXPRESSION AND CONTEXT CLASSES</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+
+<H1>EXPRESSION AND CONTEXT CLASSES</H1>
+
+<H2>EXPRESSION CLASS</H2>
+
+<PRE>
+   class <b><FONT COLOR=red>expression</FONT></b> {
+   
+      public:
+         virtual double <b>evaluate</b>(context&) const = 0;
+         virtual void <b>print</b>(ostream&) const = 0;
+         virtual expression* <b>clone</b>() const = 0;
+   };
+</PRE>
+
+The <tt>expression</tt> class is abstracr because the three methods
+<tt>evaluate</tt>, <tt>print</tt> and <tt>clone</tt> are not
+implemented. These three methods must be implemented in all 
+concrete subclasses. The are defined as follows:
+<UL>
+    <A NAME="evaluate">
+    <tt>double expression::<b>evaluate</b>(context& C) const</tt>
+    <UL>
+       returns the value of the expression evaluated in the 
+       <A HREF="#context">context</A> <tt>C</tt>
+    </UL><br><br>
+    
+    <A NAME="print">
+    <tt>void expression::<b>print</b>(ostream& os) const</tt>
+    <UL>
+       prints the expression on the output stream <tt>os</tt>
+    </UL><br><br>
+
+    <A NAME="clone">
+    <tt>expression* expression::<b>clone</b>() const</tt>
+    <UL>
+       returns a dynamically allocated copy of itself
+    </UL><br><br>
+</UL>
+
+<H2>SUBCLASSES OF EXPRESSION</H2>
+
+<PRE>
+   class <b><FONT COLOR=RED>constant</FONT></b>: public <b>expression</b> {
+
+      public:
+         <b>constant</b>(double);
+         double <b>evaluate</b>(context&) const;
+         void <b>print</b>(ostream&) const;
+         expression* <b>clone</b>() const;
+   };
+</PRE>
+
+<H3>Methods of <tt>constant</tt></H3>
+<UL>
+    <tt>constant::<b>constant</b>(double d)</tt>
+    <UL>
+        constructor; creates a constant with value <tt>d</tt>
+    </UL><br><br>
+
+    <tt>double constant::<b>evaluate</b>(context& C) const</tt>
+    <UL>
+        constants evaluate to themselves regardless of
+        context, hence the parameter <tt>C</tt> is discarded.
+        <PRE>
+        constant c(5.2);
+        cout << c.evaluate(C);  // prints 5.2
+        </PRE>
+    </UL><br><br>
+    
+    <tt>void constant::<b>print</b>(ostream& os) const</tt>
+    <UL>
+        prints the constant on the output stream <tt>os</tt>
+        <PRE>
+        constant c(5.2);
+        c.print(cout);  // prints 5.2
+        </PRE>
+    </UL><br><br>
+
+    <tt>expression* constant::<b>clone</b>() const</tt>
+    <UL>
+       returns a dynamically allocated copy of itself
+       <PRE>
+       constant c(5.2);
+       expression* e = c.clone(); // e is a carbon copy of c
+       </PRE>
+    </UL><br><br>
+</UL>
+
+<PRE>
+   class <b><FONT COLOR=RED>variable</FONT></b>: public <b>expression</b> {
+      public:
+         <b>variable</b>(const char*); 
+         double <b>evaluate</b>(context&) const;
+         void <b>print</b>(ostream&) const;
+         expression* <b>clone</b>() const;
+         const char* <b>get_name</b>() const;
+   };
+</PRE>
+
+<H3>Methods of <tt>variable</tt></H3>
+<UL>
+    <tt>variable::<b>variable</b>(const char* n)</tt>
+    <UL>
+        constructor; creates a constant with name <tt>n</tt>
+    </UL><br><br>
+
+    <tt>double variable::<b>evaluate</b>(context& C) const</tt>
+    <UL>
+        variables are evaluated by looking their values
+        up in the context:
+        <PRE>
+        v.evaluate(C) == C.get_value(v.get_name())
+        </PRE>
+    </UL><br><br>
+    
+    <tt>void variable::<b>print</b>(ostream& os) const</tt>
+    <UL>
+        prints the name of the variable on the output stream <tt>os</tt>
+        <PRE>
+        variable v("v");
+        v.print(cout);  // prints v
+        </PRE>
+    </UL><br><br>
+
+    <tt>expression* variable::<b>clone</b>() const</tt>
+    <UL>
+       returns a dynamically allocated copy of itself
+       <PRE>
+       variable v("v");
+       expression* e = v.clone(); // e is a carbon copy of v
+       </PRE>
+    </UL><br><br>
+  
+    <tt>const char* variable::<b>get_name</b>() const</tt>
+    <UL>
+       returns the name of the variable
+       <PRE>
+         variable v("_v");
+
+         cout << v.get_name(); // prints _v
+       </PRE>
+    </UL>
+</UL>
+
+<A NAME="context">
+<H2>CONTEXT CLASS</H2>
+<PRE>
+   class <b><FONT COLOR=RED>context</FONT></b> {
+
+      public:
+         virtual void <b>add_identifier</b>(const char*, double = 0);
+         virtual void <b>set_value</b>(const char*, double);
+         virtual double <b>get_value</b>(const char*) const;
+   };
+</PRE>
+
+The context is defined by the above three methods. A context is
+supposed to provide an interface to named variables. These variables
+could be stored in the context itself, looked up in a database
+or even shared between running application. <b>This</b> context
+provides neither, hence to have access to variables <tt>context</tt>
+must be subclassed!
+
+<H3>Methods of <tt>context</tt></H3>
+
+<UL>
+    <tt>void context::<b>add_identifier</b>(const char* n, double v= 0)</tt>
+    <UL>
+       this method throws a <tt>context::exception</tt> regradless of
+       the values of <tt>n</tt> and <tt>v</tt>. Subclasses overloading
+       this method should store the variable <tt>n</tt> with value <tt>v</tt>
+       or throw a <tt>context::exception</tt> if <tt>n</tt> is already
+       in the context
+    </UL><br><br>
+
+    <tt>void context::<b>set_value</b>(const char* n, double v)</tt>
+    <UL>
+       this method throws a <tt>context::exception</tt> regradless of
+       the values of <tt>n</tt> and <tt>v</tt>. Subclasses overloading
+       this method should set the value of <tt>n</tt> in the context
+       to <tt>v</tt> or throw a <tt>context::exception</tt> if
+       <tt>n</tt> is <b>not</b> already in the context
+    </UL><br><br>
+    
+    <tt>double context::<b>get_value</b>(const char* n) const</tt>
+    <UL>
+       this method throws a <tt>context::exception</tt> regradless of
+       the value of <tt>n</tt>. Subclasses overloading
+       this method should return the value of <tt>n</tt> stored in
+       the context or throw a <tt>context::exception</tt> if
+       if <tt>n</tt> is <b>not</b> in the context
+    </UL>
+</UL>
+
+<H3>Exceptions</H3>
+   the class <b><tt>context::exception</tt></b> can be instantiated
+   with a character string:
+   <PRE>
+       throw context::exception("unknown identifier");
+   </PRE> 
+
+</BODY>
+</HTML>

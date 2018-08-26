@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0084)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/integ.html -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>INTEGRATION</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>Integration</H1>Suppose you and your partner have finished and debugged your 
+code for stream A and B (<I>the independent bonuses -- precedence of expressions 
+and filling clipped figures -- are irrelevant</I>). Here comes the big bonus. 
+Wherever in the figure scripts you used a numeric constant for project B, you 
+can replace it with a constant expression. Examples: <PRE>  define canvas(30,30); 
+  <FONT color=red>define canvas(20+5+5,2*15);</FONT>
+  set pen_color [200,0,50]; 
+  <FONT color=red>set pen_color [300-100,5-5,(2+3)*(6+4)]</FONT>
+  ...
+</PRE>
+<H1>HINT</H1>Wherever you had a <TT>lex.read_numeric(is)</TT> in the parser, you 
+should have something like <TT>expr_parser.read(is)-&gt;evaluate()</TT>. 
+<BR><BR>Unless you have some debugging to do, this should do the trick and earns 
+you a 3 marks reward! 
+<H1>HOW DO WE HAND IT IN?</H1>
+<UL>
+  <LI>create a subdirectory on the diskette, called <TT>integ</TT>. you will 
+  have all <B>your</B> code under this subdirectory that should make this 
+  program work including code for streams A and B. 
+  <LI>printout of <B>only</B> those files that needed changes, and use a 
+  highlighter to show what had to be changed for the integration to work 
+</LI></UL></BODY></HTML>

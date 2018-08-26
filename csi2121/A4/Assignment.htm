@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/Assignment4.html -->
+<HTML><HEAD><TITLE>Assignment</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY>
+<H3>&nbsp;Assignment #4</H3>
+<BLOCKQUOTE><B>Programming Exercise 1:</B> 
+  <P>Write a ASM procedure, called READFP, that reads, from the standard input, 
+  a sequence of ASCII characters representing a floating point number in decimal 
+  and stores the floating point value in a double word variable in the IEEE 
+  single precision format. Your procedure assumes that the address of the double 
+  word variable is given in register ESI.&nbsp; The procedure accepts only the 
+  following input format. The first character must be either a sign or a decimal 
+  digit. If it is a sign, then the next character must be a decimal digit. A 
+  sequence of 0 or more decimal digits then follows before a compulsory decimal 
+  point. A sequence of 0 or more decimal digits then follows the decimal point. 
+  Then the first nondecimal digit encountered marks the end of the number. You 
+  are not allowed to use a C/C++ library function like scanf() to read user 
+  input. In fact you must use the getch macro to extract each character from the 
+  input. 
+  <P>When your procedure READFP is correct, use it together with the 
+  FindRoots.asm program of Chap7 that finds the roots of a quadratic equation 
+  Ax^2 + Bx + C = 0. Basically, FindRoots should be your main program except 
+  that it first prompts the user to enter the floating point values for A, B and 
+  C and uses READFP to read these floating point values and store them into 
+  variables A, B, and C. 
+  <P>Sample execution (user input is in bold): 
+  <P><FONT face="Courier New,Courier">C:\ASM&gt;<B>ass4-1</B></FONT> <BR><FONT 
+  face="Courier New,Courier">Solving Ax^2 + Bx + C = 0</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of A: 1.0</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of B: -5.00</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of C: +6.</FONT> <BR><FONT 
+  face="Courier New,Courier">Root1 = 2.000000E+00</FONT> <BR><FONT 
+  face="Courier New,Courier">Root2 = 3.000000E+00</FONT> 
+  <P><FONT face="Courier New,Courier">C:\ASM&gt;<B>ass4-1</B></FONT> <BR><FONT 
+  face="Courier New,Courier">Solving Ax^2 + Bx + C = 0</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of A: +1.0</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of B: -.06</FONT> <BR><FONT 
+  face="Courier New,Courier">Invalid Input</FONT> 
+  <P><FONT face="Courier New,Courier">C:\ASM&gt;<B>ass4-1</B></FONT> <BR><FONT 
+  face="Courier New,Courier">Solving Ax^2 + Bx + C = 0</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of A: 3.4</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of B: -4.1267</FONT> <BR><FONT 
+  face="Courier New,Courier">Enter the value of C: +8.9</FONT> <BR><FONT 
+  face="Courier New,Courier">Both roots are complex numbers</FONT> 
+  <P>Note: as you read each digit, you should convert the ASCII value of the 
+  digit into the numerical integer value that this digit represents. Then you 
+  should convert this integer value into a floating point value. To convert a 
+  integer value into a floating point value, you can use the FILD source 
+  instruction. Where the source operand is a variable that contains a signed 
+  integer. Upon execution of FILD source, ST(0) will contain the floating point 
+  value corresponding to the signed integer value in source. Example: 
+  <P>.data <BR>A dw 7&nbsp; ; a integer value <BR>.code <BR>fild 
+  A&nbsp;&nbsp;&nbsp;&nbsp; ; ST now contains the floating point value 7.0 
+  <P>Note2: For some user input it may happen that you will get a FPU overflow 
+  or underflow or some other annoying FPU exceptions. If you prefer having a NaN 
+  or INF as result instead of having a program that will terminate abruptly, you 
+  can mask all the FPU exceptions with the FLDCW source instruction. Just use it 
+  at the beginning of your code like in this example: 
+  <P>.data <BR>fpuemask dw 0000000000111111b <BR>.code <BR>fldcw fpuemask&nbsp; 
+  ; all FPU exceptions are now masked 
+  <P><B><FONT color=#ff0000>DUE DATE: March 31 at 16:00</FONT></B> 
+  <P><B><FONT color=#3366ff>FOR CSI 2121: MUST BE SENT BY EMAIL TO:</FONT><FONT 
+  color=#ff0000> <A href="mailto:onassral@site.uottawa.ca">Omran 
+  Nassrallah</A></FONT></B> 
+  <P><B><FONT color=#006600>FOR CSI 2521: MUST BE SENT BY EMAIL TO: <A 
+  href="mailto:u1345878@site.uottawa.ca">Philippe 
+Boudreau</A></FONT></B></P></BLOCKQUOTE>
+<HR width="100%">
+<BR>&nbsp; </BODY></HTML>

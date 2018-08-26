@@ -1,0 +1,27 @@
+Program loaded. 162 bytes in memory.
+[ D0 ]  = $12CB (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $EDCB (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $FEDCBA98 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $1204 (word)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $0204 (word)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $01234567 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $12FD (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $BBFD (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $89ABCDEF (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $12F9 (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $B9F9 (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $88888888 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+
+End of program Execution.

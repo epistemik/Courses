@@ -1,0 +1,563 @@
+From u555104@site.uottawa.ca Thu Oct 28 11:48:01 1999
+Date: Thu, 28 Oct 1999 11:43:44 -0400
+From: u555104 <u555104@site.uottawa.ca>
+To: u428500@site.uottawa.ca
+Subject: Exam
+
+
+
+    [ Part 2: "Attached Text" ]
+
+
+is_list([]).
+is_list([_|_]).
+
+is_structure(Arg) :- functor(Arg,_,N), N > 0.
+
+
+/* and a bit of recursion */
+
+member(X,[X|_]).
+member(X,[_|Tail]) :- member(X,Tail).
+
+list_length([],0).
+list_length([_|Tail],ListLength) :-
+	list_length(Tail,TailLength),
+	ListLength is TailLength + 1.
+
+/*	
+append([],L,L).
+append([H|Tail],L,[H|ResTail]) :-
+	append(Tail,L,ResTail).
+*/
+
+/* Backtracking */
+
+
+halve(L,FirstHalf,SecondHalf) :-
+	append(FirstHalf,SecondHalf,L),
+	length(FirstHalf,HalfLength),
+	length(SecondHalf,HalfLength).
+
+
+/* Using 'fail' */	
+
+likes(john,apples).
+likes(john,csi2165).
+likes(john,mary).
+
+all_he_likes(Y) :- 
+	likes(Y,X),
+	write(X),nl,
+	fail.	
+all_he_likes(_).	
+
+
+write_member(List) :-
+	member(X,List),
+	write(X),write(' '),
+	fail.
+write_member(_).
+
+
+decompose(List) :-
+	append(FirstPart,SecondPart,List),
+	write('first part : '), write(FirstPart), nl,
+	write('second part : '), write(SecondPart), nl, nl,
+	fail.
+decompose(_).
+
+
+/* Using 'cut' */
+
+vowel(a).
+vowel(e).
+vowel(i).
+vowel(o).
+vowel(u).
+
+consonant(X) :- vowel(X), !, fail.
+consonant(_).	
+	
+
+o(paper).
+o(scissors).
+o(rock).
+
+p(fred,wilma).
+p(barney,betty).
+
+b(X,Y,Z) :-
+	o(X),
+	
+	p(Y,Z).
+		
+factorial(0,1) :- !.
+factorial(1,1) :- !.
+factorial(N,Result) :-
+	N1 is N-1,
+	factorial(N1,PrevResult),
+	Result is PrevResult * N.
+	
+
+%member(X,[X|_]) :- !.
+%member(X,[_|Tail]) :- !.
+
+
+number_of_parents(adam,0) :- !.
+number_of_parents(eve,0) :- !.
+number_of_parents(_,2).	
+
+
+/* Negation */
+
+negate_goal(Goal) :-
+	Goal,
+	!,
+	fail.
+negate_goal(_).
+
+
+%consonant(X) :- \+ vowel(X).
+
+	
+likes(ken,beer).
+likes(rob,beer).
+likes(mom,juice).
+
+	
+/* Clause Ordering */
+
+delete_all_1(E,[],[]).
+delete_all_1(E,[E|Tail],List) :-
+	delete_all_1(E,Tail,List).
+delete_all_1(E,[NotE|Tail],[NotE|NewTail]) :-
+	delete_all_1(E,Tail,NewTail).
+	
+
+delete_all_2(E,[],[]).
+delete_all_2(E,[NotE|Tail],[NotE|NewTail]) :-
+	delete_all_2(E,Tail,NewTail).
+delete_all_2(E,[E|Tail],List) :-
+	delete_all_2(E,Tail,List).
+	
+	
+delete_all_3(E,[],[]).
+delete_all_3(E,[NotE|Tail],[NotE|NewTail]) :-
+	E \== NotE,
+	delete_all_3(E,Tail,NewTail).
+delete_all_3(E,[E|Tail],List) :-
+	delete_all_3(E,Tail,List).
+	
+	
+
+/* Clause Ordering as Control */
+
+person(adam,[tv,	'21-25',p1]).
+person(beth,[reading,	'16-20',p2]).
+person(carl,[music,	'31-35',p1]).
+person(dave,[reading,	'36-40',p2]).
+person(edna,[music,	'31-35',p2]).
+person(fred,[music,	'26-30',p1]).
+person(anna,[sports,	'31-35',p1]).
+person(hank,[sports,	'26-30',p1]).
+
+match_person(Person1,Person2,HowWellTheyMatch) :-
+	person(Person1,Profile1),
+	person(Person2,Profile2),
+	Person1 \== Person2,
+	compare_profiles(Profile1,Profile2,HowWellTheyMatch).
+	
+compare_profiles([Int,Age,Type],[Int,Age,Type],perfect).
+compare_profiles([Int,_,Type],[Int,_,Type],good).
+compare_profiles([_,Age,Type],[_,Age,Type],ok).
+compare_profiles([_,_,Type],[_,_,Type],basic).
+
+
+    [ Part 3: "Attached Text" ]
+
+:- dynamic plays/2.
+:- dynamic fibonacci_opt/2.
+:- dynamic likes/2.
+
+/* Assert example */
+
+plays(carol,bass).
+plays(benny,banjo).
+plays(mike,guitar).
+
+
+/*
+:- plays(Person,Instrument).
+
+:- assert(plays(ken,piano)).
+:- plays(Person,Instrument).
+*/
+
+/* Retract example - it uses the database written above,
+   with the modifications done to it by asserting the fact
+
+   plays(ken,piano) 
+   
+*/
+/*
+:- retract(plays(Person,Instrument)).
+:- plays(Person,Instrument).
+
+:- retract(plays(mike,guitar)).
+:- plays(Person,Instrument).
+*/
+
+/* Example of Assert - Reducing the Complexity of a Program */
+/* Generating the Nth number in the Fibonacci sequence.
+   The standard recursive solution */
+
+fibonacci(1, 1) :- !.
+fibonacci(2, 1) :- !.
+fibonacci(N, FibN) :- N > 0,
+	N1 is N-1,
+	N2 is N-2,
+	fibonacci(N1,FibN1),
+	fibonacci(N2,FibN2),
+	FibN is FibN1 + FibN2.
+	
+
+/* The counter */
+
+init_counter(Counter) :- 
+	CounterClause =.. [Counter,0],	
+	asserta(CounterClause).
+	
+incr_counter(Counter) :-
+	CounterClause =.. [Counter,Value],
+	retract(CounterClause),
+	NewValue is Value + 1,
+	NewCounterClause =.. [Counter,NewValue],
+	asserta(NewCounterClause).
+	
+
+
+/* Generating the Nth number in the Fibonacci sequence, and 
+   counting the recursive calls */   
+
+fibonacci_cnt(1, 1).
+fibonacci_cnt(2, 1).
+fibonacci_cnt(N, FibN) :- 
+	incr_counter(rec_calls),
+	N1 is N-1,
+	N2 is N-2,
+	fibonacci_cnt(N1,FibN1),
+	fibonacci_cnt(N2,FibN2),
+	FibN is FibN1 + FibN2.
+   		
+
+/* The optimized version of the above predicate. Still counting
+   the recursive calls, for comparison with the unoptimized version */
+   
+fibonacci_opt(1, 1) :- !.
+fibonacci_opt(2, 1) :- !.
+fibonacci_opt(N, FibN) :- N > 0,
+	incr_counter(rec_calls),
+	N1 is N-1,
+	N2 is N-2,
+	fibonacci_opt(N1,FibN1),
+	fibonacci_opt(N2,FibN2),
+	FibN is FibN1 + FibN2,
+	asserta(fibonacci_opt(N,FibN)).
+	
+	
+/* RETRACT - example */
+
+likes(john,apples).
+likes(john,2165).
+likes(john,mary).
+
+all_he_likes(X) :-
+	likes(X,Y),
+	write(X),write(' likes '),write(Y),nl,
+	fail.
+all_he_likes(_).
+
+find_all_he_likes_1(X,[Y|Rest]) :-
+	retract(likes(X,Y)),
+	find_all_he_likes_1(X,Rest).
+find_all_he_likes_1(_,[]).
+
+
+
+find_all_he_likes_2(X,[Y|Rest]) :-
+	retract(likes(X,Y)),
+	find_all_he_likes_2(X,Rest),
+	asserta(likes(X,Y)).
+find_all_he_likes_2(_,[]).
+
+
+/* FINDALL - our implementation */
+
+my_findall(X,G,_) :-
+	asserta(found(mark)),
+	call(G),
+	asserta(found(X)),
+	fail.
+my_findall(_,_,L) :-
+	collect_all([],M),
+	!, L = M.
+	
+collect_all(S,L) :-
+	get_next(X), !,
+	collect_all([X|S],L).
+collect_all(L,L).
+
+get_next(X) :- retract(found(X)), !, X \== mark.
+
+
+
+/* RETRACT - example - reversing a list */
+
+/* First version - no retract */
+reverse([],[]).
+reverse([H|T],RevList) :-
+	reverse(T,RevTail),
+	append(RevTail,[H],RevList).
+	
+/* Second version - using the database operations assert/1 and retract/1 */
+reverse_db_op([],[]).
+reverse_db_op([H|T],[X|Rev]) :-
+	assertz(list_elem(H)),
+	reverse_db_op(T,Rev),
+	retract(list_elem(X)).
+      		
+
+/* This predicate will retract all the other facts I have in the database */
+      
+retractall(Functor,Arity) :-
+	functor(Fact,Functor,Arity),
+	retract_facts(Fact).
+	
+retract_facts(Fact) :-
+	retract(Fact),
+	fail.
+retract_facts(_).			
+	
+      		
+
+/* INPUT / OUTPUT  -   reading a sentence from the standard input */
+
+get_sentence(Sentence) :-
+	get0(FirstChar),
+	get_characters(FirstChar,Sentence).
+	
+get_characters(46,[46]) :- !.
+get_characters(Char,[Char|RestOfSentence]) :-
+	get0(NextChar),
+	get_characters(NextChar,RestOfSentence).
+	
+
+/* INPUT / OUTPUT - character output - reading a password */
+
+getpasswd(Password) :-
+	get0_noecho(FirstChar),
+	getpwchars(FirstChar,Password).
+	
+getpwchars(13,[]) :- !.
+getpwchars(Char,[Char|RestOfPassword]) :-
+	put(42),
+	get0_noecho(NextChar),
+	getpwchars(NextChar,RestOfPassword).
+	
+
+/* INPUT / OUTPUT  -  term output */
+
+nice_writing :-
+	likes(X,Y),
+	write_nicely(likes,X,Y),
+	fail.
+nice_writing.
+
+write_nicely(Functor,X,Y) :-
+	convert(X,NewX),
+	write(NewX),write(' '),write(Functor),write(' '), write(Y), write('.'), nl,
+	!.
+	
+convert(X,NewX) :-
+	name(X,[First|Rest]),
+	upper(First,Capital),
+	name(NewX,[Capital|Rest]).
+	
+upper(First,Capital) :- Capital is First - 32.
+
+
+/* INPUT / OUTPUT  -  file input/output */
+
+use_files :-
+	see('facts.pl'),
+	tell('see_tell_ex'),
+	write_facts,
+	seen,
+	told.
+	
+write_facts :-
+	read(Fact),
+	Fact =.. [Name,X,Y],
+	write_nicely(Name,X,Y),
+	write_facts.
+write_facts.		
+
+    [ Part 4: "Attached Text" ]
+
+
+/* creating a new tree */
+
+new_tree(Node, t( Node, nil, nil)).
+
+
+
+/* Inserting a node in the left subtree and in the right subtree */
+
+ins_left( New, Node, t( Node, LT, RT), t( Node, t(New, LT, nil), RT) ).
+ins_left( New, Node, t( Root, LT, RT), t( Root, NewLT, RT) ) :-
+	Root \= Node,
+	ins_left( New, Node, LT, NewLT).
+ins_left( New, Node, t( Root, LT, RT), t( Root, LT, NewRT) ) :-
+	Root \= Node,
+	ins_left( New, Node, RT, NewRT).
+
+ins_right( New, Node, t( Node, LT, RT), t( Node, LT, t(New, RT, nil)) ).
+ins_right( New, Node, t( Root, LT, RT), t( Root, LT, NewRT) ) :-
+	Root \= Node,
+	ins_right( New, Node, RT, NewRT).
+ins_right( New, Node, t( Root, LT, RT), t( Root, NewLT, RT) ) :-
+	Root \= Node,
+	ins_right( New, Node, LT, NewLT).
+
+
+
+/* Traversing a binary tree */
+	
+pre_order( nil, []).
+pre_order( t( Node, LT, RT), [Node|Rest]) :-
+	pre_order( LT, LeftNodes),
+	pre_order( RT, RightNodes),
+	append( LeftNodes, RightNodes, Rest).
+
+in_order( nil, []).
+in_order( t( Node, LT, RT), NodesList) :-
+	in_order( LT, LeftNodes),
+	in_order( RT, RightNodes),
+	append( LeftNodes, [Node|RightNodes], NodesList).
+
+post_order( nil, []).
+post_order( t( Node, LT, RT), NodesList) :-
+	post_order( LT, LeftNodes),
+	post_order( RT, RightNodes),
+	append( LeftNodes, RightNodes, List),
+	append( List, [Node], NodesList).
+
+
+/* Search through a tree for a subtree that has a 
+  certain element as root: */
+
+search_tree( Root, t( Root, LT, RT), t( Root, LT, RT) ).
+search_tree( Node, t( Root, LT, _), SubTree) :-
+	Node \= Root,
+	search_tree( Node, LT, SubTree).
+search_tree( Node, t( Root, _, RT), SubTree) :-
+	Node \= Root,
+	search_tree(Node, RT, SubTree).
+
+
+/* creating a new Binary Search Tree */
+
+new_bst(Node, bst(Node, nil, nil)).
+
+
+/* Inserting a node in a Binary Search Tree (BST) */
+		
+insert( Node, nil, bst( Node, nil, nil)).
+insert( Node, bst( Node, LT, RT), bst( Node, LT, RT)).
+insert(Node, bst( Root, LT, RT), bst( Root, NewLT, RT)) :-
+	Node < Root,
+	insert(Node, LT, NewLT).
+insert( Node, bst( Root, LT, RT), bst( Root, LT, NewRT)) :-
+	Node > Root,
+	insert( Node, RT, NewRT).
+
+
+/* Delete a node from a binary search tree: */
+
+delete( Node, bst( Node, nil, nil), nil) :- !.
+delete( Node, bst( Node, nil, RT), RT) :- !.
+delete( Node, bst( Node, LT, RT), bst( MaxOfLT, NewLT, RT) ) :-
+	delete_max(LT, NewLT, MaxOfLT).
+delete( Node, bst( Root, LT, RT), bst(Root, NewLT, RT) ) :-
+	Node < Root,
+	delete( Node, LT, NewLT).
+delete( Node, bst( Root, LT, RT), bst( Root, LT, NewRT) ) :-
+	Node > Root,
+	delete( Node, RT, NewRT).
+
+delete_max( bst( Root, LT, nil), LT, Root).
+delete_max( bst( Root, LT, RT), bst( Root, LT, NewRT), Max) :-
+	RT \== nil,
+	delete_max( RT, NewRT, Max).
+
+
+append([],L,L).
+append([H|T],L,[H|Rest]) :- append(T,L,Rest).
+
+    [ Part 5: "Attached Text" ]
+
+parent(pam,bob).
+parent(pam,bill).
+parent(tom,bob).
+parent(tom,bill).
+parent(tom,liz).
+parent(bill,ann).
+parent(bill,pat).
+parent(ann,jim).
+
+female(pam).
+female(liz).
+female(ann).
+female(pat).
+
+male(tom).
+male(bob).
+male(bill).
+male(jim).
+
+
+grandparent(X,Y) :- parent(X,Z),parent(Z,Y).
+
+mother(X,Y) :- parent(X,Y), female(X).
+father(X,Y) :- parent(X,Y), male(X).
+
+brother(X,Y) :- parent(Z,X), parent(Z,Y), male(X), male(Y), X \== Y.
+sister(X,Y) :- parent(Z,X), parent(Z,Y), female(X), female(Y), X \== Y.
+
+br_sis(X,Y) :- parent(Z,X),parent(Z,Y), male(X), female(Y).
+br_sis(X,Y) :- parent(Z,X), parent(Z,Y), female(X), male(Y).
+
+siblings(X,Y) :- brother(X,Y).
+siblings(X,Y) :- sister(X,Y).
+siblings(X,Y) :- br_sis(X,Y).
+
+/*
+aunt(X,Y) :- parent(Z,Y), sister(Z,X).
+aunt(X,Y) :- parent(Z,Y), br_sis(Z,X), female(X).
+*/
+
+aunt(X,Y) :- parent(Z,Y), siblings(Z,X), female(X).
+uncle(X,Y) :- parent(Z,Y), sibling(Z,X), male(X).
+
+nephew(X,Y) :- aunt(Y,X), male(X).
+nephew(X,Y) :- uncle(Y,X), male(X).
+
+niece(X,Y) :- aunt(X,Y), female(X).
+niece(X,Y) :- uncle(Y,X), female(X).
+
+ancestor(X,Y) :- parent(X,Y).
+ancestor(X,Y) :- parent(Z,Y), ancestor(X,Z).
+
+
+

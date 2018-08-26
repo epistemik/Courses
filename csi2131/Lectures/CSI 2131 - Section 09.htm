@@ -1,0 +1,1122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec09.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 9</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Merging II</CENTER></FONT>
+      <HR>
+
+      <P>We saw <I>merging</I> as an example of a <I>cosequential processing</I> 
+      algorithm.
+      <P>We have seen ways to sort <I>big</I> files, but we still don't know how 
+      to sort <I>really big</I> files.
+      <P>When a file is too big to fit into RAM, and even just the keys don't 
+      fit in RAM (or if <I>keysort</I> is inappropriate), we need to split the 
+      files into smaller files, sort the smaller files, and merge them back 
+      together.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Mergesort 
+              <LI>Multiway Merging 
+              <LI>Selection Trees 
+              <LI>Replacement Selection 
+              <LI>A New Heapsort </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ 7.5<BR>§ 7.3.1 (sort of)<BR>§ 7.3.2<BR>§ 7.5.6<BR>§ 
+            N/A<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Run</I></B> 
+        <DD>The smaller files that we split a big file into and sort to be 
+        merged later </DD></DL>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 151 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sorting Big (big) Files</CENTER></FONT>
+      <HR>
+
+      <P>Sorting files direct from/to disk is disastrous.
+      <P>If we have enough RAM to hold the whole file, sort it there:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>read the entire file into RAM</TT> 
+              <LI><TT>do your favourite internal sort</TT> 
+              <LI><TT>write the sorted data out to disk</TT> 
+        </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The <I>heapsort</I> is a particularly space-wise algorithm for this 
+      sort.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>If the file is too big to fit into RAM, maybe we only need to sort the 
+      keys:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>read each record r<SUB><FONT size=+0>i</FONT></SUB>, 
+              storing only (k<SUB><FONT 
+              size=+0>i</FONT></SUB>,&nbsp;RRN<SUB><FONT size=+0>i</FONT></SUB>) 
+              or (k<SUB><FONT size=+0>i</FONT></SUB>,&nbsp;offset<SUB><FONT 
+              size=+0>i</FONT></SUB>)</TT> 
+              <LI><TT>do your favourite internal sort</TT> 
+              <LI><TT>using the sorted (k<SUB><FONT 
+              size=+0>i</FONT></SUB>,&nbsp;RRN<SUB><FONT size=+0>i</FONT></SUB>) 
+              or (k<SUB><FONT size=+0>i</FONT></SUB>,&nbsp;offset<SUB><FONT 
+              size=+0>i</FONT></SUB>) seek to each record in the original file 
+              and write it out<BR>(or just write out the sorted keys)</TT> 
+            </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>But what if not even the keys fit in RAM?</I></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 152 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sorting Bigger Big (big) Files</CENTER></FONT>
+      <HR>
+
+      <P>For the biggest big files, there is no choice but to split the file 
+      into smaller files (<I>runs</I>) and sort them individually. Then merge 
+      them back into one <I>honkin' big</I> sorted file.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>As long as there are records left in the file</TT> 
+              <OL type=a>
+                <LI><TT>read as many records as possible into RAM</TT> 
+                <LI><TT>do a heapsort on those records</TT> 
+                <LI><TT>write the sorted run out to a temporary file</TT> 
+              </LI></OL>
+              <P></P>
+              <LI><TT>merge the sorted runs</TT> 
+      </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>If our file has N records and is split into K runs (having about M 
+      records each)...
+      <P><B><I>Q:</I></B> What is the complexity for: 
+      <UL>
+        <LI>reading the records:
+        <P><!-- O(K*M) = O(N) --></P>
+        <LI>sorting the runs:
+        <P><!-- O(K*MlogM) = O(NlogM) --></P>
+        <LI>writing the runs:
+        <P><!-- O(K*M) = O(N) --></P>
+        <LI>merging the runs: <!-- ??? --></LI></UL>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 153 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>MultiMerge</CENTER></FONT>
+      <HR>
+
+      <P>We've already seen how to merge two files (called a two-way merge). 
+      Here's the algorithm, slightly adjusted to allow duplicate records to be 
+      written.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>Read record r<SUB><FONT size=+0>1</FONT></SUB> from file 
+              F<SUB><FONT size=+0>1</FONT></SUB> and record r<SUB><FONT 
+              size=+0>2</FONT></SUB> from file F<SUB><FONT 
+              size=+0>2</FONT></SUB></TT> 
+              <LI><TT>While records remain in either 
+              file<BR>&nbsp;&nbsp;&nbsp;if k<SUB><FONT size=+0>1</FONT></SUB> &#8804; 
+              k<SUB><FONT 
+              size=+0>2</FONT></SUB><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output 
+              r<SUB><FONT size=+0>1</FONT></SUB>; read new r<SUB><FONT 
+              size=+0>1</FONT></SUB> from F<SUB><FONT 
+              size=+0>1</FONT></SUB><BR>&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output 
+              r<SUB><FONT size=+0>2</FONT></SUB>; read new r<SUB><FONT 
+              size=+0>2</FONT></SUB> from F<SUB><FONT 
+              size=+0>2</FONT></SUB></TT> 
+      </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>The K-way merge is just as simple. Here it is (again, writing as many 
+      duplicates as appear in the original runs).
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>For i from 1 to K<BR>&nbsp;&nbsp;&nbsp;Read record 
+              r<SUB><FONT size=+0>i</FONT></SUB> from file F<SUB><FONT 
+              size=+0>i</FONT></SUB></TT> 
+              <LI><TT>While records remain in any file<BR>&nbsp;&nbsp;&nbsp;find 
+              i such that k<SUB><FONT size=+0>i</FONT></SUB> is the minimum of 
+              k<SUB><FONT size=+0>1</FONT></SUB> to k<SUB><FONT 
+              size=+0>K</FONT></SUB>&nbsp;<BR>&nbsp;&nbsp;&nbsp;output 
+              r<SUB><FONT size=+0>i</FONT></SUB>; read new r<SUB><FONT 
+              size=+0>i</FONT></SUB> from F<SUB><FONT size=+0>i</FONT></SUB> 
+              </LI></OL></FONT></TT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 154 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Complexity of MultiMerge</CENTER></FONT>
+      <HR>
+
+      <P>The complexity of two-way merge, as we've already seen, is O(M + N).
+      <P>So what's the complexity of the K-way merge?
+      <P>
+      <UL>
+        <LI>reading the first record from each file: O(K) 
+        <LI>the main loop: O(&#931;M<SUB><FONT size=+0>i</FONT></SUB>) = O(N) 
+        <UL>
+          <LI>finding the minimum key: O(K)
+          <P></P></LI></UL>
+        <LI>total: O(K) + O(K×N) </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> If K &lt;&lt; N, O(K×N) = O(N). But what is the 
+      <I>real</I> meaning of O(K×N)?
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 155 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>What Happened to O(N) Merging?</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER><I>As it turns out, K is actually linear with N...<BR>Oh 
+      no!</I></CENTER>
+      <P>Let's say we have an illustrated encyclopedia represented as a file of 
+      records, one for each article in the encyclopedia. Since the encyclopedia 
+      is illustrated, we have pictures (jpegs) in the records:
+      <P>
+      <UL>
+        <LI>100,000 articles (records) 
+        <LI>100,000 bytes per record </LI></UL>
+      <P>If we have 100MB RAM, we can fit 1,000 records in RAM at a time. To 
+      sort the file would require 100 runs, each containing 1,000 records.
+      <P>Notice that if we double the number of articles to 200,000 we double 
+      the number of runs to 200.
+      <P>
+      <CENTER><I>K may be a thousand times smaller than N, but it's still 
+      O(N)</I></CENTER>
+      <P>So in the K-way merge, finding the minimum key in K records is 
+      O(N).<BR>So the K-Way merge is actually O(N²)!
+      <P>
+      <CENTER><FONT size=+3>:-b</FONT></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 156 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Merging is Stupid</CENTER></FONT>
+      <HR>
+
+      <P>In the K-way merge, the main loop is executed N times. Every time 
+      through the loop, we compare K keys, <I>even though K-1 of them are the 
+      same keys as the last time through the loop.</I>
+      <P>We can do better. Here's a new K-way merge algorithm:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>For i from 1 to K<BR>&nbsp;&nbsp;&nbsp;Read record 
+              r<SUB><FONT size=+0>i</FONT></SUB> from file F<SUB><FONT 
+              size=+0>i</FONT></SUB> into list[i]</TT> 
+              <LI><TT>Build a binary tree from list[i] such that:</TT> 
+              <UL>
+                <LI><TT>the leaves of the tree contain (k<SUB><FONT 
+                size=+0>i</FONT></SUB>,i)</TT> 
+                <LI><TT>the parent of nodes (k<SUB><FONT 
+                size=+0>i</FONT></SUB>,i) and (k<SUB><FONT 
+                size=+0>j</FONT></SUB>,j) 
+                contains<BR>&nbsp;&nbsp;&nbsp;(k<SUB><FONT 
+                size=+0>i</FONT></SUB>,i) if k<SUB><FONT size=+0>i</FONT></SUB> 
+                &#8804; k<SUB><FONT 
+                size=+0>j</FONT></SUB><BR>&nbsp;&nbsp;&nbsp;(k<SUB><FONT 
+                size=+0>j</FONT></SUB>,j) otherwise</TT> </LI></UL>
+              <LI><TT>While records remain in any 
+              file<BR>&nbsp;&nbsp;&nbsp;output r<SUB><FONT 
+              size=+0>i</FONT></SUB> where (k<SUB><FONT 
+              size=+0>i</FONT></SUB>,i) is the root of the 
+              tree<BR>&nbsp;&nbsp;&nbsp;read new r<SUB><FONT 
+              size=+0>i</FONT></SUB> from F<SUB><FONT size=+0>i</FONT></SUB> 
+              into list[i]<BR>&nbsp;&nbsp;&nbsp;update the tree to maintain its 
+              order</TT> </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What is the complexity of the <I>new and improved</I> 
+      K-way merge?
+      <P><B><I>A:</I></B>
+      <P><!-- finding min (tree maintenance): O(logK); merging: O(NlogK) --><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 157 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Selection Tree Example</CENTER></FONT>
+      <HR>
+
+      <P>The tree that we build and maintain in the K-way merge is called a 
+      <I>selection tree</I>. Let's look at an exmample of merging files with a 
+      selection tree. Conveniently, we have 8 runs: 
+      <CENTER>
+      <TABLE border=0 cellPadding=0 width="50%">
+        <TBODY>
+        <TR>
+          <TD align=middle width="10%"><FONT size=+2>1
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>2
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>3
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>4
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>5
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>6
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>7
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>8
+            <HR>
+            </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>22</FONT></TD>
+          <TD align=middle><FONT size=+2>28</FONT></TD>
+          <TD align=middle><FONT size=+2>37</FONT></TD>
+          <TD align=middle><FONT size=+2>29</FONT></TD>
+          <TD align=middle><FONT size=+2>26</FONT></TD>
+          <TD align=middle><FONT size=+2>30</FONT></TD>
+          <TD align=middle><FONT size=+2>35</FONT></TD>
+          <TD align=middle><FONT size=+2>34</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>15</FONT></TD>
+          <TD align=middle><FONT size=+2>24</FONT></TD>
+          <TD align=middle><FONT size=+2>18</FONT></TD>
+          <TD align=middle><FONT size=+2>27</FONT></TD>
+          <TD align=middle><FONT size=+2>19</FONT></TD>
+          <TD align=middle><FONT size=+2>13</FONT></TD>
+          <TD align=middle><FONT size=+2>25</FONT></TD>
+          <TD align=middle><FONT size=+2>21</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT size=+2>14</FONT></TD>
+          <TD align=middle><FONT size=+2>16</FONT></TD>
+          <TD align=middle><FONT size=+2>23</FONT></TD>
+          <TD align=middle><FONT size=+2>17</FONT></TD>
+          <TD align=middle><FONT size=+2>10</FONT></TD>
+          <TD align=middle><FONT size=+2>20</FONT></TD>
+          <TD align=middle><FONT 
+size=+2>11</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+</PRE>
+      <HR>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=0 width="50%">
+        <TBODY>
+        <TR>
+          <TD align=middle width="10%"><FONT size=+2>1
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>2
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>3
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>4
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>5
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>6
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>7
+            <HR>
+            </FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>8
+            <HR>
+            </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>22</FONT></TD>
+          <TD align=middle><FONT size=+2>28</FONT></TD>
+          <TD align=middle><FONT size=+2>37</FONT></TD>
+          <TD align=middle><FONT size=+2>29</FONT></TD>
+          <TD align=middle><FONT size=+2>26</FONT></TD>
+          <TD align=middle><FONT size=+2>...</FONT></TD>
+          <TD align=middle><FONT size=+2>35</FONT></TD>
+          <TD align=middle><FONT size=+2>34</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>15</FONT></TD>
+          <TD align=middle><FONT size=+2>24</FONT></TD>
+          <TD align=middle><FONT size=+2>18</FONT></TD>
+          <TD align=middle><FONT size=+2>27</FONT></TD>
+          <TD align=middle><FONT size=+2>19</FONT></TD>
+          <TD align=middle><FONT size=+2>30</FONT></TD>
+          <TD align=middle><FONT size=+2>25</FONT></TD>
+          <TD align=middle><FONT size=+2>21</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT size=+2>14</FONT></TD>
+          <TD align=middle><FONT size=+2>16</FONT></TD>
+          <TD align=middle><FONT size=+2>23</FONT></TD>
+          <TD align=middle><FONT size=+2>17</FONT></TD>
+          <TD align=middle><FONT size=+2>13</FONT></TD>
+          <TD align=middle><FONT size=+2>20</FONT></TD>
+          <TD align=middle><FONT 
+size=+2>11</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 158 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>We've Got Bigger Problems</CENTER></FONT>
+      <HR>
+
+      <P>We're not out of the woods yet, Dorothy. Let's see another example.
+      <P>Let's say you have access to the CSIS mainframe. (You didn't hack into 
+      it, you got a co-op job there). After two months of reading documentation, 
+      you get an email from your supervisor, who is just getting back from 
+      vacation. You have to write a program to sort their file of Canadian 
+      population records. There are:
+      <P>
+      <UL>
+        <LI>30 million people (records) 
+        <LI>100,000 bytes per record (each record has a jpeg of fingerprints) 
+        </LI></UL>The 486 they let you work on has 100MB RAM, so you can fit 1,000 
+      records in RAM. To sort the file will require 30,000 runs.
+      <P>
+      <CENTER><I>No problem, you say? Learned all about it in CSI 2131, did 
+      you?</I></CENTER>
+      <P>Don't forget: the K-way merge must have one record from each run in RAM 
+      at the same time.
+      <P><B><I>Q:</I></B> How much RAM is required to merge the runs?
+      <P><B><I>A:</I></B>
+      <P><!-- 3 Gigs --><BR>
+      <CENTER><IMG border=0 
+      src="CSI 2131 - Section 9_files/csis.gif"></CENTER><BR></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 159 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Running Out of RAM</CENTER></FONT>
+      <HR>
+
+      <P>Somehow we've got to decrease the number of runs.
+      <P>One way to do it would be to take some subset of J runs, merge those 
+      runs, then merge the merged runs.
+      <P>In our CSIS example, we could fit 1,000 records into RAM at a time. 
+      That means that we can merge 1,000 runs at a time. We could merge 30 
+      batches of 1,000 runs each, then merge the 30 bigger runs into one big 
+      file.
+      <P>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Multi-Step Merging</I></B> 
+        <DD>Merging smaller batches of runs into bigger runs, then merging 
+        bigger batches of bigger runs into even bigger runs, until everything is 
+        merged into one big file. </DD></DL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Disadvantages?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Advantages?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 160 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Back at the Heapsort</CENTER></FONT>
+      <HR>
+
+      <P>Maybe if we were more careful with our use of RAM during the sorting 
+      phase, we could build <I>longer</I> runs (and therefore <I>fewer</I> 
+runs).
+      <P>Remember the heapsort?
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Heap Builder</I>
+            <HR>
+             <PRE>for i from 1 to n
+   read the next record r having key k
+   put record r at the end of the array
+
+   while k &lt; the key of r's parent
+      exchange record r with its parent
+endfor
+</PRE></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><I>Heap Sorter</I>
+            <HR>
+             <PRE>for i from 1 to n
+   write the record in array[1]
+   last = n - i
+   move the record in array[last+1] to array[1]
+      (and call its key k)
+
+   while k &gt; the keys of either of its children
+      exchange record r with the child having
+         the smaller key
+endfor
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER><BR></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 161 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Heap<U>s</U>sort</CENTER></FONT>
+      <HR>
+
+      <P>While heapsorting, a slot in the heap becomes free on each iteration. 
+      We <I>could</I> use the empty slot to buffer output, but we could also use 
+      it to increase the length of runs produced by each sort step.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>for i from 1 to n
+   read the next record r having key k 
+   put record r at the end of the array
+
+   while k &lt; the key of r's parent
+      exchange record r with its parent
+endfor
+</PRE></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><PRE><B>last = n
+prevkey = lowvalue
+while last &gt; 0</B>
+   write the record in array[1]
+   <B>read the next record r having key k
+   if k &lt; prevkey</B>
+      move the record in array[last] to array[1]
+      call its key k
+      put record r into array[last]
+      <B>last = last - 1
+   else
+      put record r into array[1]</B>
+
+   while k &gt; the keys of either of its children
+      exchange record r with the child having 
+         the smaller key
+endwhile
+
+<B>when done, start a new run</B>
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 162 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>New Heapsort Example</CENTER></FONT>
+      <HR>
+
+      <P>Let's run through the new heapsort with the following records (only 
+      their keys are shown). Unfortunately we only have room for 5 records in 
+      the heap.
+      <P>
+      <CENTER><TT>19 5 31 25 18 22 21 24 11 29 15 27 10 6 14 ...</TT></CENTER>
+      <P>
+      <TABLE border=0 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=8 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2>1</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>2</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>3</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>4</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>5</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>&nbsp;</TD>
+          <TD bgColor=#c0c0c0>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+        size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P>
+      <TABLE border=0 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=8 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2>1</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>2</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>3</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>4</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>5</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+        size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <CENTER></CENTER>
+      <P><!--
+initial build:
+19
+19 5
+5 19
+5 19 31
+5 19 31 25
+5 19 31 25 18
+5 18 31 25 19
+
+sort:
+  5 18 31 25 19|
+ 22 18 31 25 19|
+ 18 22 31 25 19|
+ 18 19 31 25 22|
+ 21 19 31 25 22|
+ 19 21 31 25 22|
+ 24 21 31 25 22|
+ 21 24 31 25 22|
+ 21 22 31 25 24|
+ 24 22 31 25|11
+ 22 24 31 25|11
+ 29 24 31 25|11
+ 24 29 31 25|11
+ 24 25 31 29|11
+ 29 25 31|15 11
+ 25 29 31|15 11
+ 27 29 31|15 11
+ 31 29|11 15 10
+ 29 31|11 15 10
+ 31|15 11 10  6
+|14 15 11 10  6
+--><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 163 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Replacement Selection</CENTER></FONT>
+      <HR>
+
+      <P>The nifty adjustment to the heapsort algorithm is called <I>replacement 
+      selection</I>. 
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What's with the funny insertion order for records with 
+      keys less than the previous key written out?
+      <P><B><I>A:</I></B>
+      <P><!-- I'm building an upside down heap! --><B><I>Q:</I></B> If we used 
+      the original heapsort algorithm inside our mergesort, how many runs would 
+      there be (in the example)?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> In the worst case, what do you think will be the run 
+      size (given a heap that can hold a fixed number <I>C</I> of records)?
+      <P><B><I>A:</I></B>
+      <P><!-- C --><B><I>Q:</I></B> In the best case, what will be the run size?
+      <P><B><I>A:</I></B>
+      <P><!-- N --><B><I>Q:</I></B> On average, what will be the run size?
+      <P><B><I>A:</I></B>
+      <P><!-- This one's a little trickier: assuming a random uniform distribution,
+we might expect half the records read in to be greater than the record just
+written (more than half at the beginning of the run, less at the end when
+only the high records remain in the heap) so the answer is 2C --><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 164 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

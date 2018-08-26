@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/tut08.html -->
+<HTML><HEAD><TITLE>CSI 2131 Tutorial #8</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="2131.gif"></A><FONT color=white 
+      size=+3>CSI 2131 Tutorial #8</FONT></TD></TR></TBODY></TABLE>
+<P>This week's tutorial is an example application of the matching algorithm. It 
+takes two file names from the command line: a file full of student records 
+(student number, last name, first name) and a file full of marks records 
+(student number, assignment marks, exam marks). Both files are sorted on student 
+number. The program writes out a new record containing fields from input records 
+that match on student number.
+<P>Here's some sample output:
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5 width="75%">
+  <TBODY>
+  <TR>
+    <TD><PRE>{tamale1}kbarker(1) <B>cat studfil</B>
+111111 Blansten , Gern
+112233 Kabibble , Ish
+123456 Ogvad , Jenista
+555555 Ngopoppadop , Ed
+654321 Hagbuelovich , Franak
+666666 Yag , Djabbu
+678910 Trpchkstch , Ioeia
+888888 O'Ditzkrep , Tsinp
+987654 Kelly , Kelly
+
+{tamale1}kbarker(2) <B>cat marksfil</B>
+111111 10, 9, 8, 19, 49
+112233 3, 3, 3, 15, 50
+123456 10, 10, 10, 20, 50
+654321 5, 6, 4, 10, 3
+666666 6, 6, 6, 6, 6
+678910 10, 10, 5, 3, 1
+700000 10, 5, 1, 0, 0
+888888 8, 8, 8, 8, 8
+
+{tamale1}kbarker(3) <B>upd studfil marksfil &gt; studmarks</B>
+No marks for student 555555
+Student 700000 does not exist
+No marks for student 987654
+
+{tamale1}kbarker(4) <B>cat studmarks</B>
+Gern Blansten (111111) | ass1(10) ass2(9) ass3(8) midterm(19) final(49)
+Ish Kabibble (112233) | ass1(3) ass2(3) ass3(3) midterm(15) final(50)
+Jenista Ogvad (123456) | ass1(10) ass2(10) ass3(10) midterm(20) final(50)
+Ed Ngopoppadop (555555) | ass1(0), ass2(0), ass3(0), midterm(0), final(0)
+Franak Hagbuelovich (654321) | ass1(5) ass2(6) ass3(4) midterm(10) final(3)
+Djabbu Yag (666666) | ass1(6) ass2(6) ass3(6) midterm(6) final(6)
+Ioeia Trpchkstch (678910) | ass1(10) ass2(10) ass3(5) midterm(3) final(1)
+Tsinp O'Ditzkrep (888888) | ass1(8) ass2(8) ass3(8) midterm(8) final(8)
+Kelly Kelly (987654) | ass1(0), ass2(0), ass3(0), midterm(0), final(0)
+
+{tamale1}kbarker(5)</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE>
+<P><B><I>upd.c</I></B>
+<P>
+<HR>
+<PRE>#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[])
+{
+ FILE *studfile, *marksfile;
+ char lname[40], fname[40];
+ int a1, a2, a3, mid, fin;
+ int studsleft, marksleft;
+ long studnum, marksnum, oldstudnum, oldmarksnum;
+
+ if(argc != 3)                           /* the standard command line checks */
+    {
+     fprintf(stderr, "Usage: upd &lt;studfile&gt; &lt;marksfile&gt;\n\n");
+     exit(1);
+    }
+
+ if(!(studfile = fopen(argv[1], "r")))
+    {
+     fprintf(stderr, "Unable to open student file %s.\n\n", argv[1]);
+     exit(2);
+    }
+
+ if(!(marksfile = fopen(argv[2], "r")))
+    {
+     fprintf(stderr, "Unable to open marks file %s.\n\n", argv[2]);
+     exit(3);
+    }
+
+                                         /* read a record from student file  */
+ studsleft = fscanf(studfile, "%ld %s , %s", &amp;studnum, lname, fname);
+                                         /* read a record from marks file    */
+ marksleft = fscanf(marksfile, "%ld %d, %d, %d, %d, %d",
+                                &amp;marksnum, &amp;a1, &amp;a2, &amp;a3, &amp;mid, &amp;fin);
+
+ oldstudnum = 0;                         /* to check for duplicate records   */
+ oldmarksnum = 0;
+
+                                         /* while recs remain in either file */
+ while(studsleft != EOF || marksleft != EOF)
+    {
+     if(studsleft == EOF)                /* at end of student file           */
+        {
+         studnum = 9999999L;             /* set student num to high value    */
+        }
+     else
+        {
+         if(studnum == oldstudnum)       /* check for duplicate student recs */
+            fprintf(stderr, "Duplicate record in student file: %ld\n", studnum);
+        }
+
+     if(marksleft == EOF)                /* at end of marks file             */
+        {
+         marksnum = 9999999L;            /* set student num (in marks file)  */
+        }                                /* to high value                    */
+     else
+        {
+         if(marksnum == oldmarksnum)     /* check for duplicate marks recs   */
+            fprintf(stderr, "Duplicate record in marks file: %ld\n", marksnum);
+       }
+
+     if(studnum &lt; marksnum)              /* record in student file with no   */
+        {                                /* corresponding rec in marks file  */
+         fprintf(stderr, "No marks for student %ld\n", studnum);
+
+                                         /* print out a new rec with 0 marks */
+         printf("%s %s (%ld) | ass1(0), ass2(0), ass3(0), midterm(0), final(0)\n", 
+                 fname, lname, studnum);
+
+                                         /* get the next student record      */
+         oldstudnum = studnum;
+         studsleft = fscanf(studfile, "%ld %s , %s", &amp;studnum, lname, fname);
+        }
+     else if(marksnum &lt; studnum)         /* record in marks file with no     */
+        {                                /* corresponding rec in student file*/
+         fprintf(stderr, "Student %ld does not exist\n", marksnum);
+
+         oldmarksnum = marksnum;         /* student must have dropped the    */
+                                         /* course after getting some marks  */
+         marksleft = fscanf(marksfile, "%ld %d, %d, %d, %d, %d",
+                                        &amp;marksnum, &amp;a1, &amp;a2, &amp;a3, &amp;mid, &amp;fin);
+        }
+     else                                /* matching records!                */
+        {                                /* print both records ('|' between) */
+         printf("%s %s (%ld) | ass1(%d) ass2(%d) ass3(%d) midterm(%d) final(%d)\n", 
+                 fname, lname, studnum, a1, a2, a3, mid, fin);
+
+         oldstudnum = studnum;
+         oldmarksnum = marksnum;
+                                         /* get new records from both files  */
+         studsleft = fscanf(studfile, "%ld %s , %s", &amp;studnum, lname, fname);
+         marksleft = fscanf(marksfile, "%ld %d, %d, %d, %d, %d",
+                                        &amp;marksnum, &amp;a1, &amp;a2, &amp;a3, &amp;mid, &amp;fin);
+        }
+    }
+
+ fclose(studfile);
+ fclose(marksfile);
+
+ exit(0);
+}
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update March 10, 2000)</I></FONT> </BODY></HTML>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/ -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>Laboratory 9: Project Model Solutions</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>Laboratory 9: 1999 Winter Project</H1>This project was given in the Winter 
+semester of 1999 and it involves quite a few design patterns and it also touches 
+on some advanced techniques. The outline of the model was provided for the 
+students but the bonus questions go far beyond elementary object oriented 
+modeling. Understanding how the pieces are put together and how the model 
+provides flexibility and maintainability is important. This project involved 
+virtually all basic steps and techniques of basic object oriented design. 
+<H2><A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/">Description</A></H2>
+<H2>Model Solution</H2>
+<UL>
+  <LI>
+  <H3>Expressions Bonus</H3>
+  <UL>The trick is to observe that the evaluation tree can be wrong in two 
+    ways: <PRE>        
+          *               *
+         / \             / \
+        2   +           +   4
+           / \         / \
+          3   4       2   3
+
+        (WRONG)       (WRONG)
+         
+           |             |
+           |             |
+           V             V
+    
+           +            +
+          / \          / \
+         *   4        2   *
+        / \              / \
+       2   3            3   4
+      
+        (GOOD)         (GOOD)
+
+       </PRE>So we declare a new class called 
+    <TT>binary_operator_adaptor</TT> which holds one binary operator expression. 
+    In its constructor, if the binary expression's left-hand-side or 
+    right-hand-side has lower precedence than itself, then we swing the tree 
+    (recursivelly) so it looks good. <BR><BR>Although I did not ask, an 
+    expression like <TT>(3+5)/(1+3)</TT> should not really be stored as a tree 
+    but as <TT>2</TT>. In other words expressions can be simplified (<I>check 
+    out the <TT>simplify</TT> method</I>). The only place where we cannot 
+    simplify if there is a variable inside the expression (<I>ie, if you really 
+    went all the way...</I>). But even then, it can be <I>partially</I> 
+    simplified: <TT>(2+6)*x</TT> = <TT>8*x</TT>, or <TT>(x-1)/(3+4)</TT> = 
+    <TT>(x-1)/7</TT>. <BR><BR>The <TT>evaluate</TT> signature also has to 
+    change, because an expression may contain variables, hanve a 
+    <TT>double*</TT> argument represents an array of bindings in the current 
+    context. </UL>
+  <LI>
+  <H3>Drawing Bonus</H3>
+  <UL>
+    <CENTER><A href="Laboratory 9 Project Model Solutions_files/dbon.gif"><IMG 
+    border=0 src="Laboratory 9 Project Model Solutions_files/dbon.gif"></A> 
+    </CENTER>The strategy is to find one point on the perimeter of the figure 
+    which is inside. Once we have that point <TT>p</TT> then we can recursivelly 
+    halve the distance between <TT>p</TT> and <TT>o</TT> (<I>towards 
+    <TT>p</TT></I>) until it is inside the figure. To find <TT>p</TT>, we can 
+    use one of the corners, or if there is no corner inside we can find two 
+    intersecting points and use their median. Check out <TT>shape::inside</TT>, 
+    <TT>shape::intersects</TT> and <TT>shape::find_in</TT>. It is the same for 
+    the ellipse, after all, it is drawn with lines between points. There is 
+    another case, maybe the figure totally surrounds the canvas and the middle 
+    is still not in. In that case, you should check that at least one of the 
+    points have to have a mapped <TT>x</TT> coordinate which is less than 0, one 
+    which is larger than <TT>width</TT>, one mapped <TT>y</TT> coordinate less 
+    tan 0 and one larger than <TT>height</TT> <BR><BR>All of the above is 
+    <B>only</B> true for <I>convex</I> shapes, but that is all what we have. 
+    <BR><BR>These files test if your bonus implementation is OK: <PRE>         <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/e1.pic">e1.pic</A> // ellipse test
+         <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/t1.pic">t1.pic</A> // triangle test
+         <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/r1.pic">r1.pic</A> // rectangle test
+      </PRE>If your (bonus) implementation does not work, you will only see 
+    lines. </UL>
+  <LI>
+  <H3>Parameter Passing, Recursion, ....</H3>You would have to build a new 
+  hierarchy (<I>check out <TT>statement</TT> </I>), which would store the actual 
+  statements of the user defined figure, puts them into a 
+  <TT>figure_descriptor</TT> and registers it in a <TT>symbol_table</TT>.... 
+  <BR><BR>
+  <LI>
+  <H3><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/source.html">CODE</A></H3>
+  <LI>
+  <H3>Test Files:</H3><BR><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/huggy.pic"><IMG 
+  src="Laboratory 9 Project Model Solutions_files/huggy.gif"></A><BR><BR><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/huggies.pic"><IMG 
+  src="Laboratory 9 Project Model Solutions_files/huggies.gif"></A> 
+</LI></UL></BODY></HTML>

@@ -1,0 +1,447 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>ASSIGNMENT #1</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+<H1> ASSIGNMENT #1</H1>
+
+Read the <A HREF="../../rules">general rules</A> about submitting course
+work!
+Also read ``<A HREF="../../rules/#marker">how can I make my marker's life
+easier</A>'' and ``<A HREF="../../rules/#nocompile">what if my code does
+not compile?</A>''.
+
+<H2><FONT COLOR=red>Due date:</FONT></H2>
+  <UL>
+  <H4>
+    To be decided ...
+  </H4>
+  </UL>
+
+<hr>
+
+<H2>Question #1 [ 100 marks ]</H2>
+
+<H3>Part <b>A</b> [ 10 marks ]</H3>
+<UL>
+   Implement a function with prototype
+   <PRE>
+     void <b>me</b>(ostream& <i>os</i>)</tt>
+   </PRE>
+   which prints
+   the following information about you on the output stream <i>os</i>:
+   <UL>
+   <LI><b>name</b>
+   <LI><b>student number</b>
+   <LI><b>course code</b> and <b>marking section</b>
+   </UL>
+
+   For example, a call to this function <tt>me(cout)</tt> should
+   produce something like:
+
+   <PRE>
+     name: Santa Claus
+     number: 123456
+     section: CSI2172 A2
+   </PRE>
+   of course, with your name, student number and marking section.
+   <br><br>
+
+   You should place the prototype of this function into the 
+   <A HREF="../../rules/#header">header file</A> <tt>me.h</tt> and
+   the implementation of <tt>me</tt> into the file <tt>me.cpp</tt>.
+   <br>
+   There should be no other prototypes or functions (<i> not even
+   <tt>main</tt></i>) in <tt>me.h</tt> and <tt>me.cpp</tt>. These
+   two files will be linked with each of your assignments and 
+   will print this information on the console for each question.
+</UL>
+
+<H3>Part <b>B</b> [ 50 marks ]</H3>
+
+<UL>
+   For this part, you will have to implement a number of functions
+   dealing with arrays. None of these functions require more than
+   a few (<i>at most 10</i>) lines of code,
+   most are even much shorter than that.
+   The aim of this exercise is to familiarize yourself with some
+   C++ syntax and to learn about arrays, pointers and dynamic
+   memory allocation.<br><br> 
+   <b>A correct implementation of each of the following functions
+   is worth 5 marks</b><br><br>
+
+   <tt>int <b>min</b>(const int * <i>a</i>, int <i>l</i>)</tt> 
+   <UL>
+      calculates the minimum of array <tt><i>a</i></tt> which is of
+      length <tt><i>l</i></tt>. If <tt><i>l</i></tt> is zero,
+      an <tt>ass1_exception</tt> is <A HREF="../../rules/#exceptions">
+      thrown</A>. You may use any kind of loop or recursion!<br><br> 
+   </UL>
+
+   <tt>int <b>max</b>(const int * <i>a</i>, int <i>l</i>)</tt>
+   <UL>
+      calculates the maximum of array <tt><i>a</i></tt> which is
+      of length <tt><i>l</i></tt>. If <tt><i>l</i></tt> is zero, 
+      an <tt>ass1_exception</tt> is <A HREF="../../rules/#exceptions">
+      thrown</A>. <tt><b>max</b></tt> must be <b>recursive</b>!<br><br>
+   </UL>
+
+   <tt>int* <b>vector_alloc</b>(int <i>n</i>)</tt>
+   <UL>
+      returns the address of a <i>dynamically allocated</i>
+      -- allocated by <tt>new[]</tt> -- vector which contains
+      <tt><i>n</i></tt> integers (<i>do not initialize them!</i>).
+      This function is really just a wrapper for the
+      <tt>new[]</tt> operator.<br><br>
+   </UL>
+
+   <tt>void <b>vector_dealloc</b>(int*& <i>v</i>)</tt>
+   <UL>
+      deallocates vector <tt><i>v</i></tt> using 
+      <tt>delete []</tt> and sets <tt><i>v</i></tt> to 0.
+      <b>Also answer in a comment line of your implementation
+      why <tt><i>v</i></tt> is passed by reference!</b><br><br>
+   </UL>
+
+  
+   <tt>int** <b>matrix_alloc</b>(int <i>n</i>, int <i>m</i>)</tt>
+   <UL>
+      allocates an <tt><i>n</i></tt> <i>x</i> <tt><i>m</i></tt>
+      matrix dynamically and returns its address. <b>
+      <tt>matrix_alloc</tt> must use <tt>vector_alloc</tt>
+      to allocate the <tt><i>n</i></tt> rows!</b><br><br>
+   </UL>
+
+   <tt>void <b>matrix_dealloc</b>(int**& <i>a</i>, int <i>n</i>)</tt>
+   <UL>
+      deallocates matrix <tt><i>a</i></tt> which has <tt><i>n</i></tt>
+      rows and sets <tt><i>a</i></tt> to 0.
+      <b>Also answer in a comment line of your implementation
+      why there is no need for the number of columns!</b><br><br>
+   </UL>
+
+   <tt>int* <b>vector_copy</b>(const int* <i>v</i>, int <i>l</i>)</tt>
+   <UL>
+      creates a carbon copy of vector <tt><i>v</i></tt>. Fist
+      it allocates a new vector of length <tt><i>l</i></tt> using
+      <tt>vector_alloc</tt> and then it copies the elements. The
+      address of this new vector is returned.<br><br>
+   </UL>
+
+   <tt>int** <b>matrix_copy</b>(const int* const * <i>M</i>, 
+             int <i>n</i>, int <i>m</i>)</tt>
+   <UL>
+      creates a carbon copy of matrix <tt><i>M</i></tt> which has
+      <tt><i>n</i></tt> rows and <tt><i>m</i></tt> columns.
+      The new matrix is dynamically allocated and the elements of
+      <tt><i>M</i></tt> are copied. The address of this new matrix
+      is returned.<br>
+      <b>note:</b>
+      <PRE>
+          <b>const</b> int <b>*</b> <b>const</b> <b>*</b>
+                         
+            |           |
+            |           |
+  This <b>const</b> is      This <b>const</b> is 
+  for the elements   for each row
+  of the rows 
+  </PRE><br><br>
+   </UL>
+
+   <tt>void <b>vector_print</b>(ostream& <i>os</i>, 
+            const int* <i>v</i>, int <i>l</i>)</tt>
+   <UL>
+      prints vector <tt><i>v</i></tt> on the output stream <tt><i>os</i></tt>.
+      <tt><i>v</i></tt> is of length <tt><i>l</i></tt>. The vector
+      is enclosed in a pair of curly braces (<tt>{</tt> and <tt>}</tt>)
+      and the elements are comma separated. For example:
+      <PRE>
+      {1,2,3,4,5}
+      </PRE><br><br>
+   </UL>
+
+   <tt>void <b>matrix_print</b>(ostream& <i>os</i>,
+            const int * const * <i>M</i>, int <i>n</i>, int <i>m</i>)</tt>
+   <UL>
+      prints matrix <tt><i>M</i></tt> which has <tt><i>n</i></tt>
+      rows and <tt><i>m</i></tt> columns on the output
+      stream <tt><i>os</i></tt>. The matrix is enclosed in 
+      a pair of curly braces and the rows are comma separated.
+      The rows themselves are printed by <tt>vector_print</tt>.
+      For example:
+      <PRE>
+        {
+          {1,2,3,4},
+          {3,2,0,1},
+          {5,6,0,2}
+        }
+
+      </PRE>
+   </UL> 
+
+   The prototypes of these functions must be in the file called
+   <A HREF="ass1.h">ass1.h</A> (<i>it is already typed in for you!</i>). 
+   The implementation of these files must be in the file called
+   <tt>ass1.cpp</tt>.
+</UL> 
+
+<H3>Part C [ 20 marks ]</H3>
+<UL>
+   For this part you will implement four functions which 
+   are a bit more interesting.<br><br>
+
+   <b>[ 8 marks ]</b><br>
+   <tt>void <b>quick_sort</b>(int* <i>v</i>, int <i>l</i>,
+            int <i>h</i>)</tt> 
+   <UL>
+      the well known <i>quick sort</i> algorithm partitions
+      the vector <tt><i>v</i></tt> into two parts:
+      one where the elements are smaller and one where
+      the elements are bigger or equal to a <i>pivot</i> value
+      chosen from the vector. It is often convenient to
+      select the first or the last element as <i>pivot</i>.
+      Then these two parts are sorted <i>recursively</i>.
+      <b>See the <A HREF="trace.html">pseudo code and a trace!</A>
+      <A HREF="../../labs/lab7">Lab 7</A> also has a <i>generic version</i>
+      of <tt>quick_sort</tt> already typed in (<i>notes page 169</i>)</b>
+      <br><br>
+   </UL>
+
+   <b>[ 6 marks ]</b><br>
+   <tt>int* <b>apply</b>(int** <i>M</i>, int <i>n</i>, 
+            int <i>m</i>, int (*<i>f</i>) (const int*, int))</tt>
+   <UL>
+       <i>M</i> is an <i>n</i> x <i>m</i> matrix of integers and
+       <i>f</i> is a function which returns an <tt>int</tt> and
+       takes a vector and its length as arguments. <tt>apply</tt>
+       simply executes <i>f</i> on each end every row of <i>M</i>
+       and records the results in a dynamically allocated vector
+       of length <i>n</i> and returns its address. For example:
+       <PRE>
+
+  int <b>sum</b>(const int* v, int l) {
+     int s = 0;
+     for(int i=0; i < l; i++) {
+        s += v[i];
+     }
+     return s;
+  }
+          
+  // M = { { 1, 2, 3, 0},
+  //       {-1, 1, 2,-1},
+  //       { 0, 6, 0, 1} };
+     
+  ...
+  v = <b>apply</b>(<i>M</i>,3,4,<b>sum</b>);
+      // v == { 6, 1, 7 } 
+      // ie sum of each row
+     
+      </PRE>
+   </UL>
+
+   <b>[ 4 marks ]</b><br>
+   <tt>int <b>matrix_max</b>(const int* const* <i>M</i>, int <i>n</i>,
+           int <i>m</i>)</tt>
+   <UL>
+       <i>M</i> is an <i>n</i> x <i>m</i> matrix of integers. 
+       <tt>matrix_max</tt> returns the maximum element of <i>M</i>,
+       this function <b>must</b> make use of functions <tt>apply</tt> and
+       <tt>max</tt>!
+       <br><br>
+   </UL>
+
+   <b>[ 2 marks ]</b><br>
+   <tt>void <b>matrix_sort</b>(int** <i>M</i>, int <i>n</i>, int <i>m</i>)</tt>
+   <UL>
+       <i>M</i> is an <i>n</i> x <i>m</i> matrix of integers.
+       This function simply calls <tt>quick_sort</tt> on every row of <i>M</i>.
+       <br><br>
+   </UL>
+   The prototypes of these functions must in the file called
+   <A HREF="ass1.h">ass1.h</A> (<i>it is already typed in for you!</i>). 
+   The implementation of these files must be in the file called
+   <tt>ass1.cpp</tt>.
+</UL>
+
+<H3>Part D [ 20 marks ]</H3>
+   <UL>
+      Write a test program which tests <i>every function</i> you implemented.
+      In particular, <tt>main</tt> as its first line <b>must</b> call
+      <PRE>
+         me(cout);
+      </PRE>
+      which identifies you on the console. You do not have to specifically
+      test those functions which are called by others. For example,
+      <tt>vector_print</tt> <i>should be</i>
+      called by <tt>matrix_print</tt>, hence it
+      is enough to test <tt>matrix_print</tt>. You may enter data from
+      the console, <i>but you do not have to!</i>
+      You may have variables instantiated in the code, like:
+      <PRE>
+  ...
+  int ** M = matrix_alloc(3,4);
+  M[0][0] = 1; M[0][1] = 2; M[0][2] = 3; M[0][3] = 4; 
+  M[1][0] =-1; M[1][1] = 4; M[1][2] = 0; M[1][3] = 0; 
+  M[2][0] = 0; M[2][1] = 0; M[2][2] =-2; M[2][3] = 1; 
+  ...
+      </PRE>
+   Make sure that there is enough info printed on the console for the marker
+   so he or she can easily follow what your test program is doing.
+   The functions you implemented for part B and part C should not print to the
+   console (<i>ie <tt>cout</tt></i>). Main, <i>on the other hand</i>,
+   should write to the console!
+   <br><br>
+
+   This test program which calls all your functions (<i>explicitly or
+   implicitly</i>) must be implemented in the file called <tt>test.cpp</tt>.
+   </UL>
+
+
+<H2>Bonus [ 20 marks ]</H2>
+   <UL>
+   This is a bonus question. <i>In other words</i>, you may achieve 
+   100% on this assignment without touching this question. The effort
+   required to earn this 20 marks is more than earning 20 marks on the
+   previous questions.
+   <br><br>
+   This question tests your knowledge on pointers and arrays. We have seen
+   how multi-dimensional arrays are allocated in <tt>C++</tt> (<i>notes
+   page 43, page 58</i>). Just by the very nature of this technique,
+   multi dimensional arrays are not forced to take rectangular shape in <i>n</i>
+   dimensions. Moreover, a multi dimensional array can also have <i>aliasing
+   </i> within the structure itself. In other words, some of the pointers
+   may actually point to the very same physical array!
+   <br><br>
+   Imagine the following structure:<br><br>
+   <CENTER>
+      <A HREF="bonus.gif"><IMG SRC="bonus.gif" WIDTH=60% BORDER=0></A>
+   </CENTER>
+   <br><br>
+   This structure has a number of interesting properties.
+   It has <i>2n-1</i> rows and the longest row is <i>n</i>
+   elements while the shortest row has one element. 
+   The first row is also physically the same as the last
+   row and the second row is physically the same as
+   the second last row. In general, the <i>i</i><sup>th</sup>
+   row is physically the same as the <i>(2n-1-i)</i><sup>th</sup>
+   row. This is illustrated on the second figure; after the assignments:
+   <PRE>
+      A[0][0] = 10;
+      A[1][1] = -3;
+      A[0][2] =  0;
+   </PRE>
+   The values of <tt>A[6][0]</tt>, <tt>A[5][1]</tt> and
+   <tt>A[6][2]</tt> have changed as well.
+
+   <br><br>
+   <b>[ 10 marks ]</b><br>
+   <UL>
+      Draw the layout in memory of the 7x4 structure depicted above.
+      Feel free to make up addresses but make sure that those
+      parts which must be adjacent are adjacent
+      and those which may not be are not adjacent on your diagram.
+      Also indicate the value of each slot in the array --
+      whether it is an address or an integer. <b>Assume 4 byte
+      pointers and 2 byte integers!</b> The diagram should
+      be similar to the one in your notes on <i>page 58</i>.
+      You do not have to use a drawing package but do use 
+      a ruler and be neat.<br><br>
+   </UL>
+
+   <b>[ 10 marks ]</b><br>
+   <UL>
+      Implement the following three functions:
+      <br><br>
+
+      <b>[ 4 marks ]</b><br>
+      <tt>int ** <b>allocate</b>(int <i>n</i>)</tt>
+      <UL>
+          which allocates the <i>2n-1</i> x <i>n</i> structure
+          discussed above. If <i>n == 0</i> then the
+          address <tt>0x0000</tt> (<i>NULL</i>) is returned.
+          This function also initializes the elements of
+          the structure, as shown on the figure. The elements
+          of the first row are <i>10n + 1</i>, <i>10n + 2</i> ....
+          <i>10n + n</i>. The elements of the second row are
+          <i>10(n-1) + 1</i> ... <i>10(n-1) + n-1</i> and
+          in general if <i>k <= n</i> then the elements of
+          the <i>k</i><sup>th</sup> row are
+          <i>10(n-k+1) + 1</i> ... <i>10(n-k+1) + (n-k+1)</i>.
+          As the rows below the <i>n</i><sup>th</sup> row are
+          physically the same as some row above, they are
+          automatically initialized.<br><br>
+      </UL>
+
+      <b>[ 3 marks ]</b><br>
+      <tt>void <b>print</b>(ostream& <i>os</i>, int** <i>M</i>, int <i>n</i>)</tt> 
+      <UL>
+          prints the <i>2n-1</i> x <i>n</i> structure <i>M</i> on the output 
+          stream <i>os</i>. For the structure depicted above the output 
+          would be:
+          <PRE>
+  41 42 43 44
+  31 32 33
+  21 22
+  11
+  21 22
+  31 32 33
+  41 42 43 44
+          </PRE> 
+          <br><br>
+      </UL> 
+
+      <b>[ 3 marks ]</b><br>
+      <tt>void <b>deallocate</b>(int**& <i>M</i>, int <i>n</i>)</tt>
+      <UL>
+          deallocates all dynamic memory associated with the
+          <i>2n-1</i> x <i>n</i> structure <i>M</i> and sets
+          <i>M</i> to hold the address <tt>0x0000</tt>.<br><br>
+      </UL>
+    
+  
+   </UL>
+   The prototypes of the three functions must be in the header file
+   <A HREF="bonus.h">bonus.h</A>. The implementation of these
+   functions must be in the file called <tt>bonus.cpp</tt>.
+   The file which tests these functions must be called
+   <A HREF="bonusmain.cpp">bonusmain.cpp</A>. Feel free to use
+   mine, because that is what the marker will use. This what 
+   the <A HREF="bonus.txt">output</A> should look like with my
+   test program.
+   </UL>
+
+<b>What do I hand in???</b>
+<UL>
+   A diskette with only the following files:
+   <UL>
+       <LI><A HREF="me.h">me.h</A> (<i>Part A</i>)
+       <LI>me.cpp (<i>Part A</i>)
+       <LI><A HREF="ass1.h">ass1.h</A> (<i>Part B & C</i>)
+       <LI>ass1.cpp (<i>Part B & C</i>)
+       <LI>test.cpp (<i>Part D</i>)
+   </UL>
+   Printouts of <i>only</i> the following files:
+   <UL>
+       <LI>me.cpp
+       <LI>ass1.cpp
+       <LI>test.cpp
+   </UL>
+   <br><br>
+   If you did the bonus, also have the following files on the diskette:
+   <UL>
+       <LI><A HREF="bonus.h">bonus.h</A>
+       <LI>bonus.cpp
+       <LI><A HREF="bonusmain.cpp">bonusmain.cpp</A>
+   </UL> 
+   A printout of <tt>bonus.cpp</tt> and your drawing of the memory layout.
+      
+   <br><br>
+   <b>Absolutely nothing else! Do not have any other files on the diskette!
+      Those generated by Borland should be removed. Do not hand in
+      printouts of files not explicitly asked for!</b>
+       
+</UL>
+
+<H1>Good Luck!!!</H1>
+
+</BODY>
+</HTML>
+

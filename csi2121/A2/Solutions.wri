@@ -1,0 +1,172 @@
+Solution
+Assignment #2
+Programming Exercise 1
+
+.386
+.model flat
+include csi2121.inc
+
+.data
+msg1 db "Enter a hex number as a string of at most 32 chars:",10,0
+msg2 db "This number in binary is:",10,0
+errmsg db "Wrong input, now exiting...",0
+hex_str db 33 dup(0) ;user hex string
+
+.code
+main:
+	putstr msg1
+	mov esi,offset hex_str	
+	xor ecx,ecx ;count of input char
+next_in:
+	getch ;char in AL
+	cmp eax,10 ;end of input?
+	je displ_msg2 ;yes, then convert to bool
+	cmp ecx,32 ;limit reached?
+	je displ_msg2 ;yes, then convert to bool
+	cmp eax,30h ;below 30h?
+	jb err
+	cmp eax,46h ;above 46h?
+	ja err
+	cmp eax,41h 
+	jae digit_ok
+	cmp eax,39h
+	jbe digit_ok
+	jmp err
+digit_ok:
+	;a hex digit has been entered
+	inc ecx
+	mov [esi],al
+	inc esi ;point to next byte
+	jmp next_in
+
+displ_msg2:
+	putstr msg2
+	or ecx,ecx ;no hex digit entered?
+	jz exit ;yes, then print nothing
+	mov esi,offset hex_str
+
+get_next_hex:
+	mov al,[esi]
+	cmp al,39h ;is it a number?
+	jbe number ;yes
+	;no, it is a letter
+	sub al,37h ;ASCII letter to numerical value
+	jmp display_bits
+number:
+	and al,0Fh ;ASCII to numerical value
+display_bits:
+	shl al,4 ;push value into most significant 4-bits
+	mov ecx,4 ;4 bits to display
+next_bit:
+	rcl al,1 ;CF gets the bit to be dislayed
+	jc one
+	putch '0'
+	jmp over
+one:
+	putch '1'
+over:
+	loop next_bit
+	
+	inc esi  ;point to next char
+	cmp byte ptr [esi],0 ;end of string reached?
+	jne get_next_hex ;no, get next hex char
+
+exit:
+	ret 
+
+err:
+	putstr errmsg
+	jmp exit
+end
+
+Programming Exercise 2
+.386
+.model flat
+include csi2121.inc
+
+.data
+msg1 db "Enter a boolean number as a string of at most 128 chars:",10,0
+msg2 db "This number in hexadecimal is:",10,0
+errmsg db "Wrong input, now exiting...",0
+left_pad db 3 dup('0') ;left padding to obtain a number of digits multiple of 4
+bool_str db 129 dup(0) ;user bool string
+
+.code
+main:
+	putstr msg1
+	mov esi,offset bool_str	
+	xor ecx,ecx ;count of input char
+next_in:
+	getch ;char in AL
+	cmp eax,10 ;end of input?
+	je displ_msg2 ;yes, then convert to hex
+	cmp ecx,128 ;limit reached?
+	je displ_msg2 ;yes, then convert to hex
+	cmp eax,30h ;below 30h?
+	jb err
+	cmp eax,31h ;above 31h?
+	ja err
+	;a boolean digit has been entered
+	inc ecx
+	mov [esi],al
+	inc esi ;point to next byte
+	jmp next_in
+
+displ_msg2:
+	putstr msg2
+	or ecx,ecx ;no bool digit entered?
+	jz exit ;yes, then print nothing
+
+	mov esi,offset bool_str
+	;number of bool digits a multiple of 4?
+	mov ebx,ecx
+	and ebx,00000003h ;keep only last 2 bits
+	or ebx,ebx 
+	jz get_hex_val ;yes then no left padding needed
+
+	;the number of '0's that we need to 
+	;insert to the left of bool_str to 
+	;obtain a multiple of 4 boolean digits
+	;is given by 4 - the number in the last 2 bits of ecx
+	mov ecx,4
+	sub ecx,ebx ;EBX = number of left padding '0's
+	sub esi,ecx 
+	;ESI now points (in left-pad) to a bool string
+	;containing a multiple of 4 bool chars
+
+get_hex_val:
+	xor eax,eax ;al will hold hex value
+	mov ecx,4 ;get next 4 bool digit
+fourchars:
+	mov bl,[esi] ;one bool digit into bl
+	and bl,1 ;convert to binary value
+	shl al,1 ;make room for next bit
+	or al,bl ;insert value into lsb of al
+	inc esi
+	loop fourchars
+to_ASCII:   
+	;hex value is now in AL
+	cmp al,9
+	ja letter
+	add al,30h  ;conv numerical val to ASCII 
+	jmp display
+letter:
+	add al,37h ;conv numerical val to ASCII 
+display:
+	putch eax
+	cmp byte ptr [esi],0 ;next char is end-of-string?
+	jne get_hex_val ;no, so get next 4 digits	
+exit:
+	ret 
+
+err:
+	putstr errmsg
+	jmp exit
+end
+
+
+
+
+
+
+  

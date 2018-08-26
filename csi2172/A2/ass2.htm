@@ -1,0 +1,494 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>ASSIGNMENT #2</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+<H1> ASSIGNMENT #2</H1>
+
+Read the <A HREF="../../rules">general rules</A> about submitting course
+work!
+Also read ``<A HREF="../../rules/#marker">how can I make my marker's life
+easier</A>'' and ``<A HREF="../../rules/#nocompile">what if my code does
+not compile?</A>''.
+
+<H2><FONT COLOR=red>Due date:</FONT></H2>
+  <UL>
+  <H4>
+     November 16<sup>th</sup>, by 18:00 in the hand in boxes located on the 
+     3<sup>rd</sup> floor of McDonald building. <br>
+     <FONT COLOR=red>Do Question #1 part A before the Midterm!</FONT>
+  </H4>
+  </UL>
+
+<hr>
+
+<H2>Question #1 [ 20 marks ] (<i>No code!</i>)</H2>
+
+    <PRE>
+
+    trace  [ .exe ]
+     |
+     +-- <A HREF="trace/trace.cpp">trace.cpp</A>
+
+    </PRE>
+
+    Running the above program produces this 
+    <A HREF="trace/trace.out">output</A> using Borland 5.
+
+<H3> part A [ 10 marks ]</H3>
+
+   Explain each line of the 42 lines of output in a word or so.
+   For example:
+   <PRE>
+
+      lines 1-2:    a1 is constructed and every instance of A
+                    has an X object which is constructed by its
+                    default constructor
+
+      lines 3-4:    same as 1,2 but for a2
+   
+      lines 5-8:    a3 is constructed: the default constructor
+                    of A is called on each slot (like 1-2)
+
+      <FONT COLOR=red>you continue ...</FONT>
+     
+    </PRE>
+
+
+<H3> part B [ 10 marks ]</H3>
+
+    Explain each line of the 41 lines of output.
+
+<H3>HINTS</H3>
+
+<H3><FONT COLOR=red>USE THE DEBUGGER!!!</FONT></H3>
+
+<H2>Question #2 [ 80 marks ]</H2>
+
+This exercise is meant to demonstrate object oriented development (<i>
+with appropriate object oriented design and model</i>). That is,
+you are given an existing application and you have to add features.
+As we have discussed a good design can accommodate feature extensions
+without code rewrite! -- instead we <i>subclass</i>. To make it even
+more realistic, you are given the already existing classes bundled
+into a 
+  <A HREF="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2.lib">library</A>
+with the header files 
+   <A HREF="../sol2/expression.h">expression.h</A>,
+   <A HREF="../sol2/parser.h">parser.h</A>,
+   <A HREF="../sol2/lexer.h">lexer.h</A>
+and an API (<i>Application Programming Interface</i>) 
+   <A HREF="api/">documentation</A>, but you cannot see the source code! (
+<i>if you bought a commercial package -- say from Microsoft -- this is 
+exactly what you would get</i>).
+<H2>The Microsoft Visual C++ 6.0 version of the 
+  <A HREF="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2VC6.lib">ass2VC6.lib</A></H2>
+
+  
+<br><br>
+
+As it stands, you can put together an application in a matter of 
+<A HREF="simple.cpp">few lines</A> which can evaluate constants
+(<i>and parenthesized constants</i>). In other words, not very 
+useful. To make it useful, you are to implement some operators
+and functions so it can carry out calculations. As promised,
+you will not have to modify code <b>at all</b>, just create a new
+subclass for each operator and function and it should all work.
+<br>
+<br>
+<H3>Implement the following operators and functions</H3>:
+<br><br>
+<CENTER>
+  <TABLE BORDER=1>
+  <TR>
+     <TD ALIGN=CENTER><b>Name</b></TD>
+     <TD ALIGN=CENTER><b>Type</b></TD>
+     <TD ALIGN=CENTER><b>Syntax</b></TD>
+     <TD ALIGN=CENTER><b>Result</b></TD>
+     <TD ALIGN=CENTER><b>Marks</b></TD>
+  </TR>
+  <TR>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>unary +</TD>
+     <TD ALIGN=CENTER>unary</TD>
+     <TD ALIGN=CENTER><tt><b>+</b> <i>e</i></tt></TD>
+     <TD ALIGN=CENTER><tt><i>e</i></tt></TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>unary -</TD>
+     <TD ALIGN=CENTER>unary</TD>
+     <TD ALIGN=CENTER><tt><b>-</b> <i>e</i></tt></TD>
+     <TD ALIGN=CENTER><tt><i>-e</i></tt> (<i>e</i> negated)</TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>addition</TD>
+     <TD ALIGN=CENTER>binary</TD>
+     <TD ALIGN=CENTER><tt><i>e<sub>1</sub><b>+</b><i>e<sub>2</sub></i>
+                      </tt></TD>
+     <TD ALIGN=CENTER>sum of <i>e<sub>1</sub></i> and <i>e<sub>2</sub></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>subtraction</TD>
+     <TD ALIGN=CENTER>binary</TD>
+     <TD ALIGN=CENTER><tt><i>e<sub>1</sub><b>-</b><i>e<sub>2</sub></i>
+                      </tt></TD>
+     <TD ALIGN=CENTER><i>e<sub>1</sub></i> minus <i>e<sub>2</sub></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>multiplication</TD>
+     <TD ALIGN=CENTER>binary</TD>
+     <TD ALIGN=CENTER><tt><i>e<sub>1</sub><b>*</b><i>e<sub>2</sub></i>
+                      </tt></TD>
+     <TD ALIGN=CENTER><i>e<sub>1</sub></i> times <i>e<sub>2</sub></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>division</TD>
+     <TD ALIGN=CENTER>binary</TD>
+     <TD ALIGN=CENTER><tt><i>e<sub>1</sub><b>/</b><i>e<sub>2</sub></i>
+                      </tt></TD>
+     <TD ALIGN=CENTER><i>e<sub>1</sub></i> divided by <i>e<sub>2</sub></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>power</TD>
+     <TD ALIGN=CENTER>binary</TD>
+     <TD ALIGN=CENTER><tt><i>e<sub>1</sub><b>^</b><i>e<sub>2</sub></i>
+                      </tt></TD>
+     <TD ALIGN=CENTER><i>e<sub>1</sub></i> raised to <i>e<sub>2</sub></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>10</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>sin</TD>
+     <TD ALIGN=CENTER>function</TD>
+     <TD ALIGN=CENTER><tt><i>sin(e)</i></tt></TD>
+     <TD ALIGN=CENTER><i>sin</i> of <i>e</i></i>
+     </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>cos</TD>
+     <TD ALIGN=CENTER>function</TD>
+     <TD ALIGN=CENTER><tt><i>cos(e)</i></tt></TD>
+     <TD ALIGN=CENTER><i>cos</i> of <i>e</i></i> </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>tan</TD>
+     <TD ALIGN=CENTER>function</TD>
+     <TD ALIGN=CENTER><tt><i>tan(e)</i></tt></TD>
+     <TD ALIGN=CENTER><i>tangent</i> of <i>e</i></i> </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>_e</TD>
+     <TD ALIGN=CENTER>function</TD>
+     <TD ALIGN=CENTER><tt><i>_e()</i></tt></TD>
+     <TD ALIGN=CENTER><i>exp(1)</i> = 2.71828 </TD>
+     <TD ALIGN=RIGHT><b>6</b></TD>
+  </TR>
+  <TR>
+     <TD ALIGN=CENTER>log</TD>
+     <TD ALIGN=CENTER>function</TD>
+     <TD ALIGN=CENTER><tt><i>log(a,b)</i></tt></TD>
+     <TD ALIGN=CENTER><i>base <tt>b</tt> logarithm of <tt>a</tt></i> </TD>
+     <TD ALIGN=RIGHT><b>10</b></TD>
+  </TR>
+  </TABLE>
+</CENTER>
+<br><br>
+For each you have to declare a class and 
+<UL>
+   <LI><i>implement</i> the constructor
+   <LI><i>implement</i> the copy constructor
+   <LI><i>implement</i> the assignment operator
+   <LI><i>implement</i> the destructor
+   <LI><i>overload</i>  <tt>expression* expression::<A HREF="api/expression/#clone"</A><b>clone</b></A>() const</tt></A>
+   <LI><i>overload</i>  <tt>void expression::<A HREF="api/expression/#print"</A><b>print</b></A>(ostream&) const</tt></A>
+   <LI><i>overload</i>  <tt>double expression::<A HREF="api/expression/#evaluate"</A><b>evaluate</b></A>() const</tt></A>
+   <LI><i>implement</i> an instantiator
+
+</UL>
+
+The class prototypes of the expressions indicated as <i>unary</i> should
+be put to the file named <tt>unary.h</tt> and implemented in the
+file named <tt>unary.cpp</tt>. 
+   
+The class prototypes of the expressions indicated as <i>binary</i> should
+be put to the file named <tt>binary.h</tt> and implemented in the
+file named <tt>binary.cpp</tt>. 
+
+The class prototypes of the expressions indicated as <i>function</i> should
+be put to the file named <tt>function.h</tt> and implemented in the
+file named <tt>function.cpp</tt>. 
+
+<tt>main</tt> program must be in the file named <tt>main.cpp</tt>
+(<i>feel free to edit <A HREF="../sol2/simple.cpp">simple.cpp</A>,
+ also see the hints!</i>). <tt>main</tt> must call as its first line
+<tt>me(cout)</tt> which you implemented for the last assignment!
+
+
+<FONT COLOR=red><H3>HINTS</H3></FONT>
+
+It is very rare that a developer is assigned the task to single handedly
+design and develop an application from scratch not even using any third
+party products (<i>in this case software libraries</i>). It is much more
+realistic that the task is to be part of a team and to enhance, redevelop,
+rewrite or extend an existing application and to use possibly many 
+commercially available software products (<i>like the RSA cryptography 
+libraries, OpenGL graphics libraries, networking libraries, database
+connectivity and interface libraries, ... and so on!</i>). This also 
+implies that the developer 
+<UL>
+   <LI>will not have access to all the source code
+   <LI>may not be knowledgeable or competent in all components
+   <LI>will use functions, classes and methods from libraries which he
+       would not be capable to implement
+   <LI>must read documentation and selectively choose <i>only</i> information
+       he needs and skip everything else
+</UL>
+
+In this respect this exercise is very different from typical academic
+assignments where everything is developed from scratch. C++ (and C) was
+developed to build huge software projects with multi site teams. This 
+exercise hence is more geared towards software engineering and to
+simulate software development. These hints apply for "real" software
+development as well
+<UL>
+   <LI>try to draw or otherwise visualize what you have to do,
+       do not start thinking in terms of code
+   <LI>it is ok that you do not understand how a lexer or a parser works,
+       this assignment does not require it!
+       (<i>people who write database interfaces most probably have
+       no idea how to implement efficient "hash-joins", yet they 
+       <b>use</b> it all the time!</i>)
+   <LI>API documentation, reference books, collections of poems, the
+       yellow pages and the TV-guide are not meant to be read from
+       cover to cover. These books are meant to provide information
+       on selected topics. Browse through the API docs (<i>do not
+       even bother with lexer!</i>) and select methods that you think
+       you may need.
+   <LI>Reference books and API docs most often come with examples
+       and sample code. Well here we go:
+
+   <PRE>
+        sample.exe [ .exe ]
+          |
+          +- <A HREF="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2.lib">ass2.lib</A> [ .lib ]  (<FONT COLOR=green><A HREF="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/ass2v501.lib">ass2v501.lib</A></FONT>)
+          |
+          +- <A HREF="../sol2/expression.h">expression.h</A> [ .h ]
+          |
+          +- <A HREF="../sol2/parser.h">parser.h</A> [ .h ]
+          |
+          +- <A HREF="../sol2/lexer.h">lexer.h</A> [ .h ]
+          |
+          +- <A HREF="../sol2/sample.h">sample.h</A> <FONT COLOR=green>[ .h ]</FONT>
+          |
+          +- <A HREF="../sol2/sample.cpp">sample.cpp</A> <FONT COLOR=green>[ .cpp ]</FONT>
+          |
+          +- <A HREF="../sol2/sm.cpp">sm.cpp</A> <FONT COLOR=green>[ .cpp ]</FONT>
+
+   </PRE>
+       <A HREF="../sol2/sample.h"><tt>sample.h</tt></A>
+       contains the declarations of two binary operators
+       (<i><tt>mod</tt> and <tt>div</tt></i>) one unary operator
+       (<i><tt>@</tt></i>) which truncates floating point numbers to
+       integers and one function <tt>hyp</tt> which can be used to
+       calculate the hypotenuse of a triangle. 
+       <A HREF="../sol2/sample.cpp"><tt>sample.cpp</tt></A>
+       implements these operators and functions. 
+       <A HREF="../sol2/sm.cpp"><tt>sm.cpp</tt></A> is has <tt>main</tt>
+       and all the lines that have to be added to 
+       <A HREF="../sol2/simple.cpp"><tt>simple.cpp</tt></A> have 
+       the comment <tt><FONT COLOR=green>// NEW</FONT></tt>.
+
+       After compiling <tt>sample</tt> you can have the following session:
+       <PRE>
+         C:>sample
+         <FONT COLOR=green>8 div 3;</FONT>
+         8 div 3 == 2
+         <FONT COLOR=green>8 mod 3;</FONT>
+         8 mod 3 == 2
+         <FONT COLOR=green>101 div 20 mod 3;</FONT>
+         101 div 20 mod 3 == 2
+         <FONT COLOR=green>101 div (20 mod 3);</FONT>
+         101 div (20 mod 3) == 50
+         <FONT COLOR=green>@3.4;</FONT>
+         @3.4 == 3
+         <FONT COLOR=green>hyp(300 div 10 div 3, @hyp(7, 32 div 9));</FONT>
+         hyp(300 div 10 div 3,@hyp(7,32 div 9)) == 100.245
+         <FONT COLOR=green>exit;</FONT>
+       </PRE>
+
+       What you type is in <FONT COLOR=green>green</FONT>. 
+
+      <LI>One more hint: the implementation of the unary operators,
+          the binary operators and the functions will be so strikingly
+          similar that they may only differ in one word or so. Well,
+          this should give you the hint that maybe you should create
+          your own hierarchies of unary, binary and function expressions
+          to save typing (<i>or cut-and-paste</i>). 
+</UL> 
+
+<H2>BONUS 1 [ 25 marks ]</H2>
+   The parser is capable of instantiating variables but the context
+   class is not capable to do anything with them! Read the API
+   docs for <A HREF="api/expression/#context">context</A> and create
+   a subclass of <tt>context</tt> called <tt>varcontext</tt> and
+   overload the methods so it will be capable of storing and looking up
+   variables. 
+   <br><br>
+   Implement function <tt>declare</tt> (<i> a subclass of 
+   <tt>expression</tt></i>) which can take 0 or more arguments,
+   and is used to declare variables in the context. The value
+   returned by <tt>declare</tt> is 0
+   <br><br>
+   Implement the binary operator <tt>assignment</tt> (<i> a subclass of
+   <tt>expression</tt></i>) which is is used to assign the right-hand-side
+   to the <i>variable</i> on the left hand side. When registered with
+   the parser, make sure that <tt>assignment</tt> has lower precedence
+   than any other operator.
+   <br><br>
+   You should be able to have the following session with your compiled
+   program:
+   <PRE>
+      C:>bonus
+      <FONT COLOR=green>declare(A,B);</FONT>
+      declare(A,B) == 0
+      <FONT COLOR=green>A = (B = 8) ^ (1/3);</FONT>
+      A=(B=8)^(1/3) == 2
+      <FONT COLOR=green>B;</FONT>
+      B == 8
+      <FONT COLOR=green>D = declare(D) + 10*(A + log(B,2));</FONT>
+      D=declare(D)+10*(A+log(B,2)) == 50
+      <FONT COLOR=green>exit;</FONT>
+   </PRE>
+   Put the prototype of the class varcontext
+   in the file named <tt>varcontext.h</tt>
+   and implement it in <tt>varcontext.cpp</tt>. Put the prototype
+   of <tt>assignment</tt> and <tt>declare</tt> in the file
+   named <tt>contextfun.h</tt> and implement them in <tt>contextfun.cpp</tt>.
+   Also hand in the modified <tt>main</tt> in <tt>main2.cpp</tt>.
+
+<H2>BONUS 2 [ 5 marks ] (<i>and no code!</i>)</H2>
+   It is common with object oriented programs that they are ``overdesigned''.
+   The designers often put in so called ``hooks'' into the application 
+   because they anticipate that it is likely that the application will be
+   extended along those lines. This application was also designed 
+   that way.
+   <CENTER>
+      <A HREF="des.gif"><IMG SRC="des.gif" WIDTH=80% BORDER=0></A>
+   </CENTER>
+   Originally only constants and variables are implemented
+   but all kinds of other expressions can be added as far
+   as they implement the methods <tt>evaluate</tt> and
+   <tt>print</tt>. Also, the hook for having variables is there.
+   The parser knows how to instantiate them and a simple
+   (<i>in fact useless</i>) <tt>context</tt> class is provided
+   so subclasses implementing its methods will be able to
+   handle variables. 
+   <br><br>
+   A design said to be saturated when it can no longer handle
+   easy feature extensions just by subclassing. This model
+   can easily be extended by adding new expressions (like unary and
+   binary operators and functions) and by providing subclasses of
+   context to handle variables. 
+   <br><br>
+   Your task for this exercise is to come up with some
+   simple idea to extend this model which would require
+   some rework (adding more subclasses of expression and
+   context do not require model rework!) and suggest
+   a solution (<i>no code</i>) strategy. You are limited
+   to the maximum of half a page typed text or 12 sentences
+   and one diagram (<i>like the one above</i>) which shows
+   where your extensions lie!
+   <br><br>
+   <i>Large companies often have departments called
+   ``Venture Capitals'' who investigate and occasionally
+   finance new development and enhancment ideas. They
+   evaluate hundreds or possibly more ideas every so often.
+   The first pass is usually a <b>one page</b> description
+   which is strictly enforced. The motto is "get me interested"
+   and if it sounds good it will be further investigated. 
+   The space restrictions on this question will be enforced
+   by the marker so be very brief and clear, your diagram 
+   should say it all and your text should only provide support
+   for your figure.</i>
+   
+   
+
+<hr>
+<H3>DOWNLOAD THE EXECUTABLE OF THE MODEL SOLUTION (<i>INCLUDES
+BONUS</i>)</H3>
+<H4>
+  <A HREF="ftp://ftp.csi.uottawa.ca/pub/courses/Fall/csi2172A/assignments/ass2/eval.exe">eval.exe</A></H4>
+<hr>
+<b>What do I hand in???</b>
+<UL>
+   Your answer for Question 1: make sure it is neatly
+   written if not typed. Be very brief!<br><br>
+   
+   A diskette with only the following files:
+   <UL>
+       <LI>me.cpp 
+       <LI>unary.h
+       <LI>unary.cpp
+       <LI>binary.h
+       <LI>binary.cpp
+       <LI>function.h
+       <LI>function.cpp
+       <LI>main.cpp 
+   </UL>
+   Printouts of <i>only</i> the following files:
+   <UL>
+       <LI>unary.h
+       <LI>unary.cpp
+       <LI>binary.h
+       <LI>binary.cpp
+       <LI>function.h
+       <LI>function.cpp
+       <LI>main.cpp 
+   </UL>
+   <br><br>
+   If you did bonus 1, also have the following files on the diskette:
+   <UL>
+       <LI>varcontext.h
+       <LI>varcontext.cpp
+       <LI>contextfun.h
+       <LI>contextfun.cpp
+       <LI>main2.cpp
+   </UL> 
+   A printouts of:
+   <UL>
+       <LI>varcontext.h
+       <LI>varcontext.cpp
+       <LI>contextfun.h
+       <LI>contextfun.cpp
+       <LI>main2.cpp
+   </UL>
+   <br><br>
+   If you also did bonus 2, hand in your maximum half a page idea
+   with one neatly drawn diagram (<i>you do not have to use
+   the computer to draw, but please do use a ruler and pen</i>).
+
+      
+   <br><br>
+   <b>Absolutely nothing else! Do not have any other files on the diskette!
+      Those generated by Borland should be removed. Do not hand in
+      printouts of files not explicitly asked for!</b>
+       
+</UL>
+
+<H1>Good Luck!!!</H1>
+
+</BODY>
+</HTML>
+

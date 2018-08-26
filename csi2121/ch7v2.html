@@ -1,0 +1,315 @@
+<HTML>
+<HEAD>
+<META NAME="Generator" CONTENT="Corel WordPerfect 8">
+<TITLE></TITLE>
+</HEAD>
+<BODY TEXT="#000000" LINK="#0000ff" VLINK="#551a8b" ALINK="#ff0000" BGCOLOR="#ffffff">
+
+<P><FONT SIZE="+3"><STRONG>Question 1</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman" SIZE="+1">Some things we need to remember about normalized and denormalized forms:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">Normalized: We need our number to be in the form 1.f * 2<SUP>e</SUP></FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">Denormalized: We need our number in the form 0.f * 2<SUP>-127</SUP></FONT></TD></TR></TABLE>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman" SIZE="+1">If you are unsure wether the number is in normalized or denormalized form,
+perform a check. Remember that the ranges for e are:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">-128 &lt; e &lt; 128 for normalized</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">e &lt; -127 for denormalized</FONT></TD></TR></TABLE>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman" SIZE="+1">The check is performed as follows:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1.f * 10<SUP>i</SUP> = 1.m * 2<SUP>j</SUP></FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">j = i/log 2</FONT></TD></TR></TABLE>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman" SIZE="+1">If j falls outside of the range of e for normalized form, we must use denormalized
+form.</FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman" SIZE="+1" COLOR="#ff0000">Hint:</FONT><FONT FACE="Times New Roman" SIZE="+1"> It is a good idea to perform this check for small number, as it will save you a
+lot of time.</FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT SIZE="+2"><STRONG>1.0:</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">Intuitively, this is</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">(-1)<SUP>0</SUP> * 1.0 * 2<SUP>0</SUP></FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">s: 0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">f: 0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">e: 0</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">Remember that we don't store e, but rather e'.</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">e' = e + 127 = 127</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">This gives us:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0 01111111 00000000000000000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">00111111 100000000 00000000 000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">3    F    8   0    0    0    0    0</FONT></TD></TR></TABLE>
+
+<BR WP="BR1"><BR WP="BR2">
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman"></FONT><FONT SIZE="+2"><STRONG>0.5:</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">The number is postive, so s: 0</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">The next thing we need to do is to convert 0.5 into its binary equivalent:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1"></FONT><FONT FACE="Times New Roman" SIZE="+1">MSB</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">Remainder</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1"> .5 * 2 = 1</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So, 0.5 = (0.1)<SUB>2</SUB></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">However, recall that we need the number in the form 1.f * 2<SUP>e</SUP></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So, we need to multiply this by 2. This gives us 1.0 * 2<SUP>-1</SUP></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So,     f:0       e:-1 -&gt; e' = 126</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">This gives us:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0 01111110 000000000000000000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0011 1111 0000 0000 0000 0000 0000 0000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">3    F    0   0    0    0    0    0</FONT></TD></TR></TABLE>
+
+<BR WP="BR1"><BR WP="BR2">
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT SIZE="+2"><STRONG>-83.7:</STRONG></FONT><FONT FACE="Times New Roman" SIZE="+2"><STRONG></STRONG></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">The number is negative, so s: 1</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">We now need to convert 83 into its binary equivalent:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">Number</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">/2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">Remainder</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">83</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">41</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">41</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">20</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">20</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">10</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">10</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">5</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">5</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">Now, let's convert 0.7 into binary</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">Number</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">x2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">&gt;= 1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.7</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.4</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">.8</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.6</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">.6</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">.2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">.4</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">.4</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">.8</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">.8</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.6</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1"></TD>
+<TD></FONT><FONT FACE="Times New Roman" SIZE="+1">repeats</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1"></TD></TR></TABLE>
+
+<P></FONT><FONT FACE="Times New Roman" SIZE="+1">So, this gives us   1010011.10110011001100 etc.</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">But, recall the form we require. We need to multiply this number by 2<SUP>-6</SUP>, giving us:</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">   1.01001110110011001100110 * 2^6 </FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So:     e:6 -&gt; e'=133</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">This gives us:</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1 10000101 01001110110011001100110</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1100 0010 1010 0111 0110 0110 0110 0110</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">C   2     A    7    6    6    6    6</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1"> </FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT SIZE="+2"><STRONG>1.1*10<SUP>-41</SUP></STRONG></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">You can check that this is indeed a denormalized number by noticing that
+10^{-41} =2^{e} for some e. Solving for e gives:</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">-41 = e x log(2) where the log is a base-10 log. This gives e = -136 - y for (0 &lt; y &lt;</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">1)</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">Hence e &lt; -127,  so it is definitely a denormalized number.</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">Now, to find the IEEE representation of 1.1E-41, we must convert it to the form
+0.f x2<SUP>-127</SUP></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">1.1E-41 = 1.1 x 10<SUP>-41</SUP> = 1.1 x 2<SUP>{e}</SUP></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">again, solving for e gives: e = -41/log(2) = -136.19905189... = -127 -
+9.19905189...(this is precise enough)</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So 1.1E-41 = 1.1 x 2<SUP>{-9.19905189..}</SUP> x 2<SUP>{-127}</SUP> = 0.00187155301857 x 2<SUP>{-127}</SUP></FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">Number</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">x2</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">&gt;= 1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.00187155301857</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.00374310603714</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.00374310603714</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.00748621207428</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.00748621207428</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.01497242414856 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.01497242414856 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.02994484829712 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.02994484829712 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.05988969659424</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.05988969659424</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.11977939318848</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.11977939318848</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.23955878637696 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.23955878637696 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.47911757275392 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.47911757275392 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.95823514550784</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.95823514550784</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.91647029101568</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1.91647029101568</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.83294058203136</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1.83294058203136</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.66588116406272</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1.66588116406272</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1.33176232812544</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1.33176232812544</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.66352465625088</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0.66352465625088</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1"></TD>
+<TD></FONT><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">I got tired at this point.</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">So, our (almost) final answer is: 1 00000000 00000000011110....</FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT SIZE="+3"><STRONG>Question 2:</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<P><FONT FACE="Times New Roman">These questions are simply done in the reverse order of those above. As such, I haven't explained
+the steps.</FONT></P>
+
+<P><FONT SIZE="+2"><STRONG>45AC0000h:</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">0100 0101 1010 1100 0000 0000 0000 0000</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">10001011</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">01011000000000000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1"></TD>
+<TD></FONT><FONT FACE="Times New Roman" SIZE="+1">139</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">.34375</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">  </FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">E' = 139 -&gt; E = 12</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">#: 1.34375 * 2^12 = 5504</FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT FACE="Times New Roman"></FONT><FONT SIZE="+2"><STRONG>C4800000h:</STRONG></FONT><FONT FACE="Times New Roman"></FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">1100 0100 1000 0000 0000 0000 0000 0000</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">1</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">10001001 </FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">000000000000000000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1"></TD>
+<TD></FONT><FONT FACE="Times New Roman" SIZE="+1">137</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">E' = 137 -&gt; E = 10</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">#: -( 1 * 2^10) = -1024</FONT></P>
+
+<BR WP="BR1"><BR WP="BR2">
+<P><FONT SIZE="+2">3FE00000h:</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">0011 1111 1110 0000 0000 0000 0000 0000</FONT></P>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1">0</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">01111111</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">11000000000000000000000</FONT></TD></TR>
+<TR VALIGN="TOP"><TD><FONT FACE="Times New Roman" SIZE="+1"></TD>
+<TD></FONT><FONT FACE="Times New Roman" SIZE="+1">127</FONT></TD>
+<TD><FONT FACE="Times New Roman" SIZE="+1">0.75</FONT></TD></TR></TABLE>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">E' = 127 -&gt; E = 0</FONT></P>
+
+<P><FONT FACE="Times New Roman" SIZE="+1">#: 1.75 * 2^0 = 1.75</FONT></P>
+
+</BODY>
+</HTML>

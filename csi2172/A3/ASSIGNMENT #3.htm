@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0073)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/ -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>ASSIGNMENT #3</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>ASSIGNMENT #3</H1>Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules">general 
+rules</A> about submitting course work! Also read ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#marker">how 
+can I make my marker's life easier</A>'' and ``<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/rules/#nocompile">what 
+if my code does not compile?</A>''. 
+<H2><FONT color=red>Due date:</FONT></H2>
+<UL>
+  <H4>December 7<SUP>th</SUP>, by 18:00 in the hand in boxes located on the 
+  3<SUP>rd</SUP> floor of McDonald building. <BR><BR><BR><I>Suggested dead-line: 
+  November 26<SUP>th</SUP>, that is you should be able to have it done by then 
+  if you start on it now. Work on it in the labs and ask questions from the TA's 
+  and from me in my office hours, in case you get stuck. <B>If you submit it in 
+  the box by November 26<SUP>th</SUP> 20:00, you get 5 extra marks!</B></I> 
+</H4></UL>
+<HR>
+
+<H1>Priority Queues [ 100 marks ]</H1>For this assignment you will implement a 
+<I>priority queue</I> using a <I>heap</I>. <BR><BR>Priority queues are one of 
+the most used data structures in computer science. They are used in 
+<I>scheduling</I>, <I>distributed computing</I> and <I>telecommunications</I>. 
+<CENTER><A href="ASSIGNMENT #3_files/resource.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/resource.gif" width="80%"></A> </CENTER>Usually 
+priority queues are used to protect a <I>resource</I> or a <I>server</I> to be 
+flooded by an abundance of requests. Those who cannot be serviced immediately 
+must wait in the queue. Unlike a standard queue where the priority is the time 
+of arrival, the objects in the priority queue are assigned priorities which 
+determine the order of service. <BR><BR>It is very often a requirement that the 
+queuing itself should take very little time. Just think about a fast processor 
+with hundreds of threads and processes waiting for time slots. Those CPU cycles 
+are better burnt on the job than looking for the process with the highest 
+priority. <BR><BR>A <I>heap</I> is usually used to implement priority queues, 
+because it is guaranteed that insertions and removal of elements in priority 
+order are never worse than O(<I>log<SUB>2</SUB> n</I>). A heap is a <I>full 
+tree</I> (<I>structural property</I>) which means that every node has exactly 
+two children, except for the leaf nodes who have 0, and the last parent node 
+which may have only 1. The object stored in a node has higher priority than the 
+objects stored in the child nodes (<I>ordering property</I>) and this is 
+recursively true for all nodes. A new node is always inserted to be the 
+<I>next</I> node. However it may be out of order, so the <I>sift_up</I> 
+algorithm is used to fix ordering. <PRE>     <B>function</B> <I>sift_up</I>(<B>node</B> <I>n</I>) {
+        while(<I>n</I> != <I>root</I>) {
+           if (higher_priority(<I>n</I>,<I>parent</I>(<I>n</I>))) {
+              <I>swap</I>(<I>n</I>,<I>parent</I>(<I>n</I>));
+              <I>n</I> = <I>parent</I>(<I>n</I>);
+           } else {
+              <I>break</I>;
+           }
+        }
+     }
+
+  </PRE>
+<CENTER><A href="ASSIGNMENT #3_files/siftup.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/siftup.gif" width="80%"></A> </CENTER>When the highest 
+priority element is removed from the top, the last inserted node gets physically 
+deleted and its value is placed in the root node. This guarantees that the tree 
+is structurally intact but the ordering property may no longer hold. The 
+<I>sift_down</I> algorithm can be used to fix the order again. <PRE>     <B>function</B> <I>sift_down</I>(<B>node</B> <I>n</I>) {
+        while(true) {
+           <B>node</B> <I>child</I> = <I>highest_priority_child</I>(<I>n</I>);
+           if (<I>child</I> == <B>nil</B>) <I>break</I>; 
+           if (<I>higher_priority</I>(<I>child</I>,<I>n</I>)) {
+              <I>swap</I>(<I>n</I>,<I>child</I>));
+              <I>n</I> = <I>child</I>;
+           } else {
+              <I>break</I>;
+           }
+        }
+     }
+  </PRE>
+<CENTER><A href="ASSIGNMENT #3_files/siftdown.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/siftdown.gif" width="80%"></A> </CENTER>While heaps are 
+trees, they are rarely implemented as trees! They are usually implement using 
+arrays. If the nodes of a heap are written out to an array starting at the root 
+level-wise from left to right then if <I>i</I> is the index of a node <I>n</I> 
+<UL>
+  <LI>2*<I>i</I> is the index of he <I>left child</I> of <I>n</I> 
+  <LI>2*<I>i</I>+1 is the index of he <I>right child</I> of <I>n</I> 
+  <LI><I>i</I>/2 is the index of the parent of <I>n</I> </LI></UL>(<I>assuming 
+that the index of the first element is 1 and not 0!</I>) 
+<CENTER><A href="ASSIGNMENT #3_files/heaparray.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/heaparray.gif" width="80%"></A> </CENTER><A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/sheap.cpp">sheap.cpp</A> 
+implements a heap using an array. <BR><BR>Heaps - <I>in practice</I> - often 
+have to be able to accommodate for <I>priority changes</I>. For example, it is 
+possible that an intricate priority policy of a multi-processor computer decides 
+to automatically add a small value to the priority if the process has not been 
+served for 1000 CPU cycles. Such a policy may help to avoid <I>starvation</I>. 
+(<I>Well probably it won't, but this is not a course on Queuing Theory or 
+Simulation</I>!). Anyhow, the policy is independent from the implementation, 
+hence we do not have to be concerned with that, just provide some means that the 
+priority of a node may change asynchronously. Therefore we change the prototype 
+of the push method to <PRE>     <I>handle&amp;</I> heap::<B>push</B>(Object <I>o</I>)
+  </PRE>In other words, <TT><B>push</B></TT> returns a reference to some object 
+which has some information about <I>where</I> object <I>o</I> is stored. Keeping 
+in mind that the position of <I>o</I> <B>will</B> change in the heap, we return 
+a reference rather than a copy. We should also provide a method which can use 
+this <I>handle</I> object to fix <I>o</I>'s position. <PRE>     void <B>priority_change</B>(<I>handle</I>&amp; h)
+  </PRE>That is, we call this method, if <I>o</I>'s priority has changed 
+(<I>assuming that <TT>h</TT> was returned by <B>push</B>(o)</I>). The method can 
+be implemented quite simply. Suppose <TT>handle</TT> implements the 
+<I><TT>index</TT></I> method, which tells where exactly <I>o</I> is stored. <PRE>     void heap::<B>priority_change</B>(<I>handle</I>&amp; h) {
+        <I>sift_down</I>(h.<I>index</I>());
+        <I>sift_up</I>(h.<I>index</I>());
+     }
+  </PRE>depending whether <I>o</I>'s priority was bumped or lowered, one of 
+<TT><I>sift_down</I></TT> or <TT><I>sift_up</I></TT> will do the work. 
+<BR><BR>Often it is also a requirement that if two values have the same priority 
+value, than the one which arrived first also gets served first. This is 
+established by creating a unique <I>id</I> for the nodes. <BR><BR>We also want 
+to use <I>templates</I> to implement the data structure, because it would be 
+wasteful to recode it each time a different type of value is stored in the heap. 
+Because there is no generic way to compare objects to establish their priority, 
+a comparison function must be provided, which returns true if object<SUB>1</SUB> 
+is strictly smaller than object<SUB>2</SUB>. Depending whether smaller is higher 
+priority or larger is higher priority, the user should be specify if ordering is 
+<I>smaller-first</I> or <I>larger-first</I>. 
+<HR>
+For this assignment, your are <B>given</B> the definition of a heap (<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.h">heap.h</A>) 
+and the implementation of most of the interface (<TT>pop</TT>, <TT>push</TT>, 
+...) in terms of primitive abstract methods (<TT>sift_up</TT>, 
+<TT>sift_down</TT>, ...) (<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.cpp">heap.cpp</A>) 
+You are also given the full implementation of a heap - called 
+<TT>linked_heap</TT> - which uses a binary tree to implement the heap (<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/lheap.h">lheap.h</A>, 
+<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/lheap.cpp">lheap.cpp</A>). 
+You are to create another subclass called <TT>array_heap</TT> and implement it 
+using an array. 
+<CENTER><A href="ASSIGNMENT #3_files/heap.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/heap.gif" width="80%"></A> </CENTER>
+<H2>HINTS</H2>You have to implement a constructor, copy constructor, assignment 
+operator and destructor. Other than these, you only have to overload the 
+abstract methods of <TT>heap</TT>, but you may need a few private ones to do 
+that. For example, it is a good idea to implement a <TT>parent</TT>, 
+<TT>left_child</TT> and <TT>right_child</TT> method. You would also have to 
+create a subclass of <TT>handle</TT> let's say <TT>array_node</TT>. This 
+<TT>array_node</TT> should have an instance variable <TT>ind</TT> for index 
+which is of type integer, and stores the actual index where the value is stored 
+in the array. <BR><BR>You should have a protected variable representing the 
+array: <PRE>     ...
+     array_node** array;
+     ...
+  </PRE>That is the array being an array of <TT>array_node</TT>'s. <BR><BR>Start 
+early!!! The syntax may be a bit overwhelming so you may need the TA's help! 
+Syntax on the other hand is never an excuse! You do not want to say to your 
+employer that you cannot do C++ because you do not like the syntax. <BR><BR>It 
+is always a good idea to prototype what you have to do with instance diagrams. 
+These would be drawings of heaps which show the changes as they are pushed and 
+popped. The following two instance diagrams should convince you that working 
+with arrays is easier. (<A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/linkedheapinst.gif">linked 
+heap</A>, <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/arrayheapinst.gif">array 
+heap</A>) 
+<H2>Compiler Settings</H2>You must place a template instantiation line in the 
+file <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/instances.cpp">instances.cpp</A> 
+and you have to include the header <B>and</B> the implementation files! 
+<H2>Files</H2><PRE>      heap.exe
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.h">heap.h</A> [ .h ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/heap.cpp">heap.cpp</A> [ .cpp ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/lheap.h">lheap.h</A> [ .h ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/lheap.cpp">lheap.cpp</A> [ .cpp ]
+        |
+        +-- <B>aheap.h</B> [ .h ] <FONT color=green>you implement it</FONT>
+        |
+        +-- <B>aheap.cpp</B> [ .cpp ] <FONT color=green>you implement it</FONT>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/test.h">test.h</A> [ .h ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/test.cpp">test.cpp</A> [ .cpp ]
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/instances.cpp">instances.cpp</A> <FONT color=green>you modify it</FONT>
+        |
+        +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/assignments/ass3/main.cpp">main.cpp</A> <FONT color=green>you modify it</FONT>
+  </PRE>Your definition of <TT>array_heap</TT> should be in the file 
+<TT>aheap.h</TT> and its implementation in <TT>aheap.cpp</TT> 
+<H1>BONUS 1. [ 25 marks ]</H1>The problem with the array implementation is that 
+the array size is fixed and it may overflow. Implement a subclass of 
+<TT>array_heap</TT> called <TT>dynamic_array_heap</TT> which resizes the array 
+if the size with the next element added would exceed the capacity. If you are 
+clever, you may need to overload one (<I>two at most</I>) methods and the 
+constructors! 
+<CENTER><A href="ASSIGNMENT #3_files/heapbonus.gif"><IMG border=0 
+src="ASSIGNMENT #3_files/heapbonus.gif" width="80%"></A> </CENTER>Put the 
+definition of <TT>dynamic_array_heap</TT> in the file <TT>daheap.h</TT> and its 
+implementation in the file <TT>daheap.cpp</TT> and modify your test file, 
+<TT>dmain.cpp</TT> accordingly. Your test should <I>prove</I> that you 
+implementation can handle such overflows! 
+<H1>BONUS 2. [ 5 marks ]</H1>After you implemented your assignment. You may 
+wonder why would anyone implement a <TT>linked_heap</TT> when it is much more 
+complicated than using an array. Type a half page point form report which 
+describes in what circumstances <TT>array_heap</TT>, <TT>dynamic_array_heap</TT> 
+or <TT>linked_heap</TT> would have superior performance over the others. 
+<H1>What Do I hand in?</H1>
+<UL>
+  <LI>aheap.h 
+  <LI>aheap.cpp 
+  <LI>instances.cpp 
+  <LI>main.cpp <BR><BR>
+  <LI>daheap.h (<I>in case you did the bonus</I>) 
+  <LI>daheap.cpp (<I>in case you did the bonus</I>) </LI></UL>
+<H1>Good Luck!!!</H1></BODY></HTML>

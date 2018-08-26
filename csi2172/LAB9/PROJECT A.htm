@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0084)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA.html -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>PROJECT A</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>PROJECT A</H1>
+<H2><FONT color=red>ARITHMETIC EXPRESSIONS</FONT></H2>
+<HR>
+
+<H2>WHAT DO I HAVE TO DO?</H2>
+<UL>
+  <LI>You implement an <I>arithmetic expression</I> evaluator/parser. 
+  <LI>[8 marks] <B>First</B> you implement a hierarchy of <I>unary</I> and 
+  <I>binary</I> operator and <I>function</I> expressions. You write a program to 
+  test that your implementation is robust and "bug free". 
+  <LI>[4 marks] <B>Second</B> you implement a <I>parser</I>, which can read such 
+  expressions from an input stream and can instantiate expression objects. You 
+  write a test program, which reads expressions from the console (<I>MS-DOS</I>) 
+  prompt and evaluates them. 
+  <LI>[2 marks] for some <B>bonus</B>, you can figure out how to make sure that 
+  the precedence of the operators is observed, in other words, <TT>2+3*4</TT> is 
+  equal to <TT>14</TT> (<TT>2+(3*4)</TT>) rather than <TT>20</TT> 
+  (<TT>(2+3)*4</TT>). </LI></UL>
+<HR>
+
+<H2>WHAT DO I HAND IN?</H2>
+<UL>
+  <LI>create a subdirectory on the diskette, called <TT>projA</TT>. you will 
+  have all <B>your</B> code under this subdirectory 
+  <LI>for the first part, you create a subdirectory under <TT>projA</TT> called 
+  <TT>expr</TT>. In this directory, you provide the header and source files that 
+  define and implement your expression hierarchy. You also submit the source 
+  code for your test program, which tests your implementation of expression 
+  evaluation. You also provide a printout of your source code, and one typed 
+  sheet of descriptions to the marker, telling him how to build your 
+  application, and bugs that you know about. You also hand in an 
+  <I>annotated</I> object model of your expression hierarchy. 
+  <LI>for the second part, you create a subdirectory under <TT>projA</TT> called 
+  <TT>parser</TT>. In that directory, you provide the header and source files 
+  that define and implement your expression hierarchy (<I>again!</I>) and the 
+  header and source files which implement your parser. You submit one typed 
+  sheet of descriptions to the marker, telling him how to build your 
+  application, and bugs that you know about and a printout of the implementation 
+  of your parser. You also hand in an <I>annotated</I> object model of your 
+  parser. 
+  <LI>if you did the bonus part, hand in one typed sheet explaining what method 
+  you used to make sure that expressions are evaluated in the right order. 
+</LI></UL>
+<HR>
+
+<H2>EXPRESSIONS</H2>
+<UL>Expressions all evaluate to double precision floating point numbers 
+  (<TT>double</TT>s), including <I>booleans</I>. <TT>true</TT> is represented by 
+  any real number with value bigger than 0, and false is represented by any real 
+  number with value less or equal to 0. <BR><BR>Your programs must be able to 
+  evaluate expressions of the following type: 
+  <UL>
+    <LI>unary operators <TT>+</TT>, <TT>-</TT> , <TT>!</TT> (<I>not</I>) 
+    <LI>binary operators <TT>+</TT>, <TT>-</TT>, <TT>*</TT>, <TT>/</TT>, 
+    <TT>&amp;&amp;</TT>, <TT>||</TT> (<I>logical <B>and</B>, <B>or</B></I>), 
+    <TT>&lt;</TT>, <TT>&lt;=</TT>, <TT>==</TT>, <TT>&gt;</TT>, <TT>&gt;=</TT>, 
+    <TT>!=</TT>, (<I> <TT>C/C++</TT> relational operators</TT></I>) 
+    <LI>functions <TT>sin</TT>, <TT>cos</TT>, <TT>tan</TT> trigonometric 
+    functions which interpret the argument to be in degrees (<I>not radians</I>) 
+
+    <LI>parenthesized expressions </LI></UL>The following are example expressions 
+  and values (<I>if precedence is observed</I>): 
+  <UL>
+    <LI><TT>2+3*4</TT> with value <TT>14</TT> 
+    <LI><TT>sin(30*3)</TT> with value <TT>1</TT> 
+    <LI><TT>2 &gt; 3</TT> with value <TT>-1</TT> (<I>false</I>) 
+    <LI><TT>(2+3)*4</TT> with value <TT>20</TT> 
+    <LI><TT>(sin((2+1)*(20+10)) + 9) / (2 + 3)</TT> with value <TT>2</TT> 
+    <LI><TT>sin(44) &lt; cos(44)</TT> with value <TT>1</TT> (<I>true</I>) 
+    <LI><TT>--3.14</TT> with value <TT>3.14</TT> (<I>two unary -</I>) 
+</LI></UL></UL>
+<HR>
+
+<H2>HINTS</H2>
+<H3>EVALUATING EXPRESSIONS</H3>
+<UL>It is actually very easy, and object oriented design is really great to 
+  achieve this task. First, constants evaluate to themselves. Then we need to 
+  build a hierarchy of expressions, and let <B>polymorphism</B> do <B>ALL</B> 
+  the work. (<I>click on the diagram to obtain an enlarged version</I>) 
+  <CENTER><A href="PROJECT A_files/aehier.gif"><IMG border=0 
+  src="PROJECT A_files/aehier.gif" width="80%"></A> <BR><A 
+  href="PROJECT A_files/uh.gif"><IMG border=0 src="PROJECT A_files/uh.gif" 
+  width="40%"></A> <A href="PROJECT A_files/fh.gif"><IMG border=0 
+  src="PROJECT A_files/fh.gif" width="40%"></A> <BR><A 
+  href="PROJECT A_files/bh.gif"><IMG border=0 src="PROJECT A_files/bh.gif" 
+  width="80%"></A> </CENTER>The following example, is an actual instance of an 
+  expression tree. Such an instance of expression could be allocated as <PRE>            <B>expression</B> *e = 
+               new <B>division</B>(
+                   new <B>sub_expression</B>(
+                       new <B>multiplication</B>(
+                           new <B>sub_expression</B>( 
+                               new <B>binary_plus</B>(
+                                   new <B>constant</B>(2),
+                                   new <B>constant</B>(3)
+                               )
+                           ), 
+                           new <B>constant</B>(4)
+                       )
+                   ),
+                   new <B>unary_minus</B>( 
+                       new <B>sub_expression</B>(
+                           new <B>binary_plus</B>(
+                               new <B>constant</B>(7),
+                               new <B>constant</B>(3)
+                           )
+                       )
+                   )
+               );
+
+         </PRE>
+  <CENTER><A href="PROJECT A_files/ee.gif"><IMG border=0 
+  src="PROJECT A_files/ee.gif" width="80%"></A> </CENTER>To see how this 
+  actually works, feel free to use the following implementations as a guide: <PRE>               expr.exe [ .exe ]
+                 |
+                 +--- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/expression.h">expression.h</A> [ .h ]
+                 |
+                 +--- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/expression.cpp">expression.cpp</A> [ .cpp ]
+                 |
+                 +--- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/exprtest.cpp">exprtest.cpp</A> [ .cpp ]
+
+               (<A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/expr.make">expr.make</A>)
+         </PRE></UL>
+<H3>PARSING EXPRESSIONS</H3>
+<UL>Parsing by definition is to syntactically analyze the structure of input. 
+  In the context of expressions, and for your project, <FONT 
+  color=darkgreen>expression parsing</FONT> is reading expressions from an input 
+  stream and instantiating expressions that correspond to them. In other words, 
+  if <TT>2+3</TT> is read from the stream, then, the parser is supposed to 
+  instantiate the expression <TT>new binary_plus(new constant(2),new 
+  constant(3))</TT>, or if <TT>((2+3)*4)/-(7+3)</TT> is read, then the 
+  expression on the diagram above should be instantiated. <BR><BR>Parsers 
+  usually use a <I>lexical analyzer</I>, which first breaks up the input stream 
+  and separates the into tokens. For example, it would be nice if the expression 
+  <TT>2*sin((7.86-tan(82))/5.21)+4</TT> were broken up into the individual 
+  numbers, operators and parentheses: <TT>[<FONT color=darkgreen>2</FONT>] 
+  [<FONT color=darkgreen>*</FONT>] [<FONT color=darkgreen>sin</FONT>] [<FONT 
+  color=darkgreen>(</FONT>] [<FONT color=darkgreen>(</FONT>] [<FONT 
+  color=darkgreen>7.86</FONT>] [<FONT color=darkgreen>-</FONT>] [<FONT 
+  color=darkgreen>tan</FONT>] [<FONT color=darkgreen>(</FONT>] [<FONT 
+  color=darkgreen>82</FONT>] [<FONT color=darkgreen>)</FONT>] [<FONT 
+  color=darkgreen>)</FONT>] [<FONT color=darkgreen>/</FONT>] [<FONT 
+  color=darkgreen>5.21</FONT>] [<FONT color=darkgreen>)</FONT>] [<FONT 
+  color=darkgreen>+</FONT>] [<FONT color=darkgreen>4</FONT>]</TT>. If you wish 
+  you may use my <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/lexer">lexical 
+  analyzer</A> class, which does just that. <BR><BR>Parsing is inherently 
+  procedural and the object oriented paradigm does not fit as nicely as for the 
+  evaluation hierarchy. Regardless, encapsulation, information hiding and 
+  decomposition can still be used. In fact, parsers and lexers are usually 
+  specified and implemented as state machines, where the edges triggering the 
+  state transitions are the tokens. To read an infix expression, we may proceed 
+  as (<I> the following is half <TT>C++</TT> half pseudo code</I>) <PRE>
+    expression* parser::<B>read_one</B>(istream&amp; is) {
+        // this method reads a NON BINARY expression 
+        char * token = <FONT color=darkgreen>next token from stream</FONT>
+        if (<FONT color=darkgreen>token is a unary operator</FONT>) {
+           expression * e = <B>read_one</B>(is); // recursive call
+           <FONT color=darkgreen>return the unary operator with operand e</FONT>
+        } else if (<FONT color=darkgreen>token is numeric</FONT>) {
+           return new constant(<FONT color=darkgreen>number from token</FONT>);
+        } else if (<FONT color=darkgreen>token equal to '('</FONT>) {
+           expression * e = <B>read</B>(is); // recursive call
+           <FONT color=darkgreen>return a sub_expression with operand e
+           make sure that next token is an ')'</FONT>
+        } else {
+           <FONT color=darkgreen>token cannot form an expression, throw exception</FONT>
+        }
+    }
+
+    expression* parser::<B>read</B>(istream&amp; is) {
+        // this method reads a UNARY/BINARY expression
+
+        // every expression starts like this
+        expression* l = <B>read_one</B>(is); 
+
+        char * token = <FONT color=darkgreen>next token from stream</FONT>
+        if (<FONT color=darkgreen>token is a binary operator</FONT>) {
+           expression * r = <B>read</B>(is); 
+           // recursive call, read right hand side
+           <FONT color=darkgreen>return a new binary  operator with l and r 
+           (<I>left and right hand sides</I>)</FONT> 
+        } else {
+           <FONT color=darkgreen>put token back to the stream</FONT>
+           return l; // it was a unary expression
+        }
+    }
+         </PRE>The problem of with this simple method is that it totally 
+  discards the precedence of the binary operators, and it is inherently <I>right 
+  recursive</I>. In other words, if the expression typed was <TT>7/3*4+5</TT> 
+  then the expression it returns would be <PRE>      new <B>division</B>(
+          new <B>constant</B>(7),
+          new <B>multiplication</B>(
+              new <B>constant</B>(3),
+              new <B>addition</B>(
+                  new <B>constant</B>(4), new <B>constant</B>(5)
+              )
+          )
+      )
+      </PRE>which would be evaluated as <TT>7 / ( 3 * ( 4 + 5 ))</TT>. At 
+  least, we have parentheses to explicitly indicate order! If you get this far 
+  though, you already get a 100%. If your partner accomplishes his/her part, 
+  then with almost no effort, you get another 25%. If you figure out, how to 
+  make sure that the expression created returned observed precedence you get 
+  17%, but that requires some research or ingenuity. <BR><BR>Here is my concept 
+  implementation for the expressions above, feel free to use it as a template 
+  when you implement yours. <PRE> 
+         ptest [ .exe ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/exprparser.h">exprparser.h</A> [ .h ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/exprparser.cpp">exprparser.cpp</A> [ .cpp ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/expression.h">expression.h</A> [ .h ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/expression.cpp">expression.cpp</A> [ .cpp ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/lexer.h">lexer.h</A> [ .h ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/lexer.cpp">lexer.cpp</A> [ .cpp ]
+          |
+          +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projA/parsertest.cpp">parsertest.cpp</A> [ .cpp ]
+      </PRE></UL>
+<H3>BONUS: PRECEDENCE</H3>
+<UL><B>First finish up everything else and save it, do not do the bonus 
+  together with the rest.</B><BR><BR>Use the following precedence order for 
+  binary operators: <PRE>         <B>5</B>   /                        (<I>highest</I>)
+         <B>4</B>   *
+         <B>3</B>   +    -
+         <B>2</B>   &amp;&amp;
+         <B>1</B>   ||
+         <B>0</B>   ==   !=  &lt;=  &gt;=  &lt;  &gt;    (<I>lowest</I>)
+        </PRE>Evaluation of infix expressions observing operator precedence is 
+  traditionally achieved using stacks. If you look it up, how it is done and 
+  implement it that way and it works, you get the bonus. However, just by 
+  looking at out <I>object oriented</I> way of storing expressions, ...., maybe 
+  there is an easier way. <BR><BR>First, we know that the parser I showed you 
+  always builds expressions right recursive. 
+  <CENTER><IMG src="PROJECT A_files/prec.gif" width="80%"> </CENTER></UL>
+<HR>
+
+<H2>Good Luck!</H2></BODY></HTML>

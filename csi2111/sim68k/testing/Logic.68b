@@ -1,0 +1,89 @@
+/ ; ************************************************* /
+/ ; *** Logic.68                                  *** /
+/ ; *** Tests logical instructions of Sim68k      *** /
+/ ; *** Tests NOT, AND, OR, EOR                   *** /
+/ ; *** Also uses BRA, MOVE, DSP, DSR and HLT     *** /
+/ ; ************************************************* /
+/  /
+/ ;    Assembly Language       OpCode  Oper1   Oper2  /
+/ ;                           MSB LSB MSB LSB MSL LSB /
+/ ;-------------------------------------------------- /
+/ ; Branch to the first instruction /
+/ BRA.W @Main             ; / $92 $60 $00 $10
+/  /
+/ ; Declarations /
+/ DEF.W @Const1, #$1234      ; / $12 $34
+/ DEF.W @Const2, #$ABCD      ; / $AB $CD
+/ DEF.L @Const3, #$01234567  ; / $01 $23 $45 $67
+/ DEF.L @Const4, #$89ABCDEF  ; / $89 $AB $CD $EF
+/  /
+/ ; Main program /
+/ LABEL @Main             ; /
+/		/
+/ ; Tests NOT /
+/ ;------------------------ /
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     NOT.B  D0           ; / $40 $00
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     NOT.W  D0           ; / $42 $00
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.L @Const3, D0  ; / $C5 $60 $00 $08
+/     NOT.L  D0           ; / $44 $00
+/     DSP.L  D0           ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/		/
+/ ; Tests AND /
+/ ;------------------------ /
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     MOVE.W @Const2, D1  ; / $C3 $61 $00 $06
+/     AND.B  D1, D0       ; / $49 $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     AND.W  D1, D0       ; / $4B $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.L @Const3, D0  ; / $C5 $60 $00 $08
+/     MOVE.L @Const4, D1  ; / $C5 $61 $00 $0C
+/     AND.L  D1, D0       ; / $4D $10
+/     DSP.L  D0           ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/		/
+/ ; Tests OR /
+/ ;------------------------ /
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     MOVE.W @Const2, D1  ; / $C3 $61 $00 $06
+/     OR.B   D1, D0       ; / $51 $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     OR.W   D1, D0       ; / $53 $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.L @Const3, D0  ; / $C5 $60 $00 $08
+/     MOVE.L @Const4, D1  ; / $C5 $61 $00 $0C
+/     OR.L   D1, D0       ; / $55 $10
+/     DSP.L  D0           ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/		/
+/ ; Tests EOR /
+/ ;------------------------ /
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     MOVE.W @Const2, D1  ; / $C3 $61 $00 $06
+/     EOR.B  D1, D0       ; / $59 $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.W @Const1, D0  ; / $C3 $60 $00 $04
+/     EOR.W  D1, D0       ; / $5B $10
+/     DSP.W  D0           ; / $EA $00
+/     DSR.B               ; / $F0 $00
+/     MOVE.L @Const3, D0  ; / $C5 $60 $00 $08
+/     MOVE.L @Const4, D1  ; / $C5 $61 $00 $0C
+/     EOR.L  D1, D0       ; / $5D $10
+/     DSP.L  D0           ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/     HLT.B               ; / $F8 $00
+

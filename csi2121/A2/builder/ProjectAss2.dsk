@@ -1,0 +1,110 @@
+[Main Window]
+Create=1
+Visible=1
+State=0
+Left=0
+Top=0
+Width=1024
+Height=116
+MaxLeft=-1
+MaxTop=-1
+ClientWidth=1012
+ClientHeight=87
+
+[Closed Files]
+File_0=SourceModule,'D:\Program Files\Borland\CBuilder4\Examples\Games\Football\instr.cpp',0,1,1,1,1,1,0
+File_1=SourceModule,'D:\Program Files\Borland\CBuilder4\Examples\Games\Football\footmain.cpp',0,1,1,1,361,1,0
+File_2=SourceModule,'D:\Program Files\Borland\CBuilder4\Examples\Games\Football\readme.txt',0,1,1,1,1,0,0
+File_3=SourceModule,'D:\Program Files\Borland\CBuilder4\Examples\Internet\DayTime\main.cpp',0,1,1,34,15,1,0
+File_4=SourceModule,'D:\Program Files\Borland\CBuilder4\Projects\Marine\Unit1.cpp',0,1,1,1,15,3,0
+File_5=SourceModule,'D:\Program Files\Borland\CBuilder4\Projects\Marine\Unit1.dfm',0,1,1,1,1,0,0
+File_6=SourceModule,'D:\Program Files\Borland\CBuilder4\Projects\Marine\Copy\Unit1.cpp',0,1,1,34,6,3,0
+File_7=SourceModule,'D:\My_Docs\prog\C++Proj\Calculator\UNARY.CPP',0,1,1,30,20,0,0
+File_8=SourceModule,'D:\My_Docs\prog\C++Proj\Calculator\FUNCTION.CPP',0,1,1,33,8,0,0
+File_9=SourceModule,'D:\My_Docs\prog\C++Proj\Calculator\MAIN.CPP',0,1,1,11,9,0,0
+
+[Modules]
+Module0=E:\CSprogram\Courses\csi2121\A2\builder\ass2-2.asm
+Module1=E:\CSprogram\Courses\csi2121\A2\builder\ProjectAss2.bpr
+Count=2
+EditWindowCount=1
+
+[E:\CSprogram\Courses\csi2121\A2\builder\ass2-2.asm]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[E:\CSprogram\Courses\csi2121\A2\builder\ProjectAss2.bpr]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[D:\Program Files\Borland\CBuilder4\Projects\ProjectGroup1.bpg]
+FormState=0
+FormOnTop=0
+
+[EditWindow0]
+MessageView=MessageView@EditWindow0
+Create=1
+Visible=1
+State=0
+Left=209
+Top=135
+Width=696
+Height=482
+MaxLeft=-1
+MaxTop=-1
+ClientWidth=684
+ClientHeight=453
+LeftPanelSize=0
+RightPanelSize=0
+BottomPanelSize=0
+BottomPanelClients=MessageView@EditWindow0
+BottomPanelData=00000400010000000B0000004D657373616765566965770000000000000000000000000000000000FFFFFFFF
+ViewCount=2
+CurrentView=1
+View0=0
+View1=1
+
+[MessageView@EditWindow0]
+Create=1
+Visible=0
+State=0
+Left=-17
+Top=-486
+Width=443
+Height=52
+MaxLeft=-1
+MaxTop=-1
+ClientWidth=443
+ClientHeight=52
+TBDockHeight=52
+LRDockWidth=443
+Dockable=1
+
+[View0]
+Module=E:\CSprogram\Courses\csi2121\A2\builder\ProjectAss2.cpp
+CursorX=13
+CursorY=5
+TopLine=1
+LeftCol=1
+
+[View1]
+Module=E:\CSprogram\Courses\csi2121\A2\builder\ass2-2.asm
+CursorX=1
+CursorY=1
+TopLine=1
+LeftCol=1
+
+[DockHosts]
+DockHostCount=0
+
+[Watches]
+Count=0
+
+[Breakpoints]
+Count=0
+
+[AddressBreakpoints]
+Count=0
+

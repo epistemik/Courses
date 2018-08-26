@@ -1,0 +1,348 @@
+% From the book
+% PROLOG PROGRAMMING IN DEPTH
+% by Michael A. Covington, Donald Nute, and Andre Vellino
+% (Prentice Hall, 1997).
+% Copyright 1997 Prentice-Hall, Inc.
+% For educational use only
+
+
+% PAINT.PL
+
+:- ensure_loaded('xshell.pl').
+
+%
+% Any clauses for the predicates XKB_INTRO,
+% XKB_REPORT, XKB_UNIQUE, XKB_EXPLAIN, XKB_IDENTIFY, and
+% XKB_QUESTION should be removed from the knowledge base.
+%
+
+:- abolish(xkb_intro/1).
+:- abolish(xkb_unique/1).
+:- abolish(xkb_explain/1).
+:- abolish(xkb_identify/2).
+:- abolish(xkb_question/4).
+:- abolish(xkb_menu/4).
+:- abolish(xkb_text/2).
+
+%
+% XKB_IDENTIFY and the following predicates defined in
+% the knowledge base must be declared dynamic so the 
+% explanatory routine INTERPRET can access their clauses.
+%
+
+:- dynamic xkb_identify/2.
+:- dynamic bad_paint/0.
+:- dynamic glossy_paint/0.
+:- dynamic nonglossy_paint/0.
+
+xkb_intro(
+['PAINT PRO:',
+ '',
+ 'This system makes recommendations for common interior',
+ 'painting situations. The recommendations include advice',
+ 'on preparing the surface for painting and advice on the',
+ 'coating products to use for the job',
+ '',
+ 'To use the system, just answer the following questions',
+ 'about your painting job.']).
+
+xkb_unique(no).
+
+xkb_explain(yes).
+
+xkb_identify(1,[new_drywall_prep,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,1),   % drywall/sheet rock
+        \+ prop(painted),     
+        prop(high_moisture).   % kitchen, bathroom, laundry
+
+xkb_identify(2,[new_drywall_prep,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,1),   % drywall/sheet rock
+        \+ prop(painted),
+        \+ prop(high_moisture).
+
+xkb_identify(3,[standard_prep,stain_killer,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,2),   % wood or vinyl panelling
+        \+ prop(painted),
+        prop(high_moisture).   % kitchen, bathroom, laundry
+
+xkb_identify(4,[standard_prep,stain_killer,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,2),   % wood or vinyl panelling
+        \+ prop(painted),
+        \+ prop(high_moisture).
+
+xkb_identify(5,[bare_plaster_prep,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,3),   % plaster
+        \+ prop(painted),
+        prop(high_moisture).   % kitchen, bathroom, laundry
+
+xkb_identify(6,[bare_plaster_prep,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,3),   % plaster
+        \+ prop(painted),
+        \+ prop(high_moisture).
+
+xkb_identify(7,[bare_masonry_prep,latex_primer,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,4),   % masonry
+        \+ prop(painted),     
+        prop(high_moisture).
+
+xkb_identify(standard_prep,[bare_masonry_prep,latex_primer,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parm(material1,m,4),   % masonry
+        \+ prop(painted),
+        prop(high_moisture).
+
+xkb_identify(9,[bad_paint_prep,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                               % sheet rock, panelling, or plaster
+        bad_paint,
+        prop(high_moisture).
+
+xkb_identify(10,[bad_paint_prep,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                   % sheet rock, panelling, or plaster
+        bad_paint,
+        \+ prop(high_moisture).
+
+xkb_identify(11,[glossy_prep,standard_prep,enamel,
+                 latex_over_oil_prep]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                   % sheet rock, panelling, or plaster
+        glossy_paint,
+        prop(high_moisture).
+
+xkb_identify(12,[glossy_prep,standard_prep,latex,
+                 latex_over_oil_prep]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                   % sheet rock, panelling, or plaster
+        glossy_paint,
+        \+ prop(high_moisture).
+
+xkb_identify(13,[standard_prep,enamel]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                   % sheet rock, panelling, or plaster
+        nonglossy_paint,
+        prop(high_moisture).
+
+xkb_identify(14,[standard_prep,latex]) :-
+        parm(surface,m,1),     % walls or ceilings
+        parmset(material1,m,[1,2,3]),
+                   % sheet rock, panelling, or plaster
+        nonglossy_paint,
+        \+ prop(high_moisture).
+
+xkb_identify(15,[painted_masonry_prep,enamel]) :-
+        parm(surface,m,1),     % wall, ceilings, or floors
+        parm(material1,m,4),   % masonry
+        prop(painted),
+        prop(high_moisture).
+
+xkb_identify(16,[painted_masonry_prep,latex]) :-
+        parm(surface,m,1),     % wall, ceilings, or floors
+        parm(material1,m,4),   % masonry
+        prop(painted),
+        \+ prop(high_moisture).
+
+xkb_identify(17,[bare_wood_prep,polyurethane]) :-
+        parm(surface,m,2),     % wood doors, trim, cabinets
+        \+ prop(painted).
+
+xkb_identify(18,[bad_coating_on_wood_prep,polyurethane]) :-
+        parm(surface,m,2),     % wood doors, trim, cabinets
+        bad_paint.
+
+xkb_identify(19,[glossy_prep,standard_prep,polyurethane,
+                 opaque_wood_finish,latex_over_oil_prep]) :-
+        parm(surface,m,2),     % wood doors, trim, cabinets
+        glossy_paint.
+
+xkb_identify(20,[standard_prep,polyurethane,
+                 opaque_wood_finish]):-
+        parm(surface,m,2),     % wood doors, trim, cabinets
+        nonglossy_paint.
+
+xkb_identify(21,[wood_floor_prep,polyurethane]) :-
+        parm(surface,m,3),     % floors
+        parm(material2,m,1).   % wood
+
+xkb_identify(22,[painted_masonry_prep,masonry_sealer,
+                 trim_enamel]) :-
+        parm(surface,m,3),     % floors
+        parm(material2,m,2),   % masonry
+        prop(painted).
+
+xkb_identify(23,[bare_masonry_prep,masonry_sealer,
+                 trim_enamel]) :-
+        parm(surface,m,3),     % floors
+        parm(material2,m,2),   % masonry
+        \+ prop(painted).
+
+bad_paint :- prop(painted),
+                 \+ prop(sound_paint).
+
+glossy_paint :- prop(painted),
+                      prop(sound_paint),
+                      prop(glossy_paint).
+
+nonglossy_paint :- prop(painted),
+                         prop(sound_paint),
+                         \+ prop(glossy_paint).
+
+xkb_question(high_moisture,
+['Are you painting in an area where you can expect',
+ 'high moisture or where frequent cleaning may be',
+ 'necessary (kitchen, bathroom, laundry)?'],
+ 'High moisture or frequent cleaning expected.',
+ 'Neither high moisture nor frequent cleaning expected.').
+
+xkb_question(painted,
+'Has the surface been painted or varnished before?',
+'The surface has a previous coating.',
+'The surface has no previous coating.').
+
+xkb_question(sound_paint,
+'Is the existing paint or varnish in sound condition?',
+'Previous coating in sound condition.',
+'Previous coating is unsound.').
+
+xkb_question(glossy_paint,
+'Is the existing paint or varnish glossy?',
+'Previous coating is glossy.',
+'Previous coating is not glossy.').
+
+xkb_menu(surface,
+'What kind of surface do you plan to paint or varnish?',
+['walls or ceiling',
+ 'wood doors, trim, or cabinets',
+ 'floors'],
+'Surface: ').
+
+xkb_menu(material1,
+'What kind of material is the surface made of?',
+['drywall/sheet rock',
+ 'wood or vinyl panelling',
+ 'plaster',
+ 'masonry (concrete, concrete block, brick)'],
+'Material: ').
+
+xkb_menu(material2,
+'What kind of material is the surface made of?',
+['wood',
+ 'masonry (concrete, concrete block, brick)'],
+'Material: ').
+
+xkb_text(new_drywall_prep,
+['Remove all dust from taping and finishing work using',
+ 'wet vac or damp (not wet) cloth.',
+ 'Prime with a latex enamel undercoater. Spot prime pathces',
+ 'of drywall mud, then cover entire surface.']).
+
+xkb_text(stain_killer,
+['Prime vinyl panelling with a commercial stain killer.']).
+
+xkb_text(bare_plaster_prep,
+['Allow all new plaster to age at least 30 days before painting.',
+ 'Remove dust with damp (not wet) cloth.',
+ 'Prime with a latex enamel undercoater.']).
+
+xkb_text(bare_masonry_prep,
+['Efflorescence, a white powdery alkaline salt, is present in',
+ 'and on most masonry surfaces. This must be removed completely',
+ 'before painting. Wire brush all heavy deposits. Mix 1 part',
+ 'muriatic acid with three parts water and apply to surfaces.',
+ 'Rinse with clear water as soon as the foaming action stops.',
+ 'Never allow muriatic solution to dry on the surface before',
+ 'rinsing as this will damage the surface or cause premature',
+ 'coating failure. If acid etching is not practical, power wash',
+ 'the surface to remove all powdery deposits, chalk, dirt,',
+ 'grease, and oil.']).
+
+xkb_text(bad_paint_prep,
+['Scrape away all loose and peeling paint. Sand to a sound',
+ 'surface. Sand adjoining area to feather into peeled area.',
+ 'Prime any cracks, holes, or large repairs BEFORE patching',
+ 'and then again AFTER patching. The primer provides a sound',
+ 'bond for the patching material and then prepares the patch',
+ 'for painting. Use an interior latex undercoater for spot',
+ 'priming and to prime entire surface before painting.']).
+
+xkb_text(glossy_prep,
+['Sand glossy surfaces lightly.']).
+
+xkb_text(latex_over_oil_prep,
+['If existing paint is oil-based, prime with a commercial',
+ 'stain killer before painting with latex paint.']).
+
+xkb_text(standard_prep,
+['Use a household detergent to clean away all dirt, dust,',
+ 'grease, and oil from all surfaces to be painted. Rinse',
+ 'and wipe all detergent residue from surfaces with clean',
+ 'water before painting.']).
+
+xkb_text(painted_masonry_prep,
+['Scrape away peeling paint or use a power grinder to grind',
+ 'away peeling paint.',
+ 'Efflorescence, a white powdery alkaline salt, is present in',
+ 'and on most masonry surfaces. This must be removed completely',
+ 'before painting. Wire brush all heavy deposits. Mix 1 part',
+ 'muriatic acid with three parts water and apply to worst areas.',
+ 'Rinse with clear water as soon as the foaming action stops.',
+ 'Never allow muriatic solution to dry on the surface before',
+ 'rinsing as this will damage the surface or cause premature',
+ 'coating failure. If acid etching is not practical, power wash',
+ 'the surface to remove all powdery deposits, chalk, dirt,',
+ 'grease, and oil.']).
+
+xkb_text(bare_wood_prep,
+['Sand lightly and remove dust with a wet vac or a damp cloth.']).
+
+xkb_text(bad_coating_on_wood_prep,
+['Scrape away all loose and peeling paint or varnish.',
+ 'Sand to a sound surface. Sand adjoining area to feather',
+ 'into peeled area. Lightly sand entire surface. Remove all',
+ 'dust with a wet vac or a damp cloth.']).
+
+xkb_text(wood_floor_prep,
+['Sand smooth and remove all sanding dust. Remove or',
+ 'neutralize residues from any wood lighteners (wood',
+ 'bleach) or removers before finishing.']).
+
+xkb_text(latex_primer,
+['Prime with latex enamel undercoater.']).
+
+xkb_text(masonry_sealer,
+['Prime with an alkyd resin based masonry primer sealer.']).
+
+xkb_text(enamel,
+['Finish with interior latex semigloss enamel or interior alkyd',
+ 'enamel for resistance to moisture and easy cleaning.']).
+
+xkb_text(latex,
+['Finish with flat or semigloss interior latex paint.']).
+
+xkb_text(polyurethane,
+['Stain to desired shade and finish with a clear poly-',
+ 'urethane finish.']).
+
+xkb_text(opaque_wood_finish,
+['For opaque finishes, prime with an alkyd sealer primer',
+ 'and finish with a gloss or semigloss alkyd, acrylic latex,',
+ 'or polyurethane enamel.']).
+
+xkb_text(trim_enamel,
+['Paint with acrylic latex floor and trim enamel.']).
+
+:- write('Type  xshell.  to start.'), nl.
+
+

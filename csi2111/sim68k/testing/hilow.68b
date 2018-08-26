@@ -1,0 +1,101 @@
+/ ; *************************************************** /
+/ ; *** HiLow.68                                    *** /
+/ ; *** Tests branching instructions of Sim68k      *** /
+/ ; *** Tests BRA, BEQ, BGE, CMP, TST               *** /
+/ ; *** Also uses MOVE, ADDQ, INP, DSP and HLT      *** /
+/ ; *************************************************** /
+/  /
+/ ; Branching instructions  (and status bits updating)  are  hard /
+/ ; to verify. Here is a little game that will test some of these /
+/ ; instructions.  Complete your verification with your own tests. /
+/  /
+/ ; This is the High-Low Game. /
+/ ; Here is what it would look like in Pascal: /
+/  /
+/ ;    R.W := $FFFF;     { Initializes R (Result)            } /
+/ ;    C.W := $0000;     { Initializes C (Counter)           } /
+/ ;    Repeat /
+/ ;       Readln(D0.B)      { "Random" number to find        } /
+/ ;    Until (D0.B <> 0);   { D0 must be different from 0    } /
+/ ;    Read (D1.B);         { Player is guessing a number    } /
+/ ;                 { Player can enter 0 to exit the game    } /
+/ ;    While (D1.B <> 0) And (R.W <> 0) Do /
+/ ;     Begin /
+/ ;       If (D1.B <> D0.B) /
+/ ;       then /
+/ ;          If (D1.B < D0.B) /
+/ ;          then /
+/ ;             R.W := $1  { Too low } /
+/ ;          else /
+/ ;             R.W := $2  { Too high } /
+/ ;       else /
+/ ;          R.W := $0;    { Found! } /
+/ ;       Writeln (R.W);   { Display the message } /
+/ ;       Inc(C.W); /
+/ ;       If R.W <> 0 /
+/ ;       then /
+/ ;          Read (D1.B) /
+/ ;     End; /
+/ ;    Writeln (C.W) { Display the number of guesses } /
+/  /
+/  /
+/ ;    Assembly Language        OpCode  Oper1   Oper2  /
+/ ;                            MSB LSB MSB LSB MSL LSB /
+/ ;--------------------------------------------------- /
+/ ; Branch to the first instruction /
+/ BRA.W  @Repeat           ; / $92 $60 $00 $0E
+/  /
+/ ; Declarations /
+/ DEF.W  @R,    #$FFFF     ; / $FF $FF
+/ DEF.W  @C,    #$0000     ; / $00 $00
+/ DEF.W  @Zero, #$0000     ; / $00 $00
+/ DEF.W  @One,  #$0001     ; / $00 $01
+/ DEF.W  @Two,  #$0002     ; / $00 $02
+/ ; Choose a random number not 0 /
+/ LABEL  @Repeat           ; /
+/     INP.B  D0            ; / $E0 $00
+/     BEQ.W  @Repeat       ; / $A2 $60 $00 $0E
+/  /
+/ ; Player is guessing a number /
+/     INP.B  D1            ; / $E0 $10
+/  /
+/ LABEL  @While            ; /
+/     TST.B  D1            ; / $88 $10
+/     BEQ.W  @End          ; / $A2 $60 $00 $62
+/     TST.W  @R            ; / $8A $60 $00 $04
+/     BEQ.W  @End          ; / $A2 $60 $00 $62
+/  /
+/ ; D1 <> D0 ? /
+/     CMP.B  D0, D1        ; / $81 $01
+/     BEQ.W  @Found        ; / $A2 $60 $00 $2E
+/     BRA.W  @TooLow       ; / $92 $60 $00 $38
+/  /
+/ LABEL  @Found            ; /
+/     MOVE.W @Zero, @R     ; / $C3 $66 $00 $08 $00 $04
+/     BRA.W  @Display      ; / $92 $60 $00 $4C
+/  /
+/ LABEL  @TooLow           ; /
+/     BGE.W  @TooHigh      ; / $B2 $60 $00 $46
+/     MOVE.W @One, @R      ; / $C3 $66 $00 $0A $00 $04
+/     BRA.W  @Display      ; / $92 $60 $00 $4C
+/  /
+/ LABEL  @TooHigh          ; /
+/     MOVE.W @Two, @R      ; / $C3 $66 $00 $0C $00 $04
+/ ; No need for a branching instruction to @Display... /
+/  /
+/ LABEL  @Display          ; /
+/ ; Display the message /
+/     DSP.W  @R            ; / $EA $60 $00 $04
+/ ; Increment the number of guesses (C) /
+/     ADDQ.W #$1, @C       ; / $0A $16 $00 $06
+/     TST.W  @R            ; / $8A $60 $00 $04
+/     BEQ.W  @End          ; / $A2 $60 $00 $62
+/     INP.B  D1            ; / $E0 $10
+/  /
+/ LABEL  @EndWhile         ; /
+/     BRA.W  @While        ; / $92 $60 $00 $16
+/  /
+/ LABEL  @End              ; /
+/ ; Display the number of guesses /
+/     DSP.W  @C            ; / $EA $60 $00 $06
+/     HLT.B                ; / $F8 $00

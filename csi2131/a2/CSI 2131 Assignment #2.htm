@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/ass02.html -->
+<HTML><HEAD><TITLE>CSI 2131 Assignment #2</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY background="CSI 2131 Assignment #2_files/barney.jpeg" bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="CSI 2131 Assignment #2_files/2131.gif"></A><FONT color=white 
+      size=+3>CSI 2131 Assignment #2</FONT></TD></TR></TBODY></TABLE>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><B>Marks:</B></TD>
+    <TD><B>6</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Time:</B></TD>
+    <TD><B>Friday, February 18, 2000, 12:00pm (NOON!)... <I>No Late 
+      Assignments Accepted</I></B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Place:</B></TD>
+    <TD><B>Locked box for CSI2131A or CSI2131B (depending on the course 
+      section you're registered in), 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P><I>N.B. Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/standards.html">assignment 
+standards</A> very carefully. You will lose marks if you don't follow those 
+instructions.</I>
+<P>
+<HR>
+
+<H2>The Assignment</H2>Your assignment is to write a program in C called 
+<TT>brp</TT>. The <TT>brp</TT> program takes two command line arguments. The 
+first argument is a number between 1 and 3:
+<OL>
+  <LI>corresponds to the FIFO buffer replacement policy 
+  <LI>corresponds to the LRU buffer replacement policy 
+  <LI>corresponds to the LFU buffer replacement policy </LI></OL>The second 
+command line argument is the name of a file.
+<P>Your program must maintain a pool of four buffers according to the buffer 
+replacement policy specified on the command line. Here's how the program works:
+<UL>
+  <LI>check the first command line argument to determine which BRP to use 
+  <LI>open the file (named as the second command line argument) for binary 
+  reading 
+  <LI>print the name of the BRP to the screen 
+  <LI>prompt the user for a "cluster number" 
+  <LI>read the cluster number (say C) from the keyboard 
+  <UL>
+    <LI>if the cluster is already in a buffer (say buffer N), simply print a 
+    message to the screen saying "cluster C already in buffer N" 
+    <LI>if the cluster is not already in a buffer, check if is an empty buffer 
+    available; if so, read the whole cluster from the file into the first 
+    available empty buffer and print the message "loading cluster C into buffer 
+    N" 
+    <LI>if the cluster is not already in a buffer and there are no empty buffers 
+    available, choose a buffer based on the BRP specified on the command line; 
+    read the whole cluster from the file into the chosen buffer and print the 
+    message "replacing cluster D; loading cluster C into buffer N" (where D is 
+    the number of the cluster already in the chosen buffer) </LI></UL>
+  <LI>prompt the user for another cluster number and repeat the whole process
+  <P></P>
+  <LI>when the user is finished entering cluster numbers, print out the name of 
+  the BRP again and the total number of cluster replacements </LI></UL>
+<P>
+<HR>
+
+<H2>Some Hints</H2>
+<UL>
+  <LI>you can use any large data file you like to test your program 
+  <LI>"clusters" are not real clusters in this assignment, they're just 
+  fixed-size parts of the file 
+  <LI>you can assume clusters are very small (say 128 bytes) 
+  <LI>use the following structure for each entry in the buffer index <PRE>typedef struct {
+  int cluster_number;       /* the number of the cluster in this buffer                */
+  int when_loaded;          /* the request number when the cluster was loaded          */
+  int last_access;          /* the request number when the cluster was last requested  */
+  int num_accesses;         /* number of accesses since the cluster was loaded         */
+  char buffer[128];         /* the buffer itself                                       */
+} buffer_rec;</PRE>
+  <LI>the buffer index is just an array of four <TT>buffer_rec</TT> 
+  <LI>use the function <TT>scanf("%d", &amp;clus_num)</TT> to get a cluster 
+  number from the keyboard and store it in an integer variable called 
+  <TT>clus_num</TT> (<TT>scanf()</TT> returns EOF if the user enters CTRL-Z 
+  instead of an integer) 
+  <LI>keep a counter in your main loop: this number can be used to keep track of 
+  when a cluster is loaded into a buffer 
+  <LI>to load a "cluster" into a buffer, use the function <TT>fseek(infile, 
+  clus_num*128, OL)</TT> to jump to position <TT>clus_num*128</TT> in the file; 
+  then use <TT>fread()</TT> to read one item of 128 bytes directly into the 
+  chosen buffer 
+  <LI>don't forget to keep track of the <TT>last_access</TT> and 
+  <TT>num_accesses</TT> fields in the buffer index records 
+  <LI>don't forget to do error checking on file operations </LI></UL>
+<HR>
+
+<H2>Sample Output</H2>Here are some screen shots when running the program in 
+DOS. Characters typed by the user are displayed in <FONT 
+color=red><B><TT>red</TT></B></FONT>. Notice that the main loop terminates when 
+the user enters CTRL-Z (<FONT color=red><B><TT>^Z</TT></B></FONT>) instead of a 
+cluster number. Your program should have the exact same behaviour as shown in 
+these pictures.
+<P><IMG border=0 src="CSI 2131 Assignment #2_files/brp1.gif">
+<P><IMG border=0 src="CSI 2131 Assignment #2_files/brp2.gif">
+<P><IMG border=0 src="CSI 2131 Assignment #2_files/brp3.gif">
+<P>
+<HR>
+Look at <A 
+href="sol02.html">the 
+solution</A> to this assignment.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update February 04, 2000)</I></FONT> </P></BODY></HTML>

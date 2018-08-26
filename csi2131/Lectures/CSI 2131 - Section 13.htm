@@ -1,0 +1,1354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec13.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 13</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hashing</CENTER></FONT>
+      <HR>
+
+      <P>The entire second half of this course has been (more or less) dedicated 
+      to finding records in files. We started with O(N) and improved to 
+      O(log<SUB><FONT size=+0>2</FONT></SUB>N) and then to O(log<SUB><FONT 
+      size=+0>K</FONT></SUB>N). How can we possibly improve on that?
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+
+      <P><BR><BR>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Direct Mapping 
+              <LI>Hashing 
+              <LI>Collisions 
+              <LI>Collision Resolution </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ N/A<BR>§ 10.1<BR>§§ 10.1.2, 10.2, 10.3.2<BR>§§ 10.5, 10.6, 10.8 
+            </FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 218 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Access Progress</CENTER></FONT>
+      <HR>
+
+      <P>Here are the techniques we know for finding a record with given key 
+      value in some file:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <CENTER><B><I>Technique</I></B></CENTER>
+            <HR>
+            </FONT></TD>
+          <TD><FONT size=+2>
+            <CENTER><B><I>Clusters Read</I></B></CENTER>
+            <HR>
+            </FONT></TD>
+          <TD><FONT size=+2>
+            <CENTER><B><I>&nbsp;N=262144, K=64&nbsp;</I></B></CENTER>
+            <HR>
+            </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>Sequential Search </FONT></TD>
+          <TD align=middle><FONT size=+2>O(N/K) </FONT></TD>
+          <TD align=middle><FONT size=+2>4096 </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>Binary Search </FONT></TD>
+          <TD align=middle><FONT size=+2>O(log<SUB><FONT 
+            size=+0>2</FONT></SUB>N) </FONT></TD>
+          <TD align=middle><FONT size=+2>18 </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>Paged Binary Trees </FONT></TD>
+          <TD align=middle><FONT size=+2>O(log<SUB><FONT 
+            size=+0>K</FONT></SUB>N) </FONT></TD>
+          <TD align=middle><FONT size=+2>3 </FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>B-Trees </FONT></TD>
+          <TD align=middle><FONT size=+2>O(log<SUB><FONT 
+            size=+0>K</FONT></SUB>N) </FONT></TD>
+          <TD align=middle><FONT size=+2>3 
+</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What could possibly be better than O(log<SUB><FONT 
+      size=+0>K</FONT></SUB>N)?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Ya right!</P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 219 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Direct Mapping</CENTER></FONT>
+      <HR>
+
+      <P>All those techniques work the same way: we know some key value 
+      <I>k</I>. In order to find the record with that key value, we have to 
+      search through some file. It may be the data file, it may be an index 
+      file, it may be a B-tree. But we still have to search for <I>k</I>.
+      <P>
+      <CENTER><I>What if we already knew where </I>k<I> was in the 
+      file?</I></CENTER>
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+
+      <P><BR><BR>Here's an example. We have a data file full of student records. 
+      The primary key is student number. We're looking for the record of the 
+      student with student number 488652.
+      <P><B><I>Q:</I></B> Wouldn't that be cool if 488652's record were 488,652 
+      bytes into the file?
+      <P><B><I>A:</I></B> You're darn tootin' it'd be cool.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 220 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Key is the Address</CENTER></FONT>
+      <HR>
+
+      <P>In the example, we store the student record of each student (with 
+      student number <I>s<SUB><FONT size=+0>i</FONT></SUB></I>) at an offset of 
+      <I>s<SUB><FONT size=+0>i</FONT></SUB></I> bytes into the file.
+      <P>Now if we're looking for the record for student <I>s<SUB><FONT 
+      size=+0>i</FONT></SUB></I> we just do a seek to position <I>s<SUB><FONT 
+      size=+0>i</FONT></SUB></I> from the beginning of the file.
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+
+      <P><BR><BR><B><I>Q:</I></B> What's wrong with this picture?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 221 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Key is the RRN</CENTER></FONT>
+      <HR>
+
+      <P>Student numbers are too close together to be used as byte offsets. In 
+      fact, in the Winter 2000 offerings of CSI 2131, there are 22 students 
+      whose student numbers are within 100 of another student's number. There 
+      are 4 students within 10!
+      <P>In general, it's possible for two students to have numbers that differ 
+      by only one.
+      <P>But what if we had fixed length records. Instead of storing the record 
+      for a student with student number <I>s<SUB><FONT 
+      size=+0>i</FONT></SUB></I> at an offset of <I>s<SUB><FONT 
+      size=+0>i</FONT></SUB></I> bytes into the file, we store the record as RRN 
+      <I>s<SUB><FONT size=+0>i</FONT></SUB></I>.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What's wrong with <I>this</I> picture?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Ok, maybe this isn't such a good idea (although, it doesn't seem like 
+      that bad an idea either, now that I type it).
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 222 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hashing</CENTER></FONT>
+      <HR>
+
+      <P>Storing records in positions in a file based on the value of their keys 
+      is known as <I>hashing</I>. In our example, we used student number as RRN. 
+      This is about the simplest form of hashing there is: using the primary key 
+      itself as the RRN. But there are several problems: 
+      <UL>
+        <LI>not all primary keys can be used <I>as is</I> for RRN 
+        <UL>
+          <LI>remember <TT>BOYOTT001</TT>? </LI></UL>
+        <LI>the <I>keyspace</I> is usually much bigger than N 
+        <UL>
+          <LI>are there really 10,000,000 student records in the U of O 
+          database? </LI></UL>
+        <LI>the keyspace may also be too <I>small</I> 
+        <UL>
+          <LI>a few years ago student numbers were only six digits at U of O 
+          </LI></UL></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P>So instead of using the primary key as RRN, we usually <I>do 
+      something</I> to the primary key to turn it into a good RRN. This <I>doing 
+      something</I> is called a <I>hash function H(k)</I>. <PRE>
+
+
+
+</PRE>
+      <TABLE bgColor=#e0e0e0 border=1 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+1><B><I>Did you know?</I></B><BR>The term 
+            <I>hashing</I> comes from the Latin verb 
+            <TT>hashio-hashere-heshi-hashitum</TT> meaning <I>to humble</I>, 
+            <I>to crush</I>, <I>to humiliate</I>, <I>to store records in 
+            predictable positions in a file to allow direct access</I>, <I>to 
+            obliterate</I>. </FONT></TD></TR></TBODY></TABLE>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 223 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hashing Functions</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=left vAlign=top><FONT size=+2>Let's go back to an old 
+            example.
+            <P>If we believe that 100 records is enough to store all the records 
+            for a while, we could use the last two digits of the key as the RRN. 
+            In this case our hashing function is 
+            <CENTER>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT 
+                  size=+2><I>H(k)&nbsp;=&nbsp;last_two_digits(k)</I></FONT></TD></TR></TBODY></TABLE></CENTER>
+            <P>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD width="50%"><FONT size=+2><TT>Cor351614</TT></FONT></TD>
+                <TD width="50%"><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Mil155900</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Lam643080</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Har018618</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Ste970555</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Fei134681</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Red496173</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Blu142224</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Pnu789164</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Eng466879</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Gra823015</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+            <P><B><I>Q:</I></B> <I>Now</I> what's the problem?
+            <P><B><I>A:</I></B> </FONT></P></TD>
+          <TD>&nbsp;</TD>
+          <TD align=right vAlign=center>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD width="50%"><FONT size=+2><TT>Mil155900</TT></FONT></TD>
+                <TD width="50%"><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Cor351614</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Gra823015</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Har018618</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Blu142224</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Ste970555</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Pnu789164</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Red496173</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle colSpan=2><TT>.<BR>:</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Eng466879</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Lam643080</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Fei134681</TT></FONT></TD>
+                <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle 
+          colSpan=2><TT>.<BR>:</TT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 224 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Perfect Hashing Functions</CENTER></FONT>
+      <HR>
+
+      <P>If<BR>
+      <CENTER><FONT face=symbol>"</FONT><I>k,j</I> (<I>H(k) &#8800; H(j)</I>) &#8594; (<I>k 
+      &#8800; j</I>)</CENTER><BR>Then we say <I>H(k)</I> is <I>perfect</I>.
+      <P>In our example it was pure luck that no two keys had the same last two 
+      digits. In general, it is very hard to find a perfect hashing function.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> How hard is it?
+      <P><B><I>A:</I></B> So hard that we're not even going to try
+      <P><BR><BR><B><I>Q:</I></B> If we don't try to build a perfect hashing 
+      function isn't it possible that <FONT face=symbol>$</FONT><I>k,j</I> <I>k 
+      &#8800; j</I> AND <I>H(k) = H(j)</I>?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 225 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collisions</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Hashing Function</I></B> 
+        <DD>A formula that maps key values to reference values that represent 
+        the position of a record in a file.
+        <P></P>
+        <DT><B><I>Hash Value</I></B> 
+        <DD>A reference value produced by the hashing function 
+        <UL>
+          <LI>In our example hash values were used as RRNs</LI></UL>
+        <P></P>
+        <DT><B><I>Hash Table</I></B> 
+        <DD>The file containing the records in positions determined by the 
+        hashing function.
+        <P></P></DD></DL>
+      <HR SIZE=10 width=10>
+
+      <P>In general we are not guaranteed to have a hashing function that maps 
+      distinct keys onto distinct hash values. Instead of trying to fix the 
+      function, we'll let the function be imperfect and deal with the results.
+      <P>When a given hashing function maps two different keys onto the same 
+      hash value we call it a <I>collision</I>. All of the best known hashing 
+      functions attempt to minimize the likelihood of too many collisions.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 226 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Minimizing Collisions</CENTER></FONT>
+      <HR>
+
+      <P>There are two ways to attempt to minimize the likelihood of collisions: 
+
+      <OL>
+        <LI>make the hash table bigger 
+        <LI>construct a hashing function that produces an even distribution of 
+        hash values </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> How does making the hash table bigger minimize the 
+      likelihood of collisions?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What is the disadvantage to making the hash table 
+      bigger?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 227 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Avoidance: Natural Patterns</CENTER></FONT>
+      <HR>
+
+      <P>Let's say we have 7,000 employees at the bottling plant. The employee 
+      file contains records with primary keys consisting of the first two 
+      letters of an employee's last name, two digits for month of birth, two 
+      digits for day of birth and three randomly generated digits to make keys 
+      unique. Here's an example:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD width="50%"><FONT size=+1><TT>BA0227012</TT></FONT></TD>
+          <TD width="50%"><TT>...</TT></TD></TR></TBODY></TABLE></CENTER>
+      <P><BR>
+      <HR SIZE=10 width=10>
+
+      <P><BR>We'll allow for a hash table with 10,000 entries, so we need a four 
+      digit hash value for each key. Is there any part of the key that already 
+      has a fairly even distribution from 0 to 9,999?
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 228 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Avoidance: Natural Patterns (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD width="50%"><FONT size=+1><TT>BA0227012</TT></FONT></TD>
+                <TD width="50%"><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>BA1220977</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>BI0509121</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>BO1210165</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>HO0406239</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>LA1009998</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>LE0425727</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>LO0426837</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>MA0803402</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>MA0914422</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>PR0315190</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>RA1212053</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>RO0415286</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>SK0405839</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>ST0209773</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>SZ1111650</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>UR0306124</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>WH0802544</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Q:</I></B> How about converting 
+            the two letters to four digits by letting A=00, B=01, etc.?
+            <P><B><I>A:</I></B>
+            <P><B><I>Q:</I></B> How about the four month/day digits?
+            <P><B><I>A:</I></B>
+            <P><B><I>Q:</I></B> How about the last digit of the month and the 
+            three random digits?
+            <P><B><I>A:</I></B>
+            <P><BR><BR><BR><BR>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><I>H(k) = 1000×(month mod 10) + 
+                  rand_digits</I>
+                  <P></FONT></P></TD></TR></TBODY></TABLE></P></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 229 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Avoidance: Folding</CENTER></FONT>
+      <HR>
+
+      <P>Often (especially if a key contains some information), key values are 
+      not random. If there is a meaningful relationship between a key and the 
+      record it identifies, it is possible that similar records will have 
+      similar keys.
+      <P>For example, consider the ISBN system of numbering (those numbers on 
+      books that look like this: <TT>0-582-51734-6</TT>). The first few digits 
+      of an ISBN refer to the publisher. Every publisher has a unique code so 
+      every book from the same publisher starts with the same digits. If we used 
+      the first digits for a hash value, books from the same publisher would 
+      <I>collide</I>.
+      <P>One common technique to <I>randomize</I> the inherent similarity in 
+      keys is called <I>folding</I>. Parts of the key are separated and added 
+      together. We could hash the ISBNs by adding the first five digits to the 
+      last five:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT 
+size=+2><TT>0-201-38596-1</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>&#8594;</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>02013+85961</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>=</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>87974</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2><TT>0-201-41606-9</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>&#8594;</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>02014+16069</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>=</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>18083</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2><TT>0-201-55713-4</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>&#8594;</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>02015+57134</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>=</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>59149</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2><TT>0-582-05530-8</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>&#8594;</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>05820+55308</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>=</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>61128</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2><TT>0-582-51734-6</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>&#8594;</FONT></TD>
+                <TD align=middle><FONT size=+2><TT>05825+17346</TT></FONT></TD>
+                <TD align=middle><FONT size=+2>=</FONT></TD>
+                <TD align=middle><FONT 
+              size=+2><TT>23171</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 230 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Avoidance: Scaling</CENTER></FONT>
+      <HR>
+
+      <P>Our folding hashing function is supposed to produce fairly random hash 
+      values, giving us fairly even distribution over the <I>range</I> of the 
+      function.
+      <P><B><I>Q:</I></B> But how do the hash values distribute over the RRNs in 
+      the hash table?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Often, after we've hashed our keys to produce good, random hash values, 
+      we need to scale the values so that they range over the entire hash table. 
+      That is, for the hash function to work properly, we need to scale it:
+      <P>
+      <CENTER><I>H(k) = P × h(k) mod TABLE_SIZE</I></CENTER>
+      <P>This formula ensures that the hash values range over the entire hash 
+      table.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What does this mean for the size of the hash table?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 231 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Avoidance: Scaling: Example</CENTER></FONT>
+      <HR>
+
+      <P>Let's say we have a hashing function <I>h(k)</I> that produces values 
+      between 1,000 and 5,999 and our hash table has 10,000 entries (from 0 to 
+      9,999). Our scaled formula might be:
+      <P>
+      <CENTER><I>H(k) = 2 × h(k) mod 10,000</I></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5 width="35%">
+        <TBODY>
+        <TR>
+          <TD align=middle width="50%"><FONT 
+          size=+2><B><I>h(k)</I></B></FONT></TD>
+          <TD align=middle width="50%"><FONT 
+          size=+2><B><I>H(k)</I></B></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>2148
+            <P>3065
+            <P>5220
+            <P>1444
+            <P>4557</TT></FONT></P></TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What's wrong with the formula?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What can we do to <I>P</I> to fix the formula?
+      <P><B><I>A:</I></B>
+      <P><!-- P and TABLE_SIZE should be mutually prime --><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 232 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Repair</CENTER></FONT>
+      <HR>
+
+      <P>We can make our hashing function jump through all the hoops we want to 
+      avoid collisions. But if the function is not a perfect hashing function 
+      (and it almost never will be), collisions will occur. We must know how to 
+      deal with them when they <I>do</I> occur.
+      <P>Luckily, there are several good algorithms for <I>resolving</I> 
+      collisions. We're going to look at three of them:
+      <P>
+      <OL>
+        <LI>Linear Probing (<I>aka Progressive Overflow</I>) 
+        <LI>Rehashing (<I>aka Double Hashing</I>) 
+        <LI>Buckets </LI></OL>
+      <HR SIZE=10 width=10>
+
+      <P><BR><BR>
+      <CENTER><IMG border=0 
+      src="CSI 2131 - Section 13_files/collis.gif"></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 233 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Collision Resolution Algorithms</CENTER></FONT>
+      <HR>
+
+      <P>The basic idea behind collision resolution algorithms is always the 
+      same: 
+      <UL>
+        <LI>The hashing function <I>H(k)</I> produces a hash value <I>v</I> for 
+        some key <I>k</I> belonging to record <I>r</I> 
+        <LI>Position <I>v</I> in the hash table is already occupied by some 
+        other record 
+        <LI>Find a different position in the hash table to store <I>r</I> such 
+        that the search program (which has the same hashing function 
+        <I>H(k)</I>) will be able to find <I>r</I> in the hash table even though 
+        it's not at the expected position <I>v</I> </LI></UL>
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 234 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Linear Probing</CENTER></FONT>
+      <HR>
+
+      <P>We build a hash table by inserting records into positions determined by 
+      applying the hash function to their keys. The size of the hash table is 
+      known in advance (it must be known in advance because TABLE_SIZE is 
+      usually a part of the hashing function).
+      <P>For our collision resolution algorithms it will help to add a little 
+      field to each entry in the hash table. This field will contain one of the 
+      values {EMPTY, OCCUPIED, DELETED}. Before building the hash table all 
+      entries are set to EMPTY.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Linear Probing is probably the simplest method of collision resolution. 
+      It goes like this:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI>For record <I>r</I> with key <I>k</I>, compute the position in 
+              the hash table<BR>
+              <CENTER><I>v&nbsp;=&nbsp;H(k)</I></CENTER>
+              <LI>If position <I>v</I> is not OCCUPIED, store <I>r</I> at 
+              position <I>v</I> 
+              <LI>If position <I>v</I> is OCCUPIED, compute a new position<BR>
+              <CENTER><I>v</I>&nbsp;=&nbsp;(<I>v</I>&nbsp;+&nbsp;1)&nbsp;mod&nbsp;TABLE_SIZE</CENTER>and 
+              go back to step 2 </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 235 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Linear Probing Example</CENTER></FONT>
+      <HR>
+
+      <P>Let's go back to our poor bottlers. Unfortunately, too many employees 
+      were getting drunk on the job, so they fired a bunch of the 7,000 
+      employees. Now we only need room for 10 records in the hash table. 
+      Appropriately, we modify our hashing function to take the last digit of 
+      the primary key only:<BR>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>H(k) = 
+      last_digit(k)</I></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The hash table starts out with all elements set to EMPTY.
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="40%"><FONT 
+            size=+2><B><I>Records</I></B></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD width="50%"><FONT size=+2><TT>BA0227012</TT></FONT></TD>
+                <TD width="50%"><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BA1220977</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BI0509121</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BO1210165</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>HO0406239</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LA1009998</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LE0425727</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LO0426837</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>MA0803402</TT></FONT></TD>
+                <TD><TT>...</TT></TD></TR>
+              <TR>
+                <TD><TT>.<BR>.<BR>.</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width="20%"></TD>
+          <TD align=right vAlign=top width="40%"><FONT size=+2><B><I>Hash 
+            Table</I></B></FONT> 
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+          size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 236 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching a Linear Probing Hash Table</CENTER></FONT>
+      <HR>
+
+      <P>Searching for a record in a hash table is almost exactly the same as 
+      inserting a record in a hash table:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI>For record <I>r</I> with key <I>k</I>, compute the position in 
+              the hash table<BR>
+              <CENTER><I>v&nbsp;=&nbsp;H(k)</I></CENTER>
+              <LI>If position <I>v</I> is EMPTY, no record with key <I>k</I> 
+              appears in the table 
+              <LI>If position <I>v</I> is OCCUPIED by a record with key 
+              <I>k</I>, done! 
+              <LI>Otherwise, compute a new position<BR>
+              <CENTER><I>v</I>&nbsp;=&nbsp;(<I>v</I>&nbsp;+&nbsp;1)&nbsp;mod&nbsp;TABLE_SIZE</CENTER>and 
+              go back to step 2 </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What if position <I>v</I> is marked DELETED?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Deleting</I></B> a record uses the exact same algorithm as 
+      searching, except in step 3 mark the table entre DELETED.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 237 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching a Linear Probing Hash Table Example</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="60%"><FONT size=+2>Let's do some record 
+            searching and deleting in the hash table that has the following 
+            primary key values: 
+            <UL>
+              <LI><TT>search for BA1220977</TT>
+              <P></P>
+              <LI><TT>search for BO1210165</TT>
+              <P></P>
+              <LI><TT>search for MA0803402</TT>
+              <P></P>
+              <LI><TT>delete BA0227012</TT>
+              <P></P>
+              <LI><TT>search for LO0426837</TT>
+              <P></P>
+              <LI><TT>search for MO1112727</TT> </LI></UL></FONT></TD>
+          <TD vAlign=top width="40%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>LE0425727</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BI0509121</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BA0227012</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LO0426837</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>MA0803402</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BO1210165</TT></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2><TT>&nbsp;</TT><FONT 
+                  size=+0>EMPTY</FONT><TT>&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BA1220977</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LA1009998</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+          size=+2><TT>HO0406239</TT></FONT></TD></TR></TBODY></TABLE></TD></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Where's your fancy O(1) now?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 238 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Chaining: A Slight Improvement on Linear Probing</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Synonym</I></B> 
+        <DD>Two records with keys <I>k</I> and <I>j</I> such that 
+        <I>k</I>&nbsp;&#8800;&nbsp;<I>j</I> but <I>H(k)</I>&nbsp;=&nbsp;<I>H(j)</I>. 
+        </DD></DL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>On our trek through the hash table looking for the non-existent record 
+      with key <TT>MO1112727</TT>, we passed some synonyms and some 
+      non-synonyms. We can skip some of the work by keeping pointers in the hash 
+      table to link one synonym to the next.
+      <P>
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="60%"><FONT size=+2>Let's rebuild our hash 
+            table, this time adding pointers to synonyms added as records are 
+            inserted
+            <P><TT>BA0227012<BR>BA1220977<BR>BI0509121<BR>BO1210165<BR>HO0406239<BR>LA1009998<BR>LE0425727<BR>LO0426837<BR>MA0803402 
+            </TT></FONT></P></TD>
+          <TD vAlign=top width="40%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 239 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Chaining Still</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="60%"><FONT size=+2>Now let's redo our searches 
+            on the new hash table with pointers to synonyms: 
+            <UL>
+              <LI><TT>search for BA1220977</TT>
+              <P></P>
+              <LI><TT>search for BO1210165</TT>
+              <P></P>
+              <LI><TT>search for MA0803402</TT>
+              <P></P>
+              <LI><TT>delete BA0227012</TT>
+              <P></P>
+              <LI><TT>search for LO0426837</TT>
+              <P></P>
+              <LI><TT>search for MO1112727</TT> </LI></UL></FONT></TD>
+          <TD vAlign=top width="40%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>LE0425727</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BI0509121</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BA0227012</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LO0426837</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>MA0803402</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BO1210165</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2><TT>&nbsp;</TT><FONT 
+                  size=+0>EMPTY</FONT><TT>&nbsp;</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BA1220977</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>LA1009998</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>HO0406239</TT></FONT></TD>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 240 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Double Hashing</CENTER></FONT>
+      <HR>
+
+      <P>The goal of a hashing function is to convert keys into <I>random</I> 
+      (yet reproducible) record positions. It is the randomness of the hash 
+      values that ensures even distribution across the range of the hash table.
+      <P>When collisions <I>do</I> occur, however, a resolution technique like 
+      <I>linear probing</I> attempts to place synonyms close together. This can 
+      lead to <I>clustering</I> of records in the hash table.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I>Double Hashing</I> resolves collisions by applying a second hashing 
+      function to the key to find a new address (instead of just adding 1, like 
+      in linear probing). Here's an example of a Double Hashing algorithm for 
+      inserting records in a hash table:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI>For record <I>r</I> with key <I>k</I>, compute the position in 
+              the hash table<BR>
+              <CENTER><I>v&nbsp;=&nbsp;H(k)</I></CENTER>
+              <LI>If position <I>v</I> is not OCCUPIED, store <I>r</I> at 
+              position <I>v</I> 
+              <LI>If position <I>v</I> is OCCUPIED, compute a new position<BR>
+              <CENTER><I>v</I>&nbsp;=&nbsp;(<I>v</I>&nbsp;+&nbsp;<I>G(k)</I>)&nbsp;mod&nbsp;TABLE_SIZE</CENTER>and 
+              go back to step 2 </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 241 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Double Hashing (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>In our previous example we had the following hash function:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>H(k) = 
+      last_digit(k)</I></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>All keys with the same last digit are synonyms (they collide under 
+      <I>H(k)</I>). With Double Hashing, our second hashing function could be:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>G(k)</I> = 1 + (<I>second_last_digit(k)</I> mod 
+            7)</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The collision resolution formula would be:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>v</I> = (<I>v</I> + 1 + 
+            (<I>second_last_digit(k)</I> mod 7)) mod 
+        TABLE_SIZE</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 242 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Double Hashing (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>In the collision resolution formula from the previous slide:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>v</I> = (<I>v</I> + 1 + 
+            (<I>second_last_digit(k)</I> mod 7) mod 
+        TABLE_SIZE</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What's the (+ 1) for?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What's the (mod 7) for?
+      <P><B><I>A:</I></B>
+      <P>Now even if two keys map to the same hash value, it is much less likely 
+      that they will map to the same <I>subsequent</I> hash value. Even records 
+      placed following collisions are distributed evenly throughout the hash 
+      table.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> So why does this still not feel right?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 243 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Pass the Bucket</CENTER></FONT>
+      <HR>
+
+      <P>Although double hashing attempts to ensure even distribution of records 
+      in the hash table, it also basically guarantees that retrieving a record 
+      <I>r</I> will cost on average <I>(i+1)/2</I> cluster reads, where <I>i</I> 
+      is the number of synonyms of <I>r</I> (including <I>r</I>).
+      <P>Not only that, but those clusters will be random clusters within the 
+      file.
+      <P>We can solve this problem by allowing more than one record to be stored 
+      in the same table entry. A hash table entry that can hold more than one 
+      records is called a <I>bucket</I>.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 244 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Buckets Example</CENTER></FONT>
+      <HR>
+
+      <P>For example, if each entry in the table were big enough to store three 
+      records instead of just one, our previous example would require no 
+      collision resolution.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5 width="75%">
+        <TBODY>
+        <TR>
+          <TD width="33%"><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD width="33%">&nbsp;</TD>
+          <TD width="33%">&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BI0509121</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BA0227012</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MA0803402</TT></FONT></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BO1210165</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BA1220977</TT></FONT></TD>
+          <TD><FONT size=+2><TT>LE0425727</TT></FONT></TD>
+          <TD><FONT size=+2><TT>LO0426837</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>LA1009998</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>HO0406239</TT></FONT></TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 245 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>In the Bucket</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> How does the hash table in the example compare to the 
+      original, no buckets version?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Do we still need a collision resolution mechanism?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Do we still need a DELETED marker?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> How big should we make the buckets?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 246 -</CENTER>
+<P><!--------------------------------------------------------------------------><!--
+   <table width="100%" border=1 cellpadding=15>
+   <tr><td><font size=+2>
+
+   <font size=+3><center>Title</center></font>
+   <hr><p>
+
+   Looking Ahead (N/A)
+   - what happens when the hash table fills up (size is part of H(k) remember)
+   - key changes?
+
+   <pre>
+
+   </pre>
+
+   </font></td></tr>
+   </table>
+   <center>- ## -</center><p>
+--><!--------------------------------------------------------------------------></P></BODY></HTML>

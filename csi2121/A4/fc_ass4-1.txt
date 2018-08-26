@@ -1,0 +1,174 @@
+Comparing files ASS4-1.asm and ass4-1ok.asm
+****** ASS4-1.asm
+
+        push  eax      ; save the contents of all the registers that will
+        push  ebx      ; be used by ReadFP, except ESI which will return
+        push  ecx      ; the number to the caller
+        push  edx
+        push  edi
+        mov edi,1               ; default that number is +ve
+        mov divsr,1             ; reset divisor
+        getch                           ; get first char
+        cmp ax,'+'     ; check for +ve sign
+        je Next                 ; if yes, get char
+        cmp ax,'-'     ; check for -ve sign
+        jne CheckW              ; if no sign, first char is a digit
+        mov edi,-1              ; else, the number is negative
+
+Next:
+         getch         ; get next char if necessary
+
+CheckW:
+                call IsDecDigit ; ZF=1 iff AL contains a dec-digit
+                jnz In_valid            ; read a char until a digit is found
+                mov ebx,10      ; ebx is the multiplier
+                and eax,0Fh     ; convert to numerical value
+
+Process:
+                push eax                        ; save the current value on the stack
+                getch                   ; get next char
+                cmp al,'.'              ; decimal point?
+                je Endwhole       ;    if yes, get the fractional digits
+                call IsDecDigit   ; test if a digit
+                je Mult           ;    if yes, continue
+                jmp In_valid            ;    else, exit with error
+
+Mult:
+         mov ecx,eax    ; save current char in ecx
+****** ass4-1ok.asm
+
+ push  eax        ; save the contents of all the registers that will
+ push  ebx        ; be used by ReadFP, except ESI which will return
+ push  ecx        ; the number to the caller
+ push  edx
+ push  edi
+ mov edi,1                      ; default that number is +ve
+ mov divsr,1            ; reset divisor
+
+M1:
+         getch                  ; char in AL
+         cmp AL,'+'
+         je M2a                 ; read next char
+         cmp AL,'-'
+         jne M2b       ; first char is a digit
+         mov edi,-1             ; the number is negative
+
+M2a:
+         getch
+
+M2b:
+         call IsDecDigit        ; ZF=1 iff AL contains a dec-digit
+         jnz in_valid           ; read a char until a digit is found
+         mov ebx,10             ; ebx is the multiplier
+         and eax,0Fh            ; convert to numerical value
+
+M3:
+         push eax                       ; save the current value on the stack
+         getch                  ; get next char
+         cmp al,'.'             ; decimal point?
+         je M5                  ;    if yes, get the fractional digits
+         call IsDecDigit     ; test if a digit
+         je M4               ;    if yes, continue
+         jmp in_valid                   ;    else, exit with error
+
+M4:
+         mov ecx,eax    ; save current char in ecx
+******
+
+****** ASS4-1.asm
+         imul ebx       ; multiply the previous value by 10
+         jo Over_flow           ; check for overflow
+         add eax,ecx    ; add the current value to the (previous * 10)
+         jo Over_flow           ; check for overflow
+         jmp Process      ; or continue the loop
+
+Endwhole:
+                pop eax                   ; pop the whole part of the number
+                mov whole,eax    ; and store it
+                fld zero         ; initialize the FPU with zero
+                fwait            ; tell the cpu to wait
+
+CheckF:
+         getch                  ; start processing the fractional digits
+****** ass4-1ok.asm
+         imul ebx       ; multiply the previous value by 10
+         jo over_flow           ; check for overflow
+         add eax,ecx    ; add the current value to the (previous * 10)
+         jo over_flow           ; check for overflow
+         jmp M3           ; or continue the loop
+
+M5:
+         pop eax                                ; pop the whole part of the number
+         mov whole,eax    ; and store it
+         fld zero         ; initialize the FPU with zero
+         fwait            ; tell the cpu to wait
+
+M6:
+         getch                  ; start processing the fractional digits
+******
+
+****** ASS4-1.asm
+         cmp al,10              ; EOL?
+         je Finish              ;   then done
+         call IsDecDigit        ; test if a digit
+         je Divd                ;    if yes, continue
+         jmp In_valid                   ;    else, exit with error
+
+Divd:
+         and eax,0Fh                    ; convert to numerical value
+****** ass4-1ok.asm
+         cmp al,10              ; EOL?
+         je done                ;   then done
+         call IsDecDigit        ; test if a digit
+         je M7                  ;    if yes, continue
+         jmp in_valid                   ;    else, exit with error
+
+M7:
+         and eax,0Fh                    ; convert to numerical value
+******
+
+****** ASS4-1.asm
+         imul eax,10                    ; multiply by 10
+         jo Over_flow                   ; check for overflow
+         mov divsr,eax                  ; put back into mult
+****** ass4-1ok.asm
+         imul eax,10                    ; multiply by 10
+         jo over_flow                   ; check for overflow
+         mov divsr,eax                  ; put back into mult
+******
+
+****** ASS4-1.asm
+         fwait               ; tell the cpu to wait
+         jmp CheckW          ; continue loop
+
+Finish:
+         mov sign,edi           ; sign = -1 (-ve) or 1 (+ve)
+****** ass4-1ok.asm
+         fwait               ; tell the cpu to wait
+         jmp M6              ; continue loop
+
+done:
+         mov sign,edi           ; sign = -1 (-ve) or 1 (+ve)
+******
+
+****** ASS4-1.asm
+
+Over_flow:
+                        putstr overflow_msg    ; print the error message
+****** ass4-1ok.asm
+
+over_flow:
+                        putstr overflow_msg    ; print the error message
+******
+
+****** ASS4-1.asm
+
+In_valid:
+                        putstr error_msg        ; print the error message
+****** ass4-1ok.asm
+
+in_valid:
+                        putstr error_msg        ; print the error message
+******
+
+

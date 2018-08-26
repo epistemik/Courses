@@ -1,0 +1,56 @@
+# alien
+#
+# canvas is 100 x 200
+define canvas(200,100);
+
+# coordinates are in this system:
+define system(-100,-200,100,200);
+
+# layer 1
+set depth 1;
+set order 2;
+set pen_color [100,100,100];
+set fill_color [180,180,180];
+
+set filled 1; # true
+
+draw ellipse ([0,50],180,300); 
+set order 1;
+set pen_color [180,180,180]; 
+
+draw rectangle([0,-100],50,100);
+
+set order 3;
+draw ellipse([0,-180],300,100);
+
+set order 4;
+set pen_color [100,50,0];
+set fill_color [80,0,0];
+set rotate 1;
+set rotation_center [0,-50];
+set rotation_angle 15;
+
+draw ellipse([0,100],70,100);
+
+set rotation_angle -15;
+
+draw ellipse ([0,100],70,100);
+
+set rotate -1; # false
+
+set pen_color [255,100,0];
+set fill_color [120,0,0];
+draw ellipse([0,-50],100,20);
+set fill_color [200,0,0];
+set pen_color [200,0,0];
+draw circle ([0,0],20);
+set order 5;
+set pen_color [-1,-1,-1];
+set fill_color [-1,-1,-1];
+draw triangle ([-100,-200],[100,200],[0,-200]);
+set depth 2;
+set fill_color [0,0,200];
+draw triangle ([-100,200],[100,200],[100,-200]);
+
+
+

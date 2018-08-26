@@ -1,0 +1,85 @@
+/Pascal program to compute the quotient and remainder of X divided by Y/
+//
+/ [ 1]  Quotient := 0 ;/
+/ [ 2]  A := X ;/
+/       repeat  /
+/ [ 3]      Quotient := Quotient + 1 ;/
+/ [ 4]      A := A - Y  /
+/ [ 5]  until A < 0 ;   /
+/ [ 6]  Remainder := A + Y ;     /
+/ [ 7]  Quotient := Quotient - 1;/
+/ [ 8]  writeln(Quotient);       /
+/ [ 9]  writeln(Remainder)       /
+//
+/After the Pascal program, you must have a "memory map"./
+/This tells which memory location is used for each of the variables in/
+/the Pascal program (and additional variables that you need in your/
+/Assembly language program)./
+//
+/Memory Map/
+//
+/ X        = memory location $0004/
+/ Y        = memory location $0005/
+/Quotient  = memory location $0006/
+/Remainder = memory location $0007/
+/A         = memory location $0008/
+/Constant1 = memory location $0009/
+//
+//
+/Finally, your Assembly program and Machine Language program are put in./
+/Each line should begin with a comment containing an Assembly Language/
+/and, after the comment, the corresponding machine language instruction./
+/Use the numbers associated with the Pascal statements to indicate/
+/which Assembly language instruction(s) correspond to each of the/
+/Pascal statements.  There should be an exact correspondence... your Assembly/
+/language program must be an exact translation of the Pascal program./
+//
+/Feel free to add comments throughout your machine language program to explain/
+/what you are doing (be sure to do this if you do anything "tricky")./
+//
+/Here is an example of a very useful comment:/
+/It is convenient to store the variables BEFORE the body of the program./
+/This is done by having a JMP instruction at the very beginning/
+/which jumps over the variables to the first instruction in the program./
+/In the following, the program actually begins at location $000C./
+/Locations $0003 to $000B are reserved for variables, although at present/
+/some of the locations are unused./
+//
+/Constant1 is not a variable, but a constant: its value is initialized/
+/to 1 and never changed.  This makes it easy to subtract 1, as required/
+/in the program (statement [7])./
+//
+/ Assembly Language       OPCODE\DATA OPERAND's ADDRESS/
+/                         MSB LSB     MSB LSB/
+/      JMP [1]       /    $00 $15     $00 $0C
+/        X           /    $19
+/        Y           /    $7
+/        Quotient    /    $00
+/        Remainder   /    $00
+/        A           /    $00
+/        Constant1   /    $01
+/    unused ($000A)  /    $00
+/    unused ($000B)  /    $00
+/[ 1]  CLA           /    $00 $08
+/      STA Quotient  /    $00 $39     $00 $06
+/[ 2]  LDA X         /    $00 $91     $00 $04
+/      STA A         /    $00 $39     $00 $08
+/[ 3]  LDA Quotient  /    $00 $91     $00 $06
+/      INC           /    $00 $10
+/      STA Quotient  /    $00 $39     $00 $06
+/[ 4]  LDA Y         /    $00 $91     $00 $05
+/      CP2           /    $00 $60
+/      ADD A         /    $00 $99     $00 $08
+/      STA A         /    $00 $39     $00 $08
+/[ 5]  JN  [6]       /    $00 $19     $00 $3A
+/      JMP [3]       /    $00 $15     $00 $1A
+/[ 6]  ADD Y         /    $00 $99     $00 $05
+/      STA Remainder /    $00 $39     $00 $07
+/[ 7]  LDA Constant1 /    $00 $91     $00 $09
+/      CP2           /    $00 $60
+/      ADD Quotient  /    $00 $99     $00 $06
+/      STA Quotient  /    $00 $39     $00 $06
+/[ 8]  DSP Quotient  /    $00 $01     $00 $06
+/[ 9]  DSP Remainder /    $00 $01     $00 $07
+/      HLT           /    $00 $64
+

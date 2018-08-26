@@ -1,0 +1,1 @@
+// FILE:  me.h// NAME:  Mark Sattolo// STUDENT #:  428500// COURSE:  CSI 2172A// MARKING SECTION:  A4     #if ! defined(_ME_H_)#define _ME_H_#include <iostream.h>void me(ostream& os) ;#endif

@@ -1,0 +1,272 @@
+/*  Mark Sattolo  428500
+    CSI2165A,  J.Sayyad
+    Assignment #4
+*/
+
+
+join([],X,X). 
+join([H|T],L1,[H|T2]):- join(T,L1,T2).
+
+
+/*--------------------------------------------------------------------
+    Q1 - is_bst/1: check that the root is always greater than or equal
+                   to a left subtree if present, and less than a right
+    subtree if present, and that any subtrees are bst's as well.
+----------------------------------------------------------------------*/
+
+def_bst1(BT):- BT=bt(bt(bt(nil,2,nil),4,bt(nil,5,nil)),
+                  6, bt(bt(nil,7,bt(nil,8,nil)),9,bt(nil,10,nil))).
+
+def_bst2(BT):- BT=bt(bt(bt(nil,13,nil),-6,bt(nil,99,nil)),
+                  3, bt(bt(nil,42,bt(nil,27,nil)),81,bt(nil,-5,nil))).
+
+is_bst(nil).
+
+is_bst(bt(nil,N,nil)).
+
+is_bst(bt(L,N,nil)):- L=bt(_,Ln,_), 
+                      N >=Ln,is_bst(L),!.
+
+is_bst(bt(nil,N,R)):- R=bt(_,Rn,_), 
+                      Rn > N,is_bst(R),!.
+
+is_bst(bt(L,N,R)):- L=bt(_,Ln,_),R=bt(_,Rn,_), 
+                    N >=Ln,Rn > N, 
+                    is_bst(L),is_bst(R).
+ 
+
+
+/*--------------------------------------------------------------------
+    Q2 - horizontal/2: put the root of the tree in a list in the data-
+                       base and the subtrees in a queue in the database,
+    then process the queue and put the root of each subtree and its 
+    subtrees back in the queue, etc. until the queue is empty.
+----------------------------------------------------------------------*/
+
+def_hrz(BT):- BT=bt(bt(bt(nil,2,nil),a,bt(nil,8,bt(nil,9,nil))),
+              x, bt(bt(nil,b,nil),d,bt(nil,z,nil))).
+
+
+horizontal(nil,[]).
+
+horizontal(bt(L,N,R),List):- (retract(queue(QL)); QL=[]),
+                             join(QL, [L], NewL), join(NewL, [R], New),
+                             assert(queue(New)), assert(list([N])),
+                             process, 
+                             retract(list(List)).
+
+process:- retract(queue(QL)), QL=[H|T],
+          ((H=bt(L, N, R),
+          retract(list(HL)), join(HL, [N], NewH),
+          assert(list(NewH)),
+          join(T, [L], NewL), join(NewL, [R], New), 
+          assert(queue(New)),
+          process);
+          (assert(queue(T)), process)).
+                  
+process:- !.
+
+
+
+/*--------------------------------------------------------------------
+    Q3 - Tree predicates.
+----------------------------------------------------------------------*/
+
+/*  (a) sum_tree/2: recursively process the tree as a list; if the head
+                    is atomic or a var, replace it with the tail sum; 
+    if head and tail are lists, process each and sum their values; if 
+    a tree is found, convert it to a list for processing.
+-----------------------------------------------------------------*/
+
+sum_tree(nil,nil).
+
+sum_tree(Tree,Stree):- Tree =..[t|T],
+                       sum_tree(T,Ttree,X),!, 
+                       Stree =..[t|Ttree].
+
+sum_tree([],[],0).
+
+sum_tree([X],[X],X):- number(X).
+
+sum_tree([H|T],Stree,Val):- (atomic(H);var(H)),
+                            sum_tree(T,Ttree,Val),
+                            Stree=[Val|Ttree].
+
+sum_tree([H|T],Stree,Val):- sum_tree(H,Htree,Hval),
+                            sum_tree(T,Ttree,Tval),
+                            Stree=[Htree|Ttree], 
+                            Val is Hval+Tval.
+
+sum_tree(Tree,Stree,Val):- Tree =..[t|T],
+                           sum_tree(T,Ttree,Val),
+                           Stree =..[t|Ttree].
+
+
+/*  (b) add/3: similar to the above: process the trees as lists with a 
+               helper predicate: if both elements are numbers or both 
+    heads are numbers, add them; otherwise, process the head and tail
+    or tree, returning one list's value if the other list is empty.
+-------------------------------------------------------------------*/
+
+add(Tr1,Tr2,Sum):- Tr1 =..[t|T1],
+                   Tr2 =..[t|T2],
+                   addL(T1,T2,Tsum),!,
+                   Sum =..[t|Tsum].
+
+addL([],[],[]).
+
+addL(X,[],X).
+
+addL([],X,X).
+
+addL(N1,N2,TotL):- number(N1),number(N2),
+                   TotL is N1+N2.
+
+addL(L1,L2,[H|T]):- L1=[H1|T1],L2=[H2|T2],
+                    number(H1),H is H1+H2, 
+                    addL(T1,T2,T).
+
+addL(L1,L2,[H|T]):- L1=[H1|T1],L2=[H2|T2],
+                    addL(H1,H2,H),addL(T1,T2,T).
+
+addL(L1,L2,L3):- L1=..[t|T1],L2=..[t|T2],
+                 addL(T1,T2,T),
+                 L3=..[t|T].
+
+
+
+
+/*--------------------------------------------------------------------
+    Q4 - min_in_column/3: process the given values, using functor/3 to 
+                          generate a goal with the proper functor and 
+    arity, then calling this goal and using arg/3 to find the right 
+    column and storing them in a list in the database, then retracting
+    that goal and recursively finding the next min.  At the end, the 
+    goals are re-asserted and then the min list is retracted and the 
+    overall minimum is found.
+----------------------------------------------------------------------*/
+
+min([N],N):- number(N).
+min([H|T],Min):- number(H), min(T,Tmin), min(H,Tmin,Min).
+
+a(1,2,13).
+a(6,3,4).
+a(4,-2,8).
+a(5,10,8).
+a(3,5,6,8).
+a(67,7).
+a(4,103).
+
+min_in_column(N,X/Y,Min):- process(N,X,Y),
+                           retract(min(List)),
+                           min(List,Min).
+
+process(N,X,Y):- functor(G,X,Y), 
+                 G,
+                 arg(N,G,Arg),
+                 (retract(min(List)); List=[]),
+                 join([Arg],List,Newlist),
+                 asserta(min(Newlist)),
+                 retract(G),
+                 (process(N,X,Y); true),
+                 assert(G).
+
+
+
+
+/*--------------------------------------------------------------------
+    Q5 - split/2: convert the original atom to a list of ascii codes,
+                  and check for a valid starting character then trim
+    off any underscores at the start of the list.  Remove and store 
+    a capital letter if found, then use helper predicate word/3 to 
+    find a string of valid chars or fail the predicate.  Return any 
+    valid word, re-attach the capital if necessary, place this word
+    in a list, and recursively process the rest of the original atom.
+----------------------------------------------------------------------*/
+
+
+split(Vname,List):- assert(varname(Vname)),
+                    ((not(atom(Vname)),!,stop);
+                    (!,process(Vname, List))),!,
+                    retract(varname(Vname)). 
+
+process(Vname,[Word|Rest]):- name(Vname, List),
+                             List=[H|T],!,
+                             (starter(H);!,stop),
+                             trim(List,TrimList),
+                             TrimList=[TrH|TrT],
+                             ((upper(TrH),List2=TrT,!);List2=TrimList),
+                             word(List2,WordL,NewList),!,
+                            ((upper(TrH),WordL2=[TrH|WordL],!);WordL2=WordL),
+                             name(Word,WordL2),
+                             ((NewList=[],Rest=[]);
+                             (name(NewName,NewList),
+                             process(NewName,Rest))).
+
+% return if an underscore
+word([95|T],[],T):- !.                  
+
+% end of list
+word([],[],[]).                         
+
+% exit if non-valid char
+word([Char|T],C,Rest):- nonvalid(Char),!,stop.  
+
+word([Char|T],[],[Char|T]):- upper(Char).
+
+word([Char|T1],[Char|T2],Rest):- (lower(Char);digit(Char);!,stop),!,
+                                 word(T1,T2,Rest).           
+
+
+trim([H|T],TrimList):- (H=95,trim(T,TrimList));TrimList=[H|T].
+
+
+stop:- retract(varname(Vname)),
+       write(Vname),
+       write(' is not a valid variable name'),
+       !,fail.
+
+
+upper(Char):- Char>=65,Char=<90.
+lower(Char):- Char>=97,Char=<122.
+digit(Char):- Char>=48,Char=<57.
+starter(Char):- Char=95;upper(Char);lower(Char).
+nonvalid(Char):- Char<48;Char>122;(Char>57,Char<65);(Char>90, Char<97).
+
+
+
+
+/*--------------------------------------------------------------------
+    Q6 - indexed_add/5: convert Index1 and Index2 to lists and use 
+                        arg/3 to find the proper items in S1 and S2.
+    Add these and call a helper procedure with the tails of the 
+    indices to recursively find the other values. If one index is 
+    empty - process only the other index and stop when both are empty.
+    Then reassemble the recursive tail values with the heads and 
+    convert the final list to a structure with functor 'result'.
+----------------------------------------------------------------------*/
+   
+indexed_add(S1,S2,Ind1,Ind2,Ans):- Ind1=[H1|T1],Ind2=[H2|T2],
+                                   (arg(H1,S1,A1);A1=0),
+                                   (arg(H2,S2,A2);A2=0),
+                                   H is A1+A2,
+                                   list_add(S1,S2,T1,T2,List),!,
+                                   AnsL=[H|List],
+                                   Ans =..[result|AnsL].
+
+list_add(S1,S2,[],[],[]).
+
+list_add(S1,S2,[],Ind,AnsL):- (Ind=[H|T],(arg(H,S2,A);A=0)),
+                              list_add(S1,S2,[],T,List),
+                              AnsL=[A|List].
+
+list_add(S1,S2,Ind,[],AnsL):- (Ind=[H|T],(arg(H,S1,A); A=0)),
+                              list_add(S1,S2,T,[],List),
+                              AnsL=[A|List].
+
+list_add(S1,S2,Ind1,Ind2,AnsL):- (Ind1=[H1|T1],(arg(H1,S1,A1);A1=0)),
+                                 (Ind2=[H2|T2],(arg(H2,S2,A2);A2=0)),
+                                 H is A1+A2,
+                                 list_add(S1,S2,T1,T2,List),
+                                 AnsL=[H|List].
+

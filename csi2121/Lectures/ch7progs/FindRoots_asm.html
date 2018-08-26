@@ -1,0 +1,106 @@
+<HTML>
+
+<HEAD>
+   <TITLE>CodeTemplate</TITLE>
+</HEAD>
+
+<BODY>
+
+<FONT SIZE=+2>
+<B>
+<pre><code>
+; Finds the real roots of a quadratic equation
+; A*X^2 + B*X + C
+; where A, B, C are stored in the data segment 
+; Assume that the value of A is nonzero
+
+.386
+.387
+.model flat
+include csi2121.inc
+ 
+.data
+	A dd 1.0
+	B dd -5.0
+	C dd 6.0
+	root1 dd ?
+	root2 dd ?
+	two dd 2.0
+	msg1 db "Root1 = ",0
+	msg2 db "Root2 = ",0
+	msg3 db "Both roots are complex numbers",0
+.code
+
+main:
+	; first form 2*A
+	fld A ;
+	fmul two ; 2*A on ST
+
+        ; then form 4AC
+	fld ST   ; 2*A on ST, 2*A on ST(1)
+	fmul two ; 4*A on ST, 2*A on ST(1)
+	fmul C ; 4*A*C on ST, 2*A on ST(1)
+
+	; now form B*B
+	fld B  
+	fmul B ; B*B on ST, 4AC on ST(1), 2A on ST(2)
+
+	; now form B*B - 4AC
+	fsubr  ; B*B-4AC on ST, 2A on ST(1)
+	ftst  ; compare 0.0 with ST	
+	fstsw ax  ; store FPU status word into AX
+	test ax,4000h ; is 0.0 = B2-4AC ? (test C3)
+	jnz one_root  ; yes, then there is only 1 root
+	; now B2-4AC is either positive or negative	 
+	test ax,100h ; is 0.0 > B2-4AC ? (test C0)
+	jnz no_roots ; yes, then no real roots
+
+	; here we have two roots
+	fsqrt ; sqrt(B2-4AC) on ST, 2A on ST(1)
+	fld ST ; sqrt on ST and ST(1), 2A on ST(2)
+	fchs ; -sqrt on ST, +sqrt on ST(1), 2A on ST(2)
+	fld B 
+	fchs  
+; -B on ST, -sqrt on ST(1), +sqrt on ST(2), 2A on ST(3)
+	
+	fadd ST(1),ST  ; 2A*root1 on ST(1)
+	faddp ST(2),ST ; 2A*root2 on ST(2) and pop
+        ; 2A*root1 on ST, 2A*root2 on ST(1), and 2A on ST(2)
+	
+	fdiv ST,ST(2) ;root1 on ST
+	fstp root1 ; store in memory and pop
+	;2A*root2 on ST, 2A on ST(1)
+	fdiv ST,ST(1)
+	fstp root2 ; store in memory and pop
+	fwait ; tells the CPU to wait until FPU 
+	      ; has finished writing results	
+	jmp disp_results
+	
+one_root:
+	fld B
+	fchs  
+; -B on ST, ; B2-4AC on ST(1), 2A on ST(2)
+	fdiv ST,ST(2) ; root1-2 on ST
+	fst root1
+	fst root2
+	fwait ; tells the CPU to wait until FPU 
+	      ; has finished writing results	
+disp_results:
+	putstr msg1
+	putfp root1
+	putch 10
+	putstr msg2
+	putfp root2			
+exit:
+	ret
+no_roots:
+	putstr msg3
+	jmp exit
+end
+</code></pre>
+</B>
+</FONT>
+
+
+</BODY>
+</HTML>

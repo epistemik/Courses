@@ -1,0 +1,69 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>Laboratory 7: Container Classes & Templates</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+
+<H1>Laboratory 7: Container Classes & Templates</H1>
+<UL>
+    <LI>List Implementation with Iterators
+      <PRE>
+      list.exe [ .exe ]
+       |
+       +- <A HREF="list.cpp">list.cpp</A> [.cpp]
+       |
+       +- <A HREF="listtest.cpp">listtest.cpp</A> [.cpp]
+       |
+       +- <A HREF="list.h">list.h</A> [.h]
+       |
+       +- <A HREF="list_inst.h">list_inst.h</A> [.h]
+
+       (Makefile <A HREF="list.make">list.make</A>)
+      </PRE>
+      Study the syntax, and the implementation. Explain why it is a good
+      idea to use iterators to access elements in a data-structure!
+      <b><FONT COLOR=red>Document the code!</FONT></b><br><br>
+
+    <LI>List Implementation using Embedded Classes
+      <PRE>
+      ilist.exe [ .exe ]
+       |
+       +- <A HREF="ilist.h">ilist.h</A> [.h]
+       |
+       +- <A HREF="ilist.cpp">ilist.cpp</A> [.cpp]
+       |
+       +- <A HREF="ilist_inst.h">ilist_inst.h</A> [.h]
+       |
+       +- <A HREF="test.cpp">test.cpp</A> [.cpp]
+
+       (Makefile <A HREF="ilist.make">ilist.make</A>)
+      </PRE>
+    The interesting feature of this implementation is that a pointer
+    is always kept on the last accessed element, hence sequential
+    traversal can be done in linear time. This problem was also given
+    as an assignment.<br><br>
+
+    <LI>A Parametric <tt>quick_sort</tt> (<i>notes page 169</i>)
+
+      <PRE>
+      qsort.exe [ .exe ]
+       |
+       +- <A HREF="qsort.cpp">qsort.cpp</A>
+
+       (Unix command line:
+            g++ -o qsort qsort.cpp -g)
+
+      $qsort hello love c++ world
+      </PRE>
+      Study the syntax! What is the advantage of making a function
+      parametric?<br><br>
+
+    <LI>Pointers to member functions of parametric classes
+        <br><br>
+         The pointers to member functions example for 
+         <A HREF="../lab5">laboratory 5</A> has an example
+         for parametric classes as well. Study the syntax!
+      
+
+</UL>
+</BODY>
+</HTML>
+

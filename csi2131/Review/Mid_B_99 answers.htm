@@ -1,0 +1,557 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131B - Winter 1999 Midterm Exam</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff><!---------->
+<TABLE border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD><!---------->
+      <CENTER><IMG border=0 src="sitehdr2.gif"> 
+      <HR>
+      <FONT size=+2><B><I>CSI 2131B</FONT><BR><FONT size=+1>Winter 1999 Midterm 
+      Exam</I></B></FONT>
+      <P>Tuesday, February 16, 1999
+      <P>
+      <TABLE border=1 cellPadding=15 width="50%">
+        <TBODY>
+        <TR>
+          <TD align=right width="30%"><B><I>Family Name</I></B></TD>
+          <TD width="70%">&nbsp;</TD></TR>
+        <TR>
+          <TD align=right><B><I>Given Name</I></B></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD align=right><B><I>Student Number</I></B></TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE>
+      <P></CENTER>
+      <HR>
+
+      <P><B><I>Notes:</I></B> 
+      <OL>
+        <LI>This is a closed book exam. Textbooks, notes, cheat sheets and stuff 
+        written under the brim of your baseball cap are <B>not</B> allowed. 
+        <LI>Calculators are <B>not</B> allowed. 
+        <LI>Anything other foreign entity, abstract or concrete, that would help 
+        you answer questions on the exam is <B>not</B> allowed. 
+        <LI>There are 10 pages. Write your name and student number on 
+        <I>every</I> page. 
+        <LI>Answer <I>all</I> of the questions on the exam in <I>all three 
+        parts</I> of the exam. 
+        <LI>You have 100 minutes to complete the exam. </LI></OL>
+      <P><B><I>Marks:</I></B>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=6><B><I>Question</I></B></TD>
+          <TD rowSpan=2>&nbsp;</TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><I>Part A</I></TD>
+          <TD align=middle colSpan=3><I>Part B</I></TD>
+          <TD align=middle><I>Part C</I></TD></TR>
+        <TR>
+          <TD align=middle>1<BR>(4 marks)</TD>
+          <TD align=middle>2<BR>(4 marks)</TD>
+          <TD align=middle>3<BR>(3 marks)</TD>
+          <TD align=middle>4<BR>(3 marks)</TD>
+          <TD align=middle>5<BR>(3 marks)</TD>
+          <TD align=middle>6<BR>(4 marks)</TD>
+          <TD align=middle><I>Total</I><BR>(20 marks)</TD></TR>
+        <TR>
+          <TD><BR>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></CENTER>
+      <DIV align=right>1 of 
+10</DIV><!--------------------------></TD></TR></TBODY></TABLE><!--------------------------->
+<HR>
+
+<H2>Part A</H2>
+<H3>Question 1:</H3>Here is an algorithm that reads from <I>four</I> files. The 
+first file is an index file containing offsets into the other three files, which 
+are data files.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD><PRE>open "disasters.ndx" and assign it to IndexFile
+open "tornados.dat" and assign it to TornadoFile
+open "earthquakes.dat" and assign it to QuakeFile
+open "floods.dat" and assign it to FloodFile
+
+while not at end of IndexFile
+   read Toffset,Qoffset,Foffset from IndexFile
+
+   seek to Toffset in TornadoFile
+   read line from TornadoFile into Outstring
+   print Outstring
+
+   seek to Qoffset in QuakeFile
+   read line from QuakeFile into Outstring
+   print Outstring
+
+   seek to Foffset in FloodFile
+   read line from FloodFile
+   print Outstring
+end while
+
+close all files.</PRE></TD></TR></TBODY></TABLE>
+<P></CENTER>Assume that <TT>disasters.ndx</TT> occupies cluster 10 on disk. It 
+contains (tornado, earthquake, flood) offsets for 6 cities.
+<P>Assume that <TT>tornados.dat</TT>, <TT>earthquakes.dat</TT> and 
+<TT>floods.dat</TT> each have 6 records (one for each city).
+<P>Records 1, 2 and 3 in <TT>tornados.dat</TT> occupy cluster 11.<BR>Records 4, 
+5 and 6 in <TT>tornados.dat</TT> occupy cluster 12.
+<P>Records 1, 2 and 3 in <TT>earthquakes.dat</TT> occupy cluster 13.<BR>Records 
+4, 5 and 6 in <TT>earthquakes.dat</TT> occupy cluster 14.
+<P>Records 1, 2 and 3 in <TT>floods.dat</TT> occupy cluster 15.<BR>Records 4, 5 
+and 6 in <TT>floods.dat</TT> occupy cluster 16.
+<P>The question follows... 
+<DIV align=right>2 of 10</DIV>
+<HR>
+
+<OL type=a>
+  <LI>List (in order) the cluster requests made by the algorithm.
+  <P><FONT size=+1><FONT face="Comic Sans MS">Each </FONT><TT>read</TT><FONT 
+  face="Comic Sans MS"> in the algorithm results in a cluster request:
+  <P>10, 11, 13, 15, 10, 11, 13, 15, 10, 11, 13, 15,<BR>10, 12, 14, 16, 10, 12, 
+  14, 16, 10, 12, 14, 16
+  <P></FONT></FONT></P>
+  <LI>Assuming there are only <I>three</I> system I/O buffers, give a better 
+  algorithm that produces the exact same screen output. You can assume that 
+  <TT>disasters.ndx</TT> will never contain more than 30 (tornado, earthquake, 
+  flood) offsets and that the offsets are all integers.
+  <P><PRE><FONT face="Comic Sans MS" size=+1>
+open "disasters.ndx" and assign it to IndexFile
+open "tornados.dat" and assign it to TornadoFile
+open "earthquakes.dat" and assign it to QuakeFile
+open "floods.dat" and assign it to FloodFile
+
+set N to 1
+while not at end of IndexFile
+   read T,Q,F from IndexFile
+   set Toffset[N] to T, set Qoffset[N] to Q, set Foffset[N] to F
+   set N to N + 1
+end while
+
+set i to 1
+while i &lt;= N
+   seek to Toffset[i] in TornadoFile
+   read line from TornadoFile into Outstring
+   print Outstring
+
+   seek to Qoffset[i] in QuakeFile
+   read line from QuakeFile into Outstring
+   print Outstring
+
+   seek to Foffset[i] in FloodFile
+   read line from FloodFile
+   print Outstring
+end while
+
+close all files.
+</FONT>
+</PRE></LI></OL>
+<DIV align=right>3 of 10</DIV>
+<HR>
+
+<H3>Question 2:</H3>Here is a picture of the beginning of a 16-bit File 
+Allocation Table. Clusters are exactly 1000 bytes long:
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=10>
+  <TBODY>
+  <TR>
+    <TD>0xFFFF</TD>
+    <TD>0x0002</TD>
+    <TD>0x0003</TD>
+    <TD>0x0004</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x000E</TD>
+    <TD>0x0008</TD></TR>
+  <TR>
+    <TD>0x0009</TD>
+    <TD>0x000A</TD>
+    <TD>0x000B</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD></TR>
+  <TR>
+    <TD>0x0011</TD>
+    <TD>0x0012</TD>
+    <TD>0x0019</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0017</TD>
+    <TD>0x0010</TD></TR>
+  <TR>
+    <TD>0x0000</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD></TR>
+  <TR>
+    <TD colSpan=8>. . .</TD></TR></TBODY></TABLE>
+<P></CENTER>Here is a portion of the <I>directory</I> structure: 
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD align=middle bgColor=#d0d0d0>File Name</TD>
+    <TD align=middle bgColor=#d0d0d0>...</TD>
+    <TD align=middle bgColor=#d0d0d0>Size</TD>
+    <TD align=middle bgColor=#d0d0d0>First Cluster</TD>
+    <TD align=middle bgColor=#d0d0d0>...</TD></TR>
+  <TR>
+    <TD>foo.bin</TD>
+    <TD align=middle>...</TD>
+    <TD align=right>???</TD>
+    <TD align=middle>0x0007</TD>
+    <TD align=middle>...</TD></TR>
+  <TR>
+    <TD>bar.bin</TD>
+    <TD align=middle>...</TD>
+    <TD align=right>???</TD>
+    <TD align=middle>0x0001</TD>
+    <TD align=middle>...</TD></TR>
+  <TR>
+    <TD>foobar.dat</TD>
+    <TD align=middle>...</TD>
+    <TD align=right>???</TD>
+    <TD align=middle>0x0006</TD>
+    <TD align=middle>...</TD></TR>
+  <TR>
+    <TD>foobat.dat</TD>
+    <TD align=middle>...</TD>
+    <TD align=right>???</TD>
+    <TD align=middle>0x0016</TD>
+    <TD align=middle>...</TD></TR></TBODY></TABLE>
+<P></CENTER>
+<OL type=a>
+  <LI>List <I>in order</I> the clusters occupied by each file.
+  <P><TT>foo.bin&nbsp;&nbsp;&nbsp;&nbsp;</TT> <FONT face="Comic Sans MS" 
+  size=+1>0x07, 0x08, 0x09, 0x0A, 0x0B</FONT>
+  <P><TT>bar.bin&nbsp;&nbsp;&nbsp;&nbsp;</TT> <FONT face="Comic Sans MS" 
+  size=+1>0x01, 0x02, 0x03, 0x04</FONT>
+  <P><TT>foobar.dat&nbsp;</TT> <FONT face="Comic Sans MS" size=+1>0x06, 
+  0x0E</FONT>
+  <P><TT>foobat.dat&nbsp;</TT> <FONT face="Comic Sans MS" size=+1>0x16, 0x17, 
+  0x10, 0x11, 0x12, 0x19</FONT>
+  <P></P>
+  <LI>Without knowing the file sizes, make an educated guess at how much total 
+  disk space is being wasted by the four files?
+  <P><FONT face="Comic Sans MS" size=+1>on average, half a cluster per 
+  file</FONT>
+  <DIV align=right>___<FONT face="Comic Sans MS" size=+1>2000</FONT>___ 
+  bytes</DIV><BR>
+  <LI>Give an algorithm for determining what file occupies any given cluster. 
+  (That is, for any cluster N, what file occupies cluster N?).
+  <P>
+  <DIV align=right>4 of 10</DIV>
+  <HR>
+<PRE><FONT face="Comic Sans MS" size=+1>
+start with first directory entry
+while there are more directory entries
+   set CurrentCluster to this entry's first cluster
+
+   while CurrentCluster is not 0xFFFF
+      if CurrentCluster = N
+         N is occupied by current file
+         done!
+      end if
+
+      set CurrentCluster to value of entry CurrentCluster in the FAT
+   end while
+
+   go to next directory entry
+end while
+</FONT>
+</PRE></LI></OL>
+<DIV align=right>5 of 10</DIV>
+<HR>
+
+<H2>Part B</H2>
+<H3>Question 3:</H3>Have a look at the following ASCII file. Records and fields 
+are variable length. Fields are separated by the comma ',' delimiter. Records 
+are separated by the semi-colon ';' delimiter. There are no spaces, there are no 
+newline or carriage return characters.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD><TT>1,Huntsville,AL,<FONT color=red>464</FONT>,<FONT 
+      color=red>373</FONT>;2,Topeka,KS,<FONT color=red>445</FONT>,<FONT 
+      color=red>357</FONT>;3,Lubbock,TX,<FONT color=red>285</FONT>,<BR><FONT 
+      color=green>229</FONT>;4,Overland_Park,KS,<FONT color=red>269</FONT>,<FONT 
+      color=green>216</FONT>;5,Minneapolis,MN,<FONT color=green>219</FONT>,<FONT 
+      color=green>176</FONT>;6,<BR>Oklahoma_City,OK,<FONT 
+      color=green>209</FONT>,<FONT color=green>168</FONT>;7,Kansas_City,KS,<FONT 
+      color=green>208</FONT>,<FONT 
+      color=green>167</FONT>;8,St._Paul,<BR>MN,<FONT 
+      color=green>206</FONT>,<FONT color=green>165</FONT>;9,St._Louis,MO,<FONT 
+      color=green>202</FONT>,<FONT color=green>162</FONT>;<FONT 
+      color=red>10</FONT>,Kansas_City,MO,<FONT color=green>200</FONT>,<FONT 
+      color=green>160</FONT>;</TT></TD></TR></TBODY></TABLE>
+<P></CENTER>
+<OL type=a>
+  <LI>The file currently occupies 240 bytes (with numbers like 464 being 
+  represented by three bytes: the ASCII codes for '4', '6', '4'). If we allow 
+  this file to contain binary data, we could represent each numeric field with 
+  fewer bytes. For this particular file, how many bytes could we save (use only 
+  as many bytes as needed for each numeric field)?
+  <P><FONT face="Comic Sans MS" size=+1>numeric fields &lt;= 255 can be 
+  represented with 1 byte<BR>numeric fields &gt;= 256 and &lt;= 65535 can be 
+  represented with 2 bytes
+  <P>so we save 1 byte for all the fields in <FONT color=red>red</FONT> and we 
+  save 2 bytes for all the fields in <FONT color=green>green</FONT> </FONT>
+  <DIV align=right>___<FONT face="Comic Sans MS" size=+1>35</FONT>_______ 
+  bytes</DIV><BR>
+  <LI>Here is an index file containing the offset of each record in the data 
+  file (exactly as displayed above). Give an algorithm (in pseudocode, Pascal or 
+  C) for generating the index file by reading through the data file.
+  <P>
+  <TABLE border=0 cellPadding=0 cellSpacing=0>
+    <TBODY>
+    <TR>
+      <TD vAlign=top>
+        <TABLE border=1 cellPadding=15>
+          <TBODY>
+          <TR>
+            <TD><TT>Hunstville,0<BR>Topeka,24<BR>Lubbock,44<BR>Overland_Park,65<BR>Minneapolis,92<BR>Oklahoma_City,117<BR>Kansas_City,144<BR>St._Paul,169<BR>St._Louis,191<BR>Kansas_City,214</TT></TD></TR></TBODY></TABLE>
+        <P></P></TD>
+      <TD><PRE><FONT face="Comic Sans MS" size=+1>
+     set Offset to 0
+     set NextPos to 0
+
+     while there are more bytes to read
+        read a byte <I>C</I>
+        set NextPos to NextPos + 1
+
+        while <I>C</I> is not ','
+           read a byte <I>C</I>
+           set NextPos to NextPos + 1
+        end while
+
+        read a byte <I>C</I>
+        set NextPos to NextPos + 1
+        while <I>C</I> is not ','
+           write C to IndexFile
+           read a byte <I>C</I>
+           set NextPos to NextPos + 1
+        end while
+
+        write ','
+        write Offset
+
+        read a byte <I>C</I>
+        set NextPos to NextPos + 1
+        while <I>C</I> is not ';'
+           read a byte <I>C</I>
+           set NextPos to NextPos + 1
+        end while
+
+        set Offset to NextPos
+     end while
+</FONT></PRE></TD></TR></TBODY></TABLE></P></LI></OL>
+<DIV align=right>6 of 10</DIV>
+<HR>
+
+<H3>Question 4:</H3>Assume we have a tiny little disk with only 5 tracks. The 
+<I>average seek time</I> is defined as the average of the seek times between 
+every pair of tracks.
+<P>
+<OL type=a>
+  <LI>If it takes 1ms to move from one track to an adjacent track, what is the 
+  average seek time for our little disk? You may express your answer as a 
+  fraction. <PRE><FONT face="Comic Sans MS" size=+1>
+pairs of tracks: 1-2:1ms, 1-3:2ms, 1-4:3ms, 1-5:4ms, 2-3:1ms, 2-4:2ms
+2-5:3ms, 3-4:1ms, 3-5:2ms, 4-5:1ms
+</FONT></PRE>
+  <DIV align=right>____<FONT face="Comic Sans MS" size=+1>20/10=2</FONT>_____ 
+  ms</DIV><BR><BR>
+  <LI>If the disk is spinning at 100 revolutions per second, which is slower: 
+  <OL type=i>
+    <LI>average seek time 
+    <LI>average rotational delay (latency) </LI></OL><PRE><FONT face="Comic Sans MS" size=+1>
+average seek time = 2ms
+maximum latency = 1/100s = 10ms    so average latency = 5ms 
+
+latency is slower.
+</FONT></PRE>
+  <LI>Assume this same tiny disk has 100 sectors per track. How long would it 
+  take to read the entire contents of the disk? You must start at sector 1 on 
+  track 1, read all 100 sectors on track 1, then move to sector 1 on track 2, 
+  and so on up to sector 100 on track 5. Assume that sector 1 starts at the same 
+  position physically on each track.
+  <P>
+  <DIV align=right>____<FONT face="Comic Sans MS" size=+1>90</FONT>____ ms</DIV><PRE><FONT face="Comic Sans MS" size=+1>
+read track 1: 10ms
+
+seek to track 2: 1ms
+wait for sector 1: 9ms    (during seek, disk rotated 1/10th of a revolution)
+read track 2: 10ms
+
+seek to track 3: 1ms
+wait for sector 1: 9ms
+read track 3: 10ms
+
+seek to track 4: 1ms
+wait for sector 1: 9ms
+read track 4: 10ms
+
+seek to track 5: 1ms
+wait for sector 1: 9ms
+read track 5: 10ms
+
+</FONT></PRE></LI></OL>
+<DIV align=right>7 of 10</DIV>
+<HR>
+
+<H3>Question 5:</H3>You have four system I/O buffers. A program requests five 
+different clusters (21, 22, 23, 24, 25) in the following order:
+<P>
+<CENTER>22&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;25 
+</CENTER>
+<P>Which of the following buffer replacement policies performs the best (makes 
+the fewest replacements): First-In-First-Out (FIFO), Least Recently Used (LRU), 
+Least Frequently Used (LFU)? <PRE><FONT face="Comic Sans MS" size=+1>
+<U>FIFO</U>: 3 replacements
+no replacement necessary until cluster 25 is requested.
+cluster 22 was the first in
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 21 was the first in among currently loaded clusters
+   so replace cluster 21
+no replacement necessary until cluster 21 is requested again
+cluster 23 was the first in
+   so replace cluster 23
+
+<FONT color=red><U>LRU</U>: 2 replacements</FONT>
+no replacement necessary until cluster 25 is requested.
+cluster 22 was the least recently requested
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 24 was the least recently requested among currently loaded clusters
+   so replace cluster 24
+
+<U>LFU</U>: 3 replacements
+no replacement necessary until cluster 25 is requested.
+cluster 22 has only been requested once
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 25 has only been requested twice
+   so replace cluster 25
+no replacement necessary until cluster 25 is requested again
+requesting 25 requires some replacement, bringing total to 3
+</FONT></PRE>
+<DIV align=right>8 of 10</DIV>
+<HR>
+
+<H2>Part C:</H2>
+<H3>Question 6:</H3>For all 10 questions (i to x), circle exactly one answer 
+letter, a, b, c, d <I>or</I> e.
+<P>
+<OL type=i>
+  <LI>A logical file: 
+  <OL type=a>
+    <LI>has records ordered in some meaningful way. <FONT color=red>
+    <LI>is a program's connection to a physical file.</FONT> 
+    <LI>represents some I/O device that is not a physical file. 
+    <LI>is a binary file. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>An ASCII file: 
+  <OL type=a><FONT color=red>
+    <LI>is stored on disk as a series of bytes.</FONT> 
+    <LI>does not contain bytes with values less than 0x20. 
+    <LI>must be used to store text. 
+    <LI>is not made up of individual bytes. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>Sequential access is often used for: 
+  <OL type=a><FONT color=red>
+    <LI>finding records in unsorted files.</FONT> 
+    <LI>finding records in sorted files. 
+    <LI>finding records in logical files. 
+    <LI>finding records in fixed length files. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>On average, the longest disk delay is: 
+  <OL type=a>
+    <LI>rotational latency. 
+    <LI>transfer rate. <FONT color=red>
+    <LI>seek time.</FONT> 
+    <LI>CAV. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>A file occupying clusters 0x0132, 0x0133, 0x0134, 0x0232 and 0x0233: 
+  <OL type=a>
+    <LI>occupies two cylinders. <FONT color=red>
+    <LI>occupies two extents.</FONT> 
+    <LI>contains 40,960 bytes of data. 
+    <LI>results in long seek times. 
+    <LI>none of the above. </LI></OL>
+  <P></P></LI></OL>
+<P>
+<DIV align=right>9 of 10</DIV>
+<HR>
+
+<OL start=6 type=i>
+  <LI>Tape drives these days: 
+  <OL type=a>
+    <LI>are no longer built. 
+    <LI>are used for medium capacity storage. 
+    <LI>are used only in big government or industry installations. 
+    <LI>are capable of random access to records. <FONT color=red>
+    <LI>none of the above.</FONT> </LI></OL>
+  <P></P>
+  <LI>The Open File Table: 
+  <OL type=a>
+    <LI>prevents more than two programs from accessing the same file. 
+    <LI>lists all clusters in use by open files. 
+    <LI>keeps track of which clusters are currently in buffers. <FONT color=red>
+    <LI>keeps track of the current read/write position in open files.</FONT> 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>The smallest unit of disk accessed by the operating system is: 
+  <OL type=a>
+    <LI>one byte. 
+    <LI>one sector. <FONT color=red>
+    <LI>one cluster.</FONT> 
+    <LI>one cylinder. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>The File Allocation Table: 
+  <OL type=a>
+    <LI>records a history of updates to files on disk. 
+    <LI>cannot be changed by software. 
+    <LI>contains two bytes for each cluster in use by a file. 
+    <LI>is used by the I/O processor to map clusters to sectors on disk. <FONT 
+    color=red>
+    <LI>none of the above.</FONT> </LI></OL>
+  <P></P>
+  <LI>The Optimal Replacement Policy: 
+  <OL type=a>
+    <LI>would accommodate all cluster requests without replacing buffers. 
+    <LI>could be implemented if operating system designers knew what software 
+    packages would be running on the machine. <FONT color=red>
+    <LI>is useful as a standard for comparing replacement policies.</FONT> 
+    <LI>is optimal for multiple buffering only. 
+    <LI>none of the above. </LI></OL>
+  <P></P></LI></OL>
+<P>
+<DIV align=right>10 of 10</DIV></BODY></HTML>

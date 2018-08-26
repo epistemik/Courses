@@ -1,0 +1,43 @@
+CodeTemplate
+Wuint proc
+; Writes a 32-bit unsigned binary integer to standard 
+; output. Input parameters: EAX = value, EBX = radix.
+; stores each digit in the stack
+     pusha
+     cmp   ebx,2
+     jae   wu_cont1
+     putstr rad_err
+     jmp   wu_exit
+wu_cont1:
+     cmp   ebx,16
+     jbe   wu_cont2
+     putstr rad_err
+     jmp   wu_exit
+wu_cont2:
+     mov   esi,ebx           ;save radix into ESI
+     mov   ebx,offset xtable ;translate table
+     xor   ecx,ecx           ;clear digit count
+L3:  
+     xor   edx,edx  ; clear upper half of dividend
+     div   esi      ; divide EDX:EAX by the radix
+     xchg  eax,edx  ; now: EAX=remainder and EDX=quotient          
+     xlat           ; look up ASCII digit             
+     push  eax      ; store digit in stack
+     xchg  eax,edx  ; swap quotient into EAX
+     inc   ecx      ; increment digit count
+     or    eax,eax  ; quotient = 0?
+     jnz   L3       ; no: divide again
+
+     ; Display digit in stack starting with last entered
+L4:
+     pop   edx      ; DL = character to be displayed 
+     putch edx      ; display char in DL
+     loop  L4
+wu_exit:
+     popa
+     ret
+xtable   db  '0123456789ABCDEF'      ; translate table
+rad_err  db  "Error: radix must be between 2 and 16",0
+Wuint endp
+
+

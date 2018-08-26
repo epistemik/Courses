@@ -1,0 +1,2833 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec11.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 11</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Trees</CENTER></FONT>
+      <HR>
+
+      <P>An <I>index</I> is a very general concept: it is an ordered collection 
+      of keys used to gain efficient access to some target data. We attempt to 
+      organize an index in such a way as to maximize the efficiency of finding 
+      the key we are searching for (and subsequently, the relevant target data).
+      <P>If the index is small enough to fit into RAM, we can use all the fancy 
+      data structures and algorithms we know to search for keys and to maintain 
+      order in the index. But sometimes, the index is too big to fit into RAM...
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Binary Searching in Big Indexes 
+              <LI>Binary Search Trees for Big Indexes 
+              <LI>Paged Binary Trees 
+              <LI>M-Way Search Trees 
+              <LI>B-Trees 
+              <LI>Operations on B-Trees </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ 8.2<BR>§ 8.3<BR>§ 8.5<BR>§ N/A<BR>§ 8.7<BR>§§ 8.8, 
+            8.13<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 178 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Binary Searching in Big Indexes</CENTER></FONT>
+      <HR>
+
+      <P>When an index file is too big to fit in RAM, we end up searching it on 
+      disk. The most efficient searching algorithm we know (for general sorted 
+      records) is the binary search.
+      <P>Let's look at a big sorted index. The index occupies many different 
+      clusters on disk. The $64,000 question is:<BR>
+      <CENTER><I>How expensive is the binary search?</I></CENTER>
+      <P>We'll assume that clusters are 2,000 bytes. Records in the index file 
+      are 20 bytes, so there are 100 index records in each cluster. Let's say 
+      there are a grand total of 3,160 records, occupying 32 clusters.
+      <P><BR><BR>
+      <CENTER><IMG border=0 height=269 
+      src="CSI 2131 - Section 11_files/searching.gif" width=253></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 179 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching Binarily</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE border=0 cellPadding=1>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=1>1</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>2</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>3</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>4</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>5</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>6</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>7</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>8</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>9</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>10</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>11</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>12</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>13</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>14</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>15</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>16</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>17</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>18</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>19</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>20</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>21</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>22</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>23</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>24</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>25</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>26</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>27</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>28</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>29</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>30</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>31</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT size=1>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=1>32</FONT></TD>
+                <TD bgColor=#c0c0c0 width=100><FONT 
+              size=1>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Q:</I></B> If the record we're 
+            looking for turns out to be record 1,440, how many clusters get read 
+            during the binary search?
+            <P><B><I>A:</I></B>
+            <P><B><I>Q:</I></B> If the record we're looking for is number 1,351, 
+            how many clusters get read during the binary search?
+            <P><B><I>A:</I></B>
+            <P><B><I>Q:</I></B> If the record we're looking for is in cluster 
+            1,098, how many clusters get read during the binary search?
+            <P><B><I>A:</I></B>
+            <P><B><I>Q:</I></B> Do you see what I'm getting at?
+            <P><B><I>A:</I></B>
+            <P></P></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 180 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Binary Search Besmirched</CENTER></FONT>
+      <HR>
+
+      <P>In our example of 3,120 records in the index file, the binary search 
+      <I>always</I> starts by reading record 1,560 in cluster 16. Then (assuming 
+      1,560 is not the record we're looking for) it always reads either record 
+      780 in cluster 8 or record 2,340 in cluster 24, etc.
+      <P>For our search to find record 1,440, here are the records we read and 
+      the clusters they're in:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=right><FONT size=+2><I>record</I></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,560</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>780</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,170</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,365</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,463</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>etc.</TT></FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>cluster</I></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>16</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>8</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>12</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>14</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>15</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>15</TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>For our search to find record 1,351, here are the records we read and 
+      the clusters they're in:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=right><FONT size=+2><I>record</I></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,560</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>780</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,170</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,365</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,268</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>1,316</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>etc.</TT></FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>cluster</I></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>16</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>8</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>12</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>14</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>13</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>14</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>14</TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Both searches begin by looking at the exact same records. Yet each of 
+      those single records requires a different cluster to be read.
+      <P>
+      <CENTER><I>There must be a better way!</I></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 181 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Binary Trees</CENTER></FONT>
+      <HR>
+
+      <P>In the previous example, the records we were looking for (1,440 and 
+      1,351) were quite close together. That's why searching for them involved 
+      reading mostly the same records.
+      <P>But even in the general case, the path of records read in the binary 
+      search is quite predictable:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=8><FONT size=+1>1,560</FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=4><FONT size=+1>780</FONT></TD>
+          <TD align=middle colSpan=4><FONT size=+1>2,340</FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><FONT size=+1>390</FONT></TD>
+          <TD align=middle colSpan=2><FONT size=+1>1,170</FONT></TD>
+          <TD align=middle colSpan=2><FONT size=+1>1,950</FONT></TD>
+          <TD align=middle colSpan=2><FONT size=+1>2,730</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+1>195</FONT></TD>
+          <TD align=middle><FONT size=+1>585</FONT></TD>
+          <TD align=middle><FONT size=+1>975</FONT></TD>
+          <TD align=middle><FONT size=+1>1,365</FONT></TD>
+          <TD align=middle><FONT size=+1>1,755</FONT></TD>
+          <TD align=middle><FONT size=+1>2,145</FONT></TD>
+          <TD align=middle><FONT size=+1>2,535</FONT></TD>
+          <TD align=middle><FONT 
+      size=+1>2,925</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What does this look like?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Ya, I know, but what <I>kind</I>?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 182 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Binary Search Trees</CENTER></FONT>
+      <HR>
+
+      <P>So in an index of close to 3,200 records, a binary search will read at 
+      most about log<SUB><FONT size=+0>2</FONT></SUB>(3,200) = 12 records in 
+      order to find the desired record. The first four records read will always 
+      be among the fifteen records above.
+      <P>In fact, out of 3,200 records, the first 7 reads in a binary search to 
+      find any record will always be among the same 128 records. Our clusters 
+      can hold almost 128 records.
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+      <BR><BR>
+      <CENTER><I>Why don't we put all those records in the same 
+      cluster!</I></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 183 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Paged Binary Trees</CENTER></FONT>
+      <HR>
+
+      <P>If we store our index as a tree instead of as a sorted sequence of 
+      records we can minimize the number of clusters that need to be read in 
+      order to find any given record.
+      <P>But to store the index as a tree, we need to keep a bit of extra 
+      information in each record:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#c0c0c0><FONT size=+2><I>primary 
+            key</I></FONT></TD>
+          <TD align=middle bgColor=#c0c0c0><FONT size=+2><I>reference 
+            field</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>left child RRN</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>right child 
+        RRN</I></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>This way, we can place the records exactly where we want them.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>If our cluster size is 2,048 bytes and our records are 32 bytes, we can 
+      fit 64 records in each cluster. That's the first <I>six</I> records on 
+      <I>every</I> binary search path in one cluster (2<SUP><FONT 
+      size=+0>6</FONT></SUP> × 32 = 64 × 32 = 2,048).
+      <P>If each of the leaves in the tree is considered the root of another 
+      tree, each of those subtrees can store the remaining six records of every 
+      binary search path (starting from the current root) in one cluster as 
+well.
+      <P>
+      <CENTER><I>I think we need a picture.</I></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 184 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Paged Binary Trees (page 2)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><IMG border=0 
+        src="CSI 2131 - Section 11_files/pagedbt.jpeg"></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> If the top six levels of records in the tree are 
+      contained in one cluster, and the tree containing six levels of records 
+      starting at each leaf is contained in one cluster, how many clusters are 
+      occupied by the entire index?
+      <P><B><I>A:</I></B>
+      <P><!-- 33 (63 records in the top 6 levels, 62 records
+                          in each of the 32 trees on the bottom 6 levels) --><B><I>Q:</I></B> 
+      What is the maximum number of clusters that will be read in any binary 
+      search through the index?
+      <P><B><I>A:</I></B>
+      <P><!-- 2 clusters --><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 185 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Good</CENTER></FONT>
+      <HR>
+
+      <P>The number of comparisons required for a binary search is 
+      O(log<SUB><FONT size=+0>2</FONT></SUB>N), where N is the number of records 
+      being compared.
+      <P>If we do a straight binary search through our sorted sequence of index 
+      records, the <I>number of clusters read</I> is almost the same as the 
+      number of comparisons (since subsequent comparisons are usually from 
+      different clusters). In fact, the number of clusters read in the straight 
+      binary search is about ½log<SUB><FONT size=+0>2</FONT></SUB>N, which is 
+      O(log<SUB><FONT size=+0>2</FONT></SUB>N).
+      <P>If we used a paged binary tree instead of the sorted sequence, the 
+      number of comparisons is still O(log<SUB><FONT size=+0>2</FONT></SUB>N), 
+      but the number of clusters read is O(log<SUB><FONT 
+      size=+0>K</FONT></SUB>N), where K is the number of records per cluster.
+      <P>In our example, the number of clusters read in the binary search on the 
+      sorted sequence is about<BR>
+      <CENTER>½log<SUB><FONT size=+0>2</FONT></SUB>(3,120) = 6</CENTER>
+      <P>If we use the paged binary tree instead... K is 64, so the number of 
+      clusters read per search is<BR>
+      <CENTER>log<SUB><FONT size=+0>64</FONT></SUB>(3,120) = 2</CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 186 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Bad</CENTER></FONT>
+      <HR>
+
+      <P>In order to benefit from the notion of binary search, we must cut our 
+      search space in half every time we make a comparison. In the paged binary 
+      tree, that means that roughly half the descendants of every node should be 
+      in the left subtree, and half should be in the right.
+      <P>
+      <CENTER><I>That is, the tree should be balanced.</I></CENTER>
+      <P>But even if we created the paged binary tree to be balanced, one single 
+      record addition or deletion could throw it out of balance.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><FONT size=+3>
+      <CENTER>The Ugly</CENTER></FONT>
+      <HR>
+
+      <P>Data structures courses tell us how to balance an unbalanced tree by 
+      performing fancy rotations, swapping, etc. Unfortunately, these operations 
+      could result in a large number of cluster reads and rewrites, making tree 
+      maintenance impractical.
+      <P>
+      <CENTER><FONT size=+4>:-(</FONT></CENTER>
+      <P>
+      <CENTER><I>We need a new solution.</I></CENTER>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 187 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Mary Search Trees</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT>In a <I>binary</I> search tree 
+        <DD>
+        <LI>every node has one value (V) and two pointers (L, R) 
+        <LI>all values in the subtree pointed to by L are less than V 
+        <LI>all values in the subtree pointed to by R are greater than V 
+        <P>
+        <HR SIZE=10 width=10>
+
+        <P></P></LI>
+        <DT>In an <I>M-ary</I> search tree 
+        <DD>
+        <LI>every node has M-1 values (V<SUB><FONT 
+        size=+0>1</FONT></SUB>...V<SUB><FONT size=+0>M-1</FONT></SUB>) and M 
+        pointers (P<SUB><FONT size=+0>1</FONT></SUB>...P<SUB><FONT 
+        size=+0>M</FONT></SUB>) 
+        <LI>the values in each node are sorted (V<SUB><FONT 
+        size=+0>1</FONT></SUB> &lt; V<SUB><FONT size=+0>2</FONT></SUB> &lt; ... 
+        V<SUB><FONT size=+0>M-1</FONT></SUB>) 
+        <LI>all values in the subtree pointed to by P<SUB><FONT 
+        size=+0>i</FONT></SUB> are &lt; V<SUB><FONT size=+0>i</FONT></SUB> 
+        <LI>all values in the subtree pointed to by P<SUB><FONT 
+        size=+0>i+1</FONT></SUB> are &gt; V<SUB><FONT size=+0>i</FONT></SUB> 
+        </LI></DD></DL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 188 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>M-ary Search Tree Example</CENTER></FONT>
+      <HR>
+
+      <P>What I'm really trying to say is:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>10</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>44</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>3</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>7</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>22</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>55</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>70</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>50</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>66</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>68</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>We call this search tree a <I>3-way search tree</I>
+      <P><PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 189 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>M-ary Search Tree Searching</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>Searching for <I>k</I> in a <I>binary</I> search tree 
+        <DD>
+        <LI>If <I>k</I> = the value in this node, done! 
+        <LI>If <I>k</I> &lt; the value in this node, look for <I>k</I> in the 
+        left subtree 
+        <LI>If <I>k</I> &gt; the value in this node, look for <I>k</I> in the 
+        right subtree </LI></DD></DL>
+      <P>
+      <DL>Searching for <I>k</I> in an <I>M-ary</I> search tree 
+        <DD>
+        <LI>If <I>k</I> = one of the values V<SUB><FONT size=+0>i</FONT></SUB> 
+        in this node, done! 
+        <LI>If <I>k</I> &lt; value V<SUB><FONT size=+0>1</FONT></SUB>, look for 
+        <I>k</I> in the subtree pointed to by P<SUB><FONT size=+0>1</FONT></SUB> 
+
+        <LI>If <I>k</I> &gt; value V<SUB><FONT size=+0>M-1</FONT></SUB>, look 
+        for <I>k</I> in the subtree pointed to by P<SUB><FONT 
+        size=+0>M</FONT></SUB> 
+        <LI>If <I>k</I> &gt; value V<SUB><FONT size=+0>i-1</FONT></SUB> and 
+        <I>k</I> &lt; value V<SUB><FONT size=+0>i</FONT></SUB>, look for 
+        <I>k</I> in the subtree pointed to by P<SUB><FONT size=+0>i</FONT></SUB> 
+        </LI></DD></DL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 190 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Trees</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>B-Tree</I></B> 
+        <DD>An M-way search tree with three special properties 
+        <OL>
+          <LI>every leaf node is on the same level (<I>perfectly balanced</I>) 
+          <LI>every node except the root is at least half full (from (M-1)/2 to 
+          M-1 values) 
+          <LI>the root may contain any number of values (from 1 to M-1) 
+        </LI></OL></DD></DL>
+      <P>Here is a B-tree containing the same values as our previous 3-way 
+      search tree. This is known as a <I>B-tree of order 3</I>.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>50</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>10</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle colSpan=2>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>66</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>3</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>7</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>22</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>44</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>55</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>68</TT></FONT></TD>
+                      <TD align=middle width="50%"><FONT 
+                        size=+2><TT>70</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD width="33%">&nbsp;</TD>
+                      <TD 
+            width="33%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 191 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Insertion</CENTER></FONT>
+      <HR>
+
+      <P>One of the problems with regular old BSTs was that they become easily 
+      unbalanced. Balanced tree data structures (such as AVL trees) require 
+      heavy maintenance to preserve balance on inserting and deleting nodes.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Inserting a key X in a B-tree of order M</I>
+            <HR>
+             <TT>
+            <OL>
+              <LI>do an M-way search tree search to find the leaf node where X 
+              should be inserted
+              <P></P>
+              <LI>add X to this leaf node in the correct position
+              <P></P>
+              <LI>if there are now &#8804; M-1 values in this node, done!
+              <P>if there are M values, this node has <I>overflowed</I> so:
+              <P>
+              <OL type=i>
+                <LI>split the node in 3: Left, Middle and Right:
+                <P><I>Left</I> becomes a new node containing the first (M-1)/2 
+                values
+                <P><I>Middle</I> is just the middle value
+                <P><I>Right</I> becomes a new node containing the last (M-1)/2 
+                values
+                <P></P>
+                <LI>promote Middle to this node's parent, making Left and Right 
+                its left and right children </LI></OL>
+              <P>repeat step 3 for this node's parent node 
+            </P></LI></OL></TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 192 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Insertion Example</CENTER></FONT>
+      <HR>
+
+      <P>Here's an example of a B-tree of order 5 (M = 5):
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>7</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>15</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>50</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>2</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>3</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>5</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>6</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>8</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>10</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>13</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>14</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>21</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>22</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>60</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>62</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Let's insert the key with value 29:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 193 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Insertion Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Now let's insert the key with value 12:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="33%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="33%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="33%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 194 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Insertion Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Now let's insert the key with value 4:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>Oops!</I></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 195 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Insertion Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%"></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="25%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 196 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Deletion</CENTER></FONT>
+      <HR>
+
+      <P>So how about deleting a key from a B-tree?
+      <P>Remember, every node (except the root) in a B-tree of order M must 
+      contain at most M-1 keys and at least (M-1)/2 keys. The algorithm for 
+      deleting a key X from a B-tree may cause a node to <I>underflow</I>.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Deleting a key X from a B-tree</I>
+            <HR>
+             <TT>
+            <OL>
+              <LI>if X is not in a leaf node, swap it with the largest key in 
+              its left subtree; now X is in a leaf node
+              <P></P>
+              <LI>delete X from this node
+              <P></P>
+              <LI>if there are still &#8805; (M-1)/2 values in this node, done!
+              <P>if there are (M-1)/2 - 1 values, this node has 
+              <I>underflowed</I> and it must be repaired. 
+            </P></LI></OL></TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 197 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Caught in the Underflow</CENTER></FONT>
+      <HR>
+
+      <P>Here's how we repair an underflowing node in a B-tree of order M.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>
+            <OL>
+              <LI>combine this node U with its more populous neigbour V and 
+              their parent k<SUB><FONT size=+0>P</FONT></SUB>, maintaining order 
+              in the resulting combination W
+              <P></P>
+              <LI>if W has M-1 values, it replaces nodes U and V and k<SUB><FONT 
+              size=+0>P</FONT></SUB>; the parent node may have underflowed, so 
+              repeat this algorithm with the parent node
+              <P>if W has N &gt; M-1 values, split it into Left, Middle and 
+              Right:
+              <P><I>Left</I> replaces node U and contains the first (N-1)/2 
+              values
+              <P><I>Middle</I> replaces k<SUB><FONT size=+0>P</FONT></SUB> in 
+              the parent node
+              <P><I>Right</I> replaces node V and contains the last (N-1)/2 
+              values
+              <P></P></LI></OL></TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 198 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Deletion Example</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD colSpan=2><FONT size=+2>Delete the key with value 5 from this 
+            B-tree (of order 5).</FONT></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>5</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>10</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>50</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>2</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>3</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>6</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>7</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>17</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>22</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>55</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>66</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>68</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=3>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 199 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>B-Tree Deletion Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>How about deleting the key with value 22 now.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=3>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=25>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=3>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD>
+                      <TD align=middle width="25%"><FONT 
+                        size=+1><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD width="20%">&nbsp;</TD>
+                      <TD 
+            width="20%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 200 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>So What?</CENTER></FONT>
+      <HR>
+
+      <P>You'll recall, the reason we're doing all of this is because 
+      ½log<SUB><FONT size=+0>2</FONT></SUB>N (the number of clusters read in a 
+      straight binary search) is too slow for searching for a key value in an 
+      index that resides on disk.
+      <P>Using a <I>paged binary tree</I> we reduced the number of cluster reads 
+      to log<SUB><FONT size=+0>K</FONT></SUB>N, where K is the number of records 
+      that fit in a cluster. The bad news was that inserting and deleting 
+      records in a paged binary tree was going to be <I>way</I> too expensive.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> How can we get the same search performance out of a 
+      B-tree that we get from paged binary trees? (Hint: how big should we make 
+      our B-tree nodes?)
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> How expensive is inserting and deleting in a B-tree?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 201 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

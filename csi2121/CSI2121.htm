@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_desc.html -->
+<HTML><HEAD><TITLE>CSI2121</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY>
+<CENTER><A href="http://www.site.uottawa.ca/icons/site_hdr.map"><IMG border=0 
+height=110 isMap src="CSI2121_files/site_hdr.gif" width=550></A></CENTER>
+<P>
+<HR>
+
+<H1>CSI 2121 Computer Architecture II</H1>(3 hours of lecture per week, 1.5 
+hours of lab per week, 3 credits). 
+<P>Data representations. Assembly language concepts. Programming a typical 
+microprocessor, e.g. 386. Basic input/output devices. Programming input/output 
+operations; interrupts, e.g. disk controllers.&nbsp; Prerequisite: CSI 2111. 
+<BR>
+<HR>
+
+<H2>Professor</H2>
+<BLOCKQUOTE>Mario Marchand, MCD 335 <BR><TT><A 
+  href="mailto:marchand@site.uottawa.ca">marchand@site.uottawa.ca</A></TT> 
+  <BR><TT><A 
+  href="http://www.site.uottawa.ca/~marchand/">http://www.site.uottawa.ca/~marchand/</A></TT></BLOCKQUOTE>
+<H2>Course material</H2>
+<BLOCKQUOTE>
+  <DIR>
+  <LI><A 
+  href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_nc.html">Lecture 
+  notes</A> (to be provided as the course proceeds) 
+  <LI><A 
+  href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_LabInfo.html">LabInfo</A> 
+
+  <LI><A 
+  href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_devoirs.html">Assignments</A> 
+
+  <LI><A 
+  href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_sol.html">Solutions 
+  of assignments</A> </LI></DIR></BLOCKQUOTE>
+<H2>Office Hours</H2>
+<BLOCKQUOTE>Tuesday: from 08:30 to 11:30.</BLOCKQUOTE>
+<H2>Time table (Winter 2000)</H2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LAB 1 
+-&nbsp;&nbsp; Monday 10:00-11:30 CUBE&nbsp;&nbsp;&nbsp; Room: 203 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LAB 2 -&nbsp;&nbsp; Wednesday 
+17:30-19:00 CUBE&nbsp;&nbsp;&nbsp; Room: 201 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LAB 3 -&nbsp;&nbsp; 
+Friday&nbsp;&nbsp;&nbsp; 08:30-10:00 
+CUBE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Room: 201 
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEC 1 -&nbsp;&nbsp; Wednesday 
+13:00-14:30 Colonel By Hall&nbsp; Room: C03 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LEC 2 -&nbsp;&nbsp; 
+Friday&nbsp;&nbsp;&nbsp; 11:30-13:00 Colonel By Hall&nbsp; Room: C03 
+<H2>Your TAs</H2>
+<BLOCKQUOTE>
+  <DIR>
+  <LI><A href="mailto:u1391470@site.uottawa.ca">Arun Narayanan</A> (LAB 2 and 
+  LAB3) 
+  <LI><A href="mailto:u1345878@site.uottawa.ca">Philippe Boudreau</A> (LAB 1) 
+  <LI><A href="mailto:onassral@csi.uottawa.ca">Omar Nassrallah</A> (marking 
+  only) 
+  <LI><A href="mailto:ttang@csi.uottawa.ca">Tiejun Tang</A> (marking only) 
+  </LI></DIR></BLOCKQUOTE>
+<H2>Evaluation</H2>
+<UL>
+  <LI>Assignments: 35% 
+  <LI>Quiz (<B><FONT color=#ff0000>March 3, 11:30, CBY C03</FONT></B>): 15% 
+  <LI>Final Exam 50% 
+  <LI>NB: This applies if and only if you have obtained a mark higher or equal 
+  to 50% for the weighted sum of your examinations. If it is not the case, your 
+  mark will be obtained according to same calculation <I>but without exceeding 
+  the maximum of ``D' '. </I><B>Note that D+ is the passing mark</B><I>.</I> 
+  </LI></UL>
+<H2>General philosophy of this course</H2>
+<BLOCKQUOTE>In the previous course, CSI 2111/2511, you have learned the 
+  subject of computer architecture by following a "bottom-up" approach. By 
+  starting from basic hardware components (transistors and logic gates) to 
+  construct more sophisticated circuits (flip-flops, registers, multiplexers, 
+  decoders, adders...), you have seen how the processor, memory and a whole 
+  computer system is structured. Conversely, this course examines computer 
+  architectures by following a "top-to-bottom" strategy. It builds from the 
+  knowledge you have about high-level languages like C/C++ or Pascal, and 
+  teaches computer architectures from the programmer's point of view. Hence you 
+  will learn the actions that the processor must do to perform the tasks that 
+  are formulated in a high-level language. This implies, that you need to learn 
+  the set of "basic actions" that a processor can do: its <I>instruction set, 
+  </I>and how a high-level language compiler decomposes the high-level language 
+  commands into machine-level instructions. However, this can be achieved only 
+  by learning the instruction set of a processor at the symbolic (and humanly 
+  understandable) level: the <I>assembly language level</I>. Consequently, you 
+  will learn how to program a processor in assembly language in order to perform 
+  the tasks that are normally formulated in high-level language. We will use the 
+  Pentium processor from Intel and the TASM32 assembler from Borland.</BLOCKQUOTE>
+<H2>Objectives</H2>
+<BLOCKQUOTE>
+  <DIR>
+  <LI>Understand the differences between machine language, assembly language, 
+  and high level languages. 
+  <LI>Become familiar with the instruction set of a processor, namely the 
+  Intel's Pentium. 
+  <LI>Understand how high-level language commands are broken into 
+  processor-level instructions. 
+  <LI>Acquire a good understanding of interrupts and traps. 
+</LI></DIR></BLOCKQUOTE>
+<HR>
+
+<H2>Course content</H2>
+<BLOCKQUOTE>
+  <DIR>
+  <LI>Introduction and computer architecture basics. 
+  <LI>Number systems and data representation. 
+  <LI>Registers, variables, arrays, and addressing modes. 
+  <LI>Integer arithmetic and logical operations. 
+  <LI>Flow control instructions. 
+  <LI>Procedures, the stack, activation records, and parameter passing. 
+  <LI>Floating point representation and arithmetic. 
+  <LI>High-level language interface. 
+  <LI>Assembling, linking, and loading of a program. 
+  <LI>Input and Output (programmed I/O, interrupt-driven I/O, and DMA). 
+  <LI>Interrupts and Exception Handling. 
+  <LI>Other topics (depending on the amount of time left). Exemples: features 
+  for performance, RISC vs. CISC, memory management and virtual memory. 
+  </LI></DIR></BLOCKQUOTE>
+<HR>
+
+<H2>References</H2>
+<BLOCKQUOTE>All the material you need for this course is available from my 
+  lecture notes. Hence there is no compulsory textbook for this course. Here is 
+  a list of suggested references: 
+  <UL>
+    <LI>Randall Hyde, <I><A href="http://webster.cs.ucr.edu/">The Art of 
+    Assembly Language Programming</A></I>. This is a good book with <I>lots 
+    </I>of information and it is available for free on the web! But it is 
+    16-bit/real-mode oriented... 
+    <LI>Kip Irvine, <I>Assembly Language for Intel-Based Computers</I>, 
+    Prentice-Hall (1999). This is the book I was using last year, but it is not 
+    required anymore since it is 16-bit/real-mode oriented... 
+    <LI>Karen Miller, <I>An Assembly Language Introduction to Computer 
+    Architecture</I>, Oxford University Press (1999). A very good book to learn 
+    data representation and basics of computer architectures. Moreover, it uses 
+    only clean 32-bit protected-mode programming with the flat memory model but, 
+    unfortunately, it is too short on the instruction set. </LI></UL></BLOCKQUOTE>
+<HR>
+<BR>&nbsp; 
+<P><I>Last update: 16 December, 1999.</I> </P></BODY></HTML>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Mario Marchand">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (Win95; I) [Netscape]">
+   <TITLE>Assignment</TITLE>
+</HEAD>
+<BODY>
+
+<H3>
+&nbsp;Assignment #2</H3>
+
+<BLOCKQUOTE><B>Warning: for this assignment you must use only the instructions,
+macros, and directives that are described in the first four chapters.</B>
+<P><B>Programming Exercise 1:</B>
+<P>Write a ASM program that prompts the user to enter an ASCII string made
+of at most 32 hexadecimal digits (ie: digits from '0' to '9' and from 'A'
+to 'F') followed by &lt;CR>. The program then prints the boolean string
+(made of only '0's and '1's) representing the numerical value of the hexadecimal
+number in binary form and then exits. If the user enters an invalid character,
+the program displays an error message and then exits. If the user enters
+a valid string consisting of more than 32 characters, only the conversion
+of the first 32 characters is displayed.
+<P>Sample execution (user input is in bold):<FONT FACE="Courier New,Courier"></FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass2-1</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a hex number as a string of
+at most 32 chars:</FONT>
+<BR><B><FONT FACE="Courier New,Courier">B27F9AA5FC</FONT></B>
+<BR><FONT FACE="Courier New,Courier">This number in binary is:</FONT>
+<BR><FONT FACE="Courier New,Courier">1011001001111111100110101010010111111100</FONT><FONT FACE="Courier New,Courier"></FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass2-1</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a hex number as a string of
+at most 32 chars:</FONT>
+<BR><B><FONT FACE="Courier New,Courier">3A5b5</FONT></B>
+<BR><FONT FACE="Courier New,Courier">Wrong input, now exiting...</FONT>
+<BR><FONT FACE="Courier New,Courier"></FONT>&nbsp;
+<P><B>Programming Exercise 2:</B>
+<P>Write a ASM program that prompts the user to enter an ASCII string made
+of at most 128 boolean digits (ie: digits '0' or '1') followed by &lt;CR>.
+The program then prints the hexadecimal string (made of digits from '0'
+to '9' and from 'A' to 'F') representing the numerical value of the binary
+number in hexadecimal form and then exits. If the user enters an invalid
+character, the program displays an error message and then exits. If the
+user enters a valid string consisting of more than 128 characters, only
+the conversion of the first 128 characters is displayed.
+<P>Sample execution (user input is in bold):
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass2-2</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a boolean number as a string
+of at most 128 chars:</FONT>
+<BR><B><FONT FACE="Courier New,Courier">111100001100101010000011101011000011</FONT></B>
+<BR><FONT FACE="Courier New,Courier">This number in hexadecimal is:</FONT>
+<BR><FONT FACE="Courier New,Courier">F0CA83AC3</FONT><FONT FACE="Courier New,Courier"></FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass2-2</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a boolean number as a string
+of at most 128 chars:</FONT>
+<BR><B><FONT FACE="Courier New,Courier">11111</FONT></B>
+<BR><FONT FACE="Courier New,Courier">This number in hexadecimal is:</FONT>
+<BR><FONT FACE="Courier New,Courier">1F</FONT><FONT FACE="Courier New,Courier"></FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass2-2</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a boolean number as a string
+of at most 128 chars:</FONT>
+<BR><FONT FACE="Courier New,Courier">10021</FONT>
+<BR><FONT FACE="Courier New,Courier">Wrong input, now exiting...</FONT>
+<BR><FONT FACE="Courier New,Courier"></FONT>&nbsp;
+<P>Note that the program displays "1F" when the user enters "11111". This
+is, indeed, the correct answer. Make sure that, on this input, your program
+will display "1F" instead of "F1". Hence,&nbsp; your program should display
+the correct hexadecimal number when the user enters a binary string made
+of a number of characters which is not a multiple of 4.
+<BR>&nbsp;
+<P><B><FONT COLOR="#FF0000">DUE DATE: February 28 at 16:00</FONT></B>
+<P><B><FONT COLOR="#3366FF">FOR CSI 2121: MUST BE SENT BY EMAIL TO:</FONT><FONT COLOR="#FF0000">
+<A HREF="mailto:onassral@csi.uottawa.ca">Omran
+Nasrallah</A></FONT></B>
+<P><B><FONT COLOR="#006600">FOR CSI 2521: MUST BE SENT BY EMAIL TO: <A HREF="mailto:u1345878@site.uottawa.ca">Philippe
+Boudreau</A></FONT></B></BLOCKQUOTE>
+
+<HR WIDTH="100%">
+<BR>&nbsp;
+</BODY>
+</HTML>

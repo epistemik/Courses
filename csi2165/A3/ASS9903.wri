@@ -1,0 +1,256 @@
+
+			    CSI2165A/Assignment 3   
+
+Issue date : Monday, Nov 15, 1999
+Due date   : Friday, November 26, 1999, 5:00pm.
+
+Hand In : Each student is required to do this assignment INDIVIDUALLY and to 
+	  hand in the following:
+
+(1) A 3.5" disk containing the Prolog program corresponding to the questions
+    of the assignment. The file containing this program must be named 
+    `assign3.ari', and must be the ONLY file on the disk. 
+
+(2) A printout of `assign3.ari' .
+
+(3) A printout of the queries you applied to test your solutions. Try providing
+    queries that represent 'good' test cases, i.e. they are likely to expose an error,
+    if any.
+
+Place the above items in a suitable envelope, with the following information 
+clearly marked on the outside of the envelope: complete name, student number,
+assignment number and course number (CSI2165A). Deposit your envelope in 
+the LOCKED BOX marked `CSI 2165A' beside the reception desk on the third 
+floor of MacDonald Hall. 
+
+IMPORTANT: your Prolog program must conform to the programming standards 
+	   described in  file stndrds.txt which is in directory assignments
+           of the CSI2165B course directory. 
+
+MARKING SCHEME: 10% of the marks are allocated to programming standards,
+                while the remaining 90% will be divided among the questions
+                of the assignment.
+
+-----------------------------------------------------------------------
+
+1- Define the predicate depth(L, D) that returns the maximum level of nesting in
+   in a list L.
+
+Example:
+	
+?- depth([],D).	
+D = 1
+yes
+	
+?- depth([a,[d],[c,[f]],[a,[b,c,[d,[f]]]]],D).	
+D = 5
+yes
+
+
+2- Extend the definition of predicate supermax/2 from assignment 2 so that it can also handle
+the cases that some of the elements in the nested lists are not numbers.
+
+Examples:
+
+?- supermax([[[[[13],12]]]], M).
+M = 13
+yes
+
+?- supermax([[[[[],12]]]], M).
+M = 12
+yes
+
+?- supermax([[[[12]]]], M).
+M = 12
+yes
+
+?- supermax([[2, -4, [3, 8, [],6], s, [[],[[[12,[]]]]]], 7, 4], M).
+M = 12
+yes
+
+3- Define the following Prolog predicates:
+
+a) only_non_zero(List, Item, N) that is true if Item is the N'th element of List while all other
+   elements of List are zero.
+
+Examples:
+
+?- only_non_zero([0, 0, a, 0], a, 3).
+yes
+
+?- only_non_zero([0, 0, a, 0], a, 2).
+no  
+
+?- only_non_zero([1, 0, a, 0], a, 3).
+no 
+
+?- only_non_zero([0, 0, b, 0], a, 3).
+no
+
+b) One way of representing a matrix in Prolog is by means of a list of lists (which 
+   is then a particular case of a list of many levels). A matrix can be represented
+   as a list of its rows, while each row in turn is represented as a list of numbers.
+
+   For example:
+
+		-	  -
+		| 1	2 |
+		| 3	4 |		<==> 	[[1, 2], [3, 4]]
+		-	  -
+
+		-	  	  -
+		| 1	2	3 |
+		| 4	5	6 |	<==> 	[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+		| 7	8	9 |
+		-	  	  -
+
+    Define the predicate identity(Matrix) which is true if Matrix is an identity matrix. 
+    An identity matrix is a matrix whose elements are all zero, except for those on the
+    main diagonal which are one.
+    Hint: use only_non_zero/3.
+
+    For example:
+
+	  	-	  -	-		  -
+		| 1	0 |	| 1	0	0 |
+		| 0	1 |	| 0	1	0 |
+		-	  -	| 0	0	1 |
+				-		  -
+Example queries :
+
+?- identity([[1, 0], [0, 1]]).
+yes
+	
+?- identity([1]).
+yes
+	
+?- identity([[0, 1], [1, 0]]).
+no
+	
+?- identity([[1, 0, 0], [0, 1, 0], [0, 0, 1]]).
+yes
+	
+c) Define the predicate add(Matrix1, Matrix2, Result) that adds two matrices Matrix1 and 
+   Matrix2 and instantiates Result to the result of this addition. 
+
+Example queries :
+	
+?- add([[1, 2], [0, 1]], [[1, 1], [1, 2], [1, 3]], Result).
+no
+	
+?- add([[1, 2], [0, 1]], [[1, 1], [1, 2]], Result).
+Result = [[2, 3], [1, 3]] 
+	
+?- add([[1, 2, 3], [0, 1, 1], [0, 0, 0]], [[1, 1, 1], [1, 2, 1], [1, 1, 1]], Result).
+Result = [[2,3,4],[1,3,2],[1,1,1]]
+	
+?- add([[1, 2], [0, 1]], [[1, 1, 1], [1, 2, 1]], Result).
+no	
+	
+?- add([[1, 1, 1]], [[2, 2, 2]], R).
+Result = [[3,3,3]]
+	
+
+4- Define predicate last_atom(L, A) that returns the last atom in the list L of many
+   levels.
+	
+Example:
+?- last_atom([a,f,[d,[f,g,[h,[j]]]]],A).	
+A = j
+
+Remember while [] is representing an empty list, itself is an atom. Make sure you handle 
+properly the case where the last element is []. For instance:
+
+?- last_atom([[s,f,[g,[]]],[]],A).
+A = g % not [].
+
+5- Define the predicate super_reverse(L1, L2) that returns in L2 the reverse of nested list
+   L1. Note that each sub list in L2 is the reverse of the corresponding sub list in L1, to 
+   any depth. 
+	
+Examples:
+
+?- super_reverse([d, s, [f, [a]]], L).
+L = [[[a], f], s, d]
+yes
+
+?- super_reverse([d, g, [f], [d, [a, b]], a, d], L).
+L = [d, a, [[b, a], d], [f], g, d]
+yes
+
+
+6- Define predicate remove_numbers/2 which takes a nested list, which may contain numbers,
+   as its first arguments and returns a similar list but without the numbers.
+
+Examples:
+
+?- remove_numbers([a, b, [[[c,4],5]], 8, t, [[y]]], A).
+A = [a,b,[[[c]]],t,[[y]]]
+yes
+
+?- remove_numbers([a, b, [[[c,4],[[[5]]]]], 8, t, [[y]]], A).
+A = [a,b,[[[c],[[[]]]]],t,[[y]]]
+yes
+
+?- remove_numbers([a, b, [[[c,4],[[[5]]]]], 8, t, 65], A).
+A = [a,b,[[[c],[[[]]]]],t]
+yes
+
+
+7. Define the predicate list_struct(List, Struct) that converts List which is a list of many 
+   levels to a structure. The functor of Struct is the head of List, and the arguments of Struct,
+   if any, are the elements in the tail of list converted to structures if necessary, i.e. if an
+   argument is a list it must be converted to a structure. Please note that in the resulting 
+   structure some of the arguments may be lists as shown in the example. This is the case
+   when the head of a list is not an atom e.g; it is a list itself . As you know to be able to
+    convert a list to a structure using univ(=..) the head of the list must be an atom.
+
+Examples:
+
+?- list_struct([a, [b, o, l], c, [d, s, [f, a]]], A).
+A =  a(b(o,l),c,d(s,f(a)))
+yes
+
+?- list_struct([a, [b, o, l], c, [d, s, [[f, a]]]], A).
+A = a(b(o,l),c,d(s,[f(a)]))
+yes
+
+?- list_struct([a, [b, o, l], c, [d, s, [[f, [[[a]]]]]]], A).
+A = a(b(o,l),c,d(s,[f([[a]])]))
+yes
+
+?- list_struct([[a], [b, o, l], c, [d, s, [f, a]]], A). %[a] is not an atom
+no
+
+?- list_struct([a, [[b], o, l], c], A).
+A = a([b,o,l],c)
+yes
+
+
+8- Define predicate structure_member(O, S) which will search for object O in a structure
+   S. Note that O can be one of the components of S, or a component within another component
+   of S, such as another list or structure, at any depth.
+ 
+?- structure_member(2, s(a, b([4, 2], y))).
+yes
+
+?- structure_member(2, s(a, b([4, a(2)], y))).
+yes
+
+?- structure_member(x, s(a, b([4, a(2)], y))).
+no
+
+?- structure_member(x, s(a, b([4, a(2)], b(a(c, d(x)))), y)).
+yes
+
+?- structure_member(x, s(a, b([4, a(2)], b(a(c, d([x])))), y)).
+yes
+	
+	 
+	
+	   
+
+
+
+
+	

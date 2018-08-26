@@ -1,0 +1,235 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>LEXER CLASS</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+
+<H1>LEXER CLASS</H1>
+<H2><FONT COLOR=red>A SIMPLE LEXICAL ANALYZER</FONT></H2>
+
+Lexical analyzers chop raw burst of characters arriving in an input stream
+into tokens, and tag them with type information. As an example, a 
+lexical analyzer of English text would break the text into words and
+tag them as nouns, pronouns, verbs, adjectives, ...
+Lexical analysis of programming languages is much the same, but the tags
+would be <i>identifier</i>, <i>string</i>, <i>numeric</i>, <i>symbol</i>,
+...
+<br><br>
+The class <tt>lexer</tt> is such a lexical analyzer, which breaks
+the characters arriving on the input stream into tokens, and tags them
+as 
+  <UL>
+      <LI><tt><b>LEX_IDENTIFIER</b></tt>: same as <tt>C/C++</tt> identifiers,
+          they must start with a letter or _ (<i>underscore</i>)
+          and may continue with alphanumeric and the _ characters. Examples
+          are: <tt> hello, _hello, hello1, How_Are_You</tt>
+          <br><br>
+      <LI><tt><b>LEX_NUMERIC</b></tt>: unsigned floating point numbers,
+          which are basically digits with at most one decimal point separating
+          them. Examples are: <tt>2, 5, 3.14, 0.2</tt>. <i>CAREFUL</i>:
+          <tt>.2, -3</tt> and not <tt><b>LEX_NUMERIC</b></tt>. Both would
+          be two tokens, a <tt><b>LEX_SPECIAL</b></tt> (<tt>.</tt> and
+          <tt>-</tt>), and a <tt><b>LEX_NUMERIC</b></tt> (<tt>2</tt> and
+          <tt>3</tt>)
+          <br><br>
+      <LI><tt><b>LEX_SPECIAL</b></tt>: the characters, and pairs of characters: 
+          <CENTER>
+          <tt>
+          <TABLE BORDER=0>
+               <TR>
+               <TD>+</TD> <TD>-</TD> <TD>/</TD> <TD>%</TD>
+               <TD>$</TD> <TD>*</TD> <TD>(</TD> <TD>)</TD>
+               <TR>
+               <TD>,</TD> <TD>^</TD> <TD>~</TD> <TD>;</TD>
+               <TD>:</TD> <TD>.</TD> <TD>\</TD> <TD>@</TD>
+               <TR>
+               <TD>?</TD> <TD>[</TD> <TD>]</TD> <TD>{</TD>
+               <TD>}</TD> <TD><</TD> <TD>></TD> <TD>=</TD>
+               <TR>
+               <TD>|</TD> <TD>&</TD> <TD>!</TD> 
+               <TR>
+               <TD><=</TD> <TD></TD> <TD>>=</TD> <TD></TD>
+               <TD>==</TD> <TD></TD> <TD>!=</TD> <TD></TD>
+               <TR>
+               <TD>&&</TD> <TD></TD> <TD>||</TD> <TD></TD>  
+          </TABLE>
+          </tt>
+          </CENTER>
+          If the token <tt>!=</tt> is on the input stream,
+          then it is taken as one token, rather than two.
+          The <i>longest match</i> rule is used to
+          resolve such an ambiguity.
+          <br><br>
+      <LI><tt><b>LEX_STRING</b></tt>: a quoted string, with <tt>C/C++</tt>
+          escape sequences. In other words, everything that is a string
+          in <tt>C++</tt>, but you may also use the <tt>'</tt> (<i>single
+          quote</i>) and <tt>`</tt> (<i>back quote</i>) characters to quote.
+          Examples: <tt> "hello world", 'Las Vegas\n'</tt>
+          <br><br>
+      <LI><tt><b>LEX_EOF</b></tt> is returned if the end of file is 
+          encountered 
+          <br><br>
+
+  </UL>
+  The lexer also disregards comments. Everything following the <tt>#</tt> 
+  (<i>sharp</i> or <i>hash</i> sign) is discarded until the end of that
+  line. Hence
+  <PRE>
+    # this is a comment
+    # and so is this
+  </PRE>
+  
+<hr>
+<H2>IMPLEMENTATION</H2>
+    The following is the implementation of the lexical analyzer and
+    is demonstrated with a simple test program which chops a file
+    into tokens.
+    <br><br>
+    To run it in an <tt>MS-DOS</tt> prompt or an <tt>xterm</tt>, type
+    <PRE>
+       C:>lext lexer.cpp
+    </PRE>
+    (<i>or any other ASCII file instead of <tt>lexer.cpp</tt></i>)
+    <PRE>
+     
+        lext.exe [ .exe ]
+          |
+          +-- <A HREF="lexer.cpp">lexer.cpp</A>
+          |
+          +-- <A HREF="lexer.h">lexer.h</A>
+          |
+          +-- <A HREF="lexertest.cpp">lexertest.cpp</A>
+
+        (<A HREF="lex.make">lex.make</A>)
+    </PRE>
+
+<hr>
+<H2>ANNOTATED API DOCUMENTATION</H2>
+   <b>CLASS</b>: <tt>lexer</tt><br><br>
+   <PRE>
+      lexer L;  // L is a lexer
+
+   </PRE>
+
+   <b>METHODS</b>:<br><br>
+   <UL>
+      <tt>const char* <b>next_token</b>(istream& is)</tt>
+      <br><br>
+      <UL>
+         returns the next token read from the input stream
+         <tt>is</tt>. The <tt>strcmp</tt> function can be used
+         to compare it to a string. For example:
+         <PRE>
+  if (strcmp(L.next_token(cin),"hello") == 0) {
+     // then hello was read from the standard input
+     ...    
+         </PRE>
+      </UL>
+      <tt>token_type <b>get_type</b>()</tt>
+      <br><br>
+      <UL>
+         returns the <i>type</i> of the last read token, ie
+         one of <tt>LEX_IDENTIFIER</tt>, <tt>LEX_NUMERIC</tt>,
+         <tt>LEX_STRING</tt>, <tt>LEX_SPECIAL</tt>,
+         <tt>LEX_EOF</tt>. For example:
+         <PRE>
+   switch(L.get_type()) {
+      case LEX_IDENTIFIER:
+         // last token was an identifier 
+         ...
+      case LEX_NUMERIC:
+         // last token was a numeric
+         ...
+         </PRE>
+      </UL>
+      <tt>void <b>check_token</b>(istream& is,const char* token)</tt>
+      <br><br>
+      <UL>
+         as opposed to returning the next token from the stream,
+         it compares the token read from <tt>is</tt> with
+         <tt>token</tt>. If the token read is not the same as
+         <tt>token</tt>, then a <tt>lexer_error</tt> exception is
+         thrown. This method is useful to check punctuation tokens,
+         like <tt>,</tt> <tt>(</tt> <tt>;</tt> ...
+         <br><br>
+      </UL>
+      <tt>const char* <b>check_token</b>(istream& is,const token_type type)
+      </tt>
+      <br><br>
+      <UL>
+         the same as <tt>next_token</tt>, in the sense that it returns the
+         next token read from <tt>is</tt>, but it throws a <tt>lexer_error</tt>
+         exception if the token type is not <tt>type</tt>. This method can
+         be used when it is known what type of token is expected.
+         <br><br>
+      </UL>
+      <tt>const char* <b>get_token</b>(istream& is)</tt>
+      <br><br>
+      <UL>
+         the same as <tt>next_token</tt>, but as opposed to returning
+         <tt>(char*)0</tt> if the end of file is encountered, it
+         throws an exception.
+         <br><br>
+      </UL>
+      <tt>void <b>putback</b>()</tt>
+      <br><br>
+      <UL>
+         if this method is called, then the last token read is going to
+         be the next token returned. Logically it is the same, as if
+         the last token was put back onto the stream. <tt>putback</tt>
+         can be used to check the token ahead without modifying the logical
+         stream. Note that it is impossible to backtrack on streams, so in
+         reality, putback saves the token and its type in a buffer, and
+         the calls <tt>next_token</tt>, <tt>check_token</tt> and
+         <tt>get_token</tt> do not read the token from the stream, but rather
+         get it from the buffer.
+         <br><br>
+      </UL>
+      <tt>const char* <b>peek_token</b>(istream& is)</tt>
+      <br><br>
+      <UL>
+          this method returns the next token on the stream but does
+          not remove it from the stream. <b>peek_token</b> is
+          equivalent to:
+          <PRE>
+            const char* token = <b>next_token</b>(is);
+            <b>putback</b>();
+            <b>return</b> token;
+          </PRE> 
+      </UL>
+      <tt>void <b>set_line_number</b>(int = 1)</tt><br>
+      <tt>int <b>get_line_number</b>() const</tt>
+      <br><br>
+      <UL>
+         set or obtain line number information. Every time a new line
+         is encountered, the counter is incremented.
+         <br><br>
+      </UL>
+      <tt>double <b>read_numeric</b>(istream& is)</tt>
+      <br><br>
+      <UL>
+         when it is known that the next token is supposed to be a
+         <b>signed floating point or integer value</b> this method
+         can be used to have the token read and converted to a <tt>double</tt>.
+         Note that <tt>0.2</tt> must be used as opposed to <tt>.2</tt>.
+         <br><br>
+      </UL>
+   </UL>
+   <b>EXCEPTIONS</b>:
+   <br><br>
+   <UL>
+      The methods throw <tt>lexer::exception</tt> exceptions.
+      </UL>
+      For example:<br><br>
+      <PRE>
+    const char* token;
+    try {
+       token = L.next_token(cin);
+    } catch (<b>lexer::exception</b> err) {
+       // this reports the kind of exception and the line number
+       cerr << err << endl;
+       ...
+    }
+      </PRE> 
+   </UL>
+
+</BODY>
+</HTML>

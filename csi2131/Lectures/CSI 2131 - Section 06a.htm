@@ -1,0 +1,486 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec06a.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 6A</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>What's Wrong with Huffman?</CENTER></FONT>
+      <HR>
+
+      <P>The standard Huffman compression (also known as "static Huffman") has 
+      two major drawbacks: 
+      <OL>
+        <LI>the Huffman tree (or at least the symbol probabilities) must be 
+        transmitted along with the encoded data (or stored in the compressed 
+        file) 
+        <LI>encoding requires two passes through the data: 
+        <UL>
+          <LI>one to compute the probabilities of the input symbols 
+          <LI>one to encode the data </LI></UL></LI></OL>
+      <P>If we fixed the probabilities for all time, we could "solve" these 
+      problems:
+      <UL>
+        <LI>for example, if we knew we were always compressing English text, we 
+        could use some precomputed probabilities of English letters:
+        <P></P></LI></UL>
+      <CENTER>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+1><PRE>E   .124
+T   .089
+A   .080
+O   .076</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>N   .070
+I   .067
+H   .065
+S   .062</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>R   .061
+D   .046
+L   .036
+U   .027</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>M   .025
+W   .023
+C   .022
+F   .022</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>G   .020
+Y   .020
+P   .016
+B   .013</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>V   .008
+K   .007
+Q   .001
+X   .001</PRE></FONT></TD>
+          <TD><FONT size=+1><PRE>J   .001
+Z   .000</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What's wrong with this solution?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100.1 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Adaptive Huffman</CENTER></FONT>
+      <HR>
+
+      <P><I>Adaptive Huffman</I> is a variation on static Huffman that:
+      <OL>
+        <LI>does not require the probabilities to be transmitted with the 
+        encoded data 
+        <LI>requires only one pass through the data for encoding 
+        <LI>does not use fixed symbol probabilities </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>Cool! But how does it do that?</I></CENTER>
+      <P>There are different versions of adaptive Huffman. The algorithms can be 
+      quite complicated, but the ideas are simple.
+      <UL>
+        <LI>start with a tree with only one (leaf) node: the "0 node" 
+        <LI>for each symbol in the input: 
+        <UL>
+          <LI>if the symbol does not appear in the tree 
+          <UL>
+            <LI>transmit the code for the 0 node 
+            <LI>transmit the symbol 
+            <LI>split the 0 node into two children: one becomes the new 0 node, 
+            the other is the code for the new symbol </LI></UL>
+          <LI>if the symbol does appear in the tree 
+          <UL>
+            <LI>transmit the code for the input symbol </LI></UL>
+          <LI>rebuild the tree with updated probabilities </LI></UL></LI></UL>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100.2 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Adaptive Huffman Encoding Example</CENTER></FONT>
+      <HR>
+
+      <P>Input: <PRE>a a b b b b c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>Transmit (encoding): <PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100.3 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Decoding Adaptive Huffman</CENTER></FONT>
+      <HR>
+
+      <P>Adaptive Huffman does not have to transmit the probabilities (or the 
+      Huffman tree) along with the data because as codes are transmitted, the 
+      decoder can update the probabilities and recompute the tree just like the 
+      encoder. 
+      <UL>
+        <LI>start with a tree with only one (leaf) node: the "0 node" 
+        <LI>for each code received: 
+        <UL>
+          <LI>if the code is the code for the 0 node 
+          <UL>
+            <LI>split the 0 node into two children: one becomes the new 0 node, 
+            the other is the next symbol (S) received 
+            <LI>output S </LI></UL>
+          <LI>if the code is for a node (N) other than the 0 node 
+          <UL>
+            <LI>output the symbol at node N </LI></UL>
+          <LI>rebuild the tree with updated probabilities </LI></UL></LI></UL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100.4 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Adaptive Huffman Decoding Example</CENTER></FONT>
+      <HR>
+
+      <P>Input: <PRE>a  1  0 b  0 1  0 1  1  0 0 c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>Output (decoding): <PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100.5 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Another LZW Decoding Walkthrough</CENTER></FONT>
+      <HR>
+      <TT>&lt;65&gt;&lt;256&gt;&lt;257&gt;&lt;82&gt;&lt;71&gt;&lt;72&gt;&lt;33&gt;</TT> 
+
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>0</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>1</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>2</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>33</FONT></TD>
+                <TD align=middle><FONT size=+2>!</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>65</FONT></TD>
+                <TD align=middle><FONT size=+2>A</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>66</FONT></TD>
+                <TD align=middle><FONT size=+2>B</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>71</FONT></TD>
+                <TD align=middle><FONT size=+2>G</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>255</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>256</FONT></TD>
+                <TD align=middle><FONT 
+                  size=+2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>257</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>258</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>259</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>260</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>261</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>262</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>263</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>264</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>265</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>266</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>267</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>268</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>269</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>.<BR>.<BR>.</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>w</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>k</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+            size=+2><B><I>output</I></B>
+            <HR>
+            </FONT></TD></TR></TBODY></TABLE>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 106.1 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Your Favourite Compression Utilities</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><B><I>Utility</I></B></FONT></TD>
+          <TD><FONT size=+2><B><I>Format</I></B></FONT></TD>
+          <TD><FONT size=+2><B><I>Compression</I></B></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>pkarc (DOS)<BR>arc (Unix, Mac, etc.)</FONT></TD>
+          <TD><FONT size=+2>.arc, .ark</FONT></TD>
+          <TD><FONT size=+2>LZW</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>arj (DOS)</FONT></TD>
+          <TD><FONT size=+2>.arj</FONT></TD>
+          <TD><FONT size=+2>LZ77 + hashing, secondary static 
+        Huffman</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Compuserve GIF</FONT></TD>
+          <TD><FONT size=+2>.gif</FONT></TD>
+          <TD><FONT size=+2>LZW</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>gzip</FONT></TD>
+          <TD><FONT size=+2>.gz</FONT></TD>
+          <TD><FONT size=+2>LZ77 + hashing, secondary static 
+        Huffman</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>lha, lharc</FONT></TD>
+          <TD><FONT size=+2>.lha, .lhz</FONT></TD>
+          <TD><FONT size=+2>LZ77 + tries, secondary static 
+Huffman</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>squeeze (DOS)</FONT></TD>
+          <TD><FONT size=+2>.sqz</FONT></TD>
+          <TD><FONT size=+2>LZ77 + hashing</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>pkzip (DOS)<BR>zip (Unix)<BR>WinZip 
+            (Windows)</FONT></TD>
+          <TD><FONT size=+2>.zip</FONT></TD>
+          <TD><FONT size=+2>LZ77 + hashing, secondary static 
+        Huffman</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>zoo (DOS/Mac/Unix)</FONT></TD>
+          <TD><FONT size=+2>.zoo</FONT></TD>
+          <TD><FONT size=+2>LHA</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>freeze (Unix)</FONT></TD>
+          <TD><FONT size=+2>.F</FONT></TD>
+          <TD><FONT size=+2>LZ77 + hashing, secondary adaptive 
+          Huffman</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>yabba (Unix)</FONT></TD>
+          <TD><FONT size=+2>.Y</FONT></TD>
+          <TD><FONT size=+2>LZ78 variant</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>compress (Unix)</FONT></TD>
+          <TD><FONT size=+2>.Z</FONT></TD>
+          <TD><FONT size=+2>LZW</FONT></TD></TR></TBODY></TABLE></CENTER><PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 106.2 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>MPEG</CENTER></FONT>
+      <HR>
+
+      <UL>
+        <LI>"Moving Picture Experts Group" 
+        <LI>compression for movies + audio 
+        <UL>
+          <LI>low resolution video 
+          <LI>high quality audio </LI></UL>
+        <P>
+        <OL>
+          <LI>do irreversible compression on colour channels (not on shade 
+          channel) 
+          <LI>for each block of 16x16 in a frame, try to find a "similar" block 
+          in a previous (<I>or future</I>) frame 
+          <LI>store the differences between blocks instead of storing entire 
+          blocks 
+          <LI>Huffman encode the whole thing </LI></OL>
+        <P></P>
+        <LI>the result: a sequence of frames 
+        <UL>
+          <LI>some frames (I frames) are original frames encoded as still images 
+
+          <LI>some frames (P frames) are predicted from the most recent I or P 
+          frame 
+          <LI>some frames (B frames) are predicted from the two closest I or P 
+          frames (in the past and future) </LI></UL></LI></UL><PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 106.3 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>JPEG</CENTER></FONT>
+      <HR>
+
+      <UL>
+        <LI>"Joint Photographic Experts Group" 
+        <LI>lossy compression 
+        <LI>full colour or gray scale images (not black and white) 
+        <LI>for pictures to be viewed by humans 
+        <UL>
+          <LI>humans are very good at judging light vs. dark 
+          <LI>not as good at judging minor variations in colour </LI></UL>
+        <LI>~ 100:1 compression to 3:1 (parameterized for quality vs. size) 
+        <P>
+        <OL>
+          <LI>do irreversible compression on colour channels 
+          <LI>compute the <I>Discrete Cosine Transform</I> for each 8x8 block 
+          <LI>"reduce" the DCT output: more reduction for less visible elements 
+          <LI>Huffman encode the reduced output </LI></OL></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <UL>
+        <LI>Lossless JPEG (~ 2:1 compression) 
+        <OL>
+          <LI>predict the value of a pixel based on the pixels above it and to 
+          the left (for example, average them) 
+          <LI>record the difference between predicted value and actual value 
+          <LI>Huffman encode the differences </LI></OL></LI></UL><PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 106.4 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

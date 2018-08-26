@@ -1,0 +1,127 @@
+Assembling file:   ass3-3rev2.ASM
+Error messages:    None
+Warning messages:  None
+Passes:            1
+
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporat
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcd
+Please enter 2nd string?
+ae
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+ae
+Please enter 2nd string?
+abcd
+The 2nd string alphabetically precedes the 1st.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcdef
+Please enter 2nd string?
+abcdef
+The two strings are identical.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcde
+Please enter 2nd string?
+abcd
+The 2nd string alphabetically precedes the 1st.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcde
+Please enter 2nd string?
+abcdef
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcdefg
+Please enter 2nd string?
+abcdefh
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcdefg
+Please enter 2nd string?
+abcdefg
+The two strings are identical.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+abcd
+Please enter 2nd string?
+abc
+The 2nd string alphabetically precedes the 1st.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+pointers are hell
+Please enter 2nd string?
+pointers are help
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+pointers are hell
+Please enter 2nd string?
+pointers are hellions
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+
+Please enter 2nd string?
+
+The two strings are identical.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+
+Please enter 2nd string?
+a
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+lskdfjsld
+Please enter 2nd string?
+
+The 2nd string alphabetically precedes the 1st.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+restx
+Please enter 2nd string?
+res
+The 2nd string alphabetically precedes the 1st.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+ret
+Please enter 2nd string?
+returnx
+The 1st string alphabetically precedes the 2nd.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+123456789
+Please enter 2nd string?
+123456789
+The two strings are identical.
+
+c:\work>ass3-3rev2
+Please enter 1st string?
+Madam, I'm Adam.
+Please enter 2nd string?
+Madam, I'm Adam.
+The two strings are identical.
+
+c:\work>

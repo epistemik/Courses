@@ -1,0 +1,106 @@
+/ ; ************************************************* /
+/ ; *** ShiftRot.68                               *** /
+/ ; *** Tests instructions for shifting and       *** /
+/ ; *** rotating in Sim68k                        *** /
+/ ; *** Tests LSL, LSR, ROL, ROR                  *** /
+/ ; *** Also uses BRA, MOVE, DSP, DSR and HLT     *** /
+/ ; ************************************************* /
+/  /
+/ ;    Assembly Language       OpCode  Oper1   Oper2  /
+/ ;                           MSB LSB MSB LSB MSL LSB /
+/ ;-------------------------------------------------- /
+/ ; Branch to the first instruction /
+/ BRA.W @Main             ; / $92 $60 $00 $0C
+/  /
+/ ; Declarations /
+/ DEF.L @Const1, #$F0F0F0F0 ; / $F0 $F0 $F0 $F0
+/ DEF.L @Const2, #$0F0F0F0F ; / $0F $0F $0F $0F
+/  /
+/ ; Main program /
+/ LABEL @Main             ; /
+/  /
+/ ; Test LSL and LSR (byte) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    LSL.B #$3, D0        ; / $60 $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    LSR.B #$3, D0        ; / $68 $30
+/    DSP.L D0             ; / $EC $00
+/    LSR.B #$3, D1        ; / $68 $31
+/    DSP.L D1             ; / $EC $10
+/    LSL.B #$3, D1        ; / $60 $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/  /
+/ ; Test LSL and LSR (word) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    LSL.W #$3, D0        ; / $62 $30
+/    DSP.L D0             ; / $EC $00
+/    LSR.W #$3, D0        ; / $6A $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    LSR.W #$3, D1        ; / $6A $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/    LSL.W #$3, D1        ; / $62 $31
+/    DSP.L D1             ; / $EC $10
+/  /
+/ ; Test LSL and LSR (long) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    LSL.L #$3, D0        ; / $64 $30
+/    DSP.L D0             ; / $EC $00
+/    LSR.L #$3, D0        ; / $6C $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    LSR.L #$3, D1        ; / $6C $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/    LSL.L #$3, D1        ; / $64 $31
+/    DSP.L D1             ; / $EC $10
+/  /
+/ ; Test ROL and ROR (byte) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    ROL.B #$3, D0        ; / $70 $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    ROR.B #$3, D0        ; / $78 $30
+/    DSP.L D0             ; / $EC $00
+/    ROR.B #$3, D1        ; / $78 $31
+/    DSP.L D1             ; / $EC $10
+/    ROL.B #$3, D1        ; / $70 $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/  /
+/ ; Test ROL and ROR (word) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    ROL.W #$3, D0        ; / $72 $30
+/    DSP.L D0             ; / $EC $00
+/    ROR.W #$3, D0        ; / $7A $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    ROR.W #$3, D1        ; / $7A $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/    ROL.W #$3, D1        ; / $72 $31
+/    DSP.L D1             ; / $EC $10
+/  /
+/ ; Test ROL and ROR (long) /
+/    MOVE.L @Const1, D0   ; / $C5 $60 $00 $04
+/    MOVE.L @Const2, D1   ; / $C5 $61 $00 $08
+/    ROL.L #$3, D0        ; / $74 $30
+/    DSP.L D0             ; / $EC $00
+/    ROR.L #$3, D0        ; / $7C $30
+/    DSP.L D0             ; / $EC $00
+/    DSR.B                ; / $F0 $00
+/    ROR.L #$3, D1        ; / $7C $31
+/    DSP.L D1             ; / $EC $10
+/    ROL.L #$3, D1        ; / $74 $31
+/    DSP.L D1             ; / $EC $10
+/    DSR.B                ; / $F0 $00
+/  /
+/    HLT.B                ; / $F8 $00

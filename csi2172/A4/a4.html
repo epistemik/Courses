@@ -1,0 +1,205 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>ASSIGNMENT #4</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+<H1> ASSIGNMENT #4</H1>
+
+Read the <A HREF="../../rules">general rules</A> about submitting course
+work!
+Also read ``<A HREF="../../rules/#marker">how can I make my marker's life
+easier</A>'' and ``<A HREF="../../rules/#nocompile">what if my code does
+not compile?</A>''.
+
+<H2><FONT COLOR=red>Due date:</FONT></H2>
+  <UL>
+  <H4>
+     December 8<sup>th</sup>, by 18:00 in the hand in boxes located on the 
+     3<sup>rd</sup> floor of McDonald building. <br><br>
+  </H4>
+  
+  </UL>
+
+<hr>
+
+<H1>Virtual Constructors [ 100 marks ]</H1>
+
+   It is a well known problem in Object Oriented Programming
+   that constructors cannot be made <tt>virtual</tt>. Throughout this
+   course we used polymorhism and inheritance to achieve 
+   maintainability and ease of integration of new features and
+   extensions.
+
+   <br><br>
+   Unfortunately this does not apply to constructors. Consider
+   the class diagram below:
+
+   <CENTER>
+      <A HREF="shapes.gif"><IMG SRC="shapes.gif" BORDER=0 WIDTH=60%></A>
+   </CENTER>
+
+   <br><br>
+   <tt>shape</tt> is an abstract class. Suppose I would like to read instances
+   of shapes from the console: 
+   <PRE>
+      shape** array = new shape*[10];
+
+      for(int i=0; i<10; ++i) {
+         array[i]->read(cin); 
+      }
+   </PRE>
+   To be able to invoke the polymorphic method <tt>read</tt>, <tt>array[i]</tt>
+   must be allocated! But how can it be allocated when you cannot possible
+   know which subclass of <i>shape</i> the object to be read from the console
+   belongs to. In philosophy this situation is referred to as 
+   a <it>paradox</i>. To be able to invoke a constructor to create
+   the instance I have to know its <i>exact</i> type but to be able to
+   call a method I need the instance. While <tt>operator&lt;&lt;</tt>
+   can be implemented as
+   <PRE>
+
+   ostream& <b>operator&lt;&lt;</b>(ostream& <i>os</i>, const shape& <i>s</i>) {
+      s.print(<i>os</i>);   // <FONT COLOR=darkgreen>print is polymorphic</FONT>
+      return <i>os</i>;
+   }
+
+   </PRE>
+   <tt>operator&gt;&gt;</tt> <b><FONT COLOR=red>cannot</FONT></b>
+    be implemented as
+
+   <PRE>
+
+   istream& <b>operator&gt;&gt;</b>(istream& <i>is</i>, shape& <i>s</i>) {
+      s.read(<i>is</i>);  
+      return <i>is</i>;
+   }
+
+   </PRE>
+   because you would need an instance <tt>s</tt>, but you don't know
+   the exact <i>subclass</i> until you actually executed <tt>read</tt>.
+
+   <br><br>Because of this paradox, there is no support to implement
+   virtual constructors in <tt>C++</tt>. However, one can
+   implement something similar which would effectively implement
+   a polymorphic read method. The term <i>virtual constructor</i>
+   refers to a mechanism implemented by the programmer which can
+   create instances of the run-time subclass by invoking a method
+   of the base class. The <tt>clone</tt> method for your 
+   second assignment -- in this sense -- is a virtual constructor.
+   Virtual constructors which can create instances from streams
+   are much more difficult to implement. In your second assignment,
+   you had a parser, which took instantiator functions and syntax
+   definitions to recognize expressions from a stream.
+
+   <br><br>
+   For this assignment, I provide you with the <i>implementation</i>
+   of this mechanism. The way it works is that for every subclass
+   of <tt>shape</tt>, a tiny subclass of <tt>shape_instantiator</tt>
+   must be implemented which would be used by the <tt>shape::read</tt>
+   method to instantiate the particular instance.
+
+   <br><br>
+   Your task is to
+   <LI><b>Comment the Code I gave you [ 20 marks ]</b> 
+       <UL>
+          Add comments to <A HREF="shape.h">shape.h</A> and
+          <A HREF="shape.cpp">shape.cpp</A> which would explain
+          the person who reads the code <i>how</i> the actual
+          mechanism is implemented. 
+          Also add comments to <A HREF="main.cpp">main.cpp</A>
+          which would explain how this is used.
+          <br><br>
+          Please do not do anything like
+          <PRE>
+  int i; // i is an integer
+  for(...) // is a for loop
+          </PRE>
+          In-line comments are not supposed to clutter the code 
+          with stating the obvious. They are specifically
+          provided so the implementor can quickly re-acquaint himself
+          with the code he wrote years before and to guide those
+          developers who will have to maintain it. In other words,
+          they should be short explanations of non-obvious mechanisms.
+          If you need help how to do this, you can take a look at the
+          comments in <A HREF="lexer.h">lexer.h</A> and 
+          <A HREF="lexer.cpp">lexer.cpp</A> (or 
+          <A HREF="../ass3/heap.h">heap.h</A> and
+          <A HREF="../ass3/heap.cpp">heap.cpp</A>)
+       </UL>
+
+   <LI><b>Provide a short description [ 20 marks ]</b>
+       <UL>
+          Describe how virtual construction is implemented for shapes.
+          You are limited to one typed page. You <i>may</i> use one diagram
+          if you feel it would aid your description.
+          <br><br>
+          A good description is brief with <b>no code</b>. It is supposed
+          to describe how one would go about implementing
+          virtual construction in any object oriented language using
+          inheritance, polymorphism, class methods and class variables 
+          ...
+       </UL>
+
+   <LI><b>Implement the missing subclasses of <tt>shape</tt> [ 60 marks ]</b>
+       <UL>
+          implement <tt>rectangle</tt>, <tt>square</tt> and <tt>triangle</tt>
+          so they can be read from a stream.
+          <PRE>
+   ass4 "circle 2" "square 2" "rectangle 4 5" "triangle  3 4 5"
+          </PRE>
+          should produce:
+          <PRE>
+   square 2  has area: 4
+   triangle 3 4 5  has area: 6
+   circle 2  has area: 12.5664
+   rectangle 4 5  has area: 20
+          </PRE>
+       </UL>
+
+
+ <hr>
+ <PRE>
+      ass4.exe [ .exe ]
+        |
+        +-- <A HREF="shape.h">shape.h</A>
+        |
+        +-- <A HREF="shape.cpp">shape.cpp</A>
+        |
+        +-- <A HREF="circle.h">circle.h</A>
+        |
+        +-- <A HREF="circle.cpp">circle.cpp</A>
+        |
+        +-- <A HREF="lexer.h">lexer.h</A>
+        |
+        +-- <A HREF="lexer.cpp">lexer.cpp</A>
+        |
+        +-- <A HREF="qsort.h">qsort.h</A>
+        |
+        +-- <A HREF="main.cpp">main.cpp</A>
+
+
+      C:\work>ass4 "circle 2" "circle 1" "circle 7" "circle 2"
+      C:\work>type shapes.txt
+ </PRE>
+ <hr>
+    
+<H1>What Do I hand in?</H1>
+
+  The following files on diskette and their printout:
+
+  <UL>
+     <LI>shape.h <FONT COLOR=green>// commented </FONT>
+     <LI>shape.cpp <FONT COLOR=green>// commented </FONT>
+     <LI>rectangle.h
+     <LI>rectangle.cpp
+     <LI>triangle.h
+     <LI>triangle.cpp
+     <LI>square.h
+     <LI>square.cpp
+     <LI>main.cpp (<i>modified</i>) <FONT COLOR=green>// commented </FONT>
+  </UL>
+     
+  
+<H1>Good Luck!!!</H1>
+
+</BODY>
+</HTML>
+

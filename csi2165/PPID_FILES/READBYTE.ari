@@ -1,0 +1,59 @@
+% From the book
+% PROLOG PROGRAMMING IN DEPTH
+% by Michael A. Covington, Donald Nute, and Andre Vellino
+% (Prentice Hall, 1997).
+% Copyright 1997 Prentice-Hall, Inc.
+% For educational use only
+
+% File READBYTE.PL
+% Reads fixed-length fields from files.
+
+% Insert appropriate definition of get_byte here:
+get_byte(C) :- get0(C).
+
+
+% read_bytes(+N,-String)
+%  Reads the next N bytes from current input, as a list of ASCII codes.
+%  Stops if end of file is encountered prematurely.
+
+read_bytes(N,String) :-
+  get_byte(C),
+  read_bytes_aux(C,N,String).
+
+read_bytes_aux(-1,_,[]) :- !.     % end of file, so stop
+
+read_bytes_aux(C,1,[C]) :- !.     % no more bytes to read, so stop
+
+read_bytes_aux(C,N,[C|Rest]) :-   % keep going
+  get_byte(NextC),
+  NextN is N-1,
+  read_bytes_aux(NextC,NextN,Rest).
+
+
+% skip_bytes(+N)
+%  Skips the next N bytes on standard input
+
+skip_bytes(0) :- !.           % special case
+
+skip_bytes(N) :-              % ordinary case
+  N > 0,
+  get_byte(C),
+  skip_bytes_aux(C,N).
+
+
+skip_bytes_aux(-1,_) :- !.    % end of file, so stop
+
+skip_bytes_aux(_,N) :-        % keep going
+  NextN is N-1,
+  skip_bytes(NextN).
+
+
+% Demonstration
+
+demo :- see('fixedlen.dat'),
+        skip_bytes(22),
+        read_bytes(12,String),
+	seen,
+	write(String), nl.  
+
+	% Should print: [65,116,104,101,110,115,32,32,32,32,32,32]

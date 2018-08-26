@@ -1,0 +1,1 @@
+// FILE:  bonus.h// NAME:  Mark Sattolo// STUDENT #:  428500// SECTION:  CSI 2172A// MARKING SECTION:  A4#if !defined( _BONUS_H_ )#define _BONUS_H_#include <iostream.h>int** allocate( int n ) ; void print( ostream& os, int** M, int n ) ;void deallocate( int**& M, int n ) ;#endif

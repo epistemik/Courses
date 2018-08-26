@@ -1,0 +1,1098 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec02.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 2</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Basics</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>some definitions 
+        <LI>basic file organization 
+        <LI>physical files and logical files 
+        <LI>field and stream 
+        <LI>basic file operations 
+        <UL>
+          <LI>assign/open/create 
+          <LI>close 
+          <LI>read 
+          <LI>write 
+          <LI>eof </LI></UL>
+        <LI>ASCII files and binary files 
+        <LI>access: sequential vs. direct </LI></UL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 12 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Definitions</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>File</I></B> 
+        <DD>1. A collection of data on some secondary storage device<BR>2. A 
+        collection of <I>records</I> 
+        <P></P>
+        <DT><B><I>Record</I></B> 
+        <DD>A collection of <I>fields</I> 
+        <P></P>
+        <DT><B><I>Field</I></B> 
+        <DD>A collection of characters (bytes) 
+        <P></P>
+        <DT><B><I>Key</I></B> 
+        <DD>A subset of the <I>fields</I> in a <I>record</I> used to identify 
+        (uniquely, usually) the record 
+        <P></P></DD></DL><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 13 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Basic File Organization</CENTER></FONT>
+      <HR>
+
+      <P>&nbsp;
+      <P>
+      <TABLE border=5 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>File</I></FONT><BR>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right>
+                  <TABLE border=0 cellPadding=5 cellSpacing=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=right><FONT 
+size=+2><I>Record1</I></FONT></TD></TR>
+                    <TR>
+                      <TD align=right><FONT 
+size=+2><I>Record2</I></FONT></TD></TR>
+                    <TR>
+                      <TD align=right><FONT 
+size=+2><I>Record3</I></FONT></TD></TR>
+                    <TR>
+                      <TD align=right><FONT size=+2>.
+                        <P>.
+                        <P>.</FONT></P></TD></TR>
+                    <TR>
+                      <TD align=right><FONT 
+                    size=+2><I>RecordM</I></FONT></TD></TR></TBODY></TABLE></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=3 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+2>Field1</FONT></TD>
+                      <TD><FONT size=+2><B>Field2</B></FONT></TD>
+                      <TD><FONT size=+2><B>Field3</B></FONT></TD>
+                      <TD><FONT size=+2>...</FONT></TD>
+                      <TD><FONT size=+2>FieldN</FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+2>Field1</FONT></TD>
+                      <TD><FONT size=+2><B>Field2</B></FONT></TD>
+                      <TD><FONT size=+2><B>Field3</B></FONT></TD>
+                      <TD><FONT size=+2>...</FONT></TD>
+                      <TD><FONT size=+2>FieldN</FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+2>Field1</FONT></TD>
+                      <TD><FONT size=+2><B>Field2</B></FONT></TD>
+                      <TD><FONT size=+2><B>Field3</B></FONT></TD>
+                      <TD><FONT size=+2>...</FONT></TD>
+                      <TD><FONT size=+2>FieldN</FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+2>&nbsp;
+                        <P>...
+                        <P>&nbsp;</FONT></P></TD>
+                      <TD><FONT size=+2><B>&nbsp;
+                        <P>...
+                        <P>&nbsp;</B></FONT></P></TD>
+                      <TD><FONT size=+2><B>&nbsp;
+                        <P>...
+                        <P>&nbsp;</B></FONT></P></TD>
+                      <TD><FONT size=+2>&nbsp;
+                        <P>...
+                        <P>&nbsp;</FONT></P></TD>
+                      <TD><FONT size=+2>&nbsp;
+                        <P>...
+                        <P>&nbsp;</FONT></P></TD></TR>
+                    <TR>
+                      <TD><FONT size=+2>Field1</FONT></TD>
+                      <TD><FONT size=+2><B>Field2</B></FONT></TD>
+                      <TD><FONT size=+2><B>Field3</B></FONT></TD>
+                      <TD><FONT size=+2>...</FONT></TD>
+                      <TD><FONT 
+              size=+2>FieldN</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P>&nbsp;
+      <P>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Key = {</I><B>Field2</B><I>, 
+            </I><B>Field3</B><I>}</I></FONT></TD>
+          <TD align=right><FONT size=+2><I>/* for example 
+        */</I></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 14 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>For Example</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(42) <B>cat courses.dat</B>
+
+BOSE   JIT     CARLETONU CS384   DATA STRUCTURES         .
+BOSE   JIT     CARLETONU CS102   SYSTEMS PROGRAMMING     .
+BARKER KEN     UMANITOBA 074-438 DATABASE IMPLEMENTATION .
+BARKER KEN     UMANITOBA 074-452 PROJECTS                .
+BARKER KEN     UOTTAWA   CSI2131 FILE MANANGEMENT        .
+BARKER KEN     UOTTAWA   CSI4900 PROJECTS                .
+BOYD   SYLVIA  UOTTAWA   CSI5166 COMBINATORICS           .
+BOYD   SYLVIA  UOTTAWA   CSI4900 PROJECTS                .
+HOLTE  ROBERT  UOTTAWA   CSI1101 COMPUTER SCIENCE II     .
+HOLTE  ROBERT  UOTTAWA   CSI4900 PROJECTS                .
+ROY    DAMIEN  UOTTAWA   MAT1741 ALGÈBRE LINÉAIRE        .
+ROY    DAMIEN  UOTTAWA   MAT3543 STRUCTURES ALGÉBRIQUES  .
+ROY    LANGIS  UOTTAWA   ELG4102 µWAVE &amp; OPTICAL CIRCUITS.
+MORIN  JOHANNE UQTR      ASY1006 GÉNIE LOGICIEL          .
+MORIN  JOHANNE UQTR      SIF1016 STRUCTURES DE DONNÉES   .
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What are the </I>fields<I> in </I><TT>courses.dat</TT><I>?
+      <P><B>A:</B></I>
+      <P><I><B>Q:</B> What are the </I>records<I> in 
+</I><TT>courses.dat</TT><I>?
+      <P><B>A:</B></I>
+      <P><I><B>Q:</B> What would be a </I>unique key<I> for 
+      </I><TT>courses.dat</TT><I>?
+      <P><B>A:</B></I>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 15 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Variable Length Fields</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(43) <B>cat courses-varfields.dat</B>
+
+BOSE/JIT/CARLETONU/CS384/DATA STRUCTURES            .
+BOSE/JIT/CARLETONU/CS102/SYSTEMS PROGRAMMING        .
+BARKER/KEN/UMANITOBA/074-438/DATABASE IMPLEMENTATION.
+BARKER/KEN/UMANITOBA/074-452/PROJECT                .
+BARKER/KEN/UOTTAWA/CSI2131/FILE MANANGEMENT         .
+BARKER/KEN/UOTTAWA/CSI4900/PROJECTS                 .
+BOYD/SYLVIA/UOTTAWA/CSI5166/COMBINATORICS           .
+BOYD/SYLVIA/UOTTAWA/CSI4900/PROJECTS                .
+HOLTE/ROBERT/UOTTAWA/CSI1101/COMPUTER SCIENCE II    .
+HOLTE/ROBERT/UOTTAWA/CSI4900/PROJECTS               .
+ROY/DAMIEN/UOTTAWA/MAT1741/ALGÈBRE LINÉAIRE         .
+ROY/DAMIEN/UOTTAWA/MAT3543/STRUCTURES ALGÉBRIQUES   .
+ROY/LANGIS/UOTTAWA/ELG4102/µWAVE &amp; OPTICAL CIRCUITS .
+MORIN/JOHANNE/UQTR/ASY1006/GÉNIE LOGICIEL           .
+MORIN/JOHANNE/UQTR/SIF1016/STRUCTURES DE DONNÉES    .
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Other Possibilities</B></I>
+      <P>
+      <LI>Store the length of each field <I>right in the 
+      file</I><BR><TT>&nbsp;06BARKER03KEN07UOTTAWA07CSI213116FILE 
+      MANANGEMENT<BR>&nbsp;05MORIN07JOHANNE04UQTR07ASY100614GÉNIE 
+      LOGICIEL<BR>&nbsp;...</TT>
+      <P></P>
+      <LI>Store each field as a <I>value = 
+      expression;</I><BR><TT>&nbsp;ln=BARKER;fn=KEN;un=UOTTAWA;cc=CSI2131;ti=FILE&nbsp;MANANGEMENT;<BR>&nbsp;ln=MORIN;fn=JOHANNE;un=UQTR;cc=ASY1006;ti=GÉNIE&nbsp;LOGICIEL;<BR>&nbsp;...</TT>
+      <P><PRE></PRE></FONT></LI></TD></TR></TBODY></TABLE>
+<CENTER>- 16 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Variable Length Records</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(44) <B>cat courses-varrec.dat</B>
+
+BOSE/JIT/CARLETONU/CS384/DATA STRUCTURES.BOSE/JIT/CAR
+LETONU/CS102/SYSTEMS PROGRAMMING.BARKER/KEN/UMANITOBA
+/074-438/DATABASE IMPLEMENTATION.BARKER/KEN/UMANITOBA
+/074-452/PROJECT.BARKER/KEN/UOTTAWA/CSI2131/FILE MANA
+NGEMENT.BARKER/KEN/UOTTAWA/CSI4900/PROJECTS.BOYD/SYLV
+IA/UOTTAWA/CSI5166/COMBINATORICS.BOYD/SYLVIA/UOTTAWA/
+CSI4900/PROJECTS.HOLTE/ROBERT/UOTTAWA/CSI1101/COMPUTE
+R SCIENCE II.HOLTE/ROBERT/UOTTAWA/CSI4900/PROJECTS.RO
+Y/DAMIEN/UOTTAWA/MAT1741/ALGÈBRE LINÉAIRE.ROY/DAMIEN/
+UOTTAWA/MAT3543/STRUCTURES ALGÉBRIQUES.ROY/LANGIS/UOT
+TAWA/ELG4102/µWAVE &amp; OPTICAL CIRCUITS.MORIN/JOHANNE/U
+QTR/ASY1006/GÉNIE LOGICIEL.MORIN/JOHANNE/UQTR/SIF1016
+/STRUCTURES DE DONNÉES.
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Other Possibilities</B></I>
+      <P>
+      <LI>Store the length of each record <I>right in the 
+      file</I><BR><TT>&nbsp;043BARKER/KEN/UOTTAWA/CSI2131/FILE 
+      MANANGEMENT<BR>&nbsp;041MORIN/JOHANNE/UQTR/ASY1006/GÉNIE 
+      LOGICIEL<BR>&nbsp;...</TT>
+      <P></P>
+      <LI>Use a separate file with the starting position of each 
+      record<BR><TT>&nbsp;000;043;084;...
+      <P>&nbsp;BARKER/KEN/UOTTAWA/CSI2131/FILE 
+      MANANGEMENT<BR>&nbsp;MORIN/JOHANNE/UQTR/ASY1006/GÉNIE 
+      LOGICIEL<BR>&nbsp;...</TT>
+      <P><PRE></PRE></FONT></LI></TD></TR></TBODY></TABLE>
+<CENTER>- 17 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Variable vs. Fixed</CENTER></FONT>
+      <HR>
+
+      <P>The advantages of variable length fields and records are obvious: 
+      <UL>
+        <LI>unlimited field/record length 
+        <LI>more compact storage </LI></UL>The advantages of fixed length fields 
+      and records are less obvious. 
+      <UL>
+        <LI>simpler, more "readable" representation 
+        <LI>can jump directly to a particular record/field 
+        <LI>often, the <I>data structures</I> we use in our programs are fixed 
+        in length; a file with fixed length fields and records can be read 
+        directly into fixed length data structures (we'll see this later) 
+      </LI></UL>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Pascal</I>
+            <HR>
+             <PRE>TYPE
+   course_descrip = RECORD
+      lname: array [1..7]  of char;
+      fname: array [1..9]  of char;
+      univ : array [1..10] of char;
+      code : array [1..8]  of char;
+      title: array [1..25] of char;
+END;<PRE></FONT></PRE></PRE></TD>
+          <TD vAlign=top><FONT size=+2><I>C</I>
+            <HR>
+             <PRE>struct 
+{
+   char lname[7];
+   char fname[9];
+   char univ[10];
+   char code[8];
+   char title[25];
+} course_descrip;<PRE></FONT></PRE></PRE></TD></TR></TBODY></TABLE></CENTER><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 18 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Physical Files and Logical Files</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>A <I>physical file</I> is a collection of bytes sitting on a disk or 
+        tape, etc.
+        <P></P>
+        <LI>A <I>logical file</I> is a connection through which a program does 
+        input and output. 
+        <UL>
+          <LI>the program can open and close a logical file, read from it, write 
+          to it, etc. 
+          <LI>most programming languages handle <I>all</I> I/O (including 
+          keyboard input, screen output, printer output, etc.) using logical 
+          files. </LI></UL><PRE>
+
+</PRE>
+        <LI>One of the most common uses of logical files in a program is to 
+        access the data in physical files. </LI></UL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 19 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Field and Stream</CENTER></FONT>
+      <HR>
+
+      <P>If we want to treat all input sources and output targets consistently 
+      (as logical files), we need a consistent way to access them. The most 
+      common way is to treat files as <I>streams</I>. The idea of a <I>stream 
+      file</I> is simple: 
+      <UL>
+        <LI>a logical input file is seen as a stream of bytes flowing into the 
+        program one-by-one. 
+        <UL>
+          <LI>the program reads the current byte from the stream and then the 
+          next byte in the physical file (or input device) becomes the current 
+          byte that will be read by the next read statement. </LI></UL>
+        <P></P>
+        <LI>a logical output file is seen as a stream of bytes flowing out of 
+        the program one-by-one. 
+        <UL>
+          <LI>the program writes a byte to the current position in the output 
+          file and then the next byte written will be placed after the previous 
+          one in the physical file or output device. </LI></UL></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> If programs access files one byte at a time, how do they 
+      access </I>fields<I> in files?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> Streams sure look elegant and convenient, but what about 
+      practical matters of efficiency in the real-life dog-eat-dog world of file 
+      management?</I>
+      <P><I><B>A:</B></I>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 20 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Connecting Logical Files to Physical Files</CENTER></FONT>
+      <HR>
+
+      <P>For this whole logical file/physical file thing to work, we need to 
+      tell the system which physical file (or I/O device) a logical file refers 
+      to.
+      <P>Many programming languages combine the physical&#8596;logical assignment and 
+      <TT>file open</TT> in one command.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=right vAlign=top><FONT 
+          size=+2><B><I>COBOL</I></B></FONT></TD>
+          <TD>
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD bgColor=#cccccc><FONT size=+2><PRE> ...
+ // ASSGN SYS041,DISK,VOL=SAG03P,SHR 
+ ...</PRE></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><PRE> IDENTIFICATION DIVISION.
+ ...
+ INPUT-OUTPUT SECTION.
+ FILE-CONTROL.
+     SELECT INFILE ASSIGN TO SYS041. 
+ ...</PRE></FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><FONT 
+          size=+2><B><I>Pascal</I></B></FONT></TD>
+          <TD>
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><PRE> ...
+ assign(infile, 'foo.dat');
+ reset(infile);
+ ...</PRE></FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><FONT size=+2><B><I>C</I></B></FONT></TD>
+          <TD>
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><PRE> ...
+ infile = fopen("foo.dat", "r");
+ ...</PRE></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><I><B>N.B.</B> You must </I>open<I> a file before you can read from it 
+      or write to it... and you must </I>close<I> it when you're done.</I>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 21 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Simple Open, Read/Write, Close</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Pascal</I>
+            <HR>
+             <PRE>var
+ ch  : char;
+ ifil, ofil: file of char;
+
+begin
+ assign(ifil, 'foo.dat');
+ reset(ifil);
+
+ assign(ofil, 'bar.dat');
+ rewrite(ofil);
+
+ while not (eof(ifil)) do
+    begin
+     read(ifil, ch);
+     write(ofil, ch)
+    end;
+
+ close(ifil);
+ close(ofil)
+end;
+
+<PRE></FONT></PRE></PRE></TD>
+          <TD vAlign=top><FONT size=+2><I>C</I>
+            <HR>
+             <PRE>{
+ char ch;
+ FILE *ifil, *ofil;
+
+
+ ifil = fopen("foo.dat", "r");
+
+
+ ofil = fopen("bar.dat", "w");
+
+ ch = getc(ifil);
+ while(ch != EOF)
+    {
+     putc(ch, ofil);
+     ch = getc(ifil);
+    }
+
+ fclose(ifil);
+ fclose(ofil);
+}
+
+<PRE></FONT></PRE></PRE></TD></TR></TBODY></TABLE></CENTER>
+      <P>&nbsp;
+      <P>Of course, both languages have many flavours of read and write, which 
+      you will get to know intimately.
+      <P>
+      <CENTER>&#9829;</CENTER>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 22 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>ASCII Files and Binary Files</CENTER></FONT>
+      <HR>
+
+      <P>Consider the file <TT>eruptions.dat</TT>:
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(45) <B>cat eruptions.dat</B>
+
+Etna            Italy         3315  1996
+Fuji            Japan         3776  1707
+Kick-'em-Jenny  Grenada       -160  1939
+Krakatau        Java/Sumatra   813   416
+Momotombo       Nicaragua     1258  1524
+Pinatubo        Philippines   1600  1991
+St. Helens      USA           2549  1980
+Vesuvius        Italy         1281    79
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The information could be represented in the following data structure:
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Pascal</I>
+            <HR>
+             <PRE>TYPE
+ eruption = RECORD
+  volcano: array [1..15] of char;
+  country: array [1..13] of char;
+  elev   : array [1..5]  of char;
+  date   : array [1..5]  of char;
+END;<PRE></FONT></PRE></PRE></TD>
+          <TD vAlign=top><FONT size=+2><I>C</I>
+            <HR>
+             <PRE>struct 
+{
+ char volcano[15];
+ char country[13];
+ char elev[5];
+ char date[5];
+} eruption;<PRE></FONT></PRE></PRE></TD></TR></TBODY></TABLE></CENTER><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 23 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>ASCII Files and Binary Files (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>But doesn't this make more sense?
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Pascal</I>
+            <HR>
+             <PRE>TYPE
+ eruption = RECORD
+  volcano: array [1..15] of char;
+  country: array [1..13] of char;
+  elev   : integer;
+  date   : integer;
+END;<PRE></FONT></PRE></PRE></TD>
+          <TD vAlign=top><FONT size=+2><I>C</I>
+            <HR>
+             <PRE>struct 
+{
+ char volcano[15];
+ char country[13];
+ int elev;
+ int date;
+} eruption;<PRE></FONT></PRE></PRE></TD></TR></TBODY></TABLE></CENTER>
+      <P>This data structure represents elevations and dates as numbers, not 
+      strings of character digits. Elevations and dates will be stored as 
+      two-byte binary numbers, instead of five bytes of ASCII character codes.
+      <P><I>E.g.,</I> the elevation of Momotombo will be represented by the 
+      bits:<BR>
+      <CENTER>0000010011101010<SUB>2</SUB> = 1258<SUB>10</SUB></CENTER>
+      <P>instead of:<BR>
+      <CENTER>
+      <TABLE border=0 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2>00100000<SUB>2</SUB><BR>= 
+            '&nbsp;&nbsp;'</FONT></TD>
+          <TD align=middle><FONT size=+2>00110001<SUB>2</SUB><BR>= 
+          '1'</FONT></TD>
+          <TD align=middle><FONT size=+2>00110010<SUB>2</SUB><BR>= 
+          '2'</FONT></TD>
+          <TD align=middle><FONT size=+2>00110101<SUB>2</SUB><BR>= 
+          '5'</FONT></TD>
+          <TD align=middle><FONT size=+2>00111000<SUB>2</SUB><BR>= 
+          '8'</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What are the advantages of this new representation?</I>
+      <P><I><B>A:</B></I>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 24 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>ASCII Files and Binary Files (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>But how would the binary representation look printed directly to the 
+      screen?
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(46) <B>cat eruptions.bin</B>
+
+Etna            Italy         ^LóÌ
+Fuji            Japan         ^NÀ^F«
+Kick-'em-Jenny  Grenada       ÿ`“
+Krakatau        Java/Sumatra  ^C-^A 
+Momotombo       Nicaragua     ^Dê^Eô
+Pinatubo        Philippines   ^F@Ç
+St. Helens      USA                   õ¼
+Vesuvius        Italy         ^E^A^@O
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What the?</I>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 25 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>ASCII Files and Binary Files (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>A file is a just collection of bytes, each of which is a number between 
+      0 and 255.
+      <P><I>ASCII</I> (American Standard Code for Information Interchange) is a 
+      code that associates some of those numbers with character symbols 
+      corresponding to the letters of the alphabet, digits, punctuation, etc.
+      <P>The Unix command <TT>cat</TT> (just like the DOS command <TT>type</TT>) 
+      attempts to interpret all files as <I>ASCII</I> files. That is, 
+      <TT>cat</TT> assumes that it is meaningful to convert the bytes in a file 
+      to the character symbols using the ASCII number-to-character map.
+      <P>In displaying the file <TT>eruptions.bin</TT>, <TT>cat</TT> assumed 
+      that the four bytes at the end of each record corresponded to four ASCII 
+      characters and tried to display those four symbols. Unbeknownst to the 
+      simple-minded <TT>cat</TT>, however, those four bytes are actually the 
+      binary representation of two integers.
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 26 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Example</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Pascal</I>
+            <HR>
+             <PRE> program message(input, output);
+
+ const
+    mess   : array [1..8] of byte = 
+             (174, 222, 222, 208, 222, 222, 66, 20); 
+ var
+    i      : integer;
+    byteout: byte;
+    outfil : file of byte;
+
+ begin
+    assign(outfil, 'mess.out');
+    rewrite(outfil);
+
+    for i := 1 to 8 do begin
+       byteout := mess[i] div 2;
+       write(outfil, byteout)
+    end;
+
+    close(outfil)
+ end.
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 27 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>After running the program, we get:
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5 width="80%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>{kamla}kbarker(47) <B>cat mess.out</B>
+Woohoo!
+
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <UL>
+        <LI>In general, a file is considered an <I>ASCII</I> file, or a 
+        <I>text</I> file if it is meaningful to interpret the complete file by 
+        mapping bytes to characters according to the ASCII map.
+        <P></P>
+        <LI>In general, a file is considered a <I>binary</I> file if 
+        interpreting bytes as ASCII characters is not meaningful.
+        <P></P></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> Would the following files likely be ASCII files or binary 
+      files?</I>
+      <P>
+      <UL>
+        <LI><TT>eruptions.dat</TT> <I>?</I> 
+        <LI><TT>mario.exe</TT> <I>?</I> 
+        <LI><TT>eruptions.bin</TT> <I>?</I> 
+        <LI><TT>readme.txt</TT> <I>?</I> 
+        <LI><TT>thesis.doc</TT> <I>?</I> </LI></UL><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 28 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Organization and Access</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Organization</I></B> 
+        <DD>Organization refers to the way files are <I>laid out</I> in 
+        secondary storage (disks, tapes, etc.).
+        <P></P>
+        <DT><B><I>Access</I></B> 
+        <DD>Access refers to the way elements within a file can be reached by 
+        software. </DD></DL>
+      <HR SIZE=10 width=10>
+
+      <P><I>
+      <UL>
+        <LI>The existing organization of a file will dictate how it can be 
+        accessed.
+        <P></P>
+        <LI>The access requirements to the information in a file will dictate 
+        how it must be organized.
+        <P></P></LI></UL></I><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 29 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sequential Organization</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records appear in the file in the order in which they are added to 
+        the file.
+        <P></P>
+        <LI>The physical order of records may correspond to some logical 
+        ordering of the records.
+        <P></P></LI></UL>Recall the <TT>courses.dat</TT> file:
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>BOSE   JIT     CARLETONU CS384   DATA STRUCTURES         .
+BOSE   JIT     CARLETONU CS102   SYSTEMS PROGRAMMING     .
+BARKER KEN     UMANITOBA 074-438 DATABASE IMPLEMENTATION .
+BARKER KEN     UMANITOBA 074-452 PROJECT                 .
+BARKER KEN     UOTTAWA   CSI2131 FILE MANANGEMENT        .
+BARKER KEN     UOTTAWA   CSI4900 PROJECTS                .
+BOYD   SYLVIA  UOTTAWA   CSI5166 COMBINATORICS           .
+BOYD   SYLVIA  UOTTAWA   CSI4900 PROJECTS                .
+HOLTE  ROBERT  UOTTAWA   CSI1101 COMPUTER SCIENCE II     .
+HOLTE  ROBERT  UOTTAWA   CSI4900 PROJECTS                .
+ROY    DAMIEN  UOTTAWA   MAT1741 ALGÈBRE LINÉAIRE        .
+ROY    DAMIEN  UOTTAWA   MAT3543 STRUCTURES ALGÉBRIQUES  .
+ROY    LANGIS  UOTTAWA   ELG4102 µWAVE &amp; OPTICAL CIRCUITS.
+MORIN  JOHANNE UQTR      ASY1006 GÉNIE LOGICIEL          .
+MORIN  JOHANNE UQTR      SIF1016 STRUCTURES DE DONNÉES   .
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>If a new record is added, it is simply stuck on the end of the file.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 30 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sequential Access</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records are retrieved from the file in the order in which they 
+        appear in the file.
+        <P></P>
+        <LI>Record r<SUB>i</SUB> is retrieved after i - 1 records have been 
+        retrieved (<I>i.e.,</I> after retrieving records 
+        r<SUB>1</SUB>,&nbsp;r<SUB>2</SUB>,&nbsp;.&nbsp;.&nbsp;.,&nbsp;r<SUB>i-1</SUB>)
+        <P></P></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What are the advantages of sequential organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the advantages of sequential access?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of sequential organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of sequential access?</I>
+      <P><I><B>A:</B></I>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 31 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Relative Organization</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records appear in positions in the file that can be determined using 
+        the record keys.
+        <P></P>
+        <LI>The physical order of records may be completely indpendent of any 
+        logical ordering of the records.
+        <P></P></LI></UL>Suppose course offerings are identified by a "C Number":
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>C01 BOSE   JIT     CARLETONU CS102   SYSTEMS PROG...
+C02 BARKER KEN     UMANITOBA 074-438 DATABASE IMP...
+C03 BOSE   JIT     CARLETONU CS384   DATA STRUCTU...
+C04 BARKER KEN     UOTTAWA   CSI2131 FILE MANANGE...
+C05 HOLTE  ROBERT  UOTTAWA   CSI1101 COMPUTER SCI...
+C06 BOYD   SYLVIA  UOTTAWA   CSI5166 COMBINATORIC...
+C07 ROY    DAMIEN  UOTTAWA   MAT1741 ALGÈBRE LINÉ...
+C08 BOYD   SYLVIA  UOTTAWA   CSI4900 PROJECTS    ...
+C09 BARKER KEN     UMANITOBA 074-452 PROJECT     ...
+C10 HOLTE  ROBERT  UOTTAWA   CSI4900 PROJECTS    ...
+C11 MORIN  JOHANNE UQTR      ASY1006 GÉNIE LOGICI...
+C12 ROY    DAMIEN  UOTTAWA   MAT3543 STRUCTURES A...
+C13 ROY    LANGIS  UOTTAWA   ELG4102 µWAVE &amp; OPTI...
+C14 BARKER KEN     UOTTAWA   CSI4900 PROJECTS    ...
+C15 MORIN  JOHANNE UQTR      SIF1016 STRUCTURES D...
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Records are placed such that their "C Number" corresponds to their 
+      position in the file.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 32 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Relative Access</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records are retrieved from the file by computing the relative 
+        address of the file based on the key.
+        <P></P>
+        <LI>Record r<SUB>i</SUB> is retrieved by providing the key k<SUB>i</SUB> 
+        of r<SUB>i</SUB>.
+        <P></P></LI></UL>If we know the "C Number" of the course offering we're 
+      interested in, we can seek directly to the correct position in the file 
+      using the formula:
+      <P>
+      <CENTER><TT>offset = (CNumber - 1) × RecordLength</TT>
+      <P></CENTER>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What are the advantages of relative organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the advantages of relative access?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of relative organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of relative access?</I>
+      <P><I><B>A:</B></I>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 33 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Indexed Sequential Organization</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records appear in logically consecutive positions in the file based 
+        on some key.
+        <P></P>
+        <LI>An <I>index file</I> relates values of the key to positions in the 
+        file.
+        <P></P></LI></UL>
+      <CENTER>
+      <TABLE border=5 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Index File</I><PRE>CARLETONU 0000
+UMANITOBA 0116
+UOTTAWA   0232
+UQTR      0754
+</PRE></FONT></TD>
+          <TD vAlign=top><FONT size=+2><I>Data File</I><PRE>BOSE   JIT     CARLETONU CS384   DATA ST...
+BOSE   JIT     CARLETONU CS102   SYSTEMS...
+BARKER KEN     UMANITOBA 074-438 DATABAS...
+BARKER KEN     UMANITOBA 074-452 PROJECT...
+BARKER KEN     UOTTAWA   CSI2131 FILE MA...
+BARKER KEN     UOTTAWA   CSI4900 PROJECT...
+BOYD   SYLVIA  UOTTAWA   CSI5166 COMBINA...
+BOYD   SYLVIA  UOTTAWA   CSI4900 PROJECT...
+HOLTE  ROBERT  UOTTAWA   CSI1101 COMPUTE...
+HOLTE  ROBERT  UOTTAWA   CSI4900 PROJECT...
+ROY    DAMIEN  UOTTAWA   MAT1741 ALGÈBRE...
+ROY    DAMIEN  UOTTAWA   MAT3543 STRUCTU...
+ROY    LANGIS  UOTTAWA   ELG4102 µWAVE &amp;...
+MORIN  JOHANNE UQTR      ASY1006 GÉNIE L...
+MORIN  JOHANNE UQTR      SIF1016 STRUCTU...
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I>N.B. There could be many different index files for 
+      <TT>courses.dat</TT></I>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 34 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Indexed Sequential Access</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Records are retrieved from the file either sequentially or directly.
+        <P></P>
+        <LI>Record r<SUB>i</SUB> is retrieved by seeking directly to the group 
+        containing r<SUB>i</SUB> and then sequentially within the group.
+        <P></P>
+        <LI>If the file is indexed on a unique key, access is direct for 
+        <I>every</I> record.
+        <P></P></LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P><I><B>Q:</B> What are the advantages of indexed sequential 
+      organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the advantages of indexed sequential access?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of indexed sequential 
+      organization?</I>
+      <P><I><B>A:</B></I>
+      <P><I><B>Q:</B> What are the disadvantages of indexed sequential 
+      access?</I>
+      <P><I><B>A:</B></I>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 35 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

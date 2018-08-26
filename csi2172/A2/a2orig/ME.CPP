@@ -1,0 +1,1 @@
+// FILE:  me.cpp// NAME:  Mark Sattolo// STUDENT #:  428500// SECTION:  CSI 2172A// MARKING SECTION:  A4     #include <iostream.h>#include "me.h"void me(ostream& os)	{	os << "name: Mark Sattolo" << endl ;	os << "number: 428500" << endl ;	os << "section: CSI 2172 A4" << endl ;	}

@@ -1,0 +1,47 @@
+% From the book
+% PROLOG PROGRAMMING IN DEPTH
+% by Michael A. Covington, Donald Nute, and Andre Vellino
+% (Prentice Hall, 1997).
+% Copyright 1997 Prentice-Hall, Inc.
+% For educational use only
+
+% File NAMENUM.PL
+% Michael A. Covington
+% Natural Language Processing for Prolog Programmers
+% (Prentice-Hall)
+% Appendix B
+
+% name_num(-AtomOrNumber,+String)
+%  Used in place of name/2 in last clause of complete_atomics
+%  in versions of Prolog where name/2 does not recognize numbers.
+
+name_num(Number,String) :-
+  nonvar(String),
+  string_number(String,Number),
+  !.
+
+name_num(Atom,String) :-
+  name(Atom,String).
+
+
+% string_number(+S,-N)
+%  Converts string to corresponding number, e.g. "234" to 234.
+%  Fails if S does not represent a nonnegative integer.
+
+string_number(S,N) :-
+   string_number_aux(S,0,N).
+
+string_number_aux([D|Digits],Total,Result) :-
+   digit_value(D,V),
+   NewTotal is 10*Total + V,
+   string_number_aux(Digits,NewTotal,Result).
+
+string_number_aux([],Result,Result).
+
+
+% digit_value(+Code,-Value)
+%  Maps ASCII code for a digit ("0"..."9") onto value (0...9).
+
+digit_value(Code,Value) :-
+   48 =< Code, Code =< 57,
+   Value is Code - 48.

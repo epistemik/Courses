@@ -1,0 +1,275 @@
+UNIT a2unit;
+
+{ This unit contains an implementation of the collection ADT using binary search trees.
+  It gets the type definitions and basic tree operations from another unit called
+  BinTrADT.  Other than that, the forward declarations and main types are exactly the
+  same as the collection ADT for assignment 1.  Your job is to write the missing
+  functions and procedures.  You must write:
+
+              Size(C),
+              Insert(C,V), and
+              Join(C1, C2).
+
+  Make sure that both delete and join preserve the correct ordering of the Binary Search Tree.
+ 
+  Also be sure not to use direct pointer references.  Call the operations
+  from the Binary Tree ADT instead. }
+
+INTERFACE
+
+uses BinaryTreeADT;
+
+(********************* TYPE DEFINITIONS *********************)
+
+type
+
+(*Since we are using the BinaryTree ADT, all we have to do here is relate the main types 
+	for collections to the main types for binary trees. *)
+
+	collection_element = TreeElement;
+	collection = BinaryTree;
+
+(*The forward declarations are exactly the same as before.  Only the implementations have changed*)
+
+procedure Create_Collection(var C:collection);
+procedure Destroy(var C:collection);
+function Size(C: collection): integer;
+function Is_Empty(C:collection): boolean;
+procedure Insert(var C:collection; V:collection_element);
+procedure Delete (var C:collection; V: collection_element);
+procedure Join(var C1: collection; var C2: collection);
+procedure Print(C: collection);
+function MemCheck: boolean;
+
+IMPLEMENTATION
+
+{********************** Memory Management Stuff *********************}
+
+{Note that since all the memory management is done by BinTrADT, we
+ just have to call the MemCheck_BT function here}
+
+Function MemCheck;
+begin
+   MemCheck := MemCheck_BT
+end;
+
+(********************** COLLECTION IMPLEMENTATIONS ***********************)
+
+(* Create_Collection(C)
+     preconditions: C is undefined
+     postconditions: C is the empty collection with storage allocated as needed. *)
+procedure Create_Collection(var C:collection);
+begin
+   Create_Empty_BT(C);
+end;
+
+
+(* Destroy(C)
+     preconditions: C is a defined collection
+     postconditions: C' is undefined. All dynamically allocated memory is disposed*)
+procedure Destroy(var C:collection);
+begin
+   Destroy_BT(C);
+end;
+
+
+(* Is_Empty(C)
+     preconditions: C is a defined collection.
+     postconditions: returns true if C is empty, false otherwise. *)
+function Is_Empty(C:collection): boolean;
+begin
+   Is_Empty := Is_Empty_BT(C);
+end;
+
+
+ { Size(C)
+     preconditions: C is a defined collection.
+     postconditions: returns the number of elements in C. }
+function Size(C: collection): integer;
+var
+	L_size, R_size: integer ;
+begin
+	if ( Is_empty(C) ) then
+		Size := 0
+	else
+		BEGIN
+		L_size := Size(LeftChild_BT(C)) ;
+		R_size := Size(RightChild_BT(C)) ;
+		Size := L_size + R_size + 1
+		END
+end;
+
+
+ { Insert(C,V)
+     preconditions: C is a defined collection, V is a collection element.
+     postconditions: C has value V added. Storage is allocated as needed.
+     If V already occurs in C an additional copy is added.
+     NOTE: You may do this recursively or iteratively (in a loop).
+     NOTE: The collection should be able to hold multiple copies of a single element.
+     This is easy to do.  Just pick a side where the duplicates will go.  So your binary
+     search tree will be one of two types: either leftchild/rightchild are < and >= the
+     root or they are <= and > the root. }
+procedure Insert(var C:collection; V:collection_element);
+
+	procedure add_node(var K: collection; E: collection_element; D: direction) ;
+	var
+		T: collection ;
+	begin
+			Create_Singleton_BT(T) ;
+			Set_Root_Value_BT(T, E) ;
+			Attach_BT(T, K, D) ;
+	end;  { proc add_node }			
+
+	procedure Insert_rec(var C: collection; V: collection_element) ;
+	begin
+		if ( V <= Get_Root_Value_BT(C) ) then
+			if ( Is_Empty(LeftChild_BT(C)) ) then
+				add_node(C, V, Left)
+			else
+				Insert_rec(LeftChild_BT(C), V)
+		else
+			if ( Is_Empty(RightChild_BT(C)) ) then
+				add_node(C, V, Right)
+			else
+				Insert_rec(RightChild_BT(C), V) ;
+	end;  { proc Insert_rec }
+	
+begin
+	if ( Is_Empty(C) ) then 
+		BEGIN
+		Create_Singleton_BT(C) ;
+		Set_Root_Value_BT(C, V) ;
+		END  { if }
+	else
+		Insert_rec(C, V) ;
+end;  { fxn Insert }
+
+
+ { Delete(C,V)
+     preconditions: C is a defined collection, V is a collection element
+     postconditions: C has the value V removed. If V occurs more than once,
+     only one occurrence is removed. If V does not occur in C, no change is made.  }
+procedure Delete (var C:collection; V: collection_element);
+var RTree, LTree, Largest, LargestLeftChild, LargestParent: BinaryTree;
+begin
+   if not Is_Empty(C) then begin
+      {First look for V in the root}
+      if Get_Root_value_BT(C) = V then begin
+         {Found.  Delete it.}
+         if Is_Empty(LeftChild_BT(C)) then begin
+            {There is no left child, so just make the right child the new tree}
+            RTree := RightChild_BT(C);
+            prune_BT(RTree);
+            Destroy_Singleton_BT(C);
+            C := RTree;
+         end else begin
+            {There is a left child, so find the largest element in it and replace
+            the root node with this element}
+            LTree := LeftChild_BT(C);       {First prune off the left and right trees}
+            Prune_BT(LTree);
+            RTree := RightChild_BT(C);
+            Prune_BT(RTree);
+            Destroy_Singleton_BT(C);        {Now destroy the original root node}
+
+            Largest := LTree;                 {Now search for the largest node in the left tree}
+            While not Is_Empty_BT(RightChild_BT(Largest)) do
+               Largest := RightChild_BT(Largest);
+
+            LargestParent:= Parent_BT(Largest); {Get the parent of the largest node}
+
+            if Is_Empty_BT(LargestParent) then begin  {If there is no parent, then just move }
+               attach_BT(Rtree, Largest, Right);         {the entire subtree to the root position }
+               C := Largest
+            end else begin                                  {If there is a parent...}
+               LargestLeftChild:= LeftChild_BT(Largest);      {get the left subtree of the largest}
+               Prune_BT(Largest);                             {prune the largest}
+               Prune_BT(LargestLeftChild);                    {prune the left subtree of the largest}
+               Attach_BT(LargestLeftChild,LargestParent,Right);{move up the left subtree}
+               Attach_BT(LTree,Largest,Left);                  {Make the largest the new root by }
+               Attach_BT(RTree,Largest,Right);                 {attaching the appropriate subtrees }
+               C := Largest
+            end
+         end
+      end else begin
+            {Root element was not V.  We have to keep searching.}
+         if Get_Root_Value_BT(C) > V then begin  {Search left}
+            LTree := LeftChild_BT(C);
+            if not IS_Empty_BT(LTree) then begin  {If no left tree, stop}
+               Prune_BT(LTree);
+               Delete(LTree, V);
+               Attach_BT(LTree, C, Left)
+            end
+         end else begin                       {Search Right}
+            RTree := RightChild_BT(C);
+            if not Is_Empty_BT(RTree) then begin  {If no right tree, stop}
+               Prune_BT(RTree);
+               Delete(RTree,V);
+               Attach_BT(RTree, C, Right);
+            end
+         end
+      end
+   end
+end;
+
+
+(* Join(C1,C2)
+     preconditions: C1 and C2 are two different defined collections.
+     postconditions: C1 is the union of the two collections (i.e. it contains all the
+     elements originally in C1 and C2).  C2 is undefined. *)
+procedure Join(var C1, C2: collection);
+
+		procedure Join_rec(var C1, C2: Collection);
+		begin
+			if ( not Is_Empty(C2) ) then
+				BEGIN
+				Join_rec(C1, LeftChild_BT(C2)) ;
+				Join_rec(C1, RightChild_BT(C2)) ;
+				Insert(C1, Get_Root_Value_BT(C2)) ;
+				END
+		end;
+
+BEGIN
+	if ( Is_Empty(C1) ) then
+		BEGIN
+		C1 := C2 ;
+		Create_Singleton_BT(C2)
+		END
+	else if ( Is_Empty(C2) ) then
+			   Create_Singleton_BT(C2)
+		  else
+			   Join_rec(C1, C2) ;
+	Destroy(C2)
+END;
+
+
+(* Print(C1)
+     preconditions: C1 is a defined collection.
+     postconditions: The elements in C1 are printed to the screen in any order.  If C1 is empty, 
+     the message "EMPTY COLLECTION" is printed to the screen.
+     NOTE: The print could be done in any order, but to help you out, it prints in alphabetical order
+     using an InOrder traversal.  It also makes use of a nested subprocedure (Print_Rec).  
+     This subprocedure is hidden from all other parts of the program.*)
+procedure Print(C: Collection);	(* Linear time O(n) *)
+
+		procedure Print_Rec(C: Collection);
+		begin
+			if not Is_Empty(C) then begin
+				Print_Rec(LeftChild_BT(C));
+				Writeln(Get_Root_Value_BT(C));
+				Print_Rec(RightChild_BT(C))
+			end
+		end;
+
+begin
+   if Is_Empty(C) then
+      writeln('Empty Collection')
+   else
+      Print_Rec(C)
+end;
+
+
+(******************** INITIALIZATION CODE **********************)
+(* Note that we have nothing to initialize this time, since
+   memory management is being done by the Binary Tree ADT.*)
+
+end.

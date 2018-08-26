@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0073)http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/CSI2121_LabInfo.html -->
+<HTML><HEAD><TITLE>Information for CSI2121/</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H2>Information for CSI2121/2521 Labs</H2>All of our programs will be Win32 
+console applications. These are 32-bit protected-mode programs that run in a 
+MS-DOS box (but they are not MS-DOS programs). 
+<P>To perform simple I/O operations, you should use the set of macros that are 
+in the <A 
+href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/csi2121.inc">csi2121.inc</A> 
+file. Just place the directive "include csi2121.inc" immediately after the 
+".model flat" directive in your source file. The course notes explains how to 
+use these macros. 
+<P>In the labs, we will assemble our programs with Borland's TASM32 assembler. 
+To assemble and link in a single command, it is convenient to use the C compiler 
+front-end. Assuming that your assembly language source file is <A 
+href="http://www.csi.uottawa.ca/~marchand/teaching/CSI2121/hello.asm">hello.asm</A>, 
+to assemble, link, and produce an executable file "hello.exe", just use the 
+BCC32 command from the Win32 console (i.e.: the MS-DOS box) prompt: <BR>&nbsp; 
+<P><BR>
+<CENTER>
+<P>bcc32 -v hello.asm</CENTER><BR>&nbsp; 
+<P><BR>
+<P>Note that bcc32.exe is the 32-bit C/C++ compiler of Borland C++ and Borland 
+C++ Builder. But since our source file has the ".asm" extension, this command 
+will call TASM32 to assemble your program (in case sensitive mode) and then call 
+Borland's incremental linker (called ILINK) to link your program together with 
+the C standard library (and other libraries that will give you access to the 
+Win32 API) and finally produce the executable file "hello.exe". 
+<P>The -v option is to generate full debugging information. To display the list 
+of all available options just type "bcc32" without any arguments. To store this 
+information into a file named "bcc32-options.txt", just redirect the output to 
+this file; i.e.: just type: <BR>&nbsp; 
+<P><BR>
+<CENTER>
+<P>bcc32 &gt; bcc32-options.txt</CENTER><BR>&nbsp; 
+<P><BR>
+<P>Do not forget to put your source file into the same directory as your 
+"csi2121.inc" file. 
+<P>To execute your "hello.exe" program you can either type "hello" from the 
+Win32 console or double-click on the "hello.exe" icon. However, double-clicking 
+on the icon will first create a MS-DOS box, then it will run hello.exe into this 
+box and then it will close the MS-DOS box when the program has finished running. 
+Hence to prevent your program of running until completion just insert the 
+"prompt" macro just before the "done" macro in your source file. The prompt 
+macro will just prompt the user to type a key to continue execution. 
+<P>Of course you will need an editor to produce your source files. You can use 
+Notepad but it is very limited. In the lab, you can use the editor of Borland 
+C++ 5.0 (very good). I personally use <A 
+href="http://www.lancs.ac.uk/staff/cpaap/pfe/">PFE</A>. It is available in the 
+labs and it is free. But I have just seen that the PFE Web page is now closed. 
+Apparently the <A href="http://www.idmcomp.com/">UltraEdit32</A> editor is 
+pretty good (I have not tried it). 
+<P>Finally we will need a debugger. I recommend that you use Borland's Turbo 
+Debugger TD32. This debugger runs in a MS-DOS box (so it looks rather clumsy) 
+but it has all the functionality that we need (and you can use your mouse). It 
+is installed in the labs. To debug "hello.exe", just type: <BR>&nbsp; 
+<P><BR>
+<CENTER>
+<P>td32 hello</CENTER><BR>&nbsp; 
+<P><BR>
+<P>A number of convenient windows are available from the "View" menu, namely: 
+<UL>
+  <LI>The "Registers" window to view the content of registers 
+  <LI>The "Numeric Processor" window to view the content of the FPU registers 
+  <LI>The "CPU" window to view both your source code and the machine language 
+  equivalent 
+  <LI>The "Watches" window to view the content of variables and memory </LI></UL>A 
+number of convenient commands are available from the "Run" menu, namely: 
+<UL>
+  <LI>The "Trace into" (F7) command to single step into your program 
+  <LI>The "Step over" (F8) command to single step into your program but avoid 
+  entering into procedures 
+  <LI>The "Instruction trace" (Alt-F7) command to trace to the next instruction 
+  and force the entrance into procedures 
+  <LI>The "Run" command to run your program up to the position of the next 
+  breakpoint (you define a breakpoint just by clicking on the point to the left 
+  of the instruction where you want your program to stop). If you have not 
+  defined any breakpoints, this will run your program to completion. </LI></UL>
+<HR>
+
+<H3>Additional Notes</H3>BCC32, TASM32, and ILINK are part of the distribution 
+of C++ Builder 3 or higher and Borland C++ 5.0 or higher. Hence you will be able 
+to assemble and link programs with BCC32 if you have one of these products. But 
+you will not be able to debug with TD32 because it is part of the distribution 
+of Turbo Debugger (not free). You can use the IDE of Borland C++ Builder 3 or 
+higher to assemble, link, and debug assembly language programs. However, C++ 
+Builder 3 has no CPU debug window so you will not be able to view registers (not 
+very useful). But C++ Builder 4 has a CPU window that will show registers but 
+not the FPU registers (so it will not be helpful when you will try to debug 
+programs that use the FPU). I do not know anything about the IDE of Borland C++ 
+5.0. If you want to buy a product, I suggest that you buy C++ Builder 4. 
+<H3>Using C++ Builder 4 to assemble, link, and debug</H3>To use the IDE of C++ 
+Builder 4 to assemble, link and debug assembly language programs, you can do the 
+following: 
+<P>First place both your source file, say "hello.asm", and your "csi2121.inc" 
+file in the same (safe) directory (i.e.: inside your user directory). After 
+launching C++ Builder 4, choose "New..." from the "File" menu. Choose the 
+"Console Wizard" and make sure that you have selected "Console" and "EXE" from 
+the options offered by the Wizard and then click "Finish". Now, choose "Save 
+Project As..." from the "File" menu and save it under a name, say 
+"ProjectHello.bpr", in the same place as your source file (here "hello.asm"). 
+Then choose "Add to Project..." from the "Project" menu and select your assembly 
+source "hello.asm". The IDE constantly reads and writes into two files, here 
+they should be named "ProjectHello.cpp" (a c++ source file) and 
+"ProjectHello.bpr" (your makefile). You absolutely need these two file: do not 
+delete them. To view your source file under this IDE just use "Open..." from the 
+file menu. Next, edit your "ProjectHello.cpp" file so that it contains *only* 
+the following lines (yes, we do get rid of the "main" function): 
+<P>#include &lt;condefs.h&gt; <BR>//------------------------------- 
+<BR>USEASM("hello.asm"); <BR>//------------------------------- <BR>#define main 
+<P>Then save again your project with the "Save" command. Next, choose "Build 
+ProjectHello" under the "Project" menu to assemble and link your program. Then 
+choose "Run" to run your program. Your program's output will appear on the Win32 
+console but the console will immediately disappear. To avoid this disappearance, 
+use the prompt macro just before the RET instruction in your source file. Then 
+the console will disappear only after you type a key. To debug your program just 
+choose the "Trace Into" command from the "Run" menu and the CPU window should 
+appear. The debugger is very similar to TD32. Other debugging windows are 
+available from the "Debug Window" command under the "View" menu. Note the 
+absence of a "Numeric Processor" window. <BR>
+<HR>
+
+<P><I>Mario Marchand, Last update: December 17, 1999</I> </P></BODY></HTML>

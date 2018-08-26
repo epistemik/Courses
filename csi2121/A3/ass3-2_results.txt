@@ -1,0 +1,67 @@
+
+C:\work\A3>ass3-2
+Please enter a string?
+
+This string is NOT a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+a
+
+C:\work\A3>ass3-2
+Please enter a string?
+ab
+This string is NOT a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+aa
+This string IS a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+abc
+
+C:\work\A3>ass3-2
+Please enter a string?
+aba
+
+C:\work\A3>ass3-2
+Please enter a string?
+abcd
+This string is NOT a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+abba
+This string IS a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+abcdefghi
+
+C:\work\A3>ass3-2
+Please enter a string?
+abcdefghij
+This string is NOT a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+abcdeedcba
+This string IS a palindrome.
+
+
+C:\work\A3>ass3-2
+Please enter a string?
+abcdefedcba
+
+C:\work\A3>
+
+
+

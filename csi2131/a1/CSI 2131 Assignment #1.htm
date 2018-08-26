@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/ass01.html -->
+<HTML><HEAD><TITLE>CSI 2131 Assignment #1</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY background="CSI 2131 Assignment #1_files/burglar.jpe" bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="CSI 2131 Assignment #1_files/2131.gif"></A><FONT color=white 
+      size=+3>CSI 2131 Assignment #1</FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><B>Marks:</B></TD>
+    <TD><B>5</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Time:</B></TD>
+    <TD><B>Friday, January 28, 2000, 12:00pm (NOON!)... <I>No Late Assignments 
+      Accepted</I></B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Place:</B></TD>
+    <TD><B>Locked box for CSI2131A or CSI2131B (depending on the course 
+      section you're registered in), 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P><I>N.B. Read the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/standards.html">assignment 
+standards</A> very carefully. You will lose marks if you don't follow those 
+instructions.</I>
+<P>
+<HR>
+
+<H2>The Story</H2>Last Sunday night while I was out of the office (trying the 
+new hockey skates I got for Christmas), somebody hacked in to my PC. The 
+shameless e-burglar went through my hard disk and changed all my file names. 
+Files that used to be called <TT>README.TXT</TT>, <TT>MARKS.XLS</TT>, 
+<TT>PONG.EXE</TT> and <TT>LOLITA.GIF</TT> now have names like <TT>FOO.BAR</TT>, 
+<TT>BAR.FOO</TT>, <TT>FOOBAR.BAZ</TT> and <TT>FOOBAZ.BAR</TT>. In order to 
+figure out which file is which, I need to look inside the files.
+<P>The problem is that some of the files are <I>ASCII</I> files and some of them 
+are <I>binary</I> files. I could use the <TT>type</TT> command in DOS to look at 
+the ASCII files, but I can't use <TT>type</TT> to look at the contents of binary 
+files (Windows will crash if I try to do it).
+<P>So I need a new program that will automatically figure out if a file is an 
+ASCII file or a binary file. That's where you come in.
+<P>
+<H2>The Assignment</H2>For this assignment, you must write <I>one</I> C program 
+called <TT>mytype.c</TT> that reads a file and determines if the file is an 
+ASCII file or a binary file. If the file is an ASCII file, it should just 
+display every byte in the file. If the file is a binary file, your 
+<TT>mytype</TT> program should display the contents of the file as follows: 
+<UL>
+  <LI>if a byte is "displayable" as an ASCII character (values 32 to 254), then 
+  <TT>mytype</TT> should display the byte as an ASCII character 
+  <LI>if a byte is not displayable, <TT>mytype</TT> should display a dot ('.') 
+  <LI><TT>mytype</TT> should display exactly 60 characters per line (except for 
+  the last line which may be shorter) </LI></UL>
+<P>
+<H2>The Solution</H2>Here is the solution to the assignment. You will need to:
+<P>
+<UL>
+  <LI>accept the name of an input file from the command line 
+  <LI>read through the input file once to check if all bytes are valid bytes for 
+  an ASCII file; valid bytes for an ASCII file are: 
+  <UL>
+    <LI>the displayable characters (defined above) and 
+    <LI>the byte value 9 (tab character) and 
+    <LI>the byte value 10 (line feed) and 
+    <LI>the byte value 12 (page break) and 
+    <LI>the byte value 13 (carriage return) </LI></UL>
+  <LI>read through the input file again to display it (either byte-for-byte as 
+  an ASCII file, or according to the format above for a binary file). </LI></UL>
+<P>
+<H2>The Hints</H2>
+<UL>
+  <LI>go through the file one byte at a time reading bytes into a variable of 
+  type <TT>unsigned char</TT> 
+  <LI>you can check the value of the byte (unsigned char) like 
+  this:<BR><TT>if(bytejustread == 65) ...</TT><BR>or like 
+  this:<BR><TT>if(bytejustread == 'A') ...</TT> 
+  <LI>you can output ASCII characters like this:<BR><TT>putchar(65); /* outputs 
+  the ASCII character A */</TT><BR><TT>putchar('A'); /* same as putchar(65) 
+  */</TT><BR><TT>putchar(13); /* outputs a carriage return */</TT> 
+  <LI>on the first pass through the file, read only as many bytes as you need to 
+  to determine whether the file is ASCII or binary; you will lose marks if your 
+  program reads further than necessary on the first pass 
+  <LI>make sure you open the file in the correct <I>mode</I> (mode <TT>"r"</TT> 
+  for ASCII reading and mode <TT>"rb"</TT> for binary reading) 
+  <LI>you can look at the <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/asciitables.html">complete 
+  DOS ASCII table</A> if you like </LI></UL>
+<H2>Required</H2>For the C program <TT>mytype</TT>: 
+<UL>
+  <LI>a source file <TT>mytype.c</TT> 
+  <LI>a paper printout of the source file <TT>mytype.c</TT> 
+  <LI>an executable program <TT>mytype.exe</TT> </LI></UL>
+<H2>Sample Output</H2>Here are some examples of screen output when running the 
+program in DOS (for the files <TT>MARKS.XLS</TT> and <TT>PONG.EXE</TT> the 
+output would be much more than one screenful, so I've only shown a fragment of 
+the output for those two files).
+<P>
+<CENTER><IMG src="CSI 2131 Assignment #1_files/a1out1.gif">
+<P><IMG src="CSI 2131 Assignment #1_files/a1out2.gif">
+<P><IMG src="CSI 2131 Assignment #1_files/a1out3.gif">
+<P><IMG src="CSI 2131 Assignment #1_files/a1out4.gif">
+<P></CENTER>
+<H2>Test Data</H2>Here are some files that you can use to test your program. To 
+save the file to your own directory, click on the name with the <I>right</I> 
+mouse button and then click on <TT><U>S</U>ave&nbsp;Link&nbsp;As...</TT> (if 
+you're using Netscape) or <TT>Save&nbsp;Target&nbsp;<U>A</U>s...</TT> (if you're 
+using Internet Explorer). 
+<UL>
+  <LI><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/readme.txt">readme.txt</A> 
+  (ASCII file) 
+  <LI><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/marks.xls">marks.xls</A> 
+  (binary file) 
+  <LI><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/pong.exe">pong.exe</A> 
+  (binary file) 
+  <LI><A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/lolita.gif">lolita.gif</A> 
+  (binary file) </LI></UL>
+<HR>
+Look at <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sol01.html">the 
+solution</A> to this assignment.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update January 18, 2000)</I></FONT> </P></BODY></HTML>

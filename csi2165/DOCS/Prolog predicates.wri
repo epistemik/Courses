@@ -1,0 +1,70 @@
+Subject: The lecture today
+Date: Mon, 08 Nov 1999 18:15:24 -0500
+From: Vivi Nastase <vnastase@csi.uottawa.ca>
+Organization: Department of Computer Science, University of Ottawa
+To: csi2165A@site.uottawa.ca
+
+Hi everybody
+Due to requests, here are some of the examples we did today (the rest
+are in the course notes):
+
+count_atoms_integers(List, AtomCount, IntegerCount)
+
+count_a_i([],0,0).
+count_a_i([H|T],AC,IC) :-
+        atom(H),
+        count_a_i(T,TAC,IC),
+        AC is TAC + 1.
+count_a_i([H|T],AC,IC) :-
+        integer(H),
+        count_a_i(T,AC,TIC),
+        IC is TIC + 1.
+count_a_i([H|T],AC,IC) :-
+        is_list(H),
+        count_a_i(H,HAC,HIC),
+        count_a_i(T,TAC,TIC),
+        AC is TAC + HAC,
+        IC is TIC + HIC.
+count_a_i([_|T], AC,IC) :-
+        count_a_i(T,AC,IC).
+
+For your own entertainment, you could try to write a rule also if H is a
+structure.
+
+merge(L1,L2,L).
+
+merge([],L,L).
+merge(L,[],L).
+merge([H1|T1],[H2|T2],[H1|T]) :-
+        H1 =< H2,
+        merge(T1,[H2|T2],T).
+merge([H1|T1],[H2|T2],[H2|T]) :-
+        H1 > H2,
+        merge([H1|T1],T2,T).
+
+Then we saw append:
+
+append([],L,L).
+append([H|T],L,[H|Tail]) :-
+        append(T,L,Tail).
+
+I suggest the following queries (and press ';' to get all solutions)
+
+?- append([1,2,3],[3,4,5],L).
+
+?- append([1,2,3,4],X,[1,2,3,4,5,6]).
+
+?- append(X,[3,4,5],[1,2,3,4,5]).
+
+?- append(X,Y,[1,2,3,4]).
+
+and what we can do with it:
+
+member(X,L) :- append(_,[X|_],L).
+
+and
+
+halve(L,FirstHalf,SecondHalf) :-
+        append(FirstHalf,SecondHalf,L),
+        length(FirstHalf,HalfLength),
+        length(SecondHalf,HalfLength).

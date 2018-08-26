@@ -1,0 +1,39 @@
+                            PROJECT
+
+1) STUDY the project description given by the following on www:
+   sim68k.txt
+   sim68k.gif
+
+2) SUBMIT by 6 PM on Nov 10 via email to keqin@playground.net
+   the following in the format given below:
+
+   GROUP NAME :
+
+   MEMBERS    : 
+               (SURNAME,      NAME,         ST.NUMBER)
+               (SURNAME,      NAME,         ST.NUMBER)
+               (SURNAME,      NAME,         ST.NUMBER)
+               (SURNAME,      NAME,         ST.NUMBER)
+
+   LIAISON    : SURNAME,      NAME,         ST.NUMBER, EMAIL
+   (All emails to Keqin must be sent by the liaison).
+
+3) STUDY the source codes and test programs which are on www:
+   source codes:
+      sim68k.pas 
+      simunit.pas 
+   test programs
+      arith.68b
+      hilow.68b
+      logic.68b
+      modes.68b
+      shiftrot.68b
+      errors.68b
+   results of executing test programs
+      arith.result
+      hilow.result
+      logic.result
+      modes.result
+      shiftrot.result
+
+

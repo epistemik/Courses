@@ -1,0 +1,143 @@
+
+Mark Sattolo  428500
+CSI-2131B
+Professor: Ken Barker
+Tutorial Group: Z
+T.A.: William Elazmeh
+
+Assignment 2
+-------------------
+
+D:\My_Docs\CSI_2131\assignment_2>brp 1 bigfile
+FIFO:
+Cluster to load: 12
+Loading cluster 12 into buffer 1
+Cluster to load: 13
+Loading cluster 13 into buffer 2
+Cluster to load: 14
+Loading cluster 14 into buffer 3
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 15
+Loading cluster 15 into buffer 4
+Cluster to load: 16
+Replacing cluster 12; loading cluster 16 into buffer 1
+Cluster to load: 12
+Replacing cluster 13; loading cluster 12 into buffer 2
+Cluster to load: 13
+Replacing cluster 14; loading cluster 13 into buffer 3
+Cluster to load: 14
+Replacing cluster 15; loading cluster 14 into buffer 4
+Cluster to load: 15
+Replacing cluster 16; loading cluster 15 into buffer 1
+Cluster to load: 12
+Cluster 12 already in buffer 2
+Cluster to load: 16
+Replacing cluster 12; loading cluster 16 into buffer 2
+Cluster to load:
+
+FIFO: total buffer replacements: 6
+
+
+
+D:\My_Docs\CSI_2131\assignment_2>brp 2 bigfile
+LRU:
+Cluster to load: 12
+Loading cluster 12 into buffer 1
+Cluster to load: 13
+Loading cluster 13 into buffer 2
+Cluster to load: 14
+Loading cluster 14 into buffer 3
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 15
+Loading cluster 15 into buffer 4
+Cluster to load: 16
+Replacing cluster 13; loading cluster 16 into buffer 2
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 13
+Replacing cluster 14; loading cluster 13 into buffer 3
+Cluster to load: 14
+Replacing cluster 15; loading cluster 14 into buffer 4
+Cluster to load: 15
+Replacing cluster 16; loading cluster 15 into buffer 2
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 16
+Replacing cluster 13; loading cluster 16 into buffer 3
+Cluster to load:
+
+LRU: total buffer replacements: 5
+
+
+
+D:\My_Docs\CSI_2131\assignment_2>brp 3 bigfile
+LFU:
+Cluster to load: 12
+Loading cluster 12 into buffer 1
+Cluster to load: 13
+Loading cluster 13 into buffer 2
+Cluster to load: 14
+Loading cluster 14 into buffer 3
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 15
+Loading cluster 15 into buffer 4
+Cluster to load: 16
+Replacing cluster 13; loading cluster 16 into buffer 2
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 13
+Replacing cluster 16; loading cluster 13 into buffer 2
+Cluster to load: 14
+Cluster 14 already in buffer 3
+Cluster to load: 15
+Cluster 15 already in buffer 4
+Cluster to load: 12
+Cluster 12 already in buffer 1
+Cluster to load: 16
+Replacing cluster 13; loading cluster 16 into buffer 2
+Cluster to load:
+
+LFU: total buffer replacements: 3
+
+
+
+D:\My_Docs\CSI_2131\assignment_2>brp 3 bigfile
+LFU:
+Cluster to load: 11
+Loading cluster 11 into buffer 1
+Cluster to load: 22
+Loading cluster 22 into buffer 2
+Cluster to load: 33
+Loading cluster 33 into buffer 3
+Cluster to load: 44
+Loading cluster 44 into buffer 4
+Cluster to load: 55
+Replacing cluster 11; loading cluster 55 into buffer 1
+Cluster to load: 44
+Cluster 44 already in buffer 4
+Cluster to load: 33
+Cluster 33 already in buffer 3
+Cluster to load: 22
+Cluster 22 already in buffer 2
+Cluster to load: 11
+Replacing cluster 55; loading cluster 11 into buffer 1
+Cluster to load: 66
+Replacing cluster 11; loading cluster 66 into buffer 1
+Cluster to load: 88
+Replacing cluster 66; loading cluster 88 into buffer 1
+Cluster to load: 99
+Replacing cluster 88; loading cluster 99 into buffer 1
+Cluster to load: 66
+Replacing cluster 99; loading cluster 66 into buffer 1
+Cluster to load: 101
+Replacing cluster 66; loading cluster 101 into buffer 1
+Cluster to load: 101
+Cluster 101 already in buffer 1
+Cluster to load: 77
+Replacing cluster 101; loading cluster 77 into buffer 1
+Cluster to load:
+
+LFU: total buffer replacements: 8

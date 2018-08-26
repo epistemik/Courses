@@ -1,0 +1,49 @@
+# LOVE
+#
+define canvas(300,300);
+define system (-50,-50,50,50);
+
+set depth 0;
+set pen_color [255,0,0];
+set fill_color [255,0,0];
+
+set filled 1;
+set order 0;
+draw triangle ([-30,23],[30,23],[0,-25]);
+
+draw circle ([-14,25],15); 
+draw circle ([14,25],15);
+
+set order 1;
+set fill_color [-1,-1,-1];
+set pen_color [-1,-1,-1];
+
+draw triangle ([-50,-50],[37,50],[50,37]);
+
+set depth 1;
+set rotation_center [0,0];
+set rotation_angle -12;
+set rotate 1; # true
+
+set fill_color [255,255,0];
+set pen_color [255,255,0];
+set order 0;
+draw rectangle ([0,0],60,6);
+draw triangle ([-38,0],[-30,7],[-30,-7]);
+draw line ([15,0],[25,10]);
+draw line ([20,0],[30,10]);
+draw line ([25,0],[35,10]);
+draw line ([15,0],[25,-10]);
+draw line ([20,0],[30,-10]);
+draw line ([25,0],[35,-10]);
+set order 1;
+set fill_color [-1,-1,-1];
+set pen_color [255,255,100];
+draw rectangle([10,0],30,4);
+set depth 2;
+set rotate -1; # false
+
+set fill_color [0,0,250];
+set pen_color [0,0,250];
+
+draw rectangle ([-25,0],50,100);

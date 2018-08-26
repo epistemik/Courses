@@ -1,0 +1,103 @@
+/ ; ******************************************************* /
+/ ; *** Arith.68                                        *** /
+/ ; *** Tests the arithmetic instructions of Sim68k     *** /
+/ ; *** Tests ADD, ADDQ, SUB, SUBQ, MULS, DIVS, NEG     *** /
+/ ; *** Uses  MOVE, MOVEQ, BRA, BVS, INP, DSR, DSP, HLT *** /
+/ ; ******************************************************* /
+/  /
+/ ;   Assembly Language        OpCode  Oper1   Oper2  /
+/ ;                           MSB LSB MSB LSB MSL LSB /
+/ ;-------------------------------------------------- /
+/ ; Branch to the first instruction /
+/ BRA.W @Main             ; / $92 $60 $00 $14
+/  /
+/ ; Declarations /
+/ DEF.W @Var1, #$4334     ; / $43 $34
+/ DEF.W @Var2, #$5678     ; / $56 $78
+/ DEF.L @Var3, #$FFFF90AB ; / $FF $FF $90 $AB
+/ DEF.L @Var4, #$FFFFCDEF ; / $FF $FF $CD $EF
+/ DEF.L @Var5, #$000000F6 ; / $00 $00 $00 $F6
+/  /
+/ ; Main program /
+/ LABEL @Main             ; /
+/  /
+/ ; Tests ADD and ADDQ /
+/ ;----------------------- /
+/     ADD.B @Var1, @Var2  ; / $01 $66 $00 $04 $00 $06
+/ ; *** Overflow, V = True /
+/     DSR.B               ; / $F0 $00
+/     DSP.W @Var2         ; / $EA $60 $00 $06
+/     ADD.W @Var1, @Var2  ; / $03 $66 $00 $04 $00 $06
+/ ; *** No Overflow, V = False /
+/     DSR.B               ; / $F0 $00
+/     DSP.W @Var2         ; / $EA $60 $00 $06
+/     MOVE.L @Var5, D0    ; / $C5 $60 $00 $10
+/     ADDQ.B #$A, D0      ; / $08 $A0
+/ ; *** Carry, C = True /
+/     DSR.B               ; / $F0 $00
+/     DSP.L D0            ; / $EC $00
+/     MOVE.L @Var5, D0    ; / $C5 $60 $00 $10
+/     ADDQ.W #$A, D0      ; / $0A $A0
+/ ; *** No Carry, C = False /
+/     DSR.B               ; / $F0 $00
+/     DSP.L D0            ; / $EC $00
+/     ADD.L @Var3, @Var4  ; / $05 $66 $00 $08 $00 $0C
+/ ; *** Carry /
+/     DSR.B               ; / $F0 $00
+/     DSP.L @Var4         ; / $EC $60 $00 $0C
+/ ; Waits for a value to be input /
+/     INP.L D1            ; / $E4 $10
+/  /
+/ ; Tests SUB and SUBQ /
+/ ;----------------------- /
+/     SUB.L @Var3, @Var4  ; / $15 $66 $00 $08 $00 $0C
+/     DSP.L @Var4         ; / $EC $60 $00 $0C
+/     SUBQ.L #$A, D0      ; / $1C $A0
+/     DSP.L D0            ; / $EC $00
+/     MOVE.L @Var5, D0    ; / $C5 $60 $00 $10
+/     ADDQ.B #$A, D0      ; / $08 $A0
+/     SUBQ.B #$A, D0      ; / $18 $A0
+/     DSP.L D0            ; / $EC $00
+/     SUB.W @Var1, @Var2  ; / $13 $66 $00 $04 $00 $06
+/     DSP.W @Var2         ; / $EA $60 $00 $06
+/     SUB.B @Var1, @Var2  ; / $11 $66 $00 $04 $00 $06
+/     DSP.W @Var2         ; / $EA $60 $00 $06
+/     DSR.B               ; / $F0 $00
+/ ; Waits for a value to be input /
+/     INP.L D1            ; / $E4 $10
+/  /
+/ ; Tests NEG /
+/ ;----------------------- /
+/     MOVEQ.L #$3, D0     ; / $CC $30
+/     NEG.L D0            ; / $34 $00
+/     DSP.L D0            ; / $EC $00
+/     NEG.W D0            ; / $32 $00
+/     DSP.L D0            ; / $EC $00
+/     NEG.B D0            ; / $30 $00
+/     DSP.L D0            ; / $EC $00
+/     NEG.B D0            ; / $30 $00
+/     DSP.L D0            ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/ ; Waits for a value to be input /
+/     INP.L D1            ; / $E4 $10
+/  /
+/ ; Repeats MULS and DIVS until V=true /
+/ ; Tests MULS and DIVS /
+/ ;----------------------- /
+/ LABEL @Loop             ; /
+/  /
+/     INP.W D0            ; / $E2 $00
+/     INP.W D1            ; / $E2 $10
+/     MULS.W D1, D0       ; / $23 $10
+/     DSP.L D0            ; / $EC $00
+/     INP.L D0            ; / $E4 $00
+/     INP.W D1            ; / $E2 $10
+/     DIVS.L D1, D0       ; / $2D $10
+/     DSP.L D0            ; / $EC $00
+/     DSR.B               ; / $F0 $00
+/ ; If Overflow, stop, otherwise, Loop again. /
+/     BVS.W @End          ; / $9A $60 $00 $AE
+/     BRA.W @Loop         ; / $92 $60 $00 $94
+/  /
+/ LABEL @End              ; /
+/     HLT.B               ; / $F8 $00

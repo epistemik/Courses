@@ -1,0 +1,1046 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec07.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 7</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Record-Based Processing</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER><I>... or: "How to do stuff to files made up of 
+      records".</I></CENTER>
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Old Hat &amp; New Hat 
+              <LI>Basic Record Operations 
+              <LI>Searching 
+              <UL>
+                <LI>Direct Access 
+                <LI>Sequential Search 
+                <LI>Binary Search </LI></UL>
+              <LI>Cosequential Processing 
+              <UL>
+                <LI>Matching 
+                <LI>Merging </LI></UL>
+              <LI>Batch Updating 
+              <LI>Space Reclamation </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P><BR><BR><BR>§ 4.2.4<BR>§§ 4.2.2, 5.3.3<BR>§§ 5.3.2, 
+            5.3.3<BR><BR>§ 7.1.1<BR>§ 7.1.2<BR><BR>§ 
+        5.2<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 107 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Key</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><I><B>Key</B></I> 
+        <DD>some subset of fields
+        <P></P>
+        <DT><I><B>Unique Key</B></I> 
+        <DD>can be used to identify each record in file uniquely
+        <P></P>
+        <DT><I><B>Dataless Key</B></I> 
+        <DD>contains no information specific to the record
+        <P></P></DD></DL>
+      <HR SIZE=10 width=10>
+
+      <P><I>What's the point of avoiding real data in keys?</I> 
+      <UL>
+        <LI>real data (e.g. Last Name, First Name, etc.) is rarely guaranteed 
+        unique 
+        <LI>real data has a tendency to change </LI></UL><PRE>
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 108 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Order and Disorder</CENTER></FONT>
+      <HR>
+
+      <P>The kinds of operations that can be performed often depend on whether 
+      the records in a file are ordered or unordered.
+      <P>If the records are ordered, the file is considered 
+      <I><B>sorted</I></B>.<BR>If the records are unordered, the file is 
+      considered <I><B>unsorted</I></B>.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>File <I>F</I> contains records <I>r<SUB><FONT 
+      size=+0>1</FONT></SUB></I> ... <I>r<SUB><FONT size=+0>n</FONT></SUB></I> 
+      having keys <I>k<SUB><FONT size=+0>1</FONT></SUB></I> ... <I>k<SUB><FONT 
+      size=+0>n</FONT></SUB></I>.
+      <P>
+      <DL>
+        <DT><I><B>F is sorted, increasing:</B></I> 
+        <DD><TT>k<SUB><FONT size=+0>1</FONT></SUB> &lt; k<SUB><FONT 
+        size=+0>2</FONT></SUB> &lt; ... &lt; k<SUB><FONT 
+        size=+0>n-1</FONT></SUB> &lt; k<SUB><FONT size=+0>n</FONT></SUB></TT> 
+        <DT><I><B>F is sorted, non-decreasing:</B></I> 
+        <DD><TT>k<SUB><FONT size=+0>1</FONT></SUB> &#8804; k<SUB><FONT 
+        size=+0>2</FONT></SUB> &#8804; ... &#8804; k<SUB><FONT size=+0>n-1</FONT></SUB> &#8804; 
+        k<SUB><FONT size=+0>n</FONT></SUB></TT> 
+        <DT><I><B>F is sorted, decreasing:</B></I> 
+        <DD><TT>k<SUB><FONT size=+0>1</FONT></SUB> &gt; k<SUB><FONT 
+        size=+0>2</FONT></SUB> &gt; ... &gt; k<SUB><FONT 
+        size=+0>n-1</FONT></SUB> &gt; k<SUB><FONT size=+0>n</FONT></SUB></TT> 
+        <DT><I><B>F is sorted, non-increasing:</B></I> 
+        <DD><TT>k<SUB><FONT size=+0>1</FONT></SUB> &#8805; k<SUB><FONT 
+        size=+0>2</FONT></SUB> &#8805; ... &#8805; k<SUB><FONT size=+0>n-1</FONT></SUB> &#8805; 
+        k<SUB><FONT size=+0>n</FONT></SUB></TT> </DD></DL><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 109 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>What Sort of File?</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> Are these files sorted? How?
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%"><FONT size=+2><PRE>5
+4
+3
+2
+1
+0
+-1
+</PRE></FONT></TD>
+          <TD vAlign=top width="16%"><FONT size=+2><PRE>10
+11
+12
+AA
+AB
+AC
+</PRE></FONT></TD>
+          <TD vAlign=top width="16%"><FONT size=+2><PRE>1
+12
+12
+121
+123
+2
+22
+241
+34
+</PRE></FONT></TD>
+          <TD vAlign=top width="16%"><FONT size=+2><PRE>a
+ab
+ab
+aba
+abc
+b
+bb
+bdc
+cd
+</PRE></FONT></TD>
+          <TD vAlign=top width="16%"><FONT size=+2><PRE> 2
+ 20
+-2
+0005
+01
+</PRE></FONT></TD>
+          <TD vAlign=top width="20%"><FONT size=+2><PRE>charlie&nbsp;&nbsp;
+bravo
+alpha
+Foxtrot
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 110 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Big <FONT face=arial size=+5>O</FONT></CENTER></FONT>
+      <HR>
+
+      <P>Complexity analysis allows us to compare the efficiency of very 
+      different algorithms. If an algorithm is doing some <I>thing</I> with 
+      <I>n</I> items, the "big O" notation tells us how the performance of the 
+      algorithm varies as <I>n</I> varies.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>for(i = 0; i &lt; <I>n</I>; i++)
+   for(j = 0; j &lt; <I>n</I>; j++)
+      ch = getc(infil);
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Let's say every read (<TT>getc()</TT>) takes 1 ms.
+      <P><B><I>Q:</I></B> If <I>n</I> is 4, how many milliseconds does the 
+      program spend reading?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if we increase <I>n</I> to 5? ... to 6?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What is the "complexity" (in big O notation) of our 
+      program?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Is the number of reads a fair measure of complexity of 
+      this program?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 111 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Basic Record Operations</CENTER></FONT>
+      <HR>
+
+      <P>Things to do to Records: 
+      <UL>
+        <LI><I>add</I> new records to a file 
+        <UL>
+          <LI>where should the record be added? (beginning? middle? end?) 
+          <LI>if added in the middle or at the beginning, what happens to the 
+          keys of the rest of the records? 
+          <LI>if added in the middle or at the beginning, is there room 
+          available </LI></UL>
+        <P></P>
+        <LI><I>modify</I> existing records in a file 
+        <UL>
+          <LI>does the modification change the length of the record? 
+          <LI>if the length changes, what happens to the keys of the rest of the 
+          records? 
+          <LI>does the key change? </LI></UL>
+        <P></P>
+        <LI><I>delete</I> an existing record from a file 
+        <UL>
+          <LI>do we erase the record or simply mark it as deleted? 
+          <LI>if the record deleted is in the middle of the file, do we have to 
+          shuffle all the remaining records around? 
+          <LI>do the keys of other records change? 
+          <LI>what do we do with the space available after deleting a record? 
+          </LI></UL></LI></UL>
+      <P>If you can figure out how to <I>add</I> and <I>delete</I> properly, 
+      <I>modify</I> doesn't really pose any new problems.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 112 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching: Direct Access</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Searching:</I></B> 
+        <DD>Looking for a particular record <I>r<SUB><FONT 
+        size=+0>i</FONT></SUB></I> in a file.
+        <P></P>
+        <DT><B><I>Direct Access:</I></B> 
+        <DD>Seeking directly to the beginning of <I>r<SUB><FONT 
+        size=+0>i</FONT></SUB></I> without having to read any other records in 
+        the file.
+        <P></P>
+        <DT><I>If we have fixed length records...</I> 
+        <DD>knowing the record number <I>i</I> of <I>r<SUB><FONT 
+        size=+0>i</FONT></SUB></I> allows us to seek directly to the beginning 
+        of the record (<I>i</I> is called the <I>relative record number</I> or 
+        <I>RRN</I>).
+        <P></P>
+        <DT><I>If we have variable length records...</I> 
+        <DD>we must know the <I>byte offset</I> of <I>r<SUB><FONT 
+        size=+0>i</FONT></SUB></I> to seek directly to the beginning of the 
+        record.
+        <P></P></DD></DL><B><I>Q:</I></B> What kind of <I>key</I> is <I>RRN</I>? 
+      What else?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>Hmmmm... if only there were a way to know the byte offset of 
+      every record in a file....</I>
+      <P></CENTER><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 113 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching: Sequential Search</CENTER></FONT>
+      <HR>
+
+      <P>RRN and byte offset are decent keys: they're unique, they're dataless. 
+      But what if we don't know the RRN (or byte offset)?
+      <P>For example, say we want to find the record for <I>John Gruden</I> in 
+      this file:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>Olausson, Fredrik, ana, D, 72, 198
+Havelid, Niclas, ana, D, 71, 200
+Haller, Kevin, ana, D, 74, 195
+  ...
+Matteau, Stephane, sj, L, 76, 220
+Friesen, Jeff, sj, L, 72, 200
+Rathje, Mike, sj, D, 77, 230
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>We have no choice but to read through all 1,294 records in the file, 
+      record-by-record, comparing the first field of each record to 
+      <I>Gruden</I> and the second field to <I>John</I>.
+      <P><B><I>Q:</I></B> How many records will we have to read to find Gruden 
+      (best case, worst case, average case)?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if Gruden is not in the file?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What is the complexity (big O) of this search?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 114 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching: Sequential Search (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>But what if that file were <I>sorted</I> on the first and second 
+fields?
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>Aalto, Antti, ana, C, 74, 195
+Adams, Greg, pho, L, 75, 195
+Adams, Kevyn, tor, C, 73, 195
+  .
+  .
+  .
+Zubov, Sergei, dal, D, 73, 200
+Zubrus, Dainius, hab, R, 75, 220
+Zyuzin, Andrei, tb, D, 73, 200
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What is the complexity of sequential search through 
+      the sorted file?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if Gruden is not in <I>this</I> file?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>But we can do better...</I></CENTER>
+      <P>Since the file is sorted, we can look at any record in the file and 
+      know immediately if what we're looking for comes before the record or 
+      after the record. By looking at the middle record in the file, we can cut 
+      the search space in half with just one read!
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 115 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Searching: Binary Search</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>set low to 0; set high to 1,294
+
+while high &#8805; low
+   set middle to (high + low) / 2
+   read record middle
+
+   if key(middle) = key2find
+      return(middle)!
+   else if key(middle) &lt; key2find
+      set low to middle + 1
+   else
+      set high to middle - 1
+endwhile
+
+return(BUST)
+</FONT></PRE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What is the complexity of binary search through the 
+      sorted file?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if Gruden is not in the file?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if we want to add a record to the file?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 116 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Cosequential Processing</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2>Sometimes we have two files (or more) 
+            that share some common information. Often we want to find records in 
+            the two files that have the same key value.
+            <P>For example, let's say we have two files: one lists last year's 
+            Ottawa Senators, and the other lists some Scandinavians who have 
+            never been in my kitchen.
+            <P>
+            <UL>
+              <LI><I>How could we process the records in these two files to find 
+              out which Scandinavian Senators have never been in my kitchen?</I>
+              <P></P>
+              <LI><I>In fact, none of the Senators (Scandinavian or otherwise) 
+              have ever been in my kitchen. How could we process the records in 
+              these two files to generate a single complete ordered list?
+              <P></P></LI></UL></FONT></I></TD>
+          <TD>&nbsp;</TD>
+          <TD align=right vAlign=top>
+            <TABLE border=1 cellPadding=10>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+2><PRE>Alfredsson
+Arvedson
+Berg
+Bonk
+Dackell
+Gardiner
+Gruden
+Hossa
+Johansson
+Kravchuk
+Laukkanen
+Martins
+McEachern
+Murray
+Phillips
+Pitlick
+Prospal
+Redden
+Rhodes
+Salo
+Sarault
+Traverse
+Tugnutt
+VanAllen
+Yashin
+York
+</PRE></FONT></TD>
+                <TD vAlign=top><FONT size=+2><PRE>Ahonen
+Alfredsson
+Arvedson
+Björklund
+Dackell
+Doberhof
+Glad
+Johansson
+Jurvanen
+Konestabo
+Laukkanen
+Osnes
+Puukko
+Salo
+Trygg
+Uggla
+</PRE></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 117 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Matching</CENTER></FONT>
+      <HR>
+
+      <P><I>Matching</I> is the coordinated processing of multiple files to find 
+      only records that have the same key in all files (<I>intersection</I>).
+      <P>Here's how it works for two files:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>open both files F<SUB><FONT size=+0>A</FONT></SUB> F<SUB><FONT size=+0>B</FONT></SUB>
+
+get k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+get k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+
+while records remain in F<SUB><FONT size=+0>A</FONT></SUB> and F<SUB><FONT size=+0>B</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> &lt; k<SUB><FONT size=+0>B</FONT></SUB>: get next k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> &gt; k<SUB><FONT size=+0>B</FONT></SUB>: get next k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> = k<SUB><FONT size=+0>B</FONT></SUB>: output k<SUB><FONT size=+0>A</FONT></SUB>
+           get next k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+           get next k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+endwhile
+
+close files
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What happens if there is an error in the ordering of a 
+      file?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 118 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Merging</CENTER></FONT>
+      <HR>
+
+      <P><I>Merging</I> is the coordinated processing of multiple files to find 
+      the <I>union</I> of records in all files (no duplicates).
+      <P>Here's how it works for two files:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>open both files F<SUB><FONT size=+0>A</FONT></SUB> F<SUB><FONT size=+0>B</FONT></SUB>
+
+get k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+get k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+
+while records remain in F<SUB><FONT size=+0>A</FONT></SUB> or F<SUB><FONT size=+0>B</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> &lt; k<SUB><FONT size=+0>B</FONT></SUB>: output k<SUB><FONT size=+0>A</FONT></SUB>
+           get next k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> &gt; k<SUB><FONT size=+0>B</FONT></SUB>: output k<SUB><FONT size=+0>B</FONT></SUB>
+           get next k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+   k<SUB><FONT size=+0>A</FONT></SUB> = k<SUB><FONT size=+0>B</FONT></SUB>: output k<SUB><FONT size=+0>A</FONT></SUB>
+           get next k<SUB><FONT size=+0>A</FONT></SUB> from F<SUB><FONT size=+0>A</FONT></SUB>
+           get next k<SUB><FONT size=+0>B</FONT></SUB> from F<SUB><FONT size=+0>B</FONT></SUB>
+endwhile
+
+close files
+
+<I>/* Note: when getting the next k<SUB><FONT size=+0>X</FONT></SUB> from file F<SUB><FONT size=+0>X</FONT></SUB>, 
+   if F<SUB><FONT size=+0>X</FONT></SUB> is at end of file, set k<SUB><FONT size=+0>X</FONT></SUB> to some 
+   "out-of-range" high value.                 */</I>
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> Wow, isn't this almost the same algorithm as the 
+      Matching algorithm?
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 119 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Batch Updating</CENTER></FONT>
+      <HR>
+
+      <P>When there are frequent changes (additions, modifications, deletions) 
+      to records in a data file, and instantaneous updating is not required, it 
+      is often more practical to "save up" the changes in a separate file 
+      (called a <I>transaction</I> file) until there are enough to warrant 
+      updating the data file.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Data File</I><PRE>Alfredsson, Daniel, R, 71, 194
+Bonk, Radek, C, 75, 224
+Hossa, Marian, L, 73, 194
+Murray, Chris, R, 74, 215
+Neckar, Stan, D, 73, 212
+Phillips, Chris, D, 74, 218
+Yashin, Alexei, C, 75, 228
+</PRE></FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Transaction File</I><PRE>98/11/27: del, Neckar, Stan
+98/11/27: add, Berg, Bill, L, 73, 205
+99/01/01: mod, Murray, Chris, ?, ?, 222
+99/02/27: add, Barker, Ken, D, 70, ?
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>We want to use the <I>transaction file</I> to update the <I>data 
+      file</I>. But if we leave the transaction file in its current order, we'll 
+      have to do a search through the data file for every record in the 
+      transaction file.
+      <P>
+      <CENTER><I>There must be a better way...</I></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 120 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Batch Updating (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>If we sort the transaction file on the same key as the data file, we 
+      can use <I>cosequential processing</I> to update the data file in one 
+loop!
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Transaction File</I><PRE>99/02/27: add, Barker, Ken, D, 70, ?
+98/11/27: add, Berg, Bill, L, 73, 205
+99/01/01: mod, Murray, Chris, ?, ?, 222
+98/11/27: del, Neckar, Stan
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>And let's repeat the data file just for fun.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Data File</I><PRE>Alfredsson, Daniel, R, 71, 194
+Bonk, Radek, C, 75, 224
+Hossa, Marian, L, 73, 194
+Murray, Chris, R, 74, 215
+Neckar, Stan, D, 73, 212
+Phillips, Chris, D, 74, 218
+Yashin, Alexei, C, 75, 228
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 121 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Batch Updating Algorithm</CENTER></FONT>
+      <HR>
+
+      <P>The algorithm for updating might look like this:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>open both files F<SUB><FONT size=+0>D</FONT></SUB> F<SUB><FONT size=+0>T</FONT></SUB>
+
+get k<SUB><FONT size=+0>D</FONT></SUB> from F<SUB><FONT size=+0>D</FONT></SUB>
+get k<SUB><FONT size=+0>T</FONT></SUB> from F<SUB><FONT size=+0>T</FONT></SUB>
+
+while records remain in F<SUB><FONT size=+0>D</FONT></SUB> or F<SUB><FONT size=+0>T</FONT></SUB>
+   k<SUB><FONT size=+0>D</FONT></SUB> &lt; k<SUB><FONT size=+0>T</FONT></SUB>: output r<SUB><FONT size=+0>D</FONT></SUB>, get next k<SUB><FONT size=+0>D</FONT></SUB> from F<SUB><FONT size=+0>D</FONT></SUB>
+   k<SUB><FONT size=+0>D</FONT></SUB> &gt; k<SUB><FONT size=+0>T</FONT></SUB>: if action = add
+              output r<SUB><FONT size=+0>T</FONT></SUB>, get next k<SUB><FONT size=+0>T</FONT></SUB> from F<SUB><FONT size=+0>T</FONT></SUB>
+           else error
+           endif
+   k<SUB><FONT size=+0>D</FONT></SUB> = k<SUB><FONT size=+0>T</FONT></SUB>: if action = mod
+              output r<SUB><FONT size=+0>D</FONT></SUB> with new field values
+           else if action = del
+              do nothing
+           else error
+           endif
+
+           get next k<SUB><FONT size=+0>D</FONT></SUB> from F<SUB><FONT size=+0>D</FONT></SUB>
+           get next k<SUB><FONT size=+0>T</FONT></SUB> from F<SUB><FONT size=+0>T</FONT></SUB>
+endwhile
+
+close files
+
+<I>/* Again: when getting the next k<SUB><FONT size=+0>X</FONT></SUB> from file F<SUB><FONT size=+0>X</FONT></SUB>, 
+   if F<SUB><FONT size=+0>X</FONT></SUB> is at end of file, set k<SUB><FONT size=+0>X</FONT></SUB> to some 
+   "out-of-range" high value (like 'ZZZZZZ'). */</I>
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 122 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Not Batch Updating</CENTER></FONT>
+      <HR>
+
+      <P>The cosequential processing algorithms do exhaustive sequential reading 
+      of multiple files. For example, in the batch updating scenario, if there 
+      are <I>N</I> records in the data file and <I>M</I> records in the 
+      transaction file, the algorithm is <FONT face=arial>O(M + N)</FONT> (or 
+      <FONT face=arial>O(max(M, N)))</FONT>.
+      <P><BR>What if <I>instantaneous</I> updating is required? That is, every 
+      time a transaction takes place, the data file must be updated immediately.
+      <P><B><I>Q:</I></B> What is the complexity of instantaneous updating of a 
+      data file with <I>N</I> records with <I>M</I> transactions?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>The updating we've seen writes a new file with the updated information. 
+      That's kind of a waste if we're only changing one record! Can't we just 
+      make the changes directly to the data file? <PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 123 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Modifying a File Directly</CENTER></FONT>
+      <HR>
+
+      <P>Suppose we have to make some changes to the following file and we don't 
+      care about maintaining order in the file.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>  1  Olausson, Fredrik, ana, D, 72, 198
+  2  Pushor, Jamie, ana, D, 75, 218
+  3  Haller, Kevin, ana, D, 74, 195
+  4  Trnka, Pavel, ana, D, 75, 200
+ ...
+n-2  Matteau, Stephane, sj, L, 76, 220
+n-1  Friesen, Jeff, sj, L, 72, 200
+  n  Rathje, Mike, sj, D, 77, 230
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Let's say David Oliver gets called up from the minors. We need to add 
+      the record<BR><TT>&nbsp;&nbsp;&nbsp;Oliver, David, ott, L, 72, 190</TT>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>  1  Olausson, Fredrik, ana, D, 72, 198
+  2  Pushor, Jamie, ana, D, 75, 218
+  3  Haller, Kevin, ana, D, 74, 195
+  4  Trnka, Pavel, ana, D, 75, 200
+  ...
+n-2  Matteau, Stephane, sj, L, 76, 220
+n-1  Friesen, Jeff, sj, L, 72, 200
+  n  Rathje, Mike, sj, D, 77, 230
+n+1  <B>Oliver, David, ott, L, 72, 190</B>
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Adding a record to our file was pretty simple. What about deleting a 
+      record?
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 124 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Storage Compaction</CENTER></FONT>
+      <HR>
+
+      <P>Let's say Kevin Haller retires at the ripe old age of 28. Instead of 
+      writing a brand new file with Haller's record deleted, we can just mark 
+      the record with a special mark that means: "this record is deleted". Any 
+      software using the file will just skip over records marked as deleted.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>  1   Olausson, Fredrik, ana, D, 72, 198
+  2   Pushor, Jamie, ana, D, 75, 218
+  3 <B>~ Haller, Kevin, ana, D, 74, 195</B>
+  4   Trnka, Pavel, ana, D, 75, 200
+  ...
+n-2   Matteau, Stephane, sj, L, 76, 220
+n-1   Friesen, Jeff, sj, L, 72, 200
+  n   Rathje, Mike, sj, D, 77, 230
+n+1   Oliver, David, ott, L, 72, 190
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Every once in a while, we can run a special <I>compactor</I> program 
+      that writes out a new file omitting all the deleted records (this is known 
+      as <I>space reclamation</I> by <I>storage compaction</I>).
+      <P>Deleting records in this manner is simple and fast. But there's another 
+      advantage as well...
+      <P><B><I>Q:</I></B> What's the other advantage?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What's the <I>other</I> other advantage?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 125 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Reclamation</CENTER></FONT>
+      <HR>
+
+      <P>The problem with reusing the space left by deleted records is that we 
+      have to search sequentially through the file for the available spots.
+      <P>A better solution would be to use a data structure (let's say, a 
+      <I>stack</I>) to keep track of which records are deleted.
+      <P>We store the RRN of the deleted record at the top of the stack in a 
+      special record in the file. The file below has no deleted records.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>      <B>0</B>
+  1     Olausson, Fredrik, ana, D, 72, 198
+  2     Pushor, Jamie, ana, D, 75, 218
+  3     Haller, Kevin, ana, D, 74, 195
+  4     Trnka, Pavel, ana, D, 75, 200
+  5     Barker, Ken, ana, D, 70, ???
+  ...
+n-2     Matteau, Stephane, sj, L, 76, 220
+n-1     Friesen, Jeff, sj, L, 72, 200
+  n     Rathje, Mike, sj, D, 77, 230
+n+1     Oliver, David, ott, L, 72, 190
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 126 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Reclamation (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>If we then delete the record with RRN 5, we mark the record as deleted, 
+      change the special "next in stack" field to 0, and change the special "top 
+      of stack" record to 5.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>      <B>5</B>
+  1     Olausson, Fredrik, ana, D, 72, 198
+  2     Pushor, Jamie, ana, D, 75, 218
+  3     Haller, Kevin, ana, D, 74, 195
+  4     Trnka, Pavel, ana, D, 75, 200
+  5 <B>~ 0 Barker, Ken, ana, D, 70, ???</B>
+  ...
+n-2     Matteau, Stephane, sj, L, 76, 220
+n-1     Friesen, Jeff, sj, L, 72, 200
+  n     Rathje, Mike, sj, D, 77, 230
+n+1     Oliver, David, ott, L, 72, 190
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 127 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Reclamation (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Then if we delete record 3, we mark the record as deleted, change the 
+      "next in stack" field to the value of the current "top of stack", and 
+      change the "top of stack" to 3.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>      <B>3</B>
+  1     Olausson, Fredrik, ana, D, 72, 198
+  2     Pushor, Jamie, ana, D, 75, 218
+  3 <B>~ 5 Haller, Kevin, ana, D, 74, 195</B>
+  4     Trnka, Pavel, ana, D, 75, 200
+  5 ~ 0 Barker, Ken, ana, D, 70, ???
+  ...
+n-2     Matteau, Stephane, sj, L, 76, 220
+n-1     Friesen, Jeff, sj, L, 72, 200
+  n     Rathje, Mike, sj, D, 77, 230
+n+1     Oliver, David, ott, L, 72, 190
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 128 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Reclamation: The Reclaiming Part</CENTER></FONT>
+      <HR>
+
+      <P>The next time we add a record, we can reclaim deleted space simply by 
+      jumping directly to the deleted record at the top of the stack:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE>      <B>5</B>
+  1     Olausson, Fredrik, ana, D, 72, 198
+  2     Pushor, Jamie, ana, D, 75, 218
+  3     <B>Leclerc, Mike, ana, L, 73, 205</B>
+  4     Trnka, Pavel, ana, D, 75, 200
+  5 ~ 0 Barker, Ken, ana, D, 70, ???
+  ...
+n-2     Matteau, Stephane, sj, L, 76, 220
+n-1     Friesen, Jeff, sj, L, 72, 200
+  n     Rathje, Mike, sj, D, 77, 230
+n+1     Oliver, David, ott, L, 72, 190
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 129 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Food for Thought</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER><I>What if the records are variable length?</I></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> How do we refer to available records in the stack?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if the space left by the deleted record is not 
+      big enough for the record we want to add?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 130 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

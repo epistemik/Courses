@@ -1,0 +1,16 @@
+Program loaded. 104 bytes in memory.
+Enter a value (byte) for the register D0: 0
+Enter a value (byte) for the register D0: 7
+Enter a value (byte) for the register D1: -10
+[$0004] = $0001 (word)
+Enter a value (byte) for the register D1: 25
+[$0004] = $0002 (word)
+Enter a value (byte) for the register D1: 6
+[$0004] = $0001 (word)
+Enter a value (byte) for the register D1: 8
+[$0004] = $0002 (word)
+Enter a value (byte) for the register D1: 7
+[$0004] = $0000 (word)
+[$0006] = $0005 (word)
+
+End of program Execution.

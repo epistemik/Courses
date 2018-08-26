@@ -1,0 +1,517 @@
+
+Note: These are sample solutions, not necessarily the best.
+
+			    CSI2165A/Assignment 4 (With solution)   
+
+
+Issue date : Saturday, November 27, 1999
+Due date   : Monday, Dec. 6, 1999, 8:00pm (OFFICIAL)
+Extension  : Friday, Dec. 10, 1999 5:00pm
+
+Hand In : Each student is required to do this assignment INDIVIDUALLY and to 
+	  hand in the following:
+
+(1) A 3.5" disk containing the Prolog program corresponding to the questions
+    of the assignment. The file containing this program must be named 
+    `assign4.ari', and must be the ONLY file on the disk. 
+
+(2) A printout of `assign4.ari' .
+
+(3) A printout of the queries you applied to test your solutions. Your queries
+    must represent 'good' test cases, i.e. they are likely to expose an error, 
+    if any.
+
+Place the above items in a suitable envelope, with the following information 
+clearly marked on the outside of the envelope: complete name, student number,
+assignment number and course number (CSI2165A). Deposit your envelope in 
+the LOCKED BOX marked `CSI 2165A' beside the reception desk on the third 
+floor of MacDonald Hall. 
+
+IMPORTANT: your Prolog program must conform to the programming standards 
+	   described in  file stndrds.txt which is in directory assignments
+           of the CSI2165A course directory. 
+
+MARKING SCHEME: 10% of the marks are allocated to programming standards,
+                while the remaining 90% will be divided among the questions
+                of the assignment.
+
+-----------------------------------------------------------------------
+(* 10 points *)
+
+1. Define the predicate is_bst(T) which is true if T is a binary search tree.
+   Hint: Consider the approach that we used in finding the maximum and minimum
+         element in a binary tree. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The predicate is_bst(T) is true if T is a binary search tree.
+% An empty tree is a binary search tree.
+is_bst(nil).
+
+% A one node tree is a binary search tree.
+is_bst(bt(nil, N, nil)) :-!.
+
+% Handles the case when there exists a left subtree but no right subtree.
+is_bst(bt(LTree, N, nil)) :-
+	max_bt(LTree, LMax),
+	N > LMax,
+	is_bst(LTree), !.
+
+% Handles the case when there exists a right subtree but no left subtree.
+is_bst(bt(nil, N, RTree)) :-
+	min_bt(RTree, RMin),
+	N < RMin,
+	is_bst(RTree), !.
+
+% When the tree has both left and right subtrees, the root key must be greater
+% than all the keys in the left subtree and less than all the keys in the
+% right subtrees.
+is_bst(bt(LTree, N, RTree)) :-
+	max_bt(LTree, LMax),
+	N > LMax,
+	min_bt(RTree, RMin),
+	N < RMin,
+	is_bst(LTree),
+	is_bst(RTree), !.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(* 10 points *)
+2. Define the predicate horizontal(BT, List) which returns in List the result
+   of left to right traversing of consecutive levels of a binary tree. The 
+   root of a tree is at level 1. The immediate subtrees of the root is at level
+   2. Their immediate subtrees are at level3, etc.
+
+	Example:
+
+				x
+		--------------------------------
+		|				|
+		a				d
+	-----------------		-----------------
+	|		|		|		|
+	2		8		b		z
+			---------
+				|
+				9
+   The result of traversing the above tree using horizontal will generate the
+   following list:
+   [x, a, d, 2, 8, b, z, 9]
+
+   Hint: If the tree is not empty then put the root in the path list. Put the 
+	 left and right subtrees in a queue. 
+	 Process the queue until it is empty. If the head of the queue is a binary tree
+	 then  move the root to the path list and append the left and right subtrees
+	 of this binary tree to the queue. Continue processing the queue. You should
+	 handle empty subtrees (nil) appropriately so that they do not show up in the
+	 path list.
+
+   The above example in Prolog:
+
+   def_bt3(BT) :- BT = bt(bt(bt(nil, 2,nil), a, bt(nil, 8, bt(nil, 9, nil))), x, bt(bt(nil, b, nil),d,bt(nil, z, nil))).
+
+   ?- def_bt3(BT), horizontal(BT, List).
+      BT = bt(bt(bt(nil, 2,nil), a, bt(nil, 8, bt(nil, 9, nil))), x, bt(bt(nil, b, nil),d,bt(nil, z, nil)))
+      List = [x, a, d, 2, 8, b, z, 9]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The solution will use the following logic:
+% If the tree is not empty then put the root in the path list.
+% Put the left and right subtrees in a queue. 
+% Process the queue until it is empty. If the head of the queue is a binary
+% tree then  move the root to the path list and append the left and right 
+% subtrees of this binary tree to the queue. Continue processing the queue.
+% The empty subtrees (nil) ar ehandled appropriately so that they do not
+% show up in the path list.
+
+horizontal(nil, []).
+
+horizontal(bt(LTree, N, RTree), [N|Rest]) :-
+	horizontal2([LTree, RTree], Rest).
+
+horizontal2([], []).
+
+horizontal2([bt(LTree, N, RTree)|Tail], [N|Rest]) :-
+	conc(Tail, [LTree, RTree], NewQueue),
+	horizontal2(NewQueue, Rest).
+
+horizontal2([nil|Tail], List) :-
+	horizontal2(Tail, List).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(* 30 points *)
+3.
+   Consider the following general representation of trees. 
+   * A tree with one node D is represented as t(D)
+   * A tree T with root R and N children is represented as a structure with
+     functor t and N + 1 arguments, in which the first argument is the root 
+     of the tree (R), and the second up to N+1'th arguments represent the 
+     children of T, which themselves can be a tree.
+   For example the following tree
+			a
+	+---------------+---------------+
+	|		|		|
+	b		c		t
+		+-------+-------+	+
+		|		|	|
+		e		4	g
+
+   is represented as:
+
+	t(a, t(b), t(c, t(e), t(4)), t(t, t(g))) 
+	
+(* 10 points *)    
+a)
+Write predicate sum_tree(Tree, STree) in which Tree is a tree represented
+as described above, and STree is a tree with the same structure (the same 
+number of nodes, at exactly the same position as nodes in Tree. The data
+portion of each leaf in Tree is a number. The leaves in Stree are the same
+as leaves in Tree, but the data part of any other non-leaf node in STree is
+the sum of the data values in the children of that node. In other words the
+data part of every non-leaf node N in Tree, is replaced with a new value 
+in the data part of the corresponding node in Stree. The new value is the 
+sum of the data parts of the children of the node (all numbers) in STree.    
+
+Example:
+
+?- sum_tree(t(_, t(_, t(2), t(3)), t(8), t(3, t(6), t(1))), NT).
+NT = t(20,t(5,t(2),t(3)),t(8),t(7,t(6),t(1)))
+yes
+
+?- sum_tree(t(10,t(1), t(2)), NT).
+NT = t(3,t(1),t(2))
+yes
+
+?- sum_tree(t(_,t(8), t(6)), NT).
+NT = t(14,t(8),t(6))
+yes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% When you have a leaf the sum tree is the leaf itself
+sum_tree(t(N) , t(N)):- !.
+
+% Extract the children (subtrees) of the tree. This is a list of
+% trees. Process this list to generate a list of new children
+% where each on has a root data value equivalent to the sum of 
+% the data values in the roots of their children.
+% This helper predicate will also return the total sum of the data
+% values in each children node. This total sum will be the new data value 
+% of the root, and the new children will be in NChildren. Now we can put them together
+% to generate the answer tree
+sum_tree(IT, OT) :-
+		IT =.. [t, Root|Children],
+		suml(Children, NChildren, ChildrenSum), !,
+		OT =.. [t, ChildrenSum|NChildren].
+
+% If you have a single tree in the list. Find the new tree for it. The sum will be
+% the data value of the root
+suml([Node], [NNode], Sum) :- 
+				sum_tree(Node, NNode),
+				NNode =.. [t, Sum| _].
+
+% Get the new tree for the tree in the head of the list. Extract its root (which is
+% the sum of the data values for all the children of that tree). Get the new tree list
+% and the sum for all the trees in the tail. The total sum will be the sum extracted after
+% processing the head, plus the total sum you found for the trees in the tail.  
+suml([Node|T], [NNode| NT], Sum) :-
+				sum_tree(Node,NNode),
+				NNode =.. [t, NodeSum|_],
+				suml(T, NT, ChildrenSum),
+				Sum is NodeSum + ChildrenSum.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(* 20 points *)
+b)
+  Write predicate add(T1, T2, T3) in which T1, T2, and T3 are trees represented 
+  as described above. The nodes in T3 are generated by adding the corresponding
+  elements in T1 and T2. If a node in T1 or T2 does not exist you should assume
+  that the value of the node is 0, (a leaf node with value 0).
+
+Examples:
+
+Note that the extra space among elements of the structures used in the example
+is just for the sake of clarity, and helping you to understand the examples.
+
+?- T1 = t(1,  t(2),  t(3, t(4, t(5)), t(6, t(7))      )),
+   T2 = t(1,  t(-2), t(3, t(6, t(6)), t(7, t(0)), t(9))),
+   add(T1, T2, Sum).
+
+Sum = t(2,t(0),t(6,t(10,t(11)),t(13,t(7)),t(9))) 
+
+?- T1 = t(1,  t(2),  t(3, t(4, t(5)            ), t(6, t(7), t(10))      )),
+   T2 = t(1,  t(-2), t(3, t(6, t(6), t(3, t(4))), t(7, t(0)       ), t(9))),
+   add(T1, T2, Sum).
+
+Sum = t(2,t(0),t(6,t(10,t(11),t(3,t(4))),t(13,t(7),t(10)),t(9)))
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% adding a tree to an empty tree. You can ignore this as long as you make sure that this situation
+% will not arise
+add(nil, Tree, Tree):- !.
+add(Tree, nil, Tree):- !.
+
+% convert the tree to a list. Add the roots, and then add the children. Create a new sum tree using
+% univ (=..) 
+add(T1, T2, Sum) :-
+   T1 =.. [t, Root1|Children1],
+   T2 =.. [t, Root2|Children2],
+   AddedRoot is Root1 + Root2,
+   add_children(Children1, Children2, AddedChildren),
+   Sum =.. [t, AddedRoot|AddedChildren].
+
+% when you exhust one of the children list.
+add_children([], L, L) :- !.
+add_children(L, [], L) :- !.
+
+% adding two leaves
+add_children([N1|T1], [N2|T2], [S|ST]) :-
+	number(N1), number(N2),
+	S is N1 + N2,
+	add_children(T1, T2, ST).
+
+% adding a sub tree with a leaf
+add_children([TR1|T1], [N2|T2], [SH|ST]) :-
+	TR1 =.. [t, R1| Children1],
+	number(N2),
+	S is R1 + N2,
+        SH =.. [t, S|Children1],
+	add_children(T1, T2, ST).
+
+% adding a leaf with a sub tree
+add_children([N1|T1], [TR2|T2], [SH|ST]) :-	
+	number(N1),
+	TR2 =.. [t, R2| Children2],
+	S is N1 + R2,        
+	SH =.. [t, S|Children2],
+	add_children(T1, T2, ST).
+
+
+% adding two sub tree
+add_children([TR1|T1], [TR2|T2], [SH|ST]) :-	
+	TR1 =.. [t, R1| Children1],
+	TR2 =.. [t, R2| Children2],
+	S is R1 + R2,
+	add_children(Children1, Children2, ChildrenSum),
+	SH =.. [t, S|ChildrenSum],
+	add_children(T1, T2, ST).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(* 10 points *)
+4. Write predicate min_in_column(N, Functor/Arity, Min) in which Min is instantiated
+   to the greatest value among the values of argument N of facts in the database
+   with name Functor and arity equal to Arity. You can not use predicate findall/3, 
+   , bagof/3, or setof/3. 
+
+Examples:
+ 
+a(1, 2, 13).
+a(6, 3, 4).
+a(4, -2, 8).
+a(5, 10, 8).
+a(3, 5, 6, 8).
+a(67, 7).
+a(4, 103).
+
+?- min_in_column(1, a/3, Min). % minimum value of the first argument of a/3 facts
+Min = 1
+yes
+
+?- min_in_column(2, a/3, Min). % minimum value of the second argument of a/3 facts
+Min = -2
+yes
+
+?- min_in_column(3, a/3, Min). % minimum value of the third argument of a/3 facts
+Min = 4
+yes
+
+?- min_in_column(1, a/4, Min). % minimum value of the first argument of a/4 facts
+Min = 3
+yes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: This solution is not using database manipulation predicates (assert/1, 
+%       retract/1. An alternative and faster solution can be written using these
+%        predicates.
+
+%create a goal, satisfy it, and pick the argument N. This will give you the initial
+% minimum value.
+% See if there is any value less than the initial min. for the column under consideration
+min_in_column(N, Functor/Arity, Min) :-
+	functor(Goal1, Functor, Arity),
+	Goal1,
+	arg(N, Goal1, Current_Min),
+	min_in_column2(N, Functor/Arity,  Current_Min, Min).
+	
+
+% create a goal, satisfy it. Pick the argument N. If this value is less than your current
+% minimum continue with this value as new current min
+min_in_column2(N, Functor/Arity,  Current_Min, Min) :-
+	functor(Goal, Functor, Arity),
+	Goal,
+	arg(N, Goal, Val),
+	Val < Current_Min,
+	min_in_column2(N, Functor/Arity, Val, Min).
+
+% you have reached to the end of facts. Your current Max. is the same as overal Max.
+min_in_column2(N, Functor/Arity, Min, Min).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(* 15 points *)
+5_ Define predicate split/2 which takes an atom which is representing a variable name
+   in language L, and breaks it to the words which it is built from. In Language L,
+   a variable name is a combination of lower and upper case letters, numbers, and '_',
+   starting with a lower case letter or '_'. The words in a variable are separated
+   from each other either by using '_' characters, or a mix case usage, in which each
+   word starts with an upper case letter, except perhaps for the first word. Your 
+   predicate should FAIL with a massage similar to the one given in the examples, if the
+   variable name is not valid.
+
+Examples:
+
+ 
+?- split(pointerToElement2, L).
+L = [pointer,'To','Element2']
+yes
+
+?- split('array_index', L).
+L = [array,index]
+yes
+
+?- split('2nd_pointerToElement2', L).
+2nd_pointerToElement2 is not a valid variable name
+no
+
+?- split('_pointerToElement2', L).
+L = [pointer,'To','Element2']
+yes
+
+?- split('Here_is_A_mixExample', L).
+L = ['Here',is,'A',mix,'Example']
+yes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Break the atom to a list of ASCII codes, make sure it starts with a lower case
+% character or _, and then process that list 
+split(Name, WordList) :- 
+	name(Name, [First|Rest]),
+        ((First >= 97, First =< 122);(First >= 65, First =< 90); First =:= 95),
+	break([First|Rest], CharWordList),
+	convert(CharWordList, WordList), !.
+% When you have an invalid variable name
+split(Name, WordList) :-
+        write(Name), write(' is not a valid variable name'), nl, !, fail.
+
+break([],[[]]).
+% seeing a lower-case letter or a number
+break([H|T], [[H|Rest]| AnswerTail]) :-
+	((H >= 97, H =< 122);(H >= 48, H =< 57)),
+	break(T, [Rest|AnswerTail]).
+% seeing _
+break([95|T], [[]| AnswerTail]) :-
+	break(T, AnswerTail).
+% seeing an upper-case letter
+break([H|T], [[], [H|Rest]| AnswerTail]) :-
+	(H >= 65, H =< 90),
+	break(T, [Rest| AnswerTail]).
+
+% simple scan and convert
+convert([], []).
+% skip the empty lists here
+convert([[]|T], NT) :- 
+	convert(T, NT).
+convert([H|T], [NH|NT]) :- 
+	name(NH, H),
+	convert(T, NT).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(* 15 points *)
+6- Write predicate indexed_add(S1, S2, Index1, Index2, Answer) in which S1 and
+S2 are two structures, and Index1 and Index2 are simple lists of number. Index1
+and Index2 are used as list of indices of elements of S1 and S2 respectively.
+This means that a number such as 3 in Index1 is referring to the third element
+of S1, and 5 in Index2 is referring to the fifth element of S2. S1 and S2 may
+have different number of arguments, but their arguments, if any,
+are numbers. The same holds for Index1 and Index2. They may be lists with
+different lengths. Furthermore, the indices in Index1 and Index2 may refer
+to an element in S1 or S2 which does not exist. In this case the assumption
+is that the value of that element is zero. Answer is a structure with functor
+"result" and arity equal to the greater of the arity of index1 and Index2. The nth elements
+of the structure result is the sum of the elements of S1 and S2 at positions
+referred to by the nth elements of Index1 and Index2. If one of the lists is shorter
+than the other, then for each element in the shorter list that does not exist
+you assume that the value of the argument in the corresponding structure was
+zero.
+
+Note: To simplify the solution, you may want to consider writing a predicate
+that takes a structure and a number and a variable as its arguments. If the
+structure had an argument in the position indicated by the number then the variable
+will be instantiated to that argument, otherwise the variable will be instantiated 
+to zero.
+
+Example:
+
+?- S1 = a(1, 3, 4),
+   S2 = b(2, 4, 6, -1),
+   Index1 = [3, 4, 1, 2, 6],
+   Index2 = [3, 3, 2],
+   indexed_add(S1, S2, Index1, Index2, Answer).
+
+Answer = result(10, 6, 5, 3, 0)
+yes
+
+?- S1 = a(1, 3, 4),
+   S2 = b,
+   Index1 = [3, 4, 1, 2, 6],
+   Index2 = [3, 3, 2],
+   indexed_add(S1, S2, Index1, Index2, Answer).
+
+Answer = result(4, 0, 1, 3, 0)
+yes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is used to find the maximum of two numbers
+max(N1, N2, N1) :- N1 > N2, !.
+max(N1, N2, N2).
+
+% this will give you the value of the component (argument) at position Index of Struct, or zero
+% if the component does not exist
+get_arg(Struct, Index, Arg) :- arg(Index, Struct, Arg), !.
+get_arg(_, _, 0).
+ 
+% create a structure answer that has as many component as the structure withe
+% greater number of components. Then add two structures, and fill in the answer
+% structure 
+indexed_add(S1, S2, Index1, Index2, Answer) :-
+	length(Index1, Len1),
+	length(Index2, Len2),
+	max(Len1, Len2, MaxLength),
+	functor(Answer, result, MaxLength), % the components are going to be uninstantiated variables at this point  
+	indexed_add2(S1, S2, Index1, Index2, 1, Answer).
+
+% When you have exhausted both index lists
+indexed_add2(S1, S2, [], [], _, Answer) :- !.
+
+% When you have exhausted the first argument index list
+indexed_add2(S1, S2, [], [HI2|TI2], Answer_Index, Answer):-
+	get_arg(S2, HI2, A2),
+	arg(Answer_Index, Answer, A2), % notice that you can do this becuase the component at position Answer_Index
+				       % is an uninstaniated variable
+	Answer_Index2 is Answer_Index + 1,
+	indexed_add2(S1, S2, [], TI2, Answer_Index2, Answer), !.
+
+% When you have exhausted the second argument index list
+indexed_add2(S1, S2, [HI1|TI1], [], Answer_Index, Answer):-
+	get_arg(S1, HI1, A1),
+	arg(Answer_Index, Answer, A1),
+	Answer_Index2 is Answer_Index + 1,
+	indexed_add2(S1, S2, TI1, [], Answer_Index2, Answer), !.
+
+% When you are adding elemnt at index HI1 of the first structure to the elemnt at index HI2 of
+% the second structure  
+indexed_add2(S1, S2, [HI1|TI1], [HI2|TI2], Answer_Index, Answer):-
+	get_arg(S1, HI1, A1),
+	get_arg(S2, HI2, A2),
+	S is A1 + A2,
+	arg(Answer_Index, Answer, S),
+	Answer_Index2 is Answer_Index + 1,
+	indexed_add2(S1, S2, TI1, TI2, Answer_Index2, Answer), !.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

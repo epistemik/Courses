@@ -1,0 +1,1970 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec08.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 8</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<STYLE>A:link {
+	TEXT-DECORATION: none
+}
+A:visited {
+	TEXT-DECORATION: none
+}
+A:active {
+	TEXT-DECORATION: none
+}
+</STYLE>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white link=black vLink=black><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sorting</CENTER></FONT>
+      <HR>
+
+      <P>We have seen how using sorted files can greatly reduce the amount of 
+      time spent hunting through files looking for stuff. And we know all about 
+      sorting lists in RAM. But how can we sort <I>files</I> and how can we 
+      <I>keep</I> them sorted?
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Sorting in RAM: a review 
+              <LI>Heapsort 
+              <LI>Keysort 
+              <LI>Mergesort for Large Files 
+              <LI>Tapesort </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§§ 5.3.4, 5.3.5<BR>§ 7.4<BR>§ 5.4<BR>§ 7.5<BR>§ 
+          7.6<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Internal Sorting</I></B> 
+        <DD>Sorting done entirely in RAM
+        <P></P>
+        <DT><B><I>External Sorting</I></B> 
+        <DD>Sorting files that don't fit into RAM </DD></DL>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 131 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Selection Sort</CENTER></FONT>
+      <HR>
+
+      <P><I>Selection Sort</I> is a simple sorting algorithm whose performance 
+      is not that great.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Selection Sort on a list[1..n]</I>
+            <HR>
+<PRE>for i from 1 to n-1
+   lowest = i
+
+   for j from i+1 to n
+      if list[j] &lt; list[lowest]
+         lowest = j
+   endfor
+
+   swap list[i], list[lowest]
+endfor</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>42</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>19</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>5</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>31</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2>11</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="60%"><FONT size=+2><B><I>Q:</I></B> What is 
+            the complexity (big O) of <I>Selection Sort?</I>
+            <P><BR><BR><B><I>A:</I></B>
+            <P></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 132 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Insertion Sort</CENTER></FONT>
+      <HR>
+
+      <P><I>Insertion sort</I> is one of the simplest sorting algorithms, yet it 
+      also gives quite good performance for sorting lists in RAM.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Insertion Sort on a list[1..n]</I>
+            <HR>
+<PRE>for i from 2 to n
+   insert list[i] into the correct position 
+   in the sorted list[1..i-1]
+endfor</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT size=+2>42</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>19</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>5</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>31</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2>11</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="8%">
+            <TABLE border=1 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><FONT 
+              size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="60%"><FONT size=+2><B><I>Q:</I></B> What is 
+            the complexity (big O) of <I>Insertion Sort?</I>
+            <P><BR><BR><B><I>A:</I></B>
+            <P></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 133 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Using Selection Sort for Big Records</CENTER></FONT>
+      <HR>
+
+      <P>Let's say we want to use the <I>Selection Sort</I> on a file of 
+      records. The records are to be ordered according to their key values. That 
+      is, we have a file <I>F</I> with records r<SUB><FONT 
+      size=+0>1</FONT></SUB> to r<SUB><FONT size=+0>n</FONT></SUB> having keys 
+      k<SUB><FONT size=+0>1</FONT></SUB> to k<SUB><FONT size=+0>n</FONT></SUB>. 
+      We want to reorder the records based on their key values. The problem is, 
+      the records are so big that we can only fit a couple of them in RAM at any 
+      one time.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Selection Sort (in slightly more detail)</I>
+            <HR>
+<PRE>for i from 1 to n-1
+   read record r<SUB><FONT size=+0>i</FONT></SUB> having key k<SUB><FONT size=+0>i</FONT></SUB>
+   lowest = k<SUB><FONT size=+0>i</FONT></SUB>
+   lowrecord = i
+
+   for j from i+1 to n
+      read record r<SUB><FONT size=+0>j</FONT></SUB> having key k<SUB><FONT size=+0>j</FONT></SUB>
+      if k<SUB><FONT size=+0>j</FONT></SUB> &lt; lowest
+         lowest = k<SUB><FONT size=+0>j</FONT></SUB>; lowrecord = j
+   endfor
+
+   read record r<SUB><FONT size=+0>i</FONT></SUB>
+   read record r<SUB><FONT size=+0>lowrecord</FONT></SUB>
+   write record r<SUB><FONT size=+0>lowrecord</FONT></SUB> into position i
+   write record r<SUB><FONT size=+0>i</FONT></SUB> into position lowrecord
+endfor</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What is the complexity of this algorithm?
+      <P><B><I>A:</I><B>
+      <P></FONT></P></B></B></TD></TR></TBODY></TABLE>
+<CENTER>- 134 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Insertion Sort for Big Records</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Insertion Sort (in slightly more detail)</I>
+            <HR>
+<PRE>for j from 2 to n
+   read record r<SUB><FONT size=+0>j</FONT></SUB> having key k<SUB><FONT size=+0>j</FONT></SUB>
+
+   find record r<SUB><FONT size=+0>i</FONT></SUB> in 1..j-1 such that
+   record r<SUB><FONT size=+0>j</FONT></SUB> belongs just before record r<SUB><FONT size=+0>i</FONT></SUB>
+
+   for k from j-1 down to i
+      read record r<SUB><FONT size=+0>k</FONT></SUB> and write it to position k+1
+   endfor
+
+   write record r<SUB><FONT size=+0>j</FONT></SUB> into position i
+endfor</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What has happened to the (worst case) complexity of 
+      the <I>Insertion Sort<I>?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></I></I></TD></TR></TBODY></TABLE>
+<CENTER>- 135 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sorting with Trees</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Binary Tree</I></B> 
+        <DD>
+        <LI>a hierarchical data structure 
+        <LI>a collection of nodes which is either empty or consists of a node 
+        that has left and right children (themselves binary trees).
+        <P></P></LI>
+        <DT><B><I>Complete Binary Tree</I></B> 
+        <DD>
+        <LI>a binary tree with all leaves at the same level <I>or</I> all leaves 
+        on the bottom two levels, with leaves on the bottom level as far left as 
+        possible.
+        <P></P></LI></DD></DL>A complete binary tree can be represented using an 
+      array, where each element represents a node. For any node <I>i</I>, the 
+      value of the node is at position <I>i</I> in the array, the left child of 
+      <I>i</I> is at position <I>2i</I> in the array, the right child of 
+      <I>i</I> is at position <I>2i+1</I> in the array.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=5 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=9 width="100%">
+              <TBODY>
+              <TR>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle width="12%"><FONT size=+2>...</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle width="12%"><FONT size=+2>...</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD width="8%"><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle width="12%"><FONT 
+              size=+2>...</FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="8%"><FONT size=+2>1</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>2</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>3</FONT></TD>
+                <TD align=middle width="12%"><FONT size=+2>...</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>i-1</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>i</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>i+1</FONT></TD>
+                <TD align=middle width="12%"><FONT size=+2>...</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>2i</FONT></TD>
+                <TD align=middle width="8%"><FONT size=+2>2i+1</FONT></TD>
+                <TD align=middle width="12%"><FONT 
+              size=+2>...</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 136 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Complete Binary Tree Example</CENTER></FONT>
+      <HR>
+
+      <P>Here's an example of the array representation of a complete binary 
+tree:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=middle width="10%"><FONT size=+2>19</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>5</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>31</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>25</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>19</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>22</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>21</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>24</FONT></TD>
+          <TD align=middle width="10%"><FONT size=+2>11</FONT></TD>
+          <TD align=middle width="10%"><FONT 
+      size=+2>29</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> What does the complete tree look like?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 137 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Heapsort</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Heap</I></B> 
+        <DD>a complete binary tree in which the value of every node is greater 
+        than the value of its parent.
+        <P></P></DD></DL>The definition of a heap ensures a certain amount of 
+      order in the data, but not enough that we can simply read the sorted data 
+      off the tree (as we can with a <I>binary search tree</I>). But a heap does 
+      have enough order that sorting the data in a heap is efficient.
+      <P><I>Heapsort</I> is an efficient sorting algorithm that consists of two 
+      parts: 
+      <OL>
+        <LI>build a heap from the data 
+        <LI>output the data from the heap in sorted order </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Building a heap from a file of </I>n<I> 
+            records</I>
+            <HR>
+<PRE>for i from 1 to n
+   read the next record r having key k 
+   put record r at the end of the array
+
+   while k &lt; the key of r's parent
+      exchange record r with its parent
+endfor
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 138 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Heap Building Example</CENTER></FONT>
+      <HR>
+
+      <P>Let's build a heap from the following file (the first field is the 
+key):
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5 width="50%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><PRE> 19  ctr ...
+  5  def ...
+ 31  g ...
+ 25  ctr ...
+ 19  ctr ...
+ 22  ctr ...
+ 21  lw ...
+ 24  def ...
+ 11  rw ...
+ 29  def ...</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 139 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Heap Building Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P><BR><BR>
+      <CENTER>
+      <TABLE border=0 cellPadding=2>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=8 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2>1</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>2</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>3</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>4</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>5</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>6</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>7</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>8</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>9</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>10</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><A 
+                  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/140.html">&nbsp;&nbsp;</A></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+        size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 140 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Heapsort (bis)</CENTER></FONT>
+      <HR>
+
+      <P>The second part of <I>heapsort</I> was to output the data from the heap 
+      in sorted order. 
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Output the data in the heap in sorted order</I>
+            <HR>
+<PRE>for i from 1 to n
+   write the record in array[1]
+   last = n - i
+   move the record in array[last+1] to array[1] 
+      (and call its key k)
+
+   while k &gt; the keys of <B><I>either</I></B> of its children
+      exchange record r with the child having 
+         the smaller key
+endfor
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>(careful... the algorithm in Figure 7.23 of Folk &amp; Zoellick 
+      has a bug)</I>
+      <P></CENTER></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 141 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Sorting While Writing the Heap</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=2>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=8 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2>1</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>2</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>3</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>4</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>5</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>6</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>7</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>8</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>9</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>10</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><A 
+                  href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/142.html">&nbsp;&nbsp;</A></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+        size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <HR SIZE=10 width=10>
+
+      <TABLE border=0 cellPadding=2>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=8 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2>&nbsp;1</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>2</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>3</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>4</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2>5</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=7 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+        size=+2>&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 142 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>What's the Point?</CENTER></FONT>
+      <HR>
+
+      <P>The complexity of <I>heapsort</I> is also O(<I>n</I>log<I>n</I>). What 
+      makes it better suited to sorting files than other <I>n</I>log<I>n</I> 
+      sorting algorithms? Let's look at the two parts of <I>heapsort</I>: 
+      <UL>
+        <LI><I>Build a heap from a file of </I>n<I> records</I><BR>Recall that 
+        the algorithm reads a record, sticks it at the end of the array, and 
+        then starts comparing it to records already in the array. That is, to 
+        position a record in the heap, you don't need to know the keys of the 
+        remaining records in the file.
+        <P>Why not keep reading records <I>i+1...</I> while moving record 
+        <I>i</I> into the correct position in the heap!
+        <P></P>
+        <LI><I>Output the data in the heap in sorted order</I><BR>Instead of 
+        writing out every record one at a time, we could buffer records until 
+        there are enough to write an efficient amount of data to disk.
+        <P><I>But couldn't we do that with any sorting algorithm?</I><BR>Yes, 
+        but most algorithms require the data to be completely sorted before 
+        writing it out. The sorting part of <I>heapsort</I> is still underway 
+        during writing, meaning that there will be an advantage to concurrent 
+        writing. Furthermore, every time a record is written out, the heap 
+        shrinks by one record, meaning that <I>no extra RAM is required for 
+        buffering</I>.
+        <P></P></LI></UL><B><I>Q:</I></B> Isn't that cool?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 143 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Please Keep Off the Disk</CENTER></FONT>
+      <HR>
+
+      <P>The best known sorting algorithms are O(<I>n</I>log<I>n</I>). But we 
+      have seen that even algorithms of linear complexity are expensive when the 
+      number of disk accesses is linear. Minimizing disk accesses is even more 
+      important than minimizing the overall complexity of the algorithm.
+      <P>If a file is small enough to fit in RAM (if we have enough RAM to hold 
+      the whole file), we can sort the file with the number of disk accesses 
+      O(<I>n</I>):
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>
+            <OL>
+              <LI><TT>read the entire file into 
+              RAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT> O(<I>n</I>) 
+              <LI><TT>do your favourite internal 
+              sort&nbsp;&nbsp;&nbsp;&nbsp;</TT> O(<I>n</I>log<I>n</I>) 
+              <LI><TT>write the sorted data out to disk&nbsp;&nbsp;</TT> 
+              O(<I>n</I>) </LI></OL></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The disk accesses will still be the slowest part, but O(<I>n</I>) reads 
+      from the file <I>in order</I> is <I>way</I> better than 
+      O(<I>n</I>log<I>n</I>) reads from random positions. We also saw that using 
+      <I>heapsort</I> in step 2 provides an improvement on this general 
+      algorithm, by allowing overlap between the steps.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> But what if the file is too big to fit in RAM?
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 144 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Gimme the Keys</CENTER></FONT>
+      <HR>
+
+      <P>The disk-based versions of the sort algorithms read and write entire 
+      records, but it's only the keys that get compared. Why not just store the 
+      <I>keys</I> in RAM?
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Keysort</I>
+            <HR>
+<PRE>open File<SUB><FONT size=+0>in</FONT></SUB> for reading
+
+for i from 1 to n
+   read record r<SUB><FONT size=+0>i</FONT></SUB> having key k<SUB><FONT size=+0>i</FONT></SUB> from File<SUB><FONT size=+0>in</FONT></SUB>
+   store (k<SUB><FONT size=+0>i</FONT></SUB>, i) in list[i]
+endfor
+
+close File<SUB><FONT size=+0>in</FONT></SUB>
+
+do your favourite sorting algorithm on list
+
+open File<SUB><FONT size=+0>in</FONT></SUB> for reading
+open File<SUB><FONT size=+0>out</FONT></SUB> for writing
+
+for i from 1 to n
+   get (k<SUB><FONT size=+0>j</FONT></SUB>, j) from of list[i]
+   seek to record r<SUB><FONT size=+0>j</FONT></SUB> in File<SUB><FONT size=+0>in</FONT></SUB>
+   read record r<SUB><FONT size=+0>j</FONT></SUB> from File<SUB><FONT size=+0>in</FONT></SUB>
+   write record r<SUB><FONT size=+0>j</FONT></SUB> to position i in File<SUB><FONT size=+0>out</FONT></SUB>
+endfor
+
+close files
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 145 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Keysort: An Example</CENTER></FONT>
+      <HR>
+
+      <P>Here's a file full of records about some people we all know. Of course, 
+      these people have <I>huge</I> records, so the entire file won't fit into 
+      RAM.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>Corbató</FONT></TD>
+          <TD><FONT size=+2>Fernando J.</FONT></TD>
+          <TD><FONT size=+2>90</FONT></TD>
+          <TD><FONT size=+2>EECS</FONT></TD>
+          <TD><FONT size=+2>MIT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Milner</FONT></TD>
+          <TD><FONT size=+2>Robin</FONT></TD>
+          <TD><FONT size=+2>91</FONT></TD>
+          <TD><FONT size=+2>TCL</FONT></TD>
+          <TD><FONT size=+2>CAMB</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Lampson</FONT></TD>
+          <TD><FONT size=+2>Butler W.</FONT></TD>
+          <TD><FONT size=+2>92</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>MSFT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Hartmanis</FONT></TD>
+          <TD><FONT size=+2>Juris</FONT></TD>
+          <TD><FONT size=+2>93</FONT></TD>
+          <TD><FONT size=+2>CISE</FONT></TD>
+          <TD><FONT size=+2>NSF</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Stearns</FONT></TD>
+          <TD><FONT size=+2>Richard E.</FONT></TD></TD>
+          <TD><FONT size=+2>93</FONT></TD>
+          <TD><FONT size=+2>CS</FONT></TD>
+          <TD><FONT size=+2>ALBY</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Feigenbaum</FONT></TD>
+          <TD><FONT size=+2>Edward</FONT></TD>
+          <TD><FONT size=+2>94</FONT></TD>
+          <TD><FONT size=+2>CS</FONT></TD>
+          <TD><FONT size=+2>STFD</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Reddy</FONT></TD>
+          <TD><FONT size=+2>Raj</FONT></TD>
+          <TD><FONT size=+2>94</FONT></TD>
+          <TD><FONT size=+2>SCS</FONT></TD>
+          <TD><FONT size=+2>CMU</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Blum</FONT></TD>
+          <TD><FONT size=+2>Manuel</FONT></TD>
+          <TD><FONT size=+2>95</FONT></TD>
+          <TD><FONT size=+2>CSD</FONT></TD>
+          <TD><FONT size=+2>UCB</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Pnueli</FONT></TD>
+          <TD><FONT size=+2>Amir</FONT></TD>
+          <TD><FONT size=+2>96</FONT></TD>
+          <TD><FONT size=+2>MATS</FONT></TD>
+          <TD><FONT size=+2>WEIZ</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Engelbart</FONT></TD>
+          <TD><FONT size=+2>Douglas</FONT></TD>
+          <TD><FONT size=+2>97</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>BOOT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Gray</FONT></TD>
+          <TD><FONT size=+2>James</FONT></TD>
+          <TD><FONT size=+2>98</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>CNVL</FONT></TD>
+          <TD><FONT 
+      size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 146 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Keysort: An Example (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>list[1..n]</TT></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>(Corbató, 1)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Milner, 2)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Lampson, 3)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Hartmanis, 4)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Stearns, 5)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Feigenbaum, 6)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Reddy, 7)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Blum, 8)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Pnueli, 9)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Engelbart, 10)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Gray, 11)</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 8_files/rarrow-s.gif" width=70></TD>
+          <TD align=middle><FONT 
+            size=+2>My<BR>favourite<BR>sorting<BR>algorithm</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 8_files/rarrow-s.gif" width=70></TD>
+          <TD align=middle><FONT size=+2><TT>list[1..n]</TT></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>(Blum, 8)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Corbató, 1)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Engelbart, 10)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Feigenbaum, 6)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Gray, 11)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Hartmanis, 4)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Lampson, 3)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Milner, 2)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Pnueli, 9)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Reddy, 7)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Stearns, 
+        5)</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 147 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>All that Glitters is not Gold</CENTER></FONT>
+      <HR>
+
+      <P>There were three parts to the <I>keysort</I> algorithm: 
+      <OL>
+        <LI>read all records from the input file in sequence (storing just the 
+        keys) 
+        <LI>sort the keys in RAM 
+        <LI>use the sorted keys to read the records from the input file in 
+        sorted order, writing them out to the output file in sequence </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>There's probably no way to get around the first part (but reading 
+      records in sequence is fairly efficient).
+      <P>The second part is probably the fastest: even if it's 
+      O(<I>n</I>log<I>n</I>), the whole shebang goes on in RAM.
+      <P>What about the last part?
+      <P><BR>
+      <CENTER><FONT size=+4>:-(</FONT></CENTER>
+      <P><BR><BR><B><I>Q:</I></B>Why not just <I>skip</I> the last part 
+      altogether?</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 148 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER><I>Really</I> External Sorting</CENTER></FONT>
+      <HR>
+
+      <P>Sometimes it's not just the <I>size</I> of the records that keeps us 
+      from sorting in RAM. Sometimes it's the <I>number</I> of records. 
+      <I>Keysort</I> won't help us if there are too many records for even the 
+      <I>keys</I> to fit in RAM.
+      <P>Here's an example. Let's say we have 40MB RAM free for sorting. We want 
+      to sort a file that's 100MB long. The file has 5 million records, keys 
+      take up 10 bytes each.
+      <P><B><I>Q:</I></B> We obviously can't load the file into RAM. Why can't 
+      we use <I>keysort</I>?
+      <P><B><I>A:</I></B>
+      <P>In order to sort this file, we have no choice but to break the file 
+      into smaller files and sort the smaller files individually.
+      <P><B><I>Q:</I></B> What do we do with the smaller files once they're 
+      sorted?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 149 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Merging for Sorting Large Files</CENTER></FONT>
+      <HR>
+
+      <P>Using cosequential processing for merging sorted subfiles is obviously 
+      the solution to our <I>big file</I> problem. But doing so poses as many 
+      questions as it answers:
+      <P><B><I>Q:</I></B> How many subfiles should we split our big file into?
+      <P><B><I>Q:</I></B> What are the tradeoffs between a large number of small 
+      files and a small number of large files?
+      <P><B><I>Q:</I></B> Does it make sense to do more than one merge stage?
+      <P><B><I>Q:</I></B> Are there other ways to tailor the merge solution to 
+      this particular problem?
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>Answers to all these questions and more...<BR>next week on File 
+      Management!</I></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 150 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

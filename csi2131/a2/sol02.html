@@ -1,0 +1,183 @@
+
+<html>
+<head>
+<title>CSI 2131 Solution to Assignment #2</title>
+</head>
+
+<body bgcolor=white>
+
+<table width="100%" border=0 cellpadding=5 bgcolor=gray>
+<tr><td align=right><a href=index.html><img src="..\2131.bmp" alt="CSI 2131 Home" align=left border=0></a><font size=+3 color=white>CSI 2131 Solution to Assignment #2</font></td></tr>
+</table>
+
+<p>
+Here is my solution to assignment #2. As usual, your solution probably 
+differs quite a bit. Not to worry.<p>
+
+<hr>
+<h2>brp.c</h2>
+<table border=1 cellpadding=3 width="100%">
+<tr><td>
+<pre>
+#include &lt;stdio.h&gt;
+
+#define TRUE  1
+#define FALSE 0
+
+#define FIFO 1
+#define LRU  2
+#define LFU  3
+
+#define EMPTY -1
+
+#define NUM_BUFS     4
+#define CLUSTER_SIZE 128
+
+
+typedef struct {
+  int cluster_number;       <font color=#008000><i>/* the number of the cluster in this buffer       */</i></font>
+  int when_loaded;          <font color=#008000><i>/* the request number when the cluster was loaded */</i></font>
+  int last_access;          <font color=#008000><i>/* the request number when the cluster was req'd  */</i></font>
+  int num_accesses;         <font color=#008000><i>/* number of accesses since cluster loaded        */</i></font>
+  char buffer[CLUSTER_SIZE];  <font color=#008000><i>/* the buffer itself                            */</i></font>
+} buffer_rec;
+
+int main(int argc, char *argv[]) {
+  int policy, req_num, clus_num, free_buffer, num_repls = 0;
+  int i;
+  int already_loaded;
+  buffer_rec buffer_index[NUM_BUFS];   <font color=#008000><i>/* the buffer index is an array of     */</i></font>
+                                       <font color=#008000><i>/* buffer_rec structures               */</i></font>
+  FILE *disk_file;
+
+  if(argc != 3) {                   <font color=#008000><i>/* make sure there are two arguments      */</i></font>
+    fprintf(stderr, "Usage: brp &lt;rep_policy&gt; &lt;disk_file&gt;\n\n");
+    exit(1);
+  }
+
+  if(argv[1][1] == 0)               <font color=#008000><i>/* make sure the first option is one char */</i></font>
+    switch(argv[1][0]) {
+      case '1': policy = FIFO;
+                fprintf(stderr, "FIFO:\n");
+                break;
+      case '2': policy = LRU;
+                fprintf(stderr, "LRU:\n");
+                break;
+      case '3': policy = LFU;
+                fprintf(stderr, "LFU:\n");
+                break;
+      default:  fprintf(stderr, "Invalid BRP\n\n");
+                exit(2);
+    }
+
+  disk_file = fopen(argv[2], "rb"); <font color=#008000><i>/* open the file for binary reading       */</i></font>
+  if(!disk_file) {
+    fprintf(stderr, "Unable to open %s\n\n", argv[2]);
+    exit(3);
+  }
+
+  for(i = 0; i &lt; NUM_BUFS; i++)     <font color=#008000><i>/* initialize buffer index records        */</i></font>
+    buffer_index[i].cluster_number = EMPTY;
+
+                                    <font color=#008000><i>/* -get cluster number from user          */</i></font>
+                                    <font color=#008000><i>/* -one request per iteration of the loop */</i></font>
+                                    <font color=#008000><i>/* -keep track of the "number" of the req */</i></font>
+  fprintf(stderr, "Cluster to load: ");
+  for(req_num = 0; scanf("%d", &amp;clus_num) != EOF; req_num++) {
+    free_buffer = -1;
+    already_loaded = FALSE;
+                                    <font color=#008000><i>/* check all buffers to see if the        */</i></font>
+                                    <font color=#008000><i>/* requested cluster is already loaded    */</i></font>
+    for(i = 0; i &lt; NUM_BUFS; i++) {
+      if(buffer_index[i].cluster_number == clus_num) {
+        fprintf(stderr, "Cluster %d already in buffer %d\n", clus_num, i+1);
+        already_loaded = TRUE;      <font color=#008000><i>/* update stats for LRU and LFU           */</i></font>
+        buffer_index[i].last_access = req_num;
+        buffer_index[i].num_accesses++;
+      }
+    }
+
+    if(!already_loaded) {
+                                    <font color=#008000><i>/* fseek() to the desired "cluster"       */</i></font>
+      if(fseek(disk_file, clus_num * CLUSTER_SIZE, 0L) == -1)
+        fprintf(stderr, "Invalid cluster number");
+      else {                        <font color=#008000><i>/* check for empty buffers                */</i></font>
+        for(i = 0; i &lt; NUM_BUFS; i++) {
+          if(buffer_index[i].cluster_number == -1) {
+            free_buffer = i;
+            break;
+          }
+        }
+
+        if(free_buffer == -1) {     <font color=#008000><i>/* all buffers full: must replace         */</i></font>
+          free_buffer = 0;
+          num_repls++;
+
+          switch(policy) {
+            case FIFO:              <font color=#008000><i>/* find the buffer that was loaded first  */</i></font>
+              for(i = 0; i &lt; NUM_BUFS; i++)
+                if(buffer_index[i].when_loaded &lt; buffer_index[free_buffer].when_loaded)
+                  free_buffer = i;
+
+              break;
+
+            case LRU:               <font color=#008000><i>/* find the buf accessed least recently   */</i></font>
+              for(i = 0; i &lt; NUM_BUFS; i++)
+                if(buffer_index[i].last_access &lt; buffer_index[free_buffer].last_access)
+                  free_buffer = i;
+
+              break;
+
+            case LFU:               <font color=#008000><i>/* find the buf accessed least frequently */</i></font>
+              for(i = 0; i &lt; NUM_BUFS; i++)
+                if(buffer_index[i].num_accesses &lt; buffer_index[free_buffer].num_accesses)
+                  free_buffer = i;
+
+              break;
+          }
+
+          fprintf(stderr, "replacing cluster %d; ", buffer_index[free_buffer].cluster_number);
+        }
+                                    <font color=#008000><i>/* read the cluster from the file         */</i></font>
+        if(fread(&amp;buffer_index[free_buffer].buffer, CLUSTER_SIZE, 1, disk_file) != 1) {
+          fprintf(stderr, "Error reading disk file\n\n");
+          exit(4);
+        }
+                                    <font color=#008000><i>/* update the buffer index statistics     */</i></font>
+        fprintf(stderr, "loading cluster %d into buffer %d\n", clus_num, free_buffer+1);
+        buffer_index[free_buffer].cluster_number = clus_num;
+        buffer_index[free_buffer].when_loaded = req_num;
+        buffer_index[free_buffer].last_access = req_num;
+        buffer_index[free_buffer].num_accesses = 1;
+      }
+    }
+
+    fprintf(stderr, "Cluster to load: ");
+  }
+
+  switch(policy) {
+    case FIFO: fprintf(stderr, "\nFIFO: ");
+               break;
+    case LRU:  fprintf(stderr, "\nLRU: ");
+               break;
+    case LFU:  fprintf(stderr, "\nLFU: ");
+               break;
+  }
+                                    <font color=#008000><i>/* print out the total replacements       */</i></font>
+  fprintf(stderr, "total buffer replacements: %d\n", num_repls);
+
+  fclose(disk_file);
+
+  exit(0);
+}        
+</pre></td></tr></table><p>
+
+<table width="100%" border=0 cellpadding=0 bgcolor=gray>
+<tr><td align=center><font size=-5>&nbsp;</font></td></tr>
+</table>
+
+<font size=-2><i>(last update March 05, 2000)</i></font>
+
+</body>
+</html>
+

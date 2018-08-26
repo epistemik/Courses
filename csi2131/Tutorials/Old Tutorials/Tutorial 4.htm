@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131 Tutorial #4</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A href="file:///D:/Courses/Csi2131/2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Tutorial 4_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Tutorial #4</FONT></TD></TR></TBODY></TABLE>
+<P>This week's tutorial is intended to help you prepare for the exam. To that 
+end, I am giving you the layout of the exam and a bunch of Quiz-type questions. 
+These questions should give you an idea of the areas you should study. Your TAs 
+have the answers to the questions.
+<P>
+<HR>
+
+<P>
+<H2>Exam layout</H2>The exam is closed-book, no notes, no cheat sheets, no 
+calculators with 32MB of RAM, no telephones, no watches that go beep on the 
+hour, no PCs, no Macs, no copying, no cheating, no faking an injury.
+<P>The exam counts mark-for-mark toward the final grade (20 marks on the midterm 
+translate to 20 marks toward the final grade).
+<P>The exam is in three parts: 
+<UL>
+  <LI>part A: creative questions (e.g., create an algorithm) 
+  <LI>part B: mechanical questions (e.g., apply some technique) 
+  <LI>part C: multiple choice questions (can be about anything) </LI></UL>
+<P>Parts A and B will be worth roughly 4/5 of the marks, part C roughly 1/5.
+<P>
+<HR>
+
+<P>
+<H2>Quiz</H2>
+<OL><BR>
+  <LI>Why can't we run code and use data directly off a disk?
+  <P>(The disk is too slow to be constantly accessing it for every instruction 
+  and byte one at a time)
+  <P><BR></P>
+  <LI>Why can't we store everything in RAM all the time?
+  <P>(RAM is more expensive (per byte) than disks and it's volatile (we lose 
+  whatever is in RAM when the power is turned off))
+  <P><BR></P>
+  <LI>What is a file?
+  <P>(a: a collection of data on some secondary storage device b: a collection 
+  of records)
+  <P><BR></P>
+  <LI>What is a record?
+  <P>(a collection of fields (similar to a record in Pascal))
+  <P><BR></P>
+  <LI>What is a field?
+  <P>(a collection of bytes representing some meaningful piece of information)
+  <P><BR></P>
+  <LI>What is a key?
+  <P>(a subset of fields used to identify records)
+  <P><BR></P>
+  <LI>Must a key be unique?
+  <P>(no)
+  <P><BR></P>
+  <LI>What are "fixed length" fields?
+  <P>(Each field occupies the same number of bytes in every record)
+  <P><BR></P>
+  <LI>What are "variable length" fields?
+  <P>(Each field only occupies the number of bytes needed to hold the value of 
+  the field in each particular record)
+  <P><BR></P>
+  <LI>What are "fixed length" records?
+  <P>(Each record occupies the same number of bytes as every other record)
+  <P><BR></P>
+  <LI>What are "variable length" records?
+  <P>(Each record only occupies the number of bytes needed to hold the value of 
+  its fields)
+  <P><BR></P>
+  <LI>What are the advantages of fixed length fields and records?
+  <P>(The positions of each field and record in the file are predictable (e.g., 
+  you know exactly where field 3 in record 57 begins: (57 * record length) + 
+  length of field 1 + length of field 2))
+  <P><BR></P>
+  <LI>What are the advantages of variable length fields and records?
+  <P>(More compact (better use of space); allows for fields/records of unlimited 
+  length)
+  <P><BR></P>
+  <LI>What happens if you open a file for reading but the file doesn't already 
+  exist?
+  <P>(Usually signals an error)
+  <P><BR></P>
+  <LI>What happens if you open a file for writing but the file doesn't already 
+  exist?
+  <P>(Usually the file will be created)
+  <P><BR></P>
+  <LI>What is the difference between an ASCII file and a binary file?
+  <P>(Both are just a collection of bytes on some secondary storage device. The 
+  difference is that for an ASCII file it is meaningful to interpret all the 
+  bytes in the file according to the corresponding characters in the ASCII 
+  table. In a binary file, there are at least some bytes (often all of them) 
+  that are not intended to be interpreted as characters according to the ASCII 
+  table)
+  <P><BR></P>
+  <LI>What is "sequential organization"?
+  <P>(Records in the file appear in the order in which they were added to the 
+  file)
+  <P><BR></P>
+  <LI>What is "sequential access"?
+  <P>(Records are retrieved from the file in the order in which they appear in 
+  the file). <BR></P>
+  <LI>What is "relative organization"?
+  <P>(Records appear in the file in positions determined by the value of some 
+  key)
+  <P><BR></P>
+  <LI>What is "relative access"?
+  <P>(Records are retrieved from the file by computing the position of the 
+  records according to some formula applied to the key)
+  <P><BR></P>
+  <LI>What is "indexed sequential organization"?
+  <P>(Records with the same key value appear in consecutive positions in the 
+  file; a separate index file contains the start position for each group of 
+  records with the same key value)
+  <P><BR></P>
+  <LI>What is "indexed sequential access"?
+  <P>(Records are retrieved by using the index to find the starting position for 
+  records with a certain key value, then using sequential access within that 
+  group)
+  <P><BR></P>
+  <LI>What is "seek time"?
+  <P>(The time it takes to move the read/write arm to the correct track on disk)
+  <P><BR></P>
+  <LI>What is "rotational delay" (aka "latency")?
+  <P>(The time it takes for the correct sector to spin under the read/write 
+  heads)
+  <P><BR></P>
+  <LI>What is "transfer time"?
+  <P>(The time it takes to read in (or write out) the desired bytes)
+  <P><BR></P>
+  <LI>What is the maximum latency?
+  <P>(The time for the disk to do one full rotation (1/RevsPerSecond) or 
+  (1/RevsPerMinute))
+  <P><BR></P>
+  <LI>What is a cylinder?
+  <P>(the same track on all platters; e.g., track 4 on all platters taken 
+  together is cylinder 4)
+  <P><BR></P>
+  <LI>What is a sector?
+  <P>(a fixed number of bytes (usually 512))
+  <P><BR></P>
+  <LI>What is a cluster?
+  <P>(a fixed number of sectors (usually between 4 and 64))
+  <P><BR></P>
+  <LI>What is an extent?
+  <P>(a group of contiguous clusters that make up part of a file)
+  <P><BR></P>
+  <LI>What is tape mostly used for nowadays?
+  <P>(backup; very high capacity)
+  <P><BR></P>
+  <LI>What is CAV?
+  <P>("constant angular velocity": the spin speed of the disk (or disc) does not 
+  vary)
+  <P><BR></P>
+  <LI>What is CLV?
+  <P>("constant linear velocity": the speed at which a track passes under the 
+  read/write heads does not vary; CLV requires lower angular velocity at the 
+  outer edge of a disc and higher angular velocity at the inner edge of a disc)
+  <P><BR></P>
+  <LI>How many tracks are there on a CD-ROM disc?
+  <P>(one spiral track)
+  <P><BR></P>
+  <LI>What kinds of information are stored in the Directory on a disk?
+  <P>(For each file on disk the Directory contains: file name; read/write 
+  attributes; date and time of modification; the first cluster on disk occupied 
+  by the file; the size of the file; and possibly other stuff)
+  <P><BR></P>
+  <LI>What kinds of information are stored in the Open File Table?
+  <P>(For each file currently open by some program the OFT contains: the mode 
+  the file is open in (read/write); the current read/write position in the file; 
+  and some other stuff)
+  <P><BR></P>
+  <LI>What three things does an entry in the File Allocation table tell us?
+  <P>(entry number N in the FAT having value V tells us 1: cluster number N is 
+  in use by a file 2: cluster number V is the next cluster in use by this same 
+  file 3: entry number V in the FAT tells us which cluster after V is occupied 
+  by the file)
+  <P><BR></P>
+  <LI>What does a value of 0 in a FAT entry mean?
+  <P>(A 0 in entry N in the FAT means that cluster N on disk is not in use by 
+  any file). <BR></P>
+  <LI>What does a value of 0xFFFF in a FAT entry mean?
+  <P>(A 0xFFFF in entry N in the FAT means that cluster N on disk is the last 
+  cluster in use by this file)
+  <P><BR></P>
+  <LI>What is a system Input/Output buffer?
+  <P>(An area of RAM used by the operating system as an exact image of some 
+  portion of disk (such as a cluster))
+  <P><BR></P>
+  <LI>What kinds of information are stored in the Buffer Index?
+  <P>(For each system I/O buffer, the Buffer Index contains: the buffer number; 
+  a pointer to the buffer in RAM; the cluster number of the cluster currently 
+  loaded in the buffer; a "dirty bit" (has the data in the buffer been modified 
+  since loaded?); possibly usage statistics (last time the data in the buffer 
+  was accessed; how many times the data in the buffer has been accessed since it 
+  was loaded; etc.); and possibly other stuff)
+  <P><BR></P>
+  <LI>What is a "buffer replacement policy"?
+  <P>(a mechanism for deciding which buffer gets its data kicked out in order to 
+  make room for the latest request for data from disk)
+  <P><BR></P>
+  <LI>What is the "optimal replacement policy"?
+  <P>(Replace the cluster that will be requested again further in the future 
+  than any other cluster)
+  <P><BR></P>
+  <LI>What is the "first in first out" policy?
+  <P>(Replace the cluster that was loaded into its buffer first of all the 
+  clusters currently in buffers)
+  <P><BR></P>
+  <LI>What is the "least recently used" policy?
+  <P>(Replace the cluster that has not been accessed in the longest time (all 
+  other clusters in buffers have been accessed more recently))
+  <P><BR></P>
+  <LI>What is the "least frequently used" policy?
+  <P>(Replace the cluster that has been accessed the fewest number of times (all 
+  other clusters currently in buffers have been accessed more frequently))
+  <P></P></LI></OL>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update February 11, 1999)</I></FONT> </BODY></HTML>

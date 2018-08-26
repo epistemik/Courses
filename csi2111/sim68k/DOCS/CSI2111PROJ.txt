@@ -1,0 +1,306 @@
+Below you'll find the groups for the project.
+Group Names with * are assigned names.
+Any error below must be reported to
+Dr. Ural by the evening of November 14.
+
+Any person who is taking the course and 
+               is not listed below 
+will be assumed to be doing the project alone
+unless that person 
+- finds at least one person
+  who is NOT already in a group of two, three, or four people
+- forms a group with that person (or with those people)
+- asks the liasion of the new group to send an email to 
+  keqin@playground.net by the evening of November 14.
+
+GROUP NAME : GART*
+MEMBERS    : (Firth,        Alexander)
+             (Mauro,        Gianna)
+             (Hyma,         Ryan)
+             (Smith,        Trevor)
+LIAISON    :  Firth,        Alexander
+
+GROUP NAME : Inphiniti
+MEMBERS    : (Mahinder-Singh,     Gulvinderjit S)
+             (Pall,               Rohan4)
+             (Vu,                 Nicolas)
+             (Mashaie,            Maryam)
+LIAISON    :  Mashaie,            Maryam 
+
+GROUP NAME : The Family
+MEMBERS    : (Assaad,      Hussein)
+             (Estephan,       Tony)
+             (Wakim,         Bruno)
+             (Hojeij,       Yasser)
+LIAISON    :  Assaad,      Hussein 
+
+GROUP NAME : SPICY GIRLS
+MEMBERS    : (QIAN,         HUI)
+             (LIU,  JANE,   JINHUA)
+             (WU,           WEIYUAN)
+             (MAO,          DI)
+LIAISON    :  QIAN,         HUI
+
+GROUP NAME : Four Aces
+MEMBERS    : (Choueiri,      Charbel)
+             (Ghantous,      Chris)
+             (Debs,          Debs Faouzi)
+             (Hammoud,       Firas)
+LIAISON    :  Choueiri,      Charbel
+
+GROUP NAME : Four-Stars
+MEMBERS    : (Que,  Huabin)
+             (Wang, Yongzhong)
+             (Jang, WingHui)
+             (He,   Weiwen)
+LIAISON    :  He,   Weiwen
+
+GROUP NAME : Wild Cats
+MEMBERS    : (Lira,   Kayvan)
+             (Jensen, Chris)
+             (Tieu,   Bai Linh)
+             (Zoong,  Nancy)
+LIAISON    :  Lira,   Kayvan
+
+GROUP NAME : Decohoders
+MEMBERS    : (Pang,             Wesley)
+             (Paquette,         Patrick)
+             (Suhubiette,       Philippe)
+             (Mulvihill,        Bryan)
+LIAISON    :  Pang,             Wesley
+
+GROUP NAME : Noname*
+MEMBERS    : (Puppa,     Dennis)
+             (Yousuf,    Fozi)
+             (Bihi,      Abdurahman)
+             (Ferrer,    Mary)
+LIAISON    :  Puppa,     Dennis
+
+GROUP NAME : WAY
+MEMBERS    : (WANG,  ZHENG)
+             (ANG,   KHIM-YU)
+             (YUAN,  YUAN)
+             (SUH,   ILHWAN)
+LIAISON    :  WANG,  ZHENG
+
+GROUP NAME : CAAN '99
+MEMBERS    : (Sinha,  Chaitali)
+             (Ahmed,  Asma)
+             (Harish, Neetu)
+             (Lovric, Ana)
+LIAISON    : Lovric,  Ana
+
+GROUP NAME : Dundee
+MEMBERS    : (McArthur,      Scott)
+             (Chaudhry,      Asad)
+             (Merchant,      Megan)
+             (Khatri,        Neelam)
+LIAISON    :  McArthur,      Scott
+
+GROUP NAME : MXYZ
+MEMBERS    : (Ma,   Yiqing)
+             (Xu,   Xuening)
+             (Yao,  Zuojin)
+             (Zhang,Wei)
+LIAISON    :  Xu,   Xuening
+
+GROUP NAME : CNDM*
+MEMBERS    : (Azzi,         Christine)
+             (Chamoun,      Natalie)
+             (Kennedy,      Devin)
+             (Soccar,       Morcos)
+LIAISON    :  Chamoun,      Natalie
+
+GROUP NAME : The Multiplexors
+MEMBERS    : (Tedesco,   Steve)
+             (Ceresia,   Michael)
+             (Stevenson, James)
+             (Townsend,  Rick)
+LIAISON    :  Tedesco,   Steve
+
+GROUP NAME : EAAA*
+MEMBERS    : (Azan,       Mohamad)
+             (Araji,      Nahid)
+             (El-Zayed,   Ghada)
+             (Abdulghani, Khaled)
+LIAISON    :  Abdulghani, Khaled
+
+GROUP NAME : A++
+MEMBERS    : (Powell,    Melanie)
+             (Hutchison, Sylvain)
+             (Thizy,     Didier)
+             (Hassanali, Murtaza)
+LIAISON    :  Hutchison, Sylvain
+
+GROUP NAME : Sic
+MEMBERS    : (Achampong,      Charles)
+             (Le,             Tuan)
+             (McCarthy,       Camille)
+             (Taylor,         Lawrence)
+LIAISON    :  Taylor,         Lawrence 
+
+GROUP NAME : NICHITA
+MEMBERS    : (NASSIRI,  KHATEREH)
+             (MIYUSOVA, NATALIA)
+             (GANKA,    SIVAPATHASUNDARAM)
+             (CERNEA,   DANIELA)
+LIAISON    :  CERNEA,   DANIELA
+
+GROUP NAME : The Refugees
+MEMBERS    : (Yoganantham, Jeyananth)
+             (Ghosn,       Allan)
+             (Yogaratnam,  Yogananthan)
+             (Tieu,        Vince)
+LIAISON    :  Tieu,        Vince
+
+GROUP NAME : DANO'S*
+MEMBERS    : (Dano,       Rolando)
+             (Gundy,      Stephen)
+             (Stach,      Tademsz)
+             (Caines,     Lisa)  
+LIAISON    :  Dano,       Rolando 
+
+GROUP NAME : Anna Kournikova & Co.
+MEMBERS    : (Kipp,       Martin)
+             (Roy,        Ludovic)
+             (Pavlova,    Irina)
+LIAISON    :  Kipp,       Martin
+
+GROUP NAME : EAGLE
+MEMBERS    : (NGUYEN,  TU)
+             (MARK,    SATTOLO)
+             (NGUYEN,  THUY)
+LIAISON    :  NGUYEN,  TU 
+
+GROUP NAME : Tinker-techies
+MEMBERS    : (Charland,   Dany)
+             (Markhauser, Paula)
+             (Paktunc,    Sera)
+LIAISON    :  Acheson,    Adele
+
+GROUP NAME : Things that go JMP in the night.
+MEMBERS    : (Morris,         Kent)
+             (Bowes,          Justin)
+             (Phillips,       John)
+LIAISON    :  Morris, Kent
+
+GROUP NAME : Keep it Brown
+MEMBERS    : (Kalampukattu,  George)
+             (Wong,          Vincent)
+             (Sadikali,      Fazal)
+LIAISON    :  Sadikali       Fazal
+
+GROUP NAME : The simulators.
+MEMBERS    : (Haqqani,        Adnan )
+             (Mina,           Negin )
+             (Desrochers,     Johanne)
+LIAISON    :  Haqqani,        Adnan
+
+GROUP NAME : BEES
+MEMBERS    : (He, Yong )
+             (Li, Yan )
+             (Li, HuiLi )
+LIAISON    :  He, Yong
+
+GROUP NAME : Babunina
+MEMBERS    : (Victor,      Wu)
+             (Mak,         King Kuoh David)
+             (Hui,         Ka On)
+LIAISON    :  Hui,         Ka On
+
+GROUP NAME : misers
+MEMBERS    : (Wigmore, Lara)
+             (Ayoub,   George)
+             (Ng,      Lester)
+LIAISON    :  Ng,      Lester
+
+GROUP NAME : The Flip-Flops
+MEMBERS    : (KWOK,        PHILIP)
+             (WU,          VICTOR)
+             (KALASZNIKOW, MIKE)
+LIAISON    :  KALASZNIKOW, MIKE
+
+GROUP NAME : What!, ever
+MEMBERS    : (Wang,    Yuetai)
+             (Zhao,    Ying)
+LIAISON    :  Wang,    Yuetai
+
+GROUP NAME : Chiefs.
+MEMBERS    : (HAMID,      Elmala)
+             (BEDROSSIAN, Paul)
+LIAISON    :  HAMID,      Elmala
+
+GROUP NAME : Asylum Seekers
+MEMBERS    : (Le,          Cong Uoc)
+             (Truong,      Minh Phu)
+LIAISON    :  Le,          Cong Uoc
+
+GROUP NAME : N.V.Group
+MEMBERS    : (Subotic,      Vesna)
+             (Fares,        Nesrine)
+LIAISON    :  Subotic,      Vesna
+
+GROUP NAME : WalTan
+MEMBERS    : (Wall,           Lisa)
+             (Tanwar,         Shashi)
+LIAISON    :  Tanwar,         Shashi
+
+GROUP NAME : Blue X Software
+MEMBERS    : (Glaude,  Martin)
+             (Herdman, Casey)
+LIAISON    :  Glaude,  Martin
+
+GROUP NAME :
+MEMBERS    : (Martin, Heidi)
+             (Chiu,   Jenny)
+LIAISON    :  Chiu,   Jenny
+
+GROUP NAME : Yegor and Piotr
+MEMBERS    : (Goncharov,    Yegor)
+             (Janczyk,      Piotr)
+LIAISON    :  Goncharov,    Yegor
+
+INDIVIDUALS WHO INDICATED THAT THEY WANT TO DO THE PROJECT ALONE:
+
+GROUP NAME : Weicker, Kevin 
+
+GROUP NAME : O'Brien, Derek
+
+GROUP NAME : Petriu, Mihaela
+
+GROUP NAME : Trim, Christine
+
+GROUP NAME : THIZY, DIDIER
+
+GROUP NAME : Lehman, Selena
+
+GROUP NAME : O'Brien, Michel
+
+GROUP NAME : Dolan, Richard
+
+GROUP NAME : Raaphorst, Marc
+
+GROUP NAME : SINGH, SHAUN
+
+GROUP NAME : Khadjehpour, Faranak
+
+GROUP NAME : VO, THI MY PHUONG
+
+GROUP NAME : GRAVES-SMITH, GEOFFREY
+
+GROUP NAME : Dods, Rob
+
+GROUP NAME : Read, John
+
+GROUP NAME : Valiquet, Jennifer
+
+GROUP NAME : Beaupre, Frank
+
+GROUP NAME : KHANAFER, YOLLA
+
+GROUP NAME : Hajji, Samira
+
+GROUP NAME : Kurtoglu, Gurkan
+
+GROUP NAME : Cheah, Andy
+

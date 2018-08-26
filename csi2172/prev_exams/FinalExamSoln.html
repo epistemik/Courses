@@ -1,0 +1,420 @@
+<!DOCTYPE HTML SYSTEM "html.dtd">
+<!-- bgcolor=#004570 -->
+<HTML><HEAD><TITLE>FINAL MODEL SOLUTION</TITLE></HEAD>
+<BODY 
+      bgcolor=#FFFFFD
+      text=navy link=blue vlink=red alink=green>
+
+
+<H2>Question #1. Constructors & Destructor</H2>
+
+   Given the following class definitions, write down the output
+   of the following program segment and explain each line of output:
+<PRE>
+   class C {
+      public:
+         C() {
+           cout << "C::C()" << endl;
+         }
+     
+         C(int) {
+           cout << "C::C(int)" << endl;
+         }
+
+         C(const C&) {
+           cout << "C::C(const C&)" << endl;
+         }
+
+         C& operator=(const C&) {
+           cout << "C::operator=(const C&)" << endl;
+           return *this;
+         }
+
+         ~C() {
+           cout << "C::~C()" << endl;
+         }
+   };
+
+
+   C func(C c1) {
+      C c2(5);
+      
+      c2 = c1;
+      return c2;
+   }
+
+   CODE SEGMENT:
+     ...
+     {
+       C c1,c2;
+
+       c2 = func(c1);
+     }
+     ...
+</PRE>
+<FONT COLOR=red>
+<PRE>
+      C::C()                     c1 constructed
+      C::C()                     c2 constructed
+      C::C(const C&)             c1 passed by value to func
+      C::C(int)                  local c2 in func constructed 
+      C::operator=(const C&)     assignment in c2 = c1
+      C::C(const C&)             copy of c2 constructed, return by value
+      C::~C()                    local c2 gone, func ends
+      C::~C()                    c1 passed gone
+      C::operator=(const C&)     c2 = func(c1)
+      C::~C()                    copy returned by func
+      C::~C()                    c2 leaves scope
+      C::~C()                    c1 leaves scope
+</PRE>
+</FONT>
+
+
+<H2>Question #2. Constructors and Destructors with Inheritance.</H2>
+
+   Consider the following definitions. Give the OUTPUT of the following 
+   program segment, and briefly explain what caused the line to be
+   printed
+
+<PRE>
+      int A = 3;
+
+      class Base {
+         public:
+            Base() {
+               A = A + 2;
+               cout << "Base::Base()" << endl;
+            }
+
+            Base(const Base&) {
+               A = A - 1;
+               cout << "Base::Base(const Base&)" << endl;
+            }
+
+            ~Base() {
+               A = 2*A;
+               cout << "Base::~Base()" << endl;
+            }
+      };
+
+      class Derived: public Base {
+         public:
+            Derived() {
+               A = 3*A;
+               cout << "Derived::Derived()" << endl;
+            }
+
+            Derived(const Derived& d):Base(d) {
+               A = A - 2;
+               cout << "Derived::Derived(const Derived&)" << endl;
+            }
+
+            ~Derived() {
+               A = A + 4;
+               cout << "Derived::~Derived" << endl;
+            }
+      };
+
+   ....
+   {
+    Derived d1, d2(d1);
+   }
+   cout << "A = " << A << endl;
+   ...
+
+</PRE>
+
+<FONT COLOR=red>
+<PRE>
+
+Base::Base()                        constructing d1, Derived calls Base
+Derived::Derived()                  constructing d1
+Base::Base(const Base&)             constructing d2, Derived calls Base
+Derived::Derived(const Derived&)    constructing d2
+Derived::~Derived                   destructor of Derived calls ~Base
+Base::~Base()                       d2 leaving scope
+Derived::~Derived                   destructor of Derived calls ~Base
+Base::~Base()                       d1 leaving scope
+A= 72                               (2 *((2*((((3 *(3+2))-1)-2)+4)) + 4))
+
+</PRE>
+</FONT>
+
+<H2>Question #3</H2>
+   Given the following definitions for class <tt>stack</tt>, implement
+   methods <tt>push</tt>, <tt>pop</tt> and <tt>empty</tt>:
+
+<PRE>
+   struct stack_node {
+      int element;
+      stack_node* next;
+   };
+
+   class stack {<FONT COLOR=green><i>
+      // LINKED STACK:
+      //    stack S; 
+      //    S.push(3); S.push(5); S.push(2); -->
+      //
+      //    S.top->element = 2
+      //         ->next    -> element = 5
+      //                   -> next    -> element = 3
+      //                              -> next    = NULL;
+      //    S.pop() == 2
+      //    S.pop() == 5
+      //    S.pop() == 3
+      //    S.empty() == true</i></FONT>
+      private:
+         stack_node * top;
+ 
+      public:
+         stack():top(NULL) {
+         }
+
+         ~stack() {
+            while(!empty()) pop(); 
+         }
+
+         void push(int);      // YOU IMPLEMENT IT!
+         int pop();           // YOU IMPLEMENT IT!
+         bool empty() const;  // YOU IMPLEMENT IT!
+    };
+</PRE>
+
+<FONT COLOR=red>
+<PRE>
+     void <b>stack::push</b>(i) {
+        stack_node * n = new stack_node;
+        n->element = i;
+        n->next = top;
+        top = n;
+     }
+
+
+     int <b>stack::pop</b>() {
+        if (empty()) {
+           cerr << "CANNOT POP EMPTY STACK!" << endl;
+           <FONT COLOR=green><i>// throw exception or exit()</i></FONT>
+           <FONT COLOR=green><i>// just do something</i></FONT>
+        }
+
+        int v = top->element;
+        stack_node *tmp = top;
+        or top = top->next
+        delete tmp;
+        return v;
+     }
+
+
+     bool <b>stack::empty</b>() const {
+        return top == NULL;
+     }
+</PRE>
+</FONT> 
+
+
+<H2>Question 4</H2>
+   Implement a string class. The <tt>Sting</tt> class is a wrapper for 
+   a <tt>char*</tt>.
+   Implement the <b>copy constructor</b> (1), <b>destructor</b> (2) and
+   method <tt>length</tt> (3).
+   Overload <tt>operator<<</tt> (4) and <tt>operator+</tt> (5).
+   For strings 
+   <PRE>
+      s1("hello"), s2(" world") s3 = s1 + s2;
+   </PRE>
+   <tt>s3</tt> becomes <tt>"hello world"</tt>, while <tt>s1</tt> and 
+   <tt>s2</tt> remain unchanged.
+   <tt>operator<<</tt> prints the string to an output stream. The implementation
+   of the <i>default constructor</i>, should help you understand how an
+   instance of class String is represented.
+
+   You may use:
+ <PRE>
+    <FONT COLOR=green>
+    int strlen(char* s);             // returns the length of s
+    void strcpy(char* s1, char* s2); // copies the characters from
+                                     // s2 into s1
+    </FONT>
+
+     class String {
+        private:
+           char* s;  // 0 byte terminated, dynamic array of characters
+        public:
+            String(char* =NULL);    // default and one argument constructor
+
+            // IMPLEMENT THE METHODS BELOW:
+            String(const String&);  // copy constructor
+            // return a new string, which is obtained by
+            // appending the argument string to a copy of s
+            String operator+(const String&) const;
+            ~String();              // destructor
+            int length() const;     // length of string
+
+        friend ostream& operator<<(ostream&,const String&);
+     };
+
+
+     String::String(char* str) {
+        if (str == NULL) {
+           s = str;
+           return;
+        }
+        s = new char[strlen(str)+1];
+        strcpy(s,str);
+     }
+
+</PRE>
+   <FONT COLOR=red>
+   <PRE>
+      <b>String::String</b>(const String& str) {
+         if (str.s == NULL) {
+            s = NULL;
+            return;
+         }
+         s = new char[str.length()+1];
+         strcpy(s,str.s);
+      }
+
+      <b>String::~String</b>() {
+         delete [] s;
+      }
+
+      String <b>String::operator+</b>(const String& str) const {
+      
+         String ns;
+
+         ns.s = new char[length() + str.length() + 1];
+  
+         strcpy(ns.s,s);
+         strcpy(&(ns.s[length()]),str.s);
+
+         return ns;
+      }
+
+      int <b>String::length</b>() const {
+         return strlen(s);
+      }
+
+      ostream& <b>operator<<</b>(ostream& os,const String& str) {
+         return os << str.s;
+      }
+   </PRE>
+   </FONT> 
+
+<H2>Question #5</H2>
+   Outline your contribution to the project. Select one aspect 
+   of your work that you found was the most important and describe
+   it. (<i>Feel free to use diagrams and C++ code segments, 10-12
+   sentences are sufficient</i>).
+   <br><br> 
+   <FONT COLOR=red>Whatever you did ... </FONT>
+
+<H2>Question #6</H2>
+
+   Implement 
+   <PRE>
+       bool find_digit(unsigned int n, unsigned int k);
+   </PRE>
+   which returns true if and only if digit <tt>k</tt> 
+   occurs in <tt>n</tt>. 
+   <br><br>
+   (Hint: <i>for integers a = 7 ,b = 3,c<br>
+          c = a % b  // modulus, c = 1<br>
+          c = a / b  // integer division, c = 2</i>)
+
+   <FONT COLOR=red>
+   <PRE> 
+   bool find_digit(unsigned int n, unsigned int k) {
+
+     if (n / 10 == 0) return n == k;
+     else return n % 10 == k ? true : find_digit(n/10,k);
+   }
+   </PRE>
+   While the recursive solution is the most obvious you could
+   also have used a <tt>for</tt>, <tt>while</tt> or 
+   <tt>do-while</tt> loop (<i>as far as
+   it works!</i>)
+   
+   <PRE>
+   bool find_digit(unsigned int n, unsigned int k) {
+  
+      while (n/10 != 0) {
+         if (n%10 == k) return true;
+         n = n/10;
+      }
+
+      return n == k;
+   }
+   </PRE>
+
+   </FONT>
+
+<H2>Question #7</H2>
+  Implement a <b>recursive</b> function 
+  <PRE>
+
+   int sum(int b[], int k)
+
+  </PRE>
+   which calculates the sum of the elements stored in 
+   array <tt>b</tt> of length <tt>k</tt>
+   <br><br>
+   You may assume <tt>k >= 1</tt>
+
+   <FONT COLOR=red>
+   <PRE>
+   int sum(int b[], int l) {
+      return l == 1 ? b[0] : b[l-1] + sum(b,l-1);
+   }
+   </PRE>
+   </FONT>
+
+
+<H2>Question #8</H2>
+   Give the output of the following program segment!<br><br>
+
+   To receive partial marks, indicate where <tt>p1, p2, pp1</tt>
+   and <tt>pp2</tt> point after each assignment, in case you get 
+   the output wrong!
+   <PRE>
+
+       int a = 7, b = 3,
+           *p1, *p2,
+           **pp1, **pp2;
+
+  p1 = &a;                 <FONT COLOR=red>// p1->a</FONT>
+  p2 = &b;                 <FONT COLOR=red>// p2->b</FONT>
+  pp1 = &p1;               <FONT COLOR=red>// pp1->p1</FONT> 
+  pp2 = &p2;               <FONT COLOR=red>// pp2->p2</FONT>
+
+  **pp1 = **pp2 + b;       <FONT COLOR=red>// a = b + b = 6</FONT>
+
+  cout << "a = " << a << " b = " << b << endl;
+
+  *pp2  = &a;              <FONT COLOR=red>// p2->a</FONT>
+  **pp1 = *p2 - b;         <FONT COLOR=red>// a = a - b = 3</FONT>
+
+  cout << "a = " << a << " b = " << b << endl;
+
+  p2 = *pp1;               <FONT COLOR=red>// p2 = p1 -> a</FONT>
+  b = *p1 - **pp2;         <FONT COLOR=red>// b = a - a = 0</FONT>
+
+
+  cout << "a = " << a << " b = " << b << endl;
+    </PRE>   
+
+  <FONT COLOR=red>
+  <PRE>
+
+     a = 6 b = 3
+     a = 3 b = 3
+     a = 3 b = 0
+
+  </PRE>
+  </FONT>
+
+  <CENTER> 
+  <A HREF="strip.gif"><IMG SRC="strip.gif" WIDTH=85% BORDER=0></A>
+  </CENTER>
+</BODY>
+</HTML>

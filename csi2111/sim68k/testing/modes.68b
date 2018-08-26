@@ -1,0 +1,168 @@
+/ ; ***************************************************** /
+/ ; *** Modes.68                                      *** /
+/ ; *** Tests different addressing modes of Sim68k    *** /
+/ ; *** Tests MOVE, MOVEA, EXG, CLR                   *** /
+/ ; *** Also, uses BRA, INP, DSP, and HLT             *** /
+/ ; ***************************************************** /
+/  /
+/ ;    Assembly Language             OpCode   Oper1    Oper2  /
+/ ;                                 MSB LSB  MSB LSB  MSL LSB /
+/ ;---------------------------------------------------------- /
+/ ; Branch to the first instruction /
+/ BRA.W @Main                   ; / $92 $60 $00 $3A
+/  /
+/ ; Declarations /
+/  /
+/ DEF.W @Const1,     #$FFFF     ; / $FF $FF
+/ DEF.B @Const2,     #$00       ; / $00
+/ DEF.L @Var1,       #$12345678 ; / $12 $34 $56 $78
+/ DEF.L @Const3,     #$FEDCBA98 ; / $FE $DC $BA $98
+/ DEF.W @Const4,     #$0004     ; / $00 $04
+/ DEF.W @Const5,     #$0007     ; / $00 $07
+/ DEF.B @ArrayB0,    #$00       ; / $00
+/ DEF.B @ArrayB1,    #$01       ; / $01
+/ DEF.B @ArrayB2,    #$02       ; / $02
+/ DEF.B @ArrayB3,    #$03       ; / $03
+/ DEF.B @ArrayB4,    #$04       ; / $04
+/ DEF.L @ArrayBSz,   #$00000005 ; / $00 $00 $00 $05
+/ DEF.W @ArrayW0,    #$0000     ; / $00 $00
+/ DEF.W @ArrayW1,    #$0001     ; / $00 $01
+/ DEF.W @ArrayW2,    #$0002     ; / $00 $02
+/ DEF.L @ArrayWSz,   #$00000003 ; / $00 $00 $00 $03
+/ DEF.L @ArrayL0,    #$11112222 ; / $11 $11 $22 $22
+/ DEF.L @ArrayL1,    #$33334444 ; / $33 $33 $44 $44
+/ DEF.L @ArrayL2,    #$55556666 ; / $55 $55 $66 $66
+/ DEF.L @ArrayL3,    #$77778888 ; / $77 $77 $88 $88
+/ DEF.L @ArrayLSz,   #$00000004 ; / $00 $00 $00 $04
+/  /
+/ ; Main program /
+/ LABEL @Main                   ; /
+/ ;------------------------------ /
+/ ; Data register direct /
+/ ; CLR, DSP, MOVE, EXG /
+/ ;------------------------------ /
+/   CLR.L D0                    ; / $3C $00
+/   MOVE.L @Const3, D1          ; / $C5 $61 $00 $0B
+/   DSP.B D0                    ; / $E8 $00
+/   DSP.W D0                    ; / $EA $00
+/   DSP.L D0                    ; / $EC $00
+/   MOVE.L @Var1, D0            ; / $C5 $60 $00 $07
+/   DSP.L D0                    ; / $EC $00
+/   MOVE.W @Const1, D0          ; / $C3 $60 $00 $04
+/   DSP.L D0                    ; / $EC $00
+/   MOVE.B @Const2, D0          ; / $C1 $60 $00 $06
+/   DSP.L D0                    ; / $EC $00
+/   EXG.B D0, D1                ; / $D1 $01
+/   DSP.L D0                    ; / $EC $00
+/   DSP.L D1                    ; / $EC $10
+/   EXG.W D0, D1                ; / $D3 $01
+/   DSP.L D0                    ; / $EC $00
+/   DSP.L D1                    ; / $EC $10
+/   EXG.L D0, D1                ; / $D5 $01
+/   DSP.L D0                    ; / $EC $00
+/   DSP.L D1                    ; / $EC $10
+/   INP.B D0                    ; / $E0 $00
+/ ;------------------------------ /
+/ ; Absolute /
+/ ; MOVE, CLR, DSP /
+/ ;------------------------------ /
+/   DSP.L $0007                 ; / $EC $60 $00 $07
+/   CLR.B $0007                 ; / $38 $60 $00 $07
+/   DSP.B $0007                 ; / $E8 $60 $00 $07
+/   DSP.W $0007                 ; / $EA $60 $00 $07
+/   CLR.B $0008                 ; / $38 $60 $00 $08
+/   DSP.L $0007                 ; / $EC $60 $00 $07
+/   MOVE.L $000B, $0007         ; / $C5 $66 $00 $0B $00 $07
+/   DSP.B $0009                 ; / $E8 $60 $00 $09
+/   DSP.B $000A                 ; / $E8 $60 $00 $0A
+/   DSP.L $0007                 ; / $EC $60 $00 $07
+/   MOVE.W $0007, $0008         ; / $C3 $66 $00 $07 $00 $08
+/   DSP.L $0007                 ; / $EC $60 $00 $07
+/   MOVE.B $0007, $000A         ; / $C1 $66 $00 $07 $00 $0A
+/   DSP.L $000A                 ; / $EC $60 $00 $0A
+/   INP.B D0                    ; / $E0 $00
+/ ;------------------------------ /
+/ ; Address register direct /
+/ ; MOVEA /
+/ ;------------------------------ /
+/   MOVEA.W  $000F, A0          ; / $DB $62 $00 $0F
+/   DSP.B A0                    ; / $E8 $20
+/   DSP.W A0                    ; / $EA $20
+/   MOVEA.W  $0007, A0          ; / $DB $62 $00 $07
+/   DSP.W A0                    ; / $EA $20
+/   MOVEA.W  $000B, A1          ; / $DB $63 $00 $0B
+/   DSP.W A1                    ; / $EA $30
+/   MOVEA.W  $0004, A1          ; / $DB $63 $00 $04
+/   DSP.W A1                    ; / $EA $30
+/   INP.B D0                    ; / $E0 $00
+/ ;------------------------------ /
+/ ; Address register indirect /
+/ ; DSP /
+/ ;------------------------------ /
+/   DSP.B (A1)                  ; / $E8 $90
+/   DSP.W (A1)                  ; / $EA $90
+/   DSP.L (A1)                  ; / $EC $90
+/   MOVEA.W @Const5, A0         ; / $DB $62 $00 $11
+/   DSP.B (A0)                  ; / $E8 $80
+/   DSP.W (A0)                  ; / $EA $80
+/   DSP.L (A0)                  ; / $EC $80
+/   INP.B D0                    ; / $E0 $00
+/ ;------------------------------ /
+/ ; Address register indirect /
+/ ; with post increment or /
+/ ; pre decrement /
+/ ;------------------------------ /
+/ ; Prepare to display contents /
+/ ; of ArrayB 0..4 /
+/  /
+/   MOVE.L @ArrayBSz, D0        ; / $C5 $60 $00 $18
+/   MOVEA.W  $0013, A0          ; / $DB $62 $00 $13
+/  /
+/ LABEL @L0                     ; /
+/   DSP.B (A0)+                 ; / $E8 $C0
+/   SUBQ.L #$1, D0              ; / $1C $10
+/   BEQ.W @L1                   ; / $A2 $60 $00 $EE
+/   BRA.W @L0                   ; / $92 $60 $00 $E2
+/ ;------------------------------ /
+/ ; Prepare to display contents /
+/ ; of ArrayB 4..0 /
+/  /
+/ LABEL @L1                     ; /
+/   MOVE.L @ArrayBSz, D0        ; / $C5 $60 $00 $18
+/   MOVEA.W  $0018, A0          ; / $DB $62 $00 $18
+/  /
+/ LABEL @L2                     ; /
+/   DSP.B -(A0)                 ; / $E8 $E0
+/   SUBQ.L #$1, D0              ; / $1C $10
+/   BEQ.W @L3                   ; / $A2 $60 $01 $02
+/   BRA.W @L2                   ; / $92 $60 $00 $F6
+/ ;------------------------------ /
+/ ; Prepare to display contents /
+/ ; of ArrayW 0..2 /
+/  /
+/ LABEL @L3                     ; /
+/   MOVE.L @ArrayWSz, D0        ; / $C5 $60 $00 $22
+/   MOVEA.W  $001C, A0          ; / $DB $62 $00 $1C
+/  /
+/ LABEL @L4                     ; /
+/   DSP.W (A0)+                 ; / $EA $C0
+/   SUBQ.L #$1, D0              ; / $1C $10
+/   BEQ.W @L5                   ; / $A2 $60 $01 $16
+/   BRA.W @L4                   ; / $92 $60 $01 $0A
+/ ;------------------------------ /
+/ ; Prepare to display contents /
+/ ; of ArrayL 0..3 /
+/  /
+/ LABEL @L5                     ; /
+/   MOVE.L @ArrayLSz, D0        ; / $C5 $60 $00 $36
+/   MOVEA.W  $0036, A0          ; / $DB $62 $00 $36
+/  /
+/ LABEL @L6                     ; /
+/   DSP.L -(A0)                 ; / $EC $E0
+/   SUBQ.L #$1, D0              ; / $1C $10
+/   BEQ.W @L7                   ; / $A2 $60 $01 $2A
+/   BRA.W @L6                   ; / $92 $60 $01 $1E
+/  /
+/ LABEL @L7                     ; /
+/ ; End of program /
+/   HLT.B                       ; / $F8 $00

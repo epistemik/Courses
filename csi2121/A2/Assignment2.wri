@@ -1,0 +1,63 @@
+Assignment #2
+  Warning: for this assignment you must use only the instructions, macros, and 
+  directives that are described in the first four chapters. 
+
+  Programming Exercise 1: 
+  Write a ASM program that prompts the user to enter an ASCII string made of at 
+  most 32 hexadecimal digits (ie: digits from '0' to '9' and from 'A' to 'F') 
+  followed by <CR>. The program then prints the boolean string (made of only 
+  '0's and '1's) representing the numerical value of the hexadecimal number in 
+  binary form and then exits. If the user enters an invalid character, the 
+  program displays an error message and then exits. If the user enters a valid 
+  string consisting of more than 32 characters, only the conversion of the first 
+  32 characters is displayed. 
+
+  Sample execution (user input is in bold): 
+  C:\ASM>ass2-1 
+  Enter a hex number as a string of at most 32 chars: 
+  B27F9AA5FC 
+  This number in binary is: 
+  1011001001111111100110101010010111111100 
+
+  C:\ASM>ass2-1 
+  Enter a hex number as a string of at most 32 chars: 
+  3A5b5 
+  Wrong input, now exiting... 
+
+    
+  Programming Exercise 2: 
+  Write a ASM program that prompts the user to enter an ASCII string made of at 
+  most 128 boolean digits (ie: digits '0' or '1') followed by <CR>. The program 
+  then prints the hexadecimal string (made of digits from '0' to '9' and from 
+  'A' to 'F') representing the numerical value of the binary number in 
+  hexadecimal form and then exits. If the user enters an invalid character, the 
+  program displays an error message and then exits. If the user enters a valid 
+  string consisting of more than 128 characters, only the conversion of the 
+  first 128 characters is displayed. 
+
+  Sample execution (user input is in bold): 
+  C:\ASM>ass2-2 
+  Enter a boolean number as a string of at most 128 chars: 
+  111100001100101010000011101011000011 
+  This number in hexadecimal is: 
+  F0CA83AC3 
+
+  C:\ASM>ass2-2 
+  Enter a boolean number as a string of at most 128 chars: 
+  11111 
+  This number in hexadecimal is: 
+  1F 
+  C:\ASM>ass2-2 
+  Enter a boolean number as a string of at most 128 chars: 
+  10021 
+  Wrong input, now exiting... 
+    
+  Note that the program displays "1F" when the user enters "11111". This is, 
+  indeed, the correct answer. Make sure that, on this input, your program will 
+  display "1F" instead of "F1". Hence,  your program should display the correct 
+  hexadecimal number when the user enters a binary string made of a number of 
+  characters which is not a multiple of 4. 
+    
+DUE DATE: February 28 at 16:00 
+  FOR CSI 2121: MUST BE SENT BY EMAIL TO: Omran Nasrallah 
+  FOR CSI 2521: MUST BE SENT BY EMAIL TO: Philippe Boudreau

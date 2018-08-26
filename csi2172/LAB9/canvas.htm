@@ -1,0 +1,137 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>CANVAS CLASS</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+
+<H1>CANVAS CLASS</H1>
+<H2><FONT COLOR=red>CANVAS FOR DRAWING</FONT></H2>
+
+This canvas class is a <i>x</i> by <i>y</i> grid of colored pixels.
+A pixel is a <i>color</i> and an <i>id</i> of the figure it belongs to.
+<CENTER>
+   <IMG SRC="canvas.gif" WIDTH=80%>
+</CENTER>
+
+The canvas class is capable of
+<UL>
+   <LI>drawing a particular pixel on the specified position
+   <LI>drawing a line with no gaps between two positions
+   <LI>filling an encosed area bounded by pixels of the same id
+   <LI>creating a <tt>PPM</tt> file (<i><b>P</b>ortable <b>P</b>ixel
+       <b>M</b>ap</i>) in binary and text formats, which can be exported
+       into image viewers
+   <LI>is capable of erasing pixels
+</UL>
+
+<PRE>
+          cv.exe [ .exe ]
+           |
+           +-- <A HREF="canvas.h">canvas.h</A> [ .h ]
+           |
+           +-- <A HREF="canvas.cpp">canvas.cpp</A> [ .cpp ]
+           |
+           +-- <A HREF="color.h">color.h</A> [ .h ]
+           |
+           +-- <A HREF="color.cpp">color.cpp</A> [ .cpp ]
+           |
+           +-- <A HREF="pixel.h">pixel.h</A> [ .h ]
+           |
+           +-- <A HREF="pixel.cpp">pixel.cpp</A> [ .cpp ]
+           |
+           +-- <A HREF="canvastest.cpp">canvastest.cpp</A> [ .cpp ]
+
+</PRE>
+
+Erasure is accomplished by the canvas always keeping a copy of itself.
+If the <tt>clear color</tt> is specified for drawing or filling, then
+as opposed to drawing a new pixel, it uses the color of the pixel of 
+the last saved state of the canvas. The picture below corresponds to
+the <tt>canvastest</tt> program's output. 
+
+
+<CENTER>
+   <IMG SRC="ex.gif" WIDTH=60%>
+</CENTER>
+
+First a triangle is drawn and filled. (<i>picture 1</i>) Then this state is
+saved (<i>copied to bottom</i>) and a red rectangle is drawn on it 
+(<i>picture 2</i>). Finally a smaller rectangle is drawn on that with
+color <tt>clear</tt>. So it copies the pixels from the saved buffer (<i>
+bottom</i>) rather than using a specific color.
+
+<H2>ANNOTATED API DEFINITION</H2>
+
+<b>CLASS</b>: <tt>canvas</tt><br><br>
+<PRE>
+   canvas C(50,100);   // C is a 50 x 100 pixel canvas
+</PRE>
+
+<b>METHODS</b>:<br><br>
+<UL>
+    <tt>void <b>draw_point</b>(int x,int y,const color& c,long id)</tt>
+    <br><br>
+    <UL>
+       draws a pixel at <tt>x,y</tt> with color <tt>c</tt> and
+       <tt>id</tt>. If <tt>x,y</tt> is outside the canvas, the point
+       is not drawn.
+       <br><br>
+    </UL>
+    <PRE>
+void <b>draw_line</b>(int x1, int y1, int x2, int y2,
+               const color& c, long id)
+    </PRE>
+    <UL>
+       draws a line with no gaps between coordinates <tt>x1,y1</tt> and
+       <tt>x2,y2</tt> with color <tt>c</tt> and <tt>id</tt>. It uses
+       Bresenhem's integer algorithm. If <tt>x1,y1</tt> and/or
+       <tt>x2,y2</tt> is outside the canvas, only the portion on
+       the canvas is drawn.
+       <br><br>
+    </UL>
+
+    <tt>void <b>fill_area</b>(int x, int y, long id, const color& c)</tt>
+    <br><br>
+    <UL>
+       starting at <tt>x,y</tt> fills the closed area with color <tt>c</tt>,
+       bounded by pixels with id <tt>id</tt>. If <tt>x,y</tt> is outside
+       the canvas, nothing gets filled
+       <br><br>
+    </UL>
+
+    <tt>void <b>save_canvas</b>()</tt>
+    <br><br>
+    <UL>
+       saves the current canvas in a replica (<i>called <tt>bottom</tt></i>).
+       When the color <tt>clear</tt> is given to <tt>draw_point</tt>,
+       <tt>draw_line</tt> and <tt>fill_area</tt>, then the color of the
+       pixel from this replica will be used, and hence creating the 
+       effect of erasure or transparency.
+       <br><br>
+    </UL>
+
+    <tt>int <b>width</b>() const</tt><br>
+    <tt>int <b>height</b>() const</tt>
+    <br><br>
+    <UL>
+       return the width and height of the canvas measured in pixels.
+       <br><br>
+    </UL>
+
+    <tt>ostream& <b>dump_text_PPM</b>(ostream& os) const</tt><br>
+    <tt>ostream& <b>dump_binary_PPM</b>(ostream& os) const</tt>
+    <br><br>
+    <UL>
+       write canvas in <tt>PPM</tt> (<i>Portable Pixel Map</i>) format
+       onto the stream <tt>os</tt> and return it by reference.
+       <br><br>
+    </UL>
+
+    <tt>color <b>get_color</b>(int x,int y) const</tt> 
+    <br><br>
+    <UL>
+       returns the color of pixel <tt>x,y</tt>
+    </UL>
+</UL>
+ 
+
+</BODY>
+</HTML>

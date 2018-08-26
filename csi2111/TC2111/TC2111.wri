@@ -1,0 +1,151 @@
+CSI 2111 (Oct, 1995)
+
+Architecture of TC2111 "Toy Computer"
+--------------------------------------
+
+All numbers and addresses are in hexadecimal.
+A "number", or "byte" is 2 hexadecimal digits.
+An "address", or "word" is 2 bytes (4 hexadecimal digits).
+A "bit" represents either true or false.
+If a byte stands for a number (i.e., a value) then
+that byte is interpreted as a signed binary integer in 2's CF.
+
+In the program that simulates TC2111 (we will call this program the
+"simulator" from now on), there are type definitions for byte, word, and bit.
+
+
+MEMORY
+------
+We simulate memory with an array.
+The elements of this array are of type "byte" because our machine is
+byte addressable.  The array index is of type "word" because a
+memory address is a "word".  Addresses range from $0000 to $1000.
+
+In the simulator, 
+-- the procedure "loader" reads in a program from a file 
+   and stores it in the memory array starting at address $0000.
+-- the procedure "controller" executes the program read in by loader.
+
+Communication between MEMORY and the CPU is achieved through three
+registers (represented by global variables in the simulator) 
+-- the Memory Address Register (MAR),
+-- the Memory Data Register (MDR), and 
+-- the READ/WRITE bit (RW).
+
+To store a value V into memory location X (this is a "write" operation),
+the CPU must do the following:
+   1. put V into the MDR
+   2. put X into the MAR
+   3. set RW to FALSE (false = "write to memory")
+   4. call the procedure  "access_memory"  (it has no arguments).
+      (in real hardware this step is achieved by setting the
+       "access memory" control line to TRUE)
+      Memory location X now contains a copy of the value V.
+
+To load the value stored in memory location X into the CPU 
+(this is a "read" operation), the CPU must do the following:
+   1. put X into the MAR
+   2. set RW to TRUE (true = "read from memory")
+   3. call the procedure  "access_memory"  (it has no arguments).
+      The MDR now contains a copy of the value stored in location X.
+
+
+CPU REGISTERS and STATUS BITS
+-----------------------------
+In addition to the MAR, MDR and RW, the CPU has the following
+registers and status bits (all are represented in the simulator by
+global variables of the type shown in brackets):
+
+ PC     (word) = program counter. This register holds the memory address of
+                 the NEXT instruction to execute.
+
+ opCode (word) = the opcode of the instruction currently being executed.
+
+ opAddr (word) = the opAddr portion of the instruction currently being executed.
+                 Some instructions need the value stored at that address;
+                 this value is NOT fetched while the instruction is fetched
+                 but must be fetched while the instruction is being executed 
+                 (see step 3 of the Fetch-Execute cycle and the description of 
+                 the individual instructions below).
+
+ A      (word) = Accumulator.  All arithmetic operations uses this register
+                 as an operand and store their result in this register.
+
+ H       (bit) = the "Halt" status bit.  This bit is set to TRUE by the
+                 "halt" instruction (HLT).  If this bit is TRUE, the CPU
+                 halts when it finishes executing the current instruction.
+
+ N       (bit) = the "Negative" status bit.  The arithmetic operations set
+                 this bit to TRUE if they produce a negative result.
+                 Some operations DO NOT affect this bit, so it does not
+                 always reflect the current value in the Accumulator.
+
+ Z       (bit) = the "Zero" status bit.  The arithmetic operations set
+                 this bit to TRUE if they produce a zero result.
+                 Some operations DO NOT affect this bit, so it does not
+                 always reflect the current value in the Accumulator.
+
+
+
+
+FETCH-EXECUTE CYCLE
+-------------------
+In the simulator, the procedure "controller" simulates the fetch-execute cycle.
+It initializes the PC to $0000 (i.e. it assumes the first instruction of
+the machine language program being executed is stored at location $0000)
+and the H-bit to FALSE and then repeats the following until the H-bit
+is TRUE (which happens only if the "halt" instruction is executed -- so all
+programs must have HLT as their last instruction).
+
+  1. Fetch the opcode of the next instruction from memory
+     (the PC holds the address of this instruction) and store it
+     in the opCode register. Increment the PC.
+
+  2. If the instruction has an opAddr, fetch it from memory and store it
+     in the opAddr register.
+
+  3. Execute the instruction.
+     In the simulator, there is a case statement based on the opCode,
+     and separate blocks of code to simulate each instruction.  
+     In hardware the instruction would be executed by activating the 
+     circuitry specific to the instruction.
+     Some instructions require the value stored at the address in the
+     opAddr register.  It is at this point that this value must be retrieved.
+     This is done by copying opAddr into the MAR, setting RW to TRUE ("read"),
+     and calling the "access_memory" procedure.  The retrieved value will
+     be in the MDR.  Now that the value is in a CPU register, the execution
+     of the instruction may proceed.
+
+
+
+Instruction Set of TC2111 "Toy Computer"
+-----------------------------------------
+The number in brackets is the opcode; the names that follow are the
+"mnemonic" name for the instruction.
+
+Instructions with NO OpAddr
+--------------------------
+($0008) CLA = "clear" (set to zero)  the Accumulator
+($0010) INC = "increment" (add 1 to) the Accumulator
+($0060) CP2 = take the 2's complement of the value in the Accumulator
+($0064) HLT = halt (sets the H-bit to TRUE).
+
+Instructions with an OpAddr
+--------------------------
+The OpAddr is always a memory address.
+The symbol X stands for this address in the following descriptions.
+
+($0091) LDA X = "load" the Accumulator = copy the value in memory location X
+                into the Accumulator
+($0039) STA X = "store" the Accumulator = store the value in the Accumulator
+                into memory location X
+($0099) ADD X = fetch the value from memory location X and add it to
+                the Accumulator
+($0001) DSP X = "display". Fetch the value from memory location X and display
+                on the screen X itself (the address) and the value stored at X.
+                In the simulator we fake this using a writeln statement.
+                In real hardware, I/O is fairly complicated.
+($0015) JMP X = "jump" to ("go to") the instruction stored at location X.
+                This instruction will be the next one executed.
+($0017) JZ  X = jump to X  ONLY IF the Z-bit is TRUE.
+($0019) JN  X = jump to X  ONLY IF the N-bit is TRUE.

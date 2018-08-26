@@ -1,0 +1,37 @@
+## example pic file
+##
+## the coordinates are with respect to the coordinate 
+## system below
+define system(-200,-200,200,200);
+
+## the output is an 80x80 pixel picture
+define canvas(80,80); 
+
+# layer 1
+#
+set depth 1;
+
+# set graphics context paramters
+set order 1;
+set filled 1; # true
+set pen_color [0,0,255];
+set fill_color [0,0,255];
+
+draw triangle([-200,200],[200,-200],[-200,-200]);
+
+# layer 0
+set depth 0;
+set order 1;
+
+# set graphics context paramters
+set pen_color [255,0,0];
+set fill_color [255,0,0];
+
+draw circle ([0,0],200);
+
+# layer 2
+set order 2;
+set pen_color [-1,-1,-1];
+set fill_color [-1,-1,-1];
+draw square ([-100,0], 200);
+

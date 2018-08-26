@@ -1,0 +1,984 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec03.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 3</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Secondary Storage</CENTER></FONT>
+      <HR>
+
+      <P><I>Secondary storage</I> refers to storage of data on a device external 
+      to the CPU and main memory (RAM).
+      <P><I>Secondary storage devices</I> are pieces of hardware used for 
+      secondary storage.
+      <P><I>Secondary storage medium</I> is the physical "thing" used by the 
+      secondary storage device for storage.
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Storage Medium</I></B> 
+            <UL>
+              <LI>Disks 
+              <LI>Tape 
+              <LI>CD-ROM 
+              <LI>CD-R and CD-RW 
+              <LI>DVD 
+              <LI>Magneto-optical Discs </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ 3.1, 3.3<BR>§ 3.2, 3.3<BR>§ 3.4 - 3.6<BR>N/A<BR>N/A<BR>N/A 
+            </FONT></P></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Other refs: 
+      <UL>
+        <LI>PC Magazine 
+        <LI>The PC Technology Guide<BR>(<TT>http://www.pctechguide.com</TT>) 
+        </LI></UL><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 36 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: The Physical Level</CENTER></FONT>
+      <HR>
+
+      <P>Nowadays, when we say "disk" (with a 'k') we mean (almost universally) 
+      "hard disk".
+      <P>
+      <CENTER><IMG border=0 src="CSI 2131 - Section 3_files/hd.gif"> </CENTER>
+      <P>Physically, a "disk" is made up of several individual disks: 
+      <UL>
+        <LI>some small number of stacked platters mounted on a spindle 
+        <UL>
+          <LI>platters are aluminum or glass/ceramic, covered with a magnetic 
+          coating </LI></UL>
+        <LI>read/write heads move around between each pair of platters 
+        <LI>the platters spin together at several thousand RPMs (as high as 
+        10,000) 
+        <LI>heads fly on cushion of air around the platters created by the 
+        spinning 
+        <LI>the case is usually sealed to prevent contamination <PRE></PRE></FONT></LI></UL></TD></TR></TBODY></TABLE>
+<CENTER>- 37 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: Organization of Data</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>bits are represented by the orientation (magnetic polarization) of 
+        the magnetic particles on the surface of the platters 
+        <CENTER>
+        <TABLE border=0 cellPadding=3>
+          <TBODY>
+          <TR>
+            <TD align=middle><FONT size=+2>0</FONT></TD>
+            <TD align=middle><FONT size=+2>1</FONT></TD>
+            <TD align=middle><FONT size=+2>0</FONT></TD>
+            <TD align=middle><FONT size=+2>0</FONT></TD>
+            <TD align=middle><FONT size=+2>1</FONT></TD>
+            <TD align=middle><FONT size=+2>0</FONT></TD>
+            <TD align=middle><FONT size=+2>0</FONT></TD>
+            <TD align=middle><FONT size=+2>1</FONT></TD></TR>
+          <TR>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle0.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle1.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle0.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle0.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle1.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle0.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle0.gif"></TD>
+            <TD align=middle><IMG border=0 
+              src="CSI 2131 - Section 3_files/particle1.gif"></TD></TR></TBODY></TABLE></CENTER>
+        <UL>
+          <LI>"reading" detects the polarization, "writing" sets the 
+          polarization </LI></UL>
+        <P></P>
+        <LI>platters consist of concentric rings on each side called 
+        <I>tracks</I> 
+        <LI>tracks are divided into pieces of pie called <I>sectors</I> 
+        <LI>sectors are made up of several bytes
+        <P>
+        <CENTER><IMG border=0 src="CSI 2131 - Section 3_files/platters.gif"> 
+        </CENTER>
+        <P></P>
+        <LI><B><I>formatting:</I></B> marking a magnetic pattern that specifies 
+        the locations of tracks and sectors </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+      <B><I>Q:</I></B> Aren't the sectors wider at the outer edge of the disk?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 38 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: Access</CENTER></FONT>
+      <HR>
+
+      <P>Accessing a particular chunk of data on a disk (on a particular surface 
+      of a platter on a particular track in a particular sector) consists of 
+      several actions:
+      <P>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle vAlign=top><FONT 
+          size=+2><B><I>Action</I></B></FONT></TD>
+          <TD align=middle vAlign=top><FONT 
+          size=+2><B><I>Stat</I></B></FONT></TD>
+        <TR>
+          <TD vAlign=top><FONT size=+2>
+            <OL>
+              <LI>move the read/write arm to the correct track</LI></OL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><I>seek time</I></FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2>
+            <OL start=2>
+              <LI>wait for the correct sector to spin under the read/write 
+              head</LI></OL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><I>rotational delay</I><BR>(aka 
+            <I>latency</I>)</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2>
+            <OL start=3>
+              <LI>read in/write out the sector containing the desired 
+              byte(s)</LI></OL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><I>transfer 
+        time</I></FONT></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Knowing how fast the disk is spinning (RPMs), and the number of bytes 
+      on one track...
+      <P><B><I>Q:</I></B> How would you calculate the average <I>latency</I>?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> How would you calculate the <I>transfer time</I> of N 
+      bytes (for N &lt; the number of bytes/track)?
+      <P><B><I>A:</I></B>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 39 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: Improving Access</CENTER></FONT>
+      <HR>
+
+      <P>The bottleneck in the whole process is moving the read/write arm to the 
+      correct track.
+      <P>
+      <TABLE border=0 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD align=right vAlign=top><FONT size=+2><I>Solution</I></FONT></TD>
+          <TD><FONT size=+2>Move the arm as little as possible.</FONT></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><FONT size=+2><I>How?</I></FONT></TD>
+          <TD><FONT size=+2>Read/write as much as possible before moving to 
+            the next track.</FONT></TD></TR></TBODY></TABLE>
+      <P>For example, when the track being written to becomes full, start 
+      writing to the <I>same track</I> on the <I>next platter</I>.
+      <P>It makes sense to consider the same track on all platters as one 
+      abstract unit: a <I>cylinder</I>. <PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 40 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: A Closer Look at Sectors</CENTER></FONT>
+      <HR>
+
+      <P>Have a look at the sector arrangement on the following (admittedly 
+      misshapen) disk with 23 sectors:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD width="12%"></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD>
+          <TD align=middle width="11%"><FONT size=+3>3</FONT></TD>
+          <TD align=middle width="11%"><FONT size=+3>4</FONT></TD>
+          <TD align=middle width="11%"><FONT size=+3>5</FONT></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>1</FONT></TD>
+          <TD align=middle><FONT size=+3>2</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>6</FONT></TD>
+          <TD align=middle><FONT size=+3>7</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>23</FONT></TD>
+          <TD colSpan=5></TD>
+          <TD align=middle><FONT size=+3>8</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>22</FONT></TD>
+          <TD colSpan=7></TD>
+          <TD align=middle><FONT size=+3>9</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>21</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>&nbsp;</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>10</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>20</FONT></TD>
+          <TD colSpan=7></TD>
+          <TD align=middle><FONT size=+3>11</FONT></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>19</FONT></TD>
+          <TD colSpan=5></TD>
+          <TD align=middle><FONT size=+3>12</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>18</FONT></TD>
+          <TD align=middle><FONT size=+3>17</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>13</FONT></TD>
+          <TD></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD></TD>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>16</FONT></TD>
+          <TD align=middle><FONT size=+3>15</FONT></TD>
+          <TD align=middle><FONT size=+3>14</FONT></TD>
+          <TD></TD>
+          <TD></TD>
+          <TD></TD></TR></TBODY></TABLE></CENTER>
+      <P>If a file were stored contiguously (as files often are), you'd have to 
+      read sector 1 into memory, then sector 2, etc. Unfortunately, in between 
+      reading sectors, it takes some time to get ready to read the next sector. 
+      Since the disk keeps spinning, by the time the system is ready to read the 
+      next sector, it's just passed.
+      <P>This is known as the <I>Transferring at Baseline Station</I> problem.
+      <P>
+      <CENTER><TT><FONT size=+3>:^7</FONT></TT></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 41 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: Interleaving</CENTER></FONT>
+      <HR>
+
+      <P>Solution to the <I>TBS</I> problem: don't place consecutive sectors 
+      contiguously (side-by-each like a pair of toasts)!
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD width="12%"></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD>
+          <TD align=middle width="11%"><FONT size=+3>17</FONT></TD>
+          <TD align=middle width="11%"><FONT size=+3>2</FONT></TD>
+          <TD align=middle width="11%"><FONT size=+3>10</FONT></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD>
+          <TD width="11%"></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>1</FONT></TD>
+          <TD align=middle><FONT size=+3>9</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>18</FONT></TD>
+          <TD align=middle><FONT size=+3>3</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>16</FONT></TD>
+          <TD colSpan=5></TD>
+          <TD align=middle><FONT size=+3>11</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>8</FONT></TD>
+          <TD colSpan=7></TD>
+          <TD align=middle><FONT size=+3>19</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>23</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>&nbsp;</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>4</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+3>15</FONT></TD>
+          <TD colSpan=7></TD>
+          <TD align=middle><FONT size=+3>12</FONT></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>7</FONT></TD>
+          <TD colSpan=5></TD>
+          <TD align=middle><FONT size=+3>20</FONT></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>22</FONT></TD>
+          <TD align=middle><FONT size=+3>14</FONT></TD>
+          <TD colSpan=3></TD>
+          <TD align=middle><FONT size=+3>5</FONT></TD>
+          <TD></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD></TD>
+          <TD></TD>
+          <TD align=middle><FONT size=+3>6</FONT></TD>
+          <TD align=middle><FONT size=+3>21</FONT></TD>
+          <TD align=middle><FONT size=+3>13</FONT></TD>
+          <TD></TD>
+          <TD></TD>
+          <TD></TD></TR></TBODY></TABLE></CENTER>
+      <P>Interspersing sectors in this way is called <I>interleaving</I> 
+      (specifically, this example is 3:1 interleaving).
+      <P><I>N.B.</I> Most disk controllers are fast enough nowadays that disks 
+      are no longer interleaved.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 42 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Disks: Clusters, Extents, Fragmentation</CENTER></FONT>
+      <HR>
+
+      <P>Software (in particular the <I>operating system</I>) sees the disk 
+      somewhat more abstractly:
+      <P><B><I>Cluster</I></B> 
+      <DD>
+      <LI>A group of some fixed number of contiguous sectors. </LI>
+      <DD>
+      <LI>Usually the smallest chunk of disk accessed by the OS. </LI>
+      <DD>
+      <LI>A file consists of one or more clusters.
+      <P><B><I>Extent</I></B> </P></LI>
+      <DD>
+      <LI>A group of contiguous clusters that make up part of a file. </LI>
+      <DD>
+      <LI>A file consists of one or more extents.
+      <P>If a file consists of one extent, all its data is physically together 
+      on disk.
+      <P>If a file consists of more than one extent, its data is scattered in 
+      different places on the disk, kept track of by the OS in the <I>File 
+      Allocation Table</I> (FAT for short).
+      <P>A file consisting of more than one extent is <I>fragmented</I>.
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></LI></DD></TD></TR></TBODY></TABLE>
+<CENTER>- 43 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Tape</CENTER></FONT>
+      <HR>
+
+      <P>Magnetic tape, once used for active data and even programs (!), is now 
+      almost exclusively for backups (except in huge processing houses with huge 
+      computers).
+      <P>The Good News: 
+      <UL>
+        <LI>high capacity (still the only medium that can backup a whole 
+        multi-gig hard drive without swapping media in and out) 
+        <LI>super cheap </LI></UL>The Bad News: 
+      <UL>
+        <LI>sequential access (pretty much useless for most applications other 
+        than backing up) 
+        <LI>low access rate (due to physical constraints and sequential access) 
+        </LI></UL>The Inside Scoop: 
+      <UL>
+        <LI><TT>http://www.pctechguide.com/15tape.htm</TT> </LI></UL><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 44 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Tape: Common Formats</CENTER></FONT>
+      <HR>
+
+      <P>Tape backup systems for the most common machines come in several 
+      flavours:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><B><I>Format</I></B></FONT></TD>
+          <TD align=middle><FONT size=+2><B><I>Max Storage</I></B></FONT></TD>
+          <TD align=middle><FONT size=+2><B><I>Transfer 
+        Rate</I></B></FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2>QIC (<U>Q</U>uarter-<U>I</U>nch-tape 
+            <U>C</U>artridge):<BR><I>looks like an audio cassette 
+          tape</I></FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2>4GB</FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2>1MBps</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2>DAT (<U>D</U>igital <U>A</U>udio 
+            <U>T</U>ape):<BR><I>4mm tape cartridge</I></FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2>24GB</FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2>~2MBps</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT size=+2>8mm:<BR><I>like camcorder 
+            tapes</I></FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2>50GB</FONT></TD>
+          <TD align=middle vAlign=top><FONT 
+      size=+2>6MBps</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 45 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CD-ROM</CENTER></FONT>
+      <HR>
+
+      <P>CD-ROM (Compact Disc-Read Only Memory) is a storage medium based on 
+      technology designed for digital audio (CD-DA: or Compact Disc-Digital 
+      Audio).
+      <P>A CD-ROM: 
+      <UL>
+        <LI>uses a 4.75-inch plastic disc 
+        <LI>data is encoded (and read) optically with a laser 
+        <LI>can store about 650MB </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Compact Discs are used for many things (other than just audio or even 
+      computer storage). For each use there is a set of format specification 
+      books named for the colour of their covers. 
+      <CENTER>
+      <TABLE border=0 cellPadding=1 cellSpacing=10>
+        <TBODY>
+        <TR>
+          <TD align=middle vAlign=top><FONT color=red size=+2>Red 
+          Book</FONT></TD>
+          <TD vAlign=top><FONT size=+2>physical properties of CDs; CD-audio 
+            specs</FONT></TD></TR>
+        <TR>
+          <TD align=middle bgColor=gray vAlign=top><FONT color=yellow 
+            size=+2>Yellow Book</FONT></TD>
+          <TD vAlign=top><FONT size=+2>computer data storage</FONT></TD></TR>
+        <TR>
+          <TD align=middle vAlign=top><FONT color=orange size=+2>Orange 
+            Book</FONT></TD>
+          <TD vAlign=top><FONT size=+2>CD-I, CD-R, CD-RW</FONT></TD></TR>
+        <TR>
+          <TD align=middle bgColor=gray vAlign=top><FONT color=white 
+            size=+2>White Book</FONT></TD>
+          <TD vAlign=top><FONT size=+2>video CDs</FONT></TD></TR>
+        <TR>
+          <TD align=middle vAlign=top><FONT color=blue size=+2>Blue 
+          Book</FONT></TD>
+          <TD vAlign=top><FONT size=+2>enhanced CD-audio 
+        specs</FONT></TD></TR></TBODY></TABLE>
+      <P><!--
+   Red Book
+   - physical properties of CD
+     - sandwich of plastic coated with aluminum coated with laquer
+   - digital audio encoding
+   - allows 74 minutes of audio
+   - 2048-byte sectors in a single spiral track starting from centre of disc 
+     (more than 16,000 "grooves" per inch (groove is the line of the track)
+   - starting from centre of disc means data is recorded starting in the middle
+     then toward the edge as needed
+   - includes error detection and correction codes 
+     (we'll see some later in course)
+   
+   Yellow Book
+   - extensions to Red Book to allow computer data storage on CDs
+   - extended error detection and correction codes 
+     (much stricter error handling)
+   
+   Orange Book
+   - CD-I (CD-interactive) 
+   - 19 hours of audio, 7,500 still images and 72 minutes of 
+     full screen/full motion video (MPEG) on a standard CD
+   - for games/entertainment
+   - dead
+   - Orange Book part II defines specs for CD-R
+   - Orange Book part III defines specs for CD-RW
+   
+   White Book
+   - Video CDs
+   - new format for video and audio tracks together
+   - special compression for video
+   
+   Blue Book
+   - enhanced music CD specs
+   - audio and data on separate tracks (to prevent playing data on your stereo)
+   - special file formats
+   
+--><PRE>
+</PRE></FONT></CENTER></TD></TR></TBODY></TABLE>
+<CENTER>- 46 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CD-ROM: The Juicy Details</CENTER></FONT>
+      <HR>
+
+      <P>The disc is a sandwich of plastic coated with aluminum coated with 
+      laquer.
+      <P>Data (computer data, audio, video, whatever) is represented as series 
+      of <I>pits</I> and <I>lands</I> in the aluminum layer of the sandwich.
+      <P><B><I>Pit:</I></B> a little gouge (0.5 µmeters wide).
+      <P><B><I>Land:</I></B> the flat part between pits.
+      <P>Reading a CD consists of shining a laser at the disc and detecting 
+      changing reflection patterns:
+      <P>
+      <CENTER>
+      <TABLE border=1>
+        <TBODY>
+        <TR>
+          <TD><IMG border=0 src="CSI 2131 - Section 3_files/cd-land.gif"></TD>
+          <TD><IMG border=0 
+        src="CSI 2131 - Section 3_files/cd-pit.gif"></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <UL>
+        <LI><TT>1</TT> = change in reflection due to a transition from land to 
+        pit to land 
+        <LI><TT>0</TT> = a "fixed" amount of time between <TT>1</TT>'s </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> So how can you have two <TT>1</TT>'s in a row?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 47 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CLV and CAV</CENTER></FONT>
+      <HR>
+
+      <P><B><I>CLV</I></B> 
+      <UL>
+        <LI>Constant Linear Velocity 
+        <LI>the speed at which the single spiral track travels under the read 
+        head is constant </LI></UL>
+      <P><B><I>Q:</I></B> If the disk is round and spinning, how can the speed 
+      of the spiral track stay constant from the inner part of the disc to the 
+      outer edge?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>CAV</I></B> 
+      <UL>
+        <LI>Constant Angular Velocity 
+        <LI>the speed at which the disc is spinning is constant </LI></UL>
+      <P><B><I>Trick Q:</I></B> If disc rotation speed is constant, what happens 
+      as the spiral track winds its way toward the outer edge of the disc?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 48 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>That's Not What They Say in the Book</CENTER></FONT>
+      <HR>
+
+      <P>Appendix A of Folk &amp; Zoellick implies that transfer rate must be 
+      constant. That means that Constant Angular Velocity requires density to 
+      decrease (physical size of sectors increase) toward the outer edge.
+      <P>Although that is how hard disks are laid out, CDs maintain fixed 
+      density (and sector size), meaning that transfer rate increases toward the 
+      outer edge with CAV.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=middle><IMG border=0 
+            src="CSI 2131 - Section 3_files/cav-hd.gif"></TD>
+          <TD align=middle><IMG border=0 
+            src="CSI 2131 - Section 3_files/clv.gif"></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=middle vAlign=top><FONT size=+2><I>hard disk 
+            layout:<BR>concentric track rings, variable sector size, variable 
+            density, fixed transfer rate, CAV</I></FONT></TD>
+          <TD align=middle vAlign=top><FONT size=+2><I>CD layout:<BR>single 
+            spiral track, fixed sector size, fixed density, variable transfer 
+            rate, CLV <U>or</U> CAV</I></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 49 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CLV vs. CAV</CENTER></FONT>
+      <HR>
+
+      <P>Orginally CD-ROM drives were all CLV to maintain constant transfer rate 
+      required by CD-audio. 
+      <UL>
+        <LI>drives must slow down toward the outer edge of the disc 
+        <LI>spindle motor is constantly changing speed, causing spindle motor 
+        stress </LI></UL>
+      <P>Most drives now use CAV (or a combination of CAV and CLV) 
+      <UL>
+        <LI>higher transfer rates are possible 
+        <LI>some drives use CAV on inner sectors and switch to CLV toward the 
+        edge 
+        <UL>
+          <LI>if the edge is spinning too fast, reliable reading is not possible 
+
+          <LI>may reach maximum transfer rate (imposed by other parts of the 
+          system </LI></UL>
+        <LI>CAV drives must still be able to operate in single-speed CLV mode 
+        for audio CDs <PRE>
+
+
+</PRE></FONT></LI></UL></TD></TR></TBODY></TABLE>
+<CENTER>- 50 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CD-R</CENTER></FONT>
+      <HR>
+
+      <P><B><I>CD-R</I></B> 
+      <UL>
+        <LI>Compact Disc-Recordable 
+        <LI>no pits! 
+        <LI>disc is a sandwich of: 
+        <UL>
+          <LI>plastic coated with... 
+          <LI><FONT color=#00a0a0>cyan-coloured</FONT>, temperature-sensitive 
+          dye coated with... 
+          <LI>semi-translucent reflective layer of gold coated with... 
+          <LI>laquer </LI></UL></LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>How does it work?</I></B> 
+      <UL>
+        <LI>a high-powered "writing laser" heats a spot on the disc causing the 
+        dye layer of the sandwich to change colour (changing its reflective 
+        properties to mimic a pit) 
+        <LI>once a spot has changed colour, it can't be changed back
+        <P></P></LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Where does it work?</I></B> 
+      <UL>
+        <LI>in a CD-R drive (obviously!) 
+        <LI>a CD-R disc can usually be read in a standard CD-ROM drive, and 
+        sometimes in a DVD drive. </LI></UL><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 51 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CD-RW</CENTER></FONT>
+      <HR>
+
+      <P><B><I>CD-RW</I></B> 
+      <UL>
+        <LI>Compact Disc-ReWritable 
+        <LI>sometimes called CD-E (CD-Erasable) 
+        <LI>discs are backward compatible with CD-ROM 
+        <LI>forward compatible with DVD-ROM drives 
+        <LI>disc is (mostly) a sandwich of: 
+        <UL>
+          <LI>plastic coated with... 
+          <LI>crystalline material coated with... 
+          <LI>semi-translucent reflective material coated with... 
+          <LI>laquer </LI></UL></LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 52 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>CD-RW (cont.)</CENTER></FONT>
+      <HR>
+
+      <P><B><I>How does it work?</I></B> 
+      <UL>
+        <LI>a high-powered laser heats a spot on the crystalline layer to its 
+        melting point (500-700°C) 
+        <LI>when the crystalline material melts, it loses its crystalline 
+        structure (becomes <I>amorphous</I>) 
+        <LI>the crystalline layer is cooled quickly and the amorphous spot 
+        hardens, but stays amorphous 
+        <LI>amorphous spots are less reflective than crystalline areas 
+        <UL>
+          <LI>amorphous spot = pit 
+          <LI>crystalline area = land </LI></UL></LI></UL>
+      <P><B><I>But here's the real trick</I></B> 
+      <UL>
+        <LI>a medium-powered laser can heat amorphous spots to crystallization 
+        temperature (200°C) 
+        <LI>the spot doesn't melt, but it crystallizes again! </LI></UL>
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 53 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>DVD</CENTER></FONT>
+      <HR>
+
+      <P><B><I>DVD</I></B> 
+      <UL>
+        <LI>first it meant "Digital Video Disc", then it meant "Digital 
+        Versatile Disc", now it means ? </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>DVD-ROM</I></B> 
+      <UL>
+        <LI>DVD-Read-Only-Memory 
+        <LI>DVD-ROM drives are backward compatible with CD-ROM, CD-R, CD-RW 
+        <LI>the DVD is very much like a CD: 
+        <UL>
+          <LI>a single spiral track but narrower than CD-ROM's track 
+          <LI>smaller pits 
+          <LI>allows capacity of 4.75GB </LI></UL></LI></UL>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 54 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>But Wait, That's Not All!</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>smaller track and pits allow two sides on a disc no thicker than a 
+        CD-ROM 
+        <LI>size reduction also allows two layers on each side 
+        <UL>
+          <LI>layer of silver coated with... 
+          <LI>semi-translucent layer of gold 
+          <LI>use laser at weaker power to read the gold reflective layer 
+          <LI>increase laser power to read the silver layer below </LI></UL>
+        <LI>2 sides × 2 layers/side = 4 × 4.75GB = 17GB! </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Cool. So why hasn't DVD taken over the (CD) world?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 55 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>DVD-R, DVD-RAM, +RW</CENTER></FONT>
+      <HR>
+
+      <P><B><I>DVD-R</I></B> 
+      <UL>
+        <LI>DVD-Recordable 
+        <LI>uses organic dye that changes colour (like CD-R) </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>DVD-RAM</I></B> 
+      <UL>
+        <LI>DVD-Random Access Memory 
+        <LI>rewritable DVD approved by the <I>DVD Forum</I> 
+        <LI>uses phase-change technology (like CD-RW) 
+        <LI>records in grooves and ridges between grooves of a pre-grooved DVD 
+        <LI>2.6GB/side </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>+RW</I></B> 
+      <UL>
+        <LI>formerly DVD+RW (DVD+ReWritable) but the DVD Forum made HP, Phillips 
+        and Sony change the name 
+        <LI>+RW drives may be able to write CD-R compatible discs 
+        <LI>records in the grooves only, but at much higher density than DVD-RAM 
+
+        <LI>claimed to be more compatible and more practical than DVD-RAM 
+        <LI>3.0GB/side </LI></UL><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 56 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Magneto-Optical</CENTER></FONT>
+      <HR>
+
+      <P>Magneto-optical technology, born in the 1980's, combines the magnetic 
+      technology of disks with the optical technology of lasers.
+      <P>
+      <UL>
+        <LI>a 3½" cartridge stores up to 640MB 
+        <LI>a 5¼" cartridge stores up to 2.6GB, 4.6GB, (5.2GB this year?) 
+      </LI></UL><B><I>How does it work?</I></B> 
+      <UL>
+        <LI>like magnetic media, bits are stored by changing the polarity of 
+        magnetic particles on the surface of a disc coated with magnetic 
+        material 
+        <LI>the difference: on a MO disc, the polarization of its special 
+        magnetic material can't be changed at room temperature 
+        <LI>a tightly-focused laser heats a tiny spot of magnetic particles to 
+        300°C (the <I>Curie point</I>) 
+        <LI>magnetic particles heated to the Curie point can be repolarized with 
+        a magnetic write head </LI></UL>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 57 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Magneto-Optical (cont.)</CENTER></FONT>
+      <HR>
+
+      <P><B><I>So you read it with a magnetic read head, right?</I></B> 
+      <UL>
+        <LI>wrong! 
+        <LI>lasers can read at higher resolution than magnetic heads, allowing 
+        tighter packing of data 
+        <LI>luckily, when you bounce a laser off magnetic particles, their 
+        polarity causes the reflection of the laser to be rotated! </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> If data is packed too tightly to read with a magnetic 
+      head, how can the data be written with a magnetic head?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 58 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

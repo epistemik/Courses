@@ -1,0 +1,10 @@
+Assignment #3
+Warning: for this assignment you must use only the instructions, macros, and directives that are described in the first six chapters. /22
+
+Programming Exercise 1: 
+Write an ASM program that reads a text file from the standard input and displays on the screen /42 the number of words contained in that file. For simplicity, assume that a word is a sequence  /59
+of one or more alphabetic characters (hence, any sequence of one or more non alphabetic   /74
+characters would terminate a word). As usual, use the getch macro to read the standard input /90
+and use the "<" symbol on the Win32 console command line to redirect the input from a file. /107
+I suggest that you use the putint macro to display the number of words. For example, suppose /124
+that we have a text file, named "my_file",  that contains these 2 lines:  /137

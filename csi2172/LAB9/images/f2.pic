@@ -1,0 +1,57 @@
+# size of canvas: 500 x 300
+define canvas(300,200);
+
+# the coordinates are with respect to:
+define system(-100,-100,100,100);
+
+# definition of a figure
+figure myfig(x,y,z,r,g,b,i,j,k) {
+  # [x,y] center of rotation
+  # z rotation angle
+  # [r+i,g+j,b+k] current pen_color
+  # i,j,k are the increments
+  if (z<255) {
+     set filled -1;
+     set pen_color [r+i,g+j,b+k];
+     set rotation_center [x,y];
+     set rotate 1;
+     set rotation_angle z;
+     draw triangle([-50,-50],[100,0],[100,-10]);
+
+     # recursive call
+     draw myfig(x+0.2,y+0.2,z+1,r+i,g+j,b+k,i,j,k);
+  } else {
+     set filled 1;
+     set fill_color [r,g,b];
+     draw ellipse([x,y],30,20);
+     set filled -1;
+  }
+}
+
+set depth 1; # bottom layer
+set pen_color [0,0,200];
+set fill_color [0,0,200];
+set filled 1; # true
+draw triangle ([-100,-100],[100,-100],[-100,100]);
+
+
+set depth 0; # top layer
+
+set order 0;
+# calling "myfig"
+#
+draw myfig(50,-80,-60,0,0,0,1,0,0);
+
+draw myfig(-50,-50,80,0,0,0,1,1,0);
+
+draw myfig(0,0,0,0,0,0,0,0,1);
+
+draw myfig(-200,200,-120,0,0,0,0,1,0);
+
+set order 1;
+set pen_color [-1,-1,-1];
+set fill_color [-1,-1,-1];
+set rotate -1; # false
+set center_angle -10;
+set filled 1;
+draw ellipse([0,0],200,12);

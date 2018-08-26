@@ -1,0 +1,453 @@
+
+<html>
+<head>
+<title>CSI 2131A - Winter 1999 Midterm Exam</title>
+</head>
+
+<body bgcolor=#FFFFFF>
+
+<!----------><table border=0 cellpadding=0 width="100%"><tr><td><!---------->
+
+<center>
+<font size=+2><b><i>CSI 2131A</font><br>
+<font size=+1>Winter 1999 Midterm Exam</i></b></font><p>
+
+Friday, February 12, 1999<p>
+
+<table border=1 cellpadding=15 width="50%">
+<tr>
+<td align=right width="30%"><b><i>Family Name</i></b></td>
+<td width="70%">&nbsp;</td>
+</tr>
+<tr>
+<td align=right><b><i>Given Name</i></b></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td align=right><b><i>Student Number</i></b></td>
+<td>&nbsp;</td>
+</tr>
+</table><p>
+
+</center>
+
+<hr><p>
+
+<b><i>Notes:</i></b>
+<ol>
+<li>This is a closed book exam. Textbooks, notes, cheat sheets and
+stuff written under the brim of your baseball cap are <b>not</b> allowed.
+<li>Calculators are <b>not</b> allowed.
+<li>Anything other foreign entity, abstract or concrete, that would
+help you answer questions on the exam is <b>not</b> allowed.
+<li>There are 9 pages. Write your name and student number on
+<i>every</i> page.
+<li>Answer <i>all</i> of the questions on the exam in <i>all three
+parts</i> of the exam.
+<li>You have 100 minutes to complete the exam.
+</ol><p>
+
+<b><i>Marks:</i></b><p>
+
+<center>
+<table border=1 cellpadding=5>
+<tr>
+<td colspan=6 align=center><b><i>Question</i></b></td>
+<td rowspan=2>&nbsp;</td>
+</tr>
+<td colspan=2 align=center><i>Part A</i></td>
+<td colspan=3 align=center><i>Part B</i></td>
+<td align=center><i>Part C</i></td>
+</tr>
+<tr>
+<td align=center>1<br>(4 marks)</td>
+<td align=center>2<br>(4 marks)</td>
+<td align=center>3<br>(3 marks)</td>
+<td align=center>4<br>(3 marks)</td>
+<td align=center>5<br>(3 marks)</td>
+<td align=center>6<br>(4 marks)</td>
+<td align=center><i>Total</i><br>(20 marks)</td>
+</tr>
+<tr>
+<td><br>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+</tr>
+</table>
+</center>
+
+<div align=right>1 of 9</div>
+
+<!--------------------------></td></tr></table><!--------------------------->
+
+<hr>
+
+<h2>Part A</h2>
+
+<h3>Question 1:</h3>
+
+Write a program (preferably in pseudocode, but in C or Pascal if you
+must) that opens two files: the index file <tt>tornados.ndx</tt> and 
+the data file <tt>tornados.dat</tt>. The file <tt>tornados.ndx</tt> 
+has one city on each line followed by a comma ',' followed by the byte 
+offset inside tornados.dat for records for that city. Your program 
+must read through <tt>tornados.ndx</tt> to find the byte offset for 
+the records for the city of "Shreveport", then go to that position in 
+<tt>tornados.dat</tt> and print out all the records for Shreveport.
+Records in <tt>tornados.dat</tt> appear one per line.<p>
+
+You may assume that both Pascal and pseudocode have a 
+<tt>seek(File, Position)</tt> procedure that moves the current read 
+position in <tt>File</tt> to the byte offset <tt>Position</tt>. You may 
+also assume in C, Pascal and pseudocode that you have access to 
+procedures to read complete lines as strings, read comma-separated
+string and integer fields, print complete lines and compare the first 
+N bytes of two strings.<p>
+
+<center>
+<table border=1 cellpadding=5>
+<tr><td>tornados.ndx</td><td>tornados.dat</td></tr>
+<tr>
+<td valign=top><pre>
+ Huntsville,     0 
+ Topeka,       284 
+ Oklahoma City,412 
+ Little Rock,  668 
+ Tulsa,        803 
+ Pasadena,     964 
+ ...</pre></td>
+<td valign=top><pre>
+ Huntsville,Alabama,1996,... 
+ Huntsville,Alabama,1996,... 
+ Huntsville,Alabama,1997,... 
+ ... 
+ Topeka,Kansas,1996 
+ Topeka,Kansas,1997 
+ ... 
+ ...</pre></td>
+</tr>
+</table>
+</center>
+
+
+<div align=right>2 of 9</div>
+
+<hr>
+
+<div align=right>3 of 9</div>
+
+<hr>
+
+<h3>Question 2:</h3>
+
+Here is a picture of the beginning of a 16-bit File Allocation Table:<p>
+
+<center>
+<table border=1 cellpadding=10>
+<tr>
+<td>0xFFFF</td>
+<td>0x0002</td>
+<td>0x0003</td>
+<td>0x0004</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x000E</td>
+<td>0x0008</td>
+</tr>
+<tr>
+<td>0x0009</td>
+<td>0x000A</td>
+<td>0x000B</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td>0x0011</td>
+<td>0x0012</td>
+<td>0x0019</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0017</td>
+<td>0x0010</td>
+</tr>
+<tr>
+<td>0x0000</td>
+<td>0xFFFF</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td colspan=8>. . .</td>
+</tr>
+</table><p>
+</center>
+
+Show what the File Allocation Table would look like after deleting the
+file that begins in cluster 0x0006 and creating and writing a new file 
+<tt>foobar.dat</tt> that is 7,500 bytes long. Clusters are exactly 
+1000 bytes long. You should also assume that clusters are allocated by 
+taking the first available cluster first.<p>
+
+You can use the following empty grid to show the new File Allocation 
+Table.<p>
+
+<center>
+<table border=1 cellpadding=10>
+<tr>
+<td width=50>0x</font></td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+<td width=50>0x</td>
+</tr>
+<tr>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+</tr>
+<tr>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+</tr>
+<tr>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+</tr>
+<tr>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+<td>0x</td>
+</tr>
+<tr>
+<td colspan=8>. . .</td>
+</tr>
+</table><p>
+</center>
+
+<div align=right>4 of 9</div>
+
+<hr>
+
+<h2>Part B</h2>
+
+<h3>Question 3:</h3>
+
+A disk has 10 platters, 5000 tracks per platter, 100 sectors per track 
+and 512 bytes per sector.<p>
+
+It takes 1 ms to move the read/write arm from one track to an adjacent
+track.<p>
+
+Assume that it takes 0 ms to switch from reading a track on one platter
+to reading the same track on a different platter.
+
+The disk is spinning at 100 revolutions per second.
+
+A file <tt>foo.bar</tt> starts at the beginning of sector 10 on track 1000 
+on platter 2. The read/write heads are currently at the beginning of sector 
+60 over track 985.<p>
+
+<table border=0 cellpadding=5>
+<tr>
+<td>
+<ol type=a>
+<li>What is the maximum rotational delay?<p>
+<li>What is the transfer rate?<p>
+</ol>
+</td>
+</tr>
+<tr><td colspan=2>
+<ol type=a start=3>
+<li>If the file is 76,800 bytes long and is stored as efficiently as
+possible, how much time elapses before the entire file is read
+(starting with the read/write heads and disk in their current
+positions)?
+</ol></td>
+</tr>
+</table>
+
+<div align=right>5 of 9</div>
+
+
+<hr>
+
+<h3>Question 4:</h3>
+
+Compact discs use what's called "eight-to-fourteen modulation" (EFM).
+It is possible to represent all possible eight-bit values (256 values)
+using fourteen bits with at least two 0's between every two 1's.<p>
+
+Prove that it is possible to represent 8 different values using four
+bits such that no two 1's are side-by-side.<p>
+
+
+<div align=right>6 of 9</div>
+
+<hr>
+
+<h3>Question 5:</h3>
+
+You have four system I/O buffers. A program requests five different
+clusters (21, 22, 23, 24, 25) in the following order:<p>
+<center>
+22&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;
+21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;
+24&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;
+23&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;
+21&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;
+24&nbsp;&nbsp;&nbsp;25
+</center><p>
+
+Which of the following buffer replacement policies performs the best 
+(makes the fewest replacements): First-In-First-Out (FIFO), Least 
+Recently Used (LRU), Least Frequently Used (LFU)?<p>
+
+
+<div align=right>7 of 9</div>
+
+<hr>
+
+<h2>Part C:</h2>
+
+<h3>Question 6:</h3>
+
+For all 10 questions (i to x), circle exactly one answer letter,
+a, b, c, d <i>or</i> e.<p>
+
+<ol type=i>
+<li>A "key" is:
+<ol type=a>
+  <li>a unique identifier for each record in a file.
+  <li>a password for protecting files from unwanted access.
+  <li>all that is required for relative access to files.
+  <li>some subset of the fields in a file.</font>
+  <li>none of the above.
+</ol><p>
+
+<li>Variable length records:
+<ol type=a>
+  <li>allow for a more compact file.</font>
+  <li>permit simple random access to records in a file.
+  <li>are not possible with fixed length fields.
+  <li>change length at run time.
+  <li>none of the above.
+</ol><p>
+
+<li>A binary file:
+<ol type=a>
+  <li>contains numeric data.
+  <li>is made up of two-byte groups of hexadecimal data.
+  <li>makes no assumption about the 256 different byte values.</font>
+  <li>contains data that cannot be displayed.
+  <li>none of the above.
+</ol><p>
+
+<li>Relative access requires:
+<ol type=a>
+  <li>a key-to-record formula.</font>
+  <li>a sorted file.
+  <li>a file of "relations".
+  <li>two separate files.
+  <li>none of the above.
+</ol><p>
+
+<li>Most hard disks today are:
+<ol type=a>
+  <li>not CAV.
+  <li>not reliable.
+  <li>not addressed by cylinder.
+  <li>not interleaved.</font>
+  <li>none of the above.
+</ol><p>
+
+</ol><p>
+
+<div align=right>8 of 9</div>
+
+<hr>
+
+<ol type=i start=6>
+<li>CD-ROM drives cannot use CAV because:
+<ol type=a>
+  <li>CD sectors are fixed length, fixed density.
+  <li>CDs have a single spiral track.
+  <li>CD audio requires constant transfer rates.
+  <li>storage capacity would be less than for CLV.
+  <li>none of the above.</font>
+</ol><p>
+
+<li>A program's data area:
+<ol type=a>
+  <li>is restricted to 64KB.
+  <li>is protected against access by the operating system.
+  <li>can be used to avoid inefficient disk accesses.</font>
+  <li>is an image of a portion of data on disk.
+  <li>none of the above.
+</ol><p>
+
+<li>System I/O buffers:
+<ol type=a>
+  <li>must be replaced when "dirty".
+  <li>can be maintained by application programs (such as a DBMS) if necessary.
+  <li>are no longer used by most operating systems.
+  <li>contain information such as cluster number, number of accesses, etc.
+  <li>none of the above.</font>
+</ol><p>
+
+<li>Double Buffering:
+<ol type=a>
+  <li>is only possible on two-CPU machines.
+  <li>allows reading from and writing to the same buffer.
+  <li>allows for more efficient CPU usage.</font>
+  <li>allows loading two clusters in one buffer.
+  <li>none of the above.
+</ol><p>
+
+<li>The Least Frequently Used Policy (LFU) has a bias:
+<ol type=a>
+  <li>against old clusters.
+  <li>against dirty buffers.
+  <li>against recently used clusters.
+  <li>against recently loaded clusters.</font>
+  <li>none of the above.
+</ol><p>
+
+</ol><p>
+
+<div align=right>9 of 9</div>
+
+</body>
+</html>
+

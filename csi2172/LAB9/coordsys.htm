@@ -1,0 +1,65 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>COORDSYS CLASS</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=navy link=blue vlink=red alink=green>
+
+<H1>COORDSYS CLASS</H1>
+<H2><FONT COLOR=red>MAPPING AND ROTATION OF COORDINATES</FONT></H2>
+
+An instance of <tt>coordsys</tt> can be used to translate
+coordinates from one coordinate system to the other, 
+and to return the resulting coordinate of a coordinate
+rotated.
+
+<PRE>
+  coord.exe [ .exe ]
+    |
+    +-- <A HREF="coordsys.h">coordsys.h</A> [ .h ]
+    |
+    +-- <A HREF="coordsys.cpp">coordsys.cpp</A> [ .cpp ]
+    | 
+    +-- <A HREF="coordtest.cpp">coordtest.cpp</A> [ .cpp ]
+ 
+    (<A HREF="coord.make">coord.make</A>)
+    
+</PRE>
+<H3>ANNOTATED API DOCUMENTATION</H3>
+
+<UL>
+   <b>CLASS</b>: <tt>coordsys</tt>
+   <PRE>
+     coordsys S(-20,-50,100,80);
+     // S is a coordinate system with bottom left
+     // corner <-20,-50> and upper right corner <100,80>
+
+   </PRE>
+
+   <b>METHODS</b>:<br><br>
+   <UL>
+      <tt>coordinate <b>map</b>(coordsys S, coordinate c)</tt>
+      <br><br>
+      <UL>
+         returns the image of coordinate <tt>c</tt> from
+         system <tt>S</tt> in <tt>this</tt> system.
+         <PRE>
+  coordsys S1(-200,-200,100,0),
+           S2(1.2,1.7,3.4,4.8);
+  coordinate c1(60,82.5);
+
+  coordinate c2 = S2.map(S1,c1);
+  // c2 is the image in S2 of c1 defined in S1
+         </PRE>
+      </UL>
+
+      <tt>coordinate <b>rotate</b>(coordinate p, coordinate o, double a)</tt>
+      <br><br>
+      <UL>
+         returns the coordinate obtained by rotating <tt>p</tt> about
+         <tt>o</tt> by <tt>a</tt> many degrees.
+      </UL>
+      
+   </UL>
+</UL>
+
+
+</BODY>
+</HTML>

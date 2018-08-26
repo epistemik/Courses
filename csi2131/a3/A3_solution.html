@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sol03.html -->
+<HTML><HEAD><TITLE>CSI 2131 Solution to Assignment #3</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="a3_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Solution to Assignment #3</FONT></TD></TR></TBODY></TABLE>
+<P>Here is my solution to assignment #3. As usual, your programs may not quite 
+match mine, but as you will see, mine are basically line-for-line translations 
+of the pseudocode algorithms I gave you.
+<P>
+<HR>
+
+<H2>crap.c</H2>
+<CENTER>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+#define FALSE 0
+#define TRUE  1
+
+<FONT color=green><I>/* the initial dictionary: 64 entries, each entry a one-character string */</I></FONT>
+
+unsigned char dict[256][32] = {
+  "\0", "\n", " ", "!", "\"", "#", "$", "%", 
+  "&amp;", "\'", "*", "+", ",", "-", ".", "/",
+  "0", "1", "2", "3", "4", "5", "6", "7",
+  "8", "9", ":", ";", "(", "=", ")", "?",
+  "A", "B", "C", "D", "E", "F", "G", "H",
+  "I", "J", "K", "L", "M", "N", "O", "P",
+  "Q", "R", "S", "T", "U", "V", "W", "X",
+  "Y", "Z", "[", "]", "\\", "^", "@", "_" 
+};
+
+
+<FONT color=green><I>/******************************************************************************/</I></FONT>
+<FONT color=green><I>/* the reduce() function takes any ASCII character and maps it to one of the  */</I></FONT>
+<FONT color=green><I>/* 64 in the initial dictionary; lower case characters are converted to upper */</I></FONT>
+<FONT color=green><I>/* case; symbols not in the dictionary are converted to spaces.               */</I></FONT>
+
+unsigned char reduce(int ch) {
+  int i;
+
+  if(ch &gt;= 'a' &amp;&amp; ch &lt;= 'z')
+     return((unsigned char) ch - ('a' - 'A'));  <FONT color=green><I>/* lower case to upper case   */</I></FONT>
+
+  for(i = 1; i &lt; 64; i++)
+    if(ch == dict[i][0])                        <FONT color=green><I>/* check if ch is in the dict */</I></FONT>
+      return((unsigned char) ch);
+
+  return(' ');
+}
+
+
+int main(int argc, char *argv[]) {
+  int filenum, i, WCode, inK, intag, endofdict, indict;
+  unsigned char K, W[32], WK[32];
+  FILE *InF, *OutF;
+
+  if(argc &lt; 3) {                         <FONT color=green><I>/* check for command line arguments  */</I></FONT>
+    printf("Usage: crap &lt;outputfile&gt; &lt;inputfile&gt;...\n\n");
+    exit(1);
+  }
+
+  OutF = fopen(argv[1], "wb");           <FONT color=green><I>/* open the output file (binary)     */</I></FONT>
+  if(!OutF) {
+    printf("Unable to open outputfile %s\n\n", argv[1]);
+    exit(2);
+  }
+
+  endofdict = 64;                        <FONT color=green><I>/* keep track of the end of dict     */</I></FONT>
+
+                                         <FONT color=green><I>/* for each file on the command line */</I></FONT>
+  for(filenum = 2; filenum &lt; argc; filenum++) {
+    InF = fopen(argv[filenum], "r");     <FONT color=green><I>/* open the file for reading         */</I></FONT>
+    if(InF) {
+      putc('\0', OutF);                  <FONT color=green><I>/* write the NULL byte to the output */</I></FONT>
+      for(i = 0; argv[filenum][i]; i++)  <FONT color=green><I>/* write the file name to the output */</I></FONT>
+        putc(argv[filenum][i], OutF);
+      putc('\0', OutF);                  <FONT color=green><I>/* write another NULL to the output  */</I></FONT>
+
+      W[0] = 0;                          <FONT color=green><I>/* set W to the empty string         */</I></FONT>
+      WCode = 0;                         <FONT color=green><I>/* set WCode to 0                    */</I></FONT>
+
+      intag = FALSE;
+      inK = getc(InF);                   <FONT color=green><I>/* read a char inK from the inputfile*/</I></FONT>
+      while(inK != EOF) {                <FONT color=green><I>/* check for end of file             */</I></FONT>
+        if(intag) {                      <FONT color=green><I>/* if we're currently in an HTML tag */</I></FONT>
+          if(inK == '&gt;')                 <FONT color=green><I>/* check for the tag closer '&gt;'      */</I></FONT>
+            intag = FALSE;
+        }                                <FONT color=green><I>/* if we're not in an HTML tag       */</I></FONT>
+        else if(inK == '&lt;') {            <FONT color=green><I>/* check for the tag opener '&lt;'      */</I></FONT>
+          intag = TRUE;
+        }                                <FONT color=green><I>/* we're not in an HTML tag or       */</I></FONT>
+        else {                           <FONT color=green><I>/* at the start of an HTML tag       */</I></FONT>
+          K = reduce(inK);               <FONT color=green><I>/* so reduce inK to K                */</I></FONT>
+
+          strcpy(WK, W);                 <FONT color=green><I>/* copy W into WK                    */</I></FONT>
+          i = strlen(WK);
+          WK[i] = K;                     <FONT color=green><I>/* stick K on the end of WK          */</I></FONT>
+          WK[i+1] = 0;
+
+                                         <FONT color=green><I>/* search for WK in the LZW dict     */</I></FONT>
+          for(i = 1, indict = FALSE; i &lt; endofdict &amp;&amp; !indict; i++) {
+            if(!strcmp(WK, dict[i])) {
+              indict = TRUE;             <FONT color=green><I>/* WK is in the dict                 */</I></FONT>
+              WCode = i;                 <FONT color=green><I>/* at position i                     */</I></FONT>
+            }
+          }
+
+          if(indict)                     <FONT color=green><I>/* if WK is in the LZW dictionary    */</I></FONT>
+            strcpy(W, WK);               <FONT color=green><I>/* stick K on the end of W           */</I></FONT>
+          else {                         <FONT color=green><I>/* if WK is not in the dict          */</I></FONT>
+            putc(WCode, OutF);           <FONT color=green><I>/* output the code for W             */</I></FONT>
+                                         <FONT color=green><I>/* and add WK to the dictionary      */</I></FONT>
+            if(strlen(WK) &lt; 31 &amp;&amp; endofdict &lt; 256) {
+              strcpy(dict[endofdict], WK);
+              endofdict++;
+            }
+
+            W[0] = K;                    <FONT color=green><I>/* set W to K                        */</I></FONT>
+            W[1] = 0;
+            for(i = 1; i &lt; endofdict; i++)
+              if(dict[i][0] == K &amp;&amp; dict[i][1] == 0)
+                WCode = i;               <FONT color=green><I>/* set WCode to K's pos in the dict  */</I></FONT>
+
+          }
+        }
+
+        inK = getc(InF);                 <FONT color=green><I>/* read the next char inK            */</I></FONT>
+      }
+
+      putc(WCode, OutF);                 <FONT color=green><I>/* write WCode to the output file    */</I></FONT>
+
+      fclose(InF);                       <FONT color=green><I>/* close the input file              */</I></FONT>
+    }
+  }
+
+  fclose(OutF);                          <FONT color=green><I>/* close the output file             */</I></FONT>
+
+  exit(0);
+}
+</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<HR>
+
+<H2>uncrap.c</H2>
+<CENTER>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+#define FALSE 0
+#define TRUE  1
+
+<FONT color=green><I>/* the initial dictionary: 64 entries, each entry a one-character string */</I></FONT>
+
+unsigned char dict[256][32] = {
+  "\0", "\n", " ", "!", "\"", "#", "$", "%", 
+  "&amp;", "\'", "*", "+", ",", "-", ".", "/",
+  "0", "1", "2", "3", "4", "5", "6", "7",
+  "8", "9", ":", ";", "(", "=", ")", "?",
+  "A", "B", "C", "D", "E", "F", "G", "H",
+  "I", "J", "K", "L", "M", "N", "O", "P",
+  "Q", "R", "S", "T", "U", "V", "W", "X",
+  "Y", "Z", "[", "]", "\\", "^", "@", "_" 
+};
+
+
+int main(int argc, char *argv[]) {
+  int i, K, endofdict, afterfirst;
+  unsigned char W[32], WK[32], FN[128];
+  FILE *OutF, *crapfile;
+
+  if(argc != 2) {                      <FONT color=green><I>/* check for command line arguments    */</I></FONT>
+    printf("Usage: uncrap &lt;crapfile&gt;\n\n");
+    exit(1);
+  }
+
+  crapfile = fopen(argv[1], "rb");     <FONT color=green><I>/* open the crapfile for binary read   */</I></FONT>
+  if(!crapfile) {
+    printf("Unable to open crapfile %s\n\n", argv[1]);
+    exit(2);
+  }
+
+  endofdict = 64;                      <FONT color=green><I>/* keep track of the end of dictionary */</I></FONT>
+
+  K = getc(crapfile);                  <FONT color=green><I>/* read the first code from crapfile   */</I></FONT>
+  if(K) {                              <FONT color=green><I>/* it should be NULL                   */</I></FONT>
+    fclose(crapfile);
+    printf("%s not a crapfile\n\n", argv[1]);
+    exit(3);
+  }
+
+  afterfirst = FALSE;                  <FONT color=green><I>/* no output file has been opened yet  */</I></FONT>
+
+  while(K != EOF) {                    <FONT color=green><I>/* while K is not EOF                  */</I></FONT>
+    if(K == 0) {                       <FONT color=green><I>/* if K is NULL                        */</I></FONT>
+      if(afterfirst)                   <FONT color=green><I>/* if OutF is already open             */</I></FONT>
+        fclose(OutF);                  <FONT color=green><I>/* close OutF                          */</I></FONT>
+      else
+        afterfirst = TRUE;             <FONT color=green><I>/* (don't try to close it the 1st time)*/</I></FONT>
+
+      K = getc(crapfile);              <FONT color=green><I>/* read the file name from crapfile    */</I></FONT>
+      for(i = 0; K &gt; 0; i++) {
+        FN[i] = (unsigned char) K;
+        K = getc(crapfile);
+      }
+      FN[i] = 0;                       <FONT color=green><I>/* stick a NULL on the end of FN       */</I></FONT>
+
+      OutF = fopen(FN, "w");           <FONT color=green><I>/* open OutF for ASCII writing         */</I></FONT>
+
+      K = getc(crapfile);              <FONT color=green><I>/* read a code K from the crapfile     */</I></FONT>
+      fprintf(OutF, "%s", dict[K]);    <FONT color=green><I>/* write dict[K] to OutF               */</I></FONT>
+      strcpy(W, dict[K]);              <FONT color=green><I>/* set W to dict[K]                    */</I></FONT>
+
+      K = getc(crapfile);              <FONT color=green><I>/* read a code K from the crapfile     */</I></FONT>
+    }
+
+    if(K &lt; endofdict) {                <FONT color=green><I>/* if K is in the dictionary           */</I></FONT>
+      fprintf(OutF, "%s", dict[K]);    <FONT color=green><I>/* write dict[K] to OutF               */</I></FONT>
+
+      strcpy(WK, W);                   <FONT color=green><I>/* copy W into WK                      */</I></FONT>
+      i = strlen(WK);
+      WK[i++] = dict[K][0];            <FONT color=green><I>/* stick the first char of dict[K]     */</I></FONT>
+      WK[i] = 0;                       <FONT color=green><I>/* on the end of WK                    */</I></FONT>
+    }
+    else {                             <FONT color=green><I>/* if K is not in the dictionary       */</I></FONT>
+      strcpy(WK, W);                   <FONT color=green><I>/* copy W into WK                      */</I></FONT>
+      i = strlen(WK);
+      WK[i++] = W[0];                  <FONT color=green><I>/* stick the first char of W           */</I></FONT>
+      WK[i] = 0;                       <FONT color=green><I>/* on the end of WK                    */</I></FONT>
+
+      fprintf(OutF, "%s", WK);         <FONT color=green><I>/* write WK to the output file         */</I></FONT>
+    }
+
+    if(strlen(WK) &lt; 31 &amp;&amp; endofdict &lt; 256) {
+      strcpy(dict[endofdict], WK);     <FONT color=green><I>/* add WK to the dictionary            */</I></FONT>
+      endofdict++;
+    }
+
+    strcpy(W, dict[K]);                <FONT color=green><I>/* set W to dict[K]                    */</I></FONT>
+
+    K = getc(crapfile);                <FONT color=green><I>/* read a code K from the crapfile     */</I></FONT>
+  }
+
+  fclose(OutF);
+  fclose(crapfile);
+
+  exit(0);
+}
+</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update March 20, 2000)</I></FONT> </P></BODY></HTML>

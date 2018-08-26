@@ -1,0 +1,110 @@
+# this file demonstrates many of the figures
+#
+#
+define canvas(200,200); # 200x200 pixel canvas
+
+# coordinates are with respect to the following sytem
+define system(-200,-200,200,200);
+
+# layer 0
+set depth 0;
+set order 0;
+set filled 1;
+
+# set some graphics context parameters
+set fill_color [255,0,255];
+set pen_color [255,255,0];
+
+set center_angle 20;
+draw ellipse ([-100,100],80,120);
+
+set order 2;
+set fill_color [-1,-1,-1]; # eraser color
+
+set pen_color [255,0,0];
+
+draw circle([-50,100],30);
+
+set depth 1;
+set fill_color [0,0,255];
+
+set pen_color [0,255,0];
+set center_angle -10;
+
+draw rectangle([-100,100],120,10);
+
+# layer 0
+set depth 0;
+set fill_color [0,0,255];
+set pen_color [255,255,255];
+
+draw triangle ([0,0],[100,160],[160,100]);
+
+set depth 0;
+set rotation_center [-100,-100];
+set rotation_angle -5;
+set rotate 1; # true
+
+set filled 1;
+
+set fill_color [200,200,0];
+
+set pen_color [255,0,255];
+set order 0;
+
+draw square ([-100,-100],150); 
+
+set order 1;
+set fill_color [-1,-1,-1];
+
+draw square([-100,-100],90);
+
+#layer 1
+set depth 1;
+set order 0;
+set fill_color [0,100,170];
+draw circle([-100,-100],90);
+set order 1;
+set fill_color [-1,-1,-1];
+set pen_color [-1,-1,-1];
+draw rectangle ([-145,-100],90,180);
+
+set depth 0;
+set rotation_center [100,-100];
+set rotation_angle 10;
+set rotate 1;
+
+set pen_color [255,255,255];
+set fill_color [255,40,40];
+set order 0;
+draw circle ([100,-100],80);
+set order 1;
+set fill_color [-1,-1,-1];
+draw circle ([120,-120],20);
+draw triangle ([50,-50],[100,-50],[80,-130]);
+
+# layer 5
+set depth 5;
+set order 0;
+
+set center_angle 0;
+set rotate -1; # false
+set fill_color [70,70,70];
+set pen_color [70,70,70];
+
+draw triangle ([-200,200],[0,0],[-200,-200]);
+set fill_color [120,0,50];
+set pen_color [120,0,50];
+
+draw triangle ([-200,-200],[0,0],[200,-200]);
+set fill_color [50,0,120];
+set pen_color [50,0,120];
+draw triangle ([-200,200],[0,0],[200,200]);
+
+set order 1;
+set fill_color [-1,-1,-1];
+set pen_color [-1,-1,-1];
+draw circle ([0,0], 100);
+
+
+

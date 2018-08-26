@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Mario Marchand">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (Win98; I) [Netscape]">
+   <TITLE>Assignment</TITLE>
+</HEAD>
+<BODY>
+
+<H3>
+&nbsp;Assignment #3</H3>
+
+<BLOCKQUOTE><B>Warning: for this assignment you must use only the instructions,
+macros, and directives that are described in the first six chapters.</B>
+<P><B>Programming Exercise 1:</B>
+<P>Write an ASM program that reads a text file from the standard input
+and displays on the screen the number of words contained in that file.
+For simplicity, assume that a word is a sequence of one or more alphabetic
+characters (hence, any sequence of one or more non alphabetic characters
+would terminate a word). As usual, use the getch macro to read the standard
+input and use the "&lt;" symbol on the Win32 console command line to redirect
+the input from a file. I suggest that you use the putint macro to display
+the number of words. For example, suppose that we have a text file, named
+"my_file",&nbsp; that contains these 2 lines:
+<P>Hi! is it cool
+<BR>out there ? :-)
+<P>Here is a sample execution (user input is in bold):
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-1 &lt; my_file</B></FONT>
+<BR><FONT FACE="Courier New,Courier">This file contains 6 words</FONT>
+<BR>&nbsp;
+<P><B>Programming Exercise 2:</B>
+<P>A palindrome is a character string that reads the same forward or backward.
+In deciding if a string is a palindrome, we ignore blanks, punctuation,
+and letter case. For example "Madam, I'm Adam" or "A man, a plan, a canal,
+Panama!". Write a program that prompts the user to enter a string and decides
+wether or not it is palindrome.
+<P>Sample execution (user input is in bold):
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-2</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Please enter a string</FONT>
+<BR><B><FONT FACE="Courier New,Courier">Madam, I'm Adam!</FONT></B>
+<BR><FONT FACE="Courier New,Courier">This string is a palindrome</FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-2</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Please enter a string</FONT>
+<BR><B><FONT FACE="Courier New,Courier">Madam, I'm Wilfrid!</FONT></B>
+<BR><FONT FACE="Courier New,Courier">This string is not a palindrome</FONT>
+<P><B>Programming Exercise 3:</B>
+<P>A character string STRING1 preceeds alphabetically another string STRING2
+if and only if (a) the first character of STRING1 comes before the first
+character of STRING2 alphabetically, or (b) the first N-1 characters of
+the strings are identical, but the Nth character of STRING1 preceeds the
+Nth character of STRING2, or (c) STRING1 matches the beginning of STRING2,
+but STRING2 is longer.
+<P>Write a program that lets the user enter two character strings and decides
+which string comes first alphabetically, or if the strings are identical.
+<P>Sample execution (user input is in bold):
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-3</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a first string</FONT>
+<BR><FONT FACE="Courier New,Courier">abcd</FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a second string</FONT>
+<BR><FONT FACE="Courier New,Courier">ae</FONT>
+<BR><FONT FACE="Courier New,Courier">The first string preceeds alphabetically
+the second string</FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-3</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a first string</FONT>
+<BR><FONT FACE="Courier New,Courier">abcd</FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a second string</FONT>
+<BR><FONT FACE="Courier New,Courier">ab</FONT>
+<BR><FONT FACE="Courier New,Courier">The second string preceeds alphabetically
+the first string</FONT>
+<P><FONT FACE="Courier New,Courier">C:\ASM><B>ass3-3</B></FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a first string</FONT>
+<BR><FONT FACE="Courier New,Courier">abcd</FONT>
+<BR><FONT FACE="Courier New,Courier">Enter a second string</FONT>
+<BR><FONT FACE="Courier New,Courier">abcd</FONT>
+<BR><FONT FACE="Courier New,Courier">The strings are identical</FONT>
+<P><B><FONT COLOR="#FF0000">DUE DATE: March 14 at 16:00</FONT></B>
+<P><B><FONT COLOR="#3366FF">FOR CSI 2121: MUST BE SENT BY EMAIL TO:</FONT><FONT COLOR="#FF0000">
+<A HREF="mailto:ttang@site.uottawa.ca">Tiejun
+Tang</A></FONT></B>
+<P><B><FONT COLOR="#006600">FOR CSI 2521: MUST BE SENT BY EMAIL TO: <A HREF="mailto:u1345878@site.uottawa.ca">Philippe
+Boudreau</A></FONT></B></BLOCKQUOTE>
+
+<HR WIDTH="100%">
+<BR>&nbsp;
+</BODY>
+</HTML>

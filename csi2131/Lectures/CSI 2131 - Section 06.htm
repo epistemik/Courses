@@ -1,0 +1,1103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec06.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 6</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Data Compression</CENTER></FONT>
+      <HR>
+
+      <P>We've seen several instances in this course of data stored in files. 
+      Some of the formats for storing data were more compact than others, and 
+      this was often seen as an advantage.
+      <P>
+      <DL>
+        <DT><I><B>Data Compression</B></I> 
+        <DD>encoding information in a format that takes up less space. </DD></DL>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>A Few Definitions 
+              <LI>Fixed Length Codes 
+              <UL>
+                <LI>RLE </LI></UL>
+              <LI>Variable Length Codes 
+              <UL>
+                <LI>Huffman Codes </LI></UL>
+              <LI>String Matching 
+              <UL>
+                <LI>LZW </LI></UL>
+              <LI>Other Stuff 
+              <UL>
+                <LI>JPEG 
+                <LI>MPEG 
+                <LI>Fractal Compression </LI></UL></LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P><BR>§ 5.1.2<BR>§ 5.1.2<BR>§ 5.1.3<BR>§ 5.1.3<BR><BR>§ 
+            5.1.5<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P>There's also a cute Java tutorial 
+      at<BR><TT>http://www.cs.sfu.ca/cs/CC/365/li/squeeze/</TT>
+      <P>and more than you'd ever want to know 
+      at<BR><TT>http://www.faqs.org/faqs/compression-faq/</TT>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 91 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Definitions</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT>Given a sequence of bytes <I>S</I> (characters, symbols): 
+        <DD><I>S'</I> = encode(<I>S</I>)<BR><I>S"</I> = decode(<I>S'</I>)<BR>
+        <P></P>
+        <DT><B><I>Data Compression</I></B> 
+        <DD><I>S'</I> is smaller than <I>S</I>
+        <P></P>
+        <DT><B><I>Lossless Compression</I></B> 
+        <DD><I>S"</I> = <I>S</I>
+        <P></P>
+        <DT><B><I>Lossy Compression</I></B> 
+        <DD><I>S"</I> ~ <I>S</I>
+        <P></P>
+        <DT><B><I>Code</I></B> 
+        <DD>A map from one set <I>A</I> of symbols (or values) to another set 
+        <I>B</I> of symbols (or values).
+        <P></P>
+        <DD>Each symbol in <I>B</I> is also referred to as a <I>code</I> for its 
+        corrseponding symbol in <I>A</I>.
+        <P></P>
+        <DT><B><I>Fixed Length Code</I></B> 
+        <DD>All the codes in set <I>B</I> are the same size (number of bits).
+        <P></P>
+        <DT><B><I>Variable Length Code</I></B> 
+        <DD>The codes in set <I>B</I> differ in size (number of bits).
+        <P></P></DD></DL><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 92 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Fixed Length Codes</CENTER></FONT>
+      <HR>
+
+      <P>The ASCII code maps some displayable symbols onto one-byte (8-bit) 
+      numbers, reserving 256 possible codes.
+      <P><B><I>Q:</I></B> But what if we only need to use the upper case 
+      alphabetic characters, the digits 0-9 and the punctuation characters?
+      <P><B><I>A:</I></B> We can do it with only 6 bits instead of 8!
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=10 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2><BR>!<BR>"<BR>#<BR>$<BR>%<BR>&amp;<BR>'<BR>(<BR>)<BR>*<BR>+<BR>,<BR>-<BR>.<BR>/ 
+                  </FONT></TD>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>000000<BR>000001<BR>000010<BR>000011<BR>000100<BR>000101<BR>000110<BR>000111<BR>001000<BR>001001<BR>001010<BR>001011<BR>001100<BR>001101<BR>001110<BR>001111 
+                  </FONT></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>0<BR>1<BR>2<BR>3<BR>4<BR>5<BR>6<BR>7<BR>8<BR>9<BR>:<BR>;<BR>&lt;<BR>=<BR>&gt;<BR>? 
+                  </FONT></TD>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>010000<BR>010001<BR>010010<BR>010011<BR>010100<BR>010101<BR>010110<BR>010111<BR>011000<BR>011001<BR>011010<BR>011011<BR>011100<BR>011101<BR>011110<BR>011111 
+                  </FONT></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>@<BR>A<BR>B<BR>C<BR>D<BR>E<BR>F<BR>G<BR>H<BR>I<BR>J<BR>K<BR>L<BR>M<BR>N<BR>O 
+                  </FONT></TD>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>100000<BR>100001<BR>100010<BR>100011<BR>100100<BR>100101<BR>100110<BR>100111<BR>101000<BR>101001<BR>101010<BR>101011<BR>101100<BR>101101<BR>101110<BR>101111 
+                  </FONT></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>P<BR>Q<BR>R<BR>S<BR>T<BR>U<BR>V<BR>W<BR>X<BR>Y<BR>Z<BR>[<BR>\<BR>]<BR>^<BR>_ 
+                  </FONT></TD>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>110000<BR>110001<BR>110010<BR>110011<BR>110100<BR>110101<BR>110110<BR>110111<BR>111000<BR>111001<BR>111010<BR>111011<BR>111100<BR>111101<BR>111110<BR>111111 
+                  </FONT></TD></TR></TBODY></TABLE></TD></TD></TR></TBODY></TABLE><PRE>
+</PRE></FONT></CENTER></TD></TR></TBODY></TABLE>
+<CENTER>- 93 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Run Length Encoding</CENTER></FONT>
+      <HR>
+
+      <P>Replace repetitive sequences of symbols with three bytes: 
+      <OL>
+        <LI>a special RLE byte 
+        <LI>the repeated symbol (once only) 
+        <LI>the number of repetitions </LI></OL>
+      <P>Here's an example from the <I>Celebrities</I> database, giving a 
+      celebrity's name and annual income:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>Ken Barker.........$8000<BR>Wayne 
+            Gretzky......$6000000<BR>Paul Kariya........$8500000<BR>Eric 
+            Lindros.......$11000000<BR>Michael Jackson....$100000000<BR>Oprah 
+            Winfrey......$400000000<BR></TT></FONT></TD></TR></TBODY></TABLE>
+      <P></CENTER><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 94 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Run Length Encoding (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Assuming the character '#' does not appear anywhere in the file, we can 
+      use it as the special RLE character.
+      <P>Now here's the <I>Celebrities</I> data, compressed using <I>Run Length 
+      Encoding</I>:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>Ken Barker#.9$8000<BR>Wayne 
+            Gretzky#.6$6#06<BR>Paul Kariya#.8$85#05<BR>Eric 
+            Lindros#.7$11#06<BR>Michael Jackson#.4$1#08<BR>Oprah 
+            Winfrey#.6$4#08<BR></TT></FONT></TD></TR></TBODY></TABLE>
+      <P></CENTER>The <I>compression ratio</I> is a modest 5:4.
+      <P><B><I>Q:</I></B> What kinds of files would RLE be good for?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 95 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Variable Length Codes</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Variable Length Code</I></B> 
+        <DD>The mapped-to codes differ in size (number of bits) depending on the 
+        source symbol.
+        <P></P></DD></DL>Usually, variable length codes use fewer bits to encode 
+      symbols that occur frequently, and more bits to encode symbols that occur 
+      rarely.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=10 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD width="50%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>E<BR>T<BR>I<BR>A<BR>N<BR>M<BR>S<BR>U<BR>R<BR>W<BR>D<BR>K<BR>G 
+                  </FONT></TD>
+                <TD align=left width="50%"><FONT 
+                  size=+2>&nbsp;·<BR>&nbsp;—<BR>&nbsp;· ·<BR>&nbsp;· 
+                  —<BR>&nbsp;— ·<BR>&nbsp;— —<BR>&nbsp;· · ·<BR>&nbsp;· · 
+                  —<BR>&nbsp;· — ·<BR>&nbsp;· — —<BR>&nbsp;— · ·<BR>&nbsp;— · 
+                  —<BR>&nbsp;— — · </FONT></TD></TR></TBODY></TABLE></TD>
+          <TD width="50%">
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle width="50%"><FONT 
+                  size=+2>O<BR>H<BR>V<BR>F<BR>L<BR>P<BR>J<BR>B<BR>X<BR>C<BR>Y<BR>Z<BR>Q 
+                  </FONT></TD>
+                <TD align=left width="50%"><FONT size=+2>&nbsp;— — 
+                  —<BR>&nbsp;· · · ·<BR>&nbsp;· · · —<BR>&nbsp;· · — 
+                  ·<BR>&nbsp;· — · ·<BR>&nbsp;· — — ·<BR>&nbsp;· — — 
+                  —<BR>&nbsp;— · · ·<BR>&nbsp;— · · —<BR>&nbsp;— · — 
+                  ·<BR>&nbsp;— · — —<BR>&nbsp;— — · ·<BR>&nbsp;— — · — 
+              </FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P></CENTER><B><I>Q:</I></B>What problems are presented by this particular 
+      code?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 96 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Huffman Codes</CENTER></FONT>
+      <HR>
+
+      <P>Each symbol in the input is encoded as a pattern of bits. The number of 
+      bits varies depending on the frequency of the symbol in the input: 
+      <UL>
+        <LI>The most frequent symbols are represented with the fewest bits; the 
+        least frequent symbols are represented with the most bits. 
+        <LI>The frequency of a symbol in the input can be thought of as the 
+        <I>probability</I> that the symbol occurs in any one position in the 
+        input. </LI></UL>
+      <P>Suppose our input is: <TT>this is a test</TT>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=7>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><B><I>Symbol</I></B></FONT></TD>
+          <TD align=middle><FONT size=+2><B><I>Frequency</I></B></FONT></TD>
+          <TD align=middle><FONT size=+2><B><I>Probability</I></B></FONT></TD>
+          <TD align=middle><FONT size=+2><B><I>Huffman 
+        Code</I></B></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+          <TD align=middle><FONT size=+2>3</FONT></TD>
+          <TD align=middle><FONT size=+2>3/14</FONT></TD>
+          <TD align=middle><FONT size=+2>10</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>s</FONT></TD>
+          <TD align=middle><FONT size=+2>3</FONT></TD>
+          <TD align=middle><FONT size=+2>3/14</FONT></TD>
+          <TD align=middle><FONT size=+2>01</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>t</FONT></TD>
+          <TD align=middle><FONT size=+2>3</FONT></TD>
+          <TD align=middle><FONT size=+2>3/14</FONT></TD>
+          <TD align=middle><FONT size=+2>00</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>i</FONT></TD>
+          <TD align=middle><FONT size=+2>2</FONT></TD>
+          <TD align=middle><FONT size=+2>2/14</FONT></TD>
+          <TD align=middle><FONT size=+2>110</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>a</FONT></TD>
+          <TD align=middle><FONT size=+2>1</FONT></TD>
+          <TD align=middle><FONT size=+2>1/14</FONT></TD>
+          <TD align=middle><FONT size=+2>1110</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>e</FONT></TD>
+          <TD align=middle><FONT size=+2>1</FONT></TD>
+          <TD align=middle><FONT size=+2>1/14</FONT></TD>
+          <TD align=middle><FONT size=+2>11111</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>h</FONT></TD>
+          <TD align=middle><FONT size=+2>1</FONT></TD>
+          <TD align=middle><FONT size=+2>1/14</FONT></TD>
+          <TD align=middle><FONT size=+2>11110</FONT></TD></TR></TBODY></TABLE>
+      <P></CENTER>
+      <CENTER><I>Ok, but where do those codes come from?</I>
+      <P><PRE>
+</PRE></FONT></CENTER></TD></TR></TBODY></TABLE>
+<CENTER>- 97 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Huffman Encoding</CENTER></FONT>
+      <HR>
+
+      <P>Here's the algorithm for Huffman encoding:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>
+            <OL>
+              <LI>Put all the symbols in the input into a list (the symbol_list) 
+              ordered according to their probability
+              <P></P>
+              <LI>As long as there are symbols left in the symbol_list 
+              <OL type=a>
+                <LI>create a tree with the bottom symbol in symbol_list as the 
+                left subtree and the next-to-bottom symbol as the right subtree 
+                <LI>the probability of the parent is the sum of the 
+                probabilities of the children 
+                <LI>label the left branch 0 and the right branch 1 
+                <LI>add the parent to symbol_list in the correct position 
+                according to its probability </LI></OL>
+              <P></P>
+              <LI>The Huffman code for each original symbol is given by tracing 
+              down from the root of the tree to each leaf, collecting branch 
+              labels along the way </LI></OL>
+            <P></TT></FONT></P></TD></TR></TBODY></TABLE>
+      <P></CENTER>I think we need a picture...
+      <P><PRE>
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 98 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Huffman Walkthrough</CENTER></FONT>
+      <HR>
+
+      <P><TT>this is a test</TT> 
+      <TABLE border=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>3</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>s</FONT></TD>
+                <TD align=middle><FONT size=+2>3</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>t</FONT></TD>
+                <TD align=middle><FONT size=+2>3</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>i</FONT></TD>
+                <TD align=middle><FONT size=+2>2</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>a</FONT></TD>
+                <TD align=middle><FONT size=+2>1</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>e</FONT></TD>
+                <TD align=middle><FONT size=+2>1</FONT>/14</TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>h</FONT></TD>
+                <TD align=middle><FONT 
+          size=+2>1</FONT>/14</TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle>
+            <TABLE border=1 cellPadding=7>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>p</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P>
+      <DIV align=right>
+      <TABLE border=1 cellPadding=7>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+            size=+2><B><I>s</I></B></FONT></TD>
+          <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+            size=+2><B><I>c</I></B></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>s</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>t</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>i</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>a</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>e</FONT></TD>
+          <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2>h</FONT></TD>
+          <TD align=middle><FONT 
+      size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></DIV>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 99 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Huffman Decoding</CENTER></FONT>
+      <HR>
+
+      <P>In order to decode a Huffman encoded file, you have to know the Huffman 
+      code for this particular file. 
+      <UL>
+        <LI>We <I>could</I> store the code with the file, but if there are 256 
+        symbols, the code for the least frequent symbol could have as many as 
+        128 bits! 
+        <LI>If we store the symbols and their probabilities instead, the decoder 
+        can recreate the tree, and therefore the code (as long as the decoder 
+        uses the exact same algorithm as the encoder). </LI></UL>Decoding consists 
+      of reading the encoded message bit-by-bit and following the path from the 
+      root of the tree until we hit a leaf node.
+      <P>Let's decode this message:
+      <P>
+      <CENTER><TT>00111101100110110011011101000111110100</TT></CENTER>
+      <P><PRE>
+
+</PRE><B><I>Q:</I></B> Does this code suffer from the same problem as the 
+      Morse code? (<I>I.e.</I>, is it ambiguous?)
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 100 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Lempel and Ziv (and Welch)</CENTER></FONT>
+      <HR>
+
+      <P>In 1977, Abraham Lempel and Jacob Ziv published a compression algorithm 
+      based on repeating strings of characters. That algorithm (LZ77) is still 
+      used in most commercial compression software (zip, arj, zoo, etc.).
+      <P>In 1978, Lempel and Ziv published another algorithm (LZ78) also based 
+      on string matching. When some string of characters repeats, it is put into 
+      a "dictionary". Each string in the dictionary can be identified by its 
+      position in the dictionary.
+      <P>In 1984, Terry Welch published a variant of LZ78 called LZW. The Unix 
+      <TT>compress</TT> command is based on a variant of LZW (called LZC).
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>Enough with the history lesson already, let's 
+      boogie!</I></CENTER><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 101 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>LZW</CENTER></FONT>
+      <HR>
+
+      <P>The ASCII table is an example of how you can encode character symbols 
+      as single-byte (8-bit) values.
+      <P>But if we had more bits, we could associate <I>pairs</I> of characters 
+      (or even bigger things) with a single code. For example, 
+      <UL>
+        <LI>If we had 9 bits, we would have 512 codes available 
+        <LI>Use the first 256 codes (0-255) for the standard ASCII mappings 
+        (65='A', 66='B', etc.) 
+        <LI>Then use codes 256-511 for bigger things (256='the', 257='file', 
+        etc.). </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Storing the most frequently repeated strings in a text as single 
+      entries in the dictionary allows for significant reduction in the number 
+      of bits required to represent the text. From the example above... 
+      <UL>
+        <LI>'the' would be represented with 9 bits instead of 3×8=24 bits 
+        <LI>'file' would be represented with 9 bits instead of 4×8=32 bits 
+      </LI></UL>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 102 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>LZW Encoding</CENTER></FONT>
+      <HR>
+
+      <P>Here's the algorithm for LZW encoding:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>
+            <OL>
+              <LI>Start with a dictionary of 4096 entries (each entry can be 
+              identified using a 12-bit number)
+              <P></P>
+              <LI>Set <I>w</I> to ''
+              <P></P>
+              <LI>As long as there are more characters to read 
+              <OL type=a>
+                <LI>read a character <I>k</I> 
+                <LI>if <I>wk</I> is in the dictionary<BR>&nbsp;&nbsp;&nbsp;set 
+                <I>w</I> to <I>wk</I><BR>else<BR>&nbsp;&nbsp;&nbsp;output the 
+                code for <I>w</I><BR>&nbsp;&nbsp;&nbsp;add <I>wk</I> to the 
+                dictionary<BR>&nbsp;&nbsp;&nbsp;set <I>w</I> to <I>k</I> 
+</LI></OL>
+              <P></P>
+              <LI>output the code for <I>w</I> </LI></OL>
+            <P></TT></FONT></P></TD></TR></TBODY></TABLE>
+      <P></CENTER>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Variant:</I></B> What do you do when the dictionary is full?
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 103 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>LZW Encoding Walkthrough</CENTER></FONT>
+      <HR>
+
+      <P><TT>this_is_his_history</TT> 
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>0</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>1</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>2</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>65</FONT></TD>
+                <TD align=middle><FONT size=+2>A</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>66</FONT></TD>
+                <TD align=middle><FONT size=+2>B</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>103</FONT></TD>
+                <TD align=middle><FONT size=+2>g</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>104</FONT></TD>
+                <TD align=middle><FONT size=+2>h</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>105</FONT></TD>
+                <TD align=middle><FONT size=+2>i</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>255</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>256</FONT></TD>
+                <TD align=middle><FONT 
+                  size=+2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>257</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>258</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>259</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>260</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>261</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>262</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>263</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>264</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>265</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>266</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>267</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>268</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>269</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>.<BR>.<BR>.</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>w</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>k</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+            size=+2><B><I>output</I></B>
+            <HR>
+            </FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 104 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>LZW Decoding</CENTER></FONT>
+      <HR>
+
+      <P>Here's the coolest part: 
+      <UL>
+        <LI>You don't need to store the dictionary in the encoded file, the 
+        decoder will recreate it as it decodes! </LI></UL>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>
+            <OL>
+              <LI>Start with a dictionary of 4096 entries (the first 256 are 
+              standard ASCII, the rest are empty).
+              <P></P>
+              <LI>Read a code <I>k</I> from the encoded file
+              <P></P>
+              <LI>Output dict(<I>k</I>)
+              <P></P>
+              <LI>Set <I>w</I> to dict(<I>k</I>)
+              <P></P>
+              <LI>As long as there are more codes to read 
+              <OL type=a>
+                <LI>read a code <I>k</I> 
+                <LI>if <I>k</I> is in the dictionary<BR>&nbsp;&nbsp;&nbsp;output 
+                dict(<I>k</I>)<BR>&nbsp;&nbsp;&nbsp;add <I>w</I> + first 
+                character of dict(<I>k</I>) to the 
+                dict<BR>else<BR>&nbsp;&nbsp;&nbsp;add <I>w</I> + first char of 
+                <I>w</I> to the dict <I>and</I> output it 
+                <LI>Set <I>w</I> to dict(<I>k</I>) </LI></OL>
+              <P></P></LI></OL>
+            <P></TT></FONT></P></TD></TR></TBODY></TABLE>
+      <P></CENTER><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 105 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>LZW Decoding Walkthrough</CENTER></FONT>
+      <HR>
+      <TT>this_&lt;258&gt;_&lt;257&gt;&lt;259&gt;&lt;263&gt;tory</TT> 
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>0</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>1</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>2</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>65</FONT></TD>
+                <TD align=middle><FONT size=+2>A</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>66</FONT></TD>
+                <TD align=middle><FONT size=+2>B</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>103</FONT></TD>
+                <TD align=middle><FONT size=+2>g</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>104</FONT></TD>
+                <TD align=middle><FONT size=+2>h</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>105</FONT></TD>
+                <TD align=middle><FONT size=+2>i</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>255</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top width="20%">
+            <TABLE border=1 cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>c</I></B></FONT></TD>
+                <TD align=middle bgColor=#d0d0d0 width=35><FONT 
+                  size=+2><B><I>s</I></B></FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>256</FONT></TD>
+                <TD align=middle><FONT 
+                  size=+2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>257</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>258</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>259</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>260</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>261</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>262</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>263</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>264</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>265</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>266</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>267</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>268</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>269</FONT></TD>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>.<BR>.<BR>.</FONT></TD>
+                <TD align=middle><FONT 
+            size=+2>.<BR>.<BR>.</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>w</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+size=+2><B><I>k</I></B>
+            <HR>
+            </FONT></TD>
+          <TD align=middle vAlign=top width="20%"><FONT 
+            size=+2><B><I>output</I></B>
+            <HR>
+            </FONT></TD></TR></TBODY></TABLE>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 106 -</CENTER>
+<P><!--------------------------------------------------------------------------><!--
+<pre>
+
+  1. read a character k from the compressed file
+     output k
+     set w to k
+     while there are more characters to read
+        read a character k
+        set outstring to dictionary entry
+        output outstring
+        append first char of outstring to w and add to dictionary
+        set w to outstring
+     endwhile
+- <walkthrough example>
+- used in Unix compress (called LZC)
+  - start with 9 bits, add another bit when dict full
+  - keep track of compression performance (compression ratio/percentage)
+    . once performance starts to decrease, scrap the dict and start over
+- other alternatives:
+  - keep track of when or how often dict entries are used; discard entries
+    according to LRU or LFU
+  - LZMW (Miller and Wegman)
+    . on first non-matching character k, don't append k to w and add to dict
+    . instead, try to grow from k to another dict entry and concat the two
+ 
+SCALAR QUANTIZATION:
+- approximate N-bit values by their M most significant bits (M < N)
+- e.g.: convert a 24-bit (RGB) colour photo to a 12-bit image by dropping the
+  bottom 4 bits (i.e., integer dividing by 16) of each of the 3 bytes
+  decode by displaying 24-bit value (R*16G*16B*16)
+
+VECTOR QUANTIZATION:
+- map N-bit values to M-bit values ignoring the N-bit values not used.
+- e.g.: a text with only upper case letters, numbers and punctuation could
+  be represented using only 6 bits:
+- e.g.: colour palettes in low-bit video modes
+- e.g.: Vector Quantization of Images
+  - find a block of pixels in a picture that recurs
+  - stick the block of pixels in a "codebook"
+  - assign each entry in the codebook and index
+  - replace all occurrences of the block of pixels in the image with the index
+
+* Lossy compression techniques:
+
+JPEG (Joint Photographic Experts Group): 
+- meant for full-colour or grey-scale "natural scenes" (not toons, line drwngs)
+- "continuous tone" images
+- small changes in colour less apparent to humans than small changes in brite
+- transform RGB as a luminance-chrominance value (e.g. YUV)
+  luminance (Y) = brightness; hue (U) = colour, saturation (V) = amount of grey
+  (chrominance=hue+saturation)
+- reduce chrominance features by averaging; preserve luminance
+- do all sorts of other compression as well (Huffman, e.g.)
+
+MPEG (Moving Picture Experts Group):
+- meant for full-colour natural video
+- reduce chrominance features; preserve luminance
+- further compress on redundancy in all features
+- predict motion from frame to frame (30 frames/sec)
+- etc.
+
+What else?
+FRACTAL COMPRESSION:
+http://links.uwaterloo.ca/
+
+</pre>
+
+</font></td></tr>
+</table>
+<center>- ## -</center><p>
+--><!--------------------------------------------------------------------------><!--
+<table width="100%" border=1 cellpadding=15>
+<tr><td><font size=+2>
+
+<font size=+3><center>Title</center></font>
+<hr><p>
+
+<pre>
+This page is intentionally blank
+</pre>
+
+</font></td></tr>
+</table>
+<center>- ## -</center><p>
+--><!-- yank 16 lines above ---------------------------------------------------></P></BODY></HTML>

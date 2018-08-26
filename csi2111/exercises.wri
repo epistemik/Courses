@@ -1,0 +1,47 @@
+EXERCISES
+
+(SOLUTIONS WILL BE POSTED ON DECEMBER 15 AT 17:30)
+(In each answer, clearly  show intermediate steps)
+Q1. Implement a 4-bit binary ripple down-counter 
+    (i.e., count sequence is 15, 14, 13, ..., 2, 1, 0, and repeat)
+    using T flip-flops that trigger on the
+    a) positive-edge transition
+    b) negative-edge transition
+
+Q2. Using RS flip-flops,
+    a) Design a binary synchronous counter having a count sequence of 
+       15,8,9,10,11,4,5,6,7,0, and repeat 
+    b) Implement this circuit
+
+Q3. Consider the block diagram of the 64Kx8 RAM. 
+    Using such RAMs, construct a 128Kx16 RAM. Show connections.
+
+Q4. For each instruction below consider the following initial contents
+    of registers and Main Memory and indicate the content of registers
+    and memory locations modified by the instruction.
+
+      A0 = $0000 4002          $004000 = $B020
+      A1 = $0000 4006          $004002 = $AAAA
+      D0 = $0000 0010          $004004 = $7000
+      D1 = $ABCD EF90          $004006 = $1111
+      D2 = $0100 0002          $004008 = $8000
+      D3 = $7777 9999          $00400A = $0123
+
+      a) MOVE.L   A0,D5       f) MOVE.L   D1,(A1)
+      b) MOVE.L   #10,D1      g) MOVE.L   -(A1),(A0)+
+      c) MOVEA.W  D3,A1       h) MOVE.B   D2,-(A1)
+      d) MOVE.B   D2,D1       i) MOVEA.L  (A1)+,A0
+      e) MOVEA.W  (A1),A1     j) MOVE.B   $4(A1),D1
+
+Q5. For each instruction below consider the initial contents of
+    registers and Main Memory given in Q4 and indicate the content
+    of NZVC, registers and memory locations modified by the instruction.
+
+      a) ADDA.W   -(A1),A0     d) DIVU    D2,D0
+      b) ADD.B    D1,D1        e) CMP.L   D1,D3
+      c) MULU     D2,D0
+
+
+
+
+

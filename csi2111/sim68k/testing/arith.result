@@ -1,0 +1,55 @@
+Program loaded. 176 bytes in memory.
+Status Bits: H:FALSE N:TRUE Z:FALSE V:TRUE C:FALSE
+[$0006] = $9978 (word)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+[$0006] = $DCAC (word)
+Status Bits: H:FALSE N:FALSE Z:TRUE V:FALSE C:TRUE
+[ D0 ]  = $00000000 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $00000100 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[$000C] = $FFFF5E9A (long)
+Enter a value (long) for the register D1: 0
+[$000C] = $FFFFCDEF (long)
+[ D0 ]  = $000000F6 (long)
+[ D0 ]  = $000000F6 (long)
+[$0006] = $9978 (word)
+[$0006] = $5678 (word)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:TRUE C:FALSE
+Enter a value (long) for the register D1: 0
+[ D0 ]  = $FFFFFFFD (long)
+[ D0 ]  = $FFFF0003 (long)
+[ D0 ]  = $FFFF00FD (long)
+[ D0 ]  = $FFFF0003 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:TRUE
+Enter a value (long) for the register D1: 0
+Enter a value (word) for the register D0: $FF80
+Enter a value (word) for the register D1: $007F
+[ D0 ]  = $FFFFC080 (long)
+Enter a value (long) for the register D0: $FFFFFFFF
+Enter a value (word) for the register D1: $FFFE
+[ D0 ]  = $FFFF0000 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+Enter a value (word) for the register D0: -5
+Enter a value (word) for the register D1: -5
+[ D0 ]  = $00000019 (long)
+Enter a value (long) for the register D0: $FFFF0000
+Enter a value (word) for the register D1: $7E
+[ D0 ]  = $FFF0FDF8 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:FALSE
+Enter a value (word) for the register D0: 10
+Enter a value (word) for the register D1: -10
+[ D0 ]  = $FFFFFF9C (long)
+Enter a value (long) for the register D0: 10
+Enter a value (word) for the register D1: -10
+[ D0 ]  = $0000FFFF (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+Enter a value (word) for the register D0: $FFFF
+Enter a value (word) for the register D1: $FFFF
+[ D0 ]  = $00000001 (long)
+Enter a value (long) for the register D0: $0007FFFF
+Enter a value (word) for the register D1: $2
+[ D0 ]  = $0001FFFF (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:TRUE C:FALSE
+
+End of program Execution.

@@ -1,0 +1,835 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec04.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 4</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Managing Secondary Storage</CENTER></FONT>
+      <HR>
+
+      <P>Things we've seen: 
+      <UL>
+        <LI>why we need secondary storage 
+        <LI>that secondary storage is, when used unintelligently, too slow 
+        <LI>the physical characteristics of secondary storage devices and the 
+        performance limits these characteristics impose 
+        <LI>that the limits are magically unnoticeable when we <TT>read</TT> 
+        from or <TT>write</TT> to files inside our programs </LI></UL>Demystifying 
+      what goes on in the dark area between application program and device: 
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>"Journey of a Byte" 
+              <LI>Directory structure/The FAT 
+              <LI>Buffering (part I) </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ 3.5<BR>§ 3.1.3, 3.7.1, 3.7.2<BR>§ 3.6 
+      </FONT></P></TD></TR></TBODY></TABLE>
+      <P><I><B>N.B.</B> What we'll see is simplified, and not necessarily 
+      exactly how any one file system is organized, but the concepts are 
+      gold!</I>
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 59 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Software Architecture</CENTER></FONT>
+      <HR>
+
+      <P>What are the different pieces of software involved in accomplishing a 
+      particular task?
+      <P>What data do the different pieces of software access for the purposes 
+      of file management?
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD bgColor=#e0e0e0 height=30 width=150>&nbsp;</TD>
+          <TD></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#e0e0e0><FONT 
+            size=+2>Application<BR>Program</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 4_files/rlarrow.gif" width=141></TD>
+          <TD>
+            <TABLE border=1 cellPadding=3 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#808080><FONT color=white 
+                  size=+2>Program<BR>Data</FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR bgColor=#e0e0e0>
+                <TD height=30>&nbsp;</TD>
+              <TR bgColor=#d0d0d0>
+                <TD height=30>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=46 
+            src="CSI 2131 - Section 4_files/rtlbarrow.gif" width=141></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#d0d0d0><FONT 
+            size=+2>Operating<BR>System</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 4_files/rlarrow.gif" width=141></TD>
+          <TD>
+            <TABLE border=1 cellPadding=3 height="100%" width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#808080 width="50%"><FONT color=white 
+                  size=+2>Directories</FONT></TD>
+                <TD align=middle bgColor=#808080 width="50%"><FONT color=white 
+                  size=+2>File Allocation<BR>Table 
+            (FAT)</FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR bgColor=#d0d0d0>
+                <TD height=30>&nbsp;</TD>
+              <TR bgColor=#c0c0c0>
+                <TD height=30>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=center><IMG border=0 height=46 
+            src="CSI 2131 - Section 4_files/rbltarrow.gif" width=141></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#c0c0c0><FONT 
+            size=+2>Input/Output<BR>Processor</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 4_files/rlarrow.gif" width=141></TD>
+          <TD>
+            <TABLE border=1 cellPadding=3 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#808080><FONT color=white 
+                  size=+2>Input/Output<BR>Buffers</FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR bgColor=#c0c0c0>
+                <TD height=30>&nbsp;</TD>
+              <TR bgColor=#b0b0b0>
+                <TD height=30>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=41 
+            src="CSI 2131 - Section 4_files/carrow.gif" width=37></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#b0b0b0><FONT 
+            size=+2>Disk<BR>Controller</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 4_files/rlarrow.gif" width=141></TD>
+          <TD>
+            <TABLE border=1 cellPadding=3 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#808080><FONT color=white 
+                  size=+2>Disk<BR>Cache</FONT></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD bgColor=#b0b0b0 height=30>&nbsp;</TD>
+          <TD></TD>
+          <TD></TD></TR></TBODY></TABLE></CENTER></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 60 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Application Program</CENTER></FONT>
+      <HR>
+
+      <P>Here is a fragment of a C program that assigns a value to a 1-byte 
+      variable and writes the value out at the end of a file.
+      <P>
+      <TABLE border=5 cellPadding=5 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>C program</I>
+            <HR>
+             <TT>char ch;<BR>FILE *ofil;
+            <P>...<BR>ofil = fopen("foo.bar", "a");<BR>ch = 
+            75;<BR>fwrite(&amp;ch, 1, 1, ofil);<BR>...
+            <P>&nbsp; </TT></FONT></P></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 61 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Program Data</CENTER></FONT>
+      <HR>
+
+      <P>Assuming the address of the variable <TT>ch</TT> is <TT>0x0092</TT> 
+      (speaking in C, <TT>&amp;ch&nbsp;==&nbsp;0x92</TT>), here is a peek at 
+      part of RAM used for the data for our little C program after the 
+      assignment statment <TT>ch&nbsp;=&nbsp;75;</TT>.
+      <P>
+      <TABLE border=5 cellPadding=5 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>Program data</I>
+            <HR>
+
+            <P>
+            <TABLE border=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD vAlign=top width="10%">
+                  <TABLE border=0 cellPadding=2 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>0x0080</TT></FONT></TD></TR>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>0x0090</TT></FONT></TD></TR>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>0x00A0</TT></FONT></TD></TR>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>0x00B0</TT></FONT></TD></TR>
+                    <TR>
+                      <TD align=right vAlign=bottom><FONT 
+                        size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top>
+                  <TABLE border=1 cellPadding=1 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR bgColor=#e0e0e0>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD width="10%">&nbsp;</TD>
+                      <TD align=middle width="40%"><FONT 
+                        size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR bgColor=#e0e0e0>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR bgColor=#e0e0e0>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT size=+1><TT>75</TT></FONT></TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR bgColor=#e0e0e0>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR bgColor=#e0e0e0>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+                    <TR bgColor=#e0e0e0>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD>&nbsp;</TD>
+                      <TD align=middle><FONT 
+                    size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+                  <P> </P></TD></TR></TBODY></TABLE></P></FONT></TD></TR></TBODY></TABLE><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 62 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Opening a File</CENTER></FONT>
+      <HR>
+
+      <P>The statement <TT>ofil&nbsp;=&nbsp;fopen("foo.bar",&nbsp;"a");</TT> in 
+      our little C program gets translated to a request to the operating system 
+      to open the file <TT>foo.bar</TT> for writing (at eof). The operating 
+      system must do several things to open the file:
+      <P>
+      <OL>
+        <LI>Find the named file in the directory 
+        <LI>Create an entry in the <I>Open File Table</I> 
+        <LI>Fill a <TT>FILE</TT> structure with information about the open file 
+        <LI>Return the address of the <TT>FILE</TT> structure to the program 
+        </LI></OL>
+      <P><B><I>The Directory</I></B><BR>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><I>File&nbsp;Name</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Attributes</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Time and Date</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>First Cluster</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>File Size</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>etc.</I></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>foo.bar</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>r/w</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x73C0261A</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0006</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>42000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 63 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Opening a File (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>The operating system takes some of this information to put in the 
+      <TT>FILE</TT> structure to be passed back to the program.
+      <P>The <I>Open File Table</I> keeps information about files that are 
+      currently open (in use by programs).
+      <P><B><I>The Open File Table</I></B><BR>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><I>Number</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Mode</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Sharing</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Current Position</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Pointer to FAT</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>etc.</I></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>3</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>4</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>w</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>42000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0006</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>5</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 64 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Cluster, Sectors, Bytes Revisited</CENTER></FONT>
+      <HR>
+
+      <P>Recall that the smallest unit of disk accessed by the operating system 
+      is a cluster. The number of sectors in a cluster is fixed, and usually 
+      depends on the size of the disk.
+      <P>In the <I>Windows NT File System</I> (NTFS), the number of sectors per 
+      cluster is calculated as follows:
+      <P><TT>if DiskSize &gt; 2<SUP><FONT size=+1>N-1</FONT></SUP> megabytes and 
+      &#8804; 2<SUP><FONT size=+1>N</FONT></SUP> megabytes, 
+      then<BR>&nbsp;&nbsp;&nbsp;SectorsPerCluster is 2<SUP><FONT 
+      size=+1>N-9</FONT></SUP></TT> 
+      <P>Most disks have 512 bytes per sector.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> In NTFS, how many sectors per cluster are there for a 
+      10&nbsp;GB (10,240&nbsp;MB) disk? How many bytes per cluster?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> In NTFS, if we have 16 sectors per cluster, what 
+      happens if the most frequent file size is 25,000&nbsp;bytes?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What are the advantages and disadvantages of large 
+      clusters? Small clusters?
+      <P><B><I>A:</I></B>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 65 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The File Allocation Table</CENTER></FONT>
+      <HR>
+
+      <P>Remember the directory entry for our file <TT>foo.bar</TT>?
+      <P>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><I>File&nbsp;Name</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Attributes</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>Time and Date</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>First Cluster</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>File Size</I></FONT></TD>
+          <TD align=middle><FONT size=+2><I>etc.</I></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>foo.bar</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>r/w</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x73C0261A</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0006</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>42000</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <P>Since we opened the file for <I>append</I>, the current file position 
+      (from the <I>open file table</I>) is 42000. But where <I>on disk</I> is 
+      the 42000<SUP><FONT size=+0>th</FONT></SUP> position in <TT>foo.bar</TT>?
+      <P>The directory entry tells us that the first cluster for 
+      <TT>foo.bar</TT> is cluster number 6. If our NTFS disk is 5 GB (&lt; 
+      2<SUP><FONT size=+1>13</FONT></SUP>&nbsp;MB but &gt; 2<SUP><FONT 
+      size=+1>12</FONT></SUP>&nbsp;MB) then we have<BR>
+      <CENTER>2<SUP><FONT 
+      size=+1>13&nbsp;-&nbsp;9</FONT></SUP>&nbsp;=&nbsp;2<SUP><FONT 
+      size=+1>4</FONT></SUP>&nbsp;=&nbsp;16 sectors per cluster.<BR>That's 
+      16×512&nbsp;=&nbsp;8192 bytes per cluster.</CENTER>
+      <P>So if <TT>foo.bar</TT> has 42000 bytes, then it occupies&nbsp; <IMG 
+      align=bottom border=0 
+      src="CSI 2131 - Section 4_files/lceil.gif">42000÷8192<IMG align=bottom 
+      border=0 src="CSI 2131 - Section 4_files/rceil.gif">&nbsp;=&nbsp;6 
+      clusters on disk. The 42000<SUP><FONT size=+0>th</FONT></SUP> position is 
+      somewhere in the last cluster.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><I>So where is the last cluster?</I>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 66 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The File Allocation Table (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Every cluster on disk has a corresponding entry in the FAT. (For a 5 GB 
+      disk in Windows NT that's 655,360 entries in the FAT!).
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Each entry in the FAT identifies the <I>next</I> cluster (after this 
+      one) occupied by the file. So if the value of the 3<SUP><FONT 
+      size=+0>rd</FONT></SUP> entry in the FAT is 25, we have three pieces of 
+      information: 
+      <OL>
+        <LI>The current file occupies cluster number 3 on disk 
+        <LI>The next cluster occupied by the file is cluster number 25 
+        <LI>The 25<SUP><FONT size=+0>th</FONT></SUP> entry in the FAT will tell 
+        us what is the next cluster occupied by the file (after cluster 25) 
+      </LI></OL>
+      <P>There are some special values in the FAT:
+      <P>
+      <UL>
+        <LI>0x0000 in the N<SUP><FONT size=+0>th</FONT></SUP> entry in the FAT 
+        means that cluster N on disk is available (not occupied by any file). 
+        <LI>0xFFFF in the N<SUP><FONT size=+0>th</FONT></SUP> entry in the FAT 
+        means that cluster N is the last cluster occupied by the current file. 
+        </LI></UL>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 67 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The File Allocation Table (cont.)</CENTER></FONT>
+      <HR>
+
+      <P><B><I>The File Allocation Table (FAT)</I></B><BR>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle width="12%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT size=+2><TT>0x0007</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT 
+        size=+2><TT>0x0008</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>0x001B</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x001C</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x001D</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0xFFFF</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>...</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>According to the picture, the file <TT>foo.bar</TT> occupies clusters 
+      0x0006, 0x0007, 0x0008, 0x001B, 0x001C and 0x001D on disk; our byte 
+      (<TT>ch&nbsp;==&nbsp;75</TT>) will be placed in position 1040 
+      (42000&nbsp;mod&nbsp;8192) in cluster 0x001D.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 68 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Input/Output Buffers</CENTER></FONT>
+      <HR>
+
+      <P>The operating system is just a program running on the machine like any 
+      other program (though its jobs are very low level). Like any other 
+      program, it cannot physically access a disk drive; it must work with RAM.
+      <P>The operating system maintains special areas in RAM (not part of the 
+      application program data area) called <I>buffers</I>. The buffers are 
+      exact "images" of the sequence of bytes in a cluster on disk. The system 
+      maintains <I>at least</I> two buffers (one for input, one for output), 
+      often many more.
+      <P>To write our single byte <TT>75</TT> to position 1040 in cluster 0x001D 
+      on disk, the operating system has only a few tasks left:
+      <P>
+      <OL>
+        <LI>Ensure that the bytes from cluster 0x001D are copied into a buffer. 
+        <UL>
+          <LI>If they are not, request that the I/O processor load cluster 
+          0x001D into a buffer. </LI></UL>
+        <LI>Place our byte (<TT>75</TT>) at position 1040 <I>in the buffer</I>. 
+        <LI>Update the current file position in the <I>open file table</I>. 
+        <LI>If the buffer is full, request that the I/O processor write the 
+        contents of the buffer to disk.
+        <P><PRE>
+</PRE></FONT></LI></OL></TD></TR></TBODY></TABLE>
+<CENTER>- 69 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Input/Output Processor and<BR>The Disk 
+      Controller</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>I/O Processor</I></B> 
+        <DD>A separate chip in the computer (not on the disk's circuit board 
+        inside the disk case).
+        <P>The I/O processor runs separately from the CPU so the CPU can go 
+        about its business without waiting for I/O processes to complete.
+        <P></P>
+        <DT><B><I>Disk Controller</I></B> 
+        <DD>A separate chip on the disk's circuit board. (Sometimes refers to 
+        the whole board).
+        <P>The disk controller runs the disk motors and does the bottom-level 
+        reading and writing of bytes from and to disk. It maintains its own kind 
+        of buffer (called a disk cache, usually up to 1MB) right on the disk 
+        board.
+        <P></P></DD></DL>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 70 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Final Act</CENTER></FONT>
+      <HR>
+
+      <P>Now that our byte is in a buffer, we're almost home free:
+      <P>
+      <OL>
+        <LI>The operating system tells the I/O processor to send the contents of 
+        the buffer to cluster 0x001D on disk. 
+        <LI>The I/O processor asks the disk controller if it is accepting data 
+        for writing. 
+        <LI>The disk controller accepts the request if it is ready and receives 
+        the data and disk address from the I/O processor. 
+        <LI>Arms move, platters spin, heads switch on and off and our 
+        <TT>75</TT> becomes a splattering of polarized magnetic particles! 
+      </LI></OL>
+      <P><PRE>
+</PRE>
+      <CENTER><I>Giddyup!</I></CENTER>
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 71 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Back in the FAT</CENTER></FONT>
+      <HR>
+
+      <P>Let's look at the FAT for our file <TT>foo.bar</TT> again, this time 
+      showing some chains for other files:
+      <P>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle width="12%"><FONT size=+2><TT>0x0001</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>0x0002</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>0x0003</TT></FONT></TD>
+          <TD align=middle width="12%"><FONT size=+2><TT>0x0004</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT size=+2><TT>0x0005</TT></FONT></TD>
+          <TD align=middle width="13%"><FONT size=+2><TT>0xFFFF</TT></FONT></TD>
+          <TD align=middle bgColor=#e0e0e0 width="13%"><FONT 
+            size=+2><TT>0x0007</TT></FONT></TD>
+          <TD align=middle bgColor=#e0e0e0 width="13%"><FONT 
+            size=+2><TT>0x0008</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#e0e0e0><FONT 
+          size=+2><TT>0x001B</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000A</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000B</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000C</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000D</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000E</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x000F</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0010</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>0x0011</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0012</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0013</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0014</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0015</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0016</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0017</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0018</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>0x0019</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x001A</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0xFFFF</TT></FONT></TD>
+          <TD align=middle bgColor=#e0e0e0><FONT 
+          size=+2><TT>0x001C</TT></FONT></TD>
+          <TD align=middle bgColor=#e0e0e0><FONT 
+          size=+2><TT>0x001D</TT></FONT></TD>
+          <TD align=middle bgColor=#e0e0e0><FONT 
+          size=+2><TT>0xFFFF</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x001F</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0020</TT></FONT></TD></TR>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>0x0021</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0xFFFF</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0000</TT></FONT></TD>
+          <TD align=middle><FONT size=+2><TT>0x0000</TT></FONT></TD>
+          <TD align=middle><FONT 
+      size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> The last byte in <TT>foo.bar</TT> was at position 1040 
+      in cluster 0x001D. What would happen if we wrote another 8000 bytes to 
+      <TT>foo.bar</TT>?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> Our FAT pictures show each cluster entry as two bytes 
+      (called a 16-bit FAT). This is supposed to be a 5&nbsp;GB disk with 8192 
+      bytes per cluster. Can this FAT picture be accurate?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> How big a disk could you have (under NTFS) with a 
+      32-bit FAT (assuming 512 bytes per sector)?
+      <P><B><I>A:</I></B>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 72 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>FAT Trivia</CENTER></FONT>
+      <HR>
+
+      <P><PRE></PRE>
+      <UL>
+        <LI>The chain formed by the "pointers-to-next-cluster" is called a 
+        <I>chain</I>!
+        <P></P>
+        <LI>DOS used to keep <I>two</I> copies of the FAT on disk and 
+        religiously updated both every time any file changed. But it never did 
+        any checks to make sure the two FATs were the same, and it never used 
+        the second FAT. </LI></UL>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 73 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

@@ -1,0 +1,242 @@
+<DOCTYPE HTML SYSTEM "html.dtd">
+<HTML><HEAD><TITLE>PARSER CLASS</TITLE></HEAD>
+<BODY bgcolor=#FFFFFD text=black link=blue vlink=red alink=green>
+
+<H3>PARSER CLASS</H3>
+
+<H4><FONT COLOR=red>SIMPLE EXPRESSION PARSER</FONT></H4>
+
+A parser instance can read <A HREF="./expression.htm">expressions</A>
+from a stream. The programmer using this class can register
+unary and  binary operators and functions to be parsed and
+instantiated. It already ``knows'' how to parse <tt>constant</tt>s
+and <tt>variable</tt>s and how to order binary expressions 
+according to their declared precedence.
+
+<PRE>
+class <b><FONT COLOR=red>parser</FONT></b> {
+ 
+   public:
+      expression* <b>read</b>(istream&) const; 
+
+      void <b>add_unary_instantiator</b>(
+           const char*, unary_instantiator);
+      void <b>add_binary_instantiator</b>(
+           const char*, int, binary_instantiator, shallow_detructor = 0);
+      void <b>add_function_instantiator</b>(
+           const char*, int, function_instantiator);
+
+      const char* <b>peek_token</b>(istream&) const;
+      void <b>consume_token</b>(istream&) const;
+};
+</PRE>
+
+<H4>Methods of <tt>parser</tt></H4>
+
+<UL>
+  <tt>expression* parser::<b>read</b>(istream& is) const</tt>
+  <UL>
+    reads an expression from stream <tt>is</tt>. This method
+    recognizes all registred unary and binary operators and
+    registered functions. Exceptions of type 
+    <tt>lexer::exception</tt> or <tt>parser::exception</tt>
+    may be thrown if syntax errors occur during lexical
+    analysis or for unrecognized operators and functions.
+  </UL><br><br>
+
+  <tt> void parser::<b>add_unary_instantiator</b>(const char* n,
+       parser::unary_instantiator i)</tt>
+  <UL>
+    registers unary operator with name <tt>n</tt> and
+    instantiator <tt>i</tt>. <tt>unary_instantiator</tt> is
+    a function with prototype:
+    <PRE>
+    expression* (*)(expression*)
+    </PRE>
+    Consider the derived expression class <tt>negative</tt>
+    which implements unary minus and the instantiator function
+    <PRE>
+    expression* <b>instantiate_negative</b>(expression* e) {
+        return new <b>negative</b>(e);
+    }
+    </PRE>
+    <tt>instantiate_negative</tt> matches the prototype
+    <tt>parser::unary_instantiator</tt> and it does instantiate
+    a new <tt>negative</tt> instance. Unary minus is
+    recognized by a <i>dash</i>.
+    <PRE>
+    parser P;
+
+    P.add_unary_instantiator("-",instantiate_negative);
+    </PRE>
+    registers <tt>instantiate_negative</tt> with syntax
+    <tt>"-"</tt> to the parser. Hence parser <tt>P</tt>
+    is capable of recognizing an expression preceeded
+    by a dash as a unary negative and will use the
+    function <tt>instantiate_negative</tt> to create
+    an instance.
+  </UL><br><br>
+
+  <tt>void parser::<b>add_binary_instantiator</b>(const char* n,
+      int p, parser::binary_instantiator i,
+      shallow_destructor d = 0)</tt>
+  <UL>
+    registers a binary operator with name <tt>n</tt>, precedence
+    <tt>p</tt> and instantiator <tt>i</i>. <tt>binary_instantiator</tt>
+    is a function with prototype:
+    <PRE>
+    expression* (*)(expression*, expression*)
+    </PRE>
+    Consider the derived expression class <tt>addition</tt>
+    which implements the addition operation and the instantiator
+    function
+    <PRE>
+    expression* <b>instantiate_addition</b>(expression* lhs, 
+                expression* rhs) {
+      return new <b>addition</b>(lhs,rhs); 
+    }
+    </PRE>
+    <tt>instantiate_addition</tt> matches the prototype
+    <tt>parser::binary_instantiator</tt> and it instantiates 
+    a new <tt>addition</tt> instance. Addition is recognized by
+    the plus sign symbol.
+    <PRE>
+    parser P;
+
+    P.add_binary_instantiator("+",5,instantiate_addition);
+    </PRE>
+    registers <tt>instantiate_addition</tt> with syntax <tt>"+"</tt>
+    to the parser. Hence parser <tt>P</tt> is capable of recognizing
+    the plus sign symbol in between two expressions as addition.
+    The parser also assumes priority 5 for addition. It means
+    that binary operators registered with higher precedence will 
+    be implicitly brackated earlier. In other words, if multiplication
+    is registered with symbol <tt>"*"</tt> and precedence 10, then
+    <tt>2+3*4+5</tt> is implicitly ordered <tt>2+(3*4)+5</tt>. The parser
+    is also ``smart'' enough to distinguish <tt>"+"</tt> being 
+    different from the unary plus operator (<i>if such registered</i>).
+    For example in the expression <tt>3 + +4</tt> the first plus would
+    be taken binary and the second unary as unary operators always
+    have higher precedence than binary ones.
+    <br><br>
+    <tt>shallow_destructor</tt> is of the prototype 
+    <PRE>
+      void (*)(expression*)
+    </PRE>
+    and is an optional argument. Its sole purpose is <b>optimization</b>.
+    When fixing precedence, the left- and right-hand sides of expression
+    trees often have to change and the expressions created by the
+    instantiator destroyed but their left- and right-hand sides
+    cloned. This is a bit wasteful. So if the programmer provides
+    a destructor function which does not call <tt>delete</tt> on the
+    left- and right-hand sides, just sets them to 0, than this function
+    will be called as opposed to <tt>clone</tt> and <tt>delete</tt>.
+    Such a destructor function should <b>only</b> set the expressions
+    cached for the left- and right-hand sides to 0 and do nothing else
+    to avoid the destructor being invoked twice!
+    <PRE>
+      void <b>op2_destructor</b>(expression* e) {
+         op2* op2ptr= <b>dynamic_cas</b>< op2* >(e);
+         if (op2ptr == 0) return; <FONT COLOR=green>// e is not an op2</FONT>
+
+         <FONT COLOR=green>// This assumes that <b>op2_destructor</b> is a <b>friend</b> of class op2</FONT>
+         op2ptr->lhs = 0; 
+         op2ptr->rhs = 0;
+
+         <FONT COLOR=red>// do not call <b>delete</b> op2 or e !!</FONT>
+      }
+    </PRE>
+     
+  </UL><br><br>
+
+  <tt>void parser::<b>add_function_instantiator</b>(const char* n,
+      int argc, parser::function_instantiator i)</tt>
+  <UL>
+    registers function with name <tt>n</tt>, argument count <tt>argc</tt>
+    and instantiator <tt>i</tt> to the parser. 
+    <tt>function_instantiator</tt> is a function with prototype:
+    <PRE>
+    expression* (*)(expression**, int)
+    </PRE>
+    Consider the derived expression <tt>logb</tt> which implements the
+    logarithm function with base <tt>b</tt> and the instantiator:
+    <PRE>
+    expression* <b>instantiate_log</b>(expression** argv, int argc) {
+       return new <b>logb</b>(argv[0],argv[1]);
+    }
+    </PRE>
+    <tt>instantiate_log</tt> matches the prototype
+    <tt>parser::function_instantiator</tt> and it creates a new
+    instance of <tt>logb</tt> from the arguments supplied.
+    <PRE>
+    parser P;
+
+    P.add_function_instantiator("log",2,instantiate_log);
+    </PRE>
+    registers the function instantiator <tt>instantiate_log</tt>
+    with name <tt>"log"</tt> and argument count 2 to the parser.
+    For example in the expression <tt>log(3+4,5)</tt> the
+    the instantiator <tt>instantiate_log</tt> is called
+    with a vector of two elements: the first with a pointer to
+    the expression <tt>3+4</tt> and the second with a pointer to
+    the expression <tt>5</tt> and the value 2 is passed as the
+    number of parameters in the argument vector.
+    The parser would throw an exception
+    if <tt>log</tt> is not called with exactly two parameters!
+    If the user wants to implement a function which can take an
+    arbitrary number of parameters, he should register the
+    function instantiator with argument count -1.
+    Consider the function <tt>sum</tt> which sums up the elements
+    passed to it:
+    <PRE>
+    expression* <b>instantiate_sum</b>(expression** argv; int argc) {
+       return new <b>sum</b>(argv,argc);
+    }
+
+    parser P;
+
+    P.add_function_instantiator("sum",<FONT COLOR=red><b>-1</b></FONT>,
+       instantiate_sum);
+    </PRE>
+
+    Now the parser does not check for the argument count to be exact
+    and hence <tt>sum()</tt> and <tt>sum(2,3,4,5,6)</tt> are
+    both valid calls to <tt>sum</tt>
+  </UL><br><br>
+
+  <tt>const char* parser::<b>peek_token</b>(istream& is) const</tt>
+  <UL>
+     returns the next token from the stream <tt>is</tt>, without removing it.
+  </UL><br><br>
+  
+  <tt>void parser::<b>consume_token</b>(istream& is) const</tt>
+  <UL>
+     remove the next token from the stream <tt>is</tt>
+  </UL><br><br>
+  
+
+</UL>
+
+<H3>RESTRICTIONS</H3>
+
+<LI>Unary operators cannot have the same name as functions and
+    vica-versa (<i>on the other hand, binary and unary operators
+    <FONT COLOR=red>can</FONT> have the same name and
+    binary operators and functions <FONT COLOR=red>can</FONT>
+    also have identical names</i>)
+    <br><br>
+<LI>Operators and functions can only have single token names. In
+    other words <tt>++</tt> cannot be a name of an operator or
+    function because it is two tokens, but <tt><=</tt> can
+    because it is one token (<i>see <A HREF="./lexer.htm">lexer</A>
+    for details</A></i>).<br><br>
+<LI>Operator and function names can only be of type
+    <tt>LEX_SPECIAL</tt> or <tt>LEX_IDENTIFIER</tt> 
+    (<i>see <A HREF="./lexer.htm">lexer</A>
+    for details</A></i>).<br><br>
+<LI>Variable names must be of type <tt>LEX_IDENTIFIER</tt>
+    (<i>see <A HREF="./lexer.htm">lexer</A> for details</A></i>) 
+    and they cannot be the same as operator and function names.
+    <br><br>
+</BODY>
+</HTML>

@@ -1,0 +1,432 @@
+Microsoft(R) Windows NT(TM)
+(C) Copyright 1985-1996 Microsoft Corp.
+
+C:\work\A4>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of C:\work\A4
+
+03/31/00  10:37a        <DIR>          .
+03/31/00  10:37a        <DIR>          ..
+03/25/00  09:38a                 3,168 find_bs.c
+03/26/00  05:53p                37,452 a4proj.ide
+03/26/00  11:28a                 3,748 find_bs-good.c
+03/26/00  11:47a                 3,486 find_btr.c
+03/26/00  11:57a                 2,108 FIND_SEQ.C
+03/26/00  12:02p                 3,737 FIND_BSnew.C
+03/30/00  07:43p                 2,104 FIND_SEQnew.C
+03/30/00  07:43p                 3,462 FIND_BTRnewest.C
+03/30/00  07:16p                 3,736 FIND_BSnotes.C
+              11 File(s)         63,001 bytes
+                          2,808,086,528 bytes free
+
+C:\work\A4>bcc32 find_seqnew.c
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+FIND_SEQnew.C:
+Warning W8060 FIND_SEQnew.C 35: Possibly incorrect assignment in function main
+Warning W8075 FIND_SEQnew.C 59: Suspicious pointer conversion in function main
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+C:\work\A4>copy find_seqnew.c find_seq.c
+        1 file(s) copied.
+
+C:\work\A4>copy find_bsnotes.c find_bs.c
+        1 file(s) copied.
+
+C:\work\A4>copy find_btrnewest.c find_btr.c
+        1 file(s) copied.
+
+C:\work\A4>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of C:\work\A4
+
+03/31/00  10:37a        <DIR>          .
+03/31/00  10:37a        <DIR>          ..
+03/30/00  07:16p                 3,736 find_bs.c
+03/26/00  05:53p                37,452 a4proj.ide
+03/26/00  11:28a                 3,748 find_bs-good.c
+03/30/00  07:43p                 3,462 find_btr.c
+03/30/00  07:43p                 2,104 FIND_SEQ.C
+03/26/00  12:02p                 3,737 FIND_BSnew.C
+03/30/00  07:43p                 2,104 FIND_SEQnew.C
+03/30/00  07:43p                 3,462 FIND_BTRnewest.C
+03/30/00  07:16p                 3,736 FIND_BSnotes.C
+03/31/00  10:41a                 1,463 FIND_SEQnew.obj
+03/31/00  10:41a               393,216 FIND_SEQnew.tds
+03/31/00  10:41a                67,584 FIND_SEQnew.exe
+03/31/00  10:42a               957,651 testfils.zip
+03/21/00  07:30p             2,288,110 bstarfil
+03/21/00  07:31p               734,983 randfil
+03/21/00  07:31p             2,184,776 sortfil
+              18 File(s)      6,691,324 bytes
+                          2,801,205,248 bytes free
+
+C:\work\A4>dir /od
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of C:\work\A4
+
+03/21/00  07:30p             2,288,110 bstarfil
+03/21/00  07:31p               734,983 randfil
+03/21/00  07:31p             2,184,776 sortfil
+03/26/00  11:28a                 3,748 find_bs-good.c
+03/26/00  12:02p                 3,737 FIND_BSnew.C
+03/26/00  05:53p                37,452 a4proj.ide
+03/30/00  07:16p                 3,736 find_bs.c
+03/30/00  07:16p                 3,736 FIND_BSnotes.C
+03/30/00  07:43p                 3,462 find_btr.c
+03/30/00  07:43p                 3,462 FIND_BTRnewest.C
+03/30/00  07:43p                 2,104 FIND_SEQ.C
+03/30/00  07:43p                 2,104 FIND_SEQnew.C
+03/31/00  10:37a        <DIR>          ..
+03/31/00  10:37a        <DIR>          .
+03/31/00  10:41a                 1,463 FIND_SEQnew.obj
+03/31/00  10:41a                67,584 FIND_SEQnew.exe
+03/31/00  10:41a               393,216 FIND_SEQnew.tds
+03/31/00  10:42a               957,651 testfils.zip
+              18 File(s)      6,691,324 bytes
+                          2,801,205,248 bytes free
+
+C:\work\A4>bcc32 find_seq.c
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+FIND_SEQ.C:
+Warning W8060 FIND_SEQ.C 35: Possibly incorrect assignment in function main
+Warning W8075 FIND_SEQ.C 59: Suspicious pointer conversion in function main
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+C:\work\A4>find_seq love
+
+-> Command line should have: find_seq  word1 [word2...]  <file name>
+
+
+C:\work\A4>find_seq love randfil
+I searched through 59048 records but I never found love.
+
+C:\work\A4>find_seq love money fame my_car_keys self_assurance failure waldo ran
+dfil
+I searched through 59048 records but I never found love.
+I searched through 49816 records and then I found money.
+I searched through 37395 records and then I found fame.
+I searched through 59048 records but I never found my_car_keys.
+I searched through 10266 records and then I found self_assurance.
+I searched through 54 records and then I found failure.
+I searched through 59048 records but I never found waldo.
+
+C:\work\A4>bcc32 find_bs.c
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+find_bs.c:
+Warning W8060 find_bs.c 43: Possibly incorrect assignment in function main
+Warning W8075 find_bs.c 98: Suspicious pointer conversion in function main
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+C:\work\A4>find_bs money
+
+-> Command line should have: find_bs  word1 [word2...]  <file name>
+
+
+C:\work\A4>find_bs money sortfil
+I searched through 14 records and then I found money.
+
+C:\work\A4>find_bs love money fame my_car_keys self_assurance failure waldo sort
+fil
+I searched through 15 records but I never found love.
+I searched through 14 records and then I found money.
+I searched through 15 records and then I found fame.
+I searched through 16 records but I never found my_car_keys.
+I searched through 16 records and then I found self_assurance.
+I searched through 13 records and then I found failure.
+I searched through 16 records but I never found waldo.
+
+C:\work\A4>find_bs love money fame my_car_keys self_assurance failure waldo _s_s
+ aaliis_ lug_s luggage_carrier verst_s versions_ mark honor knowledge sortfil
+I searched through 15 records but I never found love.
+I searched through 14 records and then I found money.
+I searched through 15 records and then I found fame.
+I searched through 16 records but I never found my_car_keys.
+I searched through 16 records and then I found self_assurance.
+I searched through 13 records and then I found failure.
+I searched through 16 records but I never found waldo.
+I searched through 15 records and then I found _s_s.
+I searched through 16 records and then I found aaliis_.
+I searched through 16 records and then I found lug_s.
+I searched through 1 records and then I found luggage_carrier.
+I searched through 15 records and then I found verst_s.
+I searched through 16 records and then I found versions_.
+I searched through 11 records and then I found mark.
+I searched through 16 records and then I found honor.
+I searched through 16 records but I never found knowledge.
+
+C:\work\A4>find_bs love money fame my_car_keys self_assurance failure waldo _s_s
+ aaliis_ lug_s luggage_carrier verst_s versions_ mark honor knowledge causativer
+ respectablest sortfil
+I searched through 15 records but I never found love.
+I searched through 14 records and then I found money.
+I searched through 15 records and then I found fame.
+I searched through 16 records but I never found my_car_keys.
+I searched through 16 records and then I found self_assurance.
+I searched through 13 records and then I found failure.
+I searched through 16 records but I never found waldo.
+I searched through 15 records and then I found _s_s.
+I searched through 16 records and then I found aaliis_.
+I searched through 16 records and then I found lug_s.
+I searched through 1 records and then I found luggage_carrier.
+I searched through 15 records and then I found verst_s.
+I searched through 16 records and then I found versions_.
+I searched through 11 records and then I found mark.
+I searched through 16 records and then I found honor.
+I searched through 16 records but I never found knowledge.
+I searched through 3 records and then I found causativer.
+I searched through 16 records and then I found respectablest.
+
+C:\work\A4>bcc32 find_btr.c
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+find_btr.c:
+Warning W8060 find_btr.c 41: Possibly incorrect assignment in function main
+Warning W8075 find_btr.c 74: Suspicious pointer conversion in function main
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+C:\work\A4>find_btr fame
+
+-> Command line should have: find_btr  word1 [word2...]  <file name>
+
+
+C:\work\A4>find_btr bstarfil
+
+-> Command line should have: find_btr  word1 [word2...]  <file name>
+
+
+C:\work\A4>find_bs love money fame my_car_keys self_assurance failure waldo beer
+ enlightenment _s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor k
+nowledge causativer respectablest bstarfil
+I searched through 16 records but I never found love.
+I searched through 11 records and then I found money.
+I searched through 16 records but I never found fame.
+I searched through 16 records but I never found my_car_keys.
+I searched through 16 records but I never found self_assurance.
+I searched through 16 records but I never found failure.
+I searched through 16 records but I never found waldo.
+I searched through 16 records but I never found beer.
+I searched through 16 records but I never found enlightenment.
+I searched through 16 records but I never found _s_s.
+I searched through 16 records but I never found aaliis_.
+I searched through 16 records but I never found lug_s.
+I searched through 16 records but I never found luggage_carrier.
+I searched through 16 records and then I found verst_s.
+I searched through 15 records and then I found versions_.
+I searched through 16 records and then I found mark.
+I searched through 16 records but I never found honor.
+I searched through 16 records but I never found knowledge.
+I searched through 16 records but I never found causativer.
+I searched through 16 records but I never found respectablest.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment _s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+knowledge causativer respectablest bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records but I never found _s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment a_s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+ knowledge causativer respectablest bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records and then I found a_s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment a_s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+ knowledge causativer respectablest calculatory tabors aeolipile_s unverifiabili
+ty territorialization briefness_s asdics prussic bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records and then I found a_s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+I searched through 1 records and then I found calculatory.
+I searched through 1 records and then I found tabors.
+I searched through 2 records and then I found aeolipile_s.
+I searched through 2 records and then I found unverifiability.
+I searched through 2 records and then I found territorialization.
+I searched through 2 records and then I found briefness_s.
+I searched through 2 records and then I found asdics.
+I searched through 2 records and then I found prussic.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment a_s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+ knowledge causativer respectablest calculatory tabors aeolipile_s unverifiabili
+ty territorialization briefness_s asdics prussic asses cornpone nymphean dogwood
+ bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records and then I found a_s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+I searched through 1 records and then I found calculatory.
+I searched through 1 records and then I found tabors.
+I searched through 2 records and then I found aeolipile_s.
+I searched through 2 records and then I found unverifiability.
+I searched through 2 records and then I found territorialization.
+I searched through 2 records and then I found briefness_s.
+I searched through 2 records and then I found asdics.
+I searched through 2 records and then I found prussic.
+I searched through 3 records and then I found asses.
+I searched through 3 records and then I found cornpone.
+I searched through 3 records and then I found nymphean.
+I searched through 5 records but I never found dogwood.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment a_s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+ knowledge causativer respectablest calculatory tabors aeolipile_s unverifiabili
+ty territorialization briefness_s asdics prussic asses cornpone nymphean dogwood
+ stoups screwballs misapprehensiveness_s bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records and then I found a_s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+I searched through 1 records and then I found calculatory.
+I searched through 1 records and then I found tabors.
+I searched through 2 records and then I found aeolipile_s.
+I searched through 2 records and then I found unverifiability.
+I searched through 2 records and then I found territorialization.
+I searched through 2 records and then I found briefness_s.
+I searched through 2 records and then I found asdics.
+I searched through 2 records and then I found prussic.
+I searched through 3 records and then I found asses.
+I searched through 3 records and then I found cornpone.
+I searched through 3 records and then I found nymphean.
+I searched through 5 records but I never found dogwood.
+I searched through 5 records but I never found stoups.
+I searched through 4 records and then I found screwballs.
+I searched through 4 records and then I found misapprehensiveness_s.
+
+C:\work\A4>find_btr love money fame my_car_keys self_assurance failure waldo bee
+r enlightenment a_s_s aaliis_ lug_s luggage_carrier verst_s versions_ mark honor
+ knowledge causativer respectablest calculatory tabors aeolipile_s unverifiabili
+ty territorialization briefness_s asdics prussic asses cornpone nymphean dogwood
+ stoup_s screwballs misapprehensiveness_s bstarfil
+I searched through 5 records but I never found love.
+I searched through 5 records and then I found money.
+I searched through 5 records and then I found fame.
+I searched through 5 records but I never found my_car_keys.
+I searched through 2 records and then I found self_assurance.
+I searched through 5 records and then I found failure.
+I searched through 5 records but I never found waldo.
+I searched through 5 records but I never found beer.
+I searched through 5 records but I never found enlightenment.
+I searched through 5 records and then I found a_s_s.
+I searched through 5 records and then I found aaliis_.
+I searched through 5 records and then I found lug_s.
+I searched through 5 records and then I found luggage_carrier.
+I searched through 5 records and then I found verst_s.
+I searched through 5 records and then I found versions_.
+I searched through 5 records and then I found mark.
+I searched through 5 records and then I found honor.
+I searched through 5 records but I never found knowledge.
+I searched through 5 records and then I found causativer.
+I searched through 5 records and then I found respectablest.
+I searched through 1 records and then I found calculatory.
+I searched through 1 records and then I found tabors.
+I searched through 2 records and then I found aeolipile_s.
+I searched through 2 records and then I found unverifiability.
+I searched through 2 records and then I found territorialization.
+I searched through 2 records and then I found briefness_s.
+I searched through 2 records and then I found asdics.
+I searched through 2 records and then I found prussic.
+I searched through 3 records and then I found asses.
+I searched through 3 records and then I found cornpone.
+I searched through 3 records and then I found nymphean.
+I searched through 5 records but I never found dogwood.
+I searched through 4 records and then I found stoup_s.
+I searched through 4 records and then I found screwballs.
+I searched through 4 records and then I found misapprehensiveness_s.
+
+C:\work\A4>
+
+
+
+
+

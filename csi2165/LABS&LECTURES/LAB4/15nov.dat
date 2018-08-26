@@ -1,0 +1,1 @@
+pred:- a(X), write(X), nl, c(X).pred:- write(done), nl.a(Y):- !, b(Y).a(d):- write(end), nl.b(a).b(b).c(n).

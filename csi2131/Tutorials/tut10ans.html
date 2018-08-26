@@ -1,0 +1,759 @@
+
+<html>
+<head>
+<title>CSI 2131 Tutorial #10 Answers</title>
+</head>
+
+<body bgcolor=white>
+
+<table width="100%" border=0 cellpadding=5 bgcolor=gray>
+<tr><td align=right><a href=index.html><img src=2131.gif alt="CSI 2131 Home" align=left border=0></a><font size=+3 color=white>CSI 2131 Tutorial #10 Answers</font></td></tr>
+</table><p>
+
+Here are the answers to some stuff to help you prepare for the exam.<p>
+
+<i>Disclaimer: the stuff in this review covers only the second half of
+the course. See also <a href=tut04.html>tutorial #4</a> to review
+material from the first half of the course. The final exam covers all
+of the material from the whole semester.</i><p>
+
+<hr><p>
+
+The exam is closed-book, no notes, no cheat sheets, no calculators,
+no walkie-talkies no computers, no copying, no cheating, no taking a
+dive.<p>
+
+The exam counts mark-for-mark toward the final grade (50 marks on the
+exam translate to 50 marks toward the final grade).<p>
+
+There are several questions on the exam, worth different numbers of
+marks. You should plan your time according to the number of marks
+allotted to the question (for example, don't spend more than 35
+minutes on a question worth 10 marks).<p>
+
+Some questions ask you to create (an algorithm, for example), while
+some questions just ask you to do (apply a technique, for example).<p>
+
+<hr><p>
+
+<ol>
+<br><li>What is a <i>fixed length code</i>? What is a <i>variable length 
+code</i>? Give an example of each.<p>
+
+<font color=green>
+   A fixed length code is a map from one set of symbols (A) to 
+   another set of symbols (B) such that all symbols in B are
+   represented using the same number of bits.<p>
+
+   A variable length code is a map from A to B in which symbols
+   in B are represented with different numbers of bits.<p>
+
+   Examples of fixed length codes are RLE and LZW. Examples of
+   variable length codes are Morse and Huffman.<p></font>
+
+<br><li>Give a Run Length Encoding of the string: 
+"ABBCCCDDDDEEEEEF.........GHI".<p>
+
+<font color=green>
+   Here's one: ABBCCC#D4#E5F#.9GHI<p></font>
+
+<br><li>Give a Huffman Code of the string: "six_stick_shifts_stuck_shut".<p>
+
+<font color=green>
+   There are many different Codes possible, depending on how you order
+   symbols in the symbol list having the same probabilities. Here's one:<p>
+
+   <table border=1 cellpadding=10>
+   <tr>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+      <tr><td align=center>i</td><td align=center>3</td></tr>
+      <tr><td align=center>c</td><td align=center>2</td></tr>
+      <tr><td align=center>h</td><td align=center>2</td></tr>
+      <tr><td align=center>k</td><td align=center>2</td></tr>
+      <tr><td align=center>u</td><td align=center>2</td></tr>
+      <tr><td align=center>f</td><td align=center>1</td></tr>
+      <tr><td align=center>x</td><td align=center>1</td></tr>
+   </table>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+      <tr><td align=center>i</td><td align=center>3</td></tr>
+      <tr><td align=center>c</td><td align=center>2</td></tr>
+      <tr><td align=center>h</td><td align=center>2</td></tr>
+      <tr><td align=center>k</td><td align=center>2</td></tr>
+      <tr><td align=center>u</td><td align=center>2</td></tr>
+      <tr><td align=center>xf</td><td align=center>2</td></tr>
+   </table><p>
+   <img src=huff1.gif border=0>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+      <tr><td align=center>xfu</td><td align=center>4</td></tr>
+      <tr><td align=center>i</td><td align=center>3</td></tr>
+      <tr><td align=center>c</td><td align=center>2</td></tr>
+      <tr><td align=center>h</td><td align=center>2</td></tr>
+      <tr><td align=center>k</td><td align=center>2</td></tr>
+   </table><p>
+   <img src=huff2.gif border=0>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+      <tr><td align=center>kh</td><td align=center>4</td></tr>
+      <tr><td align=center>xfu</td><td align=center>4</td></tr>
+      <tr><td align=center>i</td><td align=center>3</td></tr>
+      <tr><td align=center>c</td><td align=center>2</td></tr>
+   </table><p>
+   <img src=huff3.gif border=0>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>ci</td><td align=center>5</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+      <tr><td align=center>kh</td><td align=center>4</td></tr>
+      <tr><td align=center>xfu</td><td align=center>4</td></tr>
+   </table><p>
+   <img src=huff4.gif border=0>
+   </td>
+   </tr>
+   </table>
+   <table border=1 cellpadding=10>
+   <tr>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>xfukh</td><td align=center>8</td></tr>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>ci</td><td align=center>5</td></tr>
+      <tr><td align=center>_</td><td align=center>4</td></tr>
+      <tr><td align=center>t</td><td align=center>4</td></tr>
+   </table><p>
+   <img src=huff5.gif border=0>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>t_</td><td align=center>8</td></tr>
+      <tr><td align=center>xfukh</td><td align=center>8</td></tr>
+      <tr><td align=center>s</td><td align=center>6</td></tr>
+      <tr><td align=center>ci</td><td align=center>5</td></tr>
+   </table><p>
+   <img src=huff6.gif border=0>
+   </td>
+   </tr>
+   </table>
+   <table border=1 cellpadding=10>
+   <tr>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>cis</td><td align=center>11</td></tr>
+      <tr><td align=center>t_</td><td align=center>8</td></tr>
+      <tr><td align=center>xfukh</td><td align=center>8</td></tr>
+   </table><p>
+   <img src=huff7.gif border=0>
+   </td>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>xfukht_</td><td align=center>16</td></tr>
+      <tr><td align=center>cis</td><td align=center>11</td></tr>
+   </table><p>
+   <img src=huff8.gif border=0>
+   </td>
+   </tr>
+   </table><p>
+
+   Here is the final tree and code:<p>
+
+   <table border=1 cellpadding=10>
+   <tr>
+   <td align=center valign=top><table border=1 cellpadding=5>
+      <tr><td align=center>s</td><td align=center>01</td></tr>
+      <tr><td align=center>_</td><td align=center>111</td></tr>
+      <tr><td align=center>t</td><td align=center>110</td></tr>
+      <tr><td align=center>i</td><td align=center>001</td></tr>
+      <tr><td align=center>c</td><td align=center>000</td></tr>
+      <tr><td align=center>h</td><td align=center>1011</td></tr>
+      <tr><td align=center>k</td><td align=center>1010</td></tr>
+      <tr><td align=center>u</td><td align=center>1001</td></tr>
+      <tr><td align=center>f</td><td align=center>10001</td></tr>
+      <tr><td align=center>x</td><td align=center>10000</td></tr>
+   </table><p>
+   <img src=huff9.gif border=0>
+   </td>
+   </tr>
+   </table><p>
+   </font>
+
+<br><li>Encode the following string using Adaptive Huffman encoding:
+"yabbadabbadoo"<p>
+
+  <font color=green>
+  Here is the encoded string (remember, the alphabetic characters
+  represent 8-bit ASCII codes, the 0's and 1's represent individual
+  bits):<br>
+  y 0a 00b 001 01 000d 01 01 01 01 0001 0000o 00001<p>
+
+  Here are the trees built while encoding the string. Codes are 
+  constructed by considering every left branch to be labelled 0 and
+  every right branch to be labelled 1 (I haven't shown these labels
+  on the trees):<br>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Start with only 
+  the "zero node"<p>
+  <img src=ah00.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'y', transmit
+  the 'y', split the zero node, add 'y' (and its probability) to the
+  tree<p>
+  <img src=ah01.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'a', transmit
+  the zero code (0), transmit the 'a', split the zero node, add 'a' to
+  the tree<p>
+  <img src=ah02.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'b', transmit
+  the zero code (00), transmit the 'b', split the zero node, add 'b' to
+  the tree<p>
+  <img src=ah03.gif border=0><p>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Read in 'b', transmit
+  the code for 'b' (001), update the probabilities in the tree; since
+  the 'b' node now has a higher probability than the 'y' node, it should
+  be placed higher in the tree than the 'y' node<p>
+  <img src=ah04.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Swap the 'b' node and
+  the 'y' node in the tree, update the probabilities in the tree<p>
+  <img src=ah05.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'a', transmit
+  the code for 'a' (01), update the probabilities in the tree<p>
+  <img src=ah06.gif border=0><p>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Read in 'd', transmit
+  the zero code (000), transmit the 'd', split the zero node, add 'd' to
+  the tree, update the probabilities in the tree<p>
+  <img src=ah07.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'a', transmit
+  the code for 'a' (01), update the probabilities in the tree; since
+  the 'a' node now has a higher probability than the 'b' node, it should
+  be placed higher in the tree than the 'b' node<p>
+  <img src=ah08.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Swap the 'a' node and
+  the 'b' node in the tree, update the probabilities in the tree<p>
+  <img src=ah09.gif border=0><p>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Read in 'b', transmit
+  the code for 'b' (01), update the probabilities in the tree<p>
+  <img src=ah10.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'b', transmit
+  the code for 'b' (01), update the probabilities in the tree; since
+  the 'b' node now has a higher probability than the 'a' node, it should
+  be placed higher in the tree than the 'a' node<p>
+  <img src=ah11.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Swap the 'b' node and
+  the 'a' node in the tree, update the probabilities in the tree<p>
+  <img src=ah12.gif border=0><p>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Read in 'a', transmit
+  the code for 'a' (01), update the probabilities in the tree<p>
+  <img src=ah13.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'd', transmit
+  the code for 'd' (0001), update the probabilities in the tree; since
+  the 'd' node now has a higher probability than the 'y' node, it should
+  be placed higher in the tree than the 'y' node<p>
+  <img src=ah14.gif border=0><p>
+  </td>
+  <td align=center valign=top><font color=green>Swap the 'd' node and
+  the 'y' node in the tree, update the probabilities in the tree<p>
+  <img src=ah15.gif border=0><p>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Read in 'o', transmit
+  the zero code (0000), transmit the 'o', split the zero node, add 'o' 
+  to the tree, update the probabilities in the tree
+  <img src=ah16.gif border=0>
+  </td>
+  <td align=center valign=top><font color=green>Read in 'o', transmit
+  the code for 'o' (00001), update the probabilities in the tree; since
+  the 'o' node now has a higher probability than the 'y' node, it should
+  be placed higher in the tree than the 'y' node
+  <img src=ah17.gif border=0>
+  </td>
+  <td align=center valign=top><font color=green>Swap the 'o' node and
+  the 'y' node in the tree, update the probabilities in the tree; since
+  there is now a node in the tree with higher probability (5) than a
+  node above it (the 'b' node), the higher probability node should be
+  placed higher in the tree
+  <img src=ah18.gif border=0>
+  </td>
+  </tr></table>
+  <table border=1 cellpadding=3><tr>
+  <td align=center valign=top><font color=green>Swap the node with
+  probability 5 and the 'b' node in the tree, update the probabilities 
+  in the tree<p>
+  <img src=ah19.gif border=0><p>
+  </td>
+  </tr>
+  </table><p>
+  </font>
+
+<br>
+<br>
+<br>
+<br><li>Encode the following string using LZW encoding. Assume that
+the dictionary already contains the ASCII codes 0-255 in the first 
+256 entries: "nice_mice_on_ice"<p>
+
+  <font color=green>
+  Here is the encoded string:<br>
+  &lt;110&gt;&lt;105&gt;&lt;99&gt;&lt;101&gt;&lt;95&gt;&lt;109&gt;&lt;257&gt;&lt;259&gt;&lt;111&gt;&lt;110&gt;&lt;95&gt;&lt;262&gt;<p>
+  <table border=0 cellpadding=10>
+  <tr>
+  <td valign=top>
+  <table border=1 cellpadding=5>
+  <tr><td align=center>...</td><td align=center>...</td></tr>
+  <tr><td align=center>95</td><td align=center>_</td></tr>
+  <tr><td align=center>96</td><td align=center>`</td></tr>
+  <tr><td align=center>97</td><td align=center>a</td></tr>
+  <tr><td align=center>98</td><td align=center>b</td></tr>
+  <tr><td align=center>99</td><td align=center>c</td></tr>
+  <tr><td align=center>100</td><td align=center>d</td></tr>
+  <tr><td align=center>101</td><td align=center>e</td></tr>
+  <tr><td align=center>102</td><td align=center>f</td></tr>
+  <tr><td align=center>103</td><td align=center>g</td></tr>
+  <tr><td align=center>104</td><td align=center>h</td></tr>
+  <tr><td align=center>105</td><td align=center>i</td></tr>
+  <tr><td align=center>106</td><td align=center>j</td></tr>
+  <tr><td align=center>107</td><td align=center>k</td></tr>
+  <tr><td align=center>108</td><td align=center>l</td></tr>
+  <tr><td align=center>109</td><td align=center>m</td></tr>
+  <tr><td align=center>110</td><td align=center>n</td></tr>
+  <tr><td align=center>111</td><td align=center>o</td></tr>
+  <tr><td align=center>112</td><td align=center>p</td></tr>
+  <tr><td align=center>...</td><td align=center>...</td></tr>
+  </table>
+  </td>
+  <td valign=top>
+  <table border=1 cellpadding=5>
+  <tr><td align=center>256</td><td align=center>ni</td></tr>
+  <tr><td align=center>257</td><td align=center>ic</td></tr>
+  <tr><td align=center>258</td><td align=center>ce</td></tr>
+  <tr><td align=center>259</td><td align=center>e_</td></tr>
+  <tr><td align=center>260</td><td align=center>_m</td></tr>
+  <tr><td align=center>261</td><td align=center>mi</td></tr>
+  <tr><td align=center>262</td><td align=center>ice</td></tr>
+  <tr><td align=center>263</td><td align=center>e_o</td></tr>
+  <tr><td align=center>264</td><td align=center>on</td></tr>
+  <tr><td align=center>265</td><td align=center>n_</td></tr>
+  <tr><td align=center>266</td><td align=center>_i</td></tr>
+  <tr><td align=center>267</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>268</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>269</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>270</td><td align=center>&nbsp;</td></tr>
+  </table>
+  </td>
+  <td valign=top>
+  <table border=0 cellpadding=10>
+  <tr>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;w&nbsp;&nbsp;</i></b>
+  <hr>
+  <br>
+  n<br>i<br>c<br>e<br>_<br>m<br>i<br>ic<br>e<br>e_<br>o<br>n<br>_<br>i<br>ic<br>ice
+  </td>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;k&nbsp;&nbsp;</i></b>
+  <hr>
+  n<br>i<br>c<br>e<br>_<br>m<br>i<br>c<br>e<br>_<br>o<br>n<br>_<br>i<br>c<br>e
+  </td>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;out&nbsp;&nbsp;</i></b>
+  <hr>
+  <br>
+  110<br>105<br>99<br>101<br>95<br>109<br><br>257<br><br>259<br>111<br>110<br>95<br><br><br>262
+  </td>
+  </tr>
+  </table>
+  </td>
+  </tr>
+  </table><p>
+  </font>
+
+<br><li>Decode the following sequence using LZW decoding. Assume that
+the dictionary already contains the ASCII codes 0-255 in the first 
+256 entries: 
+&lt;116&gt;&lt;104&gt;&lt;97&gt;&lt;100&gt;&lt;95&gt;&lt;257&gt;&lt;259&gt;&lt;97&gt;&lt;95&gt;&lt;100&gt;&lt;258&gt;
+<p>
+
+  <font color=green>
+  Here is the decoded string: thad_had_a_dad<p>
+
+  <table border=0 cellpadding=10>
+  <tr>
+  <td valign=top>
+  <table border=1 cellpadding=5>
+  <tr><td align=center>...</td><td align=center>...</td></tr>
+  <tr><td align=center>95</td><td align=center>_</td></tr>
+  <tr><td align=center>96</td><td align=center>`</td></tr>
+  <tr><td align=center>97</td><td align=center>a</td></tr>
+  <tr><td align=center>98</td><td align=center>b</td></tr>
+  <tr><td align=center>99</td><td align=center>c</td></tr>
+  <tr><td align=center>100</td><td align=center>d</td></tr>
+  <tr><td align=center>101</td><td align=center>e</td></tr>
+  <tr><td align=center>102</td><td align=center>f</td></tr>
+  <tr><td align=center>103</td><td align=center>g</td></tr>
+  <tr><td align=center>104</td><td align=center>h</td></tr>
+  <tr><td align=center>105</td><td align=center>i</td></tr>
+  <tr><td align=center>106</td><td align=center>j</td></tr>
+  <tr><td align=center>107</td><td align=center>k</td></tr>
+  <tr><td align=center>108</td><td align=center>l</td></tr>
+  <tr><td align=center>109</td><td align=center>m</td></tr>
+  <tr><td align=center>110</td><td align=center>n</td></tr>
+  <tr><td align=center>111</td><td align=center>o</td></tr>
+  <tr><td align=center>112</td><td align=center>p</td></tr>
+  <tr><td align=center>113</td><td align=center>q</td></tr>
+  <tr><td align=center>114</td><td align=center>r</td></tr>
+  <tr><td align=center>115</td><td align=center>s</td></tr>
+  <tr><td align=center>116</td><td align=center>t</td></tr>
+  <tr><td align=center>...</td><td align=center>...</td></tr>
+  </table>
+  </td>
+  <td valign=top>
+  <table border=1 cellpadding=5>
+  <tr><td align=center>256</td><td align=center>th</td></tr>
+  <tr><td align=center>257</td><td align=center>ha</td></tr>
+  <tr><td align=center>258</td><td align=center>ad</td></tr>
+  <tr><td align=center>259</td><td align=center>d_</td></tr>
+  <tr><td align=center>260</td><td align=center>_h</td></tr>
+  <tr><td align=center>261</td><td align=center>had</td></tr>
+  <tr><td align=center>262</td><td align=center>d_a</td></tr>
+  <tr><td align=center>263</td><td align=center>a_</td></tr>
+  <tr><td align=center>264</td><td align=center>_d</td></tr>
+  <tr><td align=center>265</td><td align=center>da</td></tr>
+  <tr><td align=center>266</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>267</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>268</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>269</td><td align=center>&nbsp;</td></tr>
+  <tr><td align=center>270</td><td align=center>&nbsp;</td></tr>
+  </table>
+  </td>
+  <td valign=top>
+  <table border=0 cellpadding=10>
+  <tr>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;w&nbsp;&nbsp;</i></b>
+  <hr>
+  <br>
+  t<br>h<br>a<br>d<br>_<br>ha<br>d_<br>a<br>_<br>d<br>ad
+  </td>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;k&nbsp;&nbsp;</i></b>
+  <hr>
+  116<br>104<br>97<br>100<br>95<br>257<br>259<br>97<br>95<br>100<br>258
+  </td>
+  <td valign=top align=center>
+  <b><i>&nbsp;&nbsp;out&nbsp;&nbsp;</i></b>
+  <hr>
+  t<br>h<br>a<br>d<br>_<br>ha<br>d_<br>a<br>_<br>d<br>ad
+  </td>
+  </tr>
+  </table>
+  </td>
+  </tr>
+  </table><p>
+  </font>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br><li>What are the steps of any general cosequential processing algorithm?<p>
+
+  <font color=green>For <i>k</i> files...<pre>
+     open all the files F<sub>1</sub>..F<sub>k</sub>
+     read a record r<sub>i</sub> from each file F<sub>i</sub>
+     while there are records left in any file
+        find the record r<sub>min</sub> with the minimum key value
+        do something to r<sub>min</sub>
+        read the next record from file F<sub>min</sub>
+     endwhile</pre></font><p>
+
+<br><li>What is <i>storage compaction</i>?<p>
+
+  <font color=green>
+  In a file with records marked as deleted, read the file sequentially
+  writing out all records <i>except</i> those marked as deleted.<p>
+  </font>
+
+<br><li>What is <i>dynamic reclamation</i>?<p>
+
+  <font color=green>
+  A data structure (such as a stack) is kept within the data file
+  linking all the deleted records. Records marked as deleted can be
+  reused for newly added records by traversing the data structure,
+  eliminating the need to <i>search</i> for deleted records.<p>
+  </font>
+
+<br><li>What are <i>First Fit</i>, <i>Best Fit</i> and <i>Worst Fit</i>?<p>
+
+  <font color=green>
+  A file has variable length records and some records marked as deleted.
+  We want to reuse the records marked as deleted to store newly added 
+  records. The record to be added may be too big to fit in the space left
+  by some of the deleted records. We must find a deleted record big enough
+  to hold the new record.<p>
+
+  <i>First Fit:</i> use the first deleted record that's big enough to hold
+  the new record (either the first in the file, or the first in the data
+  structure, if dynamic reclamation is being used).<p>
+
+  <i>Best Fit:</i> use the smallest deleted record that's big enough to hold
+  the new record.<p>
+
+  <i>Worst Fit:</i> use the biggest deleted record that's big enough to hold
+  the new record.<p>
+  </font>
+
+<br><li>Build a heap from the following records:<br>
+  30 24 16 28 23 20 7 21 14 5 30 22 15<p>
+ 
+  <font color=green>Here's the heap (I've built it sideways because
+  it's easier to type that way)<pre>
+  30
+  30 24
+  24 30
+  24 30 16
+  16 30 24
+  16 30 24 28
+  16 28 24 30
+  16 28 24 30 23
+  16 23 24 30 28
+  16 23 24 30 28 20
+  16 23 20 30 28 24
+  16 23 20 30 28 24  7
+  16 23  7 30 28 24 20
+   7 23 16 30 28 24 20
+   7 23 16 30 28 24 20 21
+   7 23 16 21 28 24 20 30
+   7 21 16 23 28 24 20 30
+   7 21 16 23 28 24 20 30 14
+   7 21 16 14 28 24 20 30 23
+   7 14 16 21 28 24 20 30 23
+   7 14 16 21 28 24 20 30 23  5
+   7 14 16 21  5 24 20 30 23 28
+   7  5 16 21 14 24 20 30 23 28
+   5  7 16 21 14 24 20 30 23 28
+   5  7 16 21 14 24 20 30 23 28 30
+   5  7 16 21 14 24 20 30 23 28 30 22
+   5  7 16 21 14 22 20 30 23 28 30 24
+   5  7 16 21 14 22 20 30 23 28 30 24 15
+   5  7 15 21 14 16 20 30 23 28 30 24 22</pre>
+   <p></font>
+
+<br><li>What is a <i>selection tree</i>?<p>
+
+  <font color=green>
+  In the <i>K-way merge</i> we saw that finding the minimum key among
+  <i>K</i> records within the merge algorithm could be very expensive
+  (O(K)). A <i>selection tree</i> is a binary tree where the leaves are
+  keys from each of the <i>K</i> records. The parent of each pair of keys
+  is the smaller of the two keys. The selection tree allows us to find
+  the minimum of <i>K</i> keys in O(log<sub>2</sub>K) each time
+  through the merge loop.<p>
+  </font>
+
+<br><li>What is <i>multi-step</i> merging?<p>
+
+  <font color=green>
+  When merging a very large number of files, it may be advantageous to 
+  merge the files in smaller batches, then merge the merged files.<p>
+  </font>
+
+<br><li>Do a heapsort with replacement selection for the following records
+  if we only have room for 4 records in the heap:<br>
+  30 24 16 28 23 20 7 21 14 5 30 22 15<p>
+ 
+  <font color=green>Here are the steps in sorting (I show the heap
+  sideways because it's easier to type that way). I mark the bottom of
+  the heap with a <tt>|</tt> and build an upside-down heap underneath
+  the active heap. When the active heap becomes empty, I can start
+  writing out the new run using the upside-down heap (going right-to-left
+  instead of left-to-right). When a record gets
+  written out, I show it in <font color=red>red</font><pre>
+   30         |
+   30 24      |
+   24 30      |
+   24 30 16   |
+   16 30 24   |
+   16 30 24 28|
+   16 28 24 30|     <font color=red>16</font>
+   23 28 24 30|     <font color=red>23</font>
+   30 28 24|20
+   24 28 30|20      <font color=red>24</font>
+   30 28| 7 20
+   28 30|20  7      <font color=red>28</font>
+   30|21 20  7      <font color=red>30</font>
+  |14 21 20  7
+  |20 21 14  7      <font color=red> 7</font> <i>we can already start a new run because the heap is already built</i>
+    5|21 14 20
+    5|21 20 14      <font color=red>14</font>
+    5|21 20 30
+    5|21 30 20      <font color=red>20</font>
+    5|21 30 22
+    5|22 30 21      <font color=red>21</font>
+    5 15|30 22      <font color=red>22</font>
+    5 15   |30      <font color=red>30</font>
+    5 15      |     <font color=red> 5</font> <i>starting another run</i>
+   15         |     <font color=red>15</font></pre>
+  </font>
+
+<br><li>What is an <i>index file</i>?<p>
+
+  <font color=green>
+  An <i>index file</i> is a file created from a data file. Records in
+  the index file consist of a key and a reference field. The reference
+  field indicates the location in the data file of records having the 
+  given key.<p>
+  </font>
+
+<br><li>What is a <i>secondary index</i>?<p>
+
+  <font color=green>
+  A <i>secondary index</i> is an index file in which the index records
+  consist of secondary key values as the key and primary key values as
+  the reference field. Looking up a secondary key value in the secondary
+  index gives the primary keys of records having that secondary key value.<p>
+  </font>
+
+<br><li>What is an <i>inverted list</i>?<p>
+
+  <font color=green>
+  Since secondary keys are not necessarily unique, there may be several
+  records (with different primary keys) for each secondary key value. An
+  <i>inverted list</i> is a secondary index in which the key is a secondary
+  key value and the reference field is a list of all the primary key values 
+  of records having that secondary key value.<p>
+  </font>
+
+<br><li>Add the key <tt>M</tt> to the following B-tree.
+<center><img src=btrev1.gif border=0></center><p>
+
+  <font color=green>
+  Here is the resulting B-tree.
+  <center><img src=btrev2.gif border=0></center><p>
+  </font>
+
+<br><li>Delete the key <tt>S</tt> from the following B-tree.
+<center><img src=btrev1.gif border=0></center><p>
+
+  <font color=green>
+  Here is the resulting B-tree.
+  <center><img src=btrev3.gif border=0></center><p>
+  </font>
+
+<br><li>Delete the key <tt>U</tt> from the following B-tree.
+<center><img src=btrev2.gif border=0></center><p>
+
+  <font color=green>
+  Here is the resulting B-tree.
+  <center><img src=btrev4.gif border=0></center><p>
+  </font>
+
+<br><li>Add the key <tt>Y</tt> to the following B* tree.
+<center><img src=btrev5.gif border=0></center><p>
+
+  <font color=green>
+  Here is the resulting B* tree.
+  <center><img src=btrev6.gif border=0></center><p>
+  </font>
+
+<br><li>What is <i>hashing</i>?<p>
+
+  <font color=green>
+  <i>Hashing</i> is storing records in predictable locations in a data file
+  to allow direct access.<p>
+  </font>
+
+<br><li>What is a <i>hashing function</i>?<p>
+
+  <font color=green>
+  A <i>hashing function</i> is a formula that maps primary key values onto
+  positions in the hash table.<p>
+  </font>
+
+<br><li>What is a <i>collision</i>?<p>
+
+  <font color=green>
+  A <i>collision</i> occurs when a hashing function maps two different
+  key values onto the same hash value.<p>
+  </font>
+
+<br><li>Name two desirable properties of a hashing function.<p>
+
+  <font color=green>
+  <ol>
+  <li>A hashing function should produce an even distribution of values.
+  <li>The range of a hashing function should cover the whole range of the hash table.
+  </ol><p>
+  </font>
+
+<br><li>What is a <i>bucket</i>?<p>
+
+  <font color=green>
+  A <i>bucket</i> is a hash table entry capable of holding more than one
+  record.<p>
+  </font>
+
+</ol>
+
+<hr><p>
+
+Now here are even more things not mentioned in the review that you may 
+also want to bone up on:<p>
+ 
+<ul>
+<li>merging or matching or batch updating algorithms
+<li>merge sort, k-way merge
+<li>paged binary trees
+<li>creating hashing functions
+<li>collision avoidance
+<li>collision resolution algorithms
+<li>tries
+<li>extendible hashing
+</ul><p>
+
+<hr><p>
+
+<center><b><i>GOOD LUCK!</i></b></center><p>
+
+
+<table width="100%" border=0 cellpadding=0 bgcolor=gray>
+<tr><td align=center><font size=-5>&nbsp;</font></td></tr>
+</table>
+
+<font size=-2><i>(last update March 24, 2000)</i></font>
+
+</body>
+</html>
+

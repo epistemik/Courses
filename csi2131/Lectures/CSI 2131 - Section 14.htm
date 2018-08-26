@@ -1,0 +1,1954 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec14.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 14</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Extendible Hashing</CENTER></FONT>
+      <HR>
+
+      <P>Hashing gives us good performance for finding records. Unfortunately, 
+      the performance may be affected by additions and deletions to the hash 
+      table. As the table fills up, collisions become more probable and 
+      performance worsens. We need ways to make the hash table less sensitive to 
+      additions and deletions, and to extend the hash table as it fills up.
+      <P><BR><BR>
+      <HR SIZE=10 width=10>
+
+      <P><BR><BR>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Dynamic Files 
+              <LI>Tries 
+              <LI>Extending the Hash Table 
+              <LI>Shrinking the Hash Table 
+              <LI>Dynamic Hashing 
+              <LI>Linear Hashing </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ N/A<BR>§ 11.2<BR>§§ 11.2, 11.3<BR>§ 11.4<BR>§ 11.6.1<BR>§ 
+            11.6.2 </FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 247 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Files</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Dynamic File</I></B> 
+        <DD>A file that changes a lot 
+        <UL>
+          <LI>specifically, a file that we add to and delete from 
+        frequently</LI></UL></DD></DL>
+      <P>Our lectures in this course have become quite predictable:
+      <OL>
+        <LI>try to apply some standard algorithm/structures to big files 
+        <LI>change the algorithm/structures to work with big files 
+        <LI>find out that the changes are good for static files, but are not so 
+        good for dynamic files 
+        <LI>come up with new algorithms/structures for big/dynamic files 
+</LI></OL>
+      <P>For example:
+      <UL>
+        <LI>B-trees
+        <OL>
+          <LI>apply binary search to big sorted files
+          <UL>
+            <LI>poor performance from jumping around in the file</LI></UL>
+          <LI>paged binary trees
+          <UL>
+            <LI>allow binary searching without the jumping around</LI></UL>
+          <LI>good paged binary tree performance requires balanced trees
+          <UL>
+            <LI>balancing a paged binary tree after an addition or deletion can 
+            be expensive</LI></UL>
+          <LI>B-trees (or B*-trees) perform as well as paged binary trees for 
+          searching, but they're much less sensitive to additions and deletions 
+          </LI></OL>
+        <P></FONT></P></LI></UL></TD></TR></TBODY></TABLE>
+<CENTER>- 248 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hashing for Dynamic Data</CENTER></FONT>
+      <HR>
+
+      <P>The hashing we've seen requires the size of the hash table to be fixed:
+      <UL>
+        <LI>we can fix the table size small (just slightly bigger than the data 
+        requires) to avoid wastage
+        <UL>
+          <LI>we end up with more collisions</LI></UL>
+        <LI>we can fix the table size large (closer to the size of the keyspace) 
+        to avoid collisions
+        <UL>
+          <LI>we end up with more wastage</LI></UL></LI></UL>
+      <P>Although we can avoid collisions by making the table bigger, it is not 
+      feasible to make the table big enough to allow a perfect hashing function.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 249 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hashing for Dynamic Data (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Fixing the hash table at a reasonable size means that:
+      <OL>
+        <LI>we <I>will</I> have collisions 
+        <LI>as we add more records, the table fills up and collisions increase 
+        <LI>as collisions increase, performance worsens (direct access degrades 
+        to searching) 
+        <LI>deleting records does not necessarily make things better 
+        <LI>eventually, if we add enough records, we may hit the limit of the 
+        table or we may <I>saturate the hash space</I>
+        <UL>
+          <LI>have as many records as there are distinct hash values (or even 
+          more)</LI></UL></LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Why do we have to fix the hash table size?
+      <P>and
+      <P><B><I>Q:</I></B> Why can't we have a huge hash space?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 250 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Filing for Divorce</CENTER></FONT>
+      <HR>
+
+      <P>We have to fix the size of the hash table because that size is used by 
+      the hashing function in calculating the hash values.
+      <P>We can't have a huge hash space because the bigger the hash space, the 
+      more wasted space we have in the hash table.
+      <P>Both of these problems can be traced to a common root:
+      <P>
+      <CENTER><I>the hash values are used directly as addresses in the hash 
+      table</I></CENTER>
+      <P>If we divorced the hash values from the hash table addresses (RRNs), 
+      then we might be able to solve our problems:
+      <UL>
+        <LI>if we're not using hash values as addresses, then the hash function 
+        would not need to use the hash table size to keep the values within 
+        range 
+        <LI>if the hash values don't need to be within the range of the hash 
+        table, we can make the hash space as big as we want 
+        <LI>if the hash function is not dependent on the table size, we don't 
+        have to keep the table size constant </LI></UL>
+      <P><B><I>Q:</I></B> That's pretty clever, Einstein, but the whole point of 
+      hashing is calculating the reference field (address) directly from the 
+      primary key value. How can we get O(1) access now?
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 251 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Trie This On for Size</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Trie</I></B>
+        <UL>
+          <LI>a data structure 
+          <LI>a tree in which branches (from parent to child) are labelled
+          <UL>
+            <LI>concatenating the labels along the path from the root to a leaf 
+            produces data values</LI></UL>
+          <LI>one of the most unfortunate terminological gaffs in Computer 
+          Science history </LI></UL></DT></DL>
+      <HR SIZE=10 width=10>
+
+      <P>Some <I>trie</I>via:
+      <UL>
+        <LI>the name <I>trie</I> comes from the word <I>retrieval</I> because 
+        <I>tries</I> are used to retrieve data. <TT>:-b</TT> 
+        <LI>some sources give the pronunciation as <I>tree</I> (like in 
+        <I>retrieval</I>) 
+        <LI>the pronunciation <I>try</I> is probably cited more commonly now, to 
+        avoid confusion with <I>tree</I> </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> We've already seen examples of <I>tries</I>... where?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 252 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Trie Example: A Spell Checker</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> If I asked you to write a spell checker for English 
+      words, how would you do it? Would you take a list of known English words, 
+      sort it and do a binary search for every word in my document?
+      <P><B><I>A:</I></B> I hope not.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><TT>
+      <OL>
+        <LI>start with a tree with one node 
+        <LI>for each word W in your sorted list of English words 
+        <OL type=a>
+          <LI>start at the root of the tree 
+          <LI>for each character Ch in the current word 
+          <OL type=i>
+            <LI>if there is a branch labelled Ch from the current node, follow 
+            that branch 
+            <LI>otherwise, create a branch labelled Ch from the current node and 
+            follow that branch </LI></OL>
+          <LI>create a branch labelled NULL from the current node 
+      </LI></OL></LI></OL></TT>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 253 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Trie Example Continued</CENTER></FONT>
+      <HR>
+
+      <P>Let's create a spell checker for the following dictionary of words:
+      <P><TT>be, bee, been, beer, beet, bit, bite, bottle, bottom, bud, bust, 
+      busy, but</TT>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE><B><I>Q:</I></B> How do you spell check the words in a document?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What is the complexity of spell checking an individual 
+      word?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 254 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Closure</CENTER></FONT>
+      <HR>
+
+      <P>Let's bring together the techniques we've learned to come up with a 
+      better kind of hashing:
+      <OL>
+        <LI>make the hash table less sensitive to insertions and deletions
+        <UL>
+          <LI>buckets are 1 cluster big 
+          <LI>buckets are at least half full</LI></UL>
+        <LI>buckets can be split when overflowing or merged when underflowing 
+        <LI>divorce the hash values from the hash table addresses
+        <UL>
+          <LI>use an index to access hash table buckets 
+          <LI>a trie of hash values can index the buckets</LI></UL>
+        <LI>maintain direct access (performance should not depend on N)
+        <UL>
+          <LI>hash values are not hash table addresses, they are paths in a trie 
+          whose leaves point to buckets 
+          <LI>traversing the trie to find a bucket is linear in the length of 
+          the hash values, which is independent of the number of 
+        keys</LI></UL></LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 255 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>First, the Trie</CENTER></FONT>
+      <HR>
+
+      <P>We're going to use our hash values to build a trie to index the hash 
+      table buckets. Our trie will be a binary trie. Each node will have at most 
+      two children, a 0 child and a 1 child. Paths through the trie will 
+      correspond to the binary (base two) representation of our hash values.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR bgColor=#e0e0e0>
+          <TD><FONT size=+2><B><I>
+            <CENTER>h(k)</CENTER></I></B></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>20 = 00010100</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>21 = 00010101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>&nbsp;5 = 00000101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>29 = 00011101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>13 = 00001101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>&nbsp;7 = 00000111</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>27 = 00011011</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>28 = 00011100</TT></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 256 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>A Trie-Indexed Hash Table</CENTER></FONT>
+      <HR>
+
+      <P>Let's say our buckets can hold four records each, and we start off with 
+      eight records. To allow for additions and deletions, let's start with our 
+      buckets half full.
+      <P>
+      <DIV align=right>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>20 (10100)</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>28 (11100)</TT></FONT></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>&nbsp;5 (00101)</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>21 (10101)</TT></FONT></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>13 (01101)</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>29 (11101)</TT></FONT></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5 width="100%">
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>27 (11011)</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>&nbsp;7 (00111)</TT></FONT></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></DIV>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 257 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hash Space vs. Table Size</CENTER></FONT>
+      <HR>
+
+      <P>The previous example shows us that we only need to use as much of the 
+      hash value as necessary to identify buckets. To identify our buckets 
+      uniquely, we only needed four bits from the hash value (even though our 
+      hash values have at least 5 bits of precision).
+      <P>In general, we can make the hash space as big as we want (using as many 
+      bits as we want for the hash values) without affecting the size of the 
+      hash table.
+      <P>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR bgColor=#e0e0e0>
+          <TD><FONT size=+2><B><I>
+            <CENTER>h(k)</CENTER></I></B></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>47444 = 1011100101010100</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>22389 = 0101011101110101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>46981 = 1011011110000101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>18461 = 0100100000011101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>60813 = 1110110110001101</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>56711 = 1101110110000111</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>&nbsp;8731 = 
+0010001000011011</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+1><TT>16092 = 
+        0011111011011100</TT></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 258 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hash Space vs. Table Size II</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER><IMG border=0 src="CSI 2131 - Section 14_files/hashtrie1.gif"> 
+      </CENTER>
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 259 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Growing the Trie</CENTER></FONT>
+      <HR>
+
+      <P>In our example we needed only four bits worth of hash value to index 
+      our hash table using a trie. That is, the depth of the trie was four (plus 
+      pointers to the hash table buckets). But observe that
+      <OL>
+        <LI>if we have good (random-like) distribution among the values, our 
+        trie will be shallower and more complete 
+        <LI>if we complete the trie, we will be able to add buckets without 
+        affecting the depth of the trie 
+        <LI>given (1), completing the trie shouldn't be <I>too</I> big a waste 
+        of space </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 260 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Still Growing the Trie</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER><IMG border=0 
+      src="CSI 2131 - Section 14_files/hashtrie2.gif"></CENTER>
+      <P><B><I>Q:</I></B> What is the complexity of finding a particular bucket?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What else can we do with a complete trie?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 261 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Cutting Down the Trie</CENTER></FONT>
+      <HR>
+
+      <P>Since our trie is a binary tree, the complete trie can be represented 
+      efficiently using an array. This form of the trie is called a 
+      <I>directory</I>.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD width="50%">
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width=150>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>52 (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>28 (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;5 (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>21 (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>13 (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>61 (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>27 (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>39 (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> What is the complexity of finding a particular bucket?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 262 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Dynamic Trie-Indexed Hash Tables</CENTER></FONT>
+      <HR>
+
+      <P>We now have a way of accessing buckets in a hash table in constant time 
+      (with respect to the number of records/buckets). But we had that with 
+      plain old static hashing. It remains to show that our new indexed hash 
+      table allows us to add records, delete records, and to grow and shrink the 
+      table without affecting our access efficiency.
+      <P>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD width="40%"><FONT size=+2>Let's add some records to our hash 
+            table. We'll add records<BR>
+            <CENTER><I>r<SUB><FONT size=+0>9</FONT></SUB></I>, <I>r<SUB><FONT 
+            size=+0>10</FONT></SUB></I>, <I>r<SUB><FONT 
+            size=+0>11</FONT></SUB></I> and <I>r<SUB><FONT 
+            size=+0>12</FONT></SUB></I></CENTER><BR>having keys<BR>
+            <CENTER><I>k<SUB><FONT size=+0>9</FONT></SUB></I>, <I>k<SUB><FONT 
+            size=+0>10</FONT></SUB></I>, <I>k<SUB><FONT 
+            size=+0>11</FONT></SUB></I> and <I>k<SUB><FONT 
+            size=+0>12</FONT></SUB></I>.</CENTER>
+            <P>When we apply our hashing function to the keys, we get the 
+            following values:<BR>H(<I>k<SUB><FONT size=+0>9</FONT></SUB></I>) = 
+            26 (011010),<BR>H(<I>k<SUB><FONT size=+0>10</FONT></SUB></I>) = 31 
+            (011111),<BR>H(<I>k<SUB><FONT size=+0>11</FONT></SUB></I>) = 53 
+            (110101) and<BR>H(<I>k<SUB><FONT size=+0>12</FONT></SUB></I>) = 6 
+            (000110). </FONT></P></TD>
+          <TD width="10%"></TD>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1) = 52 
+                    (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8) = 28 
+                    (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3) = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k2) = 21 
+                    (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k5) = 13 
+                    (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4) = 61 
+                    (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7) = 27 
+                    (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6) = 39 
+                    (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 263 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Extending the Hash Table (Splitting Buckets)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="40%"><FONT size=+2>That was too easy. Let's 
+            add some more records:<BR>H(<I>k<SUB><FONT 
+            size=+0>13</FONT></SUB></I>) = 37 (100101) and<BR>H(<I>k<SUB><FONT 
+            size=+0>14</FONT></SUB></I>) = 8 (001000)
+            <P></FONT></P></TD>
+          <TD align=middle width="30%">
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right width="30%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1)&nbsp; = 52 
+                        (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8)&nbsp; = 28 
+                        (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k9)&nbsp; = 26 
+                        (011010)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k12) = &nbsp;6 
+                        (000110)</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3)&nbsp; = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k2)&nbsp; = 21 
+                        (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k11) = 53 
+                    (110101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k5)&nbsp; = 13 
+                        (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4)&nbsp; = 61 
+                        (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7)&nbsp; = 27 
+                        (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6)&nbsp; = 39 
+                        (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k10) = 31 
+                    (011111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>5</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 264 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Extending the Address Space</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="40%"><FONT size=+2>That was still pretty easy. 
+            Let's add another record:<BR>H(<I>k<SUB><FONT 
+            size=+0>15</FONT></SUB></I>) = 21 (010101)
+            <P><B><I>Q:</I></B> ?
+            <P></FONT></P></TD>
+          <TD align=middle width="30%">
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>5</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>5</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>5</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>5</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1)&nbsp; = 52 
+                        (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8)&nbsp; = 28 
+                        (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k14) = &nbsp;8 
+                        (001000)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3)&nbsp; = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k2)&nbsp; = 21 
+                        (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k11) = 53 
+                    (110101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k13) = 37 
+                    (100101)</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k5)&nbsp; = 13 
+                        (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4)&nbsp; = 61 
+                        (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7)&nbsp; = 27 
+                        (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6)&nbsp; = 39 
+                        (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k10) = 31 
+                    (011111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>5</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k9)&nbsp; = 26 
+                        (011010)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k12) = &nbsp;6 
+                        (000110)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 265 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Hash Space &gt; Address Space</CENTER></FONT>
+      <HR>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="40%"><FONT size=+2><BR>We can't just split 
+            bucket 2 because all of the records in bucket 2 are accessed through 
+            the same entry in the index. They all have the same last 4 bits.
+            <P>But because we divorced the hash space from the address space 
+            (hash values are not used as addresses in the hash table), we can 
+            make the hash space as big as we want. By making the hash space much 
+            larger than the address space of the hash table, we can use more 
+            bits of the hash values as needed as the hash table grows.
+            <P></FONT></P></TD>
+          <TD align=middle width="30%">
+            <TABLE border=1 cellPadding=1>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>00000</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00001</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00010</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00011</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00100</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00101</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00110</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>00111</TT></FONT></TD>
+                <TD>1</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01000</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01001</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01010</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01011</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01100</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01101</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01110</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>01111</TT></FONT></TD>
+                <TD>5</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10000</TT></FONT></TD>
+                <TD>0</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10001</TT></FONT></TD>
+                <TD>0</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10010</TT></FONT></TD>
+                <TD>0</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10011</TT></FONT></TD>
+                <TD>0</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10100</TT></FONT></TD>
+                <TD>2</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10101</TT></FONT></TD>
+                <TD>6</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10110</TT></FONT></TD>
+                <TD>3</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>10111</TT></FONT></TD>
+                <TD>3</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11000</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11001</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11010</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11011</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11100</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11101</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11110</TT></FONT></TD>
+                <TD>4</TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>11111</TT></FONT></TD>
+                <TD>4</TD></TR></TBODY></TABLE></TD>
+          <TD align=right width="30%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1)&nbsp; = 52 
+                        (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8)&nbsp; = 28 
+                        (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k14) = &nbsp;8 
+                        (001000)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3)&nbsp; = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k13) = 37 
+                    (100101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k5)&nbsp; = 13 
+                        (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4)&nbsp; = 61 
+                        (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7)&nbsp; = 27 
+                        (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6)&nbsp; = 39 
+                        (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k10) = 31 
+                    (011111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>5</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k9)&nbsp; = 26 
+                        (011010)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k12) = &nbsp;6 
+                        (000110)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>&nbsp;</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>6</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=2 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k2)&nbsp; = 21 
+                        (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k11) = 53 
+                    (110101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k15) = 21 
+                    (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT 
+                  size=+1><TT>&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 266 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Deleting Records</CENTER></FONT>
+      <HR>
+
+      <P>Let's go back to an older verion of the hash table.
+      <P>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="40%"><FONT size=+2>Now we're going to delete a 
+            couple of records from our hash table. Why not delete <I>r<SUB><FONT 
+            size=+0>2</FONT></SUB></I> and <I>r<SUB><FONT 
+            size=+0>5</FONT></SUB></I>.
+            <P>There's no reason to have two buckets (2 and 3) with only one 
+            record each. We should probably combine them into one bucket. 
+            </FONT></P></TD>
+          <TD width="10%"></TD>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right>
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1) = 52 
+                    (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8) = 28 
+                    (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3) = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT color=#a0a0a0 size=+1><TT>H(k2) = 21 
+                        (010101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>3</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT color=#a0a0a0 size=+1><TT>H(k5) = 13 
+                        (001101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4) = 61 
+                    (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7) = 27 
+                    (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6) = 39 
+                    (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 267 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Combining Buckets</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=left width="20%">
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="30%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1) = 52 
+                    (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8) = 28 
+                    (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3) = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4) = 61 
+                    (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7) = 27 
+                    (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6) = 39 
+                    (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD width="10%"></TD>
+          <TD vAlign=bottom width="40%"><FONT size=+2><B><I>Q:</I></B> Does 
+            combining buckets cause the hash table to shrink?
+            <P><B><I>A:</I></B>
+            <P><BR><BR><BR><B><I>Q:</I></B> We're keeping 4 bits to index our 
+            buckets. Do we really need 4 bits in this index?
+            <P><B><I>A:</I></B>
+            <P></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 268 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Shrinking the Address Space</CENTER></FONT>
+      <HR>
+
+      <P>We no longer need 4 bits to index the hash table, so we can shrink our 
+      directory to 3 bits:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=left width="50%">
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>100</TT></FONT></TD>
+                <TD><FONT size=+1>0</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>101</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>110</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>111</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=middle width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top><FONT size=+1>1</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k1) = 52 
+                    (110100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k8) = 28 
+                    (011100)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>2</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k3) = &nbsp;5 
+                        (000101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k4) = 61 
+                    (111101)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD vAlign=top><FONT size=+1>4</FONT></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=5 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k7) = 27 
+                    (011011)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD><FONT size=+1><TT>H(k6) = 39 
+                    (100111)</TT></FONT></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 269 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>A Closer Look at Combining Buckets</CENTER></FONT>
+      <HR>
+
+      <P>The whole deletion/comination/shrinkage process seemed to easy to be 
+      real. Is it always that easy?
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Buckets 2 and 3 combined nicely. Could we have 
+      combined any two buckets?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> As soon as we combined buckets 2 and 3, we were able 
+      to shrink the address space of the table. Does combining buckets always 
+      allow us to shrink the address space?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 270 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>A Closer Closer Look at Combining Buckets</CENTER></FONT>
+      <HR>
+
+      <P>Being able to shrink the address space of the hash table is a desirable 
+      property. When we combine two buckets into one, we want to do it in such a 
+      way that the new combined bucket can be indexed with fewer bits than were 
+      needed to index the individual buckets before combining.
+      <P>
+      <TABLE border=0 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=left vAlign=top>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+1><TT>0000</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0001</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0010</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0011</TT></FONT></TD>
+                <TD><FONT size=+1>1</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0100</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0101</TT></FONT></TD>
+                <TD><FONT size=+1>2</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0110</TT></FONT></TD>
+                <TD><FONT size=+1>3</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>0111</TT></FONT></TD>
+                <TD><FONT size=+1>9</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1000</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1001</TT></FONT></TD>
+                <TD><FONT size=+1>4</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1010</TT></FONT></TD>
+                <TD><FONT size=+1>5</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1011</TT></FONT></TD>
+                <TD><FONT size=+1>6</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1100</TT></FONT></TD>
+                <TD><FONT size=+1>7</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1101</TT></FONT></TD>
+                <TD><FONT size=+1>7</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1110</TT></FONT></TD>
+                <TD><FONT size=+1>8</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+1><TT>1111</TT></FONT></TD>
+                <TD><FONT size=+1>8</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=left vAlign=bottom><FONT size=+2><B><I>Q:</I></B> Which 
+            pairs of buckets could be combined (assuming each bucket in the pair 
+            is less than half full)?
+            <P><B><I>A:</I></B>
+            <P></FONT></P></TD></TR></TBODY></TABLE>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 271 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Buddy Buckets</CENTER></FONT>
+      <HR>
+
+      <P>We will restrict combination of buckets to <I>buddy buckets</I>.
+      <P>
+      <DL>
+        <DT><B><I>buddy buckets</I></B> 
+        <DD>two buckets whose indeces differ only in the least significant bit. 
+        </DD></DL>
+      <P>We can find buddy buckets by going through the directory sequentially, 
+      looking for indeces that differ only in the least significant bit that 
+      point to two different buckets.
+      <P>In the previous example, buckets 3 and 9 are buddies, and buckets 5 and 
+      6 are buddies.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 272 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Who's Your Buddy?</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> Can a "non-leaf" bucket (a bucket pointed to by more 
+      than one directory entry) have a buddy?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What happens if we delete all of the records in a 
+      bucket that has no buddy?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What does it mean if no buckets have buddies?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> When should we look for buddy buckets?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 273 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

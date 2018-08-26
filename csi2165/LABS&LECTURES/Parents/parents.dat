@@ -1,0 +1,12 @@
+
+/* fact 1 */  parent(jim,bob).
+/* fact 2 */  parent(bob,sam).
+/* fact 3 */  parent(sam,dick).
+/* fact 4 */  parent(dick,fred).
+/* fact 5 */  parent(jim,susan).
+/* fact 6 */  parent(sam,veronica).
+
+/* Rule 1 */  ancestor(Old,Young):-parent(Old,Young).
+/* Rule 2 */  ancestor(Old,Young):-parent(Old,Middle),ancestor(Middle,Young).
+
+%parent(susan,melanie).

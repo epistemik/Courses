@@ -1,0 +1,50 @@
+----------------------------------------------------------
+List of all command line options supported in IrfanView:
+----------------------------------------------------------
+
+  /one               - force "only one instance"
+  /fs                - force Full Screen
+  /bf                - force Best Fit to desktop
+  /title=text        - set window title to 'text'
+  /pos=(x,y)         - move the window to x,y
+  /c=filename        - convert input file to 'filename'
+  /slideshow=txtfile - play slideshow with the files from 'txtfile'
+
+Note:
+- Only lower case options are supported !!!
+
+
+Examples: 
+   i_view32 test.bmp /BF                 = incorrect
+   i_view32 test.bmp /bf /title=My PIC   = correct
+
+Example for conversion: 
+  i_view32 c:\test.bmp /c=c:\giftest.gif
+  => Convert file: 'c:\test.bmp' to 'c:\giftest.gif' without GUI :-)
+  (Note: supported are all IrfanView read/save formats except: AVI,MOV,MPG,WAV,MID)
+
+Example for slideshow: 
+  i_view32.exe /slideshow=c:\mypics.txt
+  (Note: The file 'c:\mypics.txt' contains, in each line, a name of the image,
+         including the full path !
+
+----------------------------------------------------------
+List of all command line options supported in draw:
+----------------------------------------------------------
+
+draw <pic-file> <ppm-file> [ bin | ascii ]
+
+Example
+
+   c:\work>draw f1.pic f1.ppm bin
+   
+ creates a binary ppm file from f1.pic
+
+   c:\work>draw f1.pic f1.ppm
+
+ or
+
+   c:\work>draw f1.pic f1.ppm ascii
+
+ creates an ascii ppm file from f1.pic
+    

@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131 Tutorial #7</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A href="file:///D:/Courses/Csi2131/2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Tutorial 7_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Tutorial #7</FONT></TD></TR></TBODY></TABLE>
+<P>This week's tutorial shows how binary trees can be implemented in C. It's 
+simple bimple. The main new stuff is structures, pointers, pointers to 
+structures, dynamic memory allocation and recursion. But you should know all of 
+that stuff in other languages already.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE>
+<P><B><I>bint.c</I></B>
+<P>
+<HR>
+<PRE>/**************************************************************************/
+/* This program defines a binary tree type and some basic operations:     */
+/* create a node, add a child to a node, delete a node, demolish a tree,  */
+/* and do an inorder traversal.                                           */
+/**************************************************************************/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define LEFT 0
+#define RIGHT 1
+
+struct node                   /* define the type "node structure"         */
+   {
+    int keyvalue;             /* the node's key                           */
+    struct node *lchild;      /* children are pointers to node structures */
+    struct node *rchild;
+   };
+
+
+struct node *create(int key);
+int add(int left_or_right, struct node *parent, int key);
+int del(struct node *nodeptr);
+void inorder(struct node *nodeptr);
+
+
+/****************************************************************************/
+/* The create() function takes a key value and creates a new node using     */
+/* dynamic memory allocation. If creation is successful, it sets the        */
+/* keyvalue field of the node to key and returns a pointer to the new node. */
+
+struct node *create(int key)
+{
+ struct node *newnode;
+ int size;
+
+ size = sizeof(struct node);                 /* # of bytes in a node struct */
+
+ newnode = (struct node *) malloc(size);     /* do the dynamic allocation   */
+
+ if(newnode != NULL)
+    {
+     newnode-&gt;keyvalue = key;                /* set the keyvalue and make   */
+     newnode-&gt;lchild = (struct node *) NULL; /* sure the child pointers are */
+     newnode-&gt;rchild = (struct node *) NULL; /* cleared to NULL             */
+    }
+    
+ return(newnode);
+}
+
+
+/****************************************************************************/
+/* The add() function takes an existing node and adds a left or right child.*/
+/* If the node already had a child in the requested position, the function  */
+/* returns 0. Otherwise, it creates a node and makes the parent point to it.*/
+
+int add(int left_or_right, struct node *parent, int key)
+{
+ struct node *newchild;
+
+ if(left_or_right == LEFT)           /* new left child requested          */
+    {
+     if(parent-&gt;lchild != NULL)      /* make sure parent doesn't already  */
+        return(0);                   /* have a left child                 */
+     else
+        {
+         newchild = create(key);     /* create a node and...              */
+         parent-&gt;lchild = newchild;  /* set the parent's child pointer    */
+        }
+    }
+ else                                /* else it's a right child requested */
+    {
+     if(parent-&gt;rchild != NULL)
+        return(0);
+     else
+        {
+         newchild = create(key);
+         parent-&gt;rchild = newchild;
+        }
+    }
+
+ return(1);                          /* return 1 on success               */
+
+}
+
+
+/****************************************************************************/
+/* The del() function takes an existing node and deletes it, freeing up its */
+/* allocated memory. First it makes sure the node has no children.          */
+
+int del(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild == NULL &amp;&amp; nodeptr-&gt;rchild == NULL)
+    {
+     free(nodeptr);                     /* free() frees up allocated memory */
+     return(1);
+    }
+ else
+    return(0);
+
+}
+
+
+/****************************************************************************/
+/* The demolish() function takes an existing node and deletes it and all of */
+/* its children recursively.                                                */
+
+void demolish(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild != NULL)         /* as long as we're not at a leaf node */
+    demolish(nodeptr-&gt;lchild);       /* demolish the left subtree           */
+
+ if(nodeptr-&gt;rchild != NULL)         /* as long as we're not at a leaf node */
+    demolish(nodeptr-&gt;rchild);       /* demolish the right subtree          */
+
+ del(nodeptr);
+
+}
+
+
+/****************************************************************************/
+/* The inorder() function traverses a binary tree in order (that is, left   */
+/* subtree, then root, then right subtree. For each node in the tree, the   */
+/* inorder() function prints the keyvalue.                                  */
+
+void inorder(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild != NULL)         /* as long as we're not at a leaf node */
+    inorder(nodeptr-&gt;lchild);        /* visit the left subtree              */
+
+ printf("  %d", nodeptr-&gt;keyvalue);  /* print the keyvalue of the root node */
+
+ if(nodeptr-&gt;rchild != NULL)         /* as long as we're not at a leaf node */
+    inorder(nodeptr-&gt;rchild);        /* visit the right subtree             */
+
+}
+
+
+/****************************************************************************/
+/* main() creates a binary tree and fills it up to look like this:          */
+/*                                                                          */
+/*                15                                                        */
+/*               /  \                                                       */
+/*              /    \                                                      */
+/*            20      30                                                    */
+/*           /  \       \                                                   */
+/*         45    20      42                                                 */
+/*                                                                          */
+/* Doing an inorder traversal of the tree produces the following output:    */
+/*                                                                          */
+/* Inorder traversal:                                                       */
+/*   45  20  20  15  30  42                                                 */
+/*                                                                          */
+
+int main()
+{
+ struct node *root;
+
+ root = create(15);
+ if(root == NULL)
+    exit(1);
+
+ if(add(LEFT, root, 20) == 0)
+    {
+     demolish(root);
+     exit(1);
+    } 
+
+ if(add(RIGHT, root, 30) == 0)
+    {
+     demolish(root);
+     exit(1);
+    } 
+
+ if(add(LEFT, root-&gt;lchild, 45) == 0)
+    {
+     demolish(root);
+     exit(1);
+    } 
+
+ if(add(RIGHT, root-&gt;lchild, 20) == 0)
+    {
+     demolish(root);
+     exit(1);
+    }
+
+ if(add(RIGHT, root-&gt;rchild, 42) == 0)
+    {
+     demolish(root);
+     exit(1);
+    } 
+
+ printf("\nInorder traversal:\n");
+ inorder(root);
+ printf("\n\n");
+
+ demolish(root);
+
+ exit(0);
+}
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update March 07, 1999)</I></FONT> </BODY></HTML>

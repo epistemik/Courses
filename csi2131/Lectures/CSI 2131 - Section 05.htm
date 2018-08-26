@@ -1,0 +1,2002 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec05.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 5</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Managing Primary Storage</CENTER></FONT>
+      <HR>
+
+      <P>One of the <I>key</I> pieces in the Software Architecture puzzle is the 
+      I/O buffer. It is primarily through the intelligent use of buffering that 
+      the speed limitations of secondary storage are overcome.
+      <P>The I/O buffer is what allows application programs (and even the 
+      operating system) to use RAM effectively for file I/O.
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>System I/O Buffers 
+              <LI>More than one Buffer 
+              <LI>Double Buffering 
+              <LI>Buffer Pools 
+              <LI>The Buffer Index 
+              <LI>Buffer Replacement Policies 
+              <UL>
+                <LI>Optimal 
+                <LI>FIFO 
+                <LI>Second Chance 
+                <LI>LRU 
+                <LI>LFU </LI></UL></LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§ 3.5.2, 3.6<BR>§ 3.6.1<BR>§ 3.6.2<BR>§ 
+            3.6.2<BR>N/A<BR><BR>N/A<BR>N/A<BR>N/A<BR>§ 3.6.2<BR>N/A 
+          </FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 74 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The System I/O Buffer</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>System I/O Buffer</I></B> 
+        <DD>A special area of RAM acting as an image of some portion of a file 
+        on secondary storage
+        <P></P>
+        <DD>When a program reads from a file, the portion of disk containing the 
+        data to be read is loaded into a system I/O buffer; the program reads 
+        from the buffer.
+        <P></P>
+        <DD>When a program writes to a file, the portion of disk to be modified 
+        is loaded into a system I/O buffer; the program writes to the buffer; 
+        the buffer is then written back to disk. </DD></DL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <CENTER><I>The system I/O buffer is maintained by the operating system. 
+      Buffering at higher levels is possible.</I>
+      <P></CENTER><B><I>Q:</I></B> How could an application program do its own 
+      buffering?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 75 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The System I/O Buffer (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD width="40%">
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><BR><FONT size=+2>Application 
+                  Program</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD bgColor=#ffffff width="20%"><IMG border=0 height=17 
+            src="CSI 2131 - Section 5_files/rlarrow.gif" width=141></TD>
+          <TD width="40%">
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><BR><FONT size=+2>Program 
+                  Data</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=right vAlign=center><IMG align=right border=0 height=82 
+            src="CSI 2131 - Section 5_files/drarrow.gif" width=33> <FONT 
+            size=+2>read<BR>request</FONT></TD>
+          <TD></TD>
+          <TD align=left vAlign=center><IMG align=center border=0 height=82 
+            src="CSI 2131 - Section 5_files/urarrow.gif" width=33> <FONT 
+            size=+2>data</FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=3>
+            <TABLE border=1 width="50%">
+              <TBODY>
+              <TR>
+                <TD align=middle><BR><FONT size=+2>Operating 
+                System</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=right bgColor=#f0f0f0 vAlign=center><IMG align=right 
+            border=0 height=82 src="CSI 2131 - Section 5_files/darrow.gif" 
+            width=17> <FONT size=+2>read<BR>request</FONT></TD>
+          <TD></TD>
+          <TD align=left vAlign=center><IMG align=center border=0 height=82 
+            src="CSI 2131 - Section 5_files/uarrow.gif" width=17> <FONT 
+            size=+2>data</FONT></TD></TR>
+        <TR>
+          <TD bgColor=#f0f0f0>
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><BR><FONT size=+2>I/O 
+                Processor</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD align=middle bgColor=#f0f0f0><FONT size=+2>data<BR></FONT><IMG 
+            align=bottom border=0 height=17 
+            src="CSI 2131 - Section 5_files/rarrow.gif" width=141></TD>
+          <TD>
+            <TABLE border=1 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle bgColor=#c0c0c0><BR><FONT size=+2>System I/O 
+                  Buffer</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#f0f0f0 vAlign=center>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right vAlign=center width="30%"><FONT 
+                  size=+2>read<BR>request</FONT></TD>
+                <TD width="10%"><IMG align=right border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD>
+                <TD width="20%"></TD>
+                <TD width="10%"><IMG align=center border=0 height=82 
+                  src="CSI 2131 - Section 5_files/uarrow.gif" width=17></TD>
+                <TD align=left vAlign=center width="30%"><FONT 
+                  size=+2>data</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD bgColor=#f0f0f0>&nbsp;</TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#f0f0f0 colSpan=2>
+            <TABLE border=1 width="75%">
+              <TBODY>
+              <TR>
+                <TD align=middle><BR><FONT size=+2>Disk 
+                Controller</FONT><BR>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#f0f0f0 colSpan=2>
+            <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=right vAlign=center width="37%"><FONT 
+                  size=+2>control</FONT></TD>
+                <TD width="8%"><IMG align=right border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD>
+                <TD width="10%"></TD>
+                <TD width="8%"><IMG align=center border=0 height=82 
+                  src="CSI 2131 - Section 5_files/uarrow.gif" width=17></TD>
+                <TD align=left vAlign=center width="37%"><FONT 
+                  size=+2>data</FONT></TD></TR></TBODY></TABLE></TD></TD>
+          <TD></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#f0f0f0 colSpan=2><IMG border=0 height=112 
+            src="CSI 2131 - Section 5_files/platters.gif" 
+width=185><BR>&nbsp;</TD>
+          <TD></TD></TR></TBODY></TABLE></FONT></CENTER></TD></TR></TBODY></TABLE>
+<CENTER>- 76 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Pages, Blocks, Clusters</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Pages, Blocks, Clusters</I></B> 
+        <DD>The "portion" of disk loaded into a buffer is often called a 
+        <I>block</I>. A block typically consists of some number of clusters.
+        <P></P>
+        <DD>Whatever the size of the portion, the data being loaded into a 
+        buffer is often called a <I>page</I>. </DD></DL><PRE>
+
+</PRE>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+</PRE>
+      <CENTER><I>For this course it does not serve us to be concerned about the 
+      details of blocks and pages. We will assume the portions of disk being 
+      loaded into buffers are clusters, though we may call them blocks or pages 
+      from time to time.</I></CENTER><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 77 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>One Buffer</CENTER></FONT>
+      <HR>
+
+      <P>Hearken back to our old <TT>copy</TT> program:
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><PRE>main()
+{
+ char ch;
+ FILE *ifil, *ofil;
+
+ ifil = fopen("foo.dat", "r");
+
+ ofil = fopen("bar.dat", "w");
+
+ ch = getc(ifil);
+ while(ch != EOF)
+    {
+     putc(ch, ofil);
+     ch = getc(ifil);
+    }
+
+ fclose(ifil);
+ fclose(ofil);
+}
+
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Let's say our input file <TT>foo.dat</TT> occupies cluster 31 on disk 
+      and our output file <TT>bar.dat</TT> occupies cluster 87.
+      <P><B><I>Q:</I></B> What happens if we have only one I/O buffer?
+      <P><B><I>A:</I></B>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 78 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>One Buffer (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=5 cellPadding=15>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><I>C</I>
+            <HR>
+<PRE>ch = getc(ifil);
+
+while(ch != EOF)
+   {
+    putc(ch, ofil);
+
+    ch = getc(ifil);
+
+   }
+
+</PRE></FONT></TD>
+          <TD vAlign=top><FONT size=+2><I>I/O requests</I>
+            <HR>
+<PRE>load cluster 31 into the buffer
+read first byte in the buffer
+
+
+load cluster 87 into the buffer
+write byte to the buffer
+load cluster 31 into the buffer
+read next byte in the buffer
+</PRE></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Idea:</I></B> add at least one more buffer giving us one for I, 
+      one for O!
+      <P><PRE>
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 79 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Double Buffering</CENTER></FONT>
+      <HR>
+
+      <P>Even if we're only reading or only writing to a single file, it may be 
+      useful to have more than one buffer.
+      <P>Recall that the I/O processor is an independent microprocessor that can 
+      execute instructions while the CPU is busy doing something else.
+      <P>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=middle width="49%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD width="50%"></TD>
+                <TD width="50%">
+                  <TABLE border=1 cellPadding=15>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle><FONT 
+                      size=+2>Operating<BR>System</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE border=0 cellPadding=0 cellSpacing=0 
+width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD align=middle><FONT size=+2>buffer 
+                          #1</FONT></TD></TR>
+                          <TR>
+                            <TD>&nbsp;</TD></TR>
+                          <TR>
+                            <TD><BR>&nbsp;</TD></TR>
+                          <TR>
+                            <TD 
+                      bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+                <TD>
+                  <TABLE border=1 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE border=0 cellPadding=0 cellSpacing=0 
+width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD align=middle><FONT size=+2>buffer 
+                          #2</FONT></TD></TR>
+                          <TR>
+                            <TD>&nbsp;</TD></TR>
+                          <TR>
+                            <TD bgColor=#c0c0c0><BR>&nbsp;</TD></TR>
+                          <TR>
+                            <TD 
+                      bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=15>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle><FONT 
+                    size=+2>I/O<BR>Processor</FONT></TD></TR></TBODY></TABLE></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>to disk</FONT></TD>
+                <TD></TD></TR></TBODY></TABLE></TD>
+          <TD bgColor=#606060 width="1%">&nbsp;</TD>
+          <TD align=middle width="50%">
+            <TABLE border=0 cellPadding=0 cellSpacing=0>
+              <TBODY>
+              <TR>
+                <TD width="50%">
+                  <TABLE border=1 cellPadding=15>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle><FONT 
+                      size=+2>Operating<BR>System</FONT></TD></TR></TBODY></TABLE></TD>
+                <TD width="50%"></TD></TR>
+              <TR>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD>
+                <TD></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE border=1 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE border=0 cellPadding=0 cellSpacing=0 
+width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD align=middle><FONT size=+2>buffer 
+                          #1</FONT></TD></TR>
+                          <TR>
+                            <TD><BR>&nbsp;</TD></TR>
+                          <TR>
+                            <TD><BR>&nbsp;</TD></TR>
+                          <TR>
+                            <TD 
+                    bgColor=#c0c0c0>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+                <TD>
+                  <TABLE border=1 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>
+                        <TABLE border=0 cellPadding=0 cellSpacing=0 
+width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD align=middle><FONT size=+2>buffer 
+                          #2</FONT></TD></TR>
+                          <TR>
+                            <TD bgColor=#c0c0c0>&nbsp;</TD></TR>
+                          <TR>
+                            <TD bgColor=#c0c0c0><BR>&nbsp;</TD></TR>
+                          <TR>
+                            <TD 
+                      bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=15>
+                    <TBODY>
+                    <TR>
+                      <TD align=middle><FONT 
+                    size=+2>I/O<BR>Processor</FONT></TD></TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD align=middle><IMG border=0 height=82 
+                  src="CSI 2131 - Section 5_files/darrow.gif" width=17></TD></TR>
+              <TR>
+                <TD></TD>
+                <TD align=middle><FONT size=+2>to 
+            disk</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 80 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Buffer Pools</CENTER></FONT>
+      <HR>
+
+      <P>If two buffers are better than one, then N buffers must be even better, 
+      right?
+      <P>A group of N system I/O buffers maintained by the operating system is 
+      called a <I>buffer pool</I>. The operating system must do several things 
+      to keep track of multiple buffers:
+      <P>
+      <UL>
+        <LI>keep track of which buffers are in use, which are empty and 
+        available 
+        <LI>keep track of the cluster in each buffer in use 
+        <LI>keep track of the mode of the buffer (read or write) 
+        <LI>if a buffer is for writing, have the contents of the buffer been 
+        changed since it was loaded from disk (<I>i.e.</I>, is the cluster on 
+        disk out of date?) </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>When a program requests access to a certain cluster on disk, the 
+      operating system must check if that cluster is already in a buffer. If 
+      not, it loads it into an empty buffer not being used.
+      <P><B><I>Obvious Q:</I></B> What if there <I>are</I> no empty buffers 
+      available?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 81 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Buffer Index</CENTER></FONT>
+      <HR>
+
+      <P>Multiple buffers can be very handy, but they require extra work to 
+      maintain. Several kinds of information must be kept about each buffer in 
+      the pool.
+      <P><PRE>
+</PRE>
+      <CENTER>
+      <TABLE border=1 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Buffer index</I></FONT></TD></TR>
+        <TR></TR>
+        <TR></TR>
+        <TR>
+          <TD bgColor=#d0d0d0><TT><FONT size=+2>Buffer #1</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;pointer to the 
+            buffer in RAM</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;cluster# of the 
+            cluster in the buffer</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;"dirty" bit (data 
+            modified?)</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;sharing 
+            information?</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;usage 
+            statistics?</FONT></TT></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#e0e0e0><TT><FONT 
+        size=+2>...</FONT></TT></TD></TR>
+        <TR></TR>
+        <TR></TR>
+        <TR>
+          <TD bgColor=#d0d0d0><TT><FONT size=+2>Buffer #2</FONT></TT></TD></TR>
+        <TR>
+          <TD bgColor=#e0e0e0><TT><FONT size=+2>&nbsp;&nbsp;pointer to the 
+            buffer in RAM</FONT></TT></TD></TR>
+        <TR>
+          <TD align=middle bgColor=#e0e0e0><TT><FONT 
+        size=+2>...</FONT></TT></TD></TR>
+        <TR></TR>
+        <TR></TR>
+        <TR>
+          <TD bgColor=#d0d0d0><TT><FONT size=+2>Buffer 
+        ...</FONT></TT></TD></TR></TBODY></TABLE>
+      <P></CENTER>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 82 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Buffer Replacement Policy</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Assume we have four system I/O buffers. 
+        <LI>Suppose we have a program that needs to read from 5 different 
+        clusters throughout its execution.
+        <P>The program (for some good reason) needs to read the data in clusters 
+        12 to 16 in the following order: </P></LI></UL>
+      <CENTER>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT size=+2>13</FONT></TD>
+          <TD align=middle><FONT size=+2>14</FONT></TD>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT size=+2>15</FONT></TD>
+          <TD align=middle><FONT size=+2>16</FONT></TD>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT size=+2>13</FONT></TD>
+          <TD align=middle><FONT size=+2>14</FONT></TD>
+          <TD align=middle><FONT size=+2>15</FONT></TD>
+          <TD align=middle><FONT size=+2>12</FONT></TD>
+          <TD align=middle><FONT 
+size=+2>16</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>The system loads clusters 12 to 15 into buffers 1 to 4 respectively.
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=10 width="100%">
+        <TBODY>
+        <TR>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+2>buffer #1</FONT></TD></TR>
+                    <TR>
+                      <TD bgColor=#c0c0c0>&nbsp;</TD></TR>
+                    <TR>
+                      <TD align=middle bgColor=#c0c0c0><BR><FONT 
+                        size=+2>cluster 12</FONT></TD></TR>
+                    <TR>
+                      <TD 
+              bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+2>buffer #2</FONT></TD></TR>
+                    <TR>
+                      <TD bgColor=#c0c0c0>&nbsp;</TD></TR>
+                    <TR>
+                      <TD align=middle bgColor=#c0c0c0><BR><FONT 
+                        size=+2>cluster 13</FONT></TD></TR>
+                    <TR>
+                      <TD 
+              bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+2>buffer #3</FONT></TD></TR>
+                    <TR>
+                      <TD bgColor=#c0c0c0>&nbsp;</TD></TR>
+                    <TR>
+                      <TD align=middle bgColor=#c0c0c0><BR><FONT 
+                        size=+2>cluster 14</FONT></TD></TR>
+                    <TR>
+                      <TD 
+              bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD width="25%">
+            <TABLE border=1 cellPadding=0 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD><FONT size=+2>buffer #4</FONT></TD></TR>
+                    <TR>
+                      <TD bgColor=#c0c0c0>&nbsp;</TD></TR>
+                    <TR>
+                      <TD align=middle bgColor=#c0c0c0><BR><FONT 
+                        size=+2>cluster 15</FONT></TD></TR>
+                    <TR>
+                      <TD 
+              bgColor=#c0c0c0><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <P></CENTER><B><I>Q:</I></B> Where does the system put cluster 16 when the 
+      program needs to read it (<I>i.e.</I>, which cluster gets 
+<I>replaced</I>)?
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 83 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Optimal Replacement Policy</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Replace the cluster that will be requested again further in the 
+        future than any other cluster. </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=6>
+        <TBODY>
+        <TR>
+          <TD align=right width="16%"><FONT 
+            size=+2><I>request<BR>cluster</I></FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>replace<BR>cluster</I></FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=4 cellSpacing=2>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 1</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 2</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 3</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 
+              4</I></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2>15</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Total Replacements: ____
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Could the Optimal Replacement Policy be implemented?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What's the point?
+      <P><B><I>A:</I></B>
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 84 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>First In First Out (FIFO)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Replace the first cluster that was loaded into a buffer. </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=6>
+        <TBODY>
+        <TR>
+          <TD align=right width="16%"><FONT 
+            size=+2><I>request<BR>cluster</I></FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>replace<BR>cluster</I></FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=4 cellSpacing=2>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 1</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 2</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 3</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 
+              4</I></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2>15</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Total Replacements: ____
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 85 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Second Chance</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Associate an "access" bit with the cluster in each buffer. When the 
+        cluster is accessed, set the bit to '1'. Replace the first cluster that 
+        was loaded into a buffer (as in FIFO) only if its access bit is '0'. If 
+        it is cluster N's turn to be replaced but its bit is '1', set its bit to 
+        '0' and proceed to the next cluster to check for replacement. </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=6>
+        <TBODY>
+        <TR>
+          <TD align=right width="16%"><FONT 
+            size=+2><I>request<BR>cluster</I></FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>replace<BR>cluster</I></FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=2>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  1</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  2</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  3</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  4</I><BR>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  0</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>15
+                  <HR>
+                  0</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Total Replacements: ____
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 86 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Least Recently Used (LRU)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Replace the cluster that has not been accessed in the longest time. 
+        </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=6>
+        <TBODY>
+        <TR>
+          <TD align=right width="16%"><FONT 
+            size=+2><I>request<BR>cluster</I></FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>replace<BR>cluster</I></FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=4 cellSpacing=2>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 1</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 2</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 3</I></FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><I>buffer 
+              4</I></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+            size=+2>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+size=+2>15</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT 
+              size=+2>&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Total Replacements: ____
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 87 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Least Frequently Used (LFU)</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>Replace the cluster that has been accessed the fewest number of 
+        times. </LI></UL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <CENTER>
+      <TABLE border=0 cellPadding=6>
+        <TBODY>
+        <TR>
+          <TD align=right width="16%"><FONT 
+            size=+2><I>request<BR>cluster</I></FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>13</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>14</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>15</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>12</FONT></TD>
+          <TD align=middle width="7%"><FONT size=+2>16</FONT></TD></TR>
+        <TR>
+          <TD align=right><FONT size=+2><I>replace<BR>cluster</I></FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD>
+          <TD align=middle vAlign=bottom><FONT size=+2>__</FONT></TD></TR>
+        <TR>
+          <TD>
+            <TABLE border=0 cellPadding=0 cellSpacing=2>
+              <TBODY>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  1</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  2</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  3</I><BR>&nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=right><FONT size=+2><BR><I>buffer 
+                  4</I><BR>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  2</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>12
+                  <HR>
+                  2</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>13
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>14
+                  <HR>
+                  1</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>15
+                  <HR>
+                  1</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE border=1 cellPadding=4 cellSpacing=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR>
+              <TR>
+                <TD align=middle><FONT size=+2>&nbsp;&nbsp;&nbsp;
+                  <HR>
+                  &nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>Total Replacements: ____
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE></PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 88 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Choice of Buffer Replacement Policy</CENTER></FONT>
+      <HR>
+
+      <P>
+      <UL>
+        <LI>The "best" buffer replacement policy will depend on how data is 
+        being accessed by any given program.
+        <P></P>
+        <LI>The buffer replacement policy is usually set in the design of the 
+        operating system. It is rare that users have any control over the 
+policy.
+        <P></P>
+        <LI>If you know in advance how your program will access data on disk, it 
+        may be worthwhile to implement your own buffering (DBMSs often do this).
+        <P></P></LI></UL>
+      <P><PRE>
+
+
+</PRE>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 89 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Some Final Thoughts on Buffers</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> In all our examples we assumed cluster requests were 
+      for reading. How does buffer replacement differ when <I>writing</I>?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> When writing to a buffer, what considerations affect 
+      when the buffer should be written to disk?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> How do you think your favourite operating system 
+      handles requests from multiple processes for the same disk cluster?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 90 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

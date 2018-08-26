@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0084)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB.html -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>PROJECT B</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>PROJECT B</H1>
+<H2><FONT color=red>DRAWING FIGURES</FONT></H2>
+<HR>
+
+<H2>WHAT DO I HAVE TO DO?</H2>
+<UL>
+  <LI>You implement a variety of figures which are read from a file and drawn on 
+  a canvas stored in memory 
+  <LI>[8 marks] <B>First</B> you implement a <I>hierarchy of figures</I>, which 
+  all know how to draw themselves on the canvas 
+  <LI>[4 marks] <B>Second</B> you implement a <I>parser</I> which instantiates 
+  figures from a file 
+  <LI>[2 marks] for some <B>bonus</B>, if you figure out how to fill the shapes 
+  when their center of mass is out of the canvas, and implement it properly, you 
+  get the bonus </LI></UL>You are given most of the code encapsulated into classes 
+that you do not have to touch. For example, the classes which write the files, 
+manage the canvas, tokenize the input stream, ... are implemented for you. 
+<CENTER><A href="PROJECT B_files/hd.gif"><IMG border=0 
+src="PROJECT B_files/hd.gif" width="80%"></A> </CENTER>The <TT>parser</TT> is 
+reading definitions of drawables from a file, inserts them into a 
+<TT>drawable_list</TT>. The <TT>drawing</TT> class renders them onto the canvas 
+and it is printed to a file, so you can see it with an image viewer. The classes 
+in <FONT color=red>red</FONT> are implemented, and to do this project, you do 
+not have to understand how they work. However, you may want to take a look at 
+the code to give you ideas. I thoroughly documented it inline. The methods that 
+may need to call on <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/canvas">canvas</A> 
+(<TT>draw_point, draw_line, fill_area</TT>) and on <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/lexer">lexer</A> 
+are documented as well. <BR><BR>For the first part, you build the drawable 
+hierarchy and implement the draw methods for the figures, and for the second 
+part you extend parser to instantiate the figures. 
+<HR>
+
+<H2>WHAT DO I HAND IN?</H2>
+<UL>
+  <LI>create a subdirectory on the diskette, called <TT>projB</TT>. You will 
+  have all <B>your</B> code under this subdirectory 
+  <LI>for the first part, you create a subdirectory under projA called 
+  <TT>drawing</TT> In this directory, you provide the header and source files 
+  that define and implement your hierarchy of drawables. You also submit the 
+  source code for your test program, which tests your implementation of drawing 
+  figures. You also provide printout of your source code, and one typed sheet of 
+  descriptions to the marker, telling him how to build your application, and 
+  bugs that you know about. You also hand in an <I>annotated</I> object model of 
+  your drawable hierarchy. 
+  <LI>for the second part, you create a subdirectory under <TT>projB</TT> called 
+  <TT>parser</TT>. In that directory, you provide the header and source files 
+  that define and implement your drawable hierarchy (<I>again!</I>) and the 
+  header and source files which implement your parser. You submit one typed 
+  sheet of descriptions to the marker, telling him how to build your 
+  application, and bugs that you know about and a printout of the implementation 
+  of your parser. You also hand in an <I>annotated</I> object model of your 
+  parser. 
+  <LI>if you did the bonus part, hand in one typed sheet explaining how you 
+  achieved that figures which are partially outside of the canvas, get filled 
+  properly. </LI></UL>
+<HR>
+
+<H2>DRAWING FIGURES</H2>
+<UL>You have to implement the following drawables: <BR><BR>
+  <UL>
+    <LI><B>point</B>: a single point, specified by coordinates 
+    <LI><B>line</B>: a line specified by its end coordinates 
+    <LI><B>rectangle</B>: specified by its middle point and the lengths of the 
+    longer and shorter edge 
+    <LI><B>triangle</B>: specified by the coordinates of the three corners 
+    <LI><B>ellipse</B>: specified by its middle point and the lengths of the 
+    longest and shortest diameters 
+    <LI><B>square</B>: same as a rectangle, but all edges are of the same length 
+
+    <LI><B>circle</B>: specified by its center and radius </LI></UL><BR><BR>You 
+  are given a <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/canvas">canvas 
+  class</A> which already knows how to draw lines and points. When you draw more 
+  complicated figures, you have to map its coordinates to the canvas and ask 
+  canvas to draw it using lines and points. Canvas also knows how to fill a 
+  bounded area. <BR><BR>Your figures exist in a rectangular area of the real 
+  plane (<B>R<SUP>2</SUP></B>). They have to be mapped to the canvas to be 
+  drawn. You can also rotate the figures about their center or about an 
+  arbitrary point, set drawing and fill colors, establish the order in which 
+  they are drawn. <BR><BR>The following is an example of a rectangle with center 
+  <TT>O = -5,-10</TT> and edge lengths <TT>20</TT> and <TT>15</TT>, where the 
+  coordinates are specified in coordinate system <TT>S</TT>. <TT>T</TT> is also 
+  rotated about the point <TT>0</TT> by <TT>45</TT> degrees and finally mapped 
+  onto the canvas. You do not have to implement the rotation and the mapping; I 
+  provide the <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/coordsys">coordsys</A> 
+  class, which can map coordinates and rotate points. You task is only to create 
+  the hierarchy of drawables and overload the draw method, which uses these 
+  classes to obtain the coordinates. <BR><BR>
+  <CENTER><IMG src="PROJECT B_files/ex2.gif"> </CENTER>All drawables have the 
+  following properties: 
+  <UL>
+    <LI><B>depth</B>: this defines layers for placing figures on the canvas. 
+    Figures with the same <B>depth</B> are on the same layer. Deeper layers are 
+    drawn first. 
+    <LI><B>order</B>: this defines the order of placement of figures on the same 
+    depth. 
+    <LI><B>pen_color</B>: the drawing color 
+    <LI><B>rotation_center</B>: a coordinate about which the figure is rotated 
+    <LI><B>rotation_angle</B>: a signed angle in degrees 
+    <LI><B>rotate</B>: a boolean, if <TT>true</TT> rotate </LI></UL><BR><BR>All 
+  shapes (that is not points and lines) have these additional properties: 
+  <UL>
+    <LI><B>fill_color</B>: fill color if filled 
+    <LI><B>filled</B>: boolean, if <TT>true</TT> shape is filled 
+    <LI><B>center_angle</B>: a signed angle in degrees, which defines how many 
+    degrees the shape is rotated about its center. </LI></UL><BR><BR>All shapes 
+  will eventually be instantiated from a file, hence we have to find some 
+  syntax, which describes how to set the parameters and how to declare figures. 
+  <BR><BR>Defining the canvas and coordinate systems (<I># is used to insert 
+  comments</I>): <PRE>      # define a 50 x 50 canvas
+      <B>define canvas(50,50);</B> 
+
+      # the coordinates are from the system
+      # 
+      #   -200,200       200,200
+      #       +-------------+
+      #       |             |
+      #       |             |
+      #       +-------------+
+      #   -200,-200     -200,200
+      #
+      <B>define system(-200,-200,200,200);</B> 
+
+   </PRE>Defining the fill and pen-colors. <PRE>      # a color is specified by its 
+      # red, green and blue components
+      # each component is in the range 0-255
+      # for example [255,255,0] has maximum
+      # red and green components and no blue
+      # 
+      # the color [-1,-1,-1]
+      # represents the "clear" or "eraser" color
+      <B>set pen_color [255,255,0];</B>  # pen color is yellow
+      <B>set fill_color [0,255,255];</B> # fill color is magenta
+   </PRE>Defining coordinates. <PRE>      # a coordinate is the pair [x,y]
+      # set the center of rotation 
+      # the coordinate [20,30] in the system
+      # defined by <B>define system</B>
+      <B>set rotation_center [20,30];</B>
+   </PRE>Setting angles, depth and order <PRE>      #set the rotation center  to 30 and
+      #set the angle of rotation about the center -45
+      <B>set rotation_angle 30;</B>
+      <B>set center_angle -45;</B>
+      #set the depth to 5 and order to 3
+      <B>set depth 5;</B>
+      <B>set order 3;</B>
+
+   </PRE>Setting booleans. <PRE>      # a positive value is true and a negative value is false
+      # 
+      <B>set rotate 1;</B>  # true
+      <B>set filled -1;</B> # false
+   </PRE>Draw points, lines and shapes. The current settings of <TT>depth, 
+  order, rotation_center, rotation_angle, center_angle, pen_color, fill_color, 
+  rotate, filled </TT>apply. <PRE>      # draw a point at 30,45
+      <B>draw point([30,45]);</B>
+
+      # draw a line from 15,20 to -46,70
+      <B>draw line([15,20],[-46,70]);</B>
+
+      # draw a rectangle with center -30,40
+      # width 50 and height 30
+      <B>draw rectangle([-30,40],50,30);</B>
+
+      # draw a triangle with corners
+      # -20,30,  10,50,  -60,100
+      <B>draw triangle([-20,30],[10,50],[-60,100]);</B>
+
+      # draw an ellipse with center 20,25
+      # and diameters 70 and 45
+      <B>draw ellipse([20,25],70,45);</B>
+
+      # draw a square with center -20,10
+      # and edge length 40
+      <B>draw square([-20,10],40);</B>
+
+      # draw a circle with center 0,0
+      # and radius 60
+      <B>draw circle([0,0],60);</B>
+
+   </PRE></UL>
+<HR>
+
+<H2>HINTS</H2>
+<H3>DRAWING FIGURES</H3>
+<UL>You have to implement a hierarchy of figures, and implement the draw 
+  method for each. Each figure in the hierarchy carries some properties that 
+  affect how the figure is drawn (<I>pen_color, angle of rotation, ...</I>) 
+  <CENTER><A href="PROJECT B_files/dh.gif"><IMG border=0 
+  src="PROJECT B_files/dh.gif" width="80%"></A> </CENTER>In fact, the only thing 
+  you have to do for this part, is to build the hierarchy by subclassing and 
+  implement the draw methods. To start you up, I have implemented the draw 
+  method for triangle and everything leading up to it. Once ellipse and 
+  rectangle are implemented, the draw methods for square and circle will work, 
+  as they are just special cases.<BR><BR>The figure below shows a triangle and 
+  an ellipse rotated about a point and filled. The triangle is also rotated 
+  about its center of mass. The scenario would be declared the following way: <PRE>      ...
+      set rotate_point [<I>p1,p2</I>]; # point to be rotated about
+      set rotation_angle <I>alpha</I>; # angle of rotation
+      set rotate 1; # set rotate to true
+      set pen_color [255,0,255]; # magenta
+      set fill_color [0,255,255]; # cyan
+      set filled 1; # set filled to true
+      draw ellipse([<I>e1,e2</I>],<I>a</I>,<I>b</I>);
+      set pen_color [0,0,255]; # blue
+      set fill_color [255,255,0]; # yellow
+      set center_angle <I>beta</I>; # rotation about its center
+      draw triangle([<I>x1,y1</I>],[<I>x2,y2</I>],[<I>x3,y3</I>]); 
+      ...
+    </PRE>
+  <CENTER><IMG src="PROJECT B_files/draw.gif" width="80%"> </CENTER>The 
+  <TT>set</TT> commands only set parameters. What actually get drawn are: 
+  <UL>
+    <LI>a filled ellipse 
+    <UL>
+      <LI>center: <I>e1,e2</I> 
+      <LI>axes: <I>a</I>, <I>b</I> 
+      <LI>pen_color: magenta 
+      <LI>fill_color: cyan 
+      <LI>rotated about: <I>p1,p2</I> by <I>alpha</I> </LI></UL>
+    <LI>a filled triangle 
+    <UL>
+      <LI>corners: <I>x1,y1</I>, <I>x2,y2</I>, <I>x3,y3</I> 
+      <LI>pen_color: blue 
+      <LI>fill_color: yellow 
+      <LI>rotated about: <I>p1,p2</I> by <I>alpha</I> degrees 
+      <LI>rotated about its center by <I>beta</I> degrees 
+  </LI></UL></LI></UL>Suppose we have the definition of the triangle as above, 
+  how would its draw method work? <BR><BR>We have to calculate the images of 
+  corners <I>x1,x2</I>, <I>y1,y2</I> and <I>x3,y3</I>. 
+  <UL>
+    <LI>First, we can have the the corners rotated about the center of the 
+    triangle by <I>beta</I> degrees (<I>Use the <A 
+    href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/coordsys">coordsys</A> 
+    class, which can rotate</I>) 
+    <LI>Second, we can have the coordinates rotated about <I>p1,p2</I> by 
+    <I>alpha</I> many degrees, if rotation is required (<I>Use the <A 
+    href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/coordsys">coordsys</A> 
+    class, which can rotate</I>) 
+    <LI>Third, we have to map the coordinates to the canvas (<I>Use the <A 
+    href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/coordsys">coordsys</A> 
+    class, which can map coordinates from one system to the other</I>) 
+    <LI>Fourth, we can ask the <A 
+    href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/canvas">canvas</A> 
+    class to draw three lines with the specified colors to connect the lines 
+    <LI>Fifth, we can ask the <A 
+    href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/canvas">canvas</A> 
+    class to fill the area bounded by those lines with the specified color, 
+    starting from the center of mass </LI></UL><BR><BR>The following is the actual 
+  implementation that can draw and fill triangles. You can take the 
+  implementation of canvas, coordsys, pixel and color for granted. In fact, all 
+  you have to do is subclass drawable and shape and implement the draw methods 
+  for ellipse, rectangle, point and line. The files with the green <FONT 
+  color=green>[ .h ] [ .cpp ]</FONT> designation need absolutely no 
+  modifications. <PRE> 
+       tr.exe [ .exe ]
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/canvas.h">canvas.h</A> [ .h ]</FONT> 
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/canvas.cpp">canvas.cpp</A> [ .cpp ]</FONT> 
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/coordsys.h">coordsys.h</A> [ .h ]</FONT> 
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/coordsys.cpp">coordsys.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/pixel.h">pixel.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/pixel.cpp">pixel.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/color.h">color.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/color.cpp">color.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable.h">drawable.h</A> [ .h ]
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable.cpp">drawable.cpp</A> [ .cpp ]
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/trtest.cpp">trtest.cpp</A> [ .cpp ]
+        
+        (<A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/tr.make">tr.make</A>) 
+    </PRE>
+  <H3>drawing an ellipse</H3>Ellipses can be drawn with lines, the more lines we 
+  use, the smoother the ellipse looks. We are given <I>O</I> the center of the 
+  ellipse, and the length of the two axes <I>a</I> and <I>b</I>. 
+  <CENTER><A href="PROJECT B_files/ell.gif"><IMG border=0 
+  src="PROJECT B_files/ell.gif" width="80%"></A> </CENTER>Let <I>h</I> be the 
+  number of lines used to draw the ellipse. <PRE>       P1,P2 = &lt; o<SUB>x</SUB>+a/2, o<SUB>y</SUB> &gt;
+       P3,P4 = &lt; o<SUB>x</SUB>-a/2, o<SUB>y</SUB> &gt;
+
+       <FONT color=green>apply all rotations to P1,P2,P3 and P4 </FONT>
+       <FONT color=red>
+       P1 = system.rotate(P1,o,center_angle);
+       P2 = ....
+       
+       if (rotate) { // about point
+          P1 = system.rotate(P1,rotation_center,rotation_angle); 
+          P2 = ...
+       }
+       </FONT>
+       <FONT color=green>map P1,P2,P3,P4 onto the canvas
+       </FONT>
+       <FONT color=red>
+       P1 = paper.map(system.P1);
+       P2 = ...
+       </FONT>
+
+       angle = 0;
+
+       for(int i=0; i &lt; h/4; i++) {
+          rx = cos(angle)*a/2  
+          ry = sin(angle)*b/2
+
+          angle += pi / (h/2)
+          P1' = &lt; o<SUB>x</SUB> + rx, o<SUB>y</SUB> + ry &gt;
+          P2' = &lt; o<SUB>x</SUB> + rx, o<SUB>y</SUB> - ry &gt;
+          P3' = &lt; o<SUB>x</SUB> - rx, o<SUB>y</SUB> + ry &gt;
+          P4' = &lt; o<SUB>x</SUB> - rx, o<SUB>y</SUB> - ry &gt;
+          
+          <FONT color=green>apply all rotations to P1',P2',P3' and P4' 
+          </FONT>
+          <FONT color=red>
+          P1' = system.rotate(P1',o,center_angle);
+          P2' = ...
+          
+          if (rotate) { // about point
+             P1' = system.rotate(P1',rotation_center,rotation_angle);
+             ...
+          }
+          </FONT>
+
+          <FONT color=green>map P1',P2',P3',P4' onto the canvas
+          </FONT>
+          <FONT color=red>
+             P1' = paper.map(system,P1')
+             P2' = ...
+          </FONT>
+          <FONT color=green>draw a four lines between
+                P1 P1'
+                P2 P2'
+                P3 P3'
+                P4 P4'
+          </FONT>
+          <FONT color=red>
+          C.draw_line(P1<SUB>x</SUB>,P1<SUB>y</SUB>,P1'<SUB>x</SUB>,P1'<SUB>y</SUB>,pen_color,id);
+          C.draw_line(P2...
+          </FONT>
+
+  
+          P1 = P1'; P2 = P2'; P3 = P3'; P4 = P4'
+       }
+
+       <FONT color=green>sometimes there could be a little gap between P1-P3
+       and P2-P4
+       </FONT> 
+       <FONT color=red>
+       C.draw_line(P1<SUB>x</SUB>,P1<SUB>y</SUB>,P3<SUB>x</SUB>,P3<SUB>y</SUB>,pen_color,id);
+       C.draw_line(P2..
+       </FONT> 
+
+       <FONT color=green>rotate and map the center of the ellipse to
+       the paper and fill it if you have to (<I>like the triangle</I>)
+       </FONT>
+
+    </PRE></UL>
+<H3>PARSING</H3>
+<UL>Once the previous part is completed, we want to read the figures and the 
+  parameter settings from a stream. First, however, we would like to have the 
+  input stream chopped into <I>tokens</I>. The <A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/lexer">lexer</A> 
+  class (<I>which you are free to use</I>) can do just that so the following few 
+  definitions <PRE>     define system(-100,-100,100,100); # the coordinates are in this system
+     define canvas(50,70); # the canvas is 50 by 70 pixels big
+     set pen_color [255,0,0]; # the pen color is red
+     draw circle([0,0],30); # draw a circle with origin 0,0 and radius 30
+     ...
+   </PRE>would be chopped to the following tokens [<FONT 
+  color=green>define</FONT>] [<FONT color=green>system</FONT>] [<FONT 
+  color=green>(</FONT>] [<FONT color=green>-100</FONT>] [<FONT 
+  color=green>,</FONT>] [<FONT color=green>-100</FONT>] [<FONT 
+  color=green>,</FONT>] [<FONT color=green>100</FONT>] [<FONT 
+  color=green>,</FONT>] [<FONT color=green>100</FONT>] [<FONT 
+  color=green>)</FONT>] [<FONT color=green>;</FONT>] [<FONT 
+  color=green>define</FONT>] [<FONT color=green>canvas</FONT>] [<FONT 
+  color=green>(</FONT>] and so on ... The comment lines are eliminated and the 
+  identifiers, parentheses and numbers are all separated. This preprocessing is 
+  called lexical analysis and it is implemented for you (<A 
+  href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/lexer">lexer</A>). 
+  <BR><BR>Once this preprocessing is done, we just have to read tokens from the 
+  stream and store the settings and instantiate the figures. The settings, 
+  <I>pen_color, fill_color, center_angle, ...</I> define the <I>graphics 
+  context</I>. When, for example, the command <TT>draw triangle(...)</TT> is 
+  read, the <TT>pen_color</TT>, <TT>depth</TT> and other settings are defined by 
+  the current <I>graphics context</I>. <BR><BR>The logic of parsing can be 
+  represented by a simple state machine. <PRE>       void parser::parse(drawable_list&amp; L, istream&amp; is) {
+          char* token = <FONT color=darkgreen>get next token</FONT>
+
+          while(<FONT color=darkgreen>not end of file</FONT>) {
+             if (<FONT color=darkgreen>token equals "define"</FONT>) {
+                // then it is either canvas or system
+                token = <FONT color=darkgreen>get next token</FONT>
+                if (<FONT color=darkgreen>token equals "canvas"</FONT>) {
+                   // canvas it is
+                   <FONT color=darkgreen>next token must be "("</FONT>
+                   xres = <FONT color=darkgreen>next token as number</FONT>
+                   <FONT color=darkgreen>next token must be ","</FONT>
+                   yres = <FONT color=darkgreen>next token as number</FONT>
+                   <FONT color=darkgreen>next token must be ")"</FONT>
+                } else if (<FONT color=darkgreen>token equals "system"</FONT>) {
+                   ....
+                } else {
+                   <FONT color=darkgreen>define must be followed by either
+                   canvas or system, so it is an error</FONT>
+                }
+             } else if (<FONT color=darkgreen>token equals "set"</FONT>) {
+                // one of the parameter setting commands
+                token = <FONT color=darkgreen>get next token</FONT>
+                if (<FONT color=darkgreen>token equals "pen_color"</FONT>) {
+                   // set pen color
+                   ....
+                } else if (...) {
+                }
+             } else if (<FONT color=darkgreen>token equals "draw"</FONT>) {
+                // one of the figures
+                token = <FONT color=darkgreen>get next token</FONT>
+                if (<FONT color=darkgreen>token equals "triangle")</FONT> {
+                  ... // read x1,y1, x2,y2 and x3,y3
+                  triangle * T = new triangle(sys,x1,y1,x2,y2,x3,y3); 
+                  T-&gt;set_pen_color(gc.pen_color);
+                  ...
+                }
+             } else {
+                // neither define nor set nor draw
+                // it must be an error
+             }
+
+             token = <FONT color=darkgreen>get next token</FONT>
+          }
+      </PRE>You may use the implementation of <B>all of the following classes 
+  without any modifications</B>, you only have to extend <TT>parser</TT>, so it 
+  can read rectangles, squares, points, lines, ellipses and circles too. <FONT 
+  color=green>[ .h ] [ .cpp ]</FONT> designation need absolutely no 
+  modifications. <PRE>        pp.exe [ .exe ]
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/canvas.h">canvas.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/canvas.cpp">canvas.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/coordsys.h">coordsys.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/coordsys.cpp">coordsys.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/pixel.h">pixel.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/pixel.cpp">pixel.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/color.h">color.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/color.cpp">color.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable.h">drawable.h</A> [ .h ]
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable.cpp">drawable.cpp</A> [ .cpp ]
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/lexer.h">lexer.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/lexer.cpp">lexer.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawing.h">drawing.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawing.cpp">drawing.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/list.h">list.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/list.cpp">list.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/list_inst.h">list_inst.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable_list.h">drawable_list.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/drawable_list.cpp">drawable_list.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/graphics_context.h">graphics_context.h</A> [ .h ]</FONT>
+         |
+         +-- <FONT color=green><A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/graphics_context.cpp">graphics_context.cpp</A> [ .cpp ]</FONT>
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/parser.h">parser.h</A> [ .h ]
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/parser.cpp">parser.cpp</A> [ .cpp ]
+         |
+         +-- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/main.cpp">main.cpp</A> [ .h ]
+  
+ 
+      C:\work&gt;pp <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/projB/t.pic">t.pic</A> t.ppm
+      (view t.ppm with <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/csi2172.zip">i_view32</A>)
+      </PRE></UL>
+<H3>BONUS</H3>
+<UL>We used the center of a figure to initiate the fill algorithm. However it 
+  is possible that the center of the figure is not on the canvas when it is 
+  mapped. 
+  <CENTER><IMG src="PROJECT B_files/nf.gif" width="80%"> </CENTER>If you can 
+  find a point which is inside the figure and the canvas, and can implement it 
+  efficiently, you get the bonus. </UL></BODY></HTML>

@@ -1,0 +1,303 @@
+Microsoft(R) Windows NT(TM)
+(C) Copyright 1985-1996 Microsoft Corp.
+
+c:\work>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of c:\work
+
+09/15/99  10:00a        <DIR>          .
+09/15/99  10:00a        <DIR>          ..
+08/03/99  02:16p             2,009,102 020409.IVK
+03/26/00  08:53p                 6,541 ASS4-1NEW.ASM
+03/24/00  11:09a                 3,486 csi2121.inc
+               5 File(s)      2,019,129 bytes
+                          2,819,031,040 bytes free
+
+c:\work>cp ass4-1new.asm ass4-1.asm
+
+c:\work>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of c:\work
+
+09/15/99  10:00a        <DIR>          .
+09/15/99  10:00a        <DIR>          ..
+08/03/99  02:16p             2,009,102 020409.IVK
+03/26/00  08:53p                 6,541 ASS4-1NEW.ASM
+03/24/00  11:09a                 3,486 csi2121.inc
+03/31/00  10:01a                 6,541 ass4-1.asm
+               6 File(s)      2,025,670 bytes
+                          2,818,965,504 bytes free
+
+c:\work>bcc32 -v ass4-1.asm
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+ass4-1.asm:
+Turbo Assembler  Version 5.2  Copyright (c) 1988, 1999 Inprise Corporation
+
+Assembling file:   ass4-1.ASM
+Error messages:    None
+Warning messages:  None
+Passes:            1
+
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 1.0
+Enter the value of B: -5.00
+Enter the value of C: +6.
+Root1 = 2.000000E+00
+Root2 = 3.000000E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +1.0
+Enter the value of B: -.06
+Invalid Input!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 3.4
+Enter the value of B: -4.1267
+Enter the value of C: +8.9
+Both roots are complex numbers
+
+c:\work>bcc32 -v ass4-1.asm
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+ass4-1.asm:
+Turbo Assembler  Version 5.2  Copyright (c) 1988, 1999 Inprise Corporation
+
+Assembling file:   ass4-1.ASM
+Error messages:    None
+Warning messages:  None
+Passes:            1
+
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 1.0
+Enter the value of B: -5.00
+Enter the value of C: +6.
+Root1 = 2.000000E+00
+Root2 = 3.000000E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +1.0
+Enter the value of B: -.06
+Invalid Input!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 3.4
+Enter the value of B: -4.1267
+Enter the value of C: +8.9
+Both roots are complex numbers.
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +0001.0000
+Enter the value of B: -5.0000
+Enter the value of C: 006.000023
+Root1 = 2.000023E+00
+Root2 = 2.999977E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +1.010101
+Enter the value of B: -0004.99999
+Enter the value of C: +006.0001
+Root1 = 2.044296E+00
+Root2 = 2.905694E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 22.22
+Enter the value of B: 33.33
+Enter the value of C: +55.55
+Both roots are complex numbers.
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 22.222
+Enter the value of B: +55.555
+Enter the value of C: 33.333
+Root1 = -1.500000E+00
+Root2 = -1.000000E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +6666.
+Enter the value of B: -0909.0909
+Enter the value of C: -00023.65
+Root1 = -2.235165E-02
+Root2 = 1.587289E-01
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 666.235/
+Invalid Input!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +1.0
+Enter the value of B: -1.0
+Enter the value of C: -0001.00
+Root1 = -6.180340E-01
+Root2 = 1.618034E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 1.0000
+Enter the value of B: 5.03698547
+Enter the value of C: 6.111111111
+Root1 = -2.999839E+00
+Root2 = -2.037147E+00
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 000000001.000000000
+Enter the value of B: 4.999999999
+Enter the value of C: 6.010101010101
+Digit overflow: too many digits in your number!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 1.22222222
+Enter the value of B: +6.1111111111
+Digit overflow: too many digits in your number!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 555555.0222222
+Enter the value of B: -6666666666.236502
+Digit overflow: too many digits in your number!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 22222222222222
+Digit overflow: too many digits in your number!
+
+c:\work>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 22222222
+Invalid Input!
+
+
+c:\work>cd test
+
+C:\work\test>ass4-1
+The name specified is not recognized as an
+internal or external command, operable program or batch file.
+
+C:\work\test>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of C:\work\test
+
+03/31/00  10:23a        <DIR>          .
+03/31/00  10:23a        <DIR>          ..
+03/31/00  10:21a                 6,542 ass4-1.asm
+               3 File(s)          6,542 bytes
+                          2,814,377,984 bytes free
+
+C:\work\test>bcc32 -v ass4-1.asm
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+ass4-1.asm:
+Turbo Assembler  Version 5.2  Copyright (c) 1988, 1999 Inprise Corporation
+
+Assembling file:   ass4-1.ASM
+**Fatal** ass4-1.ASM(7) Can't locate file: csi2121.inc
+Error messages:    1
+Warning messages:  None
+Passes:            1
+
+
+C:\work\test>bcc32 -v ass4-1.asm
+Borland C++ 5.4 for Win32 Copyright (c) 1993, 1999 Inprise Corporation
+ass4-1.asm:
+Turbo Assembler  Version 5.2  Copyright (c) 1988, 1999 Inprise Corporation
+
+Assembling file:   ass4-1.ASM
+Error messages:    None
+Warning messages:  None
+Passes:            1
+
+Turbo Incremental Link 4.00 Copyright (c) 1997, 1999 Inprise Corporation
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 1.0
+Enter the value of B: -5.00
+Enter the value of C: +6.
+Root1 = 2.000000E+00
+Root2 = 3.000000E+00
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +1.0
+Enter the value of B: -.06
+Invalid Input!
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 3.4
+Enter the value of B: -4.1267
+Enter the value of C: +8.9
+Both roots are complex numbers.
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: +0001.0000
+Enter the value of B: -00005.000023
+Enter the value of C: +006.000
+Root1 = 1.999954E+00
+Root2 = 3.000069E+00
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 0000-6.39
+Invalid Input!
+
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 222222222.333333333
+Enter the value of B: 111111111.000000000
+Enter the value of C: -0.0000369
+Root1 = -5.000000E-01
+Root2 = 0.000000E+00
+
+C:\work\test>ass4-1
+Solving Ax^2 + Bx + C = 0
+Enter the value of A: 222222222.3333333333
+Digit overflow: too many digits in your number!
+
+C:\work\test>cd ../a4
+
+C:\work>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 292E-10F7
+
+ Directory of C:\work
+
+09/15/99  10:00a        <DIR>          .
+09/15/99  10:00a        <DIR>          ..
+08/03/99  02:16p             2,009,102 020409.IVK
+03/26/00  08:53p                 6,541 ASS4-1NEW.ASM
+03/24/00  11:09a                 3,486 csi2121.inc
+03/31/00  10:21a                 6,542 ass4-1.asm
+03/31/00  10:04a                 7,114 ass4-1.obj
+03/31/00  10:23a        <DIR>          test
+03/31/00  10:04a               393,216 ass4-1.tds
+03/31/00  10:04a                55,296 ass4-1.exe
+03/31/00  10:37a        <DIR>          A4
+03/31/00  10:23a                 2,480 ass4u428500.zip
+              12 File(s)      2,483,777 bytes
+                          2,808,086,528 bytes free
+

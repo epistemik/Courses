@@ -1,0 +1,39 @@
+Program loaded. 182 bytes in memory.
+[ D0 ]  = $F0F0F080 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[ D0 ]  = $F0F0F010 (long)
+[ D1 ]  = $0F0F0F01 (long)
+[ D1 ]  = $0F0F0F08 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D0 ]  = $F0F08780 (long)
+[ D0 ]  = $F0F010F0 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D1 ]  = $0F0F01E1 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:TRUE
+[ D1 ]  = $0F0F0F08 (long)
+[ D0 ]  = $87878780 (long)
+[ D0 ]  = $10F0F0F0 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:FALSE
+[ D1 ]  = $01E1E1E1 (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:TRUE
+[ D1 ]  = $0F0F0F08 (long)
+[ D0 ]  = $F0F0F087 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[ D0 ]  = $F0F0F0F0 (long)
+[ D1 ]  = $0F0F0FE1 (long)
+[ D1 ]  = $0F0F0F0F (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:TRUE
+[ D0 ]  = $F0F08787 (long)
+[ D0 ]  = $F0F0F0F0 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[ D1 ]  = $0F0FE1E1 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[ D1 ]  = $0F0F0F0F (long)
+[ D0 ]  = $87878787 (long)
+[ D0 ]  = $F0F0F0F0 (long)
+Status Bits: H:FALSE N:TRUE Z:FALSE V:FALSE C:TRUE
+[ D1 ]  = $E1E1E1E1 (long)
+[ D1 ]  = $0F0F0F0F (long)
+Status Bits: H:FALSE N:FALSE Z:FALSE V:FALSE C:TRUE
+
+End of program Execution.

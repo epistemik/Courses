@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.site.uottawa.ca/~u1391470/csi2121/chapter8/ch8.html -->
+<HTML><HEAD><TITLE></TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b>
+<P><FONT size=+3><STRONG>Chapter8</STRONG></FONT><FONT 
+face="Times New Roman"></FONT></P>
+<P><FONT size=+2><STRONG>Slide 18</STRONG></FONT><FONT 
+face="Times New Roman"></FONT></P>
+<P><FONT face="Times New Roman" size=+2>Question 1</FONT></P><FONT 
+face="Courier New">factorial:</FONT><BR><FONT face="Courier New">mov eax,[esp+4] 
+;</FONT> get n<BR><FONT face="Courier New">cmp eax,1</FONT> ; n&lt;=1?<BR><FONT 
+face="Courier New">ja L1</FONT> ; no, continue<BR><FONT face="Courier New">mov 
+eax,1</FONT> ; yes, return 1<BR><FONT face="Courier New">jmp 
+exit</FONT><BR><FONT face="Courier New">L1:</FONT><BR><FONT 
+face="Courier New">dec eax</FONT><BR><FONT face="Courier New">push eax</FONT> ; 
+factorial n-1<BR><FONT face="Courier New">call factorial </FONT>; result in 
+eax<BR><FONT face="Courier New">mov ebx,[esp+4] ;</FONT> get n<BR><FONT 
+face="Courier New">mul ebx ; </FONT>edx:eax = eax*ebx<BR><FONT 
+face="Courier New">exit:</FONT><BR><FONT face="Courier New">ret 4 </FONT>; eax = 
+result <BR><BR WP="BR1"><BR WP="BR2">
+<P><FONT face="Times New Roman" size=+2>Question 2</FONT></P><FONT 
+face="Courier New">clear:</FONT><BR><FONT face="Courier New">mov eax,[esp+4] ; 
+</FONT>get remaining to be cleared<BR><FONT face="Courier New">cmp eax,0 
+</FONT>; we done?<BR><FONT face="Courier New">ja L1 </FONT>; no, 
+continue<BR><FONT face="Courier New">jmp exit</FONT> ; yes - return<BR><FONT 
+face="Courier New">L1:</FONT><BR><FONT face="Courier New">dec eax</FONT> 
+;decrease counter<BR><FONT face="Courier New">mov ebx, [esp+8] ;</FONT> memory 
+location to be zeroed<BR><FONT face="Courier New">mov [ebx], 0 </FONT>; set byte 
+array value to 0<BR><FONT face="Courier New">inc ebx </FONT><FONT 
+face="Courier New">push ebx </FONT>; store byte array location<BR><FONT 
+face="Courier New">push eax</FONT> ; store remaining number<BR><FONT 
+face="Courier New">call factorial </FONT>; done zeroing<BR><FONT 
+face="Courier New">add esp,8 </FONT>; restore stack <FONT 
+face="Courier New">exit:</FONT><BR><FONT face="Courier New">ret 
+;</FONT><BR></BODY></HTML>

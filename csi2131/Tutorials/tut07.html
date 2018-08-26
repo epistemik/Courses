@@ -1,0 +1,220 @@
+
+<html>
+<head>
+<title>CSI 2131 Tutorial #7</title>
+</head>
+
+<body bgcolor=white>
+
+<table width="100%" border=0 cellpadding=5 bgcolor=gray>
+<tr><td align=right><a href=index.html><img src=2131.gif alt="CSI 2131 Home" align=left border=0></a><font size=+3 color=white>CSI 2131 Tutorial #7</font></td></tr>
+</table><p>
+
+This week's tutorial shows how binary search trees can be implemented in C. 
+Knowing how to implement tree-type structures is always good. But there
+are other important things in these examples too:<ul>
+<li>structures
+<li>pointers
+<li>pointers to structures
+<li>dynamic memory allocation
+<li>dynamically allocated strings
+<li>string manipulation
+<li>recursion
+</ul><p>
+
+<table width="100%" border=0 cellpadding=0 bgcolor=gray>
+<tr><td align=center><font size=-5>&nbsp;</font></td></tr>
+</table><p>
+
+<b><i>bst.c</i></b><p>
+
+<hr><pre>
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* This program defines a binary tree type and some basic operations:       */</i></font>
+<font color=#008000><i>/* create a node, add a node, delete a node, demolish a tree, and do an     */</i></font>
+<font color=#008000><i>/* inorder traversal.                                                       */</i></font>
+<font color=#008000><i>/****************************************************************************/</i></font>
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct node                     <font color=#008000><i>/* define the type "node structure"         */</i></font>
+   {
+    char *keyvalue;             <font color=#008000><i>/* the node's key (a string with no space   */</i></font>
+    struct node *lchild;        <font color=#008000><i>/* allocated for the characters yet)        */</i></font>
+    struct node *rchild;        <font color=#008000><i>/* children are pointers to node structures */</i></font>
+   };
+
+
+struct node *create(char *key);
+void add(struct node *parent, char *key);
+int del(struct node *nodeptr);
+void inorder(struct node *nodeptr);
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* The create() function takes a key value and creates a new node using     */</i></font>
+<font color=#008000><i>/* dynamic memory allocation. If creation is successful, it sets the        */</i></font>
+<font color=#008000><i>/* keyvalue field of the node to key and returns a pointer to the new node. */</i></font>
+
+struct node *create(char *key)
+{
+ struct node *newnode;
+ int nodesize, keysize;
+
+ nodesize = sizeof(struct node);             <font color=#008000><i>/* # of bytes in a node struct */</i></font>
+
+ newnode = (struct node *) malloc(nodesize); <font color=#008000><i>/* do the dynamic allocation   */</i></font>
+
+ if(newnode != NULL)                         <font color=#008000><i>/* make sure malloc() worked   */</i></font>
+    {
+     keysize = strlen(key) + 1;    <font color=#008000><i>/* how much space for the key?           */</i></font>
+                                   <font color=#008000><i>/* - string length + the NULL terminator */</i></font>
+     newnode-&gt;keyvalue = (char *) malloc(keysize);
+     strcpy(newnode-&gt;keyvalue, key);         <font color=#008000><i>/* set the keyvalue and make   */</i></font>
+     newnode-&gt;lchild = (struct node *) NULL; <font color=#008000><i>/* sure the child pointers are */</i></font>
+     newnode-&gt;rchild = (struct node *) NULL; <font color=#008000><i>/* cleared to NULL             */</i></font>
+    }
+    
+ return(newnode);
+}
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* The add() function takes an existing tree and adds a node in the correct */</i></font>
+<font color=#008000><i>/* position.                                                                */</i></font>
+
+void add(struct node *parent, char *key)
+{
+                                    <font color=#008000><i>/* strcmp(s1, s2) compares strings:     */</i></font>
+                                    <font color=#008000><i>/* s1 < s2: strcmp returns -1           */</i></font>
+                                    <font color=#008000><i>/* s1 = s2: strcmp returns 0            */</i></font>
+                                    <font color=#008000><i>/* s1 > s2: strcmp returns 1            */</i></font>
+ if(strcmp(key, parent-&gt;keyvalue) <= 0)
+    {
+     if(parent-&gt;lchild == NULL)     <font color=#008000><i>/* make a new leaf node with key        */</i></font>
+        parent-&gt;lchild = create(key);  <font color=#008000><i>/* and make it the new left child    */</i></font>
+     else
+        add(parent-&gt;lchild, key);   <font color=#008000><i>/* parent already has a left child      */</i></font>
+    }                               <font color=#008000><i>/* so add key to the left subtree       */</i></font>
+ else
+    {
+     if(parent-&gt;rchild == NULL)     <font color=#008000><i>/* make a new leaf node with key        */</i></font>
+        parent-&gt;rchild = create(key);  <font color=#008000><i>/* and make it the new right child   */</i></font>
+     else
+        add(parent-&gt;rchild, key);   <font color=#008000><i>/* parent already has a right child     */</i></font>
+    }                               <font color=#008000><i>/* so add key to the right subtree      */</i></font>
+
+}
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* The del() function takes an existing leaf and deletes it, freeing up its */</i></font>
+<font color=#008000><i>/* allocated memory. First it makes sure the node has no children.          */</i></font>
+
+int del(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild == NULL &amp;&amp; nodeptr-&gt;rchild == NULL)
+    {                                <font color=#008000><i>/* free() frees up allocated memory    */</i></font>
+     free(nodeptr-&gt;keyvalue);        <font color=#008000><i>/* free space allocated for the key    */</i></font>
+     free(nodeptr);                  <font color=#008000><i>/* then free space for whole node      */</i></font>
+     return(1);
+    }
+ else
+    return(0);
+
+}
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* The demolish() function takes an existing node and deletes it and all of */</i></font>
+<font color=#008000><i>/* its children recursively.                                                */</i></font>
+
+void demolish(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild != NULL)         <font color=#008000><i>/* as long as we're not at a leaf node */</i></font>
+    demolish(nodeptr-&gt;lchild);       <font color=#008000><i>/* demolish the left subtree           */</i></font>
+
+ if(nodeptr-&gt;rchild != NULL)         <font color=#008000><i>/* as long as we're not at a leaf node */</i></font>
+    demolish(nodeptr-&gt;rchild);       <font color=#008000><i>/* demolish the right subtree          */</i></font>
+
+ del(nodeptr);
+
+}
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* The inorder() function traverses a binary tree in order (that is, left   */</i></font>
+<font color=#008000><i>/* subtree, then root, then right subtree. For each node in the tree, the   */</i></font>
+<font color=#008000><i>/* inorder() function prints the keyvalue.                                  */</i></font>
+
+void inorder(struct node *nodeptr)
+{
+
+ if(nodeptr-&gt;lchild != NULL)         <font color=#008000><i>/* as long as we're not at a leaf node */</i></font>
+    inorder(nodeptr-&gt;lchild);        <font color=#008000><i>/* visit the left subtree              */</i></font>
+
+ printf("  %s", nodeptr-&gt;keyvalue);  <font color=#008000><i>/* print the keyvalue of the root node */</i></font>
+
+ if(nodeptr-&gt;rchild != NULL)         <font color=#008000><i>/* as long as we're not at a leaf node */</i></font>
+    inorder(nodeptr-&gt;rchild);        <font color=#008000><i>/* visit the right subtree             */</i></font>
+
+}
+
+
+<font color=#008000><i>/****************************************************************************/</i></font>
+<font color=#008000><i>/* main() creates a binary tree and fills it up to look like this:          */</i></font>
+<font color=#008000><i>/*                                                                          */</i></font>
+<font color=#008000><i>/*              Jocelyn                                                     */</i></font>
+<font color=#008000><i>/*             /       \                                                    */</i></font>
+<font color=#008000><i>/*            /         \                                                   */</i></font>
+<font color=#008000><i>/*       Benoit         Otmaro                                              */</i></font>
+<font color=#008000><i>/*       /   \           /   \                                              */</i></font>
+<font color=#008000><i>/*      /     \         /     \                                             */</i></font>
+<font color=#008000><i>/*   Alain  Francois  Luc     Phil                                          */</i></font>
+<font color=#008000><i>/*      \                     /                                             */</i></font>
+<font color=#008000><i>/*       \                   /                                              */</i></font>
+<font color=#008000><i>/*      Andre              Paul                                             */</i></font>
+<font color=#008000><i>/*                                                                          */</i></font>
+<font color=#008000><i>/* Doing an inorder traversal of the tree produces the following output:    */</i></font>
+<font color=#008000><i>/*                                                                          */</i></font>
+<font color=#008000><i>/* Inorder traversal:                                                       */</i></font>
+<font color=#008000><i>/*   Alain  Andre  Benoit  Francois  Jocelyn  Luc  Otmaro  Paul  Phil       */</i></font>
+<font color=#008000><i>/*                                                                          */</i></font>
+
+int main()
+{
+ struct node *root;
+
+ root = create("Jocelyn");
+ add(root, "Benoit");
+ add(root, "Francois");
+ add(root, "Otmaro");
+ add(root, "Phil");
+ add(root, "Paul");
+ add(root, "Alain");
+ add(root, "Luc");
+ add(root, "Andre");
+
+ printf("\nInorder traversal:\n");
+ inorder(root);
+ printf("\n\n");
+
+ demolish(root);
+
+ exit(0);
+}
+</pre>
+
+<table width="100%" border=0 cellpadding=0 bgcolor=gray>
+<tr><td align=center><font size=-5>&nbsp;</font></td></tr>
+</table>
+
+<font size=-2><i>(last update March 05, 2000)</i></font>
+
+</body>
+</html>
+

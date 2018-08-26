@@ -1,0 +1,39 @@
+Mark Sattolo	428500      /	CSI-2114D	Sam Scott     / TA: Adam Murray	   DGD: D-1		
+
+Q 2(a)	
+			Sort times (in seconds): Home Computer		
+
+	SORT \ # ->	1000	3333	10000	10000 x 10	1000 x 100	500 x 500	3333 x 333
+	==========	----	----	-----	----------	----------	---------	----------
+	Heap		0	0	1	11		11		27		128	
+	Quick		0	0	1	10		10		25		118	
+	Selection	3	12	65	591		not done	not done	not done	
+	Radix		<3	20	167	not done	not done	not done	not done	
+	BigRadix	1	9	63	not done	not done	not done	not done	
+	ArrayRadix	0	0	n.d.	not done	16		53		130	
+
+
+			Sort times (in seconds): in the Cube	
+
+	SORT \ # ->	1000	3333	10000	10000 x 10	1000 x 100	500 x 500	3333 x 333	
+	==========	----	----	-----	----------	----------	---------	----------
+	Heap		0	0	0	1		1		>1		6	
+	Quick		0	0	0	1		1		1		7-8	
+	Selection	0	1-2	4	35		22		53		not done	
+	Radix		0	<1	1-2	10		4		8		54	
+	BigRadix	0	0	1	9		2-3		4		35	
+	ArrayRadix	0	0	n.d.	not done	1		3-4		7	
+
+		[ Note: 0 = essentially instantaneously. ]			
+
+
+2(b) The queue access operations (linked list) seem to be much slower than the equivalent
+     array operations and using multiple arrays is slower than using the same array and
+     sorting in place.						
+
+2(c) From the evidence above, it seems that the only chance a radix sort could have of 
+    'beating' QuickSort or HeapSort would be to use the 2D-array (not queue) implementation and
+    also be able to use a large enough 2D-array to sort the entire SortingArray in just one pass.
+
+2(d) RadixSort can be improved by using larger arrays of queues and doing fewer passes (i.e. decrease k)	
+     as in BigRadixSort, or using a 2D-array rather than queues to sort, as in ArrayRadixSort.

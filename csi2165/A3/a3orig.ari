@@ -1,0 +1,208 @@
+/*  Mark Sattolo  428500
+   CSI2165A,  J.Sayyad
+   Assignment #3
+*/
+
+
+is_list(List) :- nonvar(List), 
+              		 ( List = [],! ; List=[Head|Tail], is_list(Tail),! ).
+
+join([], X, X). 
+join([Head|Tail], List, [Head|T2]):- join(Tail,List,T2).
+
+member(X, [X|_]):-!.
+member(X, [_|Tail]):- member(X,Tail),!.
+
+max(Arg1, Arg2, Arg1):- Arg1 >= Arg2, !.
+max(Arg1, Arg2, Arg2).
+
+
+/*----------------------------------------------------------------------
+    Q1 - check the depth.
+-----------------------------------------------------------------------*/
+
+depth([], 1).
+
+depth([H|T], D):- depth(H, 1, H1),
+                  depth(T, 0, T1),
+                  max(H1, T1, D).
+                                    
+depth([], M, D):- D is M+1.                                    
+                                    
+depth(X, M, M):- atomic(X).                                    
+                                    
+depth([H|T], M, D):- M1 is M+1 , 
+                     depth(H, M1, H2),
+                     depth(T, M, T2),
+                     max(H2, T2, D).
+
+
+/*-------------------------------------------------------------------
+    Q2 - supermax/2
+----------------------------------------------------------------------*/
+
+has_numbers([H|T]):- number(H),!; has_numbers(H),!; has_numbers(T),!.
+
+
+supermax([N], N):- number(N).
+
+supermax([H|T], H):- number(H), not(has_numbers(T)).
+
+supermax([H|T], Max):- number(H),
+                       has_numbers(T), supermax(T, Tmax),
+                       max(H, Tmax, Max).
+
+supermax([H|T], Max):- not(has_numbers(H)) ,
+                       has_numbers(T), supermax(T, Max).
+
+supermax([H|T], Max):- has_numbers(H), supermax(H, Max),
+                       not(has_numbers(T)).
+
+supermax([H|T], Max):- has_numbers(H), supermax(H, Hmax),
+                       has_numbers(T), supermax(T, Tmax),
+                       max(Hmax, Tmax, Max).
+
+
+/*----------------------------------------------------------------------
+    Q3 - matrix predicates.
+-------------------------------------------------------------------------*/
+
+/* (a) only_non_zero/3
+-----------------------------------*/
+
+only_non_zero([Item|T], Item, 1).
+
+only_non_zero([H|T], Item, N):- H=0, 
+                                N1 is N-1, 
+                                only_non_zero(T, Item, N1).
+
+
+/* (b) identity/1
+-----------------------*/
+
+% length([], 0).
+% length([H|T], Length):- length(T, Tlength), Length is Tlength+1.
+
+identity([X], N):- only_non_zero(X, 1, N).
+
+identity([H|T], N):- only_non_zero(H, 1, N),
+                     N1 is N+1, identity(T, N1).
+
+identity([1]).
+
+identity([H|T]):- length([H|T], N), 
+                  only_non_zero(H, 1, 1), 
+                  identity(T, 2).
+
+
+/* (c) add/3
+------------------*/
+
+add([], [], []).
+add([], [X], [X]):- number(X).
+add([X], [], [X]):- number(X).add([X], [Y], [Z]):- number(X), number(Y), Z is X+Y.
+
+add([H1|T1], [H2|T2], R):- length([H1|T1], L1), 
+                           length([H2|T2], L2), L1=L2,
+                           (( number(H1), H is H1+H2,                              add(T1, T2, T), R=[H|T] );
+                            ( add(H1, H2, H), add(T1, T2, T),                              R=[H|T] )).                                    
+
+
+/*-------------------------------------------------------------------
+    Q4 - last_atom/2 
+----------------------------------------------------------------------*/
+
+last_atom([Arg], Arg):- atom(Arg), not(Arg=[]).
+
+last_atom([H|T], H):- atom(H), T=[].
+
+last_atom([H|T], Atom):- not(T=[]), last_atom(T, Atom).
+
+
+
+/*-------------------------------------------------------------------
+    Q5 - super_reverse/2 
+----------------------------------------------------------------------*/
+
+super_reverse([], []).
+
+super_reverse([X], [X]):- atomic(X).
+
+super_reverse(List, Rev):- is_list(List),
+                           super_reverse(List, [], Rev).
+
+super_reverse([], List, List).
+
+super_reverse([H|T], Stack, Final):- ( ( is_list(H) , 
+                                         super_reverse(H, [], Htemp) ) ;
+                                       ( Htemp=H ) ) ,
+                                super_reverse(T, [Htemp|Stack], Final).  
+
+
+/*---------------------------------------------------------------------
+    Q6 - remove_numbers/2
+----------------------------------------------------------------------*/
+
+remove_numbers([], []).
+
+remove_numbers([X], []):- number(X).
+
+remove_numbers([H|T], List):- number(H), remove_numbers(T, List).
+
+remove_numbers([H|T], List):- not(number(H)), not(is_list(H)), 
+                              remove_numbers(T, Tlist), 
+                          		  List=[H|Tlist].
+
+remove_numbers([H|T], List):- is_list(H), remove_numbers(H, Hlist),
+                            	 remove_numbers(T, Tlist), 
+				                          List=[Hlist|Tlist].
+
+
+/*------------------------------------------------------------------
+    Q7 - list_struct/2
+--------------------------------------------------------------------*/
+
+list_struct([H|T], S):- atom(H), 
+                        convert(T, TS),
+                        S=..[H|TS].
+
+convert([], []).
+
+convert([X], [X]):- atomic(X).
+
+
+convert([H|T], S):- ((( is_list(H), convert(H, HL)),
+                     (( H=[H2|T2], atom(H2), HS=..HL); HS=HL));
+                     HS=H ),
+                    convert(T, TS), S =[HS|TS].
+
+
+
+/*----------------------------------------------------------------
+    Q8 - structure_member/2
+----------------------------------------------------------------*/
+
+structure_member(Ob, S):- S=..[H|T], 
+                          ( H=Ob ; search(Ob,T) ).
+
+search(Ob, [H|T]):- Ob=H,! ; member(Ob, H),!.
+
+search(Ob, [H|T]):- is_list(H), H=[Hh|Ht], Ob=Hh,!.
+
+search(Ob, [H|T]):- is_list(H), H=[Hh|Ht], search(Ob, Hh),!.
+
+search(Ob, [H|T]):- is_list(H), H=[Hh|Ht], search(Ob, Ht),!.
+
+search(Ob, [H|T]):- not(atomic(H)), H=..HL, search(Ob, HL),!.
+
+search(Ob, [H|T]):- T=[Th|Tt], (Ob=Th,! ; member(Ob, Th),!),!.
+
+search(Ob, [H|T]):- T=[Th|Tt], search(Ob, Hh),!.
+
+search(Ob, [H|T]):- T=[Th|Tt], search(Ob, Th),!.
+
+search(Ob, [H|T]):- T=[T2], not(atomic(T2)), T2=..TL, search(Ob, TL),!.
+                                       
+
+
+

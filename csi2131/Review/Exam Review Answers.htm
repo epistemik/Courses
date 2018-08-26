@@ -1,0 +1,790 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131 Exam Review Answers</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A href="file:///D:/Courses/Csi2131/2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Exam Review Answers_files/2131.gif"></A><FONT color=white size=+3>CSI 
+      2131 Exam Review Answers</FONT></TD></TR></TBODY></TABLE>
+<P>Here are the answers to some stuff to help you prepare for the exam.
+<P><I>Disclaimer: the stuff in this review is not necessarily the </I>only<I> 
+stuff on the exam.</I>
+<P>
+<HR>
+
+<P>The exam is closed-book, no notes, no cheat sheets, no calculators, no 
+walkie-talkies no computers, no copying, no cheating, no taking a dive.
+<P>The exam counts mark-for-mark toward the final grade (50 marks on the exam 
+translate to 50 marks toward the final grade).
+<P>There are several questions on the exam, worth different numbers of marks. 
+You should plan your time according to the number of marks allotted to the 
+question (for example, don't spend more than 35 minutes on a question worth 10 
+marks).
+<P>Some questions ask you to create (an algorithm, for example), while some 
+questions just ask you to do (apply a technique, for example).
+<P>
+<HR>
+
+<P>
+<OL><BR>
+  <LI>What is a <I>fixed length code</I>? What is a <I>variable length code</I>? 
+  Give an example of each.
+  <P><FONT color=green>A fixed length code is a map from one set of symbols (A) 
+  to another set of symbols (B) such that all symbols in B are represented using 
+  the same number of bits.
+  <P>A variable length code is a map from A to B in which symbols in B are 
+  represented with different numbers of bits.
+  <P>Examples of fixed length codes are RLE and LZW. Examples of variable length 
+  codes are Morse and Huffman.
+  <P></FONT><BR></P>
+  <LI>Give a Run Length Encoding of the string: "ABBCCCDDDDEEEEEF.........GHI".
+  <P><FONT color=green>Here's one: ABBCCC#D4#E5F#.9GHI
+  <P></FONT><BR></P>
+  <LI>Give a Huffman Code of the string: "six_stick_shifts_stuck_shut".
+  <P><FONT color=green>There are many different Codes possible, depending on how 
+  you order symbols in the symbol list having the same probabilities. Here's 
+one:
+  <P>
+  <TABLE border=1 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>i</TD>
+            <TD align=middle>3</TD></TR>
+          <TR>
+            <TD align=middle>c</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>h</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>k</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>u</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>f</TD>
+            <TD align=middle>1</TD></TR>
+          <TR>
+            <TD align=middle>x</TD>
+            <TD align=middle>1</TD></TR></TBODY></TABLE></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>i</TD>
+            <TD align=middle>3</TD></TR>
+          <TR>
+            <TD align=middle>c</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>h</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>k</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>u</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>xf</TD>
+            <TD align=middle>2</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff1.gif"> </P></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>xfu</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>i</TD>
+            <TD align=middle>3</TD></TR>
+          <TR>
+            <TD align=middle>c</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>h</TD>
+            <TD align=middle>2</TD></TR>
+          <TR>
+            <TD align=middle>k</TD>
+            <TD align=middle>2</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff2.gif"> </P></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>kh</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>xfu</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>i</TD>
+            <TD align=middle>3</TD></TR>
+          <TR>
+            <TD align=middle>c</TD>
+            <TD align=middle>2</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff3.gif"> </P></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>ci</TD>
+            <TD align=middle>5</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>kh</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>xfu</TD>
+            <TD align=middle>4</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff4.gif"> 
+    </P></TD></TR></TBODY></TABLE>
+  <TABLE border=1 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>xfukh</TD>
+            <TD align=middle>8</TD></TR>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>ci</TD>
+            <TD align=middle>5</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>4</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>4</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff5.gif"> </P></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>t_</TD>
+            <TD align=middle>8</TD></TR>
+          <TR>
+            <TD align=middle>xfukh</TD>
+            <TD align=middle>8</TD></TR>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>6</TD></TR>
+          <TR>
+            <TD align=middle>ci</TD>
+            <TD align=middle>5</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff6.gif"> 
+    </P></TD></TR></TBODY></TABLE>
+  <TABLE border=1 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>cis</TD>
+            <TD align=middle>11</TD></TR>
+          <TR>
+            <TD align=middle>t_</TD>
+            <TD align=middle>8</TD></TR>
+          <TR>
+            <TD align=middle>xfukh</TD>
+            <TD align=middle>8</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff7.gif"> </P></TD>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>xfukht_</TD>
+            <TD align=middle>16</TD></TR>
+          <TR>
+            <TD align=middle>cis</TD>
+            <TD align=middle>11</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff8.gif"> 
+    </P></TD></TR></TBODY></TABLE>
+  <P>Here is the final tree and code:
+  <P>
+  <TABLE border=1 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD align=middle vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>s</TD>
+            <TD align=middle>01</TD></TR>
+          <TR>
+            <TD align=middle>_</TD>
+            <TD align=middle>111</TD></TR>
+          <TR>
+            <TD align=middle>t</TD>
+            <TD align=middle>110</TD></TR>
+          <TR>
+            <TD align=middle>i</TD>
+            <TD align=middle>001</TD></TR>
+          <TR>
+            <TD align=middle>c</TD>
+            <TD align=middle>000</TD></TR>
+          <TR>
+            <TD align=middle>h</TD>
+            <TD align=middle>1011</TD></TR>
+          <TR>
+            <TD align=middle>k</TD>
+            <TD align=middle>1010</TD></TR>
+          <TR>
+            <TD align=middle>u</TD>
+            <TD align=middle>1001</TD></TR>
+          <TR>
+            <TD align=middle>f</TD>
+            <TD align=middle>10001</TD></TR>
+          <TR>
+            <TD align=middle>x</TD>
+            <TD align=middle>10000</TD></TR></TBODY></TABLE>
+        <P><IMG border=0 src="Exam Review Answers_files/huff9.gif"> 
+    </P></TD></TR></TBODY></TABLE>
+  <P></FONT><BR></P>
+  <LI>Encode the following string using LZW encoding. Assume that the dictionary 
+  already contains the ASCII codes 0-255 in the first 256 entries: 
+  "nice_mice_on_ice"
+  <P><FONT color=green>Here is the encoded 
+  string:<BR>&lt;110&gt;&lt;105&gt;&lt;99&gt;&lt;101&gt;&lt;95&gt;&lt;109&gt;&lt;257&gt;&lt;259&gt;&lt;111&gt;&lt;110&gt;&lt;95&gt;&lt;262&gt;
+  <P>
+  <TABLE border=0 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>...</TD>
+            <TD align=middle>...</TD></TR>
+          <TR>
+            <TD align=middle>95</TD>
+            <TD align=middle>_</TD></TR>
+          <TR>
+            <TD align=middle>96</TD>
+            <TD align=middle>`</TD></TR>
+          <TR>
+            <TD align=middle>97</TD>
+            <TD align=middle>a</TD></TR>
+          <TR>
+            <TD align=middle>98</TD>
+            <TD align=middle>b</TD></TR>
+          <TR>
+            <TD align=middle>99</TD>
+            <TD align=middle>c</TD></TR>
+          <TR>
+            <TD align=middle>100</TD>
+            <TD align=middle>d</TD></TR>
+          <TR>
+            <TD align=middle>101</TD>
+            <TD align=middle>e</TD></TR>
+          <TR>
+            <TD align=middle>102</TD>
+            <TD align=middle>f</TD></TR>
+          <TR>
+            <TD align=middle>103</TD>
+            <TD align=middle>g</TD></TR>
+          <TR>
+            <TD align=middle>104</TD>
+            <TD align=middle>h</TD></TR>
+          <TR>
+            <TD align=middle>105</TD>
+            <TD align=middle>i</TD></TR>
+          <TR>
+            <TD align=middle>106</TD>
+            <TD align=middle>j</TD></TR>
+          <TR>
+            <TD align=middle>107</TD>
+            <TD align=middle>k</TD></TR>
+          <TR>
+            <TD align=middle>108</TD>
+            <TD align=middle>l</TD></TR>
+          <TR>
+            <TD align=middle>109</TD>
+            <TD align=middle>m</TD></TR>
+          <TR>
+            <TD align=middle>110</TD>
+            <TD align=middle>n</TD></TR>
+          <TR>
+            <TD align=middle>111</TD>
+            <TD align=middle>o</TD></TR>
+          <TR>
+            <TD align=middle>112</TD>
+            <TD align=middle>p</TD></TR>
+          <TR>
+            <TD align=middle>...</TD>
+            <TD align=middle>...</TD></TR></TBODY></TABLE></TD>
+      <TD vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>256</TD>
+            <TD align=middle>ni</TD></TR>
+          <TR>
+            <TD align=middle>257</TD>
+            <TD align=middle>ic</TD></TR>
+          <TR>
+            <TD align=middle>258</TD>
+            <TD align=middle>ce</TD></TR>
+          <TR>
+            <TD align=middle>259</TD>
+            <TD align=middle>e_</TD></TR>
+          <TR>
+            <TD align=middle>260</TD>
+            <TD align=middle>_m</TD></TR>
+          <TR>
+            <TD align=middle>261</TD>
+            <TD align=middle>mi</TD></TR>
+          <TR>
+            <TD align=middle>262</TD>
+            <TD align=middle>ice</TD></TR>
+          <TR>
+            <TD align=middle>263</TD>
+            <TD align=middle>e_o</TD></TR>
+          <TR>
+            <TD align=middle>264</TD>
+            <TD align=middle>on</TD></TR>
+          <TR>
+            <TD align=middle>265</TD>
+            <TD align=middle>n_</TD></TR>
+          <TR>
+            <TD align=middle>266</TD>
+            <TD align=middle>_i</TD></TR>
+          <TR>
+            <TD align=middle>267</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>268</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>269</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>270</TD>
+            <TD align=middle>&nbsp;</TD></TR></TBODY></TABLE></TD>
+      <TD vAlign=top>
+        <TABLE border=0 cellPadding=10>
+          <TBODY>
+          <TR>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;w&nbsp;&nbsp;</I></B> 
+              <HR>
+              <BR>n<BR>i<BR>c<BR>e<BR>_<BR>m<BR>i<BR>ic<BR>e<BR>e_<BR>o<BR>n<BR>_<BR>i<BR>ic<BR>ice 
+            </TD>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;k&nbsp;&nbsp;</I></B> 
+              <HR>
+              n<BR>i<BR>c<BR>e<BR>_<BR>m<BR>i<BR>c<BR>e<BR>_<BR>o<BR>n<BR>_<BR>i<BR>c<BR>e 
+            </TD>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;out&nbsp;&nbsp;</I></B> 
+              <HR>
+              <BR>110<BR>105<BR>99<BR>101<BR>95<BR>109<BR><BR>257<BR><BR>259<BR>111<BR>110<BR>95<BR><BR><BR>262 
+            </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+  <P></FONT><BR></P>
+  <LI>Decode the following sequence using LZW decoding. Assume that the 
+  dictionary already contains the ASCII codes 0-255 in the first 256 entries: 
+  &lt;116&gt;&lt;104&gt;&lt;97&gt;&lt;100&gt;&lt;95&gt;&lt;257&gt;&lt;259&gt;&lt;97&gt;&lt;95&gt;&lt;100&gt;&lt;258&gt; 
+
+  <P><FONT color=green>Here is the decoded string: thad_had_a_dad
+  <P>
+  <TABLE border=0 cellPadding=10>
+    <TBODY>
+    <TR>
+      <TD vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>...</TD>
+            <TD align=middle>...</TD></TR>
+          <TR>
+            <TD align=middle>95</TD>
+            <TD align=middle>_</TD></TR>
+          <TR>
+            <TD align=middle>96</TD>
+            <TD align=middle>`</TD></TR>
+          <TR>
+            <TD align=middle>97</TD>
+            <TD align=middle>a</TD></TR>
+          <TR>
+            <TD align=middle>98</TD>
+            <TD align=middle>b</TD></TR>
+          <TR>
+            <TD align=middle>99</TD>
+            <TD align=middle>c</TD></TR>
+          <TR>
+            <TD align=middle>100</TD>
+            <TD align=middle>d</TD></TR>
+          <TR>
+            <TD align=middle>101</TD>
+            <TD align=middle>e</TD></TR>
+          <TR>
+            <TD align=middle>102</TD>
+            <TD align=middle>f</TD></TR>
+          <TR>
+            <TD align=middle>103</TD>
+            <TD align=middle>g</TD></TR>
+          <TR>
+            <TD align=middle>104</TD>
+            <TD align=middle>h</TD></TR>
+          <TR>
+            <TD align=middle>105</TD>
+            <TD align=middle>i</TD></TR>
+          <TR>
+            <TD align=middle>106</TD>
+            <TD align=middle>j</TD></TR>
+          <TR>
+            <TD align=middle>107</TD>
+            <TD align=middle>k</TD></TR>
+          <TR>
+            <TD align=middle>108</TD>
+            <TD align=middle>l</TD></TR>
+          <TR>
+            <TD align=middle>109</TD>
+            <TD align=middle>m</TD></TR>
+          <TR>
+            <TD align=middle>110</TD>
+            <TD align=middle>n</TD></TR>
+          <TR>
+            <TD align=middle>111</TD>
+            <TD align=middle>o</TD></TR>
+          <TR>
+            <TD align=middle>112</TD>
+            <TD align=middle>p</TD></TR>
+          <TR>
+            <TD align=middle>113</TD>
+            <TD align=middle>q</TD></TR>
+          <TR>
+            <TD align=middle>114</TD>
+            <TD align=middle>r</TD></TR>
+          <TR>
+            <TD align=middle>115</TD>
+            <TD align=middle>s</TD></TR>
+          <TR>
+            <TD align=middle>116</TD>
+            <TD align=middle>t</TD></TR>
+          <TR>
+            <TD align=middle>...</TD>
+            <TD align=middle>...</TD></TR></TBODY></TABLE></TD>
+      <TD vAlign=top>
+        <TABLE border=1 cellPadding=5>
+          <TBODY>
+          <TR>
+            <TD align=middle>256</TD>
+            <TD align=middle>th</TD></TR>
+          <TR>
+            <TD align=middle>257</TD>
+            <TD align=middle>ha</TD></TR>
+          <TR>
+            <TD align=middle>258</TD>
+            <TD align=middle>ad</TD></TR>
+          <TR>
+            <TD align=middle>259</TD>
+            <TD align=middle>d_</TD></TR>
+          <TR>
+            <TD align=middle>260</TD>
+            <TD align=middle>_h</TD></TR>
+          <TR>
+            <TD align=middle>261</TD>
+            <TD align=middle>had</TD></TR>
+          <TR>
+            <TD align=middle>262</TD>
+            <TD align=middle>d_a</TD></TR>
+          <TR>
+            <TD align=middle>263</TD>
+            <TD align=middle>a_</TD></TR>
+          <TR>
+            <TD align=middle>264</TD>
+            <TD align=middle>_d</TD></TR>
+          <TR>
+            <TD align=middle>265</TD>
+            <TD align=middle>da</TD></TR>
+          <TR>
+            <TD align=middle>266</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>267</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>268</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>269</TD>
+            <TD align=middle>&nbsp;</TD></TR>
+          <TR>
+            <TD align=middle>270</TD>
+            <TD align=middle>&nbsp;</TD></TR></TBODY></TABLE></TD>
+      <TD vAlign=top>
+        <TABLE border=0 cellPadding=10>
+          <TBODY>
+          <TR>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;w&nbsp;&nbsp;</I></B> 
+              <HR>
+              <BR>t<BR>h<BR>a<BR>d<BR>_<BR>ha<BR>d_<BR>a<BR>_<BR>d<BR>ad </TD>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;k&nbsp;&nbsp;</I></B> 
+              <HR>
+              116<BR>104<BR>97<BR>100<BR>95<BR>257<BR>259<BR>97<BR>95<BR>100<BR>258 
+            </TD>
+            <TD align=middle 
+              vAlign=top><B><I>&nbsp;&nbsp;out&nbsp;&nbsp;</I></B> 
+              <HR>
+              t<BR>h<BR>a<BR>d<BR>_<BR>ha<BR>d_<BR>a<BR>_<BR>d<BR>ad 
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+  <P></FONT><BR></P>
+  <LI>What are the steps of any general cosequential processing algorithm?
+  <P><FONT color=green>For <I>k</I> files...<PRE>     open all the files F<SUB>1</SUB>..F<SUB>k</SUB>
+     read a record r<SUB>i</SUB> from each file F<SUB>i</SUB>
+     while there are records left in any file
+        find the record r<SUB>min</SUB> with the minimum key value
+        do something to r<SUB>min</SUB>
+        read the next record from file F<SUB>min</SUB>
+     endwhile</PRE></FONT>
+  <P><BR></P>
+  <LI>What is <I>storage compaction</I>?
+  <P><FONT color=green>In a file with records marked as deleted, read the file 
+  sequentially writing out all records <I>except</I> those marked as deleted.
+  <P></FONT><BR></P>
+  <LI>What is <I>dynamic reclamation</I>?
+  <P><FONT color=green>A data structure (such as a stack) is kept within the 
+  data file linking all the deleted records. Records marked as deleted can be 
+  reused for newly added records by traversing the data structure, eliminating 
+  the need to <I>search</I> for deleted records.
+  <P></FONT><BR></P>
+  <LI>What are <I>First Fit</I>, <I>Best Fit</I> and <I>Worst Fit</I>?
+  <P><FONT color=green>A file has variable length records and some records 
+  marked as deleted. We want to reuse the records marked as deleted to store 
+  newly added records. The record to be added may be too big to fit in the space 
+  left by some of the deleted records. We must find a deleted record big enough 
+  to hold the new record.
+  <P><I>First Fit:</I> use the first deleted record that's big enough to hold 
+  the new record (either the first in the file, or the first in the data 
+  structure, if dynamic reclamation is being used).
+  <P><I>Best Fit:</I> use the smallest deleted record that's big enough to hold 
+  the new record.
+  <P><I>Worst Fit:</I> use the biggest deleted record that's big enough to hold 
+  the new record.
+  <P></FONT><BR></P>
+  <LI>Build a heap from the following records:<BR>30 24 16 28 23 20 7 21 14 5 30 
+  22 15
+  <P><FONT color=green>Here's the heap (I've built it sideways because it's 
+  easier to type that way)<PRE>  30
+  30 24
+  24 30
+  24 30 16
+  16 30 24
+  16 30 24 28
+  16 28 24 30
+  16 28 24 30 23
+  16 23 24 30 28
+  16 23 24 30 28 20
+  16 23 20 30 28 24
+  16 23 20 30 28 24  7
+  16 23  7 30 28 24 20
+   7 23 16 30 28 24 20
+   7 23 16 30 28 24 20 21
+   7 23 16 21 28 24 20 30
+   7 21 16 23 28 24 20 30
+   7 21 16 23 28 24 20 30 14
+   7 21 16 14 28 24 20 30 23
+   7 14 16 21 28 24 20 30 23
+   7 14 16 21 28 24 20 30 23  5
+   7 14 16 21  5 24 20 30 23 28
+   7  5 16 21 14 24 20 30 23 28
+   5  7 16 21 14 24 20 30 23 28
+   5  7 16 21 14 24 20 30 23 28 30
+   5  7 16 21 14 24 20 30 23 28 30 22
+   5  7 16 21 14 22 20 30 23 28 30 24
+   5  7 16 21 14 22 20 30 23 28 30 24 15
+   5  7 15 21 14 16 20 30 23 28 30 24 22</PRE>
+  <P></FONT><BR></P>
+  <LI>What is a <I>selection tree</I>?
+  <P><FONT color=green>In the <I>K-way merge</I> we saw that finding the minimum 
+  key among <I>K</I> records within the merge algorithm could be very expensive 
+  (O(K)). A <I>selection tree</I> is a binary tree where the leaves are keys 
+  from each of the <I>K</I> records. The parent of each pair of keys is the 
+  smaller of the two keys. The selection tree allows us to find the minimum of 
+  <I>K</I> keys in O(log<SUB>2</SUB>K) each time through the merge loop.
+  <P></FONT><BR></P>
+  <LI>What is <I>multi-step</I> merging?
+  <P><FONT color=green>When merging a very large number of files, it may be 
+  advantageous to merge the files in smaller batches, then merge the merged 
+  files.
+  <P></FONT><BR></P>
+  <LI>Do a heapsort with replacement selection for the following records if we 
+  only have room for 4 records in the heap:<BR>30 24 16 28 23 20 7 21 14 5 30 22 
+  15
+  <P><FONT color=green>Here are the steps in sorting (I show the heap sideways 
+  because it's easier to type that way). I mark the bottom of the heap with a 
+  <TT>|</TT> and build an upside-down heap underneath the active heap. When the 
+  active heap becomes empty, I can start writing out the new run using the 
+  upside-down heap (going right-to-left instead of left-to-right). When a record 
+  gets written out, I show it in <FONT color=red>red</FONT><PRE>   30         |
+   30 24      |
+   24 30      |
+   24 30 16   |
+   16 30 24   |
+   16 30 24 28|
+   16 28 24 30|     <FONT color=red>16</FONT>
+   23 28 24 30|     <FONT color=red>23</FONT>
+   30 28 24|20
+   24 28 30|20      <FONT color=red>24</FONT>
+   30 28| 7 20
+   28 30|20  7      <FONT color=red>28</FONT>
+   30|21 20  7      <FONT color=red>30</FONT>
+  |14 21 20  7
+  |20 21 14  7      <FONT color=red> 7</FONT> <I>we can already start a new run because the heap is already built</I>
+    5|21 14 20
+    5|21 20 14      <FONT color=red>14</FONT>
+    5|21 20 30
+    5|21 30 20      <FONT color=red>20</FONT>
+    5|21 30 22
+    5|22 30 21      <FONT color=red>21</FONT>
+    5 15|30 22      <FONT color=red>22</FONT>
+    5 15   |30      <FONT color=red>30</FONT>
+    5 15      |     <FONT color=red> 5</FONT> <I>starting another run</I>
+   15         |     <FONT color=red>15</FONT></PRE></FONT><BR>
+  <LI>What is an <I>index file</I>?
+  <P><FONT color=green>An <I>index file</I> is a file created from a data file. 
+  Records in the index file consist of a key and a reference field. The 
+  reference field indicates the location in the data file of records having the 
+  given key.
+  <P></FONT><BR></P>
+  <LI>What is a <I>secondary index</I>?
+  <P><FONT color=green>A <I>secondary index</I> is an index file in which the 
+  index records consist of secondary key values as the key and primary key 
+  values as the reference field. Looking up a secondary key value in the 
+  secondary index gives the primary keys of records having that secondary key 
+  value.
+  <P></FONT><BR></P>
+  <LI>What is an <I>inverted list</I>?
+  <P><FONT color=green>Since secondary keys are not necessarily unique, there 
+  may be several records (with different primary keys) for each secondary key 
+  value. An <I>inverted list</I> is a secondary index in which the key is a 
+  secondary key value and the reference field is a list of all the primary key 
+  values of records having that secondary key value.
+  <P></FONT><BR></P>
+  <LI>Add the key <TT>M</TT> to the following B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev1.gif"></CENTER>
+  <P><FONT color=green>Here is the resulting B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev2.gif"></CENTER>
+  <P></FONT><BR></P>
+  <LI>Delete the key <TT>S</TT> from the following B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev1.gif"></CENTER>
+  <P><FONT color=green>Here is the resulting B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev3.gif"></CENTER>
+  <P></FONT><BR></P>
+  <LI>Delete the key <TT>U</TT> from the following B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev2.gif"></CENTER>
+  <P><FONT color=green>Here is the resulting B-tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev4.gif"></CENTER>
+  <P></FONT><BR></P>
+  <LI>Add the key <TT>Y</TT> to the following B* tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev5.gif"></CENTER>
+  <P><FONT color=green>Here is the resulting B* tree. 
+  <CENTER><IMG border=0 src="Exam Review Answers_files/btrev6.gif"></CENTER>
+  <P></FONT><BR></P>
+  <LI>What is <I>hashing</I>?
+  <P><FONT color=green><I>Hashing</I> is storing records in predictable 
+  locations in a data file to allow direct access.
+  <P></FONT><BR></P>
+  <LI>What is a <I>hashing function</I>?
+  <P><FONT color=green>A <I>hashing function</I> is a formula that maps primary 
+  key values onto positions in the hash table.
+  <P></FONT><BR></P>
+  <LI>What is a <I>collision</I>?
+  <P><FONT color=green>A <I>collision</I> occurs when a hashing function maps 
+  two different key values onto the same hash value.
+  <P></FONT><BR></P>
+  <LI>Name two desirable properties of a hashing function.
+  <P><FONT color=green>
+  <OL>
+    <LI>A hashing function should produce an even distribution of values. 
+    <LI>The range of a hashing function should cover the whole range of the hash 
+    table. </LI></OL>
+  <P></FONT><BR></P>
+  <LI>What is a <I>bucket</I>?
+  <P><FONT color=green>A <I>bucket</I> is a hash table entry capable of holding 
+  more than one record.
+  <P></FONT></P></LI></OL>
+<HR>
+
+<P>Now here are even more things not mentioned in the review that you may also 
+want to bone up on:
+<P>
+<UL>
+  <LI>merging or matching or batch updating algorithms 
+  <LI>merge sort, k-way merge 
+  <LI>paged binary trees 
+  <LI>creating hashing functions 
+  <LI>collision avoidance 
+  <LI>collision resolution algorithms </LI></UL>
+<P>
+<HR>
+
+<P>
+<CENTER><B><I>GOOD LUCK!</I></B></CENTER>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update April 16, 1999)</I></FONT> </P></BODY></HTML>

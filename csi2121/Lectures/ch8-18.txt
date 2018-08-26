@@ -1,0 +1,36 @@
+Chapter8
+Slide 18
+Question 1
+factorial:
+mov eax,[esp+4] ; get n
+cmp eax,1 ; n<=1?
+ja L1 ; no, continue
+mov eax,1 ; yes, return 1
+jmp exit
+L1:
+dec eax
+push eax ; factorial n-1
+call factorial ; result in eax
+mov ebx,[esp+4] ; get n
+mul ebx ; edx:eax = eax*ebx
+exit:
+ret 4 ; eax = result 
+
+
+
+Question 2
+clear:
+mov eax,[esp+4] ; get remaining to be cleared
+cmp eax,0 ; we done?
+ja L1 ; no, continue
+jmp exit ; yes - return
+L1:
+dec eax ;decrease counter
+mov ebx, [esp+8] ; memory location to be zeroed
+mov [ebx], 0 ; set byte array value to 0
+inc ebx push ebx ; store byte array location
+push eax ; store remaining number
+call factorial ; done zeroing
+add esp,8 ; restore stack exit:
+ret ;
+

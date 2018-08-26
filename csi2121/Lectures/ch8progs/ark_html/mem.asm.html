@@ -1,0 +1,171 @@
+<HTML>
+
+<HEAD>
+   <TITLE>CodeTemplate</TITLE>
+</HEAD>
+
+<BODY>
+
+<FONT SIZE=+2>
+<B>
+<pre><code>
+
+	.386
+	.model flat
+
+	public	_main
+	extrn	_calloc:near
+	extrn	_printf:near
+
+	.code
+_main	proc	near
+   ;	
+   ;	int main()
+   ;	
+	push      ebp
+	mov       ebp,esp
+	add       esp,-136
+	push      ebx
+	push      esi
+	push      edi
+   ;	
+   ;	{
+   ;	   int a=1,b=2,c=3,d=4,e=5,f=6,g=7,h=8,i=9,j=10,k=11,l=12,m;
+   ;	
+@1:
+	mov       ebx,1
+	mov       esi,2
+	mov       edi,3
+	mov       dword ptr [ebp-4],4
+	mov       dword ptr [ebp-8],5
+	mov       dword ptr [ebp-12],6
+	mov       dword ptr [ebp-16],7
+	mov       dword ptr [ebp-20],8
+	mov       dword ptr [ebp-24],9
+	mov       dword ptr [ebp-28],10
+	mov       dword ptr [ebp-32],11
+	mov       dword ptr [ebp-36],12
+   ;	
+   ;	   int count;
+   ;	   int z[25];
+   ;	   int *y;
+   ;		
+   ;	   for(count=0; count<25; count++)
+   ;	
+   ; EBX = a, ESI = b, EDI = c
+	xor       eax,eax
+   ;	
+   ;	   {
+   ;		z[count] = count;
+   ;	
+   ; EAX = count, EBX = a, ESI = b, EDI = c
+@2:
+	mov       dword ptr [ebp+4*eax-136],eax
+	inc       eax
+	cmp       eax,25
+	jl        short @2
+   ;	
+   ;	   }
+   ;	   
+   ;	   y = (int *) calloc(25, sizeof(int));
+   ;	
+   ; EBX = a, ESI = b, EDI = c
+	push      4
+	push      25
+	call      _calloc
+	add       esp,8
+	mov       edx,eax
+   ;	
+   ;	
+   ;	   for(count=0; count<25; count++)
+   ;	
+   ; EDX = y, EBX = a, ESI = b, EDI = c
+	xor       eax,eax
+   ;	
+   ;	   {
+   ;		y[count] = count;
+   ;	
+   ; EAX = count, EDX = y, EBX = a, ESI = b, EDI = c
+@5:
+	mov       dword ptr [edx+4*eax],eax
+	inc       eax
+	cmp       eax,25
+	jl        short @5
+   ;	
+   ;	   }
+   ;	
+   ;	   m=a+b+c+d+e+f+g+h+i+j+k+l;
+   ;	
+   ; EDX = y, EBX = a, ESI = b, EDI = c
+	lea       ecx,dword ptr [esi+ebx]
+	add       ecx,edi
+	add       ecx,dword ptr [ebp-4]
+	add       ecx,dword ptr [ebp-8]
+	add       ecx,dword ptr [ebp-12]
+	add       ecx,dword ptr [ebp-16]
+	add       ecx,dword ptr [ebp-20]
+	add       ecx,dword ptr [ebp-24]
+	add       ecx,dword ptr [ebp-28]
+	add       ecx,dword ptr [ebp-32]
+	add       ecx,dword ptr [ebp-36]
+   ;	
+   ;	   
+   ;	   for(count=0; count<25; count++)
+   ;	
+   ; EDX = y, ECX = m
+	xor       eax,eax
+   ;	
+   ;	   {
+   ;		m += y[count]+z[count];
+   ;	
+   ; EAX = count, EDX = y, ECX = m
+@8:
+	mov       ebx,dword ptr [ebp+4*eax-136]
+	add       ebx,dword ptr [edx+4*eax]
+	add       ecx,ebx
+	inc       eax
+	cmp       eax,25
+	jl        short @8
+   ;	
+   ;	   }
+   ;	
+   ;	
+   ;	   printf("m = %d\n", m);
+   ;	
+   ; ECX = m
+	push      ecx
+	push      offset s@
+	call      _printf
+	add       esp,8
+   ;	
+   ;	   return 0;
+   ;	
+	xor       eax,eax
+   ;	
+   ;	}
+   ;	
+@12:
+@11:
+	pop       edi
+	pop       esi
+	pop       ebx
+	mov       esp,ebp
+	pop       ebp
+	ret 
+_main	endp
+
+
+.data
+s@	label	byte
+	;	s@+0:
+	db	"m = %d",10,0
+ 
+	end
+
+</code></pre>
+</B>
+</FONT>
+
+
+</BODY>
+</HTML>

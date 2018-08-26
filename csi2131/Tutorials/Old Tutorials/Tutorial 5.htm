@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131 Tutorial #5</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A href="file:///D:/Courses/Csi2131/2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Tutorial 5_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Tutorial #5</FONT></TD></TR></TBODY></TABLE>
+<P>This week's tutorial is (surprise!) two C programs. The first program writes 
+integers to a binary file. The second program reads in the integers written by 
+the first program and prints them to the screen. So what's the big deal?
+<P>The integers are 12-bit integers!
+<P>To write 12-bit integers to a file, you have to write them two at a time, 
+taking up 3 bytes. The hi-order 8 bits of the first 12-bit integer go in the 
+first byte. The lo-order 4 bits of the first integer and the hi-order 4 bits of 
+the second integer go in the second byte. The lo-order 8 bits of the second 
+integer go in the third byte. Here's a little ASCII picture to help illustrate 
+the idea. Bits are numbered 0-23 (from right to left); bytes are written out as 
+bits 16-23, then 8-15, then 0-7. <PRE>          the first 12-bit integer           the second 12-bit integer
+      _______________________________     _______________________________
+     /                               \   /                               \
+    23 22 21 20 19 18 17 16 15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+   |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+     \___________________/   \___________________/   \___________________/
+      first byte written      second byte written      third byte written
+</PRE>Isolating the different bits in each integer to stuff in the correct 
+position in each byte is of course done with mod and div as usual (as you'll see 
+in the programs).
+<P>The programs are called <TT>write12.c</TT> and <TT>read12.c</TT>. But first, 
+here is the output (below). The program <TT>write12.c</TT> writes two 12-bit 
+integers at a time, twenty times. The integers are 1000 2000, then 1001 2001, 
+then 1002 2002, up to 1019 2019. The file it writes is called <TT>foo</TT> 
+(naturally). By doing a <TT>b2x</TT> on <TT>foo</TT> after running 
+<TT>write12</TT>, you can see the 12-bit integers: 3E8 7D0, 3E9 7D1, 3EA 7D2 all 
+the way up to 3FB 7E3. Then <TT>read12</TT> reads in the 12-bit integers no 
+problem and displays them to the screen.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD bgColor=#d0d0d0><PRE>C:\work&gt;write12 foo
+
+C:\work&gt;b2x foo
+3E87D03E97D13EA7D23EB7D33EC7D43ED7D53EE7D63EF7D73F07D83F17D93F27DA3F37
+DB3F47DC3F57DD3F67DE3F77DF3F87E03F97E13FA7E23FB7E3
+
+C:\work&gt;read12 foo
+num1 = 1000, num2 = 2000
+num1 = 1001, num2 = 2001
+num1 = 1002, num2 = 2002
+num1 = 1003, num2 = 2003
+num1 = 1004, num2 = 2004
+num1 = 1005, num2 = 2005
+num1 = 1006, num2 = 2006
+num1 = 1007, num2 = 2007
+num1 = 1008, num2 = 2008
+num1 = 1009, num2 = 2009
+num1 = 1010, num2 = 2010
+num1 = 1011, num2 = 2011
+num1 = 1012, num2 = 2012
+num1 = 1013, num2 = 2013
+num1 = 1014, num2 = 2014
+num1 = 1015, num2 = 2015
+num1 = 1016, num2 = 2016
+num1 = 1017, num2 = 2017
+num1 = 1018, num2 = 2018
+num1 = 1019, num2 = 2019
+</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>Two last things: 
+<OL>
+  <LI>Yes, <TT>write12.c</TT> and <TT>read12.c</TT> are relevant to assignment 
+  #3, which will be available sometime very soon. 
+  <LI>Yes, writing two 12-bit integers as 3 bytes means that there is a problem 
+  if you want to write an odd number of integers. I'll provide a hint on how to 
+  solve this problem on assignment #3. </LI></OL>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE>
+<P><B><I>Program 1: write12.c</I></B>
+<P>
+<HR>
+<PRE>#include &lt;stdio.h&gt;
+
+void write12(FILE *outfil, unsigned number1, unsigned number2);
+                                          /* write12 will take two numbers   */
+                                          /* (less than 4096) and write them */
+                                          /* to a file as two 12-bit numbers */
+                                          /* (three bytes total)             */
+
+int main(int argc, char *argv[])
+{
+ FILE *file12;
+ unsigned i, num1, num2;
+
+ if(argc == 2)                            /* the usual stuff for opening a  */
+    {                                     /* file for binary writing        */
+     if(!(file12 = fopen(argv[1], "wb")))
+        {
+         fprintf(stderr, "Unable to open %s for writing.\n\n", argv[1]);
+         exit(2);
+        }
+    }
+ else
+    {
+     fprintf(stderr, "Usage: write12 &lt;outfile&gt;\n\n");
+     exit(1);
+    }
+
+ num1 = 1000;                             /* two numbers less than 4096     */
+ num2 = 2000;
+ for(i = 0; i &lt; 20; i++)
+    {
+     write12(file12, num1, num2);         /* write them out as 12-bit nums  */
+     num1++;
+     num2++;
+    }
+
+ fclose(file12);
+}
+
+void write12(FILE *outfil, unsigned number1, unsigned number2)
+{
+ unsigned char hi8, lo4hi4, lo8;
+ unsigned long bignum;
+
+ bignum = number1 * 0x1000;               /* move number1 12 bits left      */
+ bignum = bignum + number2;               /* put number2 in lower 12 bits   */
+
+ hi8 = (unsigned char) (bignum / 0x10000);                    /* bits 16-23 */
+ lo4hi4 = (unsigned char) ((bignum % 0x10000) / 0x0100);      /* bits  8-15 */
+ lo8 = (unsigned char) (bignum % 0x0100);                     /* bits  0-7  */
+
+ fwrite(&amp;hi8, 1, 1, outfil);
+ fwrite(&amp;lo4hi4, 1, 1, outfil);
+ fwrite(&amp;lo8, 1, 1, outfil);
+}
+
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE>
+<P><B><I>Program 2: read12.c</I></B>
+<P>
+<HR>
+<PRE>#include &lt;stdio.h&gt;
+
+int read12(FILE *infil, unsigned *number1, unsigned *number2);
+                                          /* read12 will read three bytes    */
+                                          /* from a file and return them as  */
+                                          /* 12-bit numbers (returns 1 on    */
+                                          /* success, zero on failure)       */
+
+int main(int argc, char *argv[])
+{
+ FILE *file12;
+ unsigned num1, num2;
+
+ if(argc == 2)                            /* the usual stuff for opening a  */
+    {                                     /* file for binary reading        */
+     if(!(file12 = fopen(argv[1], "rb")))
+        {
+         fprintf(stderr, "Unable to open %s for reading.\n\n", argv[1]);
+         exit(2);
+        }
+    }
+ else
+    {
+     fprintf(stderr, "Usage: read12 &lt;infile&gt;\n\n");
+     exit(1);
+    }
+
+ while(read12(file12, &amp;num1, &amp;num2) != 0)
+    printf("num1 = %d, num2 = %d\n", num1, num2);
+
+ fclose(file12);
+}
+
+int read12(FILE *infil, unsigned *number1, unsigned *number2)
+{
+ unsigned char hi8, lo4hi4, lo8;
+
+ if(fread(&amp;hi8, 1, 1, infil) != 1)
+    return(0);
+ if(fread(&amp;lo4hi4, 1, 1, infil) != 1)
+    return(0);
+ if(fread(&amp;lo8, 1, 1, infil) != 1)
+    return(0);
+
+ *number1 = hi8 * 0x10;                   /* move hi8 4 bits left           */
+ *number1 = *number1 + (lo4hi4 / 0x10);   /* add hi 4 bits of middle byte   */
+
+ *number2 = (lo4hi4 % 0x10) * 0x0100;     /* move lo 4 bits of middle byte  */
+                                          /* 8 bits to the left             */
+ *number2 = *number2 + lo8;               /* add lo byte                    */
+ 
+ return(1);
+}
+
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update February 15, 1999)</I></FONT> </BODY></HTML>

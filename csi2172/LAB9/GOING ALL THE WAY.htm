@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0082)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab9/project/all.html -->
+<DOCTYPE ?html.dtd? SYSTEM HTML><HTML><HEAD><TITLE>GOING ALL THE WAY</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>GOING ALL THE WAY</H1>If you have completed everything else and you are up 
+for a challenge, only then you should start thinking about doing this. 
+<BR><BR>For this part, you should be able to create your own figures in the 
+script, pass parameters to it, have conditionals and recursion. 
+<BR><BR>Syntactically, a figure definition looks like this: <PRE>   <B>figure</B> <I>name</I><B>(</B><I>param1,param2,...</I><B>)</B> <B>{</B>
+      <I>statement1</I>;
+      <I>statement2</I>;
+      ...
+   <B>}</B>
+</PRE>where a statement is any of the statements we already have (<I>like set, 
+draw </I>) and conditionals: <PRE>   <B>if</B> <B>(</B><I>expression</I><B>)</B> <B>{</B>
+      <I>statement1</I>;
+      <I>statement2</I>;
+      ...
+   <B>}</B>
+
+
+   <B>if</B> <B>(</B><I>expression</I><B>)</B> <B>{</B>
+      <I>statement1</I>;
+      <I>statement2</I>;
+      ...
+   <B>}</B> <B>else</B> <B>{</B>
+      <I>statement1</I>;
+      <I>statement2</I>;
+      ...
+   <B>}</B>
+</PRE>Once a figure is defined, it can be drawn: <PRE>   <B>figure</B> <FONT color=red>myfig</FONT> <B>(</B>x,y,z,r,g,b<B>)</B> <B>{</B>
+        # [x,y] center of circle, z: radius
+        # [r,g,b] pen and fill colors
+        set pen_color [r,g,b];
+        set fill_color [r,g,b];
+        set filled 1;
+        draw circle([x,y],z);
+   <B>}</B>
+
+   <B>draw</B> <FONT color=red>myfig</FONT>(0,0,50,255,0,0);
+</PRE>You may also call the figure inside its definition recursively: <PRE>   <B>figure</B> <FONT color=red>myfig</FONT><B>(</B>x,y,z,r,g,b<B>)</B> <B>{</B>
+        if (z&gt;0) {
+           # [x,y] center of circle, z: radius
+           # [r,g,b] pen color
+           set pen_color [r,g,b];
+           set filled -1;
+           draw_circle([x,y],z);  
+     
+           draw <FONT color=red>myfig</FONT>(x,y,z-1,r+1,g+1,b+1);
+        } 
+   <B>}</B>       
+ 
+</PRE>
+<H1>HINTS</H1>Have a clear idea and a model <B>how</B> to do this, before you 
+write any code. You will need to be able to create figure descriptors, that 
+store the statements they made up of. In fact, you can design a hierarchy, 
+similar to the expression or drawable hierarchies, of statements which all 
+implement an <TT>execute</TT> method. For example, the <TT>set_pen_color</TT> 
+statement would store three <TT>expression</TT>s: one for each read, green and 
+blue components. The execute statement would evaluate these expressions when the 
+figure is <I>drawn</I>: it would set the <TT>pen_color</TT> of the graphics 
+context to the run-time values of the three expressions. Similarly, a 
+<TT>draw_triangle</TT> statement would store 6 expressions : the <I>x</I> and 
+<I>y</I> components of the three corners and when executed it draws a triangle 
+using the runtime values of those expressions. A <TT>variable</TT> would be 
+another subclass of expression, whose <TT>evaluate</TT> method would look up its 
+value run-time. <BR><BR>This may sound like a lot of work, but if you have a 
+crisp idea and a good object model, everything can fall nicely into place, and 
+again, polymorphism can do all the work. <BR><BR>This is far beyond 
+expectations, but if you put some time into the thinking, hand in a design and a 
+methodology how you would implement it. I would also be happy to consult your 
+team, <B>but only after</B> you have the rest of the project finished! 
+</BODY></HTML>

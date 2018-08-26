@@ -1,0 +1,100 @@
+CSI 2114   Assignment 4   Summer 1999 
+
+Due Sunday, July 4 at 10:00 pm.
+
+There are two questions for assignment 4.
+
+Question 1
+----------
+
+In this assignment, you are asked to implement Dijkstra's Shortest Path 
+algorithm using Strategy 10.16 from the textbook.  You also have to
+implement a couple of basic graph routines.  NewGraph initializes a
+graph and AddEdge adds an edge to an existing graph.
+
+The type definition is given to you as an adjacency matrix (two 
+dimensional array).  You are also given a test program that calls
+the procedures you will write.  The test program takes a graph as
+manual input (edge by edge) and then runs the shortest path algorithm.
+
+See the comments in a4.pas for much more information on what to do.
+
+A Cute Trick
+------------
+
+Since you probably don't want to type in an entire graph every time
+you run a4.pas, use the following trick.  Take all the answers to 
+the questions the program will ask, and put them into a text file 
+using NotePad.  Put this file in the C:\work directory.  Then compile 
+the program to an "exe" file.  This will probably go in C:\work as
+well.  Then start an "MS-DOS Prompt" from the START menu.  Change
+to the C:\work directory and type the following:
+
+	a4 < filename.txt
+
+where "filename.txt" is whatever you called your input file.
+
+This runs the program a4.exe but instructs it to take input from
+the file "filename.txt" instead of from the keyboard.  If you have
+put answers to all the corrections in the correct order in the
+file, then the entire program will run without any keyboard input.
+
+To get you started, there are three input files available.  
+ClassExample1.txt and ClassExample2.txt contain the two graph 
+examples shown in class.  DemoExample.txt contains the graph you
+get when you hit the "example" button on the Dijkstra Demo web
+page.  You can compare your algorithms results to the demo
+for each of these examples.  You can also use the format of these
+files to generate your own graph files.
+
+Question 2
+----------
+
+As part of the assignment, make your own input file with at
+least 10 vertices.  Name this file "mygraph.txt" and hand it
+in on disk with your program file.  Once you get the program 
+running, post your "mygraph" file on the student forum
+along with the answers you got.  Then other people can try
+your graph to see if they get the same answers.
+
+(But hand in your own graph file, not someone elses!)
+
+Marking Scheme
+--------------
+
+	mygraph.txt		 5
+        NewGraph                 5
+        AddEdge                  5
+        ShortestPath            25
+        Programming Standards   10
+        --------------------------
+        Total                   50
+
+
+Suggestions and Tips on How to Proceed
+--------------------------------------
+
+1. Read a4handout.txt and all the comments in a4.pas to 
+get a feel for what you are doing.
+
+2. Compile and run a4.pas to see what it does.  You will get
+a lot of "not implemented" messages the first time.
+
+3. Try to write the NewGraph and AddEdge procedures.  You
+can test these without running the ShortestPath part of
+the program.  Make sure you get the correct adjacency
+matrices.
+
+4. Write the "mygraph.txt" file (containing a graph with 10
+vertices) and try to run a4.pas using this file as input.
+You might also want to make some smaller graphs as well for
+your own testing.
+
+5. Now write the ShortestPath algorithm.  Stick closely to 
+the program strategy 10.16 and you won't go far wrong.  Use
+"mygraph.txt" and your other small graphs to test the 
+procedure.  If you're not sure of the right answers, use
+the web page demo to check.
+
+6. Post your "mygraph.txt" file on the student forum for
+other students to try.

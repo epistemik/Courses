@@ -1,0 +1,418 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/ass03.html -->
+<HTML><HEAD><TITLE>CSI 2131 Assignment #3</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY background="a3_files/vicenet.jpeg" bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="a3_files/2131.gif"></A><FONT color=white 
+      size=+3>CSI 2131 Assignment #3</FONT></TD></TR></TBODY></TABLE>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><B>Marks:</B></TD>
+    <TD><B>8</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Time:</B></TD>
+    <TD><B><FONT color=red>Monday, March 20, 2000, 12:00pm (NOON!)... 
+      </FONT><I>No Late Assignments Accepted</I></B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><B>Due&nbsp;Place:</B></TD>
+    <TD><B>Locked box for CSI2131A or CSI2131B (depending on the course 
+      section you're registered in), 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P><I>N.B. Read the <A 
+href="F:\prevCourses\csi2131\standards.html">assignment 
+standards</A> very carefully. You will lose marks if you don't follow those 
+instructions.</I>
+<P>
+<HR>
+
+<P>
+<H2>The Story</H2>Ok. Here's the story. I'm sick and tired of waiting 10 minutes 
+to load some web page because the author has stuck in a bunch of fancy 
+formatting junk that I don't care about. All I want is the plain text: no 
+pictures, no colours, no bold, no italics, no flashing, no tables, no lower case 
+characters, etc.
+<P>
+<H2>The Assignment</H2>Your job is to write a Compressor-Reducer-Archiver 
+Program (CRAP for short). The program (to be written in C, and called 
+<TT>crap.c</TT>) does three important things:
+<OL>
+  <LI>it does lossy compression on HTML files by
+  <UL>
+    <LI>ignoring HTML tags (stuff between angle brackets &lt; &gt;) and 
+    <LI>reducing the remaining ASCII characters to 6 bits instead of 8 </LI></UL>
+  <LI>it does lossless compression by
+  <UL>
+    <LI>using the extra two bits to build an 8-bit Lempel-Ziv-Welch dictionary 
+    </LI></UL>
+  <LI>it does archiving by
+  <UL>
+    <LI>taking any number of file names on the command line and storing the 
+    compressed/reduced versions in one binary file (the first file name on the 
+    command line) </LI></UL></LI></OL>
+<P>You must also write the program <TT>uncrap.c</TT> that reads in a crapfile 
+produced by the <TT>crap</TT> program and decodes each of the 
+archived/compressed/reduced files.
+<P>Here's how the <TT>crap</TT> program works:
+<P>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><FONT size=-1><PRE>make a LZW dictionary as a 256-element array of 32-byte strings 
+initialize the first 64 entries to upper case letters and punctuation (see below)
+
+open the first file OutF from the command line for binary writing
+
+for each file InF specified on the command line
+   open InF for ASCII reading
+   write the NULL byte (0) to OutF
+   write InF's name to OutF
+   write another NULL byte to OutF
+
+   set W to the empty string
+   set WCode to 0
+
+   while there are characters left in InF
+      read a character inK from InF
+      if inK is '&lt;'
+         skip all characters up to and including the next '&gt;'
+      else
+         reduce inK to K (see below)
+         copy W into WK
+         stick K on the end of WK
+
+         if WK is in the LZW dictionary at position Kpos
+            stick K on the end of W
+            set WCode to Kpos
+         else
+            write WCode to OutF
+
+            if the dictionary is not full and WK is not too big
+               add WK to the dictionary
+            endif
+
+            set W to K
+            set WCode to K's position in the dictionary
+         endif
+      endif
+   endwhile
+
+   write WCode to OutF
+
+   close InF
+endfor
+
+close OutF
+</FONT></PRE></TD></TR></TBODY></TABLE>
+<P>Here's how the <TT>uncrap</TT> program works:
+<P>
+<TABLE border=1 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><FONT size=-1><PRE>make a LZW dictionary as a 256-element array of 32-byte strings 
+initialize the first 64 entries to upper case letters and punctuation (see below)
+
+read the name of the crapfile from the command line
+open the crapfile for binary reading
+
+read the first code K from the crapfile (it should be NULL)
+
+while K is not EOF
+   if K is NULL
+      if OutF is already open
+         close OutF
+      endif
+
+      read the file name FN from crapfile (all characters up to the next NULL)
+      open OutF (whose name is FN) for ASCII writing
+
+      read a code K from the crapfile
+      write the dictionary string dict[K] to OutF
+      set W to the dictionary string dict[K]
+
+      read a code K from the crapfile
+   endif
+
+   if K is in the dictionary
+      write the dictionary string dict[K] to OutF
+
+      copy W into WK
+      stick the first character of the string dict[K] on the end of WK
+   else
+      copy W into WK
+      stick the first character of W on the end of WK
+      write WK to OutF
+   endif
+
+   if the dictionary is not full and WK is not too big
+      add WK to the dictionary
+   endif
+
+   set W to the string dict[K]
+
+   read a code K from the crapfile
+endwhile
+
+close OutF
+close the crapfile
+</FONT></PRE></TD></TR></TBODY></TABLE>
+<P>
+<H2>The Hints</H2>
+<UL>
+  <LI>Use an array of strings for the dictionary. Here's an example:
+  <P><TT>&nbsp;&nbsp;&nbsp;unsigned char dict[256][32];</TT>
+  <P>That's an array of 256 strings, with each string having a maximum of 31 
+  characters (there must be a NULL byte after the last character). That means 
+  that your program must be careful not to add to the dictionary once it is full 
+  and not to add strings to the dictionary that are too long. The 8-bit code for 
+  each entry in the dictionary is simply its position in the array. For example, 
+  the code for the entry <TT>dict[200]</TT> is 200.
+  <P></P>
+  <LI>Strings in C are arrays of characters. Each element in the array contains 
+  one character in the string. You must put a NULL (0) byte after the last 
+  character in your string. That means that if you use an array of 32 chars for 
+  your string (<TT>char mystring[32]</TT>) it can hold 31 characters, plus the 
+  NULL byte at the end. You can use your 32-element array for strings smaller 
+  than 31 characters by placing a NULL byte after the last character in the 
+  string. For example, the string <TT>"foo"</TT> could be stored in 
+  <TT>mystring</TT> as follows:
+  <UL>
+    <LI><TT>mystring[0] = 'f';<BR>mystring[1] = 'o';<BR>mystring[2] = 
+    'o';<BR>mystring[3] = 0; </TT></LI></UL>
+  <P></P>
+  <LI>C has several library functions for dealing with strings. Here are some 
+  examples:
+  <UL><PRE><LI>char mystr1[32], mystr2[32] = "foo";
+int cmpval, len;
+
+strcpy(mystr1, mystr2);             /* copies mystr2 into mystr1 */
+mystr1[0] = 'g';                    /* mystr1 is now "goo"       */
+len = strlen(mystr1);               /* length of mystr1 (= 3)    */
+mystr1[3] = 'f';
+mystr1[4] = 0;                      /* mystr1 is now "goof"      */
+
+cmpval = strcmp(mystr1, mystr2);    /* compare mystr1 and mystr2 */
+if(cmpval == 0)
+   printf("mystr1 and mystr2 are the same!\n");
+if(cmpval &lt; 0)
+   printf("mystr1 is less than mystr2!\n");
+if(cmpval &gt; 0)
+   printf("mystr1 is greater than mystr2!\n");</LI></PRE></UL>
+  <P></P>
+  <LI>Here's how to declare your dictionary and initialize the first 64 entries 
+  (entry number 0 to entry number 63):
+  <UL><PRE>unsigned char dict[256][32] = {
+  "\0", "\n", " ", "!", "\"", "#", "$", "%", 
+  "&amp;", "\'", "*", "+", ",", "-", ".", "/",
+  "0", "1", "2", "3", "4", "5", "6", "7",
+  "8", "9", ":", ";", "(", "=", ")", "?",
+  "A", "B", "C", "D", "E", "F", "G", "H",
+  "I", "J", "K", "L", "M", "N", "O", "P",
+  "Q", "R", "S", "T", "U", "V", "W", "X",
+  "Y", "Z", "[", "]", "\\", "^", "@", "_" 
+};</PRE></UL>
+  <P></P>
+  <LI>Here's how to reduce the 8-bit ASCII characters:
+  <UL>
+    <LI>if the character is a lower-case letter (&gt;= 'a' and &lt;= 'z'), use 
+    the upper-case equivalent <BR>(<TT>K = inK - 32;</TT>) 
+    <LI>if the character is one of the characters in the first 64 elements in 
+    the dictionary, leave it as it is <BR>(<TT>K = inK;</TT>) 
+    <LI>if the character is not in the first 64 elements in the dictionary, use 
+    a space character <BR>(<TT>K = ' ';</TT>) </LI></UL>Don't worry about treating 
+  special characters (like the Carriage Return or Line Feed). If you implement 
+  the algorithms correctly, everything should work out fine.
+  <P></P>
+  <LI>Be careful testing your programs. Your <TT>uncrap</TT> program will wipe 
+  out the original versions of the files you crapped (using your <TT>crap</TT> 
+  program). It's probably safest to make copies of all your files and testing 
+  the programs in a separate directory.
+  <P></P>
+  <LI>Run your <TT>crap</TT> program on ASCII files only! Do not try to run it 
+  on binary files, it won't work!
+  <P></P></LI></UL>
+<H2>The Sample Output</H2>Here are the three test files I used:
+<UL>
+  <LI><A 
+  href="file1.htm"><TT>file1.htm</TT></A> 
+
+  <LI><A 
+  href="file2.htm"><TT>file2.htm</TT></A> 
+
+  <LI><A 
+  href="file3.htm"><TT>file3.htm</TT></A> 
+  </LI></UL>
+<P>And here is the crapfile generated for them by my <TT>crap</TT> program 
+running in DOS:
+<UL>
+  <LI><A 
+  href="3files.crp">3files.crp</A> 
+  </LI></UL>Make sure that your browser has downloaded the file as a binary file 
+(the file size should be 155 bytes). If you have compiled the program 
+<TT>b2x.c</TT> from <A 
+href="F:\prevCourses\csi2131\Tutorials\tut03\tut03.html">tutorial 
+3</A>, you can check that <TT>3files.crp</TT> has been correctly downloaded by 
+running <TT>b2x</TT> on it. The output of <TT>b2x</TT> on <TT>3files.crp</TT> is 
+shown here. I make no guarantees about <TT>3files.crp</TT> working properly with 
+your program (but it sure works fine with my programs). 
+<TABLE border=1 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e0e0e0><FONT size=-1><PRE>C:\teach\2131\work\ass3&gt;<FONT color=red>b2x 3files.crp</FONT>
+0066696C65312E68746D00010120022F31243333380232272E31330227332C2B02232E
+22342C242D33400127244502283202424446484A4C4E5F525456585A5C0E5E01006669
+6C65322E68746D0040202D2E336031434547494B4D4F51535557595B5D407C24636578
+7A7C02252028312B816C846F87728A75400066696C65332E68746D00407B8E824E2432
+9C8671895C5EA5330C6B83B1AF035E
+
+C:\teach\2131\work\ass3&gt;
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>Here's what happens when I run my programs <TT>crap</TT> and <TT>uncrap</TT> 
+in DOS on the three test files:
+<P>
+<TABLE border=1 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e0e0e0><FONT size=-1><PRE>C:\teach\2131\work\ass3&gt;<FONT color=red>dir</FONT>
+ Volume in drive C has no label.
+ Volume Serial Number is 8E36-5ED8
+
+ Directory of C:\teach\2131\work\ass3
+
+03/02/00  06:00a        &lt;DIR&gt;          .
+03/02/00  06:00a        &lt;DIR&gt;          ..
+03/03/00  05:26a                 2,506 crap.c
+03/03/00  05:30a                 2,071 uncrap.c
+03/03/00  05:29a                57,338 crap.exe
+03/03/00  05:30a                56,944 uncrap.exe
+03/03/00  05:27a                   179 file1.htm
+03/03/00  05:27a                   157 file2.htm
+03/03/00  05:27a                   137 file3.htm
+               9 File(s)        119,332 bytes
+                            610,861,056 bytes free
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file1.htm</FONT>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;A pretty short HTML document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body bgcolor=#FFE0E0&gt;
+Here is a &lt;b&gt;&lt;i&gt;pretty short&lt;/i&gt;&lt;/b&gt;&lt;br&gt;
+HTML document.&lt;p&gt;
+&lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file2.htm</FONT>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Another pretty short HTML document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Here is Another &lt;i&gt;fairly SHORT&lt;/i&gt; HTML document.&lt;p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file3.htm</FONT>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;The Shortest HTML document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;font size=-1&gt;Short, short, short!&lt;/font&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>crap 3files.crp file1.htm file2.htm file3.htm   </FONT>
+
+C:\teach\2131\work\ass3&gt;dir
+ Volume in drive C has no label.
+ Volume Serial Number is 8E36-5ED8
+
+ Directory of C:\teach\2131\work\ass3
+
+03/02/00  06:05a        &lt;DIR&gt;          .
+03/02/00  06:05a        &lt;DIR&gt;          ..
+03/03/00  05:26a                 2,506 crap.c
+03/03/00  05:30a                 2,071 uncrap.c
+03/03/00  05:29a                57,338 crap.exe
+03/03/00  05:30a                56,944 uncrap.exe
+03/03/00  05:27a                   179 file1.htm
+03/03/00  05:27a                   157 file2.htm
+03/03/00  05:27a                   137 file3.htm
+03/03/00  05:39a                   155 3files.crp
+              10 File(s)        119,487 bytes
+                            610,828,288 bytes free
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>uncrap 3files.crp</FONT>
+
+C:\teach\2131\work\ass3&gt;dir
+ Volume in drive C has no label.
+ Volume Serial Number is 8E36-5ED8
+
+ Directory of C:\teach\2131\work\ass3
+
+03/02/00  06:05a        &lt;DIR&gt;          .
+03/02/00  06:05a        &lt;DIR&gt;          ..
+03/03/00  05:26a                 2,506 crap.c
+03/03/00  05:30a                 2,071 uncrap.c
+03/03/00  05:29a                57,338 crap.exe
+03/03/00  05:30a                56,944 uncrap.exe
+03/03/00  05:39a                    84 file1.htm
+03/03/00  05:39a                    93 file2.htm
+03/03/00  05:39a                    62 file3.htm
+03/03/00  05:39a                   155 3files.crp
+              10 File(s)        119,253 bytes
+                            610,828,288 bytes free
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file1.htm</FONT>
+
+
+A PRETTY SHORT HTML DOCUMENT
+
+
+HERE IS A PRETTY SHORT
+HTML DOCUMENT.
+
+
+
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file2.htm</FONT>
+
+
+ANOTHER PRETTY SHORT HTML DOCUMENT
+
+
+HERE IS ANOTHER FAIRLY SHORT HTML DOCUMENT.
+
+
+
+C:\teach\2131\work\ass3&gt;<FONT color=red>type file3.htm</FONT>
+
+
+THE SHORTEST HTML DOCUMENT
+
+
+SHORT, SHORT, SHORT!
+
+
+
+C:\teach\2131\work\ass3&gt;
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+Look at <A 
+href="A3_solution.html">the 
+solution</A> to this assignment.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update March 16, 2000)</I></FONT> </P></BODY></HTML>

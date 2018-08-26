@@ -1,0 +1,1 @@
+/* fact 1 */  parent(pam,bob)./* fact 2 */  parent(tom,bob)./* fact 3 */  parent(tom,liz)./* fact 4 */  parent(bob,ann)./* fact 5 */  parent(bob,pat)./* fact 6 */  parent(pat,jim)./* Rule 1 */  pred(X,Y):-parent(X,Y)./* Rule 2 */  pred(X,Z):-parent(X,Y),pred(Y,Z).len([], 0).len([Head|Tail], Length) :- len(Tail, TailLen), Length is TailLen + 1.

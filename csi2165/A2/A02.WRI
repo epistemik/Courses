@@ -1,0 +1,191 @@
+
+			    CSI2165A/Assignment 2   
+
+Issue date : Wednesday, October 20, 1999
+Due date   : Friday, October 29, 1999, 5:00pm.
+
+Hand In : Each student is required to do this assignment INDIVIDUALLY and to 
+	  hand in the following:
+
+(1) A 3.5" disk containing the Prolog program corresponding to the questions
+    of the assignment. The file containing this program must be named 
+    `assign2.ari', and must be the ONLY file on the disk. 
+
+(2) A printout of `assign2.ari' .
+
+(3) A printout of the queries you applied to test your solutions. Provide
+    enough queries showing that you have covered different possible cases.
+    Specially try to provide test cases that are likely to expose an error,
+    if any.
+
+Place the above items in a suitable envelope, with the following information 
+clearly marked on the outside of the envelope: complete name, student number,
+assignment number and course number (CSI2165A). Deposit your envelope in 
+the LOCKED BOX marked `CSI 2165A' beside the reception desk on the third 
+floor of MacDonald Hall. 
+
+IMPORTANT: your Prolog program must conform to the programming standards 
+	   described in  file stndrds.txt which is in directory assignments
+           of the CSI2165B course directory. 
+
+MARKING SCHEME: 10% of the marks are allocated to programming standards,
+                while the remaining 90% will be divided among the questions
+                of the assignment.
+
+
+-----------------------------------------------------------------------
+
+Unless explicitly stated otherwise, a list refers to a simple list in the
+questions below.
+
+
+1- Define predicate has_addition/1 which takes a mathematical expression
+and succeeds if the expression includes at least one addition (+) operator.
+
+Examples:
+
+?- has_addition(2).
+no
+
+?- has_addition(2+3).
+yes
+
+?- has_addition(2-3*8+5).
+yes
+
+?- has_addition(8-5*6/7).
+no
+
+2- Define predicate fold/2 which takes a list and creates another list
+by folding the first list in the middle.
+
+Examples:
+
+?- fold([a,b,c], A).
+A = [c,b,a] ->
+yes
+
+?- fold([a,b,c,d,e], A
+A = [e,b,c,d,a] ->
+yes
+
+?- fold([], A).
+no
+
+?- fold([a], A).
+A = [a] ->
+yes
+
+3- Define predicate variable_free/1 which takes an arithmetic expression and is true,
+   if the expression does not include any uninstantiated variables. The only valid 
+   operator in the expression is '+'. 
+   Note: You can check to see if an object is an uninstantiated variable using predicate
+   var/1. You can use predicate not/1 to check if a goal is not true.
+
+For instance:
+
+?- var(X). % X is an uninstantiated variable
+X = _0084
+yes
+
+?- var(2). % 2 is not an uninstantiated variable
+no
+
+?- X = 5, var(X). % X is not an uninstantiated variable
+no
+
+?- X = 5, not(var(X)). % it is true that X is not an uninstantiated variable
+X = 5
+yes
+
+
+Examples:
+
+?- variable_free(2+3+X).
+no
+
+?- X = 8, variable_free(2+3+X).
+X = 8
+yes
+
+?- variable_free(2+3).
+yes
+
+
+4- Define predicate expr_2_list/2 which takes an arithmetic expression which can include +,-,*,/ 
+   operators and possibly instantiated or uninstantiated variables, and creates a list 
+   of terms appearing in the expression in a left to right order.
+
+Example:
+
+?- expr_2_list(2+X/4-Y*2, L).
+X = _0084
+Y = _0098
+L = [2,_0084,4,_0098,2] ->
+yes
+
+
+5- Define predicate shift_vars_right/2 which takes a list of objects and sets the second
+   object to a list containing the elements of the first list, but all elements which
+   are uninstantiated variables in the first list are shifted towards right (end). Make 
+   sure that otherwise, the order of elements stays unchanged.
+   
+Examples:
+
+?- shift_vars_right([a, b, X,c], A).
+X = _0084
+A = [a,b,c,_0084] ->
+yes
+
+?- shift_vars_right([X, b, X,c], A).
+X = _0084
+A = [b,c,_0084,_0084] ->
+yes
+
+?- shift_vars_right([X, Y, Z,c], A).
+X = _0084
+Y = _0098
+Z = _00AC
+A = [c,_0084,_0098,_00AC] ->
+yes
+
+?- shift_vars_right([1, a(X),c], A).
+X = _0084
+A = [1,a(_0084),c] ->
+yes
+
+6 - Define a predicate `intersection(L1,L2,L3)' that returns in L3 the intersection of lists 
+    L1 and L2. L3 may not contain any duplicates.
+
+Examples: 
+
+?- intersection([a, b, c], [c,d, c, b], A).
+A = [b,c] ->
+yes
+
+?- intersection([a, b, c], [e,f, g, h], A).
+A = []
+yes
+  
+
+7 - Define the predicate `max(L,M)' that determines the maximum in the list L
+    of numbers.
+
+Example:
+
+?- max([4,7,2,3],M).
+M = 7
+yes
+
+8 - Define the predicate 'supermax(L,M)' that determines the maximum in
+    the list L of numbers, where L can be a nested list. You are not allowed
+    to use the predicate 'flatten/2' defined in class. Note that 'supermax/2' 
+    generalizes 'max/2' from question 7, since it can still handle simple lists.
+
+Example:
+
+?- supermax([[1,2,[3]],[[5],[[[[2],4]]]]],M).
+M = 5
+yes
+
+

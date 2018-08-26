@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/ -->
+<DOCTYPE ?html.dtd? SYSTEM 
+HTML><HTML><HEAD><TITLE>Laboratory 8: Streams</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=green bgColor=#fffffd link=blue text=navy vLink=red>
+<H1>Laboratory 8: Streams</H1>
+<UL>
+  <LI>Streams &amp; Serialization <PRE>      student.exe [ .exe ]
+       |
+       +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/student.cpp">student.cpp</A> [.cpp]
+       |
+       +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/main.cpp">main.cpp</A> [.cpp]
+       |
+       +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/student.h">student.h</A> [.h]
+
+       (Makefile <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/student.make">student.make</A>)
+
+       To run this example you will have to supply command line arguments:
+
+       c:\work&gt;student "123 Santa" "456 Scrooge" "111 Barbie"
+       c:\work&gt;type students.txt
+
+      </PRE>Study how <TT>operator&lt;&lt;</TT> and <TT>operator&gt;&gt;</TT> 
+  are implemented. This program uses the same implementation of these operators 
+  to read from strings and from a file and to write to a file and to the screen. 
+  Explain how it is achieved by I/O abstraction!<BR><BR>
+  <LI>Instantiating objects from a stream with inheritance (<I> notes page 
+  188-194</I>) <PRE>      ser.exe [ .exe ]
+       |
+       +- <A href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi2172A/labs/lab8/ser.cpp">ser.cpp</A>
+
+      (Unix command line: 
+          g++ -o ser ser.cpp -g)
+
+      $ser "B_MAGIC 5" "C_MAGIC hello" "B_MAGIC 4"
+
+      </PRE>Study the code and read along in your notes! What is the issue? 
+  How is it solved? </LI></UL></BODY></HTML>

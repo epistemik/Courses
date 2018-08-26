@@ -1,0 +1,49 @@
+/Program to find the Sum of the even numbers from 1 up to and including N./
+/Should be equal to (N*(N+2)\4) /
+//
+/Pascal program/
+/ [1]    Sum := 0      ;      /
+/ [2]    Number := 2   ;      /
+/        repeat                  /
+/ [3]        Sum := Sum + Number;  /
+/ [4]        Number := Number + 2  /
+/ [5]    until Number > N   ;     /
+/ [6]    writeln(Sum)   ; /
+//
+/Memory Map/
+/N          = memory location $0004/
+/Number     = memory location $0005/
+/Sum        = memory location $0006/
+/Constant2  = memory location $0007/
+
+//
+/ Assembly Language       OPCODE\DATA OPERAND's ADDRESS/
+/                         MSB LSB     MSB LSB/
+/      JMP [1]       /    $00 $15     $00 $0C
+/        N           /    $14
+/        Number      /    $00
+/        Sum         /    $00
+/        Constant2   /    $02
+/    unused ($0008)  /    $00
+/    unused ($0009)  /    $00
+/    unused ($000A)  /    $00
+/    unused ($000B)  /    $00
+/[ 1]  CLA           /    $00 $08
+/      STA Sum       /    $00 $39     $00 $06
+/[ 2]  LDA Constant2 /    $00 $91     $00 $07
+/      STA Number    /    $00 $39     $00 $05
+/[ 3]  LDA Number    /    $00 $91     $00 $05
+/      ADD Sum       /    $00 $99     $00 $06
+/      STA Sum       /    $00 $39     $00 $06
+/[ 4]  LDA Number    /    $00 $91     $00 $05
+/      ADD Constant2 /    $00 $99     $00 $07
+/      STA Number    /    $00 $39     $00 $05
+/[ 5]  LDA Number    /    $00 $91     $00 $05
+/      CP2           /    $00 $60
+/      ADD N         /    $00 $99     $00 $04
+/      JN  [6]       /    $00 $19     $00 $44
+/      JMP [3]       /    $00 $15     $00 $1A
+/[ 6]  DSP Sum       /    $00 $01     $00 $06
+/      HLT           /    $00 $64
+
+

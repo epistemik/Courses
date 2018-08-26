@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131 Tutorial #1</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=white>
+<TABLE bgColor=gray border=0 cellPadding=5 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right><A href="file:///D:/Courses/Csi2131/2131/index.html"><IMG 
+      align=left alt="CSI 2131 Home" border=0 
+      src="Tutorial 1_files/2131.gif"></A><FONT color=white size=+3>CSI 2131 
+      Tutorial #1</FONT></TD></TR></TBODY></TABLE>
+<P>Here is a raft of C programs to introduce you to the language and to 
+overprepare you to do <A 
+href="file:///D:/Courses/Csi2131/2131/ass01.html">Assignment #1</A>. Following 
+each example program is example output from the program after compiling and 
+running in DOS. Coincidentally, the programs are the same ones appearing in 
+Tutorial #1. If you understand these programs, you should be able to do <A 
+href="file:///D:/Courses/Csi2131/2131/ass01.html">Assignment #1</A> with no 
+other outside info. 
+<P>
+<HR>
+
+<P><B><I>Program 1: hworld.c</I></B>
+<P>This program demonstrates the most basic structure of a complete C program as 
+well as simple string output to the screen.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ printf("Hello world.\n");
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hworld</B>
+Hello world.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 2: hworld10.c</I></B>
+<P>This program shows the integer data type, the while loop, and how to 
+decrement a variable (decrease its value by one).
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ int i = 10;
+
+ while(i &gt; 0)
+    {
+     printf("Hello world.\n");
+     i--;
+    }
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hworld10</B>
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+Hello world.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 3: hworldN.c</I></B>
+<P>This program shows how to include the value of an integer variable in the 
+<TT>printf</TT> output statement.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ int i = 10;
+
+ while(i &gt; 0)
+    {
+     printf("Hello world %d.\n", i);
+     i--;
+    }
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hworldN</B>
+Hello world 10.
+Hello world 9.
+Hello world 8.
+Hello world 7.
+Hello world 6.
+Hello world 5.
+Hello world 4.
+Hello world 3.
+Hello world 2.
+Hello world 1.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 4: hmars.c</I></B>
+<P>This program shows how to declare and initialize a string variable (as a 
+pointer to the <TT>char</TT> data type). It also shows how to include the value 
+of a string in the <TT>printf</TT> output statement.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ char *planet = "Mars";
+
+ printf("Hello %s.\n", planet);
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hmars</B>
+Hello Mars.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 5: hworldA.c</I></B>
+<P>This program shows how to declare and initiliaze an array of integers. It 
+also shows how to access each element of an array.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ int i = 10;
+ int intarray[10] = {-10, -8, -6, -4, -2, 0, 2, 4, 6, 8};
+
+ while(i &gt; 0)
+    {
+     i--;
+     printf("Hello world %d.\n", intarray[i]);
+    }
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hworldA</B>
+Hello world 8.
+Hello world 6.
+Hello world 4.
+Hello world 2.
+Hello world 0.
+Hello world -2.
+Hello world -4.
+Hello world -6.
+Hello world -8.
+Hello world -10.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 6: hplanets.c</I></B>
+<P>This program shows how to declare and initialize an array of strings (an 
+array of pointers to char).
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ int i = 10;
+ char *strarray[10] = 
+    {"Mercury", "Venus", "Earth", "Mars", "Jupiter",
+     "Saturn", "Uranus", "Neptune", "Pluto", "Transpluto"};
+
+ while(i &gt; 0)
+    {
+     i--;
+     printf("Hello %s.\n", strarray[i]);
+    }
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hplanets</B>
+Hello Transpluto.
+Hello Pluto.
+Hello Neptune.
+Hello Uranus.
+Hello Saturn.
+Hello Jupiter.
+Hello Mars.
+Hello Earth.
+Hello Venus.
+Hello Mercury.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 7: hcmd.c</I></B>
+<P>This program shows how to get access to the command line arguments of the 
+program. Notice that the command itself is considered command line argument 
+number 0.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main(int argc, char *argv[])
+{
+
+ printf("Hello %s.\n", argv[0]);
+ printf("Hello %s.\n", argv[1]);
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hcmd world</B>
+Hello h:/teach/2131/work/hcmd.exe.
+Hello world.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 8: hcmdN.c</I></B>
+<P>This program shows that there can be any number of command line arguments.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main(int argc, char *argv[])
+{
+ int i = 1;
+
+ while(i &lt; argc)
+    {
+     printf("Hello %s.\n", argv[i]);
+     i++;
+    }
+
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hcmdN Mercury Venus Earth Mars</B>
+Hello Mercury.
+Hello Venus.
+Hello Earth.
+Hello Mars.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 9: hwrite.c</I></B>
+<P>This program shows how to open a file for writing and verify its successful 
+opening. It also shows how to write a string to a file.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ FILE *outfil;
+
+ outfil = fopen("hello.txt", "w");
+ if(outfil == 0)
+    {
+     printf("Unable to open the file hello.txt\n\n");
+     exit(1);
+    }
+
+ fprintf(outfil, "Hello world.\n");
+
+ fclose(outfil);
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hwrite</B>
+
+H:\TEACH\2131\WORK&gt;<B>type hello.txt</B>
+Hello world.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 10: hread.c</I></B>
+<P>This program shows how to open a file for reading and how to read from it 
+character-by-character. It also shows that characters (and character constants) 
+are really just numbers and can be manipulated as numbers. (Knowing the ASCII 
+codes and how they're ordered can be of great help).
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ FILE *infil;
+ int charfromfil;
+
+ infil = fopen("hello.txt", "r");
+ if(infil == 0)
+    {
+     printf("Unable to open the file hello.txt\n\n");
+     exit(1);
+    }
+
+ charfromfil = getc(infil);
+ while(charfromfil != EOF)
+    {
+     if(charfromfil &gt;= 'a' &amp;&amp; charfromfil &lt;= 'z')
+        putchar(charfromfil - ('a' - 'A'));
+     else
+        putchar(charfromfil);
+
+     charfromfil = getc(infil);
+    }
+
+ fclose(infil);
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hread</B>
+HELLO WORLD.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 11: hwbin.c</I></B>
+<P>This program shows how to write binary numbers to a file (making it a binary 
+file!). It also shows how to write many bytes at a time. (The display of the 
+file <TT>hello.bin</TT> below may not look exactly the same on your screen). 
+Please note the 'b' in the <TT>"wb"</TT> mode in the <TT>fopen</TT> statement.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ FILE *outfil;
+ unsigned char spcode = 0, nlcode = 1, dotcode = 2, Hcode = 3, dcode = 4, 
+               ecode = 5, lcode = 6, ocode = 7, rcode = 8, wcode = 9;
+ unsigned char message[20];
+
+ message[0] = Hcode;
+ message[1] = ecode;
+ message[2] = lcode;
+ message[3] = lcode;
+ message[4] = ocode;
+ message[5] = spcode;
+ message[6] = wcode;
+ message[7] = ocode;
+ message[8] = rcode;
+ message[9] = lcode;
+ message[10] = dcode;
+ message[11] = dotcode;
+ message[12] = nlcode;
+
+ outfil = fopen("hello.bin", "wb");
+ if(outfil == 0)
+    {
+     printf("Unable to open the file hello.bin\n\n");
+     exit(1);
+    }
+
+ fwrite(&amp;message[0], 1, 13, outfil);
+
+ fclose(outfil);
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>type hello.bin</B>
+&#9829;&#9827;&#9824;&#9824;  &#9824;&#9830;©®
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+<B><I>Program 12: hrbin.c</I></B>
+<P>This program shows how to read from a binary file. Please note the 'b' in the 
+<TT>"rb"</TT> mode in the <TT>fopen</TT> statement.
+<P>
+<TABLE border=1 width="100%">
+  <TBODY>
+  <TR>
+    <TD><PRE>#include &lt;stdio.h&gt;
+
+main()
+{
+ FILE *infil;
+ unsigned char bytefromfil;
+ unsigned char spcode = 0, nlcode = 1, dotcode = 2, Hcode = 3, dcode = 4, 
+               ecode = 5, lcode = 6, ocode = 7, rcode = 8, wcode = 9;
+ unsigned char message[20];
+
+ message[nlcode] = '\n';
+ message[spcode] = ' ';
+ message[dotcode] = '.';
+ message[Hcode] = 'H';
+ message[dcode] = 'd';
+ message[ecode] = 'e';
+ message[lcode] = 'l';
+ message[ocode] = 'o';
+ message[rcode] = 'r';
+ message[wcode] = 'w';
+
+ infil = fopen("hello.bin", "rb");
+ if(infil == 0)
+    {
+     printf("Unable to open the file hello.bin\n\n");
+     exit(1);
+    }
+
+ while(fread(&amp;bytefromfil, 1, 1, infil) == 1)
+    putchar(message[bytefromfil]);
+
+ fclose(infil);
+}
+</PRE></TD></TR>
+  <TR bgColor=#c0c0c0>
+    <TD><PRE>H:\TEACH\2131\WORK&gt;<B>hrbin</B>
+Hello world.
+
+H:\TEACH\2131\WORK&gt;_
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update January 15, 1999)</I></FONT> </P></BODY></HTML>

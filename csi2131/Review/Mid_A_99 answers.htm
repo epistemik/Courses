@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>CSI 2131A - Winter 1999 Midterm Exam</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff><!---------->
+<TABLE border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD><!---------->
+      <CENTER><IMG border=0 src="sitehdr2.gif"> 
+      <HR>
+      <FONT size=+2><B><I>CSI 2131A</FONT><BR><FONT size=+1>Winter 1999 Midterm 
+      Exam</I></B></FONT>
+      <P>Friday, February 12, 1999
+      <P>
+      <TABLE border=1 cellPadding=15 width="50%">
+        <TBODY>
+        <TR>
+          <TD align=right width="30%"><B><I>Family Name</I></B></TD>
+          <TD width="70%">&nbsp;</TD></TR>
+        <TR>
+          <TD align=right><B><I>Given Name</I></B></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD align=right><B><I>Student Number</I></B></TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE>
+      <P></CENTER>
+      <HR>
+
+      <P><B><I>Notes:</I></B> 
+      <OL>
+        <LI>This is a closed book exam. Textbooks, notes, cheat sheets and stuff 
+        written under the brim of your baseball cap are <B>not</B> allowed. 
+        <LI>Calculators are <B>not</B> allowed. 
+        <LI>Anything other foreign entity, abstract or concrete, that would help 
+        you answer questions on the exam is <B>not</B> allowed. 
+        <LI>There are 9 pages. Write your name and student number on 
+        <I>every</I> page. 
+        <LI>Answer <I>all</I> of the questions on the exam in <I>all three 
+        parts</I> of the exam. 
+        <LI>You have 100 minutes to complete the exam. </LI></OL>
+      <P><B><I>Marks:</I></B>
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=6><B><I>Question</I></B></TD>
+          <TD rowSpan=2>&nbsp;</TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><I>Part A</I></TD>
+          <TD align=middle colSpan=3><I>Part B</I></TD>
+          <TD align=middle><I>Part C</I></TD></TR>
+        <TR>
+          <TD align=middle>1<BR>(4 marks)</TD>
+          <TD align=middle>2<BR>(4 marks)</TD>
+          <TD align=middle>3<BR>(3 marks)</TD>
+          <TD align=middle>4<BR>(3 marks)</TD>
+          <TD align=middle>5<BR>(3 marks)</TD>
+          <TD align=middle>6<BR>(4 marks)</TD>
+          <TD align=middle><I>Total</I><BR>(20 marks)</TD></TR>
+        <TR>
+          <TD><BR>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></CENTER>
+      <DIV align=right>1 of 
+9</DIV><!--------------------------></TD></TR></TBODY></TABLE><!--------------------------->
+<HR>
+
+<H2>Part A</H2>
+<H3>Question 1:</H3>Write a program (preferably in pseudocode, but in C or 
+Pascal if you must) that opens two files: the index file <TT>tornados.ndx</TT> 
+and the data file <TT>tornados.dat</TT>. The file <TT>tornados.ndx</TT> has one 
+city on each line followed by a comma ',' followed by the byte offset inside 
+tornados.dat for records for that city. Your program must read through 
+<TT>tornados.ndx</TT> to find the byte offset for the records for the city of 
+"Shreveport", then go to that position in <TT>tornados.dat</TT> and print out 
+all the records for Shreveport. Records in <TT>tornados.dat</TT> appear one per 
+line.
+<P>You may assume that both Pascal and pseudocode have a <TT>seek(File, 
+Position)</TT> procedure that moves the current read position in <TT>File</TT> 
+to the byte offset <TT>Position</TT>. You may also assume in C, Pascal and 
+pseudocode that you have access to procedures to read complete lines as strings, 
+read comma-separated string and integer fields, print complete lines and compare 
+the first N bytes of two strings.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD>tornados.ndx</TD>
+    <TD>tornados.dat</TD></TR>
+  <TR>
+    <TD vAlign=top><PRE> Huntsville,     0 
+ Topeka,       284 
+ Oklahoma City,412 
+ Little Rock,  668 
+ Tulsa,        803 
+ Pasadena,     964 
+ ...</PRE></TD>
+    <TD vAlign=top><PRE> Huntsville,Alabama,1996,... 
+ Huntsville,Alabama,1996,... 
+ Huntsville,Alabama,1997,... 
+ ... 
+ Topeka,Kansas,1996 
+ Topeka,Kansas,1997 
+ ... 
+ ...</PRE></TD></TR></TBODY></TABLE></CENTER><PRE><FONT face="Comic Sans MS" size=+1>
+open "tornados.ndx" and assign it to IndexFile
+
+set CurrentCity to ""
+while CurrentCity is not "Shreveport"
+   read CurrentCity, Offset from IndexFile
+end while
+
+close IndexFile
+
+open "tornados.dat" and assign it to DataFile
+
+seek to Offset in DataFile
+read a line from DataFile into Record
+
+while first 10 chars of Record are "Shreveport"
+   print Record
+   read a line from DataFile into Record
+end while
+
+close DataFile
+</FONT></PRE>
+<DIV align=right>2 of 9</DIV>
+<HR>
+
+<DIV align=right>3 of 9</DIV>
+<HR>
+
+<H3>Question 2:</H3>Here is a picture of the beginning of a 16-bit File 
+Allocation Table:
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=10>
+  <TBODY>
+  <TR>
+    <TD>0xFFFF</TD>
+    <TD>0x0002</TD>
+    <TD>0x0003</TD>
+    <TD>0x0004</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x000E</TD>
+    <TD>0x0008</TD></TR>
+  <TR>
+    <TD>0x0009</TD>
+    <TD>0x000A</TD>
+    <TD>0x000B</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD></TR>
+  <TR>
+    <TD>0x0011</TD>
+    <TD>0x0012</TD>
+    <TD>0x0019</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0017</TD>
+    <TD>0x0010</TD></TR>
+  <TR>
+    <TD>0x0000</TD>
+    <TD>0xFFFF</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD>
+    <TD>0x0000</TD></TR>
+  <TR>
+    <TD colSpan=8>. . .</TD></TR></TBODY></TABLE>
+<P></CENTER>Show what the File Allocation Table would look like after deleting 
+the file that begins in cluster 0x0006 and creating and writing a new file 
+<TT>foobar.dat</TT> that is 7,500 bytes long. Clusters are exactly 1000 bytes 
+long. You should also assume that clusters are allocated by taking the first 
+available cluster first.
+<P>You can use the following empty grid to show the new File Allocation Table.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=10>
+  <TBODY>
+  <TR>
+    <TD align=middle width=50>0xFFFF</FONT></TD>
+    <TD width=50><FONT face="Comic Sans MS" size=+1>0x0002</FONT></TD>
+    <TD width=50><FONT face="Comic Sans MS" size=+1>0x0003</FONT></TD>
+    <TD width=50><FONT face="Comic Sans MS" size=+1>0x0004</FONT></TD>
+    <TD width=50><FONT face="Comic Sans MS" size=+1>0xFFFF</FONT></TD>
+    <TD width=50><FONT color=red face="Comic Sans MS" size=+1>0x0006</FONT></TD>
+    <TD width=50><FONT color=red face="Comic Sans MS" size=+1>0x000C</FONT></TD>
+    <TD width=50><FONT face="Comic Sans MS" size=+1>0x0008</FONT></TD></TR>
+  <TR>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0009</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x000A</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x000B</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0xFFFF</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0x000D</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0x000E</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0x000F</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0x0013</FONT></TD></TR>
+  <TR>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0011</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0012</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0019</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0x0014</FONT></TD>
+    <TD><FONT color=red face="Comic Sans MS" size=+1>0xFFFF</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0017</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0010</FONT></TD></TR>
+  <TR>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0xFFFF</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD>
+    <TD><FONT face="Comic Sans MS" size=+1>0x0000</FONT></TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD></TR>
+  <TR>
+    <TD colSpan=8>. . .</TD></TR></TBODY></TABLE>
+<P></CENTER>
+<DIV align=right>4 of 9</DIV>
+<HR>
+
+<H2>Part B</H2>
+<H3>Question 3:</H3>A disk has 10 platters, 5000 tracks per platter, 100 sectors 
+per track and 512 bytes per sector.
+<P>It takes 1 ms to move the read/write arm from one track to an adjacent track.
+<P>Assume that it takes 0 ms to switch from reading a track on one platter to 
+reading the same track on a different platter. The disk is spinning at 100 
+revolutions per second. A file <TT>foo.bar</TT> starts at the beginning of 
+sector 10 on track 1000 on platter 2. The read/write heads are currently at the 
+beginning of sector 60 over track 985.
+<P>
+<TABLE border=0 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD>
+      <OL type=a>
+        <LI>What is the maximum rotational delay?
+        <P></P>
+        <LI>What is the transfer rate?
+        <P></P></LI></OL></TD>
+    <TD align=right vAlign=top><FONT face="Comic Sans MS" size=+1>1/100s = 
+      10ms</FONT><BR><BR><FONT face="Comic Sans MS" size=+1>100 × 512 / 10 = 
+      5120 bytes/ms</FONT> </TD></TR>
+  <TR>
+    <TD colSpan=2>
+      <OL start=3 type=a>
+        <LI>If the file is 76,800 bytes long and is stored as efficiently as 
+        possible, how much time elapses before the entire file is read (starting 
+        with the read/write heads and disk in their current positions)? 
+    </LI></OL></TD></TR></TBODY></TABLE><FONT face="Comic Sans MS" size=+1>
+<UL>
+  <LI>15 ms to move from track 985 to 1000 
+  <UL>
+    <LI>in that 15 ms, the disk spins under the heads from sector 60 to 10 (5 
+    ms) from 10 to 60 (5 ms) and from 60 to 10 (5ms) 
+    <LI>so by the time the arm moves to the right track, the heads are over the 
+    right sector and can start reading immediately </LI></UL>
+  <P></P>
+  <LI>The most efficient storage is if the file occupies all of track 1000 on 
+  platter 2 (51,200 bytes) and half of track 1000 on some other platter (25,600 
+  bytes). So transfer time will be 1.5 rotations, or 15 ms.
+  <P></P>
+  <LI>Total wait: 30 ms. </LI></UL></FONT>
+<DIV align=right>5 of 9</DIV>
+<HR>
+
+<H3>Question 4:</H3>Compact discs use what's called "eight-to-fourteen 
+modulation" (EFM). It is possible to represent all possible eight-bit values 
+(256 values) using fourteen bits with at least two 0's between every two 1's.
+<P>Prove that it is possible to represent 8 different values using four bits 
+such that no two 1's are side-by-side.
+<P><PRE><FONT face="Comic Sans MS" size=+1>
+Here's one way:
+   0000 
+   0001 
+   0010 
+   0100 
+   0101 
+   1000 
+   1001 
+   1010
+</FONT></PRE>
+<DIV align=right>6 of 9</DIV>
+<HR>
+
+<H3>Question 5:</H3>You have four system I/O buffers. A program requests five 
+different clusters (21, 22, 23, 24, 25) in the following order:
+<P>
+<CENTER>22&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp; 
+21&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp; 
+24&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp; 
+23&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp; 
+21&nbsp;&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp; 
+24&nbsp;&nbsp;&nbsp;25 </CENTER>
+<P>Which of the following buffer replacement policies performs the best (makes 
+the fewest replacements): First-In-First-Out (FIFO), Least Recently Used (LRU), 
+Least Frequently Used (LFU)?
+<P><PRE><FONT face="Comic Sans MS" size=+1>
+<FONT color=red><U>FIFO</U>: 2 replacements</FONT>
+no replacement necessary until cluster 25 is requested.
+cluster 22 was the first in
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 21 was the first in among currently loaded clusters
+   so replace cluster 21
+
+<U>LRU</U>: 4 replacements
+no replacement necessary until cluster 25 is requested.
+cluster 22 was the least recently requested
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 24 was the least recently requested among currently loaded clusters
+   so replace cluster 24
+no replacement necessary until cluster 24 requested again
+cluster 25 was the least recently requested among currently loaded clusters
+   so replace cluster 25
+cluster 25 is requested again immediately
+cluster 21 was the least recently requested among currently loaded clusters
+   so replace cluster 21
+
+<U>LFU</U>: 3+ replacements
+no replacement necessary until cluster 25 is requested.
+cluster 22 has only been requested once
+   so replace cluster 22
+no replacement necessary until cluster 22 requested again
+cluster 24 and 25 have only been requested twice
+   so replace either cluster 24 or 25
+both cluster 24 and 25 get requested again
+   so there will be at least one more replacement, bringing total to 3+
+</FONT></PRE>
+<DIV align=right>7 of 9</DIV>
+<HR>
+
+<H2>Part C:</H2>
+<H3>Question 6:</H3>For all 10 questions (i to x), circle exactly one answer 
+letter, a, b, c, d <I>or</I> e.
+<P>
+<OL type=i>
+  <LI>A "key" is: 
+  <OL type=a>
+    <LI>a unique identifier for each record in a file. 
+    <LI>a password for protecting files from unwanted access. 
+    <LI>all that is required for relative access to files. <FONT color=red>
+    <LI>some subset of the fields in a file.</FONT> 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>Variable length records: 
+  <OL type=a><FONT color=red>
+    <LI>allow for a more compact file.</FONT> 
+    <LI>permit simple random access to records in a file. 
+    <LI>are not possible with fixed length fields. 
+    <LI>change length at run time. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>A binary file: 
+  <OL type=a>
+    <LI>contains numeric data. 
+    <LI>is made up of two-byte groups of hexadecimal data. <FONT color=red>
+    <LI>makes no assumption about the 256 different byte values.</FONT> 
+    <LI>contains data that cannot be displayed. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>Relative access requires: 
+  <OL type=a><FONT color=red>
+    <LI>a key-to-record formula.</FONT> 
+    <LI>a sorted file. 
+    <LI>a file of "relations". 
+    <LI>two separate files. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>Most hard disks today are: 
+  <OL type=a>
+    <LI>not CAV. 
+    <LI>not reliable. 
+    <LI>not addressed by cylinder. <FONT color=red>
+    <LI>not interleaved.</FONT> 
+    <LI>none of the above. </LI></OL>
+  <P></P></LI></OL>
+<P>
+<DIV align=right>8 of 9</DIV>
+<HR>
+
+<OL start=6 type=i>
+  <LI>CD-ROM drives cannot use CAV because: 
+  <OL type=a>
+    <LI>CD sectors are fixed length, fixed density. 
+    <LI>CDs have a single spiral track. 
+    <LI>CD audio requires constant transfer rates. 
+    <LI>storage capacity would be less than for CLV. <FONT color=red>
+    <LI>none of the above.</FONT> </LI></OL>
+  <P></P>
+  <LI>A program's data area: 
+  <OL type=a>
+    <LI>is restricted to 64KB. 
+    <LI>is protected against access by the operating system. <FONT color=red>
+    <LI>can be used to avoid inefficient disk accesses.</FONT> 
+    <LI>is an image of a portion of data on disk. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>System I/O buffers: 
+  <OL type=a>
+    <LI>must be replaced when "dirty". 
+    <LI>can be maintained by application programs (such as a DBMS) if necessary. 
+
+    <LI>are no longer used by most operating systems. 
+    <LI>contain information such as cluster number, number of accesses, etc. 
+    <FONT color=red>
+    <LI>none of the above.</FONT> </LI></OL>
+  <P></P>
+  <LI>Double Buffering: 
+  <OL type=a>
+    <LI>is only possible on two-CPU machines. 
+    <LI>allows reading from and writing to the same buffer. <FONT color=red>
+    <LI>allows for more efficient CPU usage.</FONT> 
+    <LI>allows loading two clusters in one buffer. 
+    <LI>none of the above. </LI></OL>
+  <P></P>
+  <LI>The Least Frequently Used Policy (LFU) has a bias: 
+  <OL type=a>
+    <LI>against old clusters. 
+    <LI>against dirty buffers. 
+    <LI>against recently used clusters. <FONT color=red>
+    <LI>against recently loaded clusters.</FONT> 
+    <LI>none of the above. </LI></OL>
+  <P></P></LI></OL>
+<P>
+<DIV align=right>9 of 9</DIV></BODY></HTML>

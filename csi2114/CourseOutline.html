@@ -1,0 +1,499 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 97">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.06 [en] (Win95; U) [Netscape]">
+   <META NAME="Author" CONTENT="Sam Scott">
+   <TITLE>CSI2114 C/D Summer 1999 Course Outline</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#C0C0FF" LINK="#0000FF" VLINK="#800080" ALINK="#FF0080">
+<B><FONT SIZE=+2>CSI 2114 (C/D) Data
+Structures Summer 1999</FONT></B>
+<BR>&nbsp;
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="451" >
+<TR>
+<TD VALIGN=TOP WIDTH="27%"><B><U><FONT SIZE=+1>Lecturer:</FONT></U></B></TD>
+
+<TD VALIGN=TOP WIDTH="73%"><B>Sam Scott</B>
+<BR>Phone: 562-5800 x6321
+<BR>E-mail: <A HREF="mailto:sscott2@chat.carleton.ca">sscott2@chat.carleton.ca</A>
+<BR>Office: CBY A324 (Mezzanine)</TD>
+</TR>
+</TABLE>
+
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="607" >
+<TR>
+<TD VALIGN=TOP WIDTH="20%"><B><U><FONT SIZE=+1>Contact:</FONT></U></B></TD>
+
+<TD VALIGN=TOP WIDTH="80%">Office hours are<FONT SIZE=+1> </FONT>Tuesdays
+5:00 PM to 7:00 PM
+<BR>Feel free to phone or visit during office hours, or send e-mail at
+any time.</TD>
+</TR>
+</TABLE>
+
+<HR WIDTH="100%">
+<BR><B><U><FONT SIZE=+1>Course Description:</FONT> </U>(from the university
+calendar)</B>
+<BR>Introduction to abstract data types. Trees, binary search trees, balanced
+trees. Searching. Sorting. Simple examples of complexity analysis. Graphs,
+simple graph algorithms: depth-first and breadth-first search, minimum
+spanning tree, shortest path. <I>Prerequisites</I>: CSI 1101 or CSI 1102
+<BR>
+<HR WIDTH="100%">
+<BR><B><U><FONT SIZE=+1>Course Objectives:</FONT></U></B>
+<P>1. To develop skills in specifying, implementing, using and analyzing
+data structures.
+<BR>2. To introduce specific widely-used data structures and algorithms.
+<BR>3. To convey the importance of separating specification from implementation.
+<BR>
+<HR WIDTH="100%">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="607" >
+<TR>
+<TD VALIGN=TOP WIDTH="20%"><B><U><FONT SIZE=+1>Resources:</FONT></U></B></TD>
+
+<TD VALIGN=TOP WIDTH="80%"><B>Text book:</B> Thomas A. Standish. 1994.
+<U>Data
+Structures, Algorithms and Software Principles</U>. Addison-Wesley.
+<P><B>Web site: </B><FONT COLOR="#0000FF"><A HREF="http://www.csi.uottawa.ca/ftppub/courses/summer/csi2114">http://www.site.uottawa.ca/ftppub/courses/Summer/csi2114/</A></FONT></TD>
+</TR>
+</TABLE>
+
+<P>The web site is where assignment handouts, assignment solutions, announcements,
+and lists of marks will be posted. As an experiment, the site also contains
+a "Student Forum" section where you can post comments, questions, or links
+to useful material for the other students.&nbsp; Feel free to post anything
+you like, but see the first posting for some ground rules.
+<BR>
+<HR WIDTH="100%">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="607" >
+<TR>
+<TD VALIGN=TOP WIDTH="20%"><B><U><FONT SIZE=+1>Lectures:</FONT></U></B></TD>
+
+<TD VALIGN=TOP WIDTH="80%"><B>Section C:</B> Monday 19:00-21:00 MCD 146
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Wednesday 19:00-2100 MCD 146
+<P><B>Section D:</B> Tuesday 14:30-16:30 CBY C03
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Thursday 14:30-16:30 CBY C03</TD>
+</TR>
+</TABLE>
+
+<P>Lectures are two-hours long, possibly with a 5-minute break (subject
+to decision of the class). This is the first time that CSI2114 is being
+offered with 39 hours of lectures rather than 26. This extra time will
+be used to cover the material in more depth with lots of room for review
+and discussion.
+<P>The lectures will develop material from the text, therefore students
+are strongly encouraged to read the relevant sections before class. There
+will always be time available in class to ask general questions about the
+material from the textbook.
+<BR>
+<HR WIDTH="100%">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="625" >
+<TR>
+<TD VALIGN=TOP WIDTH="19%"><B><U><FONT SIZE=+1>TAs:</FONT></U></B></TD>
+
+<TD VALIGN=TOP WIDTH="50%"><B>Chris Lankester</B> (DGD: C2, D2, plus marking)
+<BR><B>Adam Murray</B> (DGD: C1, C3, D1, D3)
+<BR><B>Franck Binard</B> (marking only)
+<BR><B>Igor Sales</B> (marking only)</TD>
+
+<TD WIDTH="31%"><A HREF="mailto:clank@site.uottawa.ca">clank@site.uottawa.ca</A>
+<BR><A HREF="mailto:chipwitch@hotmail.com">chipwitch@hotmail.com</A>
+<BR><A HREF="mailto:u762295@site.uottawa.ca">u762295@site.uottawa.ca</A>
+<BR><A HREF="mailto:isales@site.uottawa.ca">isales@site.uottawa.ca</A></TD>
+</TR>
+
+<TR>
+<TD><B><U><FONT SIZE=+1>Tutorials:</FONT></U></B>
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<P>&nbsp;</TD>
+
+<TD COLSPAN="2"><B>Section C: DGD1 </B>Monday 17:00 – 19:00 CBY E015
+<BR><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DGD2 </B>Tuesday 17:00 – 19:00 CBY B012
+<BR><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DGD3 </B>Wednesday 17:00 – 19:00 CBY D103
+<P><B>Section D: DGD1 </B>Monday 14:30 – 16:30 CBY E015
+<BR><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DGD2 </B>Tuesday 11:30 – 13:30 LPR 155
+<BR><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DGD3 </B>Wednesday 14:30 – 16:30 LPR 154</TD>
+</TR>
+</TABLE>
+
+<P>Each tutorial is 2 hours long, but the last hour of every tutorial will
+be set aside for individual help, either in the classroom or in the lab.
+The tutorials should be your first line of support for extra help, and
+you are strongly encouraged to attend a tutorial every week. Assignments
+will be discussed in detail in the tutorials the week they become available,
+and the solutions will be discussed the week they are handed back. (Assignments
+and tests will generally be handed back in the tutorials.) When time permits,
+the T.A.’s will also present problems and examples for discussion.
+<BR>
+<HR WIDTH="100%">
+<BR><B><U><FONT SIZE=+1>Evaluation:</FONT></U></B>
+<P><B>Midterm:<FONT SIZE=+1> </FONT></B>The midterm will be split into
+four equally-weighted tests written in class every two weeks. Tests will
+be closed book and will happen in the first hour of class.
+<BR><B>Assignments: </B>Five equally-weighted two-week assignments.
+<BR><B>Final Exam:</B> 3 hours, closed book
+<BR><B>Marking Scheme: </B>Your final mark will be assigned using the method
+below that yields the highest mark:
+<BR>&nbsp;
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=7 WIDTH="318" >
+<TR>
+<TD VALIGN=TOP WIDTH="49%"><U>Scheme1</U>
+<BR>Assignments: 30%
+<BR>Class Tests: 30%
+<BR>Final Exam: 40%</TD>
+
+<TD VALIGN=TOP WIDTH="51%"><U>Scheme 2</U>
+<BR>Assignments: 30%
+<BR>Class Tests: 0%
+<BR>Final Exam: 70%</TD>
+</TR>
+</TABLE>
+
+<P><B>Relevant SITE Regulations:</B>
+<UL>
+<LI>
+Students with less than 50% (35/70) on their combined test mark, will receive
+that mark as their final mark.</LI>
+
+<LI>
+D+ (55%) is considered a passing grade for 2<SUP>nd</SUP> year courses.</LI>
+</UL>
+
+<HR WIDTH="100%">
+<BR><B><U><FONT SIZE=+1>Calendar of events:</FONT></U></B>
+<BR>&nbsp;
+<TABLE BORDER CELLSPACING=2 CELLPADDING=7 WIDTH="664" BORDERCOLOR="#000000" >
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>Week</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">
+<CENTER><B>Month</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER><B>Section C</B>
+<P><B>Class Days</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER><B>Section D</B>
+<P><B>Class Days</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER><B>Topics</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER><B>Events and Notes</B></CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>1</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">
+<CENTER>May</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>3
+<BR>5</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>4
+<BR>6</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Intro, review (C1-3), recursive list definitions</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>May 5<SUP>th</SUP> class is in CBY C03</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>2</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>10
+<BR>12</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>11
+<BR>13</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Abstract Data Types (C4)
+<BR>Complexity Analysis (C6)</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Assignment 1 Due</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>3</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>17
+<BR>19<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>18
+<BR>20<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Trees (C9)</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Test on wks 1 and 2</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>4</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>24*
+<BR>26</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>25
+<BR>27</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Trees</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Assignment 2 Due</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>5</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">
+<CENTER>June</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>31
+<BR>2<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>1<SUP>T</SUP>
+<BR>3</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Trees / Graphs (C10)</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Test on wks 3 and 4</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>6</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>7
+<BR>9</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>8
+<BR>10</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Graphs</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Assignment 3 Due</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>7</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP COLSPAN="5" WIDTH="91%">
+<CENTER>Reading Week!</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>8</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>21
+<BR>23<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>22<SUP>T</SUP>
+<BR>24</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Graphs / Tables (C11)</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Test on wks 5 and 6</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>9</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>28
+<BR>30</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>29
+<BR>1*</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Tables</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Assignment 4 Due</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>10</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">
+<CENTER>July</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>5
+<BR>7<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>6
+<BR>8<SUP>T</SUP></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Sorting (C13)</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Test on wks 8 and 9</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>11</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="11%">&nbsp;</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>12
+<BR>14</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="14%">
+<CENTER>13
+<BR>15</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="29%">
+<CENTER>Sorting / Review</CENTER>
+</TD>
+
+<TD VALIGN=TOP WIDTH="23%">
+<CENTER>Assignment 5 Due&nbsp;</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD VALIGN=TOP WIDTH="9%">
+<CENTER><B>12</B></CENTER>
+</TD>
+
+<TD VALIGN=TOP COLSPAN="5" WIDTH="91%">
+<CENTER>Final Exam Week - Tentative date Saturday, July 24</CENTER>
+</TD>
+</TR>
+</TABLE>
+
+<P><B>Legend:</B> * = day off, T = test day
+<P><B>Note:</B> Assignments must be handed in by noon Friday of the week
+they are due. Enclose everything in an envelope and put it in the appropriate
+locked box on the 3<SUP>rd</SUP> floor of Macdonald hall&nbsp; Make sure
+you conform to the <A HREF="assignments.html">assignment guidelines</A>.
+</BODY>
+</HTML>

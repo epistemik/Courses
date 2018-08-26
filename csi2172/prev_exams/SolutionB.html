@@ -1,0 +1,402 @@
+<!DOCTYPE HTML SYSTEM "html.dtd">
+<!-- bgcolor=#004570 -->
+<HTML><HEAD><TITLE>MIDTERM SOLUTION</TITLE></HEAD>
+<BODY 
+      bgcolor=#FFFFFD
+      text=navy link=blue vlink=red alink=green>
+<H2>Question #1</H2>
+Write down the output of the following program segment. Getting the
+first, second and third output lines correct are worth 6, 7 and 7 marks
+respectively. You may use the next page as well.
+<b>Hint:</b> <i>to receive partial marks, in case
+you get the output wrong, you probably want to indicate what the four
+pointers are pointing to after each line.</i>
+<PRE>
+    int a = 1, b = 2, c = 3,
+       *p1, *p2,
+       **pp1, **pp2;
+
+    p1 = &c;
+    p2 = &a;
+    pp1 = &p2;
+    pp2 = &p1;
+
+    if (**pp2 == *p1 + a) {
+       cout << "TRUE" << endl;
+    } else {
+       cout << "FALSE" << endl;
+    }
+
+    **pp1 = **pp2 - a;
+    *pp1 = p2;
+    *p1 = *p2 + a;
+
+    cout << "FIRST: " << a << ' ' << b << ' ' << c << endl;
+
+    *pp2 = &b;
+    p1 = *pp1;
+    **pp1 = **pp2 - *p1;
+
+
+    cout << "SECOND: " << a << ' ' << b << ' ' << c << endl;
+</PRE>
+   
+<CENTER>
+<FONT COLOR=red>
+<TABLE WIDTH=80% BORDER=1>
+<TR>
+   <TD ALIGN=center><b>Assgn.</b></TD>
+   <TD ALIGN=center><b><tt>a</tt></b></TD>
+   <TD ALIGN=center><b><tt>b</tt></b></TD>
+   <TD ALIGN=center><b><tt>c</tt></b></TD>
+   <TD ALIGN=center><b><tt>p1</tt></b></TD>
+   <TD ALIGN=center><b><tt>p2</tt></b></TD>
+   <TD ALIGN=center><b><tt>pp1</tt></b></TD>
+   <TD ALIGN=center><b><tt>pp2</tt></b></TD>
+   <TD ALIGN=center><b><tt>*pp1</tt></b></TD>
+   <TD ALIGN=center><b><tt>*pp2</tt></b></TD>
+<TR>
+   <TD><tt>p1 = &c</tt></TD>
+   <TD ALIGN=center>1</TD>
+   <TD ALIGN=center>2</TD>
+   <TD ALIGN=center>3</TD>
+   <TD ALIGN=center><b>&c</b></TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+<TR>
+   <TD><tt>p2 = &a</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>&a</b></TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center>?</TD>
+<TR>   
+   <TD><tt>pp1 = &p2</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>&p2</b></TD>
+   <TD ALIGN=center>?</TD>
+   <TD ALIGN=center><b>p2</b></TD>
+   <TD ALIGN=center>?</TD>
+<TR>   
+   <TD><tt>pp2 = &p1</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>&p1</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>p1</b></TD>
+<TR>
+   <TD><tt>**pp1 = **pp2 - a</tt></TD>
+   <TD ALIGN=center><b>2</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+<TR>
+   <TD><tt>*pp1 = p2</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+<TR>
+   <TD><tt>*p1 = *p2 + a</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>4</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+<TR>
+   <TD><tt>*pp2 = &b</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>&b</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+<TR>
+   <TD><tt>p1 = *pp1</tt></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center><b>&a</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+<TR>
+   <TD><tt>**pp1 = **pp2 - *p1</tt></TD>
+   <TD ALIGN=center><b>0</b></TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+   <TD ALIGN=center>.</TD>
+</TABLE>
+</CENTER>
+<br><br>
+HENCE, the output is:
+
+<PRE>
+    FALSE
+    FIRST: 2 2 4 
+    SECOND: 0 2 4
+</PRE>
+</FONT>
+
+<H2>Question #2</H2>
+<H3>Dynamic Memory Allocation & Arrays</H2>
+Write a function with prototype <tt>int** alloc(int n, int m)</tt>,
+which allocates a <i>2n * m</i> matrix, which has the property
+that the value <tt>a[i][j] == a[i+n][j]</tt>, or in other words,
+the <i>i</i><sup>th</sup> and <i>(i+n)</i><sup>th</sup> rows are identical.
+Moreover, this property is intrinsically imposed by the structure.
+For example, for <i>n=2</i> and <i>m=3</i>, a <i>4 * 3</i> structure is created
+<PRE>
+int **a = alloc(2,3);
+a[0][0] =  1; a[2][1] =  2; a[2][2] =  3;
+a[1][0] = -1; a[3][1] = -2; a[1][2] = -3;
+// a[0][0] ==  1  a[0][1] ==  2  a[0][2] ==  3
+// a[1][0] == -1  a[1][1] == -2  a[1][2] == -3
+// a[2][0] ==  1  a[2][1] ==  2  a[2][2] ==  3
+// a[3][0] == -1  a[3][1] == -2  a[3][2] == -3
+</PRE>
+You may assume that neither <i>n</i> nor <i>m</i> are 0.
+<b>Hint:</b> <i>start with part 3, you do not even need 10 lines</i>.
+<FONT COLOR=red>
+<PRE>
+   int** alloc(int n, int m) {
+       int** a= new int*[2*n];
+       for(int i=0; i< n; i++) {
+          a[i] = new int[m];
+          a[i+n] = a[i];
+       }
+       return a;
+   }
+
+</PRE>
+</FONT>
+
+Write a function with prototype <tt>void dealloc(int** a, int n)</tt>,
+which deallocates the <tt>2n * m</tt> (<i>m</i> irrelevant}) structure passed
+in <tt>a</tt> and allocated by <tt>alloc</tt>. You may assume that
+neither <i>m</i> nor <i>n</i> are 0.
+<b> Hint:</b> <i>start with part 3, you do not even need 10 lines</i>.
+
+<FONT COLOR=red>
+<PRE>
+   void dealloc(int** a, int n) {
+      for(int i=0; i< n; i++) {
+         delete [] a[i];
+      }
+      delete [] a;
+   }
+</PRE>
+</FONT>
+
+Draw a diagram which shows how such a <i>4 * 3</i>
+structure with <i>n = 2</i> and <i>m = 3</i> is arranged in memory. You
+may assume any pointer and integer size and make up addresses,
+but do indicate what addresses are stored in the pointers.
+
+<CENTER>
+   <IMG SRC="b_q2.gif" WIDTH=80%>
+</CENTER>
+
+
+<H2>Question #3</H2>
+<H3> Logical errors.</H3>
+Would the following function swap the values of <tt>x</tt> and
+<tt>y</tt>? Explain!
+<PRE>
+void swap(int *a, int *b) {
+   int *c = a;
+   a = b;
+   b = c;
+}
+
+
+int x,y;
+
+swap(&x,&y);
+</PRE>
+<FONT COLOR=red>
+   <b>NO!</b> The pointer variables <tt>a</tt> and <tt>b</tt> are created on the
+   stack when <tt>swap</tt> gets called. <tt>a</tt> holds <tt>&x</tt>
+   and <tt>b</tt> holds <tt>&y</tt>. After the body of <tt>swap</tt>
+   is executed, <tt>a</tt> holds <tt>&y</tt> and <tt>b</tt> holds <tt>&x</tt>.
+   However, <tt>a</tt> and <tt>b</tt> are destroyed when the function is
+   finished, the values in <tt>x</tt> and <tt>y</tt> have not been touched.
+   <br><br>
+</FONT>
+
+Find <b>one</b> error in the following program segment, and
+describe what it is. <b>Hint:</b> <i>there are no syntax errors!</i>
+<PRE>
+int* f() {
+  int *a = new int;
+  *a = 5;
+
+  return a; 
+  <FONT COLOR=red>
+  // a has the address of a dynamically allocated
+  // piece of memory, <b>OK</b>
+  </FONT>
+}
+
+int& foo1(int* (*func)()) {
+  return *(func());
+  <FONT COLOR=red>
+  // as far as, func returns the
+  // address of a global variable
+  // or one on the heap, <b>OK</b>
+  </FONT>
+}
+
+int& foo2() {
+  int x = foo1(f);
+  <FONT COLOR=red>
+  // x is a local variable
+  </FONT>
+
+  return x;
+  <FONT COLOR=red>
+  // retrurning a local variable by
+  // reference is a serious mistake
+  // <b>pp 50</b> in your notes
+  </FONT>
+}
+
+...
+cout << foo2() << endl; <FONT COLOR=red>// dereferencing the local x!!</FONT>
+...
+</PRE>
+<H2>Question #4</H2>
+
+Consider the following class definition, method and function implementations :
+<PRE>
+class C {
+  public:
+    C();
+    C(int);
+    C(const C&);
+    C& operator=(const C&);
+    ~C();
+};
+
+C foo(C c) {
+  return c;
+}
+
+C::C() { cout << "C::C()" << endl; }
+
+C::C(int) { cout << "C::C(int)" << endl; }
+
+C::C(const C&) { cout << "C::C(const C&)" << endl; }
+
+C& C::operator=(const C&) { cout << "C::operator=" << endl; return *this; }
+
+C::~C() { cout << "C::~C()" << endl; }
+
+</PRE>
+
+Answer the question posed on the following page.
+<br><br>
+Give the output of the following short code segment, and <b>explain briefly
+but clearly</b> what caused each line to be printed! <b>Hint</b>: <i>the two
+lines are in a local scope!</i>
+<PRE>
+...
+ {
+  C c1(5),c2;
+
+  c1 = foo(c2);
+ }
+...
+</PRE>
+
+<FONT COLOR=red>
+<PRE>
+   C::C(int)         - for c1
+   C::C()            - for c2
+   C::C(const C&)    - creating the copy of c2 on the stack 
+                       (passed by value)
+   C::C(const C&)    - returning the copy of foo's local c
+                       (returned by value)
+   C::~C()           - foo ends, c destroyed
+   C::operator=      - for the assignment
+   C::~C()           - the C object returned by foo
+   C::~C()           - for c2, scope ends
+   C::~C()           - for c1, scope ends
+</PRE>
+</FONT>
+
+<H2>Question #5</H2>
+Write a <b>program</b> with one function. The function takes an integer
+array and its length and it returns an integer. The value returned is
+the smallest positive value in the array, or 0 if all values are negative
+or if the length of the array is 0. Call this function in <tt>main</tt>
+with an array that you declared and initialized to perform this task.
+
+<FONT COLOR=red>
+<PRE>
+  #include < iostream.h >
+
+  int small_pos(int *a, int l) {
+     int smp = 0; 
+     for(int i=0; i < l; i++) {
+        if (a[i] > 0) {
+           if (smp == 0 || a[i] < smp) smp = a[i];
+        }
+     }
+     return smp;
+  }
+
+
+  int main() {
+    int a[4] = {2,-4,1,0};
+    cout << a[0] << ' ' << a[1] << ' ' << a[2] << ' ' << a[3] << endl;
+    cout << "smallest positive: " << small_pos(a,4) << endl;
+
+    return 0;
+  }
+   
+</PRE>
+</FONT>
+
+
+
+</HTML>

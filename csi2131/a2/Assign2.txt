@@ -1,0 +1,83 @@
+CSI 2131 Assignment #2
+
+      Marks:6
+      Due Time:Friday, February 18, 2000, 12:00pm (NOON!)...
+      			No Late Assignments Accepted
+      Due Place:Locked box for CSI2131A or CSI2131B (depending on the course
+      				section you're registered in), 3rd floor MCD
+
+N.B. Read the assignment standards very carefully. You will lose marks if you
+don't follow those instructions.
+
+
+The Assignment
+Your assignment is to write a program in C called brp. The brp program takes two
+command line arguments. The first argument is a number between 1 and 3:
+  corresponds to the FIFO buffer replacement policy
+  corresponds to the LRU buffer replacement policy
+  corresponds to the LFU buffer replacement policy
+The second command line argument is the name of a file.
+Your program must maintain a pool of four buffers according to the buffer
+replacement policy specified on the command line. Here's how the program works:
+  check the first command line argument to determine which BRP to use
+  open the file (named as the second command line argument) for binary reading
+  print the name of the BRP to the screen
+  prompt the user for a "cluster number"
+  read the cluster number (say C) from the keyboard
+    if the cluster is already in a buffer (say buffer N), simply print a message
+    to the screen saying "cluster C already in buffer N"
+    if the cluster is not already in a buffer, check if is an empty buffer
+    available; if so, read the whole cluster from the file into the first
+    available empty buffer and print the message "loading cluster C into buffer
+    N"
+    if the cluster is not already in a buffer and there are no empty buffers
+    available, choose a buffer based on the BRP specified on the command line;
+    read the whole cluster from the file into the chosen buffer and print the
+    message "replacing cluster D; loading cluster C into buffer N" (where D is
+    the number of the cluster already in the chosen buffer)
+  prompt the user for another cluster number and repeat the whole process
+  when the user is finished entering cluster numbers, print out the name of the
+  BRP again and the total number of cluster replacements
+
+
+
+Some Hints
+  you can use any large data file you like to test your program
+  "clusters" are not real clusters in this assignment, they're just fixed-size
+  parts of the file
+  you can assume clusters are very small (say 128 bytes)
+  use the following structure for each entry in the buffer index
+typedef struct {
+  int cluster_number;       /* the number of the cluster in this buffer                */
+  int when_loaded;          /* the request number when the cluster was loaded          */
+  int last_access;          /* the request number when the cluster was last requested  */
+  int num_accesses;         /* number of accesses since the cluster was loaded         */
+  char buffer[128];         /* the buffer itself                                       */
+} buffer_rec;
+  the buffer index is just an array of four buffer_rec
+  use the function scanf("%d", &clus_num) to get a cluster number from the
+  keyboard and store it in an integer variable called clus_num (scanf() returns
+  EOF if the user enters CTRL-Z instead of an integer)
+  keep a counter in your main loop: this number can be used to keep track of
+  when a cluster is loaded into a buffer
+  to load a "cluster" into a buffer, use the function fseek(infile,
+  clus_num*128, OL) to jump to position clus_num*128 in the file; then use
+  fread() to read one item of 128 bytes directly into the chosen buffer
+  don't forget to keep track of the last_access and num_accesses fields in the
+  buffer index records
+  don't forget to do error checking on file operations
+
+
+
+Sample Output
+Here are some screen shots when running the program in DOS. Characters typed by
+the user are displayed in red. Notice that the main loop terminates when the
+user enters CTRL-Z (^Z) instead of a cluster number. Your program should have
+the exact same behaviour as shown in these pictures.
+
+
+
+Look at the solution to this assignment.
+
+(last update February 04, 2000)
+

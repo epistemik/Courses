@@ -1,0 +1,1036 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://www.site.uottawa.ca/ftppub/courses/Winter/csi2131/sec10.html -->
+<HTML><HEAD><TITLE>CSI 2131 - Section 10</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=white><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Indexing</CENTER></FONT>
+      <HR>
+
+      <P>We've been hinting at <I>indexing</I> since the second lecture. (In 
+      fact, we've hinted at it no fewer than nine times: 2:17, 2:34, 2:35, 5:83, 
+      5:89, 7:108, 7:113, 8:148, 9:152).
+      <P>
+      <DL>
+        <DT><B><I>Indexing</I></B> 
+        <DD>using a separate file to gain access to records in a data file<BR>
+        <LI>the index is usually ordered (so the data file doesn't have to be) 
+        <LI>the index contains keys and references (RRN, offset) and possibly 
+        other stuff</LI></DD></DL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>
+      <TABLE border=0 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT size=+2><B><I>Topic</I></B> 
+            <UL>
+              <LI>Index Basics 
+              <LI>Record Operations on Indexed Files 
+              <LI>Multiple Keys 
+              <LI>Inverted Lists 
+              <LI>External Indexes </LI></UL></FONT></TD>
+          <TD vAlign=top><FONT size=+2><B><I>Folk &amp; Zoellick</I></B>
+            <P>§§ 6.1, 6.2<BR>§ 6.3<BR>§§ 6.5, 6.6<BR>§ 6.7<BR>§ 
+            6.4<BR></FONT></P></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 165 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Keysort Revisited</CENTER></FONT>
+      <HR>
+
+      <P>Remember the example we saw for <I>keysort</I>?
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>Corbató</FONT></TD>
+          <TD><FONT size=+2>Fernando J.</FONT></TD>
+          <TD><FONT size=+2>90</FONT></TD>
+          <TD><FONT size=+2>EECS</FONT></TD>
+          <TD><FONT size=+2>MIT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Milner</FONT></TD>
+          <TD><FONT size=+2>Robin</FONT></TD>
+          <TD><FONT size=+2>91</FONT></TD>
+          <TD><FONT size=+2>TCL</FONT></TD>
+          <TD><FONT size=+2>CAMB</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Lampson</FONT></TD>
+          <TD><FONT size=+2>Butler W.</FONT></TD>
+          <TD><FONT size=+2>92</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>MSFT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Hartmanis</FONT></TD>
+          <TD><FONT size=+2>Juris</FONT></TD>
+          <TD><FONT size=+2>93</FONT></TD>
+          <TD><FONT size=+2>CISE</FONT></TD>
+          <TD><FONT size=+2>NSF</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Stearns</FONT></TD>
+          <TD><FONT size=+2>Richard E.</FONT></TD></TD>
+          <TD><FONT size=+2>93</FONT></TD>
+          <TD><FONT size=+2>CS</FONT></TD>
+          <TD><FONT size=+2>ALBY</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Feigenbaum</FONT></TD>
+          <TD><FONT size=+2>Edward</FONT></TD>
+          <TD><FONT size=+2>94</FONT></TD>
+          <TD><FONT size=+2>CS</FONT></TD>
+          <TD><FONT size=+2>STFD</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Reddy</FONT></TD>
+          <TD><FONT size=+2>Raj</FONT></TD>
+          <TD><FONT size=+2>94</FONT></TD>
+          <TD><FONT size=+2>SCS</FONT></TD>
+          <TD><FONT size=+2>CMU</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Blum</FONT></TD>
+          <TD><FONT size=+2>Manuel</FONT></TD>
+          <TD><FONT size=+2>95</FONT></TD>
+          <TD><FONT size=+2>CSD</FONT></TD>
+          <TD><FONT size=+2>UCB</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Pnueli</FONT></TD>
+          <TD><FONT size=+2>Amir</FONT></TD>
+          <TD><FONT size=+2>96</FONT></TD>
+          <TD><FONT size=+2>MATS</FONT></TD>
+          <TD><FONT size=+2>WEIZ</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Engelbart</FONT></TD>
+          <TD><FONT size=+2>Douglas</FONT></TD>
+          <TD><FONT size=+2>97</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>BOOT</FONT></TD>
+          <TD><FONT size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2>Gray</FONT></TD>
+          <TD><FONT size=+2>James</FONT></TD>
+          <TD><FONT size=+2>98</FONT></TD>
+          <TD><FONT size=+2>&nbsp;</FONT></TD>
+          <TD><FONT size=+2>CNVL</FONT></TD>
+          <TD><FONT 
+      size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>The file was too big to fit into RAM for sorting, so we loaded only the 
+      keys (and RRN) into RAM and sorted the keys.
+      <P><PRE>
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 166 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Keysort Revisited Continued</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD align=middle><FONT size=+2><TT>list[1..n]</TT></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>(Corbató, 1)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Milner, 2)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Lampson, 3)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Hartmanis, 4)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Stearns, 5)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Feigenbaum, 6)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Reddy, 7)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Blum, 8)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Pnueli, 9)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Engelbart, 10)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Gray, 11)</FONT></TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 10_files/rarrow-s.gif" width=70></TD>
+          <TD align=middle><FONT 
+            size=+2>My<BR>favourite<BR>sorting<BR>algorithm</FONT></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 10_files/rarrow-s.gif" width=70></TD>
+          <TD align=middle><FONT size=+2><TT>list[1..n]</TT></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2>(Blum, 8)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Corbató, 1)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Engelbart, 10)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Feigenbaum, 6)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Gray, 11)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Hartmanis, 4)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Lampson, 3)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Milner, 2)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Pnueli, 9)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Reddy, 7)</FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2>(Stearns, 
+        5)</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P>At this point we could traverse the sorted list of keys, seeking to the 
+      records corresponding to the RRNs appearing in the sorted list and writing 
+      the records to a sorted data file. This is the <I>keysort</I>. It's also 
+      incredibly expensive.
+      <P>Alternatively, we could just write the sorted list of keys to a file 
+      and use it to access the data file. This is an <I>index</I>.
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 167 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Indexing</CENTER></FONT>
+      <HR>
+
+      <P>
+      <DL>
+        <DT><B><I>Index</I></B> 
+        <DD>A file consisting of (at least) a <I>key field</I> and a 
+        <I>reference field</I>, allowing direct access to records in a data 
+file.
+        <P></P>
+        <DT><B><I>Primary Key</I></B> 
+        <DD>A key that is used to identify records in a file uniquely
+        <P></P>
+        <DT><B><I>Reference Field</I></B> 
+        <DD>A field indicating the position of a record in a data file; usually 
+        the RRN or a byte offset.
+        <P></P></DD></DL>
+      <HR SIZE=10 width=10>
+
+      <P>We want to use our sorted list of keys as an index, but we need to 
+      clean it up a little first: 
+      <UL>
+        <LI>The primary key must be unique, so we must uniquify our key 
+        <LI>If the index file has fixed length records, we can do a simple 
+        binary search on it. </LI></UL>
+      <P><PRE>
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 168 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Index File Example</CENTER></FONT>
+      <HR>
+
+      <P>
+      <TABLE border=0 cellPadding=15 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>Blu142224</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>8</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Cor351614</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>1</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Eng466879</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>10</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Fei134681</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>6</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Gra823015</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>11</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Har018618</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>4</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Lam643080</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>3</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Mil155900</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>2</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Pnu789164</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>9</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Red496173</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>7</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Ste970555</TT></FONT></TD>
+                <TD align=right><FONT 
+            size=+2><TT>5</TT></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=top><FONT size=+2>Here is the new index file, with the 
+            appropriate changes: 
+            <UL>
+              <LI>The key is unique, consisting of the first three letters of 
+              last name followed by a unique 6-digit number (say, an ACM 
+              membership number). 
+              <LI>The records are fixed length: 9 characters for the key and two 
+              bytes for the reference (in this case, RRN). </LI></UL>
+            <P>Using the index file to retrieve records from the data file is 
+            trivial:
+            <P>
+            <OL>
+              <LI>Find the desired key in the index file 
+              <LI>Get the RRN from the appropriate record in the index file 
+              <LI>Convert the RRN to a byte offset 
+              <LI>Seek to the byte offset in the data file to retrieve the 
+              desired record </LI></OL></FONT></TD></TR></TBODY></TABLE>
+      <P><PRE>
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 169 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>A Day in the Life of an Index File</CENTER></FONT>
+      <HR>
+
+      <P>Anything we might want to <I>do</I> to the records in a data file, we 
+      will want to do to a data file that has been indexed. In particular, we 
+      might want to add records, delete records and modify records.
+      <P>When dealing with an index file there are a few extra considerations. 
+      Here is a typical scenario:
+      <P>
+      <OL>
+        <LI>Load the whole index file into RAM 
+        <LI>Perform record operations to both the index file and the data file: 
+        <UL>
+          <LI>add records 
+          <LI>delete records 
+          <LI>modify records </LI></UL>
+        <LI>Rewrite the index file from the modified version in RAM </LI></OL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> Why load the whole index file into RAM?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> When should we rewrite the index file?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if we're doing all this on a Novell system and it 
+      crashes before we can rewrite the index file (or while we're rewriting the 
+      index file (or both))?
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 170 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Adding a Record</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5 width="75%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>Hahn</FONT></TD>
+          <TD><FONT size=+2>Udo</FONT></TD>
+          <TD><FONT size=+2>99</FONT></TD>
+          <TD><FONT size=+2>CLL</FONT></TD>
+          <TD><FONT size=+2>FREI</FONT></TD>
+          <TD><FONT 
+      size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>Since we no longer care about the order of records in the data file, 
+      adding a record is simple: just stick it on the end.
+      <P>We must also add the record to the index file:
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>Blu142224</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>8</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Cor351614</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>1</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Eng466879</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>10</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Fei134681</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>6</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Gra823015</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>11</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Har018618</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>4</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Lam643080</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>3</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Mil155900</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>2</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Pnu789164</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>9</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Red496173</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>7</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Ste970555</TT></FONT></TD>
+                <TD align=right><FONT 
+            size=+2><TT>5</TT></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 10_files/rarrow-s.gif" width=70></TD>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> How expensive is record addition?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 171 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Deleting a Record</CENTER></FONT>
+      <HR>
+
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5 width="75%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2>Lampson</FONT></TD>
+          <TD><FONT size=+2>Butler W.</FONT></TD>
+          <TD><FONT size=+2>92</FONT></TD>
+          <TD><FONT size=+2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD>
+          <TD><FONT size=+2>MSFT</FONT></TD>
+          <TD><FONT 
+      size=+2>...&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD></TR></TBODY></TABLE></CENTER>
+      <CENTER><I>(sorry Butler)</I></CENTER>
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>Blu142224</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>8</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Cor351614</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>1</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Eng466879</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>10</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Fei134681</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>6</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Gra823015</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>11</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Hah001159</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>12</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Har018618</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>4</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Lam643080</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>3</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Mil155900</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>2</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Pnu789164</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>9</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Red496173</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>7</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>Ste970555</TT></FONT></TD>
+                <TD align=right><FONT 
+            size=+2><TT>5</TT></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD><IMG border=0 height=17 
+            src="CSI 2131 - Section 10_files/rarrow-s.gif" width=70></TD>
+          <TD>
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT 
+                  size=+2><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD>
+                <TD align=right><FONT 
+              size=+2><TT>&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><B><I>Q:</I></B> How expensive is record deletion?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What about the data file?
+      <P><B><I>A:</I></B>
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 172 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Secondary Keys</CENTER></FONT>
+      <HR>
+
+      <P>Usually we don't know the value of the primary key for the record we're 
+      searching for (especially if the primary key is dataless). We usually know 
+      the value of a secondary key.
+      <P>
+      <DL>
+        <DT><B><I>Secondary Key</I></B> 
+        <DD>A key on which record searches are usually performed; often not 
+        unique. </DD></DL>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>Let's flash way back to the second lecture...
+      <P><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 173 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Secondary Keys (cont.)</CENTER></FONT>
+      <HR>
+
+      <P>Remember <I>this</I> file? I've added a primary key for the file 
+      composed of bits of other fields stuck together to make a unique key.
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><TT>BOSCAR001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOSE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>JIT</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CARLETONU</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CS384</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BOSCAR002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOSE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>JIT</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CARLETONU</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CS102</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BARMAN001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+          <TD><FONT size=+2><TT>KEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UMANITOBA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>074-438</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BARMAN002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+          <TD><FONT size=+2><TT>KEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UMANITOBA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>074-452</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BAROTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+          <TD><FONT size=+2><TT>KEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI2131</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BAROTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+          <TD><FONT size=+2><TT>KEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI4900</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BOYOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOYD</TT></FONT></TD>
+          <TD><FONT size=+2><TT>SYLVIA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI5166</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>BOYOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOYD</TT></FONT></TD>
+          <TD><FONT size=+2><TT>SYLVIA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI4900</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>HOLOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>HOLTE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROBERT</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI1101</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>HOLOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>HOLTE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROBERT</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>CSI4900</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>ROYOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+          <TD><FONT size=+2><TT>DAMIEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MAT1741</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>ROYOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+          <TD><FONT size=+2><TT>DAMIEN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MAT3543</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>ROYOTT101</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+          <TD><FONT size=+2><TT>LANGIS</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UOTTAWA</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ELG4102</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>MORQTR001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MORIN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>JOHANNE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UQTR</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ASY1006</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR>
+        <TR>
+          <TD><FONT size=+2><TT>MORQTR002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MORIN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>JOHANNE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>UQTR</TT></FONT></TD>
+          <TD><FONT size=+2><TT>SIF1016</TT></FONT></TD>
+          <TD><FONT 
+          size=+2><TT>...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT></FONT></TD></TR></TBODY></TABLE></CENTER>
+      <P>We're very unlikely to want to search on the primary key. On the other 
+      hand, we are likely to want to search on fields like the <TT>last 
+      name</TT> field.
+      <P>So what's the solution?
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<CENTER>- 174 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>Secondary Key Index</CENTER></FONT>
+      <HR>
+
+      <P>The solution is to create another index file!
+      <P>
+      <CENTER>
+      <TABLE border=0 cellPadding=0 width="75%">
+        <TBODY>
+        <TR>
+          <TD><FONT size=+2><I>Primary Index</I></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>BARMAN001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>3</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BARMAN002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>4</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BAROTT001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>5</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BAROTT002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>6</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BOSCAR001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>1</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BOSCAR002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>2</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BOYOTT001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>7</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>BOYOTT002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>8</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>HOLOTT001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>9</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>HOLOTT002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>10</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>MORQTR001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>14</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>MORQTR002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>15</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>ROYOTT001</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>11</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>ROYOTT002</TT></FONT></TD>
+                <TD align=right><FONT size=+2><TT>12</TT></FONT></TD></TR>
+              <TR>
+                <TD><FONT size=+2><TT>ROYOTT101</TT></FONT></TD>
+                <TD align=right><FONT 
+            size=+2><TT>13</TT></FONT></TD></TR></TBODY></TABLE></TD>
+          <TD align=right><FONT size=+2><I>Secondary Index</I></FONT> 
+            <TABLE border=1 cellPadding=5>
+              <TBODY>
+              <TR>
+                <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BARMAN001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BARMAN002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BAROTT001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BARKER</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BAROTT002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BOSE</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BOSCAR001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BOSE</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BOSCAR002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BOYD</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BOYOTT001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>BOYD</TT></FONT></TD>
+                <TD><FONT size=+2><TT>BOYOTT002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>HOLTE</TT></FONT></TD>
+                <TD><FONT size=+2><TT>HOLOTT001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>HOLTE</TT></FONT></TD>
+                <TD><FONT size=+2><TT>HOLOTT002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>MORIN</TT></FONT></TD>
+                <TD><FONT size=+2><TT>MORQTR001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>MORIN</TT></FONT></TD>
+                <TD><FONT size=+2><TT>MORQTR002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+                <TD><FONT size=+2><TT>ROYOTT001</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+                <TD><FONT size=+2><TT>ROYOTT002</TT></FONT></TD>
+              <TR>
+                <TD><FONT size=+2><TT>ROY</TT></FONT></TD>
+                <TD><FONT 
+          size=+2><TT>ROYOTT101</TT></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER>
+      <P><PRE>
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 175 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>A Better Secondary Key Index</CENTER></FONT>
+      <HR>
+
+      <P>The secondary index in this example contains much duplication. 
+      Furthermore, if a new record is added to the data file, we must add a new 
+      record to the secondary index (possibly requiring a bunch of file 
+      manipulation). Here's a better secondary index:
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <TBODY>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>BARKER</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARMAN001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BARMAN002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BAROTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BAROTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>BOSE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOSCAR001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOSCAR002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>BOYD</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOYOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>BOYOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>HOLTE</TT></FONT></TD>
+          <TD><FONT size=+2><TT>HOLOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>HOLOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>MORIN</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MORQTR001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>MORQTR002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR>
+        <TR>
+          <TD bgColor=#c0c0c0><FONT size=+2><TT>ROY</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROYOTT001</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROYOTT002</TT></FONT></TD>
+          <TD><FONT size=+2><TT>ROYOTT101</TT></FONT></TD>
+          <TD><FONT size=+2><TT>&nbsp;</TT></FONT></TD>
+          <TD><FONT size=+2><TT>...</TT></FONT></TD></TR></TBODY></TABLE>
+      <CENTER>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P>This secondary index, containing a list of fields containing primary 
+      key values for each value of a secondary key, is called an <I>inverted 
+      list</I>.
+      <P>Now instead of having to add a new record to the secondary index every 
+      time we add a record to the data file, we only have to add an entry to the 
+      next available primary key field.
+      <P><PRE>
+
+
+</PRE></FONT></CENTER></CENTER></TD></TR></TBODY></TABLE>
+<CENTER>- 176 -</CENTER>
+<P><!-------------------------------------------------------------------------->
+<TABLE border=1 cellPadding=15 width="100%">
+  <TBODY>
+  <TR>
+    <TD><FONT size=+2><FONT size=+3>
+      <CENTER>The Usual Suspects</CENTER></FONT>
+      <HR>
+
+      <P><B><I>Q:</I></B> What's wrong with using multiple fields for primary 
+      key values in an inverted list?
+      <P><B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What's the alternative?
+      <P><B><I>A:</I></B>
+      <P>
+      <HR SIZE=10 width=10>
+
+      <P><B><I>Q:</I></B> The usual procedure for using an index file is to load 
+      the whole thing into RAM to make searching and reorganizing maximally 
+      efficient. What if the index file doesn't fit into RAM? <B><I>A:</I></B>
+      <P><B><I>Q:</I></B> What if there are still occasions where we want to 
+      read through the entire datafile in logical order?
+      <P><B><I>A:</I></B>
+      <P><PRE>
+
+
+
+
+
+
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<CENTER>- 177 -</CENTER>
+<P><!--------------------------------------------------------------------------></P></BODY></HTML>

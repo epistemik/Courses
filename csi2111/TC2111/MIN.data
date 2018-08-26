@@ -1,0 +1,34 @@
+/Program to find the Minimum of two numbers./
+//
+/Pascal program/
+/ [1]    if (Y - X) < 0   /
+/ [2]    then  Min := Y   /
+/ [3]    else  Min := X ; /
+/ [4]    writeln(Min)   ; /
+//
+/Memory Map/
+/X         = memory location $0004/
+/Y         = memory location $0005/
+/Min       = memory location $0006/
+//
+/ Assembly Language       OPCODE\DATA OPERAND's ADDRESS/
+/                         MSB LSB     MSB LSB/
+/      JMP [1]       /    $00 $15     $00 $08
+/        X           /    $14
+/        Y           /    $09
+/        Min         /    $00
+/    unused ($0007)  /    $00
+/[ 1]  LDA X         /    $00 $91     $00 $04
+/      CP2           /    $00 $60
+/      ADD Y         /    $00 $99     $00 $05
+/      JN  [2]       /    $00 $19     $00 $1A
+/      JMP [3]       /    $00 $15     $00 $26
+/[ 2]  LDA Y         /    $00 $91     $00 $05
+/      STA Min       /    $00 $39     $00 $06
+/      JMP [4]       /    $00 $15     $00 $2E
+/[ 3]  LDA X         /    $00 $91     $00 $04
+/      STA Min       /    $00 $39     $00 $06
+/[ 4]  DSP Min       /    $00 $01     $00 $06
+/      HLT           /    $00 $64
+
+

@@ -1,0 +1,1 @@
+/* f1 */  a(1)./* f2 */  a(2)./* f3 */  b(4)./* f4 */  b(2).a(11).b(3)./* f5 */  a(-5)./* f6 */  a(0)./* f7 */  a(3)./* R8 */  c(Z) :- a(Z), Z>0, b(Z).b(2).pred:- a(X), write(X), nl, c(X).pred:- write(done), nl.a(Y):- b(Y).a(d):- write(end), nl.b(a).b(b).c(n).

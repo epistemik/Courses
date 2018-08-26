@@ -1,0 +1,44 @@
+	CSI-2114 Assignment 5 Solution   Summer 1999 
+
+Question 2 (10 marks)
+
+a) Run HeapSort, QuickSort, and RadixSort for 10 runs each on an array of 10000 elements.  Time each of the three runs and report the approximate amount of time they took (from you hitting the enter key to the report appearing on the screen).
+
+ANSWER:  Radix Sort is probably slower than HeapSort and QuickSort.
+
+1 mark
+------------------
+
+b) HeapSort and QuickSort are O(n log n) algorithms, while RadixSort is an O(n) algorithm.  But on the test in part a you may well find that is considerably slower than the other two.  Give at least 2 reasons why this might be the case.  (If your RadixSort is faster and it works properly,congratulations!)
+
+POSSIBLE ANSWERS: 
+
+1) RadixSort is making lots of procedure calls (enqueue and dequeue).  
+2) RadixSort is not an in-place sort -- lots more data movements.  
+3) RadixSort is using a pointer data structure, which takes longer to access.  
+4) Other suggestions specific to the student's implementation.
+
+5) The constant factor for the RadixSort algorithm (i.e. O(n)=c*n) is way too high.  (this is not a very good answer because it covers all the other four.  It's acceptable for one of the answers, but we'd need to see two other reasons to get full marks.)
+
+- 2 marks for each reason = 4 marks total.
+-----------------
+
+c) Are there any circumstances you can think of where RadixSort would probably beat the other two algorithms?
+
+ANSWER: 
+
+Since RadixSort is O(n), it will beat the others for a high enough value of n (a big enough array).
+
+- 3 marks
+----------------
+
+d) Suggest at least one way you might be able to speed up the implementation of Radix Sort.
+
+ANSWER:
+
+1. Implement the queue directly within the procedure instead of using an external ADT.
+2. Use arrays instead of linked lists.
+3. Other suggestions specific to the student's implementation.
+
+- 2 marks
+

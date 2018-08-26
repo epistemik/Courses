@@ -1,0 +1,1 @@
+----•• Trace begins…parent/2.• 1 | 1 call parent(_2209,_2210) • 1 | 1 exit parent(jim,bob) • 1 | 1 redo parent(jim,bob) • 1 | 1 exit parent(bob,sam) ----•• Trace begins…parent/2.• 1 | 1 call parent(jim,_3713) • 1 | 1 exit parent(jim,bob) • 1 | 1 redo parent(jim,bob) • 1 | 1 exit parent(jim,susan) • 1 | 1 redo parent(jim,susan) • 1 | 1 fail parent(jim,_3713) 
