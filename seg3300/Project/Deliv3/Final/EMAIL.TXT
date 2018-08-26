@@ -1,0 +1,184 @@
+From: <bob@site.uottawa.ca>
+To: u1907299 <u1907299@site.uottawa.ca>
+Cc: <seg3300A@site.uottawa.ca>; <seg3300B@site.uottawa.ca>; <ssome@site.uottawa.ca>
+Subject: Helpful Hint
+Date: Thursday, April 05, 2001 11:54 AM
+
+Dear Student u1907299:
+
+1)  First of all, keep it simple.  You did (pseudo-) code for 3 methods in
+part 3) of Deliverable 3.  All you do is to rank these 3 methods in terms
+of complexity, e.g., SIMPLE, AVERAGE, COMPLEX.  Calculate a value for
+Estimated Lines of Cide (ELOC) for each type you have.  For example,
+suppose methods M1, M2, M3 have 16, 36, and 40 LOC respectively.  You
+judge that M1 is SIMPLE, M2 and M3 are AVERAGE, and COMPLEX would take
+about the same number of LOC MORE than AVERAGE as AVERAGE has MORE LOC
+than SIMPLE.
+
+So you estimate:
+
+   SIMPLE = 16 LOC
+
+   AVERAGE = (36 + 40)/2 = 38 LOC
+
+   COMPLEX = 38 + (38-16)
+           = 38 + 22
+           = 60 LOC
+
+Now you look at every method in your class diagram and estimate whether it
+will be SIMPLE, AVERAGE, or COMPLEX.  Give the reasons for your estimate.
+Then, sum up all the LOC based on the complexities of ALL methods in the
+class diagram of part 2) to yield your overall LOC estimate.  Try to
+indicate what percentage will be declarative code, what percentage will
+probably be reusing definitions from class librariies (if any), and what
+percentage will likely be executable code.
+
+2)  Remember to follow the boiler plate standard for deliverable hand-ins.
+
+3)  Remember to include the old (from deliverable 2) scenarios you derived
+the collaboration diagrams from in part 1. as an Appendix, or if your
+scenarios have changed radically since Deliverable 2, please include the
+new scenarios (4 of them) in Appendix 1 for reference for the markers.
+
+Sincerely,
+Prof. Probert
+******************************
+
+On Wed, 4 Apr 2001, u1907299 wrote:
+
+> Dear Pro.:
+> I still have no idea how to  write the 5th item in deliverable 3. Because
+> the number of lines of code is not a reliable metric in estimating of
+> software engineering,there are no detail discussion about how to estimate
+> the number of lines of code corresponding to class diagram? So,would you
+> like to give me some hints about it?
+> 
+> Thanks your time!
+> 
+======================================================================
+From: <bob@site.uottawa.ca>
+To: <seg3300A@site.uottawa.ca>; <seg3300B@site.uottawa.ca>
+Subject: Reminder about Statement of Participation
+Date: Wednesday, April 04, 2001 3:53 PM
+
+Dear Students,
+
+Please remember that as part of Deliverable #3, you are to hand in a
+description signed by all members of the team of the degree of
+contribution of effort that each of you made to each deliverable.  
+This is required so that the allocation of marks can be fairly assigned.
+
+A very simple table would suffice, for example, 
+
+   THE EXAMPLE TEAM
+
+   Student    |  D1  |  D2  |  D3
+---------------------------------
+  Bob Brown   | more | avg  | more
+---------------------------------
+  Julie Jones | avg  | avg  | more
+---------------------------------
+  Trudy Taylor| less | avg  | less
+---------------------------------
+  Ted White   | avg  | avg  | avg
+
+The rows are the names of the students, and the columns are D1, D2, and D3
+for Deliverable 1, 2, and 3 respectively.
+
+In each entry in the table, the students are to indicate whether their
+contribution was average, more than average (between the members of the
+team), or less than average (between the members of the team).
+
+
+Please make sure that each member of the team signs next to his/her name.
+
+Thank you for your assistance in arriving at a fair allocation of the
+grades.
+
+Reminder:  Please check the Web next week.  All assignments, deliverables,
+and mid-term marks will be posted.  Please verify that your grades are as
+posted to the best of your knowledge.  If there are any problems, please
+send me an email before the exam date.
+
+The final exam is at 2:00 p.m. on Tuesday, April 24, 2001 in GYM B.
+
+Have an enjoyable Easter break and all the best on all of your
+assignments.
+
+Professor Probert 
+
+=================================================
+ 
+From: <bob@site.uottawa.ca>
+To: Sara Gaudreault <saragaudreault@hotmail.com>
+Cc: <seg3300A@site.uottawa.ca>; <seg3300B@site.uottawa.ca>; <ssome@site.uottawa.ca>
+Subject: Re: Deliverable 3 seg3300
+Date: Monday, April 02, 2001 2:45 PM
+
+Dear Sara,
+
+As I mentioned in class, the expresion "collaboration diagrams" in
+question 1 implies scenarios, i.e., more than one scenario.  Therefore,
+we wish you to hand 4 collaboration diagrams, 1 for a primary scenario,
+and 3 secondary scenarios.  The scenarios should be included in an
+appendix.  You can simplify your secondary scenarios collaboration
+diagrams by not repeating initial or final message interactions from the 
+primary scenario.  Indicate clearly where you left the primary
+scenario and where you retun to it (if you do).
+
+Sincerely,
+Prof. Probert
+***********************
+> 
+> for number 1:
+> do you want a collaboration diagram for primary scenario only (as stated in 
+> the question) ?
+> or
+> Primary + 3 secondary scenarios like you seems to say in your e-mail
+> below?
+> 
+
+> 
+> 
+> >From: <bob@site.uottawa.ca>
+> >To: seg3300A@site.uottawa.ca, seg3300B@site.uottawa.ca
+> >CC: tyang@site.uottawa.ca, xjin@site.uottawa.ca, ssome@site.uottawa.ca
+> >Subject: Helpful Hint for Deliverable 3
+> >Date: Thu, 29 Mar 2001 15:37:15 -0500 (est)
+> >
+> >Dear Students,
+> >
+> >For Question 1 to assist the markers, please hand in the primary scenarios
+> >and three secondary scenarios from Deliverable 2 which you had chosen to
+> >make collaboration diagrams from.  The best place to include these
+> >scenarios is as an Appendix.
+> >
+> >Sincerely,
+> >Prof. Probert
+> >
+> 
+> 
+> Sara Gaudreault
+> saragaudreault@hotmail.com
+> 
+> _________________________________________________________________________
+> Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com.
+> 
+============================================
+
+From: <bob@site.uottawa.ca>
+To: <seg3300A@site.uottawa.ca>; <seg3300B@site.uottawa.ca>
+Cc: <tyang@site.uottawa.ca>; <xjin@site.uottawa.ca>; <ssome@site.uottawa.ca>
+Subject: Helpful Hint for Deliverable 3
+Date: Thursday, March 29, 2001 4:37 PM
+
+Dear Students,
+
+For Question 1 to assist the markers, please hand in the primary scenarios
+and three secondary scenarios from Deliverable 2 which you had chosen to
+make collaboration diagrams from.  The best place to include these
+scenarios is as an Appendix.
+
+Sincerely,
+Prof. Probert
+ 

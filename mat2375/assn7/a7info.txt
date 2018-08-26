@@ -1,0 +1,23 @@
+  Column  Count Missing  Name
+  C1          6       0  Low Temp                       
+  C2          6       0  Med Temp                       
+  C3          6       0  High Temp                      
+  C4          6       0  200psi                         
+  C5          6       0  215psi                         
+  C6          6       0  230psi                         
+  C8         18       0  Value                          
+  C9         18       0  Row Index                      
+  C10        18       0  Col Index                      
+  C11        18       0  Residual                       
+  C12        18       0  Fitted                         
+  C13        18       0  nscore Resid                   
+  C15        24       0  Data                           
+  C16        24       0  Row Ind                        
+  C17        24       0  Col Ind                        
+  C18        24       0  Res8.2.8                       
+  C19        24       0  Fit8.2.8                       
+
+  No Constants Used
+
+  No Matrices Used
+

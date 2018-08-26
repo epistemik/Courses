@@ -1,0 +1,33 @@
+
+MAT2375	Assignment 3	Mark Sattolo	428500
+===============================================================
+Q 1.(a)
+
+Worksheet size: 100000 cells
+
+MTB > rand 50 c1-c30;
+SUBC> unif.
+MTB > rmean c1-c30 c31
+MTB > nscore c31 c32
+MTB > name c31 'uniform rmeans'
+MTB > name c32 'uniform nscore'
+MTB > hist 'uniform rmeans'
+MTB > plot c31*c32
+
+
+MTB > rand 50 c41-c70;
+SUBC> expo.
+MTB > rmean c41-c70 c71
+MTB > nscore c71 c72
+MTB > name c71 'exponential means'
+MTB > name c72 'exponential nscore'
+MTB > hist 'exponential means'
+MTB > plot c71*c72
+
+MTB > %NormPlot c31;
+MTB > nhist c31
+
+* ERROR * Unknown MINITAB command:  NHIS
+
+MTB > 
+================================================================

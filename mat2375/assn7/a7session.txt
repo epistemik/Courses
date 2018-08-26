@@ -1,0 +1,107 @@
+Worksheet size: 100000 cells
+
+MTB > desc c1-c6
+
+Descriptive Statistics
+
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+Low Temp             6     90.417     90.400     90.417      0.204      0.083
+Med Temp             6     90.333     90.350     90.333      0.207      0.084
+High Tem             6     90.567     90.600     90.567      0.294      0.120
+200psi               6     90.367     90.350     90.367      0.216      0.088
+215psi               6     90.683     90.650     90.683      0.147      0.060
+230psi               6     90.267     90.300     90.267      0.151      0.061
+
+Variable       Minimum    Maximum         Q1         Q3
+Low Temp        90.200     90.700     90.200     90.625
+Med Temp        90.100     90.600     90.100     90.525
+High Tem        90.100     90.900     90.325     90.825
+200psi          90.100     90.700     90.175     90.550
+215psi          90.500     90.900     90.575     90.825
+230psi          90.100     90.400     90.100     90.400
+
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+* NOTE  * Existing file replaced.
+MTB > twoway c8 c9 c10 c11 c12
+
+Two-way Analysis of Variance
+
+
+Analysis of Variance for Value   
+Source        DF        SS        MS        F        P
+Row Inde       2    0.1678    0.0839     4.08    0.055
+Col Inde       2    0.5678    0.2839    13.81    0.002
+Interaction    4    0.1022    0.0256     1.24    0.359
+Error          9    0.1850    0.0206
+Total         17    1.0228
+
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+* NOTE  * Existing file replaced.
+MTB > # Saving worksheet in file: H:\Docs\assn7\a7worksheet.XLS
+
+
+Current worksheet: a7worksheet.XLS
+
+MTB > cdf 4.44;
+SUBC> chis 9.
+
+Cumulative Distribution Function
+
+Chi-Square with 9 DF
+
+         x     P( X <= x)
+    4.4400        0.1199
+
+MTB > nscore c11 c13
+MTB > plot c11*c13
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+* NOTE  * Existing file replaced.
+MTB > # Saving worksheet in file: H:\Docs\assn7\a7worksheet.XLS
+MTB > %NormPlot 'Residual';
+SUBC>   Title "Residuals Normality".
+Executing from file: G:\WINDOWS\MTBWIN\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > # Saving worksheet in file: H:\Docs\assn7\a7worksheet.XLS
+MTB > twoway c15 c16 c17 c18 c19
+
+Two-way Analysis of Variance
+
+
+Analysis of Variance for Data    
+Source        DF        SS        MS        F        P
+Row Ind        2      99.8      49.9     4.81    0.021
+Col Ind        1      70.2      70.2     6.76    0.018
+Interaction    2     203.0     101.5     9.78    0.001
+Error         18     186.8      10.4
+Total         23     559.8
+
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+* NOTE  * Existing file replaced.
+MTB > # Saving worksheet in file: H:\Docs\assn7\a7worksheet.XLS
+MTB > %NormPlot 'Res8.2.8';
+SUBC>   Title "8.2.8Res Normality".
+Executing from file: G:\WINDOWS\MTBWIN\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > Save  "H:\Docs\assn7\assn7.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: H:\Docs\assn7\assn7.MPJ
+* NOTE  * Existing file replaced.
+MTB > 

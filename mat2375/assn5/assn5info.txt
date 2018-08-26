@@ -1,0 +1,18 @@
+  Column  Count Missing  Name
+  C1          4       0  None                           
+  C2          4       0  1 to 15                        
+  C3          4       0  16 or more                     
+  C5         17       0  Brand A                        
+  C6         17       0  Brand B                        
+
+  Constant        Value  Name
+  K1           0.232301  p^                             
+  K2           0.767699  1-p^                           
+  K3        0.000394551                                 
+  K4          0.0198633                                 
+  K5          0.0389321                                 
+  K6           0.271233                                 
+  K7           0.193369                                 
+
+  No Matrices Used
+

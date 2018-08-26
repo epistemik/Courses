@@ -1,0 +1,239 @@
+Dear Marcin Zielinski,
+
+1.  Beware of describing the details of each use-case.  You are only
+describing the names and the actors associated with each use-case, and a
+brief (25 words or less) description of what is involved in the use-case.
+You don't get to the level of primary or secondary scenarios in
+Deliverable #1.  Check the previous e-mails, you ARE REQUIRED to provide a
+"List of Assumpitons with Justifications".
+
+2.  For your friend's question:
+
+A useful rule is to be precise and concise.  If that results in a serious
+ambiguity, you should give enough additional information to clarify what
+you mean.  Use common sense and reasonableness in applying those
+recommended numbers for number of pages.
+
+I hope this helps.
+
+Sincerely,
+Prof. Probert
+*************
+
+> I have a question about the system level use case diagram. In the diagram
+> do we have to include every possible scenario like for example when the
+> operator is entering the password one character at a time do we have to
+> include loop specifically showing each character being entered one at a
+> time or do we just simply show one general step that includes all the
+> small sub-steps. Also for the system level use case diagram can we just
+> show the primary scenario or do we have to include both primary and
+> secondary scenario. Finally you said in the project specification that
+> the specification is not complete and that we have to make some
+> realistic assumptions. My question is do we have to include those
+> assumptions in the system level use case diagram.
+> 
+> My friend has the following question:
+> 
+> Dear professor,
+> You have specified a max/min for the write pages.  I
+> understand having have to deal with students you need to set up a
+> guideline or things will be out of control, but can you trust our judgment
+> as well?  If we can express the idea in half a page do we need to clutter
+> the page with repetitive sentences so just to meet the requirements!?
+> I have a good feeling about the answer but it is always better to ask.
+> 
+===============================================
+
+Dear Chaitali Sinha,
+
+In deliverable 1, you are to provide a high-level description of what the
+system can do.  The use-case NAMES of what the main actors can do with the
+system has to be included in the system-level use case diagram, as well as
+a brief description of what is involved in each use-case.
+
+I hope this is helpful.
+
+Sincerely,
+Prof. Probert
+**************
+
+> I had a quesiton about the "system capabilities" part of the Requirements
+> Report.  Do you want a description of what the system can do, or a
+> description of the processes of what it does.
+> 
+> What I'm asking is if you want a low level or high level description.
+> 
+> Thank you.
+> 
+> Chaitali Sinha
+> 1743073
+> 
+=======================================================================
+Page 2 and Page 3 of SEG 3300 Team Project:
+
+allow rental of video cassettes at other places than only in video clubs.
+This business has hired you to do the analysis, the Object-oriented design
+of the distributor systems.  They would like, as well, to have a prototype
+of parts of this system which you can demonstrate by means of
+assimilation.  
+
+2.1 The figure below is a schematic diagram of an e-video distributor.
+This e-video consists of a display device and a compartment within which
+the videos are stored as well as a suitable interface.
+2.2 E-video distributor operation.  The e-video distributor must allow
+rental of film cassettes as well as rental of video games.  Each cassette
+is identified by a unique number which corresponds to a listing in a
+catalogue.  Different cassettes may have different rental prices and this
+will be reflected in the catalogue.
+
+The customers of the rental chain can rent the films, return the films,
+and browse the catalogue on line using the e-video distributor.  Each of
+the customers are sent a magnetic access card when they register.  All
+customer interactions begin with the CUSTOMER identification which
+consists of the insertion of the card and ends with the retrieval of the
+card.  Each customer also has a credit account with the rental chain.  
+
+The on-line browsing of the catalogue permits a customer to find the code
+of a cassette by searching by the title of the film or game, the name of
+the principal actor of the film, or the name of the producer of the film.
+The CLIENT/OWNER/OPERATOR may also attach a list of the latest entries
+within a certain number of days.
+
+To rent a film, the customer must first insert the card, then specify the
+cassettes to be rented by entering their codes.  The CUSTOMER can find the
+codes by browsing the catalogue on line before beginning the rental.  Once
+the customer has finished entering the cassette codes, the e-video
+distributor will determine the amount of the transaction and present it to
+the customer.  If the customer has sufficient credit in his account, he
+can decide to pay electronically.  In this case, the amount of the rental
+is debited directly from the account.  The CUSTOMER may also pay by
+inserting money into the e-video distributor machine.  The e-video
+distributor returns the desired cassettes by the slot entitled "Cassette
+Return".  If the CUSTOMER has paid in cash and there is change to be
+returned, he can ask for the change or credit to his account.  At the end
+of the rental, the e-video distributor prints a receipt with a list of
+cassettes rented, the required dates of return as well as the amount
+credited to the account of the customer.  
+
+To return cassettes, the CUSTOMER, after identifying himself, must insert
+the cassettes one after one in the recovery return insertion delivery
+slot.  After the return of all the cassettes, the e-video distributor
+prints a receipt confirming the return and indicates any charges which
+will be made for late return.  The fines of the CUSTOMER will be taken out
+of his account or added to the amount to be paid for a subsequent rental.
+The e-video distributor is maintained by an operator who has the
+responsibility of loading the cassettes in the compartment as well as
+recovering the money in the containers.  The operator may, as well, ask to
+have a report printed on the statistics of cassette rentals.  The operator
+is supplied with a magnetic card and a password.  Each of his interactions
+must begin by the insertion of the card and validation of his password.
+
+=========================================================================
+
+Dear Angela Nash,
+
+The definitions sound good.  Include them in your list of Assumptions with
+Justifications.
+
+1.  This appears to be an option for the client; for example, under the
+heading "NEW RELEASES", the exact number of days since release for a
+video to be considered NEW, is decided by the client.  I suppose the
+customer or renter might have a button on the screen to select
+"NEW RELEASES", but the client is open to your suggestions here.
+A printed report seems more like an off-line system and is NOT 
+desirable.  Make and justify your assumptions.  But be careful
+not to get into TOO MUCH DETAIL TOO SOON.
+
+2.  "and" should be replaced by "or".  NO double deduction.  The choice
+of how this is handled is up to the client.
+
+3.  Number of times each video has been rented over the past month.
+[more answers to be given tomorrow]
+
+To continue responding to your questions:
+
+First of all, the words client and customer are not used precisely in
+the description of the requirements.  In particular, the description of
+renting a film and returning cassettes use "client" and "customer"
+interchangeably.  According to your definition, all references in these
+sections should be only to "customer".
+
+3. (cont.)  The client needs to know which videos are in high demand,
+and which have fallen out of use so that he/she can update the inventory 
+accordingly.
+
+4. The customer must have some way of paying for his/her rentals.  One
+way is to always pay cash.  Another way is to deposit money into the
+credit account.  You should allow both ways.
+
+5. A GUI (graphical user interface with buttons, etc.) would be nice,
+but a text-based interface is adequate.
+
+6. For describing team activities in deliverable 1, 
+
+i) the sequence of phases (major activities) should be given with the
+milestones that are implied by the given calendar.
+ii) a set of major roles and responsibilities as you see it so far
+iii) a preliminary assignment of individuals to these roles and
+responsibilities.
+
+It is understood that you may wish to revise these as the term
+progresses (but keep me informed of any changes).
+
+Sincerely,
+Prof. Probert
+**************************************************
+> hello Prof.Probert,
+> I have some questions regarding to seg3300 project
+> need to be clarified by you:
+> 
+> first some definitions:
+> client: the client who own the system and operate it.
+> end user: the end user of the system, the people who
+> use the system for tape rental.
+> 
+> 1.on the second page of project discription, at the
+> end of the second last paragraph, there is a sentence
+> "the client(end user) may also attach a list of the
+> latest entries within a certain number of days". What
+> exactly does the client like this to be preformed, the
+> client want this information to appear on the screen,
+> or the client want a printed report for this?
+> 
+> 2.on page three of project description, in the middle
+> of the second paragraph, "The fine of the client(end
+> user) will be taken out of his account and added to
+> the amount to be paid for a subsequent rental", it
+> seems there occurs double deduction of the fine by the
+> meaning of this sentence: "The fine of the client(end
+> user) will be taken out of his account", one
+> deduction; "and added to the amount to be paid for a
+> subsequent rental", there is a the other deduction-the
+> end user will pay the fine again when he does the
+> subsequent rental. So please clarify how the client
+> wants the system to handle the fine. 
+> 
+> 3. the client wants the system to generate statistic
+> report. What are the contents of the report the client
+> needs?
+> 
+> 4. does the client want the system to be able to allow
+> the end user to deposit money into his card?
+> 
+> 5.for the browsing function of the system, when end
+> user wants to search a film, what kind of user
+> interface does the client want the system to handle: a
+> touch-screen with menus and items, or a prompt message
+> to ask end user to enter information for searching and
+> the final results presented on the screen, just as
+> simple as DOS text interface. 
+> 
+> 6.For the third oart of the requirements "the
+> description and allocation of activities of the team",
+> do we need to assign specific roles to every teammates
+> and specify every teammates' activities? Or we can
+> generally write down the major activities and schedule
+> of the whole team? 
+> 
+> Thank you.
+> angela

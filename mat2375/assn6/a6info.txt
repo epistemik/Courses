@@ -1,0 +1,23 @@
+  Column  Count Missing  Name
+  C1          6       0  Lemon Yellow                   
+  C2          6       0  White                          
+  C3          6       0  Green                          
+  C4          6       0  Blue                           
+  C5         24       0                                 
+  C6         24       0                                 
+  C7         24       0                                 
+  C9          2       0  Low                            
+  C10         2       0  Middle                         
+  C11         2       0  High                           
+  C13         1       0  Low2                           
+  C14         1       0  Mid2                           
+  C15         1       0  High2                          
+  C17        15       0                                 
+  C18        15       0                                 
+  C20         2       0  Raq                            
+  C21         2       0  Track                          
+
+  No Constants Used
+
+  No Matrices Used
+

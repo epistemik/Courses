@@ -1,0 +1,1109 @@
+;; HMF V1.24 TEXT
+;; (Microsoft Win32 Intel 386)  HOOPS 4.12-3 I.M. 3.00-3
+(Selectability "windows=off,edges=on!,faces=on,lights=on,lines=on!,markers=on,i
+mages=on,text=on,string cursors=on")
+(Visibility "on")
+(Color_By_Index "Geometry,Face Contrast" 1)
+(Color_By_Index "Window" 0)
+(Window_Frame "off")
+(Window -1 1 -1 1)
+(Camera (0 0 -5) (0 0 0) (0 1 0) 2 2 "Stretched")
+
+;; (Driver_Options "disable input,light scaling=0,subscreen=(-0.999875,0.322627
+;; ,-0.999833,0.176835),subscreen stretching,no update interrupts,use window id
+;; =264")
+(Edge_Pattern  "---")
+(Edge_Weight 1)
+(Face_Pattern "solid")
+(Heuristics "no related selection limit")
+(Line_Pattern  "---")
+(Line_Weight 1)
+(Marker_Size 0.421875)
+(Marker_Symbol ".")
+(Text_Font "name=arial-gdi-vector,no transforms,rotation=follow path")
+(User_Options "angle=0,arrowdir=0,arrowstyle=0,polygon=0,isdata=0,mtb aspect ra
+tio=0.667925,graphicsversion=5,optiplot=0,toplayer=0,textfollowpath=1,ldfill=0,
+solidfill=0,3d=0,usebitmap=0,canbrush=0,brushrows=0,light scaling=.00000")
+(Segment "include" ())
+(Front ((Segment "figure1" (
+    (Window_Pattern "clear")
+    (Window -0.9 0.22 -0.27 0.77)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "edges=off,faces=on,lines=off")
+	    (Color_By_Index "Face" 15)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "solid")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=0,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.899955 -0.39998 0) (0.899955 -0.39998 0) (0.899955 
+		 0.959952 0) (-0.899955 0.959952 0) (-0.899955 -0.39998 0))))))
+	   )
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "bar1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "^*")
+		    (Text_Font "name=arial-gdi-vector,size=0.02542 sru")
+		    (Segment "" (
+		      (Text 0.559972 -0.489976 0 "375")))
+		    (Segment "" (
+		      (Text 0.239988 -0.489976 0 "325")))
+		    (Segment "" (
+		      (Text -0.079996 -0.489976 0 "275")))
+		    (Segment "" (
+		      (Text -0.39998 -0.489976 0 "225")))
+		    (Segment "" (
+		      (Text -0.719964 -0.489976 0 "175")))
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((0.559972 -0.39998 0) (0.559972 
+			     -0.459977 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.239988 -0.39998 0) (0.239988 
+			     -0.459977 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.079996 -0.39998 0) (-0.079996 
+			     -0.459977 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.39998 -0.39998 0) (-0.39998 
+			     -0.459977 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.719964 -0.39998 0) (-0.719964 
+			     -0.459977 0)))))))))))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "*>")
+		    (Text_Font "name=arial-gdi-vector,size=0.01816 sru")
+		    (Segment "major" ())))))))
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0227 sru")))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0227 sru")
+		    (Text_Path 6.12303e-17 1 0)))))))))))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.88 0.88 -0.38 0.94)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "bar1" (
+		(Visibility "faces=on")
+		(Color_By_Index "Face" 4)
+		(Edge_Weight 2)
+		(Face_Pattern "solid")
+		(Line_Weight 2)
+		(User_Options "ldfill=0")
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((0.727236 -0.943349 0) (0.909045 -0.943349 0) 
+		       (0.909045 -0.51827 0) (0.727236 -0.51827 0) (0.727236 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((0.545427 -0.943349 0) (0.727236 -0.943349 0) 
+		       (0.727236 -0.943349 0) (0.545427 -0.943349 0) (0.545427 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((0.363618 -0.943349 0) (0.545427 -0.943349 0) 
+		       (0.545427 -0.0931919 0) (0.363618 -0.0931919 0) 
+		       (0.363618 -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((0.181809 -0.943349 0) (0.363618 -0.943349 0) 
+		       (0.363618 0.331887 0) (0.181809 0.331887 0) (0.181809 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-1.11017e-16 -0.943349 0) (0.181809 -0.943349 0)
+		      (0.181809 0.756965 0) (-1.11017e-16 0.756965 0) 
+		       (-1.11017e-16 -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-0.181809 -0.943349 0) (-1.11017e-16 -0.943349 0
+		       ) (-1.11017e-16 0.756965 0) (-0.181809 0.756965 0) 
+		       (-0.181809 -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-0.363618 -0.943349 0) (-0.181809 -0.943349 0) (
+		       -0.181809 0.756965 0) (-0.363618 0.756965 0) (-0.363618 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-0.545427 -0.943349 0) (-0.363618 -0.943349 0) (
+		       -0.363618 0.331887 0) (-0.545427 0.331887 0) (-0.545427 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-0.727236 -0.943349 0) (-0.545427 -0.943349 0) (
+		       -0.545427 0.331887 0) (-0.727236 0.331887 0) (-0.727236 
+		       -0.943349 0)))))))
+		(Segment "" (
+		  (Visibility "faces=on")
+		  (Color_By_Index "Face" 4)
+		  (Edge_Weight 2)
+		  (Face_Pattern "solid")
+		  (Line_Weight 2)
+		  (User_Options "ldfill=0,solidfill=1")
+		  (Segment "" (
+		    (Polygon ((-0.909045 -0.943349 0) (-0.727236 -0.943349 0) (
+		       -0.727236 -0.51827 0) (-0.909045 -0.51827 0) (-0.909045 
+		       -0.943349 0)))))))))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)
+	(Front ((Segment "line1" (
+	    (Color_By_Index "Face Contrast,Line,Edge" 2)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 2)
+	    (Line_Pattern  "---")
+	    (Line_Weight 2)
+	    (Segment "" (
+	      (Front ((Polyline ((-0.79996 -0.16298 0) (-0.783961 -0.146732 0) 
+		  (-0.767962 -0.129437 0) (-0.751962 -0.111074 0) (-0.735963 
+		   -0.0916275 0) (-0.719964 -0.0710859 0) (-0.703965 -0.0494445
+		   0) (-0.687966 -0.0267046 0) (-0.671966 -2.87453e-3 0) 
+		   (-0.655967 0.0220301 0) (-0.639968 0.0479859 0) (-0.623969 
+		   0.0749613 0) (-0.60797 0.102916 0) (-0.59197 0.131802 0) 
+		   (-0.575971 0.161561 0) (-0.559972 0.192126 0) (-0.543973 
+		   0.223422 0) (-0.527974 0.255365 0) (-0.511974 0.287859 0) 
+		   (-0.495975 0.320804 0) (-0.479976 0.35409 0) (-0.463977 
+		   0.387597 0) (-0.447978 0.421202 0) (-0.431978 0.454772 0) 
+		   (-0.415979 0.488171 0) (-0.39998 0.521255 0) (-0.383981 
+		   0.55388 0) (-0.367982 0.585896 0) (-0.351982 0.617152 0) 
+		   (-0.335983 0.647498 0) (-0.319984 0.676782 0) (-0.303985 
+		   0.704855 0) (-0.287986 0.731572 0) (-0.271986 0.75679 0) 
+		   (-0.255987 0.780374 0) (-0.239988 0.802194 0) (-0.223989 
+		   0.822129 0) (-0.20799 0.840067 0) (-0.19199 0.855904 0) 
+		   (-0.175991 0.86955 0) (-0.159992 0.880925 0) (-0.143993 
+		   0.889964 0) (-0.127994 0.896613 0) (-0.111994 0.900832 0) 
+		   (-0.0959952 0.902596 0) (-0.079996 0.901896 0) (-0.0639968 
+		   0.898735 0) (-0.0479976 0.893132 0) (-0.0319984 0.88512 0) (
+		   -0.0159992 0.874747 0) (-3.3305e-16 0.862073 0) (0.0159992 
+		   0.847172 0) (0.0319984 0.83013 0) (0.0479976 0.811044 0) 
+		   (0.0639968 0.790024 0) (0.079996 0.767187 0) (0.0959952 
+		   0.742658 0) (0.111994 0.716572 0) (0.127994 0.689067 0) 
+		   (0.143993 0.660288 0) (0.159992 0.630382 0) (0.175991 
+		   0.599501 0) (0.19199 0.567794 0) (0.20799 0.535414 0) 
+		   (0.223989 0.50251 0) (0.239988 0.46923 0) (0.255987 0.435716
+		   0) (0.271986 0.40211 0) (0.287986 0.368545 0) (0.303985 
+		   0.335149 0) (0.319984 0.302043 0) (0.335983 0.26934 0) 
+		   (0.351982 0.237148 0) (0.367982 0.205561 0) (0.383981 
+		   0.174671 0) (0.39998 0.144554 0) (0.415979 0.115284 0) 
+		   (0.431978 0.0869203 0) (0.447978 0.0595163 0) (0.463977 
+		   0.0331157 0) (0.479976 7.75362e-3 0) (0.495975 -0.016543 0) 
+		  (0.511974 -0.0397553 0) (0.527974 -0.0618718 0) (0.543973 
+		   -0.0828883 0) (0.559972 -0.102807 0) (0.575971 -0.121636 0) 
+		  (0.59197 -0.13939 0) (0.60797 -0.156087 0) (0.623969 
+		   -0.171752 0) (0.639968 -0.18641 0) (0.655967 -0.200094 0) 
+		   (0.671966 -0.212836 0) (0.687966 -0.224673 0) (0.703965 
+		   -0.235643 0) (0.719964 -0.245784 0) (0.735963 -0.255138 0) (
+		   0.751962 -0.263744 0) (0.767962 -0.271645 0) (0.783961 
+		   -0.27888 0) (0.79996 -0.285492 0)))))))))))))))))
+  (Segment "figure2" (
+    (Window_Pattern "clear")
+    (Window -0.9 0.22 -0.27 0.77)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "edges=off,faces=on,lines=off")
+	    (Color_By_Index "Face" 15)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "solid")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=0,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.899955 -0.959952 0) (0.899955 -0.959952 0) 
+		 (0.899955 -0.679966 0) (-0.899955 -0.679966 0) (-0.899955 
+		 -0.959952 0)))))))
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "box1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "v*")
+		    (Text_Font "name=arial-gdi-vector,size=0.01816 sru")
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((0.559972 -0.679966 0) (0.559972 
+			     -0.619969 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.239988 -0.679966 0) (0.239988 
+			     -0.619969 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.079996 -0.679966 0) (-0.079996 
+			     -0.619969 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.39998 -0.679966 0) (-0.39998 
+			     -0.619969 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.719964 -0.679966 0) (-0.719964 
+			     -0.619969 0)))))))))))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Segment "major" ())))))))
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0227 sru")
+		    (Text_Path 6.12303e-17 1 0)))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0227 sru")))))))))
+	    ))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.88 0.88 -0.94 -0.7)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "box1" (
+		(Visibility "faces=off")
+		(Color_By_Index "Face Contrast,Line,Edge" 1)
+		(Color_By_Index "Face" 0)
+		(Edge_Pattern  "---")
+		(Edge_Weight 1)
+		(Line_Pattern  "---")
+		(Line_Weight 1)
+		(Front ((Segment "group1" (
+		    (Visibility "faces=on")
+		    (Color_By_Index "Face" 4)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 2)
+		    (Face_Pattern "solid")
+		    (Line_Pattern  "---")
+		    (Line_Weight 2)
+		    (User_Options "ldfill=0,solidfill=1")
+		    (Segment "" (
+		      (Front ((Polyline ((0.221807 -1.11017e-16 0) (0.818141 
+			   -1.11017e-16 0)))))))
+		    (Segment "" (
+		      (Front ((Polyline ((-0.39998 -1.11017e-16 0) (-0.898137 
+			   -1.11017e-16 0)))))))
+		    (Segment "" (
+		      (Polygon ((-0.39998 -0.749962 0) (-0.39998 0.749962 0) 
+			 (0.221807 0.749962 0) (0.221807 -0.749962 0) (-0.39998
+			 -0.749962 0)))))
+		    (Segment "median" (
+		      (Segment "" (
+			(Front ((Polyline ((-0.112722 -0.749962 0) (-0.112722 
+			     0.749962 0)))))))))))))))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))))))
+  (Segment "figure3" (
+    (Window_Pattern "clear")
+    (Window -0.9 0.22 -0.92 -0.33)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "edges=off,faces=on,lines=off")
+	    (Color_By_Index "Face" 15)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "solid")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=0,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.899955 0.249987 0) (0.899955 0.249987 0) (0.899955 
+		 0.749962 0) (-0.899955 0.749962 0) (-0.899955 0.249987 0))))))
+	   )
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "v*")
+		    (Text_Font "name=arial-gdi-vector,size=0.02735 sru")
+		    (Segment "" (
+		      (Text -1.3322e-15 0.769961 0 "90% Confidence Interval for
+ Mu")))
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((-1.3322e-15 0.749962 0) 
+			     (-1.3322e-15 0.749962 0)))))))))))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "^*")
+		    (Text_Font "name=arial-gdi-vector,size=0.02394 sru")
+		    (Segment "" (
+		      (Text 0.793394 0.119994 0 "300")))
+		    (Segment "" (
+		      (Text 0.501601 0.119994 0 "290")))
+		    (Segment "" (
+		      (Text 0.209809 0.119994 0 "280")))
+		    (Segment "" (
+		      (Text -0.081984 0.119994 0 "270")))
+		    (Segment "" (
+		      (Text -0.373777 0.119994 0 "260")))
+		    (Segment "" (
+		      (Text -0.665569 0.119994 0 "250")))
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((0.793394 0.249987 0) (0.793394 
+			     0.149992 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.501601 0.249987 0) (0.501601 
+			     0.149992 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.209809 0.249987 0) (0.209809 
+			     0.149992 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.081984 0.249987 0) (-0.081984 
+			     0.149992 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.373777 0.249987 0) (-0.373777 
+			     0.149992 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.665569 0.249987 0) (-0.665569 
+			     0.149992 0)))))))))))
+		  (Segment "set3" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "*>")
+		    (Text_Font "name=arial-gdi-vector,size=0.01368 sru")
+		    (Segment "major" ())))))))
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0171 sru")))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0171 sru")
+		    (Text_Path 6.12303e-17 1 0)))))))))))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.88 0.88 0.27 0.73)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" (
+		(Segment "points" (
+		  (Color_By_Index "Marker" 1)
+		  (Marker_Size 0.421875)
+		  (Marker_Symbol "@")
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())))))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)
+	(Front ((Segment "polygon1" (
+	    (Visibility "faces=on")
+	    (Color_By_Index "Face" 2)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "solid")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=0,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.554148 0.653301 0) (0.56759 0.653301 0) (0.56759 
+		 0.346649 0) (-0.554148 0.346649 0) (-0.554148 0.653301 0))))))
+	   )
+	  (Segment "line1" (
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (Segment "" (
+	      (Front ((Polyline ((6.72097e-3 0.346649 0) (6.72097e-3 0.653301 0
+		   )))))))))))))))))
+  (Segment "figure4" (
+    (Window_Pattern "clear")
+    (Window -0.9 0.22 -0.92 -0.33)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "edges=off,faces=on,lines=off")
+	    (Color_By_Index "Face" 15)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "solid")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=0,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.899955 -0.699965 0) (0.899955 -0.699965 0) 
+		 (0.899955 -0.19999 0) (-0.899955 -0.19999 0) (-0.899955 
+		 -0.699965 0)))))))
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "box1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "^*")
+		    (Text_Font "name=arial-gdi-vector,size=0.02735 sru")
+		    (Segment "" (
+		      (Text -1.3322e-15 -0.699965 0 "90% Confidence Interval fo
+r Median")))
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((-1.3322e-15 -0.699965 0) 
+			     (-1.3322e-15 -0.699965 0)))))))))))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "v*")
+		    (Text_Font "name=arial-gdi-vector,size=0.01368 sru")
+		    (Segment "major" (
+		      (Segment "" (
+			(Front ((Polyline ((0.793394 -0.19999 0) (0.793394 
+			     -0.099995 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.501601 -0.19999 0) (0.501601 
+			     -0.099995 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((0.209809 -0.19999 0) (0.209809 
+			     -0.099995 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.081984 -0.19999 0) (-0.081984 
+			     -0.099995 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.373777 -0.19999 0) (-0.373777 
+			     -0.099995 0)))))))
+		      (Segment "" (
+			(Front ((Polyline ((-0.665569 -0.19999 0) (-0.665569 
+			     -0.099995 0)))))))))))))))
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0171 sru")
+		    (Text_Path 6.12303e-17 1 0)))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.0171 sru")))))))))
+	    ))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.88 0.88 -0.68 -0.22)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "box1" (
+		(Visibility "faces=off")
+		(Color_By_Index "Face Contrast,Line,Edge" 1)
+		(Color_By_Index "Face" 0)
+		(Edge_Pattern  "---")
+		(Edge_Weight 1)
+		(Line_Pattern  "---")
+		(Line_Weight 1)
+		(Front ((Segment "group1" (
+		    (Visibility "faces=on")
+		    (Color_By_Index "Face" 2)
+		    (Face_Pattern "solid")
+		    (User_Options "ldfill=0,solidfill=1")
+		    (Segment "" (
+		      (Polygon ((-0.834669 -0.699965 0) (-0.834669 0.699965 0) 
+			(0.818141 0.699965 0) (0.818141 -0.699965 0) (-0.834669
+			 -0.699965 0)))))
+		    (Segment "median" (
+		      (Segment "" (
+			(Front ((Polyline ((-0.0268471 -0.699965 0) (-0.0268471
+			     0.699965 0)))))))))))))))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))))))
+  (Segment "figure5" (
+    (Window_Pattern "clear")
+    (Window 0.25 0.95 -0.95 0.85)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.79996 0) (-0.99995 0.79996 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" ())
+	      (Segment "connect1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "^*")
+		    (Text_Font "name=arial-gdi-vector,size=0.01889 sru")
+		    (Segment "major" ())))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "*>")
+		    (Text_Font "name=arial-gdi-vector,size=0.01889 sru")
+		    (Segment "major" ())))))))
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" (
+		(Front ((Segment "set1" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Alignment "v*")
+		    (Text_Font "name=arial-gdi-vector,size=0.03777 sru")
+		    (Segment "" (
+		      (Text 0 0.849957 0 "Variable: C5")))))
+		  (Segment "set2" (
+		    (Color_By_Index "Face Contrast,Line,Text,Edge" 1)
+		    (Edge_Pattern  "---")
+		    (Edge_Weight 1)
+		    (Line_Pattern  "---")
+		    (Line_Weight 1)
+		    (Text_Font "name=arial-gdi-vector,size=0.02361 sru")
+		    (Text_Path 6.12303e-17 1 0)))))))))))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.98 0.98 -0.98 0.78)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" (
+		(Segment "points" (
+		  (Color_By_Index "Marker" 1)
+		  (Marker_Size 0.421875)
+		  (Marker_Symbol "@")
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())))))
+	      (Segment "connect1" (
+		(Color_By_Index "Face Contrast,Line,Edge" 1)
+		(Edge_Pattern  "---")
+		(Edge_Weight 1)
+		(Line_Pattern  "---")
+		(Line_Weight 1)))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)
+	(Front ((Segment "symbol1" (
+	    (Text_Alignment "*<")
+	    (Text_Font "size=0.02644 sru")
+	    (User_Options "isdata=0")
+	    (Segment "" (
+	      (Text -0.559972 -0.932953 0 "247.637")))
+	    (Segment "" (
+	      (Text -0.559972 -0.734963 0 " 45.604")))
+	    (Segment "" (
+	      (Text -0.559972 -0.536973 0 "253.819")))
+	    (Segment "" (
+	      (Text -0.559972 -0.338983 0 "Maximum")))
+	    (Segment "" (
+	      (Text -0.559972 -0.272986 0 "3rd Quartile")))
+	    (Segment "" (
+	      (Text -0.559972 -0.20699 0 "Median")))
+	    (Segment "" (
+	      (Text -0.559972 -0.140993 0 "1st Quartile")))
+	    (Segment "" (
+	      (Text -0.559972 -0.0749962 0 "Minimum")))
+	    (Segment "" (
+	      (Text -0.559972 0.0569971 0 "N")))
+	    (Segment "" (
+	      (Text -0.559972 0.122994 0 "Kurtosis")))
+	    (Segment "" (
+	      (Text -0.559972 0.188991 0 "Skewness")))
+	    (Segment "" (
+	      (Text -0.559972 0.254987 0 "Variance")))
+	    (Segment "" (
+	      (Text -0.559972 0.320984 0 "StDev")))
+	    (Segment "" (
+	      (Text -0.559972 0.386981 0 "Mean")))
+	    (Segment "" (
+	      (Text -0.559972 0.518974 0 "P-Value:")))
+	    (Segment "" (
+	      (Text -0.559972 0.584971 0 "A-Squared:")))))))))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))))))
+  (Segment "figure6" (
+    (Window_Pattern "clear")
+    (Window 0.25 0.95 -0.95 0.85)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.79996 0) (-0.99995 0.79996 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" ())
+	      (Segment "connect1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" ())
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" ())))))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.98 0.98 -0.98 0.78)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" (
+		(Segment "points" (
+		  (Color_By_Index "Marker" 1)
+		  (Marker_Size 0.421875)
+		  (Marker_Symbol "@")
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())))))
+	      (Segment "connect1" (
+		(Color_By_Index "Face Contrast,Line,Edge" 1)
+		(Edge_Pattern  "---")
+		(Edge_Weight 1)
+		(Line_Pattern  "---")
+		(Line_Weight 1)))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)
+	(Front ((Segment "symbol1" (
+	    (Text_Alignment "*>")
+	    (Text_Font "size=0.02644 sru")
+	    (User_Options "isdata=0")
+	    (Segment "" (
+	      (Text 0.699965 -0.932953 0 "297.483")))
+	    (Segment "" (
+	      (Text 0.699965 -0.734963 0 " 73.951")))
+	    (Segment "" (
+	      (Text 0.699965 -0.536973 0 "292.261")))
+	    (Segment "" (
+	      (Text 0.699965 -0.338983 0 "400.000")))
+	    (Segment "" (
+	      (Text 0.699965 -0.272986 0 "318.000")))
+	    (Segment "" (
+	      (Text 0.699965 -0.20699 0 "272.000")))
+	    (Segment "" (
+	      (Text 0.699965 -0.140993 0 "232.500")))
+	    (Segment "" (
+	      (Text 0.699965 -0.0749962 0 "164.000")))
+	    (Segment "" (
+	      (Text 0.699965 0.0569971 0 "25")))
+	    (Segment "" (
+	      (Text 0.699965 0.122994 0 "-2.0E-01")))
+	    (Segment "" (
+	      (Text 0.699965 0.188991 0 "0.102166")))
+	    (Segment "" (
+	      (Text 0.699965 0.254987 0 "3155.54")))
+	    (Segment "" (
+	      (Text 0.699965 0.320984 0 " 56.174")))
+	    (Segment "" (
+	      (Text 0.699965 0.386981 0 "273.040")))
+	    (Segment "" (
+	      (Text 0.699965 0.518974 0 "0.988")))
+	    (Segment "" (
+	      (Text 0.699965 0.584971 0 "0.119")))))))))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))))))
+  (Segment "figure7" (
+    (Window_Pattern "clear")
+    (Window 0.25 0.95 -0.95 0.85)
+    (User_Options "viewinfigurecoord=0")
+    (Front ((Segment "region" (
+	(Front ((Segment "figure box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.99995 0) (-0.99995 0.99995 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "data box" (
+	    (Visibility "polygons=off,lines=off")
+	    (Color_By_Index "Face" 1)
+	    (Color_By_Index "Face Contrast,Line,Edge" 1)
+	    (Edge_Pattern  "---")
+	    (Edge_Weight 1)
+	    (Face_Pattern "/")
+	    (Line_Pattern  "---")
+	    (Line_Weight 1)
+	    (User_Options "ldfill=1,solidfill=1")
+	    (Segment "" (
+	      (Polygon ((-0.99995 -0.99995 0) (0.99995 -0.99995 0) (0.99995 
+		 0.79996 0) (-0.99995 0.79996 0) (-0.99995 -0.99995 0)))))))
+	  (Segment "legend box" ())
+	  (Segment "legend" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (User_Options "viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" ())
+	      (Segment "connect1" ())))))))))
+      (Segment "object" (
+	(Front ((Segment "frame" (
+	    (Window_Pattern "clear")
+	    (Window -1 1 -1 1)
+	    (Front ((Segment "tick" ())
+	      (Segment "grid" ())
+	      (Segment "reference" ())
+	      (Segment "axis" ())))))
+	  (Segment "data" (
+	    (Window_Pattern "clear")
+	    (Window -0.98 0.98 -0.98 0.78)
+	    (User_Options "isdata=1,viewinfigurecoord=1")
+	    (Front ((Segment "symbol1" (
+		(Segment "points" (
+		  (Color_By_Index "Marker" 1)
+		  (Marker_Size 0.421875)
+		  (Marker_Symbol "@")
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())
+		  (Segment "" ())))))
+	      (Segment "connect1" (
+		(Color_By_Index "Face Contrast,Line,Edge" 1)
+		(Edge_Pattern  "---")
+		(Edge_Weight 1)
+		(Line_Pattern  "---")
+		(Line_Weight 1)))))))))))
+      (Segment "labels" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)
+	(Front ((Segment "symbol1" (
+	    (Text_Alignment "v*")
+	    (Text_Font "size=0.02644 sru")
+	    (User_Options "isdata=0")
+	    (Segment "" (
+	      (Text 0 -0.866957 0 "90% Confidence Interval for Median")))
+	    (Segment "" (
+	      (Text 0 -0.668966 0 "90% Confidence Interval for Sigma")))
+	    (Segment "" (
+	      (Text 0 -0.470976 0 "90% Confidence Interval for Mu")))
+	    (Segment "" (
+	      (Text 0 0.650967 0 "Anderson-Darling Normality Test")))))))))
+      (Segment "annotation" (
+	(Window_Pattern "clear")
+	(Window -1 1 -1 1)))))))
+  (Segment "annotation" (
+    (Window_Pattern "clear")
+    (Window -1 1 -1 1)
+    (User_Options "toplayer=1")
+    (Front ((Segment "text1" (
+	(Color_By_Index "Text" 1)
+	(Text_Alignment "^*")
+	(Text_Font "name=times new roman-gdi-vector,size=0.05048 sru")
+	(Segment "" (
+	  (Text 0 0.979951 0 "Descriptive Statistics")))))))))))

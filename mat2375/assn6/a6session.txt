@@ -1,0 +1,282 @@
+Worksheet size: 100000 cells
+
+MTB > desc c1
+
+Descriptive Statistics
+
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+Lemon Ye             6      47.17      46.50      47.17       6.79       2.77
+
+Variable       Minimum    Maximum         Q1         Q3
+Lemon Ye         38.00      59.00      43.25      50.75
+
+MTB > desc c2
+
+Descriptive Statistics
+
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+White                6      15.67      15.50      15.67       3.33       1.36
+
+Variable       Minimum    Maximum         Q1         Q3
+White            12.00      21.00      12.75      18.00
+
+MTB > desc c3
+
+Descriptive Statistics
+
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+Green                6      31.50      34.50      31.50       9.91       4.05
+
+Variable       Minimum    Maximum         Q1         Q3
+Green            15.00      41.00      22.50      39.50
+
+MTB > desc c4
+
+Descriptive Statistics
+
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+Blue                 6      14.83      15.00      14.83       5.34       2.18
+
+Variable       Minimum    Maximum         Q1         Q3
+Blue              7.00      21.00      10.00      20.25
+
+MTB > help oneway
+MTB > oneway c5 c6 c7
+
+One-way Analysis of Variance
+
+Analysis of Variance for C5      
+Source     DF        SS        MS        F        P
+C6          3    4218.5    1406.2    30.55    0.000
+Error      20     920.5      46.0
+Total      23    5139.0
+                                   Individual 95% CIs For Mean
+                                   Based on Pooled StDev
+Level       N      Mean     StDev  ---+---------+---------+---------+---
+1           6    47.167     6.795                             (----*----) 
+2           6    15.667     3.327   (----*----) 
+3           6    31.500     9.915                (----*----) 
+4           6    14.833     5.345   (---*----) 
+                                   ---+---------+---------+---------+---
+Pooled StDev =    6.784              12        24        36        48
+MTB > %NormPlot C7;
+SUBC>   Title "Q.1 residuals".
+Executing from file: G:\WINDOWS\MTBWIN\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > cdf 30.55;
+SUBC> f 3 20
+* NOTE * Subcommand does not end in . or ; (; assumed).
+SUBC> .
+
+Cumulative Distribution Function
+
+F distribution with 3 DF in numerator and 20 DF in denominator
+
+         x     P( X <= x)
+   30.5500        1.0000
+
+MTB > invcdf .05;
+SUBC> f 3 20.
+
+Inverse Cumulative Distribution Function
+
+F distribution with 3 DF in numerator and 20 DF in denominator
+
+ P( X <= x)          x   
+    0.0500        0.1155
+
+MTB > invcdf .95;
+SUBC> f 3 20.
+
+Inverse Cumulative Distribution Function
+
+F distribution with 3 DF in numerator and 20 DF in denominator
+
+ P( X <= x)          x   
+    0.9500        3.0984
+
+MTB > Save  "C:\Work\Assn6.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+
+Worksheet size: 100000 cells
+Retrieving project from file: C:\Work\Assn6.MPJ
+
+
+Current worksheet: Worksheet 1
+
+MTB > help chis
+MTB > chis c9-c11
+
+Chi-Square Test
+
+
+Expected counts are printed below observed counts
+
+           Low   Middle     High    Total
+    1        7        4        4       15
+          5.00     5.00     5.00
+
+    2        3        6        6       15
+          5.00     5.00     5.00
+
+Total       10       10       10       30
+
+Chi-Sq =  0.800 +  0.200 +  0.200 +
+          0.800 +  0.200 +  0.200 = 2.400
+DF = 2, P-Value = 0.301
+
+MTB > chis c13-c15
+
+* ERROR * Only one row or column.
+
+MTB > table c17-c18
+
+Tabulated Statistics
+
+  
+ 
+ 
+ 
+ Rows: C17     Columns: C18
+ 
+          49       51       55       57       61       63       67       71
+  
+ 39        0        0        0        0        0        0        0        1
+ 41        0        0        0        0        0        1        0        0
+ 42        0        0        0        0        0        0        0        0
+ 44        1        0        0        0        0        0        0        0
+ 51        0        0        0        0        0        0        0        0
+ 52        0        0        0        0        0        0        0        0
+ 55        0        0        0        0        0        0        1        0
+ 59        0        1        0        0        0        0        0        0
+ 61        0        0        0        0        0        0        0        0
+ 62        0        0        1        0        0        0        0        0
+ 67        0        0        0        0        0        0        0        0
+ 76        0        0        0        0        0        0        0        0
+ 77        0        0        0        1        0        0        0        0
+ 82        0        0        0        0        1        0        0        0
+ 91        0        0        0        0        0        0        0        0
+ All       1        1        1        1        1        1        1        1
+ 
+          75       78       79       80       81       88       93      All
+  
+ 39        0        0        0        0        0        0        0        1
+ 41        0        0        0        0        0        0        0        1
+ 42        0        0        0        1        0        0        0        1
+ 44        0        0        0        0        0        0        0        1
+ 51        0        1        0        0        0        0        0        1
+ 52        0        0        1        0        0        0        0        1
+ 55        0        0        0        0        0        0        0        1
+ 59        0        0        0        0        0        0        0        1
+ 61        0        0        0        0        0        1        0        1
+ 62        0        0        0        0        0        0        0        1
+ 67        0        0        0        0        0        0        1        1
+ 76        0        0        0        0        1        0        0        1
+ 77        0        0        0        0        0        0        0        1
+ 82        0        0        0        0        0        0        0        1
+ 91        1        0        0        0        0        0        0        1
+ All       1        1        1        1        1        1        1       15
+ 
+  Cell Contents --
+                  Count
+
+MTB > cdf 2.4;
+SUBC> chis 2.
+
+Cumulative Distribution Function
+
+Chi-Square with 2 DF
+
+         x     P( X <= x)
+    2.4000        0.6988
+
+MTB > invcdf 95.0;
+SUBC> chis 2.
+
+Inverse Cumulative Distribution Function
+
+Chi-Square with 2 DF
+
+ P( X <= x)          x   
+   95.0000             *
+
+
+* NOTE  * Arithmetic fault, MISSING returned 1 times.
+        * Value out of bounds.
+
+MTB > invcdf 0.05;
+SUBC> chis 2.
+
+Inverse Cumulative Distribution Function
+
+Chi-Square with 2 DF
+
+ P( X <= x)          x   
+    0.0500        0.1026
+
+MTB > invcdf 0.95;
+SUBC> chis 2.
+
+Inverse Cumulative Distribution Function
+
+Chi-Square with 2 DF
+
+ P( X <= x)          x   
+    0.9500        5.9915
+
+MTB > chis c20-c21
+
+Chi-Square Test
+
+
+Expected counts are printed below observed counts
+
+           Raq    Track    Total
+    1       51       30       81
+         44.27    36.73
+
+    2       43       48       91
+         49.73    41.27
+
+Total       94       78      172
+
+Chi-Sq =  1.024 +  1.234 +
+          0.911 +  1.098 = 4.268
+DF = 1, P-Value = 0.039
+
+MTB > invcdf 0.95;
+SUBC> chis 1.
+
+Inverse Cumulative Distribution Function
+
+Chi-Square with 1 DF
+
+ P( X <= x)          x   
+    0.9500        3.8415
+
+MTB > invcdf 0.99;
+SUBC> chis 1.
+
+Inverse Cumulative Distribution Function
+
+Chi-Square with 1 DF
+
+ P( X <= x)          x   
+    0.9900        6.6349
+
+MTB > cdf 4.268;
+SUBC> chis 1.
+
+Cumulative Distribution Function
+
+Chi-Square with 1 DF
+
+         x     P( X <= x)
+    4.2680        0.9612
+
+MTB > 

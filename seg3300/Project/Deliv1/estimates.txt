@@ -1,0 +1,31 @@
+For the benefit of all SEG 3300/3700 students, the following formatting
+estimates are provided.
+
+Estimated # of Pages
+--------------------
+
+The requirements for e-video (project and product) must include:
+
+(1)    *  a description of the overall project requirements
+(.5)   *  the project objectives
+(.5-1) *  the description and allocation of activities of the project team
+(2-3)  *  a list of the main capabilities of the system -- indicate which
+          are CORE
+(1.5)  *  a list of actors and the brief description of what uniquely
+          qualifies an entity to be that type of actor
+(2)    *  the high level description of use cases (25 words or less per use
+          case)
+(1)    *  the system level use case diagram
+
+(1)  The specification of the problem is still not complete.  You are free
+     to complete the specification by making realistic assumptions.  Make a
+     list of these assumptions with brief justifications in your initial
+     requirements document. 
+
+Groups should be formed as soon as possible and the user liaison should
+transmit the team title and the members of the team to
+bob@site.uottawa.ca.
+
+Please note that the last deliverable will require the inclusion of an
+estimate of participation of each of the members of the team.  This is
+meant to discourage any "free riders" in the team.

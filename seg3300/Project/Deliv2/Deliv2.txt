@@ -1,0 +1,39 @@
+Received: from prgy.site.uottawa.ca (prgy.site.uottawa.ca [137.122.90.54])
+	by mail.site.uottawa.ca (8.9.3/8.9.3) with SMTP id QAA60759;
+	Wed, 14 Feb 2001 16:52:17 -0500 (EST)
+Date: Wed, 14 Feb 2001 16:52:18 -0500 (est)
+From: <bob@site.uottawa.ca>
+To: seg3300A@site.uottawa.ca, seg3300B@site.uottawa.ca
+Subject: Deliverable 2
+Message-ID: <Pine.WNT.3.96.1010214165119.-1015853A-100000@prgy.site.uottawa.ca>
+X-X-Sender: bob@mail.site.UOttawa.CA
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+
+                      SEG 3300
+
+Deliverable 2  (Analysis Document)
+
+Due Date:  March 9, 2001
+
+The analysis document must include:
+
+1)  Detailed description of a core USE CASE for Video Cassette Rental.
+Include:	*  One primary scenario and
+*  Three secondary scenarios.
+
+2) A Dictionary of Classes (in alphabetical order).  For each class give
+its name, its superclass (if applicable), a brief description of the class
+including any known associations, and a list of attributes.
+
+3) A Sequence diagram for each of the scenarios in 1.
+
+4) A High-level Class Diagram corresponding to the Use Case in 1.
+
+5) A description of the system interface (Screen sequences)
+
+6) A system-level Finite State Machine which includes the Use Case in 1.
+
+
+
+-- End --

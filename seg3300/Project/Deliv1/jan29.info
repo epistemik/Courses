@@ -1,0 +1,133 @@
+Students,
+
+I prefer your amalgamated objective.
+
+I recommend you state the Product Objective first, then the Project
+Objectives, first the project objectives which support the quality of
+the product, and the efficiency of the project phases (reliability,
+functionality; timeliness, meeting the schedule, etc.), then lastly,
+your objectives as a student.
+
+Prof. Probert
+********************************
+
+Issue 2:
+The requirements for e-video (project and product) must include:  (.5) * 
+the project objectives.
+
+Question:
+Is the project objectives supposed to be geared towards its place in
+SEG3300 "Learn how to work as a group at U of O/etc. and to learn how to 
+prototype a product"?
+
+OR
+
+should it be geared towards the objective of the product such as "to
+boldly make a machine where no video store has gone before, blah, blah,
+blah".
+
+OR
+
+should I incorporate the two paths into the one objective:  
+- to learn/create a prototype and the docs for SEG3300
+- build the best darn e Video machine out there.
+
+====================================================================
+
+Dear student,
+
+This souonds like a good idea for many reasons.  YOu may add this to a
+"List of Assumptions with Justifications" and provide your justifications.
+You will have to explain what a "cart" is, and what it means to "add to a
+cart".
+
+Sincerely,
+Prof. Probert
+*********************
+
+> 
+> In the specifications of the project, you require that a customer browses
+> through a catalogue and make a choice of a video or a game and then enter
+> this code into the system. What would be wrong if he just selected from
+> the on-line catalogue and 'add to cart' so to speak? I think that would be
+> easier thatn having to enter the code into the system.
+> 
+> thanks
+ 
+=======================================================================
+
+Dear Fatima and students,
+
+1.  State your assumption regarding this, and justify it in your "List of
+Assumptions with Justifications".  Would a real business assume the
+customer will always pay his/her fine?  What is reasonable for a real
+business to do?  Unless you can justify otherwise, you should try to
+handle such issues in a reasonable, realistic way.  Your suggestion of a
+threshold limit beyond which a customer will not be allowed to rent seems
+reasonable, for example.
+
+2.  You will not have to code for this project, but you can if you want
+to.  The detailed design model will be detailed enough that you (and a
+reader) will have a good idea of how the system will be implemented
+(possiby by someone else in a later course!).
+
+3.  Note to all students in SEG 3300:
+
+   YOu should consider all my responsed involving clarifying requirements
+this week as subject to your team risk analysis (at least a simplified
+form - namely - "can we include this requirement in deliverable number 1?,
+why or why not?, and if not, include it in your list of assumptions with
+justifications).
+
+   You should also have a cut-off date for incorporating customer
+requirements and wishes for each deliverable.  Wednesday, January 31 may
+be a good cut-off date for Deliverable #1, for example.
+
+   If you don't set up a cut-off date for each deliverable (but, be
+reasonable), the customer may continue to suggest new or modified
+requirements right up to the Due Date!
+
+Sincerely,
+Prof. Probert
+******************************
+> I had 2 questions:
+> 
+> 1.  If the customer doesn't pay the overdue fine, should we still allow
+> him/her to rent ? what i mean can we assume the he pays or should we put a
+> limit to the amount of fine over which a customer will not be permitted to
+> rent?
+> 
+> 2.  Are we going to program/code for this project? if not how do we
+> explain using one of the design models without talking about who and how
+> the implementation phase was done?
+> 
+> thank you for your time!
+> fatima
+ 
+=============================================================================
+
+Dear T. Nguyen and Students:
+
+I prefer well organized point form, under a heading "List of Assumptions
+with Justifications".
+
+Sincerely,
+Prof. Probert
+************
+
+> Hi professor,
+> 
+> When we write the "realistic assumption list and
+> justification" do you want it to be in point form
+> like:
+>  
+>    -Assumption 1
+>       explanation .....etc.
+>    -Assumption 2
+>       .......
+> 
+> or you want it to be in paragraph?
+> 
+> Thanks for your time
+> 
+> T.Nguyen

@@ -1,0 +1,86 @@
+Entities
+--------
+
+c = customer
+R = remote system
+
+
+States
+------
+
+Waiting = W(1..n, s): system is waiting for customer 1..n while displaying screen s.
+
+Serving = S(c, s): system is serving customer c while displaying screen s.
+
+Communicating = C(d, a, b): system is communicating with device d, sending information a and receiving information b
+
+
+Events
+------
+
+A(c, a) = customer c performs action a
+
+G(o, c) = system gives object(s) o to customer c who takes the object(s)
+
+M = A(c, main) = customer c chooses to return to system main menu 
+
+E = A(c, end): customer c chooses to end the current session 
+
+$G = A(c, $g): customer inserts greater amount of cash than required for the transaction
+
+$E = A(c, $e): customer enters exact amount of cash required for the transaction
+
+$L = A(c, $l): customer enters less cash than required for the transaction
+
+
+SCREENS
+--------
+
+WELCOME - welcomes customer to the video machine and asks to insert membership card
+PIN - asks customer to enter PIN number
+xPIN - asks customer to re-enter PIN number as the previous entry could not be validated
+MAIN - main menu - asks customer if she wants to rent or return a cassette, or pay into credit account
+RENT - asks customer to enter a cassette code, or choose a browse method
+TITLE - asks customer to enter the title of a cassette to search
+CHOOS - asks customer to choose a cassette from among those displayed
+AMNT - displays price and asks customer to confirm the rental of cassette
+PAY - asks customer to choose a payment method for the rental
+FINAL - informs customer of new account balance and reminds to take cassette, receipt and card
+END - no rental, thanks customer and reminds to take card
+OUT - informs the customer that the selected cassette is out of stock
+CASH - asks customer to insert enough cash to cover the current transaction
+TKBAL - asks customer to take the balance of cash owed
+BAL - asks customer how she wishes to pay the balance of the amount owed to system
+MORE - reminds customer that she has not yet inserted sufficient cash to cover the transaction
+
+
+ACTIONS
+--------
+
+PIN - customer enters valid PIN #
+xPIN - customer enters an invalid PIN #
+rent - customer chooses to rent a cassette
+title - customer chooses to browse cassettes by title
+info - customer enters information via the keyboard
+cx - customer chooses a cassette displayed by the system
+conf - customer confirms the rental of the displayed cassette
+acct - customer chooses to pay by credit account
+cash - customer chooses to pay with cash
+m - customer chooses to return to main menu
+e - customer chooses to end current session
+$g - customer inserts more cash than required for the transaction
+$e - customer enters exact amount of cash required for the transaction
+$l - customer enters less cash than required for the transaction
+
+
+INFORMATION
+-----------
+
+CI - customer info (age group, status, encrypted PIN #, list of cassettes, etc)
+CINFO - cassette information (name, price, etc.)
+AINFO - account information (current balance)
+SEL - information on cassettes meeting customer's criteria for search
+TRXI - transaction information (amount, customer, confirmation)
+CODE - cassette code
+in - cassette is in stock
+out - cassette is out of stock

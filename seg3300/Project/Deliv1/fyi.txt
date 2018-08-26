@@ -1,0 +1,46 @@
+Dear Students,
+
+Although it is reasonable for us to expect you in your 3rd or 4th year of
+University studies to know the boiler plate (format) requirements for
+assignments and project deliverables, it may be helpful for me to review
+them before your hand-ins for Deliverable #1.  
+
+The important elements of a boiler plate are:
+
+i)  Cover Page with:
+    - for projects:  your team name and logo, the product name and
+      logo or marketing slogan
+    - for ALL hand-ins:  the date, course code, section (if appropriate),
+      professor's name, your name, student number, e-mail (optional
+      now), assignment or deliverable number and date due.
+
+ii)  For a project deliverable:
+   
+     a)  Executive Summary (1/2 page or less)
+         - what the purpose of this deliverable is
+         - the intended reader
+         - summary of its contents (one or two sentences)
+         - what are the key points to be noticed by the reader
+
+     b)  Table of Contents (point form)
+         - titles of all headings and all sub-headings, numbered
+           legally (i.e., 1, 1.1, 1.1.1, 1.2, etc.) with 
+           corresponding page numbers
+
+     c)  Table of Figures
+         - labels and titles of all Figures with page numbers
+
+     d)  Table of Tables
+         - label and title of all tables with page numbers
+         (use the same boiler plate as in the notes for Use Cases and
+         Scenarios)
+
+     e)  Glossary of Abbreviations
+         - e.g., SET     Secure Electronic Transactions protocols
+
+     f)  References
+         - articles, books, previous reports helpful to the reader
+         - international or national standards
+
+     g)  Appendices
+         - algorithms, prototype code, test cases

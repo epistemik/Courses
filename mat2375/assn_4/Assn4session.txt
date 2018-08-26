@@ -1,0 +1,233 @@
+Worksheet size: 100000 cells
+
+MTB > set c1
+DATA> 600:750
+DATA> end.
+
+MTB > let c2 = cdf((668.94-c1)/28)
+MTB > let c2 = cdf((668.94-c1)/28)
+               X
+*** Undefined variable, illegal column or stored constant at X
+
+* ERROR * Completion of computation impossible.
+
+MTB > let  c2 = 668.94 - c1
+MTB > let c3 = c2/28
+MTB > let c4 = cdf(c3)
+MTB > let c4 = cdf(c3)
+               X
+*** Undefined variable, illegal column or stored constant at X
+
+* ERROR * Completion of computation impossible.
+
+MTB > help cdf
+MTB > cdf c3 c4
+MTB > plot c1*c4
+MTB > plot c4*c1
+MTB > name c1 '7.2.6 mu'
+MTB > name c4 '7.2.6 K(mu)'
+MTB > plot c4*c1
+MTB > tsplot c4
+
+=============================================
+
+MTB > set c6
+DATA> 425
+DATA> 710 661 664 732 
+DATA> 714 934 761 744 653 725 657 421 573.
+DATA> end
+MTB > desc c6
+
+Descriptive Statistics
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+C6                  25      667.9      664.0      666.0      154.4       30.9
+
+Variable       Minimum    Maximum         Q1         Q3
+C6               405.0      975.0      552.0      752.5
+
+MTB > %Qqplot C6; 
+SUBC>   Normal;
+SUBC>   Allpts;
+SUBC>   Table;
+SUBC>   Conf 95;
+SUBC>   Ci.
+Executing from file: D:\PROGRAM FILES\MINITAB\MACROS\Qqplot.MAC
+
+Distribution Function Analysis
+Normal Dist. Parameter Estimates (ML)
+
+Data:  C6
+Mean:    667.92 
+StDev:   151.243
+Percentile Estimates
+                     95% CI       95% CI     
+                     Approximate  Approximate
+Percent  Percentile  Lower Limit  Upper Limit
+                                             
+ 1        316.08     201.946       430.21    
+ 2        357.31     252.771       461.84    
+ 3        383.46     284.815       482.11    
+ 4        403.14     308.795       497.49    
+ 5        419.15     328.210       510.09    
+ 6        432.77     344.663       520.88    
+ 7        444.72     359.029       530.41    
+ 8        455.41     371.840       538.99    
+ 9        465.14     383.446       546.84    
+10        474.09     394.087       554.10    
+20        540.63     471.640       609.62    
+30        588.61     525.377       651.84    
+40        629.60     569.373       689.83    
+50        667.92     608.634       727.21    
+60        706.24     646.007       766.47    
+70        747.23     684.001       810.46    
+80        795.21     726.219       864.20    
+90        861.75     781.738       941.75    
+91        870.70     789.005       952.39    
+92        880.43     796.854       964.00    
+93        891.12     805.435       976.81    
+94        903.07     814.960       991.18    
+95        916.69     825.755      1007.63    
+96        932.70     838.353      1027.04    
+97        952.38     853.728      1051.02    
+98        978.53     874.000      1083.07    
+99       1019.76     905.633      1133.89    
+
+MTB > %NormPlot C6.
+Executing from file: D:\PROGRAM FILES\MINITAB\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > let k1 = 667.9 - 715
+MTB > prin k1
+
+Data Display
+
+K1    -47.1000
+
+MTB > let k2 = k1/(140/5)
+MTB > prin k2
+
+Data Display
+
+K2    -1.68214
+
+MTB > cdf k2 k3
+MTB > prin k3
+
+Data Display
+
+K3    0.0462706
+
+MTB > %NormPlot 'Control';
+SUBC>   Title "Control Norm Test".
+Executing from file: D:\PROGRAM FILES\MINITAB\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > %NormPlot 'Experimental';
+SUBC>   Title "Experimental Norm Test".
+Executing from file: D:\PROGRAM FILES\MINITAB\MACROS\NormPlot.MAC
+Macro is running ... please wait
+
+=============================================
+
+MTB > let c11 = c9-c10
+MTB > desc c11
+
+Descriptive Statistics
+
+Variable             N       Mean     Median     TrMean      StDev    SE Mean
+Differen            20      -36.6      -43.0      -38.2       82.7       18.5
+
+Variable       Minimum    Maximum         Q1         Q3
+Differen        -161.0      116.0     -111.2       16.5
+
+MTB > Paired  'Control' 'Experimental';
+SUBC>   Confidence 95.0;
+SUBC>   Test 0.0;
+SUBC>   Alternative 0;
+SUBC>   GHistogram;
+SUBC>   GBoxplot.
+
+Paired T-Test and Confidence Interval
+
+Paired T for Control - Experimental
+
+                  N      Mean     StDev   SE Mean
+Control          20     366.3      50.8      11.4
+Experime         20     402.9      42.7       9.6
+Difference       20     -36.6      82.7      18.5
+
+95% CI for mean difference: (-75.3, 2.0)
+T-Test of mean difference = 0 (vs not = 0): T-Value = -1.98  P-Value = 0.062
+
+===============================================
+
+MTB > PTwo 'Control' 'Experimental';
+SUBC>   Confidence 95.0;
+SUBC>   Test 0.0;
+SUBC>   Alternative 0.
+* ERROR * Column contains more than two distinct values.
+
+MTB > let c13 = c9-400
+MTB > let c14 = c10-400
+MTB > Save  "D:\Program Files\MiniTab\Projects\assn4.MPJ";
+SUBC>    Project;
+SUBC>    Replace.
+Saving file as: D:\Program Files\MiniTab\Projects\assn4.MPJ
+* NOTE  * Existing file replaced.
+MTB > PTwo 'Control' 'Experimental';
+SUBC>   Confidence 95.0;
+SUBC>   Test 0.0;
+SUBC>   Alternative 0;
+SUBC>   Pooled.
+* ERROR * Column contains more than two distinct values.
+
+MTB > PTwo 'Ctrl > 400' 'Expr > 400';
+SUBC>   Confidence 95.0;
+SUBC>   Test 0.0;
+SUBC>   Alternative 0;
+SUBC>   Pooled.
+
+Test and Confidence Interval for Two Proportions
+
+Success = 1
+
+Variable          X      N  Sample p
+Ctrl > 400        5     20  0.250000
+Expr > 400       13     20  0.650000
+
+Estimate for p(Ctrl > 400) - p(Expr > 400):  -0.4
+95% CI for p(Ctrl > 400) - p(Expr > 400):  (-0.682330, -0.117670)
+Test for p(Ctrl > 400) - p(Expr > 400) = 0 (vs not = 0):
+  Z = -2.54  P-Value = 0.011
+
+=============================================
+
+MTB > set c21
+DATA> 150:700
+DATA> end
+MTB > let c22 = c21/5
+MTB > let c23 = 83-c22
+MTB > let c24 = c23/2
+MTB > cdf c24 c25
+MTB > let c26 = 1-c25
+MTB > plot c26*c22
+
+MTB > set c21 
+DATA> 700:950
+DATA> end
+MTB > let c22 = c21/10
+MTB > let c23 = 83-c22
+MTB > let c24 = c23/2
+MTB > cdf c24 c25
+MTB >  let c26 = 1-c25
+MTB >  plot c26*c22
+
+=============================================
+
+MTB > %NormPlot '7.2.6(e)';
+SUBC>   Title "Normality Test".
+Executing from file: D:\PROGRAM FILES\MINITAB\MACROS\NormPlot.MAC
+Macro is running ... please wait
+MTB > name k3 '7.2.6(f) p-value'
+MTB > name k1 '7.2.6(f) x-bar - mu'
+MTB > name k2 'k2/(sigma/sqrt(n))'
+MTB > 

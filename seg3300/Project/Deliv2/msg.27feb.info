@@ -1,0 +1,82 @@
+X-cs: R
+From: Mark Sattolo <msattolo@omnisig.com>
+X-RS-ID: <Default>
+X-RS-Flags: 0,0,1,1,0,0,0
+X-RS-Sigset: 0
+To: Patrick Hunter <patrickh@home.com>, Tu Nguyen <tnguy009@yahoo.com>
+Subject: (Fwd) Re: seg3300 deliverable 2
+Cc: hunter_patrick@hotmail.com
+Reply-to: msattolo@omnisig.com
+MIME-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-transfer-encoding: 8BIT
+Date: Wed, 28 Feb 2001 09:51:17 -0500
+
+
+Good Morning,
+
+	Based on class yesterday, I have my doubts now that secondary 
+scenario #2 I suggested is actually a secondary scenario.  Prof.Probert 
+seems to want secondary scenarios to be high risk situations, so I 
+thought we should change the ending of this scenario to one where the 
+user does not insert any cash, or perhaps not sufficient cash, to cover 
+the rental, then the system has to deal with this.   If we go with "not 
+enough cash", then I guess we should have the system display a 
+message requesting more cash, then timing out finally, returning the 
+previously deposited money, and cancelling the transaction.  Pat - this 
+will impact on your sections most, so let me know if you have any 
+objections to this change or another suggestion. 
+
+	Other than that, I think we should all have our initial drafts done by 
+now.  So, by Friday at the latest, we should send these versions to each 
+other so we have the weekend to look over each other's stuff and 
+harmonize any different ideas we have, and make suggestions for the 
+overall group effort.  Then we can have final versions ready for assembly 
+into the boilerplate for early next week.  If there are any significant 
+disagreements, then we may want to meet next Tues. or Wed. to deal 
+with it.
+
+cheers, 
+
+Mark.
+
+================================================
+Hi,
+
+ Re the core use case for deliverable #2, it seems pretty clear that it has
+to be Renting a cassette, so we need the primary scenario and 3 
+secondary scenarios for this case.  I have come up with some 
+suggestions below for what I think are some typical and not too involved 
+scenarios.  I have put what should be the most typical actions in the 
+primary scenario, then come up with some alternatives for the 
+secondary scenarios.
+
+Primary:
+ authentication of user, enter name of film, choose one cassette, 
+finalize rental, pay from credit account, user takes cassette.
+
+Secondaries:
+
+a) authentication fails.
+
+b) authentication of user, enter code for film, finalize rental, pay by
+cash, user takes cassette.
+
+c) authentication of user, enter code for film, film not in stock, user
+exits.
+
+ These scenarios will show the actions of the system in a couple of 
+common situations, and also show some exceptional situations where 
+some errors or faults occur.
+
+ Let me know if you have any concerns with these scenarios or if you 
+have any suggestions for better ones.  Otherwise, I think we can each go
+ahead with our sections.  Until I hear otherwise, I'll assume that Pat is
+doing parts 1 & 3, Tu has 2 & 4, and I am doing 5 & 6.
+
+cheers,
+
+Mark.
+
+
+-- End --

@@ -1,0 +1,54 @@
+X-cs: R
+From: Mark Sattolo <msattolo@omnisig.com>
+X-RS-ID: <Default>
+X-RS-Flags: 0,0,1,1,0,0,0
+X-RS-Header: In-reply-to: <20010221015256.705.qmail@web3807.mail.yahoo.com>
+X-RS-Header: References: <3A919488.12564.BFE19F@localhost>
+X-RS-Sigset: 0
+To: Tu Nguyen <tnguy009@yahoo.com>,Patrick Hunter <patrickh@home.com>
+Subject: Re: seg3300 deliverable 2
+Cc: hunter_patrick@hotmail.com
+Reply-to: msattolo@omnisig.com
+MIME-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-transfer-encoding: 8BIT
+Date: Wed, 21 Feb 2001 00:02:20 -0500
+
+
+Hi,
+
+	Re the core use case for deliverable #2, it seems pretty clear that it 
+has to be Renting a cassette, so we need the primary scenario and 3 
+secondary scenarios for this case.  I have come up with some 
+suggestions below for what I think are some typical and not too involved 
+scenarios.  I have put what should be the most typical actions in the 
+primary scenario, then come up with some alternatives for the 
+secondary scenarios.
+
+Primary:
+	authentication of user, enter name of film, choose one cassette, 
+finalize rental, pay from credit account, user takes cassette.
+
+Secondaries:
+
+a) authentication fails.
+
+b) authentication of user, enter code for film, finalize rental, pay by cash, 
+user takes cassette.
+
+c) authentication of user, enter code for film, film not in stock, user exits.
+
+	These scenarios will show the actions of the system in a couple of 
+common situations, and also show some exceptional situations where 
+some errors or faults occur.
+
+	Let me know if you have any concerns with these scenarios or if you 
+have any suggestions for better ones.  Otherwise, I think we can each 
+go ahead with our sections.  Until I hear otherwise, I'll assume that Pat is 
+doing parts 1 & 3, Tu has 2 & 4, and I am doing 5 & 6.
+
+cheers,
+
+Mark.
+
+-- End --

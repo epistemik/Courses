@@ -1,0 +1,572 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0048)http://dockman.site.uottawa.ca/csi5304/logic.htm -->
+<HTML><HEAD><TITLE>Logic</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId>
+<META content="t, default" name="Microsoft Border"></HEAD>
+<BODY><!--msnavigation-->
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <P align=center><FONT 
+      size=6><STRONG>Logic</STRONG></FONT><BR><NOBR>[&nbsp;<A 
+      href="http://dockman.site.uottawa.ca/csi5304/">Home</A>&nbsp;]</NOBR> 
+    </P></TD></TR><!--msnavigation--></TBODY></TABLE><!--msnavigation-->
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR><!--msnavigation-->
+    <TD vAlign=top>
+      <H1><O:P></O:P></H1>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><SPAN 
+      style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN></SPAN><SPAN style="mso-bidi-font-size: 10.0pt"><FONT size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>is a formal language for expressing k precisely to permit<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>doing inferencing (production d’inférences<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp; </SPAN>f) 
+      (deductions)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>has syntax rules (simple BNF)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>has inference rules (régles d’inférences<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp; 
+      </SPAN>f)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>(how to get new statements from old)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>needs strategies and an interpreter (interpreteur)<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>(to apply the inf rules)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>the interpreter can be a human or a machine<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>machines usually work either forward or backward. People<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>can mix strategies, i.e. "jump around" in a proof<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;</FONT></SPAN><SPAN 
+      style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><O:P> 
+</O:P></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>All logics are concerned with proving, i.e a sequence of valid 
+      inference steps (one application of an inf rule) leading to a desired 
+      conclusion. <O:P></O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>Predicate calculus<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp; 
+      </SPAN>(calcul des prédicats)<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp; 
+      </SPAN>(first-order) (premier ordre<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp; </SPAN>m)(pc 
+      or fol) is the lingua franca of k rep. You should always know how any k 
+      rep can be expressed in fol.&nbsp;<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>propositional logic (logique des propositions) is a simple logic 
+      with no variables. It may be thought of as a subset of pc<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;predicate: (prédicat<SPAN 
+      style="mso-bidi-font-size: 10.0pt; mso-spacerun: yes">&nbsp;&nbsp; 
+      </SPAN>m)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>an abstraction of a natural language statement. Predicates say 
+      something about their arguments. Usually comes from a noun, a verb, or an 
+      adjective.<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>man<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>man(X)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X is a man<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>walks<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>&nbsp;&nbsp; <SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt"></SPAN>walks(X)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X walks<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>big<SPAN style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt"> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>big(X)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X is big<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>father of<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>father-of(X,Y)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X is father of Y<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>knows<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>&nbsp;&nbsp; <SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt"></SPAN>knows(X,Y)<SPAN 
+      style="mso-tab-count: 1; mso-bidi-font-size: 10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X knows Y</FONT></SPAN></P>
+      <P class=MsoNormal><O:P></O:P></P>
+      <H1>Variables and quantification<O:P> </O:P></H1>
+      <P class=MsoNormal>&nbsp;<O:P> </O:P></P>
+      <H3><SPAN style="FONT-WEIGHT: normal">Pred calc improves on prop calc by 
+      introducing arguments, called terms. <O:P></O:P></SPAN></H3>
+      <H3><SPAN style="FONT-WEIGHT: normal">A term names something,<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>either <O:P></O:P></SPAN></H3>
+      <BLOCKQUOTE>
+        <BLOCKQUOTE>
+          <P class=MsoNormal><FONT size=4>&nbsp;A constant<O:P> 
+</O:P></FONT></P>
+          <P class=Outlinebody1><SPAN style="mso-tab-count: 1"><FONT 
+          size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </FONT></SPAN><FONT 
+          size=4>1, a, ottawa, tom<O:P> </O:P></FONT></P>
+          <P class=Outlinebody1><FONT size=4>&nbsp;A variable<O:P> 
+          </O:P></FONT></P>
+          <P class=Outlinebody1><SPAN style="mso-tab-count: 1"><FONT 
+          size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </FONT></SPAN><FONT 
+          size=4>X, y, var1<O:P> </O:P></FONT></P>
+          <P class=Outlinebody1><FONT size=4>A functional term<O:P> 
+          </O:P></FONT></P>
+          <P class=Outlinebody1><SPAN style="mso-tab-count: 1"><FONT 
+          size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </FONT></SPAN><FONT 
+          size=4>F(x), 2*3+1, father of john and mary<O:P> </O:P></FONT></P>
+          <H3><FONT size=4>&nbsp;</FONT><O:P> </O:P></H3></BLOCKQUOTE></BLOCKQUOTE>
+      <H3 style="MARGIN-LEFT: 0in"><SPAN 
+      style="FONT-WEIGHT: normal">V</SPAN>ariables stand for something 
+      unspecified. They have a <B style="mso-bidi-font-weight: normal">scope</B> 
+      in which they mean the same thing. Often the scope is not explicit: you 
+      must know the conventions.<O:P> </O:P></H3>
+      <P class=MsoNormal><B>&nbsp;Qu<B 
+      style="mso-bidi-font-weight: normal">antification</B>: vars are 
+      either:<O:P> </O:P></B></P>
+      <P class=MsoNormal>&nbsp;<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <FONT 
+      size=4>&nbsp; </FONT></SPAN><FONT size=4><I 
+      style="mso-bidi-font-style: normal">universally</I> quantified (any 
+      substitution allowed within scope)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN style="FONT-FAMILY: Symbol">"</SPAN>x<SPAN 
+      style="FONT-FAMILY: Symbol">"</SPAN>y<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>likes(x,y)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>anything x likes anything y<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>from this we can conclude, e.g.&nbsp;<O:P> 
+      </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>likes(saddam,bush)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4>likes(my vacuum cleaner, 2)<O:P> 
+      </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><I style="mso-bidi-font-style: normal">existentially</I> quantified 
+      (something particular is being refered <O:P></O:P></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4>to, usually depending on something else). Acts 
+      like a constant.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN style="FONT-FAMILY: Symbol">$</SPAN>x interesting(x) &amp; 
+      difficult(x)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4>there exists something that is interesting and 
+      difficult<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;the only thing we can conclude from 
+      this is<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN style="FONT-FAMILY: Symbol">$</SPAN>x interesting(x) 
+      <O:P></O:P></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4><SPAN style="FONT-FAMILY: Symbol">$</SPAN>x 
+      difficult(x)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;<SPAN 
+      style="FONT-FAMILY: Symbol"><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>"</SPAN>x <SPAN style="FONT-FAMILY: Symbol">$</SPAN>y<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>likes(x,y)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>anything x likes something y (that<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4>depends on x)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>here, the y depends on the x, i.e. choose 
+      any x, then there is a corresponding y (which may or may not belong to 
+      other choices for x)&nbsp;<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><B style="mso-bidi-font-weight: normal"><FONT 
+      size=4>rule</FONT></B><FONT size=4>: any <SPAN 
+      style="FONT-FAMILY: Symbol">$</SPAN> var following a <SPAN 
+      style="FONT-FAMILY: Symbol">"</SPAN> var depends on it<O:P> 
+      </O:P></FONT></P>
+      <P class=MsoNormal><I style="mso-bidi-font-style: normal"><FONT 
+      size=4><SPAN 
+      style="mso-bidi-font-size: 10.0pt">free</SPAN></FONT></I><FONT 
+      size=4><SPAN style="mso-bidi-font-size: 10.0pt"> (not quantified and hence 
+      uncommitted)<O:P> </O:P></SPAN></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>all they say is that the same thing is being refered to in more 
+      than one place<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;</FONT></SPAN><SPAN 
+      style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><O:P> 
+</O:P></SPAN></P>
+      <H1>Rules of Inference<O:P> </O:P></H1>
+      <P class=MsoNormal><FONT size=4><I 
+      style="mso-bidi-font-style: normal"><SPAN 
+      style="mso-bidi-font-size: 10.0pt">rule of inference</SPAN></I><SPAN 
+      style="mso-bidi-font-size: 10.0pt"><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp; </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>(régle d’inférences<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>f) 
+      a rule that permits concluding (conclure) a new statement based on the 
+      truth of one or more others (an inf step) (pas d'inférence).<O:P> 
+      </O:P></SPAN></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;Ex: <SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>modus ponens<SPAN style="mso-tab-count: 1"> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN></FONT></SPAN></P>
+      <BLOCKQUOTE>
+        <BLOCKQUOTE>
+          <BLOCKQUOTE>
+            <BLOCKQUOTE>
+              <BLOCKQUOTE>
+                <P class=MsoNormal><SPAN 
+                style="mso-bidi-font-size: 10.0pt"><FONT size=4>P =&gt; Q<O:P> 
+                </O:P></FONT></SPAN></P></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE>
+        <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+        size=4><SPAN 
+        style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        </SPAN><SPAN 
+        style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        </SPAN>P</FONT></SPAN></P>
+        <BLOCKQUOTE>
+          <BLOCKQUOTE>
+            <BLOCKQUOTE>
+              <BLOCKQUOTE>
+                <P class=MsoNormal><FONT 
+            size=4>_______</FONT></P></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>Q<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><FONT size=4><I 
+      style="mso-bidi-font-style: normal"><SPAN 
+      style="mso-bidi-font-size: 10.0pt">resolution</SPAN></I><SPAN 
+      style="mso-bidi-font-size: 10.0pt"><SPAN style="mso-spacerun: yes">&nbsp; 
+      </SPAN>(résolution f) is a generalization of mp (P =&gt; Q is defined as 
+      -P V Q):<O:P> </O:P></SPAN></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>-P V Q<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>P<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>______<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>Q <O:P></O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>or similarly with -Q giving&nbsp; -P<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><FONT size=4><SPAN 
+      style="mso-bidi-font-size: 10.0pt">&nbsp;</SPAN><I 
+      style="mso-bidi-font-style: normal"><SPAN 
+      style="mso-bidi-font-size: 10.0pt">clause</SPAN></I><SPAN 
+      style="mso-bidi-font-size: 10.0pt"><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>(clause<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>f) a formula 
+      with no ands and no quantifiers (quantificateur<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>m); only ors and nots. 
+      <O:P></O:P></SPAN></FONT></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>clause 1<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>A1, A2, A3, ....An<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>clause 2<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>A1, A2, -A3, .....Am<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>________________<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>resolvent<SPAN style="mso-tab-count: 1">&nbsp;&nbsp; </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>A1, A2, ...An, ...Am (all except A3)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>The elements of clauses are called <I 
+      style="mso-bidi-font-style: normal">literals</I>. (littéral )<O:P> 
+      </O:P></FONT></SPAN></P>&nbsp; 
+      <H1>Resolution in PC<O:P> </O:P></H1>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>Can do <I style="mso-bidi-font-style: normal">forward</I> or <I 
+      style="mso-bidi-font-style: normal">backward</I> resolution, however 
+      usually do <I style="mso-bidi-font-style: normal">backward</I>:<O:P> 
+      </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>assuming the axioms are in clausal form (forme clausale<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>f), we try to obtain a 
+      contradiction (contradiction f) of the negated (nié) goal with the axioms. 
+      If we do and the axioms are consistent (logique), then the goal must be 
+      true.<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+      style="mso-bidi-font-size: 10.0pt"><FONT size=4>Example 
+      <O:P></O:P></FONT></SPAN></B></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>P(X)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X is prime<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>O(X)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X is odd<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>X = Y<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>equality<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>s(X)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>the square function (normally written X<SPAN 
+      style="mso-text-raise: 3.0pt">2</SPAN>)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;any prime except 2 is odd:<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>All X <SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>P(X) &amp; ~ X=2 =&gt; O(X)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>if a number is odd, its square is odd:<O:P> 
+</O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>All X<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>O(X) =&gt; O(s(X))<SPAN 
+      style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>note X assumed to be a 
+      number<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;7 is a prime (not odd):<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>P(7)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;~ 7 = 2<SPAN style="mso-tab-count: 1"> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>(logic needs everything stated!!!!)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;Prove:<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>the 
+      square of 7 is odd.<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;In clause form:<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;1<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>~ P(X) v X = 2 v O(X)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;2<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>~O(X) v O(s(X))<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;3<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>P(7)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;4<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>~ 7 = 2<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;neg goal (5)<SPAN style="mso-spacerun: yes">&nbsp; 
+      </SPAN>~O(s(7))<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4>&nbsp;Proof (preuve f):<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>1 R 3 yields<SPAN style="mso-tab-count: 1"> </SPAN>7 = 2 v 
+      O(7)<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>x/7<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>6 R 4<SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>O(7)<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-bidi-font-size: 10.0pt"><FONT 
+      size=4><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>O(7) R 2<SPAN style="mso-tab-count: 1">&nbsp; </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>O(s(7))<SPAN 
+      style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </SPAN>x/7<O:P> </O:P></FONT></SPAN></P>
+      <P class=MsoNormal><SPAN style="mso-tab-count: 1"><FONT 
+      size=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      </FONT></SPAN><FONT size=4><SPAN style="mso-tab-count: 1">&nbsp; 
+      </SPAN>O(s(7)) R 5<SPAN style="mso-tab-count: 1"> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>nil<O:P> 
+      </O:P></FONT></P>
+      <HR>
+
+      <H1><SPAN 
+      style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><B 
+      style="mso-bidi-font-weight: normal"><SPAN 
+      style="mso-spacerun: yes">&nbsp;</SPAN>Practice in First Order Logic<O:P> 
+      </O:P></B></H1>
+      <P class=MsoNormal><FONT size=4>&nbsp;1. Try to express these statements 
+      in natural language:<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;a) (all x (ex y ( or (not (planet 
+      x))(not (majorspecies x y))<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>(intelligent y))))<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;b) (and (all x (if (swims x)(or 
+      (breathe x air) (breathe x water))))(ex y (and (breathe y air)(swims 
+      y))))<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;c) (all s (if (ex x (all y (and 
+      (member x s) (member y s)<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>(larger x y)))) (hasmaximum s)))<O:P> 
+      </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;Note syntax (if A B) means if A then 
+      B.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;Now try to write these in Prolog. 
+      How much is not expressible?<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;2. Try to express in fol:<O:P> 
+      </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>a) Some computers are reliable and are 
+      well maintained.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>b) Some computers are reliable if they are 
+      well maintained.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>c) Some computers are reliable only if 
+      they are well maintained.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>d) Some computers are not reliable even if 
+      they are well maintained.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>e) Any computer is reliable only when it 
+      is well maintained.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>3. Put the following in clause form. 
+      <O:P></O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>Then using 
+      resolution, decide if there are any intellectuals :<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>1. Mary likes 
+      Bach or Mozart<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>2. John does not 
+      like Debussy or Ravel<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>3<SPAN 
+      style="mso-spacerun: yes">&nbsp; </SPAN>Bach, Mozart, Debussy, and Ravel 
+      are classical music<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>4. Mary and John 
+      are students.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>5. Students are 
+      persons.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal style="MARGIN-LEFT: 13pt"><FONT size=4>6. Persons who 
+      like classical music are intellectuals.<O:P> </O:P></FONT></P>
+      <P class=MsoNormal><FONT size=4>&nbsp;</FONT><O:P> </O:P></P><SPAN 
+      style="FONT-FAMILY: Times; FONT-SIZE: 14pt; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><BR 
+      clear=all 
+      style="PAGE-BREAK-BEFORE: always; mso-special-character: line-break"></SPAN><!--msnavigation--></TD></TR><!--msnavigation--></TBODY></TABLE></BODY></HTML>
