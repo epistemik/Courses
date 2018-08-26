@@ -1,0 +1,1 @@
+/Mystery Program -- what does it do ?////variable X = memory location 23///[1]   DSP  [1]      BYTE 91      BYTE 00      BYTE 02      SUB   X      JZ   [2]      ADD   X      INC      BYTE 39      BYTE 00      BYTE 02      JMP  [1][2]   HLTX     BYTE  23

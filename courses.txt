@@ -1,0 +1,26 @@
+
+csi1100	Intro to Computer Science I			              Sylvia Boyd                 Pascal          Fall 1998
+csi1101	Intro to Computer Science II			          Bob Holte                   Pascal          Winter 1999
+
+csi2111	Computer Architecture I				              Hasan Ural                  Pascal          Fall 1999
+csi2114	Data Structures					                  Sam Scott                   Pascal          Summer 1999
+csi2121	Computer Architecture II				          Mario Marchand              Asm             Winter 2000
+csi2131	File Management					                  Ken Barker                  C               Winter 2000
+csi2165	Prolog Concepts Laboratory				          Jelbar Sayyad               Prolog          Fall 1999
+csi2172	C++ Concepts Laboratory				              Istvan Hernadvolgyi         C++             Fall 1999
+
+csi3103	Data Transmission & Computer Networks	      	  George White                Text only       Fall 2000
+csi3105	Design & Analysis of Algorithms I			      Sylvia Boyd                 C               Fall 2000
+csi3125	Concepts of Programming Languages			      Stan Szpakowicz             Scheme, ML      Fall 2000
+csi3150	Computational Methods for Numerical Problems	  Ivan Stojmenovic            C               Winter 2000
+csi3310	Operating System Principles		              	  Mario Marchand              Java            Summer 2000
+csi3317	Database Management Systems			              Cory Butz                   Sql             Fall 2000
+
+seg3300	Intro Software Engineering				          Bob Probert                 Text only       Winter 2001
+
+mat1341	Intro to Linear Algebra				              Remi Vaillancourt           -               Winter 1998
+mat2341	Linear Algebra I					              Philip Scott                -               Fall 1999
+mat2343	Elements of Discrete Mathematics			      Abdellah Sebbar             -               Winter 2000
+mat2371	Intro to Probability					          Mahmoud Zarepour            -               Fall 1999
+mat2375	Intro to Statistics					              Mahmoud Zarepour            -               Winter 2000
+

@@ -1,0 +1,120 @@
+{* CSI 1101-X,  Winter, 1999  *}
+{* Assignment 6, Question #1 *}
+{* Identification: Mark Sattolo, student# 428500 *}
+{* tutorial group DGD-4, t.a. = Jensen Boire *}
+
+UNIT  A6Q1TPU ;
+
+INTERFACE 
+
+type
+    nodeptr = ^node ;
+    stackitem = string ;
+    node = record
+             value: stackitem ;
+             next: nodeptr
+           end ;
+    stack = nodeptr ;
+
+var
+   memory_count: integer ;
+
+procedure get_node( var P: nodeptr );
+procedure return_node(var P: nodeptr) ;
+procedure create(var S:stack);
+procedure destroy(var S: stack);
+function is_empty(S:stack): boolean ;
+procedure top( s:stack; var v:stackitem );
+procedure pop(var S:stack);
+procedure push(v:stackitem; var S:stack);
+
+IMPLEMENTATION
+
+{******* MEMORY MANAGEMENT PROCEDURES **********}
+
+{ get_node - Returns a pointer to a new node. }
+procedure get_node( var P: nodeptr );
+BEGIN
+     memory_count := memory_count + 1 ;
+     new( P )
+END ;
+
+{ return_node - returns the dynamic memory to which P points to the
+ global pool. }
+procedure return_node(var P: nodeptr) ;
+BEGIN
+     memory_count := memory_count - 1 ;
+     P^.value := 'I am free' ;
+     P^.next := nil ;
+     dispose( P )
+END ;
+
+{************ IMPLEMENTATION of 'STACK' *****************}
+
+procedure create(var S:stack);
+BEGIN
+     S := nil
+END; { proc create }
+
+procedure destroy(var S: stack);
+BEGIN
+     if S <> nil then
+	BEGIN
+	destroy(S^.next);
+	return_node(S) ;
+	S := nil          { optional, simply as an aid to debugging }
+	END ;
+END; { proc destroy }
+
+function is_empty(S:stack): boolean ;
+BEGIN
+     is_empty := (S = nil)
+END; { fxn is_empty }
+
+procedure top( s:stack; var v:stackitem );
+BEGIN
+     if is_empty(S) then
+	BEGIN
+	writeln('** error, tried to top an empty stack **') ;
+	writeln('hit enter once or twice to halt the program');
+	readln; { clears the input if there is any left }
+	readln; { this is the one the user enters }
+	halt
+	END { if }
+     else
+	BEGIN
+	v := s^.value
+        END { else }
+END; { proc top }
+
+procedure pop(var S:stack);
+var
+   temp: nodeptr;
+BEGIN
+     if is_empty(S) then
+	BEGIN
+	writeln('** error, tried to pop an empty stack **') ;
+	writeln('hit enter once or twice to halt the program');
+	readln; { clears the input if there is any left }
+	readln; { this is the one the user enters }
+	halt
+	END { if }
+     else
+	BEGIN
+	temp := S;
+	S := S^.next ;
+	return_node(temp)
+        END { else }
+END; { proc pop }
+
+procedure push(v:stackitem; var S:stack);
+var
+   temp: nodeptr;
+BEGIN
+     temp := S ;
+     get_node( S );
+     S^.value := v ;
+     S^.next := temp
+END; {proc push }
+
+END.

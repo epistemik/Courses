@@ -1,0 +1,26 @@
+
+Converting Pascal programs to Delphi
+
+1. Start Delphi, or start a new Application.
+   (Close the Form1 and Object Inspector).
+   Unit1 should be present in a window.
+
+2. Open Project/Options:Linker and be sure that 
+   "Generate console application" is checked.
+   Choose OK if necessary.
+
+3. Choose View/Project Source to obtain
+   Project1 in the window.
+
+4. Paste in the desired pascal code in Project1
+   from after the {$R *.RES} line to the end of the file.
+
+5. Choose File/Save Project As... and go to the desired
+   folder, then click OK to save Unit1 as Unit1.pas,
+   then when the second window comes up, pick a new name
+   for the program and save as a Delphi project(*.dpr) 
+
+6. Add any other needed units to the 'uses' section as
+   e.g. btadt in 'btadt.pas' .
+
+7. Choose File/Save or Save All to save the settings.

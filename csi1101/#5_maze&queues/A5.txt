@@ -1,0 +1,152 @@
+CSI 1101                   ASSIGNMENT #5
+
+due date: 10:40 p.m., Wednesday, March 3, 1999
+issue date: Monday, February 15, 1999.
+
+You must do this assignment INDIVIDUALLY and follow all the
+general instructions and programming standards for the course
+see the course home page for these).
+
+Marking Scheme
+ 10 marks -- programming standards
+ 20 marks -- question 1(a) - queue implementation with pointers
+ 50 marks -- question 1(b) - breadth first search
+            					 (10 marks for being "implementation independent")
+ 20 marks -- question 2    - circular array queue implementation
+---------
+100 marks total
+
+
+PROGRAM HANDOUT
+-----------------
+In this assignment you are given PART of the final program and your
+job is to write the remaining parts of the program.
+Use a5q1.pas for question #1, and a5q2.pas for question #2.
+
+You must use the given parts of the program without changing them.
+
+WHAT TO HAND IN
+----------------
+Two programs (and their executables)
+  - a5q1.pas contains your answer for question #1
+  - a5q2.pas contains your answer for question #2
+ 
+Question 1.
+-----------
+(a) Using the type definitions given in a5q1.pas write the procedures
+    and function for the following queue operations
+     * create_empty(var Q:queue) - sets Q to be the empty queue
+     * is_empty(Q:queue) - returns TRUE if Q is empty, FALSE otherwise
+     * destroy(var Q:queue) - frees all dynamically allocated memory
+       associated with Q
+     * enqueue( V:element_type; var Q:queue ) - enqueues V onto Q
+     * serve( var Q:queue ; var V:element_type ) - serves a value
+       off of Q; the value served is returned in V.
+
+
+(b) Write a Pascal procedure
+          procedure breadth_first_search(var M:maze;
+                               var path: element_type;
+                               var is_solution:boolean);
+
+implementing the "breadth first search" algorithm for finding
+a shortest path that "solves" the given maze M.  This procedure returns
+TRUE in is_solution if a solution for M is found, and FALSE in
+is_solution if no solution is found.  If a solution is found, it is
+returned in the parameter named "path".
+
+To briefly summarize what was said in class, "breadth first search"
+uses a queue to generate all sequences in increasing order of length.
+Each element of the queue is a sequence - a Pascal string (sequence
+of characters) in this assignment.  The algorithm initializes
+the queue to contain just the empty sequence (empty string)
+and repeatedly does the following:
+   - serve a sequence S off of the queue,
+   - extends S by one character in all possible ways, and
+   - enqueues each of these extensions.
+
+We discussed in class how to apply this general algorithm to the
+problem of finding an optimal path through a maze -- a path is a sequence
+of "moves", where the possible moves are up, right, left, and down
+(these are represented by individual characters in a5q1.pas, so
+a path is just a string).
+
+Your procedure should stop as soon as a solution is generated, and
+it should not put onto the queue sequences that are "illegal".
+You can test if a path is legal and if it is a solution by calling
+
+    procedure check_path ( var path:element_type; var M:maze;
+                           var ok: boolean;
+                           var is_solution: boolean );
+
+Given a path and a maze M this procedure checks if the path is
+legal (returns ok = TRUE) or illegal (returns ok = FALSE), and,
+if the path is legal, it checks if the path is a solution (returns
+is_solution = TRUE) or not (returns is_solution = FALSE).
+
+A path is illegal if:
+   - it tries to move into a square containing a wall ('#' character)
+   - it tries to move outside the maze (e.g. going up if you are already
+        in the top row)
+   - it is too long
+   - it contains a cycle
+A legal path is a solution if it leads from the starting position
+(the top left corner) to the goal position (the bottom right corner).
+
+To get full marks on this question, your breadth_first_search
+procedure must be "implementation independent".  This means it
+must not depend in any way on the fact that the "queue" type, in
+question #1, is a record of pointers, or that nodes are dynamically
+allocated memory.  For example, it should not contain any occurrences
+of Q.front^ (if Q is queue variable) because that only make sense with
+the type definitions used in question #1 - it will not work in question #2.
+If your breadth_first_search procedure is truly "implementation 
+independent" you should be able to use it, without any changes at all, 
+for question #2.
+
+
+
+Question 2.
+-----------
+Write type definitions suitable for implementing queues with
+a CIRCULAR array.  You must use NO dynamically allocated memory
+in your implementation of queues for this question.
+
+Using these type definitions write the procedures and functions for the
+queue operations create_empty, is_empty, destroy, enqueue, and serve.
+
+Note that the purpose of destroy(var Q:queue) is to returns all
+the dynamically allocated memory associated with Q  - because you
+are not permitted to use dynamically allocated memory used for queues
+in this question, destroy does not have to do anything.
+
+
+SAMPLE INPUT
+------------
+The read_maze procedure reads the input for the program.
+It first prompts you for the size of the maze - in this assignment
+mazes are always square.  So, to say that a maze is 6x6 you just
+enter the number 6.
+After that you enter one line for each row of the maze.
+If the maze is NxN, you will enter N lines and each line will
+contain N characters -- these characters must all be either
+    '#' - represents a "wall" (i.e. a square that you are not permitted
+          to enter)
+or  '.' - represents a "free" square (one that you are permitted to enter).
+
+It is very important that you enter no characters other than '#' or '.' --
+for example, you cannot enter a blank to indicate a free square. The input
+program does not check this but check_path may not work correctly if you
+enter characters other than '.' and '#'.
+
+Here is some example input (a 6X6 maze):
+6
+.#....
+...##.
+###...
+....##
+...###    
+......
+
+This maze has a solution - the path drrurrrddlldlddrrr.
+

@@ -1,0 +1,1 @@
+The Correct Output (machine language program) for a8asm1.dat  8 39  0 44 91  0 42 61  0 43 19  0 29 39  0 46 91  0 44 10 39  0 44 91  0 46 15  0  7 99  0 43 39  0 45  1  0 44  1  0 45 64 25 07 00 00 00

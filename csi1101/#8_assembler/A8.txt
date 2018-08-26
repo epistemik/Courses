@@ -1,0 +1,130 @@
+CSI 1101                    ASSIGNMENT #8 (FINAL)
+
+/* due date:  10:40 p.m., Wednesday, April 7, 1999 */
+issue date: Monday, March 22, 1999.
+
+You must do this assignment INDIVIDUALLY and follow all the general instructions 
+and programming standards for the course (see the course home page for these).
+
+Marking Scheme:
+--------------
+ 25 marks -- programming standards (see below)
+ 15 marks -- "update" procedure
+ 25 marks -- "create_opcode_table" procedure
+ 25 marks -- "lookup" procedure
+ 50 marks -- "read_asm_line" procedure
+ 60 marks -- "assemble" procedure
+---------
+200 marks total
+
+
+Question 1.
+-----------
+Write a program that reads in an assembly language program for our "toy architecture" 
+and writes out the corresponding machine language program (in other words, the 
+program you are writing is an assembler for our toy assembly language).
+
+	Use program a8.pas as your starting point.  It provides a well-structured framework 
+within which you must write certain procedures and complete the partially coded main 
+algorithm.  It has thorough descriptions of what each procedure is to do and several hints.
+a8.pas also has instructions stating what you may do, what you must do, and what you
+must not do - be sure to follow all of these.
+
+There are many aspects of a8.pas that you are free to change.
+However, the version you hand in MUST -
+  - use the 2-pass assembly algorithm shown in class and described in a8.pas
+  - have procedures named "update", "create_opcode_table", "lookup", "read_asm_line", 
+	and "assemble", that function as described in a8.pas (but, you can add parameters to
+	these procedures if you like)
+  - have one data type, called "table", used for both the symbol table and the opcode table, 
+	that is a linked data type using dynamically allocated memory
+  - be well structured (decompose long procedures into shorter ones in a meaningful way; 
+  	avoid duplicate code; etc.)
+  - be well documented: every procedure you hand in must be fully documented -- the 
+	comments that are provided in a8.pas are a good starting point but if you alter the 
+	given procedures (e.g. the algorithm they use, or if you add parameters) you should
+	change the comments accordingly and any new procedures you add must be fully 
+	documented.
+  - accurately keep track of how much memory has been dynamically allocated but not 
+	yet returned (e.g. using memory_count) and print out this number at the end so that 
+	memory leaks can be detected
+  - work with the exact input file formats described in a8.pas and generate output exactly 
+	as described in a8.pas (in particular there must be one line in the machine language 
+	program exactly corresponding to each non-comment, non-empty line in the assembly
+	language program)
+  - satisfy all the course's general regulations and programming standards
+
+Note: your program is not required to do any error checking.
+
+The assembly language is the one we have seen in class, with a few small extensions and 
+restrictions
+  - lines with a '/' in column 1 are comments that are to be ignoredby your program
+  - there can be empty input lines; these are also to be ignored
+  - "identifiers" - statement labels, mnemonics, and variable names - are at most 4 
+	characters in length and cannot contain any blanks (for example, the label '[ 1]' on 
+	page 94 of the notes is NOT an acceptable label in our assembly language).
+  - statement labels must begin in column 1, and if a non-comment statement has no label 
+	column 1 must be blank (in particular, a mnemonic can never start in column 1)
+  - there is a special mnemonic, 'BYTE', that we have not seen in class.  It is used (mainly) 
+	to reserve space for variables -- the variable name would be entered as the 
+	"statement label", BYTE as the mnemonic, and the operand would be the numerical 
+	initial value for the variable (between -99 and 99).
+
+	As an example, here is an assembly language program (a8asm0.dat) that initializes 
+X to 17 and Y to -25 and prints out their sum:
+
+        column 1
+        |
+        |
+            LDA  X
+            ADD  Y
+            STA  Sum
+            DSP  Sum
+            HLT
+        X   BYTE 17
+        Y   BYTE -25
+        Sum BYTE 0
+
+	'BYTE' does not get translated into any opcode - it is an instruction to the assembler to 
+put a specific value (the "operand") at the current memory address.  In the above 
+example, the value 17 would be stored in the memory location immediately after the 
+location in which the opcode for HLT was stored.  -25 would be stored in the next location 
+and 0 in the next location.
+	The variable name in a 'BYTE' instruction (if there is one - it is optional) is treated like 
+any other statement label - it is put into the symbol table along with the current memory 
+address.  The machine language program that your program should generate for this 
+example is given in a8asm0.txt
+
+Files to hand in
+----------------
+In addition to your solution (in file a8.pas with the corresponding a8.exe) please also 
+include on the disk you hand in all the .dat files (including opcodes.dat) that are given 
+to you for this assignment.
+
+Suggestions on how to proceed
+--------------------------------
+First write "create_opcode_table".  This is simple but it is a good warmup for 
+"read_asm_line".  Be sure there are no extra blanks at the end of the opcodes 
+(e.g. be sure you get 'ADD' not 'ADD ').
+
+	Then write "read_asm_line".  This is somewhat tricky and it must be working 
+absolutely perfectly before the rest of the program can possibly succeed.  Aim to finish 
+"create_opcode_table" and "read_asm_line" in the first week, because it will take a week 
+to do the rest of the assignment.  Be sure to test "read_asm_line" VERY THOROUGHLY, and 
+look very closely at what it is producing.  For example, a common error is to include an 
+extra blank in a label (or mnemonic or operand) under some circumstances.  Since 'X ' is 
+not equal to 'X', such a bug will later cause "lookup" to seem to fail.  Test this code on all 
+the different types of statement that occur, and on labels and operands that are all 
+different sizes.
+
+	Next write procedures "update" and "lookup".  They are very simple (less difficult 
+than the final question on the midterm test).
+
+	Finally, write "assemble".  This will require some careful thought, and it would be best 
+if you had a full week to work on it.  Work out your algorithm fully and test it on paper 
+by hand before coding it up.  Be sure to make full use of the "update" and "lookup" 
+procedures.  In the model solution there are about 11 lines of code for the first pass 
+and 8 lines of code for the second pass, plus some additional lines before the first pass 
+and after the second pass.  It also contains a very simple auxiliary data structure that 
+makes the second pass possible without re-reading the file (marks will be deducted if you
+read the file twice).

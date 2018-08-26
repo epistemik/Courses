@@ -1,0 +1,82 @@
+
+CSI 1101                   ASSIGNMENT #1
+
+Due date: 10:40 p.m., Wednesday, January 20, 1999
+
+issue date: Monday, January 11, 1999.
+
+VERY IMPORTANT:
+    You must do this assignment INDIVIDUALLY and follow all the general instructions and programming standards for the course  (see the course home page for these).
+
+Marking Scheme
+ 10 marks -- programming standards
+ 10 marks -- question 1(a)
+ 20 marks -- question 1(b)
+ 20 marks -- question 2(a)
+ 20 marks -- question 2(b)
+ 20 marks -- question 3
+--------------------------
+100 marks total
+
+
+PROGRAM HANDOUT
+-----------------
+In this assignment you are given PART of the final program and your job is to write the remaining parts of the program.  The program you are given is in file a1.pas in the course directory.
+
+*** You MUST use the given parts of the program without changing them.
+    For example, you must not change the type declarations, the main program, the assignment1 procedure, or the procedure headers for the procedures you are asked to write.
+
+*** Be sure to change the comments at the beginning of the program and the information in procedure identify_myself to correctly identify yourself.
+
+
+Question 1.
+----------
+The operation insert_at_front(L, V) inserts value V at the beginning of list L.
+
+(a) draw BEFORE and AFTER diagrams for insert_at_front, for the general case and for all special cases you identify.  Also state the error cases (if there are any).  Following the method explained in class, use these diagrams to develop abstract "code" for insert_at_front.   [note: for this question you will receive some help in your tutorial]
+
+
+(b) Write Pascal code implementing insert_at_front as a procedure.
+    The Pascal code should exactly correspond to your abstract code in part (a).
+
+
+Question 2.
+----------
+The operation insert_after_P(L, V, P) inserts the value V into list L after the node pointed at by P.
+
+(a) draw BEFORE and AFTER diagrams for insert_after_P, for the general case and for all special cases you identify.  Also state the error cases (if there are any).  Following the method explained in class, use these diagrams to develop abstract "code" for insert_after_P.
+
+(b) Write Pascal code implementing insert_after_P as a procedure.
+    The Pascal code should exactly correspond to your abstract code in part (a).
+
+Question 3.
+----------
+Write the Pascal procedure pointer_to_Nth(L, N, P) which returns in P a pointer to the Nth node in list L.  N is an integer; it is an error if N is less than 1  or greater than the size of L.
+
+
+A note about the main program
+----------------------------
+The main program prompts you to enter two values on each input line.  The first value you enter ("position") is an integer between 0 and the current length of the list. The second value you enter ("val") is a value to be inserted into the list.  "position" says where in the list "val" is to be inserted.  "position" = 0 means insert "val" at the beginning of the list.  "position" = N > 0 means insert "val" AFTER the Nth element in the list.
+For example, this sequence:
+
+   0 11.1
+   0 22.2
+   1 33.3
+   3 44.4
+
+means
+	insert 11.1 at the beginning of the list (L = --> 11.1)
+	then insert 22.2 at the beginning of the list (L = --> 22.2 --> 11.1)
+	then insert 33.3 AFTER position 1 (L = --> 22.2 --> 33.3 --> 11.1)
+	then insert 44.4 AFTER position 3 (L = --> 22.2 --> 33.3 --> 11.1 --> 44.4)
+
+
+After each value is inserted the main program does two things -
+  - it writes out the list (each value, in order, starting with the first value in the list)
+  - it shows you the contents of the array used to store the list nodes.
+
+A note about the type definitions
+------------------------------
+The nodes for a list of length N will be stored in array positions 1 to N (but not necessarily in order - i.e. the first element in the list is not necessarily in array position 1).  This means Then you want to add a new element to the list you should use array position N+1 as the "new node".
+
+Additional explanation of the type definitions will be given in your tutorials.
