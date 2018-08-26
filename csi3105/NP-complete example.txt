@@ -1,0 +1,33 @@
+Proving HAMILTON CYCLE is polynomially reducible to TSP (here TSP is the
+decision form of the problem):
+
+Consider the transformation TRAN from class.  There are 3 things we must
+prove:
+
+a)  TRAN is in P.
+
+b)  If the answer is yes for HAMILTON CYCLE, then the answer is yes for     
+    the TSP problem we formed.
+
+c)  If the answer is yes for the TSP problem we formed, then the answer is 
+    yes for the HAMILTON CYCLE problem.
+
+Proof of a):  Given an adjacency matrix for G*, it will be at most
+              ORDER(n^2) work to create the adjacency matrix for the TSP
+              problem graph we form.  So TRAN is a polynomial-time algorithm.
+
+
+Proof of b):  Suppose we have a yes answer for the HAMILTON CYCLE problem,
+              i.e. we have a cycle v1, v2, ..., vn in G* which visits all the
+              nodes, and has n edges.  This cycle is a tour in our TSP
+              problem graph G, and it's cost is n.  So we have a yes answer
+              for the TSP problem.
+
+Proof of c):  Suppose we have a tour of cost <= n in the TSP problem we
+              formed.  Since this tour contains n edges, and each edge has
+              weight >=1 in G, we must have that this tour has cost exactly
+              n, and every edge in it has cost 1.  This means that all the
+              edges in the tour are edges in the HAMILTON CYCLE graph G*,
+              and thus the tour corresponds to a cycle in G* which visits all
+              the nodes.
+

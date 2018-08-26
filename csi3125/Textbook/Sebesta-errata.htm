@@ -1,0 +1,439 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0104)http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&ptype=2766&orurl=&ctype=&catid=&seriesid=&catpage= -->
+<HTML><HEAD><TITLE>Concepts of Programming Languages: Fourth Edition</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!--
+function MM_swapImgRestore() { //v2.0
+  if (document.MM_swapImgData != null)
+    for (var i=0; i<(document.MM_swapImgData.length-1); i+=2)
+      document.MM_swapImgData[i].src = document.MM_swapImgData[i+1];
+}
+
+function MM_preloadImages() { //v2.0
+  if (document.images) {
+    var imgFiles = MM_preloadImages.arguments;
+    if (document.preloadArray==null) document.preloadArray = new Array();
+    var i = document.preloadArray.length;
+    with (document) for (var j=0; j<imgFiles.length; j++) if (imgFiles[j].charAt(0)!="#"){
+      preloadArray[i] = new Image;
+      preloadArray[i++].src = imgFiles[j];
+  } }
+}
+
+function MM_swapImage() { //v2.0
+  var i,j=0,objStr,obj,swapArray=new Array,oldArray=document.MM_swapImgData;
+  for (i=0; i < (MM_swapImage.arguments.length-2); i+=3) {
+    objStr = MM_swapImage.arguments[(navigator.appName == 'Netscape')?i:i+1];
+    if ((objStr.indexOf('document.layers[')==0 && document.layers==null) ||
+        (objStr.indexOf('document.all[')   ==0 && document.all   ==null))
+      objStr = 'document'+objStr.substring(objStr.lastIndexOf('.'),objStr.length);
+    obj = eval(objStr);
+    if (obj != null) {
+      swapArray[j++] = obj;
+      swapArray[j++] = (oldArray==null || oldArray[j-1]!=obj)?obj.src:oldArray[j];
+      obj.src = MM_swapImage.arguments[i+2];
+  } }
+  document.MM_swapImgData = swapArray; //used for restore
+}
+//-->
+</SCRIPT>
+
+<META content=0201385961 name=ISBN>
+<META content=0-201-38596-1 name=FULL_ISBN>
+<META content=1999 name=COPYRIGHT_YEAR>
+<META content="Concepts of Programming Languages: Fourth Edition" 
+name=FULL_TITLE>
+<META content="Robert W. Sebesta" name=AUTHOR_1>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#003366 background=Sebesta-errata_files/background-page.gif 
+bgColor=#ffffff leftMargin=0 link=#003366 
+onload="MM_preloadImages('http://www.aw.com/cseng/ximages/subnav_buy-b.gif','#938047567416');MM_preloadImages('http://www.aw.com/cseng/ximages/subnav_join-b.gif','#938047604250');MM_preloadImages('http://www.aw.com/cseng/ximages/subnav_register-b.gif','#938047618066');MM_preloadImages('http://www.aw.com/cseng/ximages/nav_home-b.gif','#938048418283');MM_preloadImages('http://www.aw.com/cseng/ximages/nav_source-b.gif','#938048480466');MM_preloadImages('http://www.aw.com/cseng/ximages/nav_search-b.gif','#938048519166');MM_preloadImages('http://www.aw.com/cseng/ximages/nav_contact-b.gif','#938048557833');MM_preloadImages('http://www.aw.com/cseng/ximages/nav_write-b.gif','#938054872200')" 
+topMargin=0 vLink=#003366 marginheight="0" marginwidth="0"><A name=top></A>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD><IMG height=40 src="Sebesta-errata_files/logo.gif" width=176></TD>
+    <TD align=right width="100%"><IMG height=40 
+      src="Sebesta-errata_files/header.gif" width=464></TD></TR>
+  <TR align=left bgColor=#000000>
+    <TD colSpan=2>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=640>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.aw.com/cseng/" 
+            onmouseout=MM_swapImgRestore() 
+            onmouseover="MM_swapImage('document.home','document.home','http://www.aw.com/cseng/ximages/nav_home-b.gif','#938048418283')"><IMG 
+            alt=Home border=0 height=20 name=home 
+            src="Sebesta-errata_files/nav_home-a.gif" width=68></A></TD>
+          <TD><A href="http://cseng.aw.com/catalog.taf?ctype=sourcecode" 
+            onmouseout=MM_swapImgRestore() 
+            onmouseover="MM_swapImage('document.source','document.source','http://www.aw.com/cseng/ximages/nav_source-b.gif','#938048480466')"><IMG 
+            alt="Source Code" border=0 height=20 name=source 
+            src="Sebesta-errata_files/nav_source-a.gif" width=108></A></TD>
+          <TD><A 
+            href="http://cseng.aw.com/catalog.taf?ctype=&amp;catid=&amp;seriesid=&amp;catpage=&amp;searchid=&amp;letter=" 
+            onmouseout=MM_swapImgRestore() 
+            onmouseover="MM_swapImage('document.search','document.search','http://www.aw.com/cseng/ximages/nav_search-b.gif','#938048519166')"><IMG 
+            alt=Catalog border=0 height=20 name=search 
+            src="Sebesta-errata_files/nav_search-a.gif" width=73></A></TD>
+          <TD><A href="http://www.aw.com/cseng/writeforus.shtml" 
+            onmouseout=MM_swapImgRestore() 
+            onmouseover="MM_swapImage('document.Image32','document.Image32','http://www.aw.com/cseng/ximages/nav_write-b.gif','#938054872200')"><IMG 
+            alt="Write for Us" border=0 height=20 name=Image32 
+            src="Sebesta-errata_files/nav_write-a.gif" width=104></A></TD>
+          <TD><A href="http://www.aw.com/cseng/contactus.shtml" 
+            onmouseout=MM_swapImgRestore() 
+            onmouseover="MM_swapImage('document.contact','document.contact','http://www.aw.com/cseng/ximages/nav_contact-b.gif','#938048557833')"><IMG 
+            alt="Contact Us" border=0 height=20 name=contact 
+            src="Sebesta-errata_files/nav_contact-a.gif" width=107></A></TD>
+          <TD><IMG border=0 height=20 name=nav-spacer 
+            src="Sebesta-errata_files/nav_spacer.gif" 
+      width=180></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD colSpan=2>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD align=left background=Sebesta-errata_files/background-search.gif 
+          bgColor=#cccc99 vAlign=center><IMG border=0 height=21 
+            src="Sebesta-errata_files/hd_book-page.gif" width=150></TD>
+          <TD align=right background=Sebesta-errata_files/background-search.gif 
+          bgColor=#cccc99 vAlign=center width="100%">
+            <FORM action=http://www.awlonline.com/search97cgi/s97_cgi 
+            method=post name=searchForm><INPUT name=Action type=hidden 
+            value=FilterSearch> <INPUT name=ServerKey type=hidden value=Primary> 
+            <INPUT name=QueryMode type=hidden value=Simple> <INPUT 
+            name=Collection type=hidden value="AWL Cseng"> <INPUT name=Filter 
+            type=hidden value=cseng_filter.hts> <SELECT name=searchby> <OPTION 
+              selected value=all>Search by...</OPTION> <OPTION 
+              value=author>Author</OPTION> <OPTION value=title>Title</OPTION> 
+              <OPTION value=isbn>ISBN</OPTION></SELECT> <INPUT name=searchfield> <INPUT name=Submit type=submit value=Go> </FORM></TD>
+          <TD align=right background=Sebesta-errata_files/background-search.gif 
+          bgColor=#cccc99 vAlign=center><IMG border=0 height=1 
+            src="Sebesta-errata_files/spacer_trans_20x1px.gif" width=19> 
+        </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR align=left bgColor=#000000 vAlign=top>
+    <TD height=1 width=150><IMG border=0 height=1 
+      src="Sebesta-errata_files/spacer_blk_1px.gif" width=1></TD>
+    <TD height=1><IMG border=0 height=1 
+      src="Sebesta-errata_files/spacer_blk_1px.gif" width=1></TD>
+    <TD height=1 width="100%"><IMG border=0 height=1 
+      src="Sebesta-errata_files/spacer_blk_1px.gif" width=1></TD>
+    <TD height=1><IMG border=0 height=1 
+      src="Sebesta-errata_files/spacer_blk_1px.gif" width=1></TD></TR>
+  <TR align=left vAlign=top>
+    <TD width=150>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=150>
+        <TBODY>
+        <TR>
+          <TD background=Sebesta-errata_files/background-search.gif></TD></TR>
+        <TR vAlign=top>
+          <TD align=middle>
+            <TABLE border=0 cellPadding=3 cellSpacing=0 width=113>
+              <TBODY>
+              <TR align=middle vAlign=center>
+                <TD colSpan=2>&nbsp;</TD></TR>
+              <TR align=middle vAlign=center>
+                <TD align=middle colSpan=2 vAlign=center><A 
+                  href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&amp;ptype=coverpic&amp;ctype=&amp;catid=&amp;seriesid=&amp;catpage="><IMG 
+                  border=1 src="Sebesta-errata_files/0201385961.E.jpg" 
+                  width=120></A></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD></TR>
+              <TR>
+                <TD align=middle vAlign=center><A 
+                  href="http://store.awl.com/catalog/?sho=0-201-38596-1" 
+                  onmouseout=MM_swapImgRestore() 
+                  onmouseover="MM_swapImage('document.buy','document.buy','http://www.aw.com/cseng/ximages/subnav_buy-b.gif','#938047567416')"><IMG 
+                  alt="Buy this title" border=0 height=17 name=buy 
+                  src="Sebesta-errata_files/subnav_buy-a.gif" width=102></A></TD>
+                <TD><IMG border=0 height=17 name=arrow-red 
+                  src="Sebesta-errata_files/arrow-red.gif" width=11></TD></TR>
+              <TR>
+                <TD align=middle vAlign=center><A 
+                  href="http://www.aw.com/cseng/mailinglists.shtml" 
+                  onmouseout=MM_swapImgRestore() 
+                  onmouseover="MM_swapImage('document.join','document.join','http://www.aw.com/cseng/ximages/subnav_join-b.gif','#938047604250')"><IMG 
+                  alt="Join email list" border=0 height=17 name=join 
+                  src="Sebesta-errata_files/subnav_join-a.gif" width=102></A></TD>
+                <TD><IMG border=0 height=17 name=arrow-red 
+                  src="Sebesta-errata_files/arrow-red.gif" width=11></TD></TR>
+              <TR>
+                <TD align=middle vAlign=center><A 
+                  href="http://cseng.aw.com/registration.taf?ISBN=0-201-38596-1" 
+                  onmouseout=MM_swapImgRestore() 
+                  onmouseover="MM_swapImage('document.Image16','document.Image16','http://www.aw.com/cseng/ximages/subnav_register-b.gif','#938047618066')"><IMG 
+                  alt="Register this title" border=0 height=17 name=Image16 
+                  src="Sebesta-errata_files/subnav_register-a.gif" 
+                width=102></A></TD>
+                <TD><IMG border=0 height=17 name=arrow-red 
+                  src="Sebesta-errata_files/arrow-red.gif" 
+              width=11></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD></TR>
+        <TR>
+          <TD bgColor=#000000 height=1><IMG height=1 
+            src="Sebesta-errata_files/spacer_black.gif" width=15></TD></TR>
+        <TR>
+          <TD align=middle vAlign=center width=150>
+            <TABLE border=0 cellPadding=6 cellSpacing=0 width=140>
+              <TBODY>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD width="100%">&nbsp;</TD></TR>
+              <TR>
+                <TD align=left colSpan=2><FONT 
+                  face=arial,helvetica,sans-seriff size=-1><B><A 
+                  href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&amp;ptype=0&amp;orurl=&amp;ctype=&amp;catid=&amp;seriesid=&amp;catpage=">About 
+                  This Title</B></FONT></A></B></FONT></TD></TR>
+              <TR>
+                <TD align=left colSpan=2><FONT 
+                  face=arial,helvetica,sans-seriff size=-1><B><A 
+                  href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&amp;ptype=2183&amp;orurl=&amp;ctype=&amp;catid=&amp;seriesid=&amp;catpage=">Table 
+                  of Contents</B></FONT></A></B></FONT></TD></TR>
+              <TR>
+                <TD><IMG alt="you are here" border=0 height=15 name=red-square 
+                  src="Sebesta-errata_files/icon_red-square.gif" width=17></TD>
+                <TD><FONT face=arial,helvetica,sans-seriff size=-1><B><A 
+                  href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&amp;ptype=2766&amp;orurl=&amp;ctype=&amp;catid=&amp;seriesid=&amp;catpage=">Errata</B></FONT></A></B></FONT></TD></TR>
+              <TR>
+                <TD align=left colSpan=2><FONT 
+                  face=arial,helvetica,sans-seriff size=-1><B><A 
+                  href="ftp://ftp.aw.com/cseng/authors/sebesta/concepts4e/">Supplements</A></B></FONT></TD></TR>
+              <TR>
+                <TD align=left colSpan=2><FONT 
+                  face=arial,helvetica,sans-seriff size=-1><B><A 
+                  href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-38596-1&amp;ptype=auth&amp;orurl=&amp;ctype=&amp;catid=&amp;seriesid=&amp;catpage=">Author 
+                  Info</B></FONT></A></B></FONT></TD></TR>
+              <TR>
+                <TD>&nbsp;</TD>
+                <TD 
+    width="100%">&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+    <TD><IMG border=0 height=1 name=spacer2 
+      src="Sebesta-errata_files/spacer_trans_20x1px.gif" width=20></TD>
+    <TD width="100%">
+      <H3>&nbsp;</H3>
+      <TABLE align=right border=0 cellPadding=3 cellSpacing=2 width=200>
+        <TBODY>
+        <TR>
+          <TD><IMG border=0 height=1 
+            src="Sebesta-errata_files/spacer_trans_20x1px.gif" width=5></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><B><FONT 
+            size=-1>ISBN:</FONT></B></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><FONT 
+            size=-1>0-201-38596-1</FONT></TD>
+          <TD><IMG border=0 height=1 
+            src="Sebesta-errata_files/spacer_trans_20x1px.gif" width=5></TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><B><FONT 
+            size=-1>Copyright:</FONT></B></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><FONT 
+            size=-1>1999</FONT></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><B><FONT 
+            size=-1>Price:</FONT></B></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><FONT 
+            size=-1>$73.00</FONT></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><B><FONT 
+            size=-1>Binding:</FONT></B></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><FONT 
+            size=-1>Cloth</FONT></TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><B><FONT 
+            size=-1>Pages: </FONT></B></TD>
+          <TD align=left bgColor=#cccccc vAlign=top width="50%"><FONT 
+            size=-1>608</FONT></TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE>
+      <H3>Concepts of Programming Languages: Fourth Edition</H3>
+      <H4>Robert W. Sebesta </H4>
+      <H3>Errata</H3>
+      <P><PRE>The following errors have been found in the third printing:
+
+1. p. 53, LISP example program,
+	line 4 should be: 
+; if the two lists are equal, and NIL (false) otherwise
+	line 5 should be: 
+(DEFUN equal_lists (lis1 lis2)
+	line 9, "equal" should be "equal_list"
+	line 10, "equal" should be "equal_list"
+
+2. p. 60, ALGOL 60 example program, line 12, "&amp;" should be "L"
+	
+3. p. 125, line 2,
+	"next_token) ==" should be "next_token =="
+
+4. p. 207, line 22,
+	"'A'..'U'" should be "'A'..'O'"
+
+5. p. 232, line 2 (after Figure 5.9),
+	"half as much" should be "the same"
+
+6. p. 243, 13th last line,
+	"Ada" should be "Ada-83"
+
+7. p. 301, 3rd last line,
+	"then-else simulation" should be "then-elsif simulation"
+
+8. p. 308, 
+line 3,	"loop" should be "loop;"
+line 13, "loop" should be "loop;"
+
+9. p. 309, 9th last line,
+	"0.0" should be "1.0"
+
+10. p. 313, line 6,
+	"exit;" should be "exit; end if;"
+
+11. p. 346, line 1,
+	"Ada" should be "Ada-83"
+
+12. p. 355, 19th last line,
+	"(a : integer, b : integer)" should be 
+"(a : in out integer, b : in out integer)"
+
+13. p. 362, just before 3rd last line, insert the lines,
+	procedure INTEGRATE (LOWERBD : in FLOAT;
+				   UPPERBD : in FLOAT;
+				   RESULT : out FLOAT);
+
+14. p. 363, line 8, 
+	"INTEGRATE_FUN1" should be "procedure INTEGRATE_FUN1"
+
+15. p. 386, Figure 9.6,
+	replace caption with:
+		The activation record for factorial
+	replace "N" on the parameter line with "n"
+
+16. p. 420, line 15,
+	"data" should be "types and constants"
+
+17. p. 422, 19th last line,
+	"STK.TOPSUB = 0" should be "STK.TOPSUB = 0;"
+
+18. p. 424, last line,
+	"in its header" should be "its header"
+
+19. p. 454, line 10,
+	"conventional" should be "unconventional"
+
+20. p. 457, 12th last line,
+	"binary" should be "unary"
+
+21. p. 461, last line, 3rd last line, and 4th last line,
+	"ourPen" should be "OurPen"
+
+22. p. 462, lines 5, 10, and 11,
+	"ourPen" should be "OurPen"
+	
+23. p. 478, 
+	line 16, "FRED : (" should be "FRED : PERSON := ("
+	line 17, "FREDDIE "(" should be "FREDDIE : STUDENT := ("
+	line 21, "FRED" should be "FREDDIE"
+
+24. p. 510, lines 15 &amp; 16,
+	"each accept clause" should be "each entry clause"
+
+25. p. 512,
+	add the following line just before the 15th last line: "BUF : BUF_PTR;"
+ 	14th last line, "BUF_PTR" should be "BUF"
+	13th last line, "They" should be "Statically created tasks"
+	10th last line, add the following sentence between the two sentences on this line:
+	"Tasks created with new begin executing immediately."
+
+26. p. 514, 
+7th last line, "procedures or tasks" should be "tasks"
+
+27. p. 516, 
+8th last line, "those priorities does not" should be "those priorities do not"
+
+28. p. 517, line 13,
+	"alternatively" should be in alternating fashion"
+
+29. p. 518, 5th last line,
+	"accept" should be "entry"
+
+30. p. 519, line 3,
+	"accept" should be "entry"
+
+31. p. 522,
+	17th last line, "other methods" should be "other synchronized methods"
+	2nd last line, "numbering" should be "number"
+
+32. p. 536, paragraph 5, line 2,
+	"exception, handling" should be "exception handling,"
+
+33. p. 546, paragraph 7, line 1,
+	"occurs in a" should be "occurs at the outermost level in a"
+
+34. p. 547, 9th last line,
+	"is 0..125;" should be "is range 0..125;"
+
+ 
+The following mistakes were in the first and second printings, but have been fixed in the third printing:
+
+1. p. 43, first paragraph, 5th last line, 
+	"PDP-11 computers of 1970" should be "UNIVAC 1107 computers of 1962"
+
+2. p. 115, Figure 3.2 caption, 
+	"A := B = C * A" should be "A := B + C * A"
+
+3. p. 134, line 12,
+	"somewhatAdding" should be "somewhat. Adding"
+
+4. p. 174, line 27,
+	"records and unions)," should be "records) and unions,"
+
+5. p. 179, Figure 4.3,
+	Add a link from B to A
+
+6. p. 280, line 2,
+	"0 i else count2 = 0 i" should be "0; else count2 = 0;
+
+7. p. 306, line 9,
+	"141, 423," should be "147, 441,"
+
+8. p. 326, Problem 17, line 3,
+	"j := -3;" should be "j = -3;"
+
+9. p. 499, 
+line 6,	"semphore" should be "semaphore"
+paragraph 3, line 3, "the item" should be "an item"
+
+10. p. 514,
+line 5,	"Such an select" should be "Such a select"
+
+11. p. 516, 
+15th last line, "with a the last" should be "with the last"
+5th last line, "and it is not" should be "and the data structure is not"
+
+12. p. 551, line 6,
+	"part of the" should be "part on the"
+
+13. p. 556, 13th last line,
+	"If an matching" should be "If a matching"
+
+14. p. 565, 2nd last line, 
+	"three" should be "four"
+</PRE></TD>
+    <TD><IMG border=0 height=1 
+      src="Sebesta-errata_files/spacer_trans_20x1px.gif" width=20></TD></TR>
+  <TR align=left vAlign=top>
+    <TD width=150>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD align=right width="100%">back to <A 
+      href="http://www.aw.com/cseng/titles/0-201-38596-1/#top">top</A></TD>
+    <TD>&nbsp;</TD></TR></TBODY></TABLE><A 
+href="http://cseng.aw.com/webfeedback.taf"><IMG border=0 hspace=5 
+src="Sebesta-errata_files/feedback.gif" vspace=5></A> <BR><FONT color=#666666 
+size=1><B>14.0500</B></FONT> </BODY></HTML>

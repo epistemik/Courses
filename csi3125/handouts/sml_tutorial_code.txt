@@ -1,0 +1,211 @@
+(*
+First, rewrite in ML two "triangle problems" from the Scheme
+homework. (The order of definitions matters. Also, ML does not
+like minus signs in names. Replace them with underscores.)
+
+My solution:
+*)
+
+fun build_triangle( LASTROW, CURRLEN, LEN ) =
+  if CURRLEN > LEN then nil else
+     ( CURRLEN :: LASTROW ) ::
+     build_triangle( CURRLEN :: LASTROW, CURRLEN + 1, LEN );
+
+fun triangle LEN =
+  if LEN <= 0 then nil else
+     build_triangle( nil, 1, LEN );
+
+(*
+Tests:
+*)
+
+triangle ~1;
+triangle 0;
+triangle 4;
+
+fun is_triangle_aux( LST, CURRLEN ) =
+  if null LST then true else
+  if length ( hd LST ) = CURRLEN then
+     is_triangle_aux( tl LST, CURRLEN + 1 ) else
+  false;
+ 
+fun is_triangle LST = 
+  if null LST then false else is_triangle_aux( LST, 1 );
+
+(*
+Tests:
+*)
+
+(* is_triangle( 5 ); *)
+is_triangle( nil );
+is_triangle( [["a"], ["a", "a"], ["a", "a", "a", "a"]] );
+is_triangle( [["a"], ["a", "a"]] );
+(* is_triangle( [["a"], ["a", ["a"]]] ); *)
+is_triangle( triangle 4 );
+
+(*
+==============
+
+Write in ML a definition of a function that finds the last element
+of a list. It raises an exception if the list is empty. Here is how
+this function can be tested:
+
+- last [];
+uncaught exception Match
+- last [1, 2, 3];
+val it = 3 : int
+- last 5;
+std_in:7.1-7.6 Error: operator and operand don't agree (tycon mismatch)
+  operator domain: 'Z list
+  operand:         int
+  in expression:
+    last 5
+*)
+
+exception Match;
+
+fun last( nil ) = raise Match |
+    last( H :: nil ) = H |
+    last( H :: T ) = last( T );
+
+(*
+Next, write a definition of a function that takes a triangle (see above)
+and constructs a list of last elements of this triangle. The fuction can
+be tested as follows:
+
+- fringe( triangle 4 );
+val it = [1,1,1,1] : int list
+- fringe( [["a"],
+           ["a", "b"],
+           ["a", "b", "c"],
+           ["a", "b", "c", "d"]] );
+val it = ["a","b","c","d"] : string list
+- fringe [];
+val it = [] : 'a list
+- fringe 5;
+std_in:2.1-2.8 Error: operator and operand don't agree (tycon mismatch)
+  operator domain: 'Z list list
+  operand:         int
+  in expression:
+    fringe 5
+
+*)
+
+fun fringe_t [] = [] |
+    fringe_t( H :: T ) = last( H ) :: fringe_t( T );
+
+fun fringe LL = if is_triangle LL then fringe_t LL else nil;
+
+(*
+==============
+
+The following data type has been defined in the class notes:
+*)
+
+datatype tree = nul | node of int * tree * tree;
+
+(*
+Let us also define one object of this type:
+*)
+
+val tt = node (3, node (0, nul, node (1, nul, node (2, nul, nul))), 
+                  node (4, nul, node (6, node (5, nul, nul), nul)) );
+
+(*
+Now, write a definition of a function that finds a list of values
+in leaf nodes, that is, nodes that have both nul subtrees. The
+values must be in non-descending order. The tests are as follows:
+
+- crown tt;
+val it = [2,5] : int list
+- crown nul;
+val it = [] : int list
+- crown [];
+std_in:6.1-6.8 Error: operator and operand don't agree (tycon mismatch)
+  operator domain: tree
+  operand:         'Z list
+  in expression:
+    crown nil
+
+Next, define a function that finds the mirror image of a binary tree.
+For example, we would like this behaviour:
+
+- mirror tt;
+val it = node ( 3, node (4, node (6, nul, node (5, nul, nul)), nul),
+                   node (0, node (1, node (2, nul, nul), nul), nul) ): tree
+
+[Actually, ML shows this tree in less than full detail, but this _will_
+ be the value of the function.]
+
+*)
+
+fun crown( nul ) = [] |
+    crown( node ( i, nul, nul ) ) = i :: [] |
+    crown( node ( i, left, right ) ) = crown( left ) @ crown( right );
+
+fun mirror nul = nul |
+    mirror (node (I, L, R)) = node (I, mirror R, mirror L);
+
+(*
+==============
+
+Define in ML a function that builds a list of pairs (two-element tuples)
+out of two given lists. For example, we would like this behaviour:
+
+- pair_up ([1, 2, 3], ["a", "b", "c"]);
+val it = [(1,"a"),(2,"b"),(3,"c")] : (int * string) list
+
+- pair_up (["a", "b", "c"], [1, 2, 3]);
+val it = [("a",1),("b",2),("c",3)] : (string * int) list
+
+If the lists have unequal lengths, we want an exception raised (you
+have to define it):
+
+- pair_up (["a", "b", "c", "d"], [1, 2, 3]);
+uncaught exception badPairing
+
+*)
+
+exception badPairing;
+
+fun pair_up (nil, nil) = nil |
+    pair_up (A1 :: L1, A2 :: L2) = (A1, A2) :: pair_up (L1, L2) |
+    pair_up (X, Y) = raise badPairing;
+
+(*
+==============
+
+Define in ML a function that sorts a list of integers in ascending
+order. Insertion sort is quite easy. Selection sort is trickier.
+
+========================
+*)
+
+fun insert_one( E: int, nil ) = E :: nil |
+    insert_one( E, H :: T ) =
+      if E <= H then E :: H :: T else H :: insert_one( E, T );
+
+fun ins_sort( nil ) = nil |
+    ins_sort( H :: T ) = insert_one( H, ins_sort( T ) );
+
+local
+  fun minl_aux(ELT, LST): int =
+    if null LST then ELT
+    else if ELT > hd(LST) then
+       minl_aux(hd LST, tl LST)
+    else minl_aux(ELT, tl LST)
+in
+  fun minl L =
+    if null L then ~1000000000
+    else minl_aux(hd L, tl L)
+end;
+
+fun del_min( M, H :: T ) =
+    if M = H then T else H :: del_min( M, T );
+
+fun sel_sort( nil ) = nil |
+    sel_sort( H :: T ) =
+      let val M = minl (H :: T)
+      in
+        M :: sel_sort( del_min( M, H :: T ) )
+      end;

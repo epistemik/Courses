@@ -1,0 +1,176 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+198 136 29 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 
+0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 333 "# BISECTION ALGORITHM 2.1\n#\n# To
+ find a solution to f(x) = 0 given the continuous function\n# f on the
+ interval [a,b], where f(a) and f(b) have\n# opposite signs:\n#\n# INP
+UT:   endpoints a,b; tolerance TOL;\n#          maximum number of iter
+ations NO.\n#\n# OUTPUT:  approximate solution p or\n#          a mess
+age that the algorithm fails." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 85 "al
+g021 := proc() local F, OK, A, B, X, FA, FB, TOL, NO, FLAG, NAME, OUP,
+ I, C, P, FP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`This is th
+e Bisection Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf
+(`Input the function F(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "printf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "F := unapply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`Input endpoints A < B separ
+ated by blank\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`
+%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if A > B then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 7 "X := A;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "A := B;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "B := X;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if A = B the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`A cannot equal B\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "FA := F(A);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "FB \+
+:= F(B);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if FA*FB > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`F(A) and F(B) have same sig
+n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 28 "printf(`Input tolerance\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+39 "printf(`Tolerance must be positive\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 66 "printf(`Input maximum number of iterations \+
+- no decimal point\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NO := s
+canf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if NO <= 0 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive integer
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "printf(`Select output destination\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`A:\\\\OUTPUT.DTA\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of output\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermeditate ap
+proximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter
+ 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 34 "fprintf(OUP,`Bisection Method\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `  I    P             \+
+     F(P)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while I <= NO and OK = TRUE do" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 
+"" {TEXT -1 12 "Compute P(I)" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "C := (B - A) / 2.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "P := A + C;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }{MPLTEXT 1 
+0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "FP := F(P);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "fprintf(OUP,`%3d   %15.8e   %15.7e \\n`,I,P,FP);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 36 "if abs(FP) < 1.0e-20 or C < TOL then" }}{PARA 0 "" 0 "" {TEXT 
+-1 32 "procedure completed successfully" }{MPLTEXT 1 0 0 "" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 54 "fprintf(OUP,`\\nApproximate solution P = %1
+1.8f \\n`,P);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "fprintf(OUP,`with \+
+F(P) = %12.8f\\n`,FP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "fprintf(O
+UP,`Number of iterations = %3d`,I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+41 "fprintf(OUP,` Tolerance = %15.8e\\n`,TOL);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "I := I+1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "" 
+0 "" {TEXT -1 21 "compute A(I) and B(I)" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 17 "if FA*FP > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "A := P;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "FA := FP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "B := P;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "FB := FP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "
+if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "" 
+0 "" {TEXT -1 34 "procedure completed unsuccessfully" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 41 "fprintf(OUP,`\\nIteration number %3d`,NO);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprintf(OUP,` gave approximation %1
+2.8f\\n`,P);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "fprintf(OUP,`F(P) =
+ %12.8f not within tolerance : %15.8e\\n`,FP,TOL);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> \+
+default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg021G:6\"62%\"FG%#OKG%\"AG%\"BG%\"XG%#FAG%#FBG%$TO
+LG%#NOG%%FLAGG%%NAMEG%$OUPG%\"IG%\"CG%\"PG%#FPGF&F&C/-%'printfG6#%?Thi
+s~is~the~Bisection~Method.|+G-F:6#%GInput~the~function~F(x)~in~terms~o
+f~x|+G-F:6#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\">FD-%(una
+pplyG6$FD%\"xG>8%%&FALSEG?(F&FKFKF&/FRFSC'-F:6#%JInput~endpoints~A~<~B
+~separated~by~blank|+G>8&&-FG6#%#%fGFJ>8'Ffn@$2F[oFenC%>8(Fen>FenF[o>F
+[oF`o@%/FenF[o-F:6#%2A~cannot~equal~B|+GC%>8)-FD6#Fen>8*-FD6#F[o@%2\"
+\"!*&FjoFKF^pFK-F:6#%>F(A)~and~F(B)~have~same~sign|+G>FR%%TRUEG>FRFS?(
+F&FKFKF&FUC%-F:6#%1Input~tolerance|+G>8+Ffn@%1FaqFcp-F:6#%<Tolerance~m
+ust~be~positive|+G>FRFip>FRFS?(F&FKFKF&FUC%-F:6#%WInput~maximum~number
+~of~iterations~-~no~decimal~point|+G>8,&-FG6#%#%dGFJ@%1F_rFcp-F:6#%:Mu
+st~be~positive~integer|+G>FRFip@$/FRFipC3-F:6#%;Select~output~destinat
+ion|+G-F:6#%+1.~Screen|+G-F:6#%.2.~Text~file|+G-F:6#%.Enter~1~or~2|+G>
+8-F`r@%/Fjs\"\"#C&-F:6#%SInput~the~file~name~in~the~form~-~drive:\\nam
+e.ext|+G-F:6#%/A:\\OUTPUT.DTA|+G>8.&-FG6#%#%sGFJ>8/-%&fopenG6%Fft%&WRI
+TEG%%TEXTG>F\\u%(defaultG-F:6#%9Select~amount~of~output|+G-F:6#%01.~An
+swer~only|+G-F:6#%E2.~All~intermeditate~approximations|+GFfs>FjsF`r@$F
+\\tC$-%(fprintfG6$F\\u%2Bisection~Method|+G-Fav6$F\\u%@~~I~~~~P~~~~~~~
+~~~~~~~~~~~F(P)|+G>80FK>FRFip?(F&FKFKF&31FhvF_rF[sC'>81,&F[o$\"+++++]!
+#5Fen$!+++++]Fcw>82,&FenFKF_wFK>83-FD6#Fgw@$F\\t-Fav6'F\\u%8%3d~~~%15.
+8e~~~%15.7e~|+GFhvFgwFjw@%52-%$absG6#Fjw$\"#5!#@2F_wFaqC'-Fav6%F\\u%C|
++Approximate~solution~P~=~%11.8f~|+GFgw-Fav6%F\\u%4with~F(P)~=~%12.8f|
++GFjw-Fav6%F\\u%;Number~of~iterations~=~%3dGFhv-Fav6%F\\u%5~Tolerance~
+=~%15.8e|+GFaq>FRFSC$>Fhv,&FhvFKFKFK@%2Fcp*&FjoFKFjwFKC$>FenFgw>FjoFjw
+C$>F[oFgw>F^pFjw@$F[sC%-Fav6%F\\u%6|+Iteration~number~%3dGF_r-Fav6%F\\
+u%<~gave~approximation~%12.8f|+GFgw-Fav6&F\\u%MF(P)~=~%12.8f~not~withi
+n~tolerance~:~%15.8e|+GFjwFaq@$0F\\uFcuC$-%'fcloseG6#F\\u-F:6$%COutput
+~file~%s~created~sucessfullyGFft-%'RETURNG6#FcpF&F&" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "alg021();" }}{PARA 6 "" 1 "" {TEXT -1 87 "
+This is the Bisection Method.\nInput the function F(x) in terms of x\n
+For example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "x^3+
+4*x^2-10" }}{PARA 6 "" 1 "" {TEXT -1 40 "Input endpoints A < B separat
+ed by blank" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1 2" }}{PARA 
+6 "" 1 "" {TEXT -1 15 "Input tolerance" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 5 ".0005" }}{PARA 6 "" 1 "" {TEXT -1 53 "Input maximum nu
+mber of iterations - no decimal point" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "100" }}{PARA 6 "" 1 "" {TEXT -1 61 "Select output dest
+ination\n1. Screen\n2. Text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Select amount
+ of output\n1. Answer only\n2. All intermeditate approximations\nEnter
+ 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 
+1 "" {TEXT -1 617 "Bisection Method\n  I    P                  F(P)\n \+
+ 1    1.50000000e+00     2.3750000e+00 \n  2    1.25000000e+00    -1.7
+968750e+00 \n  3    1.37500000e+00     1.6210938e-01 \n  4    1.312500
+00e+00    -8.4838867e-01 \n  5    1.34375000e+00    -3.5098266e-01 \n \+
+ 6    1.35937500e+00    -9.6408842e-02 \n  7    1.36718750e+00     3.2
+355790e-02 \n  8    1.36328125e+00    -3.2149969e-02 \n  9    1.365234
+37e+00     7.2030000e-05 \n 10    1.36425781e+00    -1.6046684e-02 \n \+
+11    1.36474609e+00    -7.9892590e-03 \n\nApproximate solution P =  1
+.36474609 \nwith F(P) =   -.00798925\nNumber of iterations =  11 Toler
+ance =  5.00000000e-04" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "9 0 0" 0 }
+{VIEWOPTS 1 1 0 1 1 1803 }

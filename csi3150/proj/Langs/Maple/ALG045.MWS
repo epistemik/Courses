@@ -1,0 +1,154 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 403 "# GAUSSIAN DOUBLE INTEGRAL ALGORIT
+HM 4.5 \n#\n# To approximate I = double integration ( ( f(x, y) dy dx \+
+) ) with limits\n# of integration from a to b for x and from c(x) to d
+(x) for y:\n#\n# INPUT:    endpoints a, b; positive integers m, n. (As
+sume that the\n#           roots r(i,j) and coefficients c(i,j) are av
+ailable for \n#           i equals m and n for 1<= j <= i.\n# \n# OUTP
+UT:   approximation J to I. " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 101 "al
+g045 := proc() local F, C, D, OK, A, B, M, N, r, co, H1, H2, AJ, I, X,
+ JX, C1, D1, K1, K2, J, Y, Q;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "pr
+intf(`This is Gaussian Quadrature for double integrals.\\n`);  " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the function F(x) in \+
+terms of x, y, and z\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "print
+f(`For example: sqrt(x^2+y^2)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "F := unapp
+ly(F,x,y,z);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the f
+unctions C(x), and D(x) in terms of x `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 33 "printf(`separated by a space\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 37 "printf(`For example: cos(x) sin(x)`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "C := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "C := unapply(C,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "D := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "D := un
+apply(D,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 64 "printf(`Input lower limit of integration and u
+pper limit of `); " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`integ
+ration separated by a blank space\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "A := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "B :
+= scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if A > B then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`Lower limit must be les
+s than upper limit\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "od; " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 54 "printf(`Input two positive integers M and N. This\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`implementation of Gaussian \+
+quadrature requires\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf
+(`both to be less than or equal to 5.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 98 "printf(`M is used for the outer integral and N for th
+e inner integral - separated by a space.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if M \+
+<= 0 or N <= 0 then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`Int
+egers must be positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if M > 5 or N > 5 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`Integers must be less than \+
+or equal to 5.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "
+if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "r[1,0] := 0.57
+73502692; r[1,1] := -r[1,0]; co[1,0] := 1.0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 54 "co[1,1] := 1.0; r[2,0] := 0.7745966692; r[2,1] := 0.0
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "r[2,2] := -r[2,0]; co[2,0] := \+
+0.5555555556; co[2,1] := 0.8888888889;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 67 "co[2,2] := co[2,0]; r[3,0] := 0.8611363116; r[3,1] := 0.339981
+0436;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "r[3,2] := -r[3,1]; r[3,3] \+
+:= -r[3,0]; co[3,0] := 0.3478548451;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 64 "co[3,1] := 0.6521451549; co[3,2] := co[3,1]; co[3,3] := co[3,0];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "r[4,0] := 0.9061798459; r[4,1] \+
+:= 0.5384693101; r[4,2] := 0.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "
+r[4,3] := -r[4,1]; r[4,4] := -r[4,0]; co[4,0] := 0.2369268850;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "co[4,1] := 0.4786286705; co[4,2] :=
+ 0.5688888889; co[4,3] := co[4,1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+19 "co[4,4] := co[4,0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 1
+ */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "H1 := (B-A)/2;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 14 "H2 := (B+A)/2;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 25 "# use AJ in place of J */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 
+"AJ := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 2 */" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "# STEP 3 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "X
+ := H1*r[M-1,I-1]+H2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "JX := 0;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "C1 := C(X);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "D1 := D(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "K1 \+
+:= (D1-C1)/2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "K2 := (D1+C1)/2;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 4 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 24 "Y := K1 * r[N-1,J-1]+K2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "Q
+ := F(X, Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "JX := JX + co[N-1,J
+-1]*Q;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "# STEP 5 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "AJ \+
+:= AJ+co[M-1,I-1]*K1*JX;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 6 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "AJ := AJ*H1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# \+
+STEP 7 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`\\nThe integra
+l of F from %12.8f to %12.8f is\\n`, A, B);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`  %.10e`, AJ);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 53 "printf(` obtained with M = %3d and N = %3d\\n`, M, N);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 
+12 "" 1 "" {XPPMATH 20 "6#>%'alg045G:6\"69%\"FG%\"CG%\"DG%#OKG%\"AG%\"
+BG%\"MG%\"NG%\"rG%#coG%#H1G%#H2G%#AJG%\"IG%\"XG%#JXG%#C1G%#D1G%#K1G%#K
+2G%\"JG%\"YG%\"QGF&F&C4-%'printfG6#%SThis~is~Gaussian~Quadrature~for~d
+ouble~integrals.|+G-FA6#%QInput~the~function~F(x)~in~terms~of~x,~y,~an
+d~z|+G-FA6#%;For~example:~sqrt(x^2+y^2)G>8$&-%&scanfG6#%#%aG6#\"\"\">F
+K-%(unapplyG6&FK%\"xG%\"yG%\"zG-FA6#%RInput~the~functions~C(x),~and~D(
+x)~in~terms~of~x~G-FA6#%6seperated~by~a~space|+G-FA6#%;For~example:~co
+s(x)~sin(x)G>8%FL>F^o-FU6$F^oFW>8&FL>Fco-FU6$FcoFW>8'%&FALSEG?(F&FRFRF
+&/FhoFioC'-FA6#%UInput~lower~limit~of~integration~and~upper~limit~of~G
+-FA6#%Hintegration~separated~by~a~blank~space|+G>8(&-FN6#%#%fGFQ>8)Fep
+@%2FjpFdp-FA6#%KLower~limit~must~be~less~than~upper~limit|+G>Fho%%TRUE
+G>FhoFio?(F&FRFRF&F[pC)-FA6#%KInput~two~positive~integers~M~and~N.~Thi
+s|+G-FA6#%Pimplementation~of~Gaussian~quadrature~requires|+G-FA6#%Ebot
+h~to~be~less~than~or~equal~to~5.|+G-FA6#%apM~is~used~for~the~outer~int
+egral~and~N~for~the~inner~integral~-~seperated~by~a~space.|+G>8*&-FN6#
+%#%dGFQ>8+Fcr@%51Fbr\"\"!1FhrF\\s-FA6#%<Integers~must~be~positive.|+G@
+%52\"\"&Fbr2FdsFhr-FA6#%KIntegers~must~be~less~than~or~equal~to~5.|+G>
+FhoFaq@$/FhoFaqCF>&8,6$FRF\\s$\"+#p-Nx&!#5>&F_t6$FRFR,$F^t!\"\">&8-F`t
+$\"#5Fht>&F[uFftF\\u>&F_t6$\"\"#F\\s$\"+#pmfu(Fct>&F_t6$FcuFRF\\s>&F_t
+6$FcuFcu,$FauFht>&F[uFbu$\"+cbbbbFct>&F[uFhu$\"+*)))))))))Fct>&F[uF[vF
+^v>&F_t6$\"\"$F\\s$\"+;JO6')Fct>&F_t6$FjvFR$\"+O/\")*R$Fct>&F_t6$FjvFc
+u,$F^wFht>&F_t6$FjvFjv,$FhvFht>&F[uFiv$\"+^%[&yMFct>&F[uF_w$\"+\\:X@lF
+ct>&F[uFdwF_x>&F[uFhwF[x>&F_t6$\"\"%F\\s$\"+f%)zh!*Fct>&F_t6$FixFR$\"+
+,Jp%Q&Fct>&F_t6$FixFcuF\\s>&F_t6$FixFjv,$F]yFht>&F_t6$FixFix,$FgxFht>&
+F[uFhx$\"+])o#pBFct>&F[uF^y$\"+0nG'y%Fct>&F[uFcy$\"+*))))))o&Fct>&F[uF
+fyFaz>&F[uFjyF]z>8.,&Fjp#FRFcuFdp#FhtFcu>8/,&FjpF_[lFdpF_[l>80F\\s?(81
+FRFRFbr%%trueGC*>82,&*&F][lFR&F_t6$,&FbrFRFhtFR,&Fg[lFRFhtFRFRFRFb[lFR
+>83F\\s>84-F^o6#F[\\l>85-FcoFg\\l>86,&Fi\\lF_[lFe\\lF`[l>87,&Fi\\lF_[l
+Fe\\lF_[l?(88FRFRFhrFh[lC%>89,&*&F\\]lFR&F_t6$,&FhrFRFhtFR,&Fb]lFRFhtF
+RFRFRF_]lFR>8:-FK6$F[\\lFe]l>Fc\\l,&Fc\\lFR*&&F[uFi]lFRF]^lFRFR>Fe[l,&
+Fe[lFR*(&F[uF_\\lFRF\\]lFRFc\\lFRFR>Fe[l*&Fe[lFRF][lFR-FA6%%M|+The~int
+egral~of~F~from~%12.8f~to~%12.8f~is|+GFdpFjp-FA6$%(~~%.10eGFe[l-FA6%%D
+~obtained~with~M~=~%3d~and~N~=~%3d|+GFbrFhr-%'RETURNG6#F\\sF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg045();" }}{PARA 6 "" 1 "" 
+{TEXT -1 124 "This is Gaussian Quadrature for double integrals.\nInput
+ the function F(x) in terms of x, y, and z\nFor example: sqrt(x^2+y^2)
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "exp(y/x)" }}{PARA 6 "" 
+1 "" {TEXT -1 96 "Input the functions C(x), and D(x) in terms of x sep
+erated by a space\nFor example: cos(x) sin(x)" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 7 "x^3 x^2" }}{PARA 6 "" 1 "" {TEXT -1 90 "Input low
+er limit of integration and upper limit of integration separated by a \+
+blank space" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 ".1 .5" }}
+{PARA 6 "" 1 "" {TEXT -1 210 "Input two positive integers M and N. Thi
+s\nimplementation of Gaussian quadrature requires\nboth to be less tha
+n or equal to 5.\nM is used for the outer integral and N for the inner
+ integral - seperated by a space." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "5 5" }}{PARA 6 "" 1 "" {TEXT -1 108 "\nThe integral of
+ F from    .10000000 to    .50000000 is\n  3.3305566140e-02 obtained w
+ith M =   5 and N =   5" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 79 0" 12 }
+{VIEWOPTS 1 1 0 1 1 1803 }

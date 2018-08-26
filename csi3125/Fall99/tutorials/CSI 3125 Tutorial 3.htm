@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut03.html -->
+<HTML><HEAD><TITLE>CSI 3125 Tutorial 3</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Tutorial 3_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Tutorial 3</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Tutorial 3_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Tutorial 3_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Tutorial 3_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Tutorial 3_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Tutorial 3_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Tutorial 3_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Tutorial 3_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Tutorial 3_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here some stuff for tutorial number 3.
+<P>
+<HR>
+
+<P>
+<H2>Section A: Assignment Solution</H2>The first part of this tutorial will 
+review my solution to Assignment 1. You can print out the solution by going to 
+the <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/sol01.html">Assignment 
+1 Solultion</A> page.
+<P>
+<H2>Section B: Array Address Mapping</H2>One of the things we studied in section 
+5 on Data Types was how to map a two dimensional array into one dimensional 
+memory. To nail home the idea, let's do it for three dimensions!
+<P>Here's a three dimensional array of reals in Pascal: <PRE>   A: array[low1..high1, low2..high2, low3..high3] of real;
+</PRE>Let's assume that the base address is BASE and that we're using row-major 
+mapping. And while we're assuming stuff, let's assume that reals in Pascal take 
+up four bytes.
+<P>The whole array is going to take up this much memory: <PRE>   NUMBYTES = (high1 - low1) * (high2 - low2) * (high3 - low3) * 4
+</PRE>(* 4 because there are four bytes per real)
+<P>So we could think of memory as a one dimensional array of NUMBYTES bytes. 
+Since we've decided on row-major mapping, the third index will "change the 
+fastest". Here's how all the elements would be stored: <PRE>   starting at position BASE in memory,
+   for i := low1 to high1
+      for j := low2 to high2
+         for k := low3 to high3
+            store A[i, j, k] at the current position in memory
+            increase current position by four bytes
+         end for
+      end for
+   end for
+</PRE>Now we need a formula to find the position in one-dimensional memory of 
+the element A[i, j, k]. <PRE>   A[ low1, low2, low3 ] is at position BASE
+   A[ low1, low2, low3 + 1 ] is at position BASE + 4
+   A[ low1, low2, low3 + 2 ] is at position BASE + 8
+   ...
+   A[ low1, low2, k ] is at position BASE + (k - low3)*4
+</PRE>Every time the second index increases, k must range from low3 to high3. 
+So... <PRE>   A[ low1, low2, low3 ] is at position BASE
+   A[ low1, low2 + 1, low3 ] is at position BASE + (high3 - low3)*4
+   A[ low1, low2 + 2, low3 ] is at position BASE + 2*(high3 - low3)*4
+   ...
+   A[ low1, j, low3 ] is at position BASE + (j - low2)*(high3 - low3)*4
+   ...
+   A[ low1, j, k ] is at position BASE + (j - low2)*(high3 - low3)*4
+                                       + (k - low3)*4
+</PRE>If we let NUMINROW = (high3 - low3) then we can write: <PRE>   A[ low1, j, k ] is at position BASE + (j - low2)*NUMINROW*4
+                                       + (k - low3)*4
+</PRE>Finally, every time the first index increases, j must range from low2 to 
+high2. So... <PRE>   A[ low1, low2, low3 ] is at position BASE
+   A[ low1 + 1, low2, low3 ] is at position 
+                            BASE + (high2 - low2)*NUMINROW*4
+   A[ low1 + 2, low2, low3 ] is at position 
+                            BASE + 2*(high2 - low2)*NUMINROW*4
+   ...
+   A[ i, low2, low3 ] is at position 
+                            BASE + (i - low1)*(high2 - low2)*NUMINROW*4
+</PRE>If we let NUMINLAYER = (high2 - low2)*(high3 - low3) then we can write: <PRE>   A[ i, low2, low3 ] is at position BASE + (i - low1)*NUMINLAYER*4
+   A[ i, j, low3 ] is at position BASE + (i - low1)*NUMINLAYER*4
+                                       + (j - low2)*NUMINROW*4
+   A[ i, j, k ] is at position BASE + (i - low1)*NUMINLAYER*4
+                                    + (j - low2)*NUMINROW*4
+                                    + (k - low3)*4
+</PRE>Factoring out the *4, we have: <PRE>   A[ i, j, k ] is at position 
+      BASE + [ (i - low1)*NUMINLAYER + (j - low2)*NUMINROW + (k - low3) ] * 4
+</PRE>
+<H2>Section C: Operator Precedence</H2>Let's imagine there's a programming 
+language that has the following properties: 
+<OL>
+  <LI>there are some binary arithmetic operators including 
+  <UL>
+    <LI><TT>-</TT> for subtraction 
+    <LI><TT>*</TT> for multiplication </LI></UL>
+  <LI>there are some binary boolean operators including 
+  <UL>
+    <LI><TT>&amp;</TT> for logical and </LI></UL>
+  <LI>there are some binary comparison operators including 
+  <UL>
+    <LI><TT>=</TT> for equality testing </LI></UL>
+  <LI>there is no boolean type; instead, the integer value 0 is false and all 
+  other integer values are true. </LI></OL>
+<P>The four operators I've just shown are arranged in some order of precedence. 
+Your mission is to work out the operator precedence based on the the following 
+expressions and their evaluations.
+<P>Assume that we have three integer variables with the following values: <PRE>   x = 1, y = 5 and z = 0.
+</PRE>
+<TABLE border=0 cellPadding=4>
+  <TBODY>
+  <TR>
+    <TD align=middle><I>Expression</I><BR>
+      <HR>
+    </TD>
+    <TD align=middle><I>Evaluates to</I><BR>
+      <HR>
+    </TD></TR>
+  <TR>
+    <TD align=middle><TT>y &amp; z = x &amp; 0</TT></TD>
+    <TD align=middle>true</TD></TR>
+  <TR>
+    <TD align=middle><TT>4 * x = 4</TT></TD>
+    <TD align=middle>false</TD></TR>
+  <TR>
+    <TD align=middle><TT>y - 1 &amp; z</TT></TD>
+    <TD align=middle>true</TD></TR>
+  <TR>
+    <TD align=middle><TT>z * x - y</TT></TD>
+    <TD align=middle>false</TD></TR></TBODY></TABLE>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update October 17, 1999)</I></FONT> </P></BODY></HTML>

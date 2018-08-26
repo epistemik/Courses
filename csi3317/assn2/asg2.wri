@@ -1,0 +1,58 @@
+\documentstyle[12pt]{article}
+\setlength{\topmargin}{-5ex}
+\setlength{\headheight}{0ex}
+\setlength{\headsep}{0ex}
+\setlength{\columnsep}{3em}
+\setlength{\textwidth}{7.0in}
+\setlength{\textheight}{10in}
+\setlength{\oddsidemargin}{-3em}
+\setlength{\evensidemargin}{0em}
+
+\begin{document}
+\vspace{-1in}
+\begin{center}
+{\bf University of Ottawa\\
+School of Information Technology and Engineering\\
+CSI 3317 - 2000F\\
+Assignment \#2}\\
+{\bf Instructor:} Dr. Cory Butz\\
+{\bf Due:}  Friday, October 20, 2000 at noon\\
+{\bf Hand in:} to the CSI3317 box on 3rd floor MCD.\\ 
+\end{center}
+
+This assignment uses the supplier-part-project database
+from the first assignment.
+
+
+\noindent
+{\bf Part 1}\\
+Provide the Oracle SQL data definitions 
+to create the suppliers-parts-projects database.
+Include the following constraints:
+\begin{itemize}
+\item All names (sname, pname, jname) must not be NULL.
+\item The Qty in the relation SPJ cannot be greater than 1000. 
+\end{itemize}
+
+\noindent
+{\bf Part 2}\\
+Use the Oracle SQL query language to answer the following:
+
+\begin{enumerate}
+\item Provide supplier details of all suppliers in London.
+\item Provide project names and cities. 
+\item Provide supplier numbers for suppliers who supply part P1.
+\item Provide the supplier names which supply part p3 to
+project j4.
+\item Provide the part names used in a project with quantity equal to 500.
+\item Provide the supplier names for suppliers who do not
+supply a red part.
+\item Provide the supplier name/project name pairs for which the
+indicated supplier supplies parts to the indicated project.
+\item Provide the supplier name/part name pairs for which the
+indicated supplier does not supply the indicated part. 
+\item Provide project names which use all parts. 
+\item Provide the average quantity supplied by supplier s2.
+\end{enumerate}
+
+\end{document}

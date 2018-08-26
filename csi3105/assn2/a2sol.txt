@@ -1,0 +1,306 @@
+CSI 3105 Assignment 2 Fall/2000
+
+SOLUTIONS
+-----------
+1.a) Worst case analysis  (assuming n is a power of 2, i.e. n = 2^k):
+
+Input size:                 n, the number of integers in X
+Basic operations counted:   Additions involving X and using the max function
+Input of size n which gives worst case:   All cases the same
+
+Analysis:
+If n > 1:  In this case we have two for loops, each with two basic operations
+           per iteration, and each for loop executes n/2 times, for a total
+           of 2n basic operations. We also have two other basic operations
+           to count (at the line Maxcrossing ..., and the last line return...)
+           which occur outside the for loops, plus the basic operations
+           that occur inside the two recursive calls to the algorithm MaxSum.
+           Each recursive call to MaxSum involves looking at a range of n/2
+           numbers in X, and so each requires W(n/2) basic operations.  So in
+           total we have:
+
+           W(n) = 2n + 2 + 2W(n/2).
+
+If n = 1:  In this case (which is the base case) we have just one max
+           operation, and so W(1) =1.
+
+So the recurrence relation for W(n) is:
+         W(n) = 2W(n/2) + 2n + 2   for n > 1
+         W(1) = 1.
+
+(Note:  The algorithm never reaches the case n = 0 recursively, even as
+        a base case, so we would not include this in our recurrence relation.
+        Clearly W(0) = 0, and this value of n needs to be considered
+        separately, outside of the recurrence relation)
+
+Solving the recurrence relation using back substitution (recall n = 2^k):
+
+W(2^k) = 2W(2^(k-1)) + 2*2^k + 2
+       = 2(2W(2^(k-2)) + 2*2^(k-1) + 2) + 2*2^k + 2
+                          (since W(2^(k-1)) = 2W(2^(k-2)) + 2*2^(k-1) + 2
+                           by the recurrence relation)
+
+       = 2^2*W(2^(k-2)) + 2*2^(k+1) + 2^2 + 2   (simplifying and regrouping)
+       .
+       . (note that you could do one more substitution here, if you
+          weren't sure of the pattern yet)
+       .
+       = 2^i*W(2^(k-i)) + i*2^(k+1) + 2^i + 2^(i-1) + ... + 2
+       .
+       .
+       .
+       = 2^k*W(2^(k-k)) + k*2^(k+1) + 2^k + 2^(k-1) + ... + 2  (when i=k)
+
+       = 2^k + k*2^(k+1) + summation(2^j: for j = 1 to k)  (using W(1) = 1)
+
+       = 2^k + k*2^(k+1) +( (2^(k+1) - 1) - 2^0 ) (using the formula for the
+                                                   summation, Appendix A.
+                                                   Note that we must subtract
+                                                   2^0 here, since the formula
+                                                   starts with j=0)
+       = n + (lgn)*2n + 2n -1 -1      (using n=2^k, k = lgn)
+
+       = 2nlgn + 3n -2     (simplifying)
+
+We can (and should) confirm our result for the solution of the recurrence
+relation using induction.
+
+Claim:  W(n) = 2nlgn + 3n -2 for n>=1, n a power of 2.
+
+Proof:  (By induction)
+Base case:  If n = 1, then by the recurrence relation, W(1) = 1, and
+            by our formula, W(1) = 2lg1 + 3 - 2 = 1.  So the claim is true
+            for n = 1.
+
+Induction Hypothesis:  Assume the claim is true for all 1<= m < n, m a power
+                       of 2, i.e.
+                       W(m) = 2mlgm + 3m - 2.
+
+Now consider any n>1, n a power of 2.  We have
+W(n) = 2W(n/2)+ 2n + 2     (by the recurrence relation)
+     = 2(2(n/2)lg(n/2) + 3(n/2) - 2) + 2n + 2  (here we are using the fact
+                                                that n/2 is a power of 2
+                                                and <n, and thus we can
+                                                use the induction hypothesis
+                                                and substitute for W(n/2))
+     = 2nlg(n/2) + 3n - 4 + 2n + 2       (simplifying)
+     = 2n(lgn - lg2) + 5n -2             (simplifying, and using
+                                         lg(a/b) = lga - lgb)
+     = 2nlgn + 3n -2                     (simplifying)
+       as required.
+
+b)  Since W(n) = 2nlgn + 3n - 2, this algorithm is order(ngln) when n is
+    a power of 2.
+
+
+
+2. a)    lim    g(n)
+       n-->inf. ----
+                f(n)
+
+    =     lim    (lgn)^2 + 5lgn
+        n-->inf. --------------
+                     nlgn
+
+
+    =     lim       lgn + 5           (just divide top and bottom
+        n-->inf. --------------        by lgn)
+                       n
+
+
+    =     lim    lg(e) * ln(n) + 5       (using lgn = lg(e) * ln(n))
+        n-->inf. -----------------            (see page 443)
+                     n
+
+
+    =     lim    lg(e) * 1/n
+        n-->inf. ------------             (using L'Hopital's Rule,
+                      1                    note that lg(e) is a constant)
+
+
+
+
+     =     lim     lg(e)                   (just simplifying)
+         n-->inf. -------
+                    n
+
+    =  0
+  
+    Therefore, from class we know that g(n) is O(f(n)), as required.
+
+b)       lim    g(n)
+       n-->inf. ----
+                f(n)
+
+    =     lim    4n^2 + 6n^3 + 1000
+        n-->inf. ------------------
+                      n^2
+
+
+    =     lim     8n + 18n^2          (using L'Hopital's Rule)
+        n-->inf. --------------       
+                      2n
+  
+
+    =     lim     4 + 9n               (just divide top and bottom by 2n)
+        n-->inf. 
+                    
+    =  infinity.
+
+    Thus from class we know that g(n) is Big Omega(f(n)).
+
+c)  We must find a positive constant c and non-negative integer no such
+    that
+
+     6n^2 + 20 <= c*n^3 for all n >= no.
+
+     There are many values that would work here, for example, try
+     c = 2, and no = 6.
+
+     Proof that these work:
+
+     6n^2 + 20 <= n^3 + 20   (since 6 <= n)
+               <= n^3 + n^3  (since 20 < 6^3 <= n^3)
+               = 2n^3.
+
+3.
+As is class, we will use n as our input size, we will count comparison of
+x with numbers in the list, and we will partition our inputs into sets
+I1, I2,..., In, where set Ii corresponds to all inputs for which x is in
+position i in the array.  And also, as in class, we have t(Ii) = i. Now
+we must calculate p(Ii).
+
+Let q be the probability that x lies in the first half of the list, and thus
+1-q is the probability that x lies in the second half of the list.  We are
+told that q = 2*(1-q), and thus we conclude that q = 2/3.  Within the first
+half of the list, all the n/2 positions 1, 2, ..., n/2 are equally likely for
+x, and so the probability that x is in position i, i in the first half of the
+list, is q*(1/(n/2)), i.e. 4/(3n). Similarly, the probability that x is in the
+second half of the list is (1-q)*(1/(n/2)), which is 2/(3n).
+
+Using the formula for A(n):
+
+A(n) = summation(p(Ii)t(Ii): i = 1 to n)
+     = summation(4/(3n)*i: i=1 to n/2)  + summation(2/(3n)*i: i=(n/2)+1 to n)
+
+     = 4/(3n)(summation(i: i = 1 to n/2)  +
+                 2/(3n)(summation(i:i=n/2+1 to n))       (regrouping)
+
+     = 2/(3n)(summation(i: i=1 to n/2) + 2/3n(summation (i: i=1 to n/2)
+                     + 2/(3n)(summation(i:i=n/2+1 to n)) (splitting the first
+                                                          summation into 2
+                                                          pieces)
+
+     = 2/(3n)(summation(i: i=1 to n/2) + 2/3n(summation (i: i=1 to n) (putting
+                                          the second two summations together)
+
+     = 2 * (n/2 + 1)(n/2)         2 * (n)(n + 1)    (using the formula for
+       ------------------     +   --------------     sum of the first k 
+             3n*2                      3n*2          numbers)
+
+    = (n/2 + 1)  + (2n + 2)          (simplifying)
+      ---------------------
+              6
+
+   = 5n + 6
+     ------
+       12
+
+So, A(n) = (5n + 6)/12
+
+4.  Here are the final solutions for M and P (I don't give the detailed
+    calculations here):
+
+                i\j |     1     2      3      4
+                ----|----------------------------
+                1   |     0    520    315    1485
+    M[i][j] =   2   |           0     120     570
+                3   |                  0      720
+                4   |                          0
+
+
+
+                i\j |     1     2      3      4
+                ----|----------------------------
+                1   |           1      1*     3*
+    P[i][j] =   2   |                  2*     3
+                3   |                         3
+                4   |                         
+
+
+Final answer:  The optimal parethesization of the matrices is shown below,
+               and requires 1485 multiplications (I have put a "*" beside
+               the entries in P that were used to find the final solution).
+
+               (A1 x (A2 x A3)) x A4
+
+                    
+5. (Note:  I am assuming in this question that when I say "two numbers",
+   these must be different numbers in S, i.e. you can't consider X[i] * X[i]).
+
+Idea of algorithm:  We start by looking in S in the index range 1 to n
+(i.e. all of S).  We multiply the first and last number in the range,
+i.e. let R = X[1] * X[n].
+
+Now, since the numbers are sorted and distinct and >0, we must have that
+R > X[1] * X[i] for any i != n (since X[n] > X[i]).  So, if P is greater than
+R, then that means that P is greater than X[1] * (any number in the list).  So
+if two of the numbers multiply together to get P, X[1] can't be one of them.
+In this case, the answer for all of S will be the same as the answer we
+get if we consider just the numbers indexed from 2,...,n. 
+
+Similarly, since the numbers are sorted and distinct, we must have that
+R < X[i] * X[n] for any i!=1.  So, if P is less than R, then that
+means that P is less than X[n] * (any number in the list).  So
+if two of the numbers multiply together to get P, X[n] can't be one of them.
+In this case, the answer for all of S will be the same as the answer we
+get if we consider just the numbers indexed from 1,...,n-1.
+
+What is the base case?  When the range we are considering only has one number
+                        in it, the answer will clearly be false.
+
+Pseudocode:
+
+Input:  array S of n positive distinct integers, integer P. 
+Output:  a boolean MultPair which is true if there are two numbers in S that
+         have product P, and false otherwise.
+
+boolean MultPair(int low, int high) // low and high are the range indicators
+{                                   // in S for our current search area
+  int R;
+  if (low >= high)  //base case
+     return false;
+  else {
+     R=S[low]*S[high];
+     if (R == P)
+        return true;
+     else {
+       if (P > R)
+         return MultPair(low + 1, high);
+       else
+         return MultPair(low, high - 1);
+     }
+  }
+}  
+
+Note:  This algorithm is a linear time algorithm.
+
+
+6.  Below is the array B[i][j] (I don't give the details of the calculations
+    here).
+
+                i\j |   0     1     2      3      4      5
+                ----|--------------------------------------
+                0   |   1
+                1   |   1     1
+    B[i][j] =   2   |   1     2     1       
+                3   |   1     3     3      1               
+                4   |   1     4     6      4      1                       
+                5   |   1     5    10     10      5      1
+                6   |   1     6    15     20     15      6 
+                7   |   1     7    21     35     35     21  
+                8   |   1     8    28     56     70     56 
+
+
+
+    So the final answer is that (8 choose 5) = 56.

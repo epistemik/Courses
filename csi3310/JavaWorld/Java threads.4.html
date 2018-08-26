@@ -1,0 +1,648 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.javaworld.com/javaworld/jw-12-1998/jw-12-toolbox_p.html -->
+<HTML><HEAD><TITLE>Programming Java threads in the real world, Part 4 - JavaWorld December 1998</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Programming Java threads in the real world, Part 4" 
+name=description>
+<META content=1998-12 name=date>
+<META content="JavaWorld, Java, threads, multithreading, AWT" name=keywords>
+<META content="Allen Holub" name=author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b>
+<CENTER><FONT size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+border=0 height=60 
+src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/389936-kayak_ad1ab.gif" 
+vspace=5 width=468></A> </CENTER><IMG height=2 
+src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/blue.gif" 
+width="100%"><BR>
+<TABLE bgColor=#cccccc border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <CENTER><STRONG>December 1998</STRONG><BR><A 
+      href="http://www.javaworld.com/javaworld/home.html"><IMG border=0 
+      height=41 
+      src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/jwlogo-132.gif" 
+      vspace=5 width=132></A><BR><FONT size=-1><STRONG>FUELING 
+      INNOVATION</STRONG> </FONT></CENTER></TD>
+    <TD>
+      <P><FONT 
+      face=Arial,Helvetica,Sans-serif><STRONG><U>Search</U></STRONG></FONT> 
+      <FORM action=http://search.itworld.com:8765/query.html method=get 
+      name=seek>
+      <TABLE border=0 cellPadding=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><INPUT name=col size=-1 type=hidden value=jw> <!-- This is the text box for search terms --><!--See above--><INPUT 
+            maxLength=2047 name=qt size=12> <INPUT alt=GO border=0 height=25 
+            src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/button_blue.gif" 
+            type=image value=search width=27> </TD></TR></TBODY></TABLE></FORM></P></TD>
+    <TD><FONT face=Arial,Helvetica,Sans-serif><STRONG><A 
+      href="http://www.javaworld.com/javaworld/topicalindex/jw-ti-index.html">Topical&nbsp;index</A><BR><A 
+      href="http://www.javaworld.com/javaworld/netnews/">Net&nbsp;News&nbsp;Central</A><BR><A 
+      href="http://www.javaworld.com/javaworld/tools/">Developer&nbsp;Tools&nbsp;Guide</A><BR><A 
+      href="http://www.javaworld.com/javaworld/books/">Book&nbsp;Catalog</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-guidelines.html">Writers&nbsp;Guidelines</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-privacy.html">Privacy&nbsp;Policy</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-copyright.html">Copyright</A> 
+      </STRONG></FONT></TD></TR></TBODY></TABLE>Java Toolbox 
+<H1 align=center>Programming Java threads in the real world, Part 4 </H1>
+<H3 align=center>Condition variables and counting semaphores -- filling in a few 
+chinks in Java's threading model </H3>
+<BLOCKQUOTE><STRONG>Summary</STRONG><BR>This column continues where last 
+  month's column left off, presenting a few more implementations of classes that 
+  are useful when you're doing multithreading in Java. The two classes I'll 
+  discuss provide capabilities difficult to get using Java's threading 
+  primitives alone: a <EM>condition variable</EM> adds to <CODE>wait</CODE> the 
+  ability to not wait when the condition you're waiting for has already taken 
+  place; and a <EM>counting semaphore</EM> lets you control a pool of resources 
+  without sucking up machine cycles in polling loops. This month's column also 
+  discusses a few minor fixes to the code presented last month. <EM>(6,250 
+  words)</EM> </BLOCKQUOTE><STRONG>By Allen Holub</STRONG> 
+<P><IMG alt="" border=0 height=2 
+src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/blue.gif" 
+width="100%"> 
+<P><!-- begin body text --><IMG align=left alt=T height=29 
+src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/T.gif" 
+width=24>his month's column adds a few more classes to the threading arsenal we 
+started building in <A 
+href="http://www.javaworld.com/jw-11-1998/jw-11-toolbox.html">last month's</A> 
+<STRONG>Java Toolbox</STRONG> column. This time I'll discuss the following: 
+<P>
+<OL>
+  <LI>Roll-your-own versions of the <EM>condition variable,</EM> which replaces 
+  <CODE>wait()</CODE> and <CODE>notify()</CODE> in some situations 
+  <P></P>
+  <LI>Djikstra's "counting" semaphore, which is used to manage pools of 
+  resources </LI></OL>
+<P>(A <EM>semaphore</EM> is any of several mechanisms used to synchronize and 
+communicate between threads. Think of the "semaphore" as in the flags that two 
+boy scouts use to talk to each other from a distance -- different flag positions 
+represent different letters of the alphabet. Napoleon's army used the vanes of 
+windmills on mountain tops to send semaphore messages great distances very 
+quickly. The mutex discussed last month, since it's a communications mechanism, 
+is also a "semaphore.") 
+<P>The condition variable can often be simulated using Java alone -- and I'll 
+show you how -- while the counting semaphore can't. 
+<P>Before I start, though, I'd like to go over a few loose ends from last month 
+and fix a few bugs. 
+<P><FONT size=+1><STRONG>Oops! Could my code have bugs in 
+it?</STRONG></FONT><BR>Before leaping into this month's meat (now there's a 
+metaphor you can sink your teeth into), let's look at a few loose ends that 
+either caught my eye (or were brought to my attention) after last month's 
+article went live. 
+<P>During one of my book's "peer reviews," an academic reviewer once took 
+exception to the sentence "if you're anything like me, you'll forget to ... so 
+you should write your code to do it automatically." His comment to me was: "I 
+would never admit that in print." This guy was (and as far as I know, still is) 
+a tenured professor at an Ivy League university, and I suppose his comment was 
+correct in a literal sense: since he never had written any actual code, he never 
+had any bugs to admit. I might as well say it up front, though: my code contains 
+an occasional bug (gasp). Consequently, I expect an "Oops" section or its moral 
+equivalent to become a regular feature of this column. There's nothing like 
+having 100,000 people look over your code for problems to emerge and be 
+highlighted. 
+<P>Joe Bowbeer pointed out (quite correctly): 
+<P>
+<BLOCKQUOTE>Why not advise the use of <CODE>try</CODE>/<CODE>finally</CODE> to 
+  prevent an exception from gunking up the works? 
+  <P><CODE>mutex.acquire();<BR>try<BR>{ doit();<BR>}<BR>finally<BR>{ 
+  mutex.release();<BR>}<BR></CODE>
+  <P>I prefer the [above] form of <CODE>try</CODE>/<CODE>finally</CODE> because 
+  it separates the exceptions that might occur in changing the state 
+  (<CODE>acquire</CODE>) from the exceptions that might occur when working in 
+  the new state (<CODE>doit</CODE>). 
+  <P>The other (more intuitive?) form is 
+  <P><CODE>try<BR>{ 
+  mutex.acquire();<BR>&nbsp;&nbsp;&nbsp;&nbsp;doit();<BR>}<BR>finally<BR>{ 
+  mutex.release();<BR>}<BR></CODE>
+  <P>This requires more programming in <CODE>release()</CODE> to ensure that 
+  mutex is in a consistent state: if <CODE>release()</CODE> is called after an 
+  exception in <CODE>acquire()</CODE>, the mutex may not have been acquired, or 
+  [may have been] half-acquired, etc. </P></BLOCKQUOTE>
+<P>I should add that Joe's last point is important in the case of last month's 
+<CODE>Mutex</CODE> class. The <CODE>acquire_without_blocking()</CODE> method, 
+where the actual acquisition occurs, doesn't throw any exceptions at awkward 
+times. The only exception that can be thrown from <CODE>acquire()</CODE>, in 
+fact, is an <CODE>InterruptedException</CODE>, thrown if a timeout is specified 
+and the waiting thread is interrupted. This operation does not leave the mutex 
+in an unstable state, however. 
+<P>Be that as it may, while looking at my code to make sure Joe hadn't found a 
+bug, I found a bug myself. (I'll show you the code in a moment, but let's 
+discuss the problems in it first.) The <CODE>acquire()</CODE> method was using a 
+standard spin lock while waiting to acquire the mutex, but this strategy is 
+appropriate only when the timeout is infinitely large. I've fixed the problem by 
+making the loop terminate for timeout values less than 
+<CODE>Integer.MAX_VALUE</CODE> (the value I use for "forever"). It continues to 
+use a spin lock in "forever" cases. 
+<P>While I was at it, I also decided to have <CODE>acquire()</CODE> indicate 
+whether or not it had timed out. The choices here are the usual ones: a return 
+value or an exception toss. I opted for the latter because a timeout typically 
+is an error condition, and I didn't want to clutter up the code with unnecessary 
+tests for <CODE>false</CODE> return values. 
+<P>I modified the definition for the <CODE>Semaphore</CODE> interface to 
+incorporate this new exception: 
+<P><CODE>01 | package com.holub.asynch;<BR>02 | <BR>03 | interface 
+Semaphore<BR>04 | {<BR>05 | int id ();<BR>06 | void acquire(long timeout) throws 
+InterruptedException,<BR>07 | Timed_out;<BR>08 | void release();<BR>09 | <BR>10 
+| public static class Timed_out extends java.lang.RuntimeException<BR>11 | { 
+Timed_out(){ super("Timed out while waiting to acquire semaphore"); };<BR>12 | 
+}<BR>13 | }<BR></CODE>
+<P>Note that <CODE>Semaphore.Timed_out</CODE> is a 
+<CODE>RuntimeException</CODE>, so you don't have to catch it if the timeout is a 
+fatal error (often the case). 
+<P>The new (and this time, I hope, correct) version of <CODE>acquire()</CODE> 
+now looks like this: 
+<P><CODE>01 | public synchronized void acquire( long timeout ) throws 
+InterruptedException<BR>02 | { <BR>03 | if( timeout == 0 ) <EM>// don't wait at 
+all</EM><BR>04 | { acquire_without_blocking();<BR>05 | }<BR>06 | else if( 
+timeout == Long.MAX_VALUE ) <EM>// wait forever</EM><BR>07 | { while( 
+!acquire_without_blocking() ) <BR>08 | this.wait( timeout );<BR>09 | }<BR>10 | 
+else <EM>// wait limited by timeout</EM><BR>11 | { if( 
+!acquire_without_blocking() )<BR>12 | { this.wait( timeout );<BR>13 | if( 
+!acquire_without_blocking() )<BR>14 | throw new Semaphore.Timed_out();<BR>15 | 
+}<BR>16 | }<BR>17 | }<BR></CODE>
+<P>Finally, in last month's column, I inadvertently used an outdated version of 
+the <CODE>Lock_manager</CODE>'s comparator class. (It threw a 
+<CODE>Not_Comparable</CODE> exception -- an artifact of my own <EM>sort</EM> 
+implementation, which I abandoned when Java added an official one.) Anyway, the 
+comparator class should look like this: 
+<P><CODE>private static class Lock_comparator implements Comparator<BR>{ public 
+int compare(Object a, Object b)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ return 
+((Semaphore)a).id() - 
+((Semaphore)b).id();<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;public 
+boolean equals(Object obj)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ return obj instanceof 
+Lock_comparator;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>I've modified the code in the "Goodies" section of <A 
+href="http://www.holub.com/">my Web site</A> (see <A 
+href="http://www.javaworld.com/javaworld/jw-12-1998/jw-12-toolbox_p.html#resources">Resources</A>) 
+to incorporate all these changes. 
+<P>Now, on to the meat of <EM>this month's</EM> article. 
+<P><!-- break -->
+<P><FONT size=+1><STRONG>Condition variables</STRONG></FONT><BR>Forging ahead -- 
+to boldly split infinitives no one has split before: 
+<P>I've brought up "condition variables" before in the context of 
+<CODE>wait()</CODE> and <CODE>notify()</CODE>. The central concept is that a 
+thread will wait until some condition becomes true. For example, a thread may 
+need to wait for somebody to push a button before proceeding with an action, or 
+a thread may wait for something to appear in an empty queue (for the 
+queue-not-empty condition to become true). 
+<P><STRONG>Using a condition variable to wait for events</STRONG><BR>The 
+following code illustrates a classic problem that is easily solved with a 
+condition variable: How do I wait for an event to occur without wasting machine 
+cycles in a polling loop? The code sets up a simple <CODE>TextField</CODE> and 
+an <CODE>ActionListener</CODE> that's notified when the user types the Enter 
+key: 
+<P><CODE>01 | class Some_class extends Frame<BR>02 | {<BR>03 | TextField input = 
+new TextField();<BR>04 | String entered = "";<BR>05 | <BR>06 | public 
+The_wrong_way()<BR>07 | { input.addActionListener<BR>08 | ( new 
+ActionListener()<BR>09 | { public void actionPerformed( ActionEvent e )<BR>10 | 
+{ entered = input.getText();<BR>11 | }<BR>12 | }<BR>13 | );<BR>14 | <BR>15 | 
+add(input);<BR>16 | pack();<BR>17 | show();<BR>18 | }<BR>19 | <BR>20 | String 
+read_line(){ return entered; }<BR>21 | <EM>//...</EM><BR>22 | }<BR></CODE>
+<P>So far, so good, but let's look at the situation in more detail. 
+<P>When you display the <CODE>Frame</CODE>, AWT fires up a thread that monitors 
+events coming in from the operating system, including key-press events. When the 
+Enter key is pressed, for example, the AWT thread gets the key-press event from 
+the OS and, in turn, calls the listener's <CODE>actionPerformed()</CODE> method. 
+The "actionPerformed()" messages are coming in asynchronously from the AWT 
+event-loop thread. Put another way: the "actionPerformed()" message is actually 
+running on that AWT thread. 
+<P>Meanwhile, a user thread (as differentiated from the AWT thread) calls 
+<CODE>read_line()</CODE> to find out what the user has typed. The problem is 
+that both the AWT and the user thread can access the <CODE>entered</CODE> field 
+simultaneously -- a classic race condition. The second thread could call 
+<CODE>read_line()</CODE> while the AWT thread is in the middle of 
+<CODE>ActionPerformed()</CODE> and end up reading garbage. 
+<P>Solve this first problem with synchronization: 
+<P><CODE>01 | class Some_class extends Frame<BR>02 | {<BR>03 | TextField input = 
+new TextField();<BR>04 | String entered = "";<BR>05 | <BR>06 | public 
+The_wrong_way()<BR>07 | { input.addActionListener<BR>08 | ( new 
+ActionListener()<BR>09 | { public void actionPerformed( ActionEvent e )<BR>10 | 
+{ <B>synchronized( Some_class.this )</B><BR>11 | <B>{</B> entered = 
+input.getText();<BR>12 | <B>}</B><BR>13 | }<BR>14 | }<BR>15 | );<BR>16 | <BR>17 
+| add(input);<BR>18 | pack();<BR>19 | show();<BR>20 | }<BR>21 | <BR>22 | String 
+<B>synchronized</B> read_line(){ return entered; }<BR>23 | <EM>//...</EM><BR>24 
+| }<BR></CODE>
+<P>Note that the inner-class method has to synchronize explicitly on the 
+outer-class object. Simply synchronizing <CODE>actionPerformed()</CODE> doesn't 
+work because you'll be synchronizing on the monitor of the anonymous inner-class 
+object, and the field you want to guard is in the outer-class object. 
+<P>Moving on, our user thread needs to know <EM>when</EM> an entire line has 
+been typed to be sure that <CODE>read_line()</CODE> will return a complete line 
+of input, but (and this is the big <EM>but</EM>), there's no direct 
+communication between the two threads involved in this transaction. The code 
+running on the AWT thread (<CODE>actionPerformed()</CODE>) doesn't tell the user 
+thread that an entire-line-has-been-typed event has occurred. 
+<P>So how does the caller of <CODE>read_line()</CODE> know the string has 
+changed? It could sit in a tight polling loop calling <CODE>read_line()</CODE> 
+and checking the current return value against the previously returned value, but 
+that's an awful lot of machine cycles wasted on doing nothing useful. 
+<P><STRONG>Send in the cavalry</STRONG><BR>So what's one way for two threads to 
+communicate with each other? (That's a rhetorical question.) Use a semaphore 
+(think Napoleon, flags, mountain tops). To the rescue comes the semaphore known 
+as a condition variable. To rehash from previous months' material: the basic 
+notion of a condition variable is that some thread waits (is suspended) on the 
+condition variable until the condition it represents becomes true. Every Java 
+object has a condition variable associated with it -- in the same way it has the 
+mutex used to guard the monitor. You wait for the condition to become true by 
+calling <CODE>wait()</CODE>, and you set the condition to true by calling 
+<CODE>notify()</CODE>. (The <CODE>notify()</CODE> call doesn't work in quite 
+this way; I'll talk more about this in a moment.) It's easy enough to do a 
+roll-your-own condition variable that solves the current thread-communication 
+problem by using <CODE>wait()</CODE> and <CODE>notify()</CODE>. 
+<P>Listing 1 demonstrates how to do this. A condition variable called 
+<CODE>text_has_been_entered</CODE> is declared up at the top of the class 
+definition. (We're going to wait for the text-has-been-entered condition to 
+become true.) The <CODE>actionPerformed()</CODE> method doesn't read the text at 
+all; rather, it simply notifies the condition variable, setting the condition to 
+true. Note that Java requires you to be in the monitor for an object before you 
+can call <CODE>wait()</CODE> or <CODE>notify()</CODE> on that object, so the 
+<CODE>synchronized(text_has_been_entered)</CODE> statement is mandatory. (You 
+must be holding the lock associated with the object, by being in either a 
+<CODE>synchronized</CODE> function of that object's class or a standalone 
+<CODE>synchronized</CODE> statement whose argument is the object on which you're 
+synchronizing.) 
+<P>The <CODE>synchronized(text_has_been_entered)</CODE> statement on line 15 is 
+mandatory, since entering the <CODE>synchronized</CODE> block puts us into the 
+monitor of the object referenced by <CODE>text_has_been_entered</CODE>. 
+<P>Meanwhile, down in <CODE>read_line()</CODE> on line 33, the thread that calls 
+<CODE>read_line()</CODE> is waiting for the condition to become true. When this 
+happens, the new text value is read and returned. The <CODE>read_line()</CODE> 
+method is itself synchronized so that two threads can't attempt to read the same 
+line simultaneously. It's now possible to have a simple loop like the one in 
+<CODE>main()</CODE> 
+<P><CODE>while( (input = source.read_line()) != null 
+)<BR>System.out.println("Got: " + input );<BR></CODE>
+<P>which blocks until a new input line arrives. 
+<P>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 1: Using wait() and notify() for a condition 
+  variable</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><CODE>01 | import java.awt.*;<BR>02 | import java.awt.event.*;<BR>03 | 
+      <BR>04 | public class Input_source extends Frame<BR>05 | {<BR>06 | int[] 
+      text_has_been_entered = new int[1]; // The condition variable<BR>07 | 
+      <BR>08 | TextField input = new TextField();<BR>09 | <BR>10 | public 
+      Input_source()<BR>11 | {<BR>12 | input.addActionListener<BR>13 | ( new 
+      ActionListener()<BR>14 | { public void actionPerformed( ActionEvent e 
+      )<BR>15 | { synchronized( text_has_been_entered )<BR>16 | { 
+      text_has_been_entered.notify(); // set the condition true<BR>17 | }<BR>18 
+      | }<BR>19 | }<BR>20 | );<BR>21 | <BR>22 | add(input);<BR>23 | 
+      pack();<BR>24 | show();<BR>25 | }<BR>26 | <BR>27 | /** A blocking function 
+      that works like readLine(), but gets its<BR>28 | * text from the current 
+      window's text area. The function doesn't<BR>29 | * return until somebody 
+      types a line of text, whereupon it returns<BR>30 | * the line. Returns 
+      null if the user types an empty line.<BR>31 | */<BR>32 | <BR>33 | 
+      synchronized String read_line() throws InterruptedException<BR>34 | { 
+      synchronized( text_has_been_entered )<BR>35 | { 
+      text_has_been_entered.wait(); // wait for the condition to become 
+      true<BR>36 | }<BR>37 | <BR>38 | String entered = input.getText();<BR>39 | 
+      input.setText("");<BR>40 | return (entered.length() == 0) ? null : 
+      entered;<BR>41 | <BR>42 | }<BR>43 | <BR>44 | <BR>45 | static public void 
+      main( String[] args ) throws Exception<BR>46 | { Input_source source = new 
+      Input_source();<BR>47 | String input;<BR>48 | <BR>49 | while( (input = 
+      source.read_line()) != null )<BR>50 | System.out.println("Got: " + input 
+      );<BR>51 | <BR>52 | System.exit(0); // kill the AWT Thread on exit<BR>53 | 
+      }<BR>54 | }<BR></CODE></TD></TR></TBODY></TABLE>
+<P><STRONG>But Wellington is coming</STRONG><BR>A subtle problem occurs when 
+using Java's built-in condition variable, however. What if you call 
+<CODE>read_line()</CODE> just after the value has changed rather than before? 
+You'll just wait until the value is changed again, missing the first value 
+entirely. The problem is that the built-in condition variable doesn't really 
+have a notion of state associated with it. What we really need, to solve the 
+current problem, is a true condition variable -- one that blocks only if we try 
+to <CODE>wait()</CODE> when the condition is false, and that doesn't block at 
+all if the condition is true. 
+<P>Listing 2 shows a simple implementation of such a beast. There's not much to 
+it -- the vast majority of the file is comments. The main thing is the 
+<CODE>_is_true</CODE> flag declared at the top of the class. The 
+<CODE>_is_true</CODE> flag stores the state of the condition variable. You can 
+set the condition to true or false by calling <CODE>set_true()</CODE> or 
+<CODE>set_false()</CODE>. You can test the current state without blocking by 
+calling <CODE>is_true()</CODE> or <CODE>is_false()</CODE>. You can block, 
+waiting for the condition to become true by calling 
+<CODE>wait_for_true()</CODE>, which doesn't block at all if the condition 
+happens to be true when you call it. 
+<P>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 2: A condition-variable 
+  implementation</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><CODE>001 | package com.holub.asynch;<BR>002 | <BR>003 | 
+      //-------------------------------------------------------<BR>004 | // This 
+      code (c) 1998 Allen I. Holub. All rights reserved.<BR>005 | 
+      //-------------------------------------------------------<BR>006 | // This 
+      code may not be distributed by yourself except in binary form,<BR>007 | // 
+      incorporated into a Java .class file. You may use this code freely<BR>008 
+      | // for personal purposes, but you may not incorporate it into any<BR>009 
+      | // commercial product without express permission of Allen I. Holub in 
+      writing.<BR>010 | 
+      //-------------------------------------------------------<BR>011 | <BR>012 
+      | /**<BR>013 | * This class implements a simple "condition variable." The 
+      notion<BR>014 | * is that a thread waits for some condition to become 
+      true.<BR>015 | * If the condition is false, then no wait occurs.<BR>016 | 
+      *<BR>017 | * Be very careful of nested-monitor-lockout here:<BR>018 | * 
+      &lt;PRE&gt;<BR>019 | * class lockout<BR>020 | * { Condition godot = new 
+      Condition(false);<BR>021 | * <BR>022 | * synchronized void f()<BR>023 | * 
+      { <BR>024 | * some_code();<BR>025 | * godot.wait_for_true();<BR>026 | * 
+      }<BR>027 | * <BR>028 | * synchronized void set() // <B>Deadlock if another 
+      thread is in f()</B><BR>029 | * { godot.set_true();<BR>030 | * }<BR>031 | 
+      * }<BR>032 | * &lt;/PRE&gt;<BR>033 | * You enter f(), locking the monitor, 
+      then block waiting for the<BR>034 | * condition to become true. Note that 
+      you have not released the<BR>035 | * monitor for the "lockout" object. 
+      [The only way to set godot true<BR>036 | * is to call set(), but you'll 
+      block on entry to set() because<BR>037 | * the original caller to f() has 
+      the monitor containing "lockout"<BR>038 | * object.]<BR>039 | * 
+      &lt;p&gt;Solve the problem by releasing the monitor before waiting:<BR>040 
+      | * &lt;PRE&gt;<BR>041 | * class okay<BR>042 | * { Condition godot = new 
+      Condition(false);<BR>043 | * <BR>044 | * void f()<BR>045 | * { 
+      synchronized( this )<BR>046 | * { some_code();<BR>047 | * }<BR>048 | * 
+      godot.wait_for_true(); // <B>Move the wait outside the monitor</B><BR>049 
+      | * }<BR>050 | * <BR>051 | * synchronized void set()<BR>052 | * { 
+      godot.set_true();<BR>053 | * }<BR>054 | * }<BR>055 | * &lt;/PRE&gt;<BR>056 
+      | * or by not synchronizing the `set()` method:<BR>057 | * 
+      &lt;PRE&gt;<BR>058 | * class okay<BR>059 | * { Condition godot = new 
+      Condition(false);<BR>060 | * <BR>061 | * synchronized void f()<BR>062 | * 
+      { some_code();<BR>063 | * godot.wait_for_true();<BR>064 | * }<BR>065 | * 
+      <BR>066 | * void set() // <B>Remove the synchronized statement</B><BR>067 
+      | * { godot.set_true();<BR>068 | * }<BR>069 | * }<BR>070 | * 
+      &lt;/PRE&gt;<BR>071 | * The normal wait()/notify() mechanism doesn't have 
+      this problem since<BR>072 | * wait() releases the monitor, but you can't 
+      always use wait()/notify().<BR>073 | */<BR>074 | <BR>075 | <BR>076 | 
+      public class Condition<BR>077 | {<BR>078 | private boolean 
+      _is_true;<BR>079 | <BR>080 | /** Create a new condition variable in a 
+      known state.<BR>081 | */<BR>082 | public Condition( boolean is_true ){ 
+      _is_true = is_true; }<BR>083 | <BR>084 | /** See if the condition variable 
+      is true (without releasing).<BR>085 | */<BR>086 | public synchronized 
+      boolean is_true() { return _is_true; }<BR>087 | <BR>088 | /** Set the 
+      condition to false. Waiting threads are not affected.<BR>089 | */<BR>090 | 
+      public synchronized void set_false(){ _is_true = false; }<BR>091 | <BR>092 
+      | /** Set the condition to true. Waiting threads are not released.<BR>093 
+      | */<BR>094 | public synchronized void set_true() { _is_true = true; 
+      notifyAll(); }<BR>095 | <BR>096 | /** Release all waiting threads without 
+      setting the condition true<BR>097 | */<BR>098 | public synchronized void 
+      release_all(){ notifyAll(); }<BR>099 | <BR>100 | /** Release one waiting 
+      thread without setting the condition true<BR>101 | */<BR>102 | public 
+      synchronized void release_one(){ notify(); }<BR>103 | <BR>104 | /** Wait 
+      for the condition to become true.<BR>105 | * @param timeout Timeout in 
+      milliseconds<BR>106 | */<BR>107 | public synchronized void wait_for_true( 
+      long timeout )<BR>108 | throws InterruptedException<BR>109 | { if( 
+      !_is_true )<BR>110 | wait( timeout );<BR>111 | }<BR>112 | <BR>113 | /** 
+      Wait (potentially forever) for the condition to become true.<BR>114 | 
+      */<BR>115 | public synchronized void wait_for_true() throws 
+      InterruptedException<BR>116 | { if( !_is_true )<BR>117 | wait();<BR>118 | 
+      }<BR>119 | }<BR></CODE></TD></TR></TBODY></TABLE>
+<P>Listing 3 below is basically Listing 1 rewritten to use a 
+<CODE>Condition</CODE> object. Now, a call to <CODE>read_line()</CODE> after the 
+user enters the text works just fine because the condition will be in the true 
+state, and <CODE>wait_for_true()</CODE> won't block. Notice that 
+<CODE>read_line()</CODE> has to explicitly set the condition back to false after 
+it has read the line. 
+<P>There are still a few problems that have to be fixed to make this all work in 
+the real world. For example, there's no way for a program to know if the user 
+overtypes a string when nobody fetches the original string before it's 
+overwritten. Input strings should be queued up as they come in and 
+<CODE>read_line()</CODE> should return a string from the queue if there is one, 
+blocking only if the queue is empty. Listing 3 serves to illustrate the problem 
+at hand without addressing these other issues. 
+<P>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 3: Using a Condition object</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><CODE>01 | import java.awt.*;<BR>02 | import java.awt.event.*;<BR>03 | 
+      import com.holub.asynch.Condition;<BR>04 | <BR>05 | public class 
+      Input_source_fixed extends Frame<BR>06 | {<BR>07 | Condition 
+      text_has_been_entered = new Condition(false); // Initial condition is 
+      false<BR>08 | <BR>09 | TextField input = new TextField();<BR>10 | <BR>11 | 
+      public Input_source_fixed()<BR>12 | {<BR>13 | 
+      input.addActionListener<BR>14 | ( new ActionListener()<BR>15 | { public 
+      void actionPerformed( ActionEvent e )<BR>16 | { 
+      text_has_been_entered.set_true(); // set the condition true<BR>17 | 
+      }<BR>18 | }<BR>19 | );<BR>20 | <BR>21 | add(input);<BR>22 | pack();<BR>23 
+      | show();<BR>24 | }<BR>25 | <BR>26 | /** A blocking function that works 
+      like readLine(), but gets its<BR>27 | * text from the current window's 
+      text area. The function doesn't<BR>28 | * return until somebody types a 
+      line of text, whereupon it returns<BR>29 | * the line. Returns null if the 
+      user types an empty line.<BR>30 | */<BR>31 | <BR>32 | synchronized String 
+      read_line() throws InterruptedException<BR>33 | {<BR>34 | 
+      text_has_been_entered.wait_for_true();<BR>35 | 
+      text_has_been_entered.set_false();<BR>36 | <BR>37 | String entered = 
+      input.getText();<BR>38 | input.setText("");<BR>39 | return 
+      (entered.length() == 0) ? null : entered;<BR>40 | <BR>41 | }<BR>42 | 
+      <BR>43 | <BR>44 | static public void main( String[] args ) throws 
+      Exception<BR>45 | { Input_source_fixed source = new 
+      Input_source_fixed();<BR>46 | String input;<BR>47 | <BR>48 | while( (input 
+      = source.read_line()) != null )<BR>49 | System.out.println("Got: " + input 
+      );<BR>50 | <BR>51 | System.exit(0); // kill the AWT Thread on exit<BR>52 | 
+      }<BR>53 | }<BR></CODE></TD></TR></TBODY></TABLE>
+<P><FONT size=+1><STRONG>Counting semaphores</STRONG></FONT><BR>The other 
+semaphore I want to look at this month is the "Djikstra" counting semaphore. 
+This one has no direct analog in Java, so it's among the more useful of the 
+<EM>com.holub.asynch</EM> classes. 
+<P><EM>Counting semaphores</EM> are used to keep track of the availability of a 
+resource within a pool of limited size. For example, you might have four 
+connections open to a database server that are simply recycled to perform 
+multiple queries. This way, you won't incur the overhead of opening a connection 
+every time you make a query. Threads seeking to make queries should block 
+(should be suspended, waiting), if no connections are available. They should be 
+reactivated (released from wait) when a connection becomes available. A counting 
+semaphore can solve this problem (though other solutions -- such as a 
+thread-safe stack with a pop method that blocks if the stack is empty -- are 
+also possible). 
+<P>Counting semaphores are initialized with a count -- typically the number of 
+objects available in the pool. Every time you acquire the semaphore, the count 
+is decremented; every time you release the semaphore, it's incremented. On 
+acquisition, if the count (after the decrement) is non-0, nothing happens, and 
+you get your slot in the pool. If the count is 0, however, the acquiring thread 
+blocks until some other thread releases the semaphore, thereby incrementing the 
+count. 
+<P>Counting semaphores typically have maximum counts as well as initial counts. 
+A semaphore initialized with a count of 0, but with a maximum of 10, is 
+effectively saying that 10 objects can be in the pool, but none of them are 
+available right now. A <EM>reverse-sensing semaphore</EM> (which I haven't 
+implemented) is also occasionally useful. This one blocks unless the count is 0. 
+It's useful if you need to acquire the entire pool before you can do anything 
+useful, or if you need to do something when the pool becomes empty (such as add 
+extra elements). 
+<P>Listing 4, below, shows my <CODE>Counting_semaphore</CODE> implementation. It 
+implements the <CODE>Semaphore</CODE> interface introduced last month, so slots 
+in multiple pools can be acquired safely by using last month's lock-manager 
+class. As was the case with the <CODE>Condition</CODE> class, the counting 
+semaphore is built around Java's <CODE>wait()</CODE> and <CODE>notify()</CODE> 
+methods. The <CODE>acquire()</CODE> method waits if enough slots aren't 
+available; the <CODE>release()</CODE> method notifies any waiting threads when a 
+slot becomes available. If multiple threads are waiting, they'll have to sort 
+out amongst themselves which actually gets the slot -- all but one will go back 
+to waiting, but you can't reliably predict which one will get the slot. 
+<P>I've taken the coward's way out and haven't implemented a version of 
+<CODE>acquire()</CODE> that lets you get multiple slots at once. You have to 
+acquire slots one at a time. The problem is that the number of slots you need 
+may become available one at a time, but they may also be grabbed by other 
+threads before the total number you need becomes available. Being forced to 
+acquire slots one at a time actually increases your odds of getting the total 
+number of slots you need over the odds you'd get by waiting until the 
+semaphore's internal count came up to the total. You'll be able to suck the 
+slots up one at a time as they become available. I do have a version of 
+<CODE>release()</CODE> that lets you free up multiple slots all at once, 
+however. 
+<P>Note that the "honor system" is in use in Figure 4. An individual slot 
+doesn't have the concept of ownership associated with it. A thread is on its 
+honor to free up only the slots it has previously acquired. A 
+<CODE>Counting_semaphore.Too_many_releases</CODE> object will be thrown if a 
+thread tries to bring the total available-slot count above the maximum, but a 
+thread could still incorrectly release the wrong number of slots without 
+triggering the exception toss. 
+<P>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 4: A counting semaphore</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD><CODE>001 | 
+      //-------------------------------------------------------<BR>002 | // This 
+      code (c) 1998 Allen I. Holub. All rights reserved.<BR>003 | 
+      //-------------------------------------------------------<BR>004 | // This 
+      code may not be distributed by yourself except in binary form,<BR>005 | // 
+      incorporated into a java .class file. You may use this code freely<BR>006 
+      | // for personal purposes, but you may not incorporate it into any<BR>007 
+      | // commercial product without express permission of Allen I. Holub in 
+      writing.<BR>008 | 
+      //-------------------------------------------------------<BR>009 | <BR>010 
+      | package com.holub.asynch;<BR>011 | <BR>012 | import 
+      com.holub.tools.Comparable;<BR>013 | import 
+      com.holub.asynch.Semaphore;<BR>014 | import 
+      com.holub.asynch.Lock_manager;<BR>015 | <BR>016 | class Counting_semaphore 
+      implements Semaphore<BR>017 | {<BR>018 | private int count;<BR>019 | 
+      private final int max_count;<BR>020 | <BR>021 | 
+      /*****************************************************************<BR>022 
+      | * Create a counting semaphore with the specified initial and<BR>023 | * 
+      maximum counts. release(), which increments the count, is not<BR>024 | * 
+      permitted to increment it past the maximum. If the initial_count<BR>025 | 
+      * is larger than the max_count, it is silently truncated.<BR>026 | 
+      *<BR>027 | * @see release<BR>028 | */<BR>029 | Counting_semaphore( int 
+      initial_count, int max_count )<BR>030 | {<BR>031 | this.max_count = 
+      max_count;<BR>032 | this.count = (initial_count &gt; max_count)<BR>033 | ? 
+      max_count : initial_count ;<BR>034 | }<BR>035 | <BR>036 | 
+      /*****************************************************************<BR>037 
+      | * Create a counting semaphore with a maximum count of<BR>038 | * 
+      Integer.MAX_VALUE<BR>039 | */<BR>040 | Counting_semaphore( int 
+      initial_count )<BR>041 | { this( initial_count, Integer.MAX_VALUE 
+      );<BR>042 | }<BR>043 | <BR>044 | 
+      /*****************************************************************<BR>045 
+      | * Required override of Semaphore.id(). Don't call this function.<BR>046 
+      | * @see Lock_manager<BR>047 | */<BR>048 | <BR>049 | public int id() { 
+      return _id; }<BR>050 | private final int _id = 
+      Lock_manager.new_id();<BR>051 | <BR>052 | 
+      /*****************************************************************<BR>053 
+      | * Acquire the semaphore, decrementing the count. Block if the<BR>054 | * 
+      count goes to zero. Bug: It's possible in some situations<BR>055 | * for 
+      the timeout to be exceeded.<BR>056 | *<BR>057 | * &lt;p&gt;I have 
+      deliberately not implemented a variant that allows<BR>058 | * acquisition 
+      of multiple slots in a single call because it's not<BR>059 | * clear what 
+      you'd do if all requested slots aren't available.<BR>060 | *<BR>061 | * 
+      @throws InterruptedException if interrupted while waiting<BR>062 | * for 
+      the semaphore.<BR>063 | * @return true if we got the slot.<BR>064 | 
+      */<BR>065 | public synchronized void acquire(long timeout)<BR>066 | throws 
+      InterruptedException<BR>067 | { while( count &lt;= 0 )<BR>068 | this.wait( 
+      timeout );<BR>069 | --count;<BR>070 | }<BR>071 | <BR>072 | 
+      /*****************************************************************<BR>073 
+      | * Release the semaphore and increment the count.<BR>074 | * This one is 
+      the generic release required by the Semaphore<BR>075 | * interface, so all 
+      it can do is throw an exception if<BR>076 | * there's an error.<BR>077 | * 
+      @throws Counting_semaphore.TooManyReleases (a RuntimeException)<BR>078 | * 
+      if you try to release a semaphore whose count is already<BR>079 | * at the 
+      maximum value.<BR>080 | */<BR>081 | public synchronized void release(){ 
+      release(1); }<BR>082 | <BR>083 | 
+      /*****************************************************************<BR>084 
+      | * Release "increment" slots in the semaphore all at once.<BR>085 | * 
+      @param <B>increment</B> The amount to increment the count.<BR>086 | * If 
+      this value is zero, the current count is returned and<BR>087 | * no 
+      threads are released.<BR>088 | * @throws 
+      Counting_semaphore.TooManyReleases (a RuntimeException)<BR>089 | * if the 
+      current value + count is greater than the maximum.<BR>090 | * The 
+      semaphore will not have been modified in this case.<BR>091 | * @return the 
+      value of the count after the increment is added.<BR>092 | */<BR>093 | 
+      public synchronized int release( int increment )<BR>094 | {<BR>095 | int 
+      current_count = count;<BR>096 | int new_count = count + increment;<BR>097 
+      | <BR>098 | if( new_count &gt; max_count )<BR>099 | throw new 
+      TooManyReleases();<BR>100 | <BR>101 | count = new_count;<BR>102 | if( 
+      current_count == 0 &amp;&amp; count &gt; 0 )<BR>103 | notifyAll();<BR>104 
+      | <BR>105 | return count;<BR>106 | }<BR>107 | <BR>108 | /** Thrown if you 
+      try to release more than the maximum number<BR>109 | * of slots.<BR>110 | 
+      */<BR>111 | public static class TooManyReleases extends RuntimeException 
+      <BR>112 | { private TooManyReleases()<BR>113 | { super("Released semaphore 
+      that was at capacity");<BR>114 | }<BR>115 | }<BR>116 | <BR>117 | 
+      /*****************************************************************<BR>118 
+      | * A semaphore-specific release function, returns an error status<BR>119 
+      | * if the count would go past the initially specified maximum.<BR>120 | * 
+      @returns true if the semaphore was successfully released, false<BR>121 | * 
+      otherwise.<BR>122 | */<BR>123 | public synchronized boolean 
+      notifying_release()<BR>124 | {<BR>125 | if( count &gt;= max_count )<BR>126 
+      | return false;<BR>127 | <BR>128 | if( ++count == 1 )<BR>129 | 
+      notifyAll();<BR>130 | return true;<BR>131 | }<BR>132 | } 
+  <BR></CODE></TD></TR></TBODY></TABLE>
+<P>Listing 4 is pretty useful as it stands, but there's one variations on the 
+counting-semaphore theme that deserves mention. I sometimes use what I call a 
+"reverse sensing" semaphore. This one blocks until the pool is empty. In the 
+pooled-database-connection example I discussed earlier, a thread that created 
+new database connections might wait on this reverse-sensing semaphore, waking up 
+when it needed to open additional connections. I'm sure you can think of other 
+variations as well. 
+<P><FONT size=+1><STRONG>Wrapping up</STRONG></FONT><BR>So that's it for this 
+month. We've seen how to use the built-in condition variable to communicate 
+between threads generally (and the AWT event thread in particular). We've also 
+seen that, though you can do a lot of what a condition variable does just by 
+using <CODE>wait()</CODE> and <CODE>notify()</CODE>, you can't do everything. 
+The <CODE>Condition</CODE> class adds the essential ability to not wait when the 
+condition is already true. The <CODE>Counting_semaphore</CODE> isn't implemented 
+as a Java primitive at all, so it can be particularly useful when you really 
+need it to manage pooled resources. 
+<P>Next month's column will continue on the current theme, presenting a 
+<CODE>Timer</CODE> class that makes it easy to fire events on a regular 
+schedule. The <CODE>Timer</CODE> implementation also demonstrates how to write 
+code to suspend, resume, and stop threads without using the (now deprecated) 
+<CODE>suspend()</CODE>, <CODE>resume()</CODE>, and <CODE>stop()</CODE> methods. 
+<IMG height=8 
+src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/dingbat.gif" 
+width=8> <!-- end body text -->
+<P>
+<DIV align=center><FONT face=Arial,Helvetica,Sans-serif><A 
+href="http://www.javaworld.com/javaworld/home.html">Home</A> | <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Programming%20Java%20threads%20in%20the%20real%20world%2C%20Part%204&amp;author=Allen%20Holub&amp;summary=This%20column%20continues%20where%20last%20month%27s%20column%20left%20off%2C%20presenting%20a%0Afew%20more%20implementations%20of%20classes%20that%20are%20useful%20when%20you%27re%20doing%0Amultithreading%20in%20Java.%20%20The%20two%20classes%20I%27ll%20discuss%20provide%0Acapabilities%20difficult%20to%20get%20using%20Java%27s%20threading%20primitives%20alone%3A%0Aa%20%3Cem%3Econdition%20variable%3C%2Fem%3E%20adds%20to%20%3Ccode%3Ewait%3C%2Fcode%3E%20the%20ability%20to%0Anot%20wait%20when%20the%20condition%20you%27re%20waiting%20for%20has%20already%20taken%20place%3B%0Aand%20a%20%3Cem%3Ecounting%20semaphore%3C%2Fem%3E%20lets%20you%20control%20a%20pool%20of%20resources%0Awithout%20sucking%20up%20machine%20cycles%20in%20polling%20loops.%20%20This%20month%27s%0Acolumn%20also%20discusses%20a%20few%20minor%20fixes%20to%20the%20code%20presented%20last%0Amonth.%20%3Cem%3E%286%2C250%20words%29%3C%2Fem%3E%0A">Mail&nbsp;this&nbsp;Story</A> 
+| <A 
+href="http://www.javaworld.com/javaworld/jw-12-1998/jw-12-toolbox_p.html#resources">Resources&nbsp;and&nbsp;Related&nbsp;Links</A> 
+</FONT></DIV>
+<P>
+<TABLE bgColor=#336699 border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+            href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+            border=0 height=60 
+            src="Programming Java threads in the real world, Part 4x - JavaWorld December 1998_files/389936-kayak_ad1ab.gif" 
+            vspace=5 width=468></A> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P align=center><A 
+href="http://www.javaworld.com/javaworld/common/jw-copyright.html">(c) Copyright 
+1998 ITworld.com, Inc., an IDG Communications company</A> </P>
+<P><A name=resources><STRONG>Resources</STRONG></A> 
+<UL>
+  <LI>All the real code discussed in this article (the stuff in the 
+  <EM>com.holub.asynch</EM> package) is available in the "Goodies" section on my 
+  Web site. The version on the Web site should be considered the definitive 
+  version -- at least it corrects any bugs I know about. <BR><A 
+  href="http://www.holub.com/">http://www.holub.com/</A> </LI></UL>Feedback: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?jweditors@javaworld.com+/javaworld/jw-12-1998/jw-12-toolbox.html+jweditors" 
+name=jweditors>jweditors@javaworld.com</A><BR>Technical difficulties: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?webmaster@javaworld.com+/javaworld/jw-12-1998/jw-12-toolbox.html+webmaster" 
+name=webmaster>webmaster@javaworld.com</A><BR>URL: 
+http://www.javaworld.com/jw-12-1998/jw-12-toolbox.html <BR>Last modified: 
+Tuesday, April 18, 2000 </BODY></HTML>

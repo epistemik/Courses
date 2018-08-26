@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0071)http://java.sun.com/docs/books/tutorial/essential/threads/priority.html -->
+<HTML><HEAD><TITLE>Understanding Thread Priority</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="03-The Life Cycle of a Thread.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> 
+      <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="05-Synchronizing Threads.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>Understanding Thread Priority </H2>
+<BLOCKQUOTE>Previously, this lesson claimed that threads run concurrently. 
+  While conceptually this is true, in practice it usually isn't. Most computer 
+  configurations have a single CPU, so threads actually run one at a time in 
+  such a way as to provide an illusion of concurrency. Execution of multiple 
+  threads on a single CPU, in some order, is called <EM>scheduling</EM>. The 
+  Java runtime supports a very simple, deterministic scheduling algorithm known 
+  as <EM>fixed priority scheduling</EM>. This algorithm schedules threads based 
+  on their <EM>priority</EM> relative to other runnable threads. 
+  <P>When a Java thread is created, it inherits its priority from the thread 
+  that created it. You can also modify a thread's priority at any time after its 
+  creation using the <CODE>setPriority</CODE> method. Thread priorities are 
+  integers ranging between <CODE>MIN_PRIORITY</CODE> and 
+  <CODE>MAX_PRIORITY</CODE> (constants defined in the <CODE>Thread</CODE> 
+  class). The higher the integer, the higher the priority. At any given time, 
+  when multiple threads are ready to be executed, the runtime system chooses the 
+  runnable thread with the highest priority for execution. Only when that thread 
+  stops, yields, or becomes not runnable for some reason will a lower priority 
+  thread start executing. If two threads of the same priority are waiting for 
+  the CPU, the scheduler chooses one of them to run in a round-robin fashion. 
+  The chosen thread will run until one of the following conditions is true: 
+  <UL>
+    <LI>A higher priority thread becomes runnable. 
+    <LI>It yields, or its <CODE>run</CODE> method exits. 
+    <LI>On systems that support time-slicing, its time allotment has expired. 
+    </LI></UL>Then the second thread is given a chance to run, and so on, until 
+  the interpreter exits. 
+  <P>The Java runtime system's thread scheduling algorithm is also 
+  <EM>preemptive</EM>. If at any time a thread with a higher priority than all 
+  other runnable threads becomes runnable, the runtime system chooses the new 
+  higher priority thread for execution. The new higher priority thread is said 
+  to <EM>preempt</EM> the other threads. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Rule of thumb:</STRONG>&nbsp; At any given time, the highest 
+    priority thread is running. However, this is not guaranteed. The thread 
+    scheduler may choose to run a lower priority thread to avoid starvation. For 
+    this reason, use priority only to affect scheduling policy for efficiency 
+    purposes. Do not rely on thread priority for algorithm correctness. 
+    <HR>
+  </BLOCKQUOTE></BLOCKQUOTE>
+<H3>A Thread Race</H3>
+<BLOCKQUOTE><A 
+  href="example-swing/RaceApplet.java" 
+  target=source><FONT color=#bb000f><CODE>RaceApplet</CODE></FONT></A><A 
+  href="example-swing/RaceApplet.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> is an 
+  applet that animates a race between two "runner" threads with different 
+  priorities. When you click the mouse down over the applet, it starts the two 
+  runners. The top runner, labelled "2", has a priority of 2. The second runner, 
+  labelled "3", has a priority of 3. 
+  <P><STRONG>Try this:</STRONG> Click the applet below to start the race. <BR>
+  <P>
+  <CENTER><A 
+  href="example-swing/UnfairRace.html" 
+  target=_blank><IMG align=bottom alt="Click this figure to run the applet." 
+  height=50 src="Thread_files/UnfairRaceApplet.gif" 
+  width=497 NATURALSIZEFLAG="3"></A><BR><EM>This is a picture of the applet's 
+  GUI. To run the applet, click the picture. The applet will appear in a new 
+  browser window.</EM></CENTER>
+  <P></P>
+  <P>This is the <CODE>run</CODE> method for both <A 
+  href="example-swing/Runner.java" 
+  target=source><FONT color=#bb000f><CODE>runners</CODE></FONT></A><A 
+  href="example-swing/Runner.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A>. 
+  <BLOCKQUOTE><PRE>public int tick = 1;
+public void run() {
+    while (tick &lt; 10000000)
+        tick++;
+} 
+</PRE></BLOCKQUOTE>This <CODE>run</CODE> method simply counts from 1 to 
+  10,000,000. The instance variable <CODE>tick</CODE> is public because the 
+  applet uses this value to determine how far the runner has progressed (how 
+  long its line is). 
+  <P>In addition to the two runner threads, this applet also has a third thread 
+  that handles the drawing. The drawing thread's <CODE>run</CODE> method 
+  contains an infinite loop; during each iteration of the loop it draws a line 
+  for each runner (whose length is computed from the runner's <CODE>tick</CODE> 
+  variable), and then sleeps for 3 milliseconds. The drawing thread has a thread 
+  priority of 4--higher than either runner. So, whenever the drawing thread 
+  wakes up after 3 milliseconds, it becomes the highest priority thread, 
+  preempting whichever runner is currently running, and draws the lines. You can 
+  see the lines inch their way across the page 
+  <P>This is not a fair race because one runner has a higher priority than the 
+  other. Each time the drawing thread yields the CPU by going to sleep for 3 
+  milliseconds, the scheduler chooses the highest priority runnable thread to 
+  run; in this case, it's always the runner with a priority of 3. Here is 
+  another version of the applet that implements a fair race, that is, both of 
+  the runners have the same priority and they have an equal chance of being 
+  chosen to run. 
+  <P><STRONG>Try this:</STRONG> Click the mouse to start the race. <BR>
+  <P>
+  <CENTER><A 
+  href="example-swing/FairRace.html" 
+  target=_blank><IMG align=bottom alt="Click this figure to run the applet." 
+  height=47 src="Thread_files/FairRaceApplet.gif" 
+  width=468 NATURALSIZEFLAG="3"></A><BR><EM>This is a picture of the applet's 
+  GUI. To run the applet, click the picture. The applet will appear in a new 
+  browser window.</EM></CENTER>
+  <P></P>In this race, each time the drawing thread yields the CPU by going to 
+  sleep, there are two runnable threads of equal priority--the runners--waiting 
+  for the CPU; the scheduler must choose one of the threads to run. In this 
+  situation, the scheduler chooses the next thread to run in a round-robin 
+  fashion. </BLOCKQUOTE>
+<H3>Selfish Threads</H3>
+<BLOCKQUOTE>The <CODE>Runner</CODE> class used in the races above actually 
+  implements "socially-impaired" thread behavior. Recall the <CODE>run</CODE> 
+  method from the Runner class used in the races above: 
+  <BLOCKQUOTE><PRE>public int tick = 1;
+public void run() {
+    while (tick &lt; 10000000)
+        tick++;
+} 
+</PRE></BLOCKQUOTE>The <CODE>while</CODE> loop in the <CODE>run</CODE> method 
+  is in a tight loop. Once the scheduler chooses a thread with this thread body 
+  for execution, the thread never voluntarily relinquishes control of the 
+  CPU--the thread continues to run until the <CODE>while</CODE> loop terminates 
+  naturally or until the thread is preempted by a higher priority thread. This 
+  thread is called a <EM>selfish thread</EM>. 
+  <P>In some situations, having selfish threads doesn't cause any problems 
+  because a higher priority thread preempts the selfish one (just as the drawing 
+  thread in the RaceApplet preempts the selfish runners). However, in other 
+  situations, threads with CPU-greedy <CODE>run</CODE> methods, such as the 
+  <CODE>Runner</CODE> class, can take over the CPU and cause other threads to 
+  wait for a long time before getting a chance to run. </P></BLOCKQUOTE>
+<H3>Time-Slicing</H3>
+<BLOCKQUOTE>Some systems, such as Windows 95/NT, fight selfish thread behavior 
+  with a strategy known as <EM>time-slicing</EM>. Time-slicing comes into play 
+  when there are multiple "Runnable" threads of equal priority and those threads 
+  are the highest priority threads competing for the CPU. For example, this <A 
+  href="example/RaceTest.java" 
+  target=source><FONT color=#bb000f><CODE>stand-alone Java 
+  program</CODE></FONT></A><A 
+  href="example/RaceTest.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> (which 
+  is based on the RaceApplet above) creates two equal priority <A 
+  href="example/SelfishRunner.java" 
+  target=source><FONT color=#bb000f><CODE>selfish threads</CODE></FONT></A><A 
+  href="example/SelfishRunner.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> that 
+  have the following <CODE>run</CODE> method. 
+  <BLOCKQUOTE><PRE>public void run() {
+    while (tick &lt; 400000) {
+        tick++;
+        if ((tick % 50000) == 0)
+            System.out.println("Thread #" + num
+                               + ", tick = " + tick);
+    }
+}    
+</PRE></BLOCKQUOTE>This <CODE>run</CODE> contains a tight loop that increments 
+  the integer <CODE>tick</CODE> and every 50,000 ticks prints out the thread's 
+  identifier and its <CODE>tick</CODE> count. 
+  <P>When running this program on a time-sliced system, you will see messages 
+  from both threads intermingled with one another. Like this: 
+  <BLOCKQUOTE><PRE>Thread #1, tick = 50000
+Thread #0, tick = 50000
+Thread #0, tick = 100000
+Thread #1, tick = 100000
+Thread #1, tick = 150000
+Thread #1, tick = 200000
+Thread #0, tick = 150000
+Thread #0, tick = 200000
+Thread #1, tick = 250000
+Thread #0, tick = 250000
+Thread #0, tick = 300000
+Thread #1, tick = 300000
+Thread #1, tick = 350000
+Thread #0, tick = 350000
+Thread #0, tick = 400000
+Thread #1, tick = 400000
+</PRE></BLOCKQUOTE>This output is produced because a time-sliced system 
+  divides the CPU into time slots and iteratively gives each of the 
+  equal-and-highest priority threads a time slot in which to run. The 
+  time-sliced system iterates through the equal-and-highest priority threads, 
+  allowing each one a bit of time to run, until one or more of them finishes or 
+  until a higher priority thread preempts them. Notice that time-slicing makes 
+  no guarantees as to how often or in what order threads are scheduled to run. 
+  <P>When running this program on a non-time-sliced system, however, you will 
+  see messages from one thread finish printing before the other thread ever gets 
+  a chance to print one message. Like this: 
+  <BLOCKQUOTE><PRE>Thread #0, tick = 50000
+Thread #0, tick = 100000
+Thread #0, tick = 150000
+Thread #0, tick = 200000
+Thread #0, tick = 250000
+Thread #0, tick = 300000
+Thread #0, tick = 350000
+Thread #0, tick = 400000
+Thread #1, tick = 50000
+Thread #1, tick = 100000
+Thread #1, tick = 150000
+Thread #1, tick = 200000
+Thread #1, tick = 250000
+Thread #1, tick = 300000
+Thread #1, tick = 350000
+Thread #1, tick = 400000
+</PRE></BLOCKQUOTE>This is because a non-time-sliced system chooses one of the 
+  equal-and-highest priority threads to run and allows that thread to run until 
+  it relinquishes the CPU (by sleeping, yielding, finishing its job) or until a 
+  higher priority preempts it. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Note:</STRONG>&nbsp; The Java runtime does not implement (and 
+    therefore does not guarantee) time-slicing. However, some systems on which 
+    you can run Java do support time-slicing. Your Java programs should not rely 
+    on time-slicing as it may produce different results on different systems. 
+    <HR>
+  </BLOCKQUOTE>
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Try this:</STRONG>&nbsp; Compile and run the <A 
+    href="example/RaceTest.java" 
+    target=source><FONT color=#bb000f><CODE>RaceTest</CODE></FONT></A><A 
+    href="example/RaceTest.java"><IMG 
+    align=absMiddle alt="(in a .java source file)" border=0 height=11 
+    src="Thread_files/sourceIcon.gif" width=11></A> and 
+    <A 
+    href="example/SelfishRunner.java" 
+    target=source><FONT color=#bb000f><CODE>SelfishRunner</CODE></FONT></A><A 
+    href="example/SelfishRunner.java"><IMG 
+    align=absMiddle alt="(in a .java source file)" border=0 height=11 
+    src="Thread_files/sourceIcon.gif" width=11></A> 
+    classes on your computer. Can you tell if you have a time-sliced system? 
+    <HR>
+  </BLOCKQUOTE>
+  <P>As you can imagine, writing CPU-intensive code can have negative 
+  repercussions on other threads running in the same process. In general, you 
+  should try to write "well-behaved" threads that voluntarily relinquish the CPU 
+  periodically and give other threads an opportunity to run. In particular, you 
+  should never write Java code that relies on time-sharing--this will 
+  practically guarantee that your program will give different results on 
+  different computer systems. 
+  <P>A thread can voluntarily yield the CPU without going to sleep or some other 
+  drastic means by calling the <CODE>yield</CODE> method. The <CODE>yield</CODE> 
+  method gives other threads of the same priority a chance to run. If there are 
+  no equal priority threads that are runnable, then the yield is ignored. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Try this:</STRONG>&nbsp; Rewrite the SelfishRunner class to be a <A 
+    href="example/PoliteRunner.java" 
+    target=source><FONT color=#bb000f><CODE>PoliteRunner</CODE></FONT></A><A 
+    href="example/PoliteRunner.java"><IMG 
+    align=absMiddle alt="(in a .java source file)" border=0 height=11 
+    src="Thread_files/sourceIcon.gif" width=11></A> by 
+    calling the <CODE>yield</CODE> method from the <CODE>run</CODE> method. Be 
+    sure to modify the <A 
+    href="example/RaceTest2.java" 
+    target=source><FONT color=#bb000f><CODE>main program</CODE></FONT></A><A 
+    href="example/RaceTest2.java"><IMG 
+    align=absMiddle alt="(in a .java source file)" border=0 height=11 
+    src="Thread_files/sourceIcon.gif" width=11></A> to 
+    create <CODE>PoliteRunner</CODE>s instead of <CODE>SelfishRunner</CODE>s. 
+    Compile and run the new classes on your computer. Now isn't that better? 
+    <HR>
+  </BLOCKQUOTE></BLOCKQUOTE>
+<H3>Summary</H3>
+<UL>
+  <LI>Most computers have only one CPU, so threads must share the CPU with other 
+  threads. The execution of multiple threads on a single CPU, in some order, is 
+  called scheduling. The Java runtime supports a very simple, deterministic 
+  scheduling algorithm known as fixed priority scheduling. 
+  <LI>Each Java thread is given a numeric priority between 
+  <CODE>MIN_PRIORITY</CODE> and <CODE>MAX_PRIORITY</CODE> (constants defined in 
+  the <CODE>Thread</CODE> class). At any given time, when multiple threads are 
+  ready to be executed, the thread with the highest priority is chosen for 
+  execution. Only when that thread stops, or is suspended for some reason, will 
+  a lower priority thread start executing. 
+  <LI>Scheduling of the CPU is fully preemptive. If a thread with a higher 
+  priority than the currently executing thread needs to execute, the higher 
+  priority thread is immediately scheduled. 
+  <LI>The Java runtime will not preempt the currently running thread for another 
+  thread of the same priority. In other words, the Java runtime does not 
+  time-slice. However, the system implementation of threads underlying the Java 
+  Thread class may support time-slicing. Do not write code that relies on 
+  time-slicing. 
+  <LI>In addition, a given thread may, at any time, give up its right to execute 
+  by calling the <CODE>yield</CODE> method. Threads can only yield the CPU to 
+  other threads of the same priority--attempts to yield to a lower priority 
+  thread are ignored. 
+  <LI>When all the runnable threads in the system have the same priority, the 
+  scheduler chooses the next thread to run in a simple, non-preemptive, 
+  round-robin scheduling order. </LI></UL>
+<BLOCKQUOTE></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="03-The Life Cycle of a Thread.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> 
+      <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="05-Synchronizing Threads.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

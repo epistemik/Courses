@@ -1,0 +1,192 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 327 "# HOUSEHOLDER'S ALGORITHM 9.5\n#\n
+# To obtain a symmetric tridiagonal matrix A(n-1) similar\n# to the sy
+mmetric matrix A = A(1), construct the following\n# matrices A(2),A(3)
+,...,A(n-1) where A(K) = A(I,J)**K, for\n# each K = 1,2,...,n-1:\n#\n#
+ INPUT:   Dimension n; matrix A.\n#\n# OUTPUT:  A(n-1) (At each step, \+
+A can be overwritten.)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 100 "alg095 :
+= proc() local OK, AA, NAME, INP, N, I, J, A, K, Q, KK, S, RSQ, V, U, \+
+PROD, Z, L, FLAG, OUP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`T
+his is the Householder Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "printf(`The s
+ymmetric array A will be input from a text file\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 26 "printf(`in the order:\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 63 "printf(`              A(1,1), A(1,2), A(1,3), ..., \+
+A(1,n),\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`          \+
+            A(2,2), A(2,3), ..., A(2,n),\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`                              A(3,3), ..., A(
+3,n),\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`            \+
+                          ..., A(n,n)\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 71 "printf(`Place as many entries as desired on each line
+, but separate `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`entri
+es with\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least o
+ne blank.\\n\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Ha
+s the input file been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`for exampl
+e:A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := s
+canf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME
+,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "while OK = FALSE" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 38 "do printf(`Input the dimension n.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "if N > 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from
+ I to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(
+INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "A[J-1,I-1] := A[I
+-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf
+(`Dimension must be greater than 1.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 
+"printf(`The program will end so the input file can be created.\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP
+ 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for K from 1 to N-2 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "Q := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "KK := K+1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from KK to N do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 29 "Q := Q+A[I-1,K-1]*A[I-1,K-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}
+{PARA 0 "" 0 "" {TEXT -1 28 "S is used in place of alpha." }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 32 "if abs(A[K,K-1]) <= 1.0e-20 then" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 13 "S := sqrt(Q);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "S := A[K,K-
+1]/abs(A[K,K-1])*sqrt(Q);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "RSQ := (S+A[K,K-1])*S;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "V[K-1] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "V[K] := A[K,K-1]+S;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 22 "for J from K+2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "V[J
+-1] := A[J-1,K-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for
+ J from K to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "U[J-1] := 0;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from KK to N do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 35 "U[J-1] := U[J-1]+A[J-1,I-1]*V[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "U[J-1] := U[J-1]/RSQ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 10 "PROD := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I from K+1 \+
+to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "PROD := PROD + V[I-1]*U[
+I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from K \+
+to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "Z[J-1] := U[J-1] - 0.5*P
+ROD*V[J-1]/RSQ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "for L \+
+from K+1 to N-1 do" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 22 "for J from L+1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "A[J-1,L-1] := A[J-1,L-1]-V[L-1]*Z[J-1]-V[J-1]*Z[L-1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "A[L-1,J-1] := A[J-1,L-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "S
+TEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "A[L-1,L-1] := A[L-1,L-1] \+
+- 2*V[L-1]*Z[L-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "A[
+N-1,N-1] := A[N-1,N-1]-2*V[N-1]*Z[N-1];" }}{PARA 0 "" 0 "" {TEXT -1 7 
+"STEP 13" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from K+2 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "A[K-1,J-1] := 0;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 16 "A[J-1,K-1] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 14" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 33 "A[K,K-1] := A[K,K-1]-V[K]*Z[K-1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "A[K-1,K] := A[K,K-1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 15" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or
+ 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - dri
+ve:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`fo
+r example  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP \+
+:= fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "fprintf
+(OUP, `HOUSEHOLDER METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+76 "fprintf(OUP, `The similar tridiagonal matrix follows - output by r
+ows\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N d
+o" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, ` %11.8f`, A[I-1,J-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "fprintf(OUP, `\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg095G:6\"66%#OKG%#AAG%%NAMEG%$INPG%\"NG%\"IG%\"JG%\"AG%\"KG%\"QG%#K
+KG%\"SG%$RSQG%\"VG%\"UG%%PRODG%\"ZG%\"LG%%FLAGG%$OUPGF&F&C2-%'printfG6
+#%AThis~is~the~Householder~Method.|+G>8$%&FALSEG-F>6#%VThe~symmetric~a
+rray~A~will~be~input~from~a~text~file|+G-F>6#%/in~the~order:|+G-F>6#%T
+~~~~~~~~~~~~~~A(1,1),~A(1,2),~A(1,3),~...,~A(1,n),|+G-F>6#%T~~~~~~~~~~
+~~~~~~~~~~~~A(2,2),~A(2,3),~...,~A(2,n),|+G-F>6#%T~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~A(3,3),~...,~A(3,n),|+G-F>6#%T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~...,~A(n,n)|+|+G-F>6#%gnPlace~as~many~entries~as~desired~on~ea
+ch~line,~but~separate~G-F>6#%.entries~with|+G-F>6#%7at~least~one~blank
+.|+|+|+G-F>6#%RHas~the~input~file~been~created?~-~enter~Y~or~N.|+G>8%&
+-%&scanfG6#%#%cG6#\"\"\"@%5/F]o%\"YG/F]o%\"yGC(-F>6#%SInput~the~file~n
+ame~in~the~form~-~drive:\\name.ext|+G-F>6#%9for~example:A:\\DATA.DTA|+
+G>8&&-F`o6#%#%sGFco>8'-%&fopenG6%Fcp%%READG%%TEXTG>FBFC?(F&FdoFdoF&/FB
+FCC%-F>6#%8Input~the~dimension~n.|+G>8(&-F`o6#%#%dGFco@%2FdoFgqC%?(8)F
+doFdoFgq%%trueG?(8*F`rFdoFgqFarC$>&8+6$,&F`rFdo!\"\"Fdo,&FcrFdoFjrFdo&
+-%'fscanfG6$Fip%#%fGFco>&Fgr6$F[sFirFfr-%'fcloseG6#Fip>FB%%TRUEG-F>6#%
+CDimension~must~be~greater~than~1.|+G-F>6#%XThe~program~will~end~so~th
+e~input~file~can~be~created.|+G@$/FBFhsC-?(8,FdoFdo,&FgqFdo!\"#FdoFarC
+3>8-\"\"!>8.,&FctFdoFdoFdo?(F`rF[uFdoFgqFar>Fht,&FhtFdo*$&Fgr6$Fir,&Fc
+tFdoFjrFdo\"\"#Fdo@%1-%$absG6#&Fgr6$FctFcuFit>8/-%%sqrtG6#Fht>F]v*(Fju
+FdoFguFjrF^vFdo>80*&,&F]vFdoFjuFdoFdoF]vFdo>&816#FcuFit>&Fiv6#FctFfv?(
+Fcr,&FctFdoFduFdoFdoFgqFar>&Fiv6#F[s&Fgr6$F[sFcu?(FcrFctFdoFgqFarC%>&8
+2FbwFit?(F`rF[uFdoFgqFar>Fhw,&FhwFdo*&FbsFdo&Fiv6#FirFdoFdo>Fhw*&FhwFd
+oFdvFjr>83Fit?(F`rF\\uFdoFgqFar>Fcx,&FcxFdo*&F^xFdo&FiwF_xFdoFdo?(FcrF
+ctFdoFgqFar>&84Fbw,&FhwFdo*(FcxFdoFawFdoFdvFjr$!\"&Fjr?(85F\\uFdo,&Fgq
+FdoFjrFdoFarC$?(Fcr,&FbyFdoFdoFdoFdoFgqFarC$>&Fgr6$F[s,&FbyFdoFjrFdo,(
+FiyFdo*&&Fiv6#F[zFdoF[yFdoFjr*&FawFdo&F\\yF_zFdoFjr>&Fgr6$F[zF[sFiy>&F
+gr6$F[zF[z,&FfzFdo*&F^zFdoFazFdoFet>&Fgr6$FcyFcy,&F[[lFdo*&&Fiv6#FcyFd
+o&F\\yF`[lFdoFet?(FcrF_wFdoFgqFarC$>&Fgr6$FcuF[sFit>FcwFit>Fju,&FjuFdo
+*&F\\wFdo&F\\yFjvFdoFjr>&Fgr6$FcuFctFju-F>6#%:Choice~of~output~method:
+|+G-F>6#%51.~Output~to~screen|+G-F>6#%82.~Output~to~text~file|+G-F>6#%
+6Please~enter~1~or~2.|+G>86Fhq@%/F\\]lFduC&F\\p-F>6#%<for~example~~A:
+\\OUTPUT.DTA|+G>FcpFdp>87-F[q6%Fcp%&WRITEGF^q>Fe]l%(defaultG-%(fprintf
+G6$Fe]l%5HOUSEHOLDER~METHOD|+|+G-F\\^l6$Fe]l%ZThe~similar~tridiagonal~
+matrix~follows~-~output~by~rows|+|+G?(F`rFdoFdoFgqFarC$?(FcrFdoFdoFgqF
+ar-F\\^l6%Fe]l%(~%11.8fGFfr-F\\^l6$Fe]l%#|+|+G@$0Fe]lFj]lC$-Fes6#Fe]l-
+F>6$%COutput~file~%s~created~sucessfullyGFcp-%'RETURNG6#FitF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg095();" }}{PARA 6 "" 1 "" 
+{TEXT -1 446 "This is the Householder Method.\nThe symmetric array A w
+ill be input from a text file\nin the order:\n              A(1,1), A(
+1,2), A(1,3), ..., A(1,n),\n                      A(2,2), A(2,3), ...,
+ A(2,n),\n                              A(3,3), ..., A(3,n),\n        \+
+                              ..., A(n,n)\n\nPlace as many entries as \+
+desired on each line, but separate entries with\nat least one blank.\n
+\n\nHas the input file been created? - enter Y or N." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 73 "Input th
+e file name in the form - drive:\\name.ext\nfor example:A:\\DATA.DTA" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg095.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 22 "Input the dimension n." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" {TEXT -1 88 "Choice o
+f output method:\n1. Output to screen\n2. Output to text file\nPlease \+
+enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 
+6 "" 1 "" {TEXT -1 275 "HOUSEHOLDER METHOD\n\nThe similar tridiagonal \+
+matrix follows - output by rows\n\n  4.00000000 -3.00000000  0.0000000
+0  0.00000000\n\n -3.00000000  3.33333333 -1.66666666  0.00000000\n\n \+
+ 0.00000000 -1.66666666 -1.31999999   .90666666\n\n  0.00000000  0.000
+00000   .90666666  1.98666666" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 131 0" 0 
+}{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://lotos.site.uottawa.ca/~ngorse/csi3310/lab4.html -->
+<HTML><HEAD><TITLE>CSI3310, Tutorials, DGD 4</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY background="CSI3310, Tutorials, DGD 4_files/stucco.jpe">
+<CENTER>
+<TABLE border=0 width="95%">
+  <TBODY>
+  <TR>
+    <TD align=left><I>Operating<BR>systems</I></TD>
+    <TD align=middle>
+      <H1>CSI3310</H1><B><I>Tutorials, DGD 4</I></B></TD>
+    <TD align=right><I>Nicolas Gorse<BR>Summer 
+2000</I></TD></TR></TBODY></TABLE></CENTER>
+<CENTER>
+<HR width="100%">
+</CENTER>
+<P>
+<CENTER><FONT size=+2>Threads and synchronization</FONT></CENTER>
+<P>
+<HR width="60%">
+
+<P><FONT size=+2>Concepts</FONT>
+<UL>
+  <LI><B><I>synchronized</I> methods</B><BR>Ususally, a method can be executed 
+  by several objects at the same time. a <B>synchronized</B> method can only be 
+  executed by one object at a time. Examples below illustrate the concept:
+  <P>- <A 
+  href="TacheNonSync.java">TacheNonSync.java</A> 
+  - Thread using a method that is not synchronized<BR>- <A 
+  href="TacheSync.java">TacheSync.java</A> 
+  - Thread using a method that is synchronized. 
+  <P><BR></P>
+  <LI><B><I>static</I> methods</B><BR>As variables, a static method is a method 
+  for which only one instance exists. All the objects instanciated from the 
+  class where the method is defined will refer to the same instance. This allow 
+  the performance of mutual exclusion (using synchronized) on a method of the 
+  class since all objects will try to execute the same instance. Examples below 
+  illustrate the concept:
+  <P>- <A 
+  href="TacheSyncStatic.java">TacheSyncStatic.java</A> 
+  -<I>synchronized</I> AND <I>static</I>method<BR>- <A 
+  href="TacheSyncNonStatic.java">TacheSyncNonStatic.java</A> 
+  - <I>synchronized</I> but not <I>static</I> method. 
+  <P><BR></P>
+  <LI><B>wait() and notify()</B><BR>Methods wait() and notify() belong to the 
+  class Object (java.lang.Object) and are methods that are used to suspend and 
+  resume objects in execution. A call to the method wait() will suspend the 
+  calling Thread. The Thread will be resumed when he will receive a notification 
+  message. When called, the notify() method will send a notification message to 
+  one of the suspended Threads. These methods can be used to implement blocking 
+  semaphores. 
+  <P><BR></P>
+  <LI><B>Blocking semaphores</I></B><BR>Example of a blocking semaphore 
+  implementation. The semaphore contains a variable indicating if this latter is 
+  free or not. Methods <B>take()</B> and <B>release()</B> allow the acquisition 
+  and the release of the semaphore. 
+  <P>When an object tries to take the semaphore (by calling the take() method), 
+  if the semaphore is free, it will become non free. Else, if non free, the 
+  calling object (Thread) will be blocked by the call of the wait() method. When 
+  the semaphore will be released (by calling release()), notify() will be called 
+  and the wait() method will terminate. The semaphore will then be free and the 
+  object that was blocked will be able to take it.
+  <P>- <A 
+  href="Semaphore.java">Semaphore.java</A> 
+  - implements a blocking semaphore. 
+  <P></P></LI></UL>
+<UL></UL>
+<CENTER>
+<HR width="90%">
+<A href="../main.html">main 
+page</A></CENTER>
+<UL></UL></BODY></HTML>

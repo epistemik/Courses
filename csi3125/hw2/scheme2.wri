@@ -1,0 +1,25 @@
+
+(define (find-value name a-list) (cond ( (equal? name (caar a-list))) (#t)
+                                         (else (find-value name (cdr a-list) )
+                                       )));
+ 
+(define (find-value name a-list) (cond ( (equal? name (caar a-list))) (cadar a-list)
+                                         (else (find-value name (cdr a-list) )
+                                       )));
+ 
+(define (delete-pair name alist) (cond ( (null? alist)              ()
+                                         (equal? name (caar alist)) (cdr alist)
+                                         (else (cons (car alist)  (delete-pair name (cdr alist))))
+                                        )));
+ 
+(map (lambda (x) (if (number? x) (list 'num x) (list 'nonum x))) N);
+ 
+ 
+reduce (in class notes)
+-----------------------
+ 
+>> NOT A DEFINED FUNCTION!!
+ 
+reduce f f0 L = (f0 L1(f0 L2(f0 L3(f0 L4 f))))).
+ 
+L = (1 2 3 4) -> (reduce (+ f x) 1 L) = 11.

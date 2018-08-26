@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/Assignment2.html -->
+<HTML><HEAD><TITLE>Assignment</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.3017.1000" name=GENERATOR></HEAD>
+<BODY>
+<H2>Programming assignment #2</H2>
+<BLOCKQUOTE><B><FONT color=#ff0000>DUE DATE: June 22, at 16:00</FONT></B> 
+  <P>For the CSI 3310 class: submit your assignment to <A 
+  href="mailto:nhadibi@site.uottawa.ca">Nabila Hadibi</A>
+  <BR>For the CSI 3710 class: submit your assignment to <A 
+  href="mailto:ngorse@site.uottawa.ca">Nicolas Gorse</A></P>
+</BLOCKQUOTE>
+<BLOCKQUOTE><B><FONT size=+2>THE DRAWING CONTEST</FONT></B><FONT size=+1>
+  <P>We have a drawing contest with 5 finalists. Each artist is allowed to
+  produce as many drawings as she wants during the contest. The author of the 
+  best drawing wins the prize. It turns out that the jury consists of computer 
+  science and computer engineering professors who know nothing about art. So the 
+  jury has decided privately to simply pick the winning drawing at random as 
+  long as the drawing contains at least one line of each available color in the 
+  contest (red, blue, yellow, and green). But there was a leak, and the artists 
+  have learned about this. So in order to maximize their chances of winning the 
+  prize, the finalists have decided to produce simply as many drawings as they 
+  could where each drawing would contain one line of each color above. 
+  <P>To make a drawing, each artist must first grab a sheet of paper (there is a 
+  pile of them, initially of 100 sheets) and then 4 pencils, one for each color. 
+  No artist is allowed to hold more than 4 pencils at once, but at some point 
+  she must hold one pencil of each color to produce a drawing which has a chance 
+  to win. When an artist makes a drawing indicate that fact by writing on the 
+  screen "Artist X makes a drawing". There are only 3 pencils of each color. 
+  Whenever an artist has finished her drawing she must release her 4 pencils
+  then hand the drawing (with her signature on it) to the jury (on a designated 
+  pile) and get a new sheet of paper.&nbsp; Returning the drawing to the jury 
+  and placing it into the designated pile takes a little amount of time which 
+  you should simulate by a random sleeping time interval between 1 and 8 
+  milliseconds. For the pile, use a buffer of 100 integers: each time an artists 
+  hands a drawing, place the artist identification number into the buffer at the 
+  next available position. When an artist has handed a drawing indicate that 
+  fact by writing on the screen "Artist X has handed drawing #Y" (where the 
+  drawing # is just the position in the buffer of where that drawing has been 
+  placed). Getting a new sheet of paper takes also a small amount of time, which 
+  you should simulate by a random sleeping time interval between 1 and 8 
+  milliseconds. After obtaining a sheet of paper, an artist must get 4 pencils, 
+  one of each color. In the process of getting the pencils, as soon as she finds 
+  a color that she does not have, she grabs it but she may need to wait until 
+  other artists make the necessary colors available. When there are no more
+  sheets of paper available, a jury thread starts to select the winner by 
+  choosing at random an entry into the buffer. Your solution must be equally 
+  fair to all the artists and must be free of deadlocks. 
+  <P>In this assignment you must use semaphores (and <B>only</B> semaphores) to 
+  achieve thread synchronization and mutual exclusion when needed. Of course, 
+  this means that you must construct the semaphores with Java's synchronized 
+  methods. You must not use monitors because in the next assignment you will be 
+  asked to use monitors... 
+  <P>For any questions you might have, please ask your TAs first :-) 
+  <P>Here is a sample of execution (that was obtained from my program):</FONT>
+  <P>Artist 0 makes a drawing <BR>Artist 1 makes a drawing <BR>Artist 2 makes a 
+  drawing <BR>Artist 3 makes a drawing <BR>Artist 4 makes a drawing <BR>Artist 0 
+  has handed drawing #0 <BR>Artist 1 has handed drawing #1 <BR>Artist 4 has 
+  handed drawing #2 <BR>Artist 0 makes a drawing <BR>Artist 3 has handed drawing 
+  #3 <BR>Artist 1 makes a drawing <BR>Artist 2 has handed drawing #4 <BR>Artist 
+  4 makes a drawing <BR>.............. <BR>Artist 1 makes a drawing <BR>Artist 1
+  has handed drawing #94 <BR>Artist 2 has handed drawing #95 <BR>Artist 4 makes 
+  a drawing <BR>Artist 0 makes a drawing <BR>Artist 3 makes a drawing <BR>Artist 
+  1 makes a drawing <BR>Artist 4 has handed drawing #96 <BR>Artist 3 has handed 
+  drawing #97 <BR>Artist 1 has handed drawing #98 <BR>Artist 0 has handed 
+  drawing #99 <BR>AND THE WINNER IS ...&nbsp; ARTIST 2 <BR>&nbsp; 
+  <P><B><FONT color=#ff0000>DUE DATE: June 22, at 16:00</FONT></B> 
+  <P>For the CSI 3310 class: submit your assignment to <A 
+  href="mailto:nhadibi@site.uottawa.ca">Nabila Hadibi</A>
+  <BR>For the CSI 3710 class: submit your assignment to <A
+  href="mailto:ngorse@site.uottawa.ca">Nicolas Gorse</A></P>
+</BLOCKQUOTE>
+<P><BR>
+<HR width="100%">
+<BR>&nbsp;
+</BODY>
+</HTML>

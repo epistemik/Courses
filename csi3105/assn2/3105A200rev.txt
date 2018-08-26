@@ -1,0 +1,129 @@
+ CSI 3105                    ASSIGNMENT 2                       Fall, 2000
+ ---------------------------------------------------------------------------
+
+ Due Date: Wednesday, October 25, 2000, by 12:00 (noon) in the appropriate
+           locked CSI 3105 hand-in box, third floor, MacDonald Hall.
+
+ On your assignment and all future assignments, you MUST include the
+ following (failure to do so will result in an immediate LOSS OF 5 MARKS):
+ i)    Your name in the form FIRST NAME followed by LAST NAME.
+ ii)   Your Student ID number at University of Ottawa.
+ iii)  The section in which you are REGISTERED, which I would like you to
+       list as CSI 3105A (even though the section is actually 3105) or
+       CSI 3105B. The CSI 3105A students have the tues/fri. classes, and
+       the CSI 3105B students have the mon/wed. classes.
+       
+ Please be sure to explain all of your solutions carefully and clearly.
+ To be complete, any worst case analysis you do must state the input size,
+ the basic operations being counted, and an input which gives the worst case
+ (you should state these things in your solution, even
+ if some of them are given in the question).
+
+ This assignment will be marked out of 60.
+
+
+ 1. [15 marks total]
+    The maximum contiguous sum problem is as follows:  Given an array X of
+    n integers, find the maximum sum found in any contiguous subarray of
+    X.  for example, for X = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+    the answer is 187 (the sum of the numbers in positions 3, 4, 5, 6 and 7).
+
+    Consider the following recursive pseudocode algorithm for solving this
+    problem for an array X of length n (of course a solution comes from
+    a call to MaxSum(1,n)):
+
+    recursive function MaxSum(L, U)
+
+    if L >= U then {base case}
+       if L > U then   {Zero-element array}
+          return 0.0;
+       if L = U then   {One-element array}
+          return max(0.0, X[L]);  {***}
+
+    else {recursive case}
+       M:= |_ (L + U)/2 _|   {A is X[L..M], B is X[M+1..U]}
+
+       {Find the max crossing to the left}
+       Sum:= 0.0;  MaxToLeft:= 0.0
+       for I := M downto L do
+           Sum:= Sum + X[I]    {***}
+           MaxToLeft:= max(MaxToLeft, Sum)  {***}
+       {endfor}
+
+       {Find the max crossing to the right}
+       Sum:= 0.0;  MaxToRight:= 0.0
+       for I := M+1 to U do
+           Sum:= Sum + X[I]    {***}
+           MaxToRight:= max(MaxToRight, Sum)  {***}
+       {endfor}
+
+       MaxCrossing:= MaxToLeft + MaxToRight  {***}
+
+       MaxInA:= MaxSum(L, M)
+       MaxInB:= MaxSum(M+1, U)
+       return max(MaxCrossing, MaxInA, MaxInB)  {***}
+    {endelse}
+   
+a)  Do a worst case analysis for this algorithm, assuming that n is a power of
+    2 (i.e. n = 2^k).  In this worst case analysis, use n as the input size,
+    and count the number of additions involving elements of X plus the number
+    of times the max for a set of numbers is found (to be clear, I have marked
+    these operations in the algorithm by {***}--these are exactly what you
+    count). This analysis will be similar to that of Mergesort, but if you
+    are getting the same recurence relation, check again (because yours is
+    wrong!). Be sure that in your worst case analysis you clearly do the
+    following:
+
+    i)  state the recurence relation for W(n) for this algorithm
+    ii)  "solve" this recurence relation using back substitution to get an
+         educated guess.
+    iii)  use induction to prove your solution in ii) is correct.
+
+b)  State the complexity of this algorithm, based on your analysis from a).
+
+
+2. [10 marks total]
+a)  Using limits, show that (lgn)^2 + 5lgn is O(nlgn).
+
+b)  Using limits, show that  4n^2 + 6n^3 + 1000 is "big omega" (n^2).
+
+c)  Using the formal definition of "big oh", show that  6n^2 + 20 is O(n^3)
+    by finding the appropriate values of no and c.
+
+
+3.  [10 marks]
+    Do an average case analysis for sequential search, where it is assumed
+    that n is even, x is in the list, and that it is twice as likely
+    that x is in the first half of the list rather than the second half.
+    Simplify your answer as much as possible.
+
+4.  [5 marks]
+    Solve the matrix chain multiplication problem for the following matrix
+    chain, using the dynamic programming algorithm from class.  Be sure to
+    show your work.
+
+    A1 * A2 * A3 * A4
+
+    where A1 is 13x5, A2 is 5x8, A3 is 8x3, and A4 is 3x30.
+
+5.  [15 marks]
+
+    Suppose you are given an array S of n integers which are all > 0 and
+    distinct, and that you are also given an integer P > 0.  The numbers
+    in S are sorted from smallest to largest.  You wish to determine
+    whether or not there are two numbers in S which, when multiplied
+    together, give exactly the number P.
+
+    Design a divide and conquer algorithm for this problem.  You must explain
+    the ideas behind your algorithm clearly, and give a pseudocode
+    description. You do not need to do a worst case analysis of your
+    algorithm, but it should be a linear time algorithm.
+    (Hint:  Multiply the first and last numbers in S and compare this product
+    to P.  Try to use this comparison to eliminate either the first number
+    or the last number from consideration, and then use recursion to solve for
+    a smaller list).
+
+6.  [5 marks]
+    Using the dynamic programming algorithm described in class, find
+    the value for the binomial coefficient 8 choose 5.  Be sure to show
+    your work.

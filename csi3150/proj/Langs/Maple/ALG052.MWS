@@ -1,0 +1,128 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 160 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "M
+aple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 
+0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 
+-1 "" 0 1 0 0 81 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 
+}}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 329 "# RUNGE-KUTTA (ORDER 4) ALGORITHM \+
+5.2\n#\n# TO APPROXIMATE THE SOLUTION TO THE INITIAL VALUE PROBLEM:\n#
+            Y' = F(T,Y), A<=T<=B, Y(A) = ALPHA,\n# AT (N+1) EQUALLY SP
+ACED NUMBERS IN THE INTERVAL [A,B].\n#\n# INPUT:   ENDPOINTS A,B; INIT
+IAL CONDITION ALPHA; INTEGER N.\n#\n# OUTPUT:  APPROXIMATION W TO Y AT
+ THE (N+1) VALUES OF T." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 90 "alg052 :
+= proc() local F, OK, A, B, ALPHA, N, FLAG, NAME, OUP, H, T, W, I, K1,
+ K2, K3, K4;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "printf(`This is the
+ Runge-Kutta Order Four Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 58 "printf(`Input the function F(t,y) in terms of t and y\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`For example: y-t^2+1`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "F := unapply(F,t,y);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "printf(`Input \+
+left and right endpoints separated by blank\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if \+
+A >= B then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Left endpoi
+nt must be less than right endpoint\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Inpu
+t the initial condition\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "AL
+PHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "printf(`Input a positive integer fo
+r the number of subintervals\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if N <=
+ 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Number must be a
+ positive integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`For exampl
+e   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME \+
+:= scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(
+NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "fprintf(OUP,
+ `RUNGE-KUTTA FOURTH ORDER METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "fprintf(OUP, `    t           w\\n\\n`);" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "H := (B-A)/N;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "T \+
+:= A;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "W := ALPHA;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `%5.3f %11.7f\\n`, T, W);" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 51 "use K1, K2, K3, K4 fo
+r K(1), K(2), K(3), K(4) RESP." }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 15 "K1 := H*F(T,W);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+29 "K2 := H*F(T+H/2.0, W+K1/2.0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+29 "K3 := H*F(T+H/2.0, W+K2/2.0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "K4 := H*F(T+H,W+K3);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 12 "compute W(I)" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "W := W+(K1+2.0*
+(K2+K3)+K4)/6.0;" }}{PARA 0 "" 0 "" {TEXT -1 12 "compute T(I)" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "T := A+I*H;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `%5.3f %11.7f\\n`, T, W);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6
+" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg052G:6\"63%\"FG%#OKG%\"AG%\"BG%&ALPHAG%\"NG%%FLAG
+G%%NAMEG%$OUPG%\"HG%\"TG%\"WG%\"IG%#K1G%#K2G%#K3G%#K4GF&F&C/-%'printfG
+6#%LThis~is~the~Runge-Kutta~Order~Four~Method.|+G-F;6#%OInput~the~func
+tion~F(t,y)~in~terms~of~t~and~y|+G-F;6#%5For~example:~y-t^2+1G>8$&-%&s
+canfG6#%#%aG6#\"\"\">FE-%(unapplyG6%FE%\"tG%\"yG>8%%&FALSEG?(F&FLFLF&/
+FTFUC&-F;6#%SInput~left~and~right~endpoints~separated~by~blank|+G>8&&-
+FH6#%#%fGFK>8'Fhn@%1F]oFgn-F;6#%PLeft~endpoint~must~be~less~than~right
+~endpoint|+G>FT%%TRUEG-F;6#%=Input~the~initial~condition|+G>8(Fhn>FTFU
+?(F&FLFLF&FWC%-F;6#%YInput~a~positive~integer~for~the~number~of~subint
+ervals|+G>8)&-FH6#%#%dGFK@%1Fap\"\"!-F;6#%CNumber~must~be~a~positive~i
+nteger|+G>FTFdo@$/FTFdoC0-F;6#%:Choice~of~output~method:|+G-F;6#%51.~O
+utput~to~screen|+G-F;6#%82.~Output~to~text~file|+G-F;6#%5Please~enter~
+1~or~2|+G>8*Fbp@%/F]r\"\"#C&-F;6#%SInput~the~file~name~in~the~form~-~d
+rive:\\name.ext|+G-F;6#%=For~example~~~A:\\OUTPUT.DTA|+G>8+&-FH6#%#%sG
+FK>8,-%&fopenG6%Fir%&WRITEG%%TEXTG>F_s%(defaultG-%(fprintfG6$F_s%BRUNG
+E-KUTTA~FOURTH~ORDER~METHOD|+|+G-Fhs6$F_s%4~~~~t~~~~~~~~~~~w|+|+G>8-*&
+,&F]oFLFgn!\"\"FLFapFbt>8.Fgn>8/Fio-Fhs6&F_s%.%5.3f~%11.7f|+GFdtFft?(8
+0FLFLFap%%trueGC)>81*&F_tFL-FE6$FdtFftFL>82*&F_tFL-FE6$,&FdtFLF_t$\"++
++++]!#5,&FftFLF_uFiuFL>83*&F_tFL-FE6$Fhu,&FftFLFduFiuFL>84*&F_tFL-FE6$
+,&FdtFLF_tFL,&FftFLF^vFLFL>Fft,,FftFLF_u$\"+nmmm;F[vFdu$\"+MLLLLF[vF^v
+F^wFdvF\\w>Fdt,&FgnFL*&F[uFLF_tFLFLFgt@$0F_sFfsC$-%'fcloseG6#F_s-F;6$%
+COutput~file~%s~created~sucessfullyGFir-%'RETURNG6#FhpF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg052();" }}{PARA 6 "" 1 "" {TEXT 
+-1 109 "This is the Runge-Kutta Order Four Method.\nInput the function
+ F(t,y) in terms of t and y\nFor example: y-t^2+1" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 7 "y-t^2+1" }}{PARA 6 "" 1 "" {TEXT -1 49 "Input
+ left and right endpoints separated by blank" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "0 2" }}{PARA 6 "" 1 "" {TEXT -1 27 "Input the ini
+tial condition" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 ".5" }}
+{PARA 6 "" 1 "" {TEXT -1 55 "Input a positive integer for the number o
+f subintervals" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "10" }}
+{PARA 6 "" 1 "" {TEXT -1 87 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text file\nPlease enter 1 or 2" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 249 "RUNGE-KUTT
+A FOURTH ORDER METHOD\n\n    t           w\n\n0.000    .5000000\n .200
+    .8292933\n .400   1.2140762\n .600   1.6489220\n .800   2.1272026
+\n1.000   2.6408226\n1.200   3.1798941\n1.400   3.7323400\n1.600   4.2
+834095\n1.800   4.8150856\n2.000   5.3053630" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}
+}}{MARK "8 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,275 @@
+
+<html>
+<head>
+<title>CSI 3125 Tutorial 7</title>
+</head>
+
+<body bgcolor=white link=#800060 vlink=#800060>
+
+<table width="100%" border=0 cellpadding=5 cellspacing=0>
+<tr><td colspan=8 bgcolor=gray align=right valign=center><a href=index.html><img src=pics/3125.gif alt="CSI 3125 Home" align=left valign=center border=0></a><font size=+3 color=white>CSI 3125 Tutorial 7</font></td></tr>
+<tr bgcolor=#E0E0E0>
+<td valign=top><font color=white><center>
+<a href=3125outline.html><img alt=Syllabus src=pics/course.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=faq.html><img alt=FAQ src=pics/faq.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=dates.html><img alt="Important Dates" src=pics/dates.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=rosters.html><img alt="Class lists" src=pics/rosters.gif border=0></a><br></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=marks.html><img alt=Marks src=pics/marks.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=news.html><img alt=News src=pics/news.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=goodies.html><img alt=Stuff src=pics/gift.gif border=0></a></center>
+</font>
+</td>
+<td valign=top><font color=white><center>
+<a href=faq.html#when_to_email_prof><img src=pics/kenny.gif border=0 alt="email the prof"></a></center>
+</font>
+</td>
+</tr>
+</table><p>
+
+Tutorial 7 is a review quiz for the final exam. I've tried to cover most
+of the major areas since the midterm with these questions. But just 
+because something doesn't appear here doesn't mean it won't be on the 
+exam!<p>
+
+The exam is:
+<ul>
+<li>on Tuesday, December 14, 1999
+<li>at 09:30
+<li>in GYM C
+<li>180 minutes long
+<li>mandatory
+<li>worth 45 marks toward the final mark for the course
+<li><i>closed</i> book, <i>closed</i> notes, <i>closed</i> everything else
+<li>free of calculations (meaning calculators aren't allowed)
+</ul>
+
+<hr><p>
+
+<ol>
+<li>What is a data type?<p>
+<font color=green>a set of data objects and the operations permitted
+on those data objects</font><p>
+
+<li>What is an abstract data type?<p>
+<font color=green>a data type with the following "extras":
+<ul>
+<li>a systematic way of defining the type
+<li>a systematic way of associating the permitted operations with the
+type
+<li>some mechanism for hiding implementation details
+<li>some mechanism for communicating information between the data type
+and its clients (programs that use the abstract data type)
+</ul></font><p>
+
+<li>What is encapsulation?<p>
+<font color=green>grouping subprograms and their data in a separate
+program unit (usually a separate file); allows information hiding,
+software reuse, control of recompiling</font><p> 
+
+<li>What are the three parts of an abstract data type?<p>
+<font color=green>
+<ol>
+<li>specification (names of visible data types, subprogram headers
+(signatures))
+<li>representation (definition of the details of the data types)
+<li>implementation (definition of the details of the operations
+(subprogram bodies))
+</ol></font><p>
+
+<li>What are exports and imports?<p>
+<font color=green>
+<ul>
+<li>an abstract data type <i>exports</i> the information that clients 
+are allowed to see; usually this is just the stuff in the
+specification (data type names and subprogram signatures)
+<li>a client <i>imports</i> a subset of the exports of an abstract
+data type: only those exports that the client is going to use
+</ul></font><p>
+
+<li>What is a parametric abstract data type?<p>
+<font color=green>a complex abstract data type whose component types
+may be left unspecified; clients can then specify the component types
+(for example, a tree ADT whose node types are left unspecified; the
+client can then request a tree of integers, or a tree of chars,
+etc.)</font><p>
+
+<li>What are the three main features of object-oriented programming?<p>
+<font color=green>
+<ol>
+<li>encapsulation
+<li>polymorphism
+<li>inheritance
+</ol></font><p>
+
+<li>What is a class?<p>
+<font color=green>an abstract data type in an object-oriented language
+that fits into a hierarchy of other abstract data types.</font><p>
+
+<li>What derived classes and base classes?<p>
+<font color=green>in the hierarchy of classes, a superclass is called
+a base class; a subclass is called a derived class and inherits
+certain data and methods (subprograms) from its base class.</font><p>
+
+<li>What are the five kinds of methods normally found in classes?<p>
+<font color=green>
+<ol>
+<li>constructor
+<li>destructor
+<li>reads (request information from the class)
+<li>writes (request modifications to information in the class)
+<li>iterators (methods to traverse collections of data)
+</ol></font><p>
+
+<li>What is an object?<p>
+<font color=green>an instance of a class.</font><p>
+
+<li>How can an object be created?<p>
+<font color=green>
+<ul>
+<li>explicitly and statically (as a local object declaration)
+<li>explicitly and dynamically (as a "new" at runtime)
+<li>implicitly and dynamically (as a formal parameter in a method) 
+</ul></font><p>
+
+<li>What is a constructor?<p>
+<font color=green>a method called automatically when an object of a
+class is created.</font><p>
+
+<li>What is a destructor?<p>
+<font color=green>a method called automatically when at the end of the
+lifetime of an object.</font><p>
+
+<li>What are the three kinds of access to class members?<p>
+<font color=green>
+<ul>
+<li>public (all potential clients have access to the member)
+<li>private (access to the member is restricted to within the class
+itself)
+<li>protected (immediate derived classes have access to the member)
+</ul>
+</font><p>
+
+<li>What is overriding?<p>
+<font color=green>a method in a base class is redefined in a derived
+class; the derived class method "overrides" the base class method
+(which normally it would inherit).</font><p>
+
+<li>What is an abstract method?<p>
+<font color=green>a method in a base class with no definition (body);
+derived classes must provide definitions for the method.</font><p>
+
+<li>In C++ what kind of objects can a pointer to a class point to?<p>
+<font color=green>a pointer to a class can point to objects of that
+class or to objects of any of its derived classes.</font><p>
+
+<li>When do you need a virtual function in C++?<p>
+<font color=green><b><i>when</i></b> you have a base class C and its 
+derived class D<br>
+<b><i>and</i></b> there is a method M in C that is overriden in D<br>
+<b><i>and</i></b> you have a pointer to class C that is pointing to 
+an object of class D<br>
+<b><i>and</i></b> you want the pointer to use the definition of M in 
+D instead of the definition of M in C<br>
+<b><i>then</i></b> you must declare M virtual in class C.</font><p>
+the variable through its name</font><p>
+
+<li>What is a friend in C++?<p>
+<font color=green>when a class A declares class B to be a friend,
+all of class A's private members are visible to B.</font><p>
+
+<li>What is functional programming?</font><p>
+<font color=green>a style of programming emphasizing the evaluation of
+expressions rather than the execution of commands.</font><p>
+
+<li>What does it mean for a function to be a first-class object?<p>
+<font color=green>if a function is a first-class object in a language
+it can appear anyhwere a data object can appear: as a parameter to a
+function, returned by a function, etc.</font><p>
+
+<li>What is a side effect?<p>
+<font color=green>when a function changes the value of variable passed
+as an actual parameter.</font><p>
+
+<li>What is referential transparency?<p>
+<font color=green>the property of a function always returning the same
+return value for the same parameter (for a given x, f(x) always
+returns the same y); if functions have side effects, they may not be
+referentially transparent.</font><p>
+
+<li>What is static scoping?<p>
+<font color=green>the name X refers to the local object having that name;
+if there is no local object with name X, X refers to the object with 
+name X in the environment enclosing the local environment.</font><p>
+
+<li>What is dynamic scoping?<p>
+<font color=green>the name X refers to the local object having that name;
+if there is no local object with name X, X refers to the object with 
+name X in the environment that called the local environment.</font><p>
+
+<li>What is a lambda expression in Scheme?<p>
+<font color=green>a lambda expression is a form that returns a
+function with no name.</font><p>
+
+<li>What does the lambda expression (lambda (x) (+ x 2)) evaluate to?<p>
+<font color=green>the expression evaluates to the function that takes
+one parameter and adds two to it.</font><p>
+
+<li>What does the expression ((lambda (x) (+ x 2)) 5) evaluate to?<p>
+<font color=green>this expression applies the function returned by the
+lamdba expression to the argument 5, which evaluates to 7; if we had
+given the function the name plustwo, the expression would be identical
+to (plustwo 5).</font><p>
+
+<li>What does the expression (lambda (f) (lambda (x) (/ 1 (f x))))
+evaluate to?<p>
+<font color=green>the expression evaluates to a function; the function
+takes one argument f and returns a new function; the new function
+takes one argument x and returns the value 1 divided by f(x); for
+example, if we applied this expression to the square function, we
+would get a new function that is 1 divided by the square.</font><p>
+
+<li>When is a function tail recursive?<p>
+<font color=green>when the recursive call is the last thing done
+inside the function.</font><p>
+
+<li>What is lazy evaluation?<p>
+<font color=green>expressions are not evaluated until their value is
+required; for example, with lazy evaluation, actual arguments are not
+evaluated before being passed to a function... the unevaluated actual
+argument is passed to the function where it will get evaluated only if
+its value is needed.</font><p>
+
+<li>What can't you do with Haskell?<p>
+<font color=green>get a job at Nortel!</font><p>
+
+</ol><p>
+
+<b><i><center>Good Luck!</center></i></b><p>
+
+<table width="100%" border=0 cellpadding=0 bgcolor=gray>
+<tr><td align=center><font size=-5>&nbsp;</font></td></tr>
+</table>
+
+<font size=-2><i>(last update November 27, 1999)</i></font>
+
+</body>
+</html>
+

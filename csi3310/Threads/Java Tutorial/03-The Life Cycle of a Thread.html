@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0072)http://java.sun.com/docs/books/tutorial/essential/threads/lifecycle.html -->
+<HTML><HEAD><TITLE>The Life Cycle of a Thread</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="02-Implementing the Runnable Interface.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="04-Understanding Thread Priority.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>The Life Cycle of a Thread </H2>
+<BLOCKQUOTE>Now that you've seen how to give a thread something to do, we'll 
+  review some details that were glossed over in the previous section. In 
+  particular, we look at the life cycle of a thread: how to create and start a 
+  thread, some of the special things it can do while it's running, and how to 
+  stop it. 
+  <P>The following diagram shows the states that a Java thread can be in during 
+  its life. It also illustrates which method calls cause a transition to another 
+  state. This figure is not a complete finite state diagram, but rather an 
+  overview of the more interesting and common facets of a thread's life. The 
+  remainder of this section uses the <CODE>Clock</CODE> applet previously 
+  introduced to discuss a thread's life cycle in terms of its state. 
+  <P>
+  <CENTER><IMG align=bottom alt="" height=145 
+  src="Thread_files/14run.gif" width=405 
+  NATURALSIZEFLAG="3"></CENTER>
+  <P></P></BLOCKQUOTE>
+<H3>Creating a Thread</H3>
+<BLOCKQUOTE>The application in which an applet is running calls the applet's 
+  <CODE>start</CODE> method when the user visits the applet's page. The 
+  <CODE>Clock</CODE> applet creates a <CODE>Thread</CODE>, 
+  <CODE>clockThread</CODE>, in its <CODE>start</CODE> with the bold code shown 
+  here: 
+  <BLOCKQUOTE><PRE>public void start() {
+    if (clockThread == null) {
+        <STRONG>clockThread = new Thread(this, "Clock");</STRONG>
+        clockThread.start();
+    }
+}    
+</PRE></BLOCKQUOTE>After the bold statement has been executed, 
+  <CODE>clockThread</CODE> is in the New Thread state. When a thread is a New 
+  Thread, it is merely an empty <CODE>Thread</CODE> object; no system resources 
+  have been allocated for it yet. When a thread is in this state, you can only 
+  start the thread. Calling any method besides start when a thread is in this 
+  state makes no sense and causes an <CODE>IllegalThreadStateException</CODE>. 
+  (In fact, the runtime system throws an 
+  <CODE>IllegalThreadStateException</CODE> any time a method is called on a 
+  thread and that thread's state does not allow for that method call.) 
+  <P>Notice that <CODE>'this'<CODE> -- the <CODE>Clock</CODE> instance -- is the first argument 
+  to the thread constructor. The first argument to the thread constructor must 
+  implement the <CODE>Runnable</CODE> interface and provides the thread with its 
+  <CODE>run</CODE> method. The second argument is just a name for the thread. 
+  </P></BLOCKQUOTE>
+<H3>Starting a Thread</H3>
+<BLOCKQUOTE>Now consider the next line of code in <CODE>Clock</CODE>'s 
+  <CODE>start</CODE> method shown here in bold: 
+  <BLOCKQUOTE><PRE>public void start() {
+    if (clockThread == null) {
+        clockThread = new Thread(this, "Clock");
+        <STRONG>clockThread.start();</STRONG>
+    }
+}  
+</PRE></BLOCKQUOTE>The <CODE>start</CODE> method creates the system resources 
+  necessary to run the thread, schedules the thread to run, and calls the 
+  thread's <CODE>run</CODE> method. <CODE>clockThread'</CODE>s <CODE>run</CODE> 
+  method is the one defined in the <CODE>Clock</CODE> class. 
+  <P>After the <CODE>start</CODE> method has returned, the thread is "running". 
+  Yet, it's somewhat more complex than that. As the previous figure shows, a 
+  thread that has been started is actually in the Runnable state. Many computers 
+  have a single processor, thus making it impossible to run all "running" 
+  threads at the same time. The Java runtime system must implement a scheduling 
+  scheme that shares the processor between all "running" threads. (See <A 
+  href="04-Understanding Thread Priority.html">Understanding 
+  Thread Priority</A> for more information about scheduling.) So at any given 
+  time, a "running" thread actually may be waiting for its turn in the CPU. 
+  <P>Here's another look at <CODE>Clock</CODE>'s <CODE>run</CODE> method: 
+  <BLOCKQUOTE><PRE>public void run() {
+   Thread myThread = Thread.currentThread();
+   while (clockThread == myThread) {
+        repaint();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            // the VM doesn't want us to sleep anymore,
+            // so get back to work
+        }
+    }
+}
+</PRE></BLOCKQUOTE><CODE>Clock</CODE>'s <CODE>run</CODE> method loops while 
+  the condition <CODE>clockThread == myThread</CODE> is <CODE>true</CODE>. This 
+  exit condition is explained in more detail in <A 
+  href="http://java.sun.com/docs/books/tutorial/essential/threads/lifecycle.html#stopping">Stopping 
+  a Thread</A>. However, for now, know that it allows the thread, and thus the 
+  applet, to exit gracefully. 
+  <P>Within the loop, the applet repaints itself and then tells the thread to 
+  sleep for one second (1000 milliseconds). An applet's <CODE>repaint</CODE> 
+  method ultimately calls the applet's <CODE>paint</CODE> method, which does the 
+  actual update of the applet's display area. The <CODE>Clock</CODE> 
+  <CODE>paint</CODE> method gets the current time, formats, and displays it: 
+  <BLOCKQUOTE><PRE>public void paint(Graphics g) {
+    // get the time and convert it to a date
+    Calendar cal = Calendar.getInstance();
+    Date date = cal.getTime();
+    // format it and display it
+    DateFormat dateFormatter = DateFormat.getTimeInstance();
+    g.drawString(dateFormatter.format(date), 5, 10);
+}
+</PRE></BLOCKQUOTE><PRE></PRE></BLOCKQUOTE>
+<H3>Making a Thread Not Runnable</H3>
+<BLOCKQUOTE>A thread becomes Not Runnable when one of these events occurs: 
+  <UL>
+    <LI>Its <CODE>sleep</CODE> method is invoked. 
+    <LI>The thread calls the <CODE>wait</CODE> method to wait for a specific 
+    condition to be satisifed. 
+    <LI>The thread is blocking on I/O. </LI></UL>The <CODE>clockThread</CODE> in 
+  the <CODE>Clock</CODE> applet becomes Not Runnable when the run method calls 
+  <CODE>sleep</CODE> on the current thread: 
+  <BLOCKQUOTE><PRE>public void run() {
+    Thread myThread = Thread.currentThread();
+    while (clockThread == myThread) {
+        repaint();
+        try {
+            <STRONG>Thread.sleep(1000);</STRONG>
+        } catch (InterruptedException e){
+            // the VM doesn't want us to sleep anymore,
+            // so get back to work
+        }
+    }
+}
+</PRE></BLOCKQUOTE>During the second that the <CODE>clockThread</CODE> is 
+  asleep, the thread does not run, even if the processor becomes available. 
+  After the second has elapsed, the thread becomes Runnable again and, if the 
+  processor becomes available, the thread begins running again. 
+  <P>For each entrance into the Not Runnable state, there is a specific and 
+  distinct escape route that returns the thread to the Runnable state. An escape 
+  route works only for its corresponding entrance. For example, if a thread has 
+  been put to sleep, then the specified number of milliseconds must elapse 
+  before the thread becomes Runnable again. The following list describes the 
+  escape route for every entrance into the Not Runnable state: 
+  <UL>
+    <LI>If a thread has been put to sleep, then the specified number of 
+    milliseconds must elapse. 
+    <LI>If a thread is waiting for a condition, then another object must notify 
+    the waiting thread of a change in condition by calling <CODE>notify</CODE> 
+    or <CODE>notifyAll</CODE>. More information is available in <A 
+    href="05-Synchronizing Threads.html">Synchronizing 
+    Threads</A>. 
+    <LI>If a thread is blocked on I/O, then the I/O must complete. 
+</LI></UL></BLOCKQUOTE><A name=stopping>
+<H3>Stopping a Thread</H3></A>
+<BLOCKQUOTE>A program doesn't stop a thread like it stops an applet (by 
+  calling a method). Rather, a thread arranges for its own death by having a 
+  <CODE>run</CODE> method that terminates naturally. For example, the 
+  <CODE>while</CODE> loop in this <CODE>run</CODE> method is a finite loop-- it 
+  will iterate 100 times and then exit: 
+  <BLOCKQUOTE><PRE>public void run() {
+    int i = 0;
+    while (i &lt; 100) {
+        i++;
+        System.out.println("i = " + i);
+    }
+}
+</PRE></BLOCKQUOTE>A thread with this <CODE>run</CODE> method dies naturally 
+  when the loop completes and the <CODE>run</CODE> method exits. 
+  <P>Let's look at how the <CODE>Clock</CODE> applet thread arranges for its own 
+  death. You might want to use this technique with your applets. Recall 
+  <CODE>Clock</CODE>'s <CODE>run</CODE> method: 
+  <BLOCKQUOTE><PRE>public void run() {
+    Thread myThread = Thread.currentThread();
+    while (clockThread == myThread) {
+        repaint();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            // the VM doesn't want us to sleep anymore,
+            // so get back to work
+        }
+    }
+}
+</PRE></BLOCKQUOTE>The exit condition for this <CODE>run</CODE> method is the 
+  exit condition for the <CODE>while</CODE> loop because there is no code after 
+  the <CODE>while</CODE> loop: 
+  <BLOCKQUOTE><PRE>while (clockThread == myThread) {
+</PRE></BLOCKQUOTE>This condition indicates that the loop will exit when the 
+  currently exiting thread is not equal to <CODE>clockThread</CODE>. When would 
+  this ever be the case? 
+  <P>When you leave the page, the application in which the applet is running 
+  calls the applet's <CODE>stop</CODE> method. This method then sets the 
+  <CODE>clockThread</CODE> to <CODE>null</CODE>, thereby telling the main loop 
+  in the <CODE>run</CODE> method to terminate: 
+  <BLOCKQUOTE><PRE>public void stop() {    // applets' stop method
+    clockThread = null;
+}
+</PRE></BLOCKQUOTE>If you revisit the page, the <CODE>start</CODE> method is 
+  called again and the clock starts up again with a new thread. Even if you stop 
+  and start the applet faster than one iteration of the loop, 
+  <CODE>clockThread</CODE> will be a different thread than <CODE>myThread</CODE> 
+  and the loop will still terminate. </BLOCKQUOTE>
+<H3>The isAlive Method</H3>
+<BLOCKQUOTE>A final word about thread state: The API for the 
+  <CODE>Thread</CODE> class includes a method called <CODE>isAlive</CODE>. The 
+  <CODE>isAlive</CODE> method returns true if the thread has been started and 
+  not stopped. If the <CODE>isAlive</CODE> method returns false, you know that 
+  the thread either is a New Thread or is Dead. If the <CODE>isAlive</CODE> 
+  method returns true, you know that the thread is either Runnable or Not 
+  Runnable. You cannot differentiate between a New Thread or a Dead thread. Nor 
+  can you differentiate between a Runnable thread and a Not Runnable thread. 
+</BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="02-Implementing the Runnable Interface.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="04-Understanding Thread Priority.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

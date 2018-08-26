@@ -1,0 +1,61 @@
+@account(bname/char,anumber/char,balance/numeric):anumber
+'Downtown','A-101',500
+'Mianus','A-215',700
+'Perryridge','A-102',400
+'Round Hill','A-305',350
+'Brighton','A-201',900
+'Redwood','A-222',700
+'Brighton','A-217',750
+
+@branch(bname/char,bcity/char,assets/numeric):bname
+'Downtown','Brooklyn',9000000
+'Redwood','Palo Alto',2100000
+'Perryridge','Horseneck',1700000
+'Mianus','Horseneck',400000
+'Round Hill','Horseneck',8000000
+'Pownal','Bennington',300000
+'North Town','Rye',3700000
+'Brighton','Brooklyn',7100000
+
+@customer(cname/char,cstreet/char,ccity/char):cname,cstreet
+'Jones','Main','Harrison'
+'Smith','North','Rye'
+'Hayes','Main','Harrison'
+'Curry','North','Rye'
+'Lindsay','Park','Pittsfield'
+'Turner','Putnam','Stamford'
+'Williams','Nassau','Princeton'
+'Adams','Spring','Pittsfield'
+'Johnson','Alma','Palo Alto'
+'Glenn','Sandy Hill','Woodside'
+'Brooks','Senator','Brooklyn'
+'Green','Walnut','Stamford'
+
+@depositor(cname/char,anumber/char):anumber
+'Johnson','A-101'
+'Smith','A-215'
+'Hayes','A-102'
+'Turner','A-305'
+'Johnson','A-201'
+'Jones','A-217'
+'Lindsay','A-222'
+
+@loan(bname/char,lnumber/char,amount/numeric):lnumber
+'Downtown','L-17',1000
+'Redwood','L-23',2000
+'Perryridge','L-15',1500
+'Downtown','L-14',1500
+'Mianus','L-93',500
+'Round Hill','L-11',900
+'Perryridge','L-16',1300
+
+@borrower(cname/char,lnumber/char):cname,lnumber
+'Jones','L-17'
+'Smith','L-23'
+'Hayes','L-15'
+'Jackson','L-14'
+'Curry','L-93'
+'Smith','L-11'
+'Williams','L-17'
+'Adams','L-16'
+

@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/ass04.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment Last</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY background="CSI 3125 Assignment Last_files/schemecube.jpg" bgColor=white 
+link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment Last_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Assignment Last</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment Last_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment Last_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment Last_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment Last_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment Last_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment Last_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment Last_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment Last_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><I><B>Marks:</B></I></TD>
+    <TD><B>6</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Time:</B></I></TD>
+    <TD><B>Monday, December 06, 1999, 12:00pm (NOON!)</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><I>Late assignments </I><B>will</B><I> be accepted with a deduction of 
+      0.01 marks per day late until Friday December 10, 1999, 12:00pm 
+      (NOON!).</I></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><I>Assignments submitted after Friday at NOON will sit and rot in the 
+      locked box for all of eternity.</I></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Place:</B></I></TD>
+    <TD><B>Locked box for CSI3125, 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Fun with Functions</H2>
+<H3>The Story</H3>We all know that there were some problems with MIT Scheme in 
+the Cube up until today (Monday, November 29, 1999). I thought I wouldn't be 
+able to give you any Scheme programming on this assignment. So I went ahead and 
+solved the programs you were supposed to write and put them on this page. But 
+now Scheme seems to be working in the lab so I commented out the solutions on 
+this page so you can't see them.
+<P>
+<H3>The Assignment</H3>Your job (which is really not much of a job since Scheme 
+programming is so much fun) is to write functions that do the specified things.
+<P>
+<OL>
+  <LI>Write a Scheme function that takes a function <TT>f</TT> as argument and 
+  returns the function <TT>f'</TT> where <TT>f'</TT> is an approximation of the 
+  first derivative of <TT>f</TT>. Recall that an approximation of the first 
+  derivative of <TT>f</TT> is given by the 
+  formula:<BR><TT>f'(x)&nbsp;=&nbsp;(f(x+h)-f(x))/h&nbsp;&nbsp;</TT> for some 
+  small <TT>h</TT>.<BR>For the purposes of this question, you can fix <TT>h</TT> 
+  at 0.01.
+  <P>Here is some sample output. The first expression applies the first 
+  derivative of the function <TT>x<SUP><FONT size=-1>2</FONT></SUP></TT> to the 
+  value <TT>x=5</TT>. The second expression applies the first derivative twice 
+  (giving the second derivative) to the function <TT>4x<SUP><FONT 
+  size=-1>3</FONT></SUP></TT>. The second derivative is then applied to the 
+  value <TT>x=3</TT>.
+  <P>
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>]=&gt; <B>((firstderiv (lambda (x) (* x x))) 5)</B>
+;Value: 10.009999999999764
+
+]=&gt; <B>((firstderiv (firstderiv (lambda (x) (* 4 x x x)))) 3)</B>
+;Value: 72.24000000007891
+</PRE></TD></TR></TBODY></TABLE>
+  <P></P>
+  <LI>Write a Scheme function called <TT>reduce</TT> that takes a binary 
+  function <TT>f</TT> and its identity value <TT>i</TT>as arguments and returns 
+  a new n-ary version of the function. That is, suppose you have a given binary 
+  function:<BR><TT>(f x y)</TT><BR><TT>reduce</TT> should return a new function 
+  that you can apply to a list of arguments:<BR><TT>(define fnew (reduce f 
+  i))</TT><BR><TT>(fnew '(x<SUB>1</SUB> x<SUB>2</SUB> ... 
+  x<SUB>n</SUB>))</TT><BR>which is equivalent to:<BR><TT>(f x<SUB>1</SUB> (f 
+  x<SUB>2</SUB> (f ... (f x<SUB>n-1</SUB> x<SUB>n</SUB>)))</TT>
+  <P>The argument <TT>i</TT> is the identity value for the binary function 
+  <TT>f</TT>. That is, for any <TT>x</TT>, <TT>(f&nbsp;x&nbsp;i)</TT> is equal 
+  to <TT>x</TT>. This identity value should appear in the base case of the 
+  recursive function that <TT>reduce</TT> returns.
+  <P>Here is some sample output.
+  <P>
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>]=&gt; <B>(define addall (reduce + 0))</B>
+;Value: addall
+
+]=&gt; <B>(addall '(1 2 3 4 5))</B>
+;Value: 15
+
+]=&gt; <B>(define multall (reduce * 1))</B>
+;Value: multall
+
+]=&gt; <B>(multall '(2 3 4 3))</B>
+;Value: 72
+
+]=&gt; <B>(define max (lambda (x y) (if (&gt; x y) x y)))</B>
+;Value: max
+
+]=&gt; <B>(max 3 5)</B>
+;Value: 5
+
+]=&gt; <B>(define maxpositive (reduce max 0))</B>
+;Value: maxpositive
+
+]=&gt; <B>(maxpositive '(54 13 45 79 68))</B>
+;Value: 79
+</PRE></TD></TR></TBODY></TABLE>
+  <P>
+  <UL></UL>
+  <P>
+  <H3>The Hints</H3>
+  <UL>
+    <LI>the language reference for MIT Scheme is a standard Windows help file 
+    called G:\Windows\Scheme\doc\scheme.hlp (if you double click on it you 
+    should get the Help browser)
+    <P></P>
+    <LI>if you're having trouble and your functions are getting too big, you're 
+    probably on the wrong track; my solution for part 2 is about 10 sparse 
+    lines; and my solution for part 1 is much smaller than that
+    <P></P>
+    <LI>check out the form <TT>letrec</TT>: it's just like <TT>let</TT> except 
+    that it allows you to use the name you're binding inside the expression that 
+    you're binding it to: 
+    <TABLE border=1 cellPadding=2>
+      <TBODY>
+      <TR>
+        <TD bgColor=white><PRE>(letrec ((f (lambda (n) 
+              (if (= n 0)
+                  1
+                  (* n (f (- n 1)))
+              )
+            )
+        ))
+  <FONT color=green>... body of the letrec goes here ... </FONT>
+)
+</PRE></TD></TR></TBODY></TABLE>this is very useful for defining recursive 
+    lambda expressions inside other functions (the example binds the name 
+    <TT>f</TT> to a lambda expression that contains <TT>f</TT>).
+    <P></P></LI></UL>
+  <P>
+  <H3>The Bonus</H3>Here is a Scheme function with really bad variable names. 
+  For one bonus mark and 1,000 Slovenian Tolars, tell me what the function does 
+  and what you can do with its result.
+  <P>
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>(define (f w x y z)
+  (let ((p (/ (- z x) (- y w))))
+    (let ((q (- x (* p w))))
+      (lambda (v)
+        (+ q (* p v))
+      )
+    )
+  )
+)
+</PRE></TD></TR></TBODY></TABLE>
+  <P>
+  <H3>The Solutions</H3>
+  <TABLE border=1 cellPadding=2 width="75%">
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- you didn't really think I'd leave the solutions here, did you? -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE></TD></TR></TBODY></TABLE>
+  <P>
+  <TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+    <TBODY>
+    <TR>
+      <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+  size=-2><I>(last update November 29, 1999)</I></FONT> 
+</P></LI></OL></BODY></HTML>

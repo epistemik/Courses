@@ -1,0 +1,238 @@
+            CSI 3125, Fall 2000, Homework 3 -- solution
+
+
+Problem 1
+=========
+
+Part 1A
+-------
+
+P        can call  P.A, P.D
+P.A      can call  P.A, P.A.B, P.D
+P.A.B    can call  P.A, P.A.B, P.A.B.C, P.D
+P.A.B.C  can call  P.A, P.A.B, P.A.B.C, P.D
+P.D      can call  P.A, P.D.C, P.D, P.D.E
+P.D.E    can call  P.D.E.A, P.D.E.B, P.D.C, P.D, P.D.E
+P.D.E.A  can call  P.D.E.A, P.D.E.B, P.D.C, P.D, P.D.E
+P.D.E.B  can call  P.D.E.A, P.D.E.B, P.D.C, P.D, P.D.E
+P.D.C    can call  P.A, P.D.C, P.D, P.D.E, P.D.C.J
+P.D.C.J  can call  P.A, P.D.C, P.D, P.D.E, P.D.C.J
+
+Part 1B
+-------
+
+| P
+|   P.x=1
+|   P.y=5
+|         | A 
+|         |   P.x=1
+|         |   P.A.y=8
+|         |           | B
+|         |           |   P.A.B.x=2
+|         |           |   P.A.y=8
+|         |           |             | C
+|         |           |             |   P.A.B.x=2
+|         |           |             |   P.A.y=8
+|
+|         | D
+|         |   P.x=1
+|         |   P.y=5
+|         |           | E
+|         |           |   P.x=1
+|         |           |   P.D.E.y=6
+|         |           |             | A
+|         |           |             |   P.D.E.A.x=4
+|         |           |             |   P.D.E.y=6
+|         |           |
+|         |           |             | B
+|         |           |             |   P.D.E.B.x=3
+|         |           |             |   P.D.E.y=6
+|         |
+|         |           | C
+|         |           |   P.x=1
+|         |           |   P.D.C.y=7
+|         |           |             | J
+|         |           |             |   P.x=1
+|         |           |             |   P.D.C.y=7
+
+Bonus part
+----------
+
+(a) P --> P.A --> P.A.B --> P.A.B.C --> P.A.B.C
+Output:     1  5
+            1  8
+            2  8
+            2  8
+            2  8
+
+(b) P --> P.D --> P.A --> P.D --> P.A
+Output Static:    1 5        Output Dynamic:    1 5
+                  1 5                           1 5
+                  1 8                           1 8
+                  1 5                           1 8
+                  1 8                           1 8
+
+
+Problem 2
+=========
+
+In Pascal, binding of values to named constants is static: expressions are
+only evaluated at run time, so even constant expressions are not evaluated
+earlier. (That is the _standard_, but a Pascal system may still allow this
+feature.) In C, on the other hand, binding of values to named constants is
+dynamic: expressions can be evaluated prior to program execution.
+
+Pascal is simpler to compile, but less flexible. Actually, the really neat
+thing would be to allow functions with constant arguments, not just simple
+arithmetic expressions with constant values in them. Compiling C will cost
+more, but we have more choices. It must be said, however, that this is not
+an essential feature of a programming language.
+
+
+Problem 3
+=========
+
+Part 3A
+-------
+
+This program runs in Unix on csia. Reading Boolean values is possible, but
+it is not standard. There is no provision for catching data errors such as
+a Bolean entered when a number is expected. Integers are accepted for kind
+r. Real values are accepted, with truncation, for kind i.
+
+program p(input,output);
+type
+    TAGTYPE = (i, r, b);
+    IRB = record
+             case kind: TAGTYPE of
+               i: (IFIELD: integer);
+               r: (RFIELD: real);
+               b: (BFIELD: Boolean);
+          end;
+var X: IRB;
+
+procedure NEG(var X: IRB);
+var tag: TAGTYPE;
+begin
+  tag:= X.kind;
+  write('The negated value is ');
+  case tag of
+    i: writeln(- X.IFIELD);
+    r: writeln(- X.RFIELD);
+    b: writeln(not X.BFIELD);
+  end;
+end;
+
+begin
+  write('Enter a type: ');
+  readln(X.kind);
+  write('Enter a value of this type: ');
+  case X.kind of
+    i: readln(X.IFIELD);
+    r: readln(X.RFIELD);
+    b: readln(X.BFIELD);
+  end;
+  NEG(X);
+end.
+
+Part 3B
+-------
+
+This program combines real and integer data. A solution with three, rather
+than two, procedures, is also all right. The comments on data checking are
+the same as for program 3A.
+
+program p(input,output);
+type
+    TAGTYPE = (i, r, b);
+var X_ir: real;
+    X_b: boolean;
+    tag: TAGTYPE;
+
+procedure neg_ir(var X_ir: real);
+begin
+  writeln('The negated value is ', - X_ir);
+end;
+
+procedure neg_b(var X_b: boolean);
+begin
+  writeln('The negated value is ', not X_b);
+end;
+
+begin
+  write('Eenter a type: ');
+  readln(tag);
+  write('Enter a value of this type: ');
+  case tag of
+    i, r: begin readln(X_ir); neg_ir(X_ir); end;
+    b:    begin readln(X_b);  neg_b(X_b);   end;
+  end;
+end.
+
+Part 3C
+-------
+
+program p(input,output);
+type
+    TAGTYPE = (i, r, b);
+    IRB = record
+             case kind: TAGTYPE of
+               i: (IFIELD: integer);
+               r: (RFIELD: real);
+               b: (BFIELD: Boolean);
+          end;
+var X: IRB;
+
+procedure NEG(var X: IRB);
+var tag: TAGTYPE;
+begin
+  tag:= X.kind;
+  write('The negated value is ');
+  case tag of
+    i: writeln(- X.IFIELD);
+    r: writeln(- X.RFIELD);
+    b: writeln(not X.BFIELD);
+  end;
+end;
+
+begin
+  write('Enter a type: ');
+  readln(X.kind);
+  write('Enter a value of this type: ');
+  case X.kind of
+    b: readln(X.IFIELD); (* The cases from 3A have been shuffled.  *)
+    i: readln(X.RFIELD); (* This is the only difference. The types *)
+    r: readln(X.BFIELD); (* are wrong, but the program compiles.   *)
+  end;               
+  NEG(X);
+end.
+
+At run time, the program will crash or return garbage.
+
+
+Problem 4
+=========
+
+The sizes of the three dimensions are:
+  D1 = HI1 - LO1 + 1,
+  D2 = HI2 - LO2 + 1,
+  D3 = HI3 - LO3 + 1.
+The base address B is the location of E[LO1, LO2, LO3].
+The element size is S.
+
+Row Major Order
+---------------
+
+location( E[I, J, K] ) =
+    B + S * (
+              ((I - LO1) * D3 + (J - LO2)) * D2 + (K - LO3)
+            )
+
+Column Major Order
+------------------
+
+location( E[I, J, K] ) =
+    B + S * (
+              ((K - LO3) * D1 + (J - LO2)) * D2 + (I - LO1)
+            )
+

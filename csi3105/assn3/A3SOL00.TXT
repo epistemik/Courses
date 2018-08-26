@@ -1,0 +1,172 @@
+CSI 3105 Assignment 3 Fall/2000
+
+SOME SOLUTIONS
+---------------
+1.a)  
+We first look for a recursive solution which will help us to solve the
+problem.  Let F(n) represent the least number of stamps required to
+obtain amount n.  Consider the clue--certainly if n>=5, I have 3 choices
+for the last stamp I stick on the envelope, namely the 1, 4 or 5 cent stamp.
+If I choose a stamp with value k as my last stamp, then the best I
+can do is to take the best solution for the amount without that stamp, which
+is F(n-k), + 1 for the last stamp, i.e. the best I can do is F(n-k) + 1.  So I
+consider this for each of my 3 possible values of k, and take the minimum.
+This will give me the best I can do for amount n.  So we have:
+
+For n>=5:  F(n) = min(F(n-1), F(n-4), F(n-5))  +   1    (**)
+
+What about n<5?  I can either handle these values directly as base cases
+(i.e. F(1) = 1, F(2)= 2, F(3) = 3, F(4) = 1), or I can use a slightly
+modified version of (**) as follows (which, in this form, can easily
+be generalized to more stamps, or other values of stamps):
+
+Recursive Solution   For n>=0
+-------------------
+         _
+        |
+        | 0           for n=0  (base case)
+F(n) =  |
+        | F(n-1) + 1  for 1<= n <=3
+        |
+        | min(F(n-1), F(n-4))  + 1   for n=4
+        |
+        | min(F(n-1), F(n-4), F(n-5))  +   1  for n>=5
+        |_
+        
+Dynamic Programming Table
+-------------------------
+
+To develop the above recursive solution into a dynamic programming algorithm,
+I will use the recursive solution to build a table.  In this case, the
+table will be an array F indexed from 0 to n, where we start with the base
+case F[0]=0, and then build the rest of the table from left to right using
+our recursive formula above.
+
+
+Backtracking to get the Final Solution
+--------------------------------------
+
+Of course, part of the solution for this problem will be to provide a list of
+the stamps which give the solution F[n].  For our dynamic programming alg.,
+we do this by keeping another array S indexed from 0 to n.  Let S[0] = 0. Then
+as we calculate F[i], i=1, 2, ... n,  we let S[i] be the value of the stamp
+which gave us the minimum for F[i] (if there is a tie, we can put either
+one).  After we calculate F[n], we can then find out the stamps we should
+choose by first checking S[n].  If it has value k, we put the stamp of value
+k in our list. Next we check S[n-k], if it has value j, we put j in our list.
+Then we backtrack to S[(n-k) - j], and so on, until we are at 0.
+
+A SMALL example n = 9:
+
+i =   0  1  2  3  4  5  6  7  8  9  
+
+F = [ 0, 1, 2, 3, 1, 1, 2, 3, 2, 2]
+
+S = [ 0, 1, 1, 1, 4, 5, 5, 1, 4, 4]
+
+We see we can get 9 with F[9] = 2 stamps. To see how, we use S and backtrack:
+S[9] = 4  .....  use a 4 cent stamp
+S[9-4] = S[5] = 5 .... use a 5 cent stamp
+S[5-5] = 0  STOP
+
+c)
+Complexity analysis: Input Size:  n
+                     Counting:  Comparisons
+                     Worst Case Input:  All the same
+
+Analysis: We must calculate Order(n) entries in our dynamic programming table
+          (which is an array).  For each entry, we must do a constant number
+          of comparisons, i.e. Order(1) comparisons.  For the backtracking,
+          we must check to see if we have reached 0 each time, so this
+          will require Order(n) work in the worst case.  So the total
+          complexity of W(n) is Order(n).
+
+
+2.  For all three complexity analyses below, we have:
+    Input Size: n, the number of nodes, and m, the number of arcs
+    Counting:  "looks" at the data structure
+    Inputs which give worst case:  All the same  (Note:  For my very rough
+                                   algorithms below, all inputs have the
+                                   same worst case. It is possible to be
+                                   a bit more clever with your algorithms
+                                   such that not all inputs have the
+                                   same analysis, however I believe that the
+                                   complexity of the worst case, which is
+                                   what we are interested in here, will
+                                   be the same as what I have here.)
+
+     For all three methods below:  All the methods used to check if the
+                                   indgree of k equals the outdegree will
+                                   involve two counters, called InK and OutK
+                                   which will be used to calculate the
+                                   indgree of K and outdegree of K,
+                                   respectively.  After calculating InK and
+                                   OutK, we will check to see if their values
+                                   are the same or not to answer the question
+                                   posed.
+
+a)  Edge List
+    ---------
+    Method:  We will have each edge listed as a pair <u,v>.  To find InK and
+             OutK we do one scan of the edge list structure, incrementing
+             OutK whenever k is the first node in the pair, and incrementing
+             InK whenever k is the second node in the pair.
+
+    Complexity Analysis:  Since there are 2m nodes labels listed in  this
+                          data structure, one scan of the list will take
+                          2m, looks, which is Order(m).  So W(n) is Order(m).
+
+b)  Adjacency Matrix
+    -----------------
+    Method:  Let A be our adjacency matrix.  To find OutK we do one scan of
+             the row in A for node k, incrementing OutK each time we
+             encounter a 1.  To find InK we do one scan of the column in A
+             for node k, incrementing InK each time we encounter a 1.
+
+    Complexity Analysis:  Since there are n entries in each row and column
+                          of A, each of the scans we do are Order(n).  So
+                          we have W(n) is Order(n).
+
+c)  Adjacency List
+    --------------
+    Method:  To find OutK we scan and count the number of entries in the
+             adjacency list for node k.  To find InK we do one scan of the
+             entire adjacency list structure, incrementing InK each time we
+             encounter the label k.
+
+    Complexity Analysis:  Since there are at most n entries in the list
+                          for node k, the first scan we do is Order(n). Since
+                          there are m entries in the entire data structure, the
+                          second scan is Order(m).  So we have W(n) is
+                          Order(m).
+
+
+3.  Final MST:  Cost is 22, edges are (in the order they get added)
+                v1v2, v2v3, v3v4, v3v5, v1v6, v6v7.  The nodes are added
+                in the order v1, v2, v3, v4, v5, v6, v7.
+
+
+4. Final shortest path tree (and this is the order in which the arcs are
+   added to the tree):  <v1,v2>, <v1,v3>, <v2,v5>, <v3,v4>, <v3,v7>, <v4,v8>,
+                        <v7,v6>
+
+5.  Example:  Consider the matrix chain problem A1*A2*A3, where A1 is 10x3,
+              A2 is 3x20, and A3 is 20x10.  The greedy method gives the
+              bracketing as (A1*A2)*A3 with a result of 2600 multiplications.
+              But bracketing as A1*(A2*A3) results in 900 multiplications,
+              which is fewer, and thus the greedy method fails for this
+              example.
+                                 
+
+6.  Final stable marriage obtained (when ladies do the asking):
+    K-B, L-C, M-D, N-A
+
+7.  We create a directed graph with nodes 0, 1, 2, and 3, and we have an
+    arc <i,j> for all i, j, such that i, j in {0,1,2,3} and i<j.  So an
+    arc for each i,j entry in the table.  Give each arc the weight of that
+    entry in the table.  Then we obtain our answer by finding a shortest
+    0 to 3 directed path in the digraph.
+
+
+
+    

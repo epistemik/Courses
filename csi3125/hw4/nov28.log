@@ -1,0 +1,861 @@
+{site0}u428500(8)$ more candy.p
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q1 *)
+ 
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159 ;
+ 
+(* set types for the shapes, fillings, and string for the I/O *)
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   (* the candy parameters *)
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+ 
+   input_param: string ; (* used to convert the input to types *)
+   response: char ; (* used to test if the loop should continue *)
+ 
+(* the surface calculation functions *)
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+      surface_round := PI * radius * radius ;
+    end;
+ 
+function surface_rectangular(side1, side2:real):real ;
+    begin
+      surface_rectangular := side1 * side2 ;
+    end;
+ 
+function surface_triangular(base, height:real):real ;
+    begin
+      surface_triangular := 0.5 * base * height ;
+    end;
+ 
+(* calculate the weight using a surface function as a parameter *)
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+                        fill_param:filling; height,dim1,dim2:real):real ;
+    var
+       unit_weight_of_filling: integer ;
+    begin
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+)
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+    end;
+ 
+(*main program*)
+begin
+  (* identification *)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+ repeat
+  (* get the input values - can assume they will be perfect *)
+  write('Enter the shape of the candy top: ');
+  readln(input_param);
+  (* set the shape *)
+  if input_param = 'round' then top := round
+    else if input_param = 'triangular' then top := triangular
+    else top := rectangular ;
+  write('Enter the type of filling: ');
+  readln(input_param);
+  (* set the filling *)
+  if input_param = 'liquor' then fill := liquor
+    else if input_param = 'nuts' then fill := nuts
+    else fill := nougat ;
+  (* get the dimensions of the candy *)
+  write('Enter the height of the candy: ');
+  readln(hite);
+  write('Enter the dimensions of the top: ');
+  readln(dim1, dim2);
+  (* call total weight with a different function based on the shape *)
+  case top of
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, 0.0)
+ ;
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+    end;(*case*)
+  (* output the results *)
+  writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+  writeln;
+  (* check if more input *)
+  write('Another candy to enter? [Y/N]  ') ;
+  readln(response) ;
+ until response in ['N', 'n'] ;
+ writeln('It has been a pleasure serving you - bye for now.') ;
+end.
+{site0}u428500(9)$ more hw4pro
+% Mark Sattolo  428500
+% CSI3125, DGD-2
+% HW4, Q1
+ 
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+                  Shape /*just to prevent 'singleton variable' messages*/,
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+                  K =.. [Filling,W], call(K), Result is X * W * Height.
+ 
+% the main predicate determines which predicate to pass to total weight
+% based on the shape
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, 0, surfac
+e_round, Result)) ;
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+2, surface_rectangular, Result)) ;
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+, surface_triangular, Result)).
+ 
+{site0}u428500(10)$ vi hw4.scm
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+ 
+; the constants
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+;the surface calculation functions
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+;total weight has a function as a parameter
+(define (total_weight shape filling height dim1 dim2 subprog)
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+ 
+; the constants
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+;the surface calculation functions
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+;total weight has a function as a parameter
+(define (total_weight shape filling height dim1 dim2 subprog)
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+ 
+ 
+;the main function definition determines which sub-function to call
+ 
+;with total_weight based on the shape
+ 
+(define (candy shape filling height dim1 dim2)
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+surface_round) )
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ dim2 surface_rectangular) )
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+gular) )
+ 
+       ))
+ 
+(define (candy shape filling height dim1 dim2)
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 0 sur
+"hw4.scm" 32 lines, 1074 characters
+{site0}u428500(11)$ more hw4.scm
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+ 
+; the constants
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+;the surface calculation functions
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+;total weight has a function as a parameter
+(define (total_weight shape filling height dim1 dim2 subprog)
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+;the main function definition determines which sub-function to call
+;with total_weight based on the shape
+(define (candy shape filling height dim1 dim2)
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 0 sur
+face_round) )
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ dim2 surface_rectangular) )
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+gular) )
+       ))
+ 
+{site0}u428500(12)$ scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;loading /usr/local/lib/slib/require
+;done loading /usr/local/lib/slib/require.scm
+;loading /usr/local/lib/scm/Transcen
+;done loading /usr/local/lib/scm/Transcen.scm
+;Evaluation took 50 mSec (0 in gc) 15992 cells work, 4000 env, 17598 bytes other
+> (load "hw4.scm")
+;loading hw4.scm
+ 
+"hw4.scm", line 10: WARNING: redefining built-in round
+;done loading hw4.scm
+;Evaluation took 0 mSec (0 in gc) 344 cells work, 29 env, 666 bytes other
+#<unspecified>
+> (candy round 3 4 5)
+ 
+Wrong number of args given #<CLOSURE (shape filling height dim1 dim2) #@lambda (
+co ...
+; in expression: (... candy round 3 4 5)
+; in top level environment.
+;Evaluation took 0 mSec (0 in gc) 10 cells work, 0 env, 217 bytes other
+> (candy round nuts 3 4 5)
+;Evaluation took 0 mSec (0 in gc) 23 cells work, 19 env, 53 bytes other
+452.38896000000003
+> (candy round nougat 3.4 5.6 9.99)
+;Evaluation took 0 mSec (0 in gc) 17 cells work, 19 env, 93 bytes other
+1339.8755686399996
+> (candy rectangular liquor 0.099 3.44 8.7)
+;Evaluation took 0 mSec (0 in gc) 17 cells work, 19 env, 87 bytes other
+5.925744
+> ^Z
+[2]+  Stopped                 scm
+{site0}u428500(13)$ vi hw4.sml
+ 
+(* set the types *)
+datatype shapes = round | rectangular | triangular ;
+datatype fillings = liquor | nuts | nougat ;
+ 
+local
+(* set constant pi *)
+   val pi = 3.14159
+(* define the surface computation functions *)
+   fun surface_round radius nought = pi * radius * radius
+   fun surface_rectangular side1 side2 : real = side1 * side2
+   fun surface_triangular base height = 0.5 * base * height
+ 
+(* calculate the weight with the passed function, with the
+   proper value for each filling *)
+                    else 4.0 * (fxn dim1 dim2) * height
+ 
+(* the main function will pass the proper surface function
+   to total_weight based on the shape of the candy *)
+ 
+(* set the types *)
+datatype shapes = round | rectangular | triangular ;
+datatype fillings = liquor | nuts | nougat ;
+ 
+local
+(* set constant pi *)
+   val pi = 3.14159
+(* define the surface computation functions *)
+   fun surface_round radius nought = pi * radius * radius
+   fun surface_rectangular side1 side2 : real = side1 * side2
+   fun surface_triangular base height = 0.5 * base * height
+ 
+(* calculate the weight with the passed function, with the
+   proper value for each filling *)
+   fun total_weight shape filling height dim1 dim2 fxn : real =
+                    if filling = liquor then 2.0 * (fxn dim1 dim2) * height
+                    else if filling = nuts then 3.0 * (fxn dim1 dim2) * height
+                    else 4.0 * (fxn dim1 dim2) * height
+ 
+(* the main function will pass the proper surface function
+   to total_weight based on the shape of the candy *)
+in fun candy shape filling height dim1 dim2 =
+ 
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+ 
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+_round
+ 
+       else if shape = rectangular then total_weight shape filling height dim1 d
+ 
+       else if shape = rectangular then total_weight shape filling height dim1 d
+im2 surface_rectangular
+ 
+       else total_weight shape filling height dim1 dim2 surface_triangular : rea
+ 
+       if shape = round then total_weight shape filling height dim1 0.0 surface_
+"hw4.sml" 26 lines, 1207 characters eight shape filling height dim1 0.0 surface_
+{site0}u428500(14)$ sml
+Standard ML of New Jersey, Version 75, November 11, 1991
+Arrays have changed; see Release Notes
+val it = () : unit
+- use "hw4.sml";
+[opening hw4.sml]
+datatype  shapes
+con rectangular : shapes
+con round : shapes
+con triangular : shapes
+datatype  fillings
+con liquor : fillings
+con nougat : fillings
+con nuts : fillings
+val candy = fn : shapes -> fillings -> real -> real -> real -> real
+[closing hw4.sml]
+val it = () : unit
+- candy round nuts 3.4 5.5 6.7;
+val it = 969.3375945 : real
+- candy triangular nougat 2.2 0.09988 1.1111;
+val it = 0.4882973392 : real
+- ^Z
+[3]+  Stopped                 sml
+{site0}u428500(15)$ rlogin csia.site.uottawa.ca
+Password:
+Last login: Tue Nov 28 21:56:49 from site0.site.uotta
+SunOS Release 4.1.4 (csia) #1: Wed Mar 6 08:52:27 EST 1996
+You have mail.
+{csia}u428500(1) pwd
+/a/csie/h/users/u428500
+{csia}u428500(2) cd submit
+{csia}u428500(3) ls
+a.out*       candy.p      hw4.scm.out  hw4prolog    hw4q2.p
+candy.2.out  candy.p.x*   hw4.sml      hw4q2.c      hw4q2.p.out
+candy.in     hw4.ari      hw4.sml.out  hw4q2.c.out  hw4q2.p.x*
+candy.out    hw4.scm      hw4pro       hw4q2.c.x*
+{csia}u428500(4) more hw4.sml
+ 
+(* set the types *)
+datatype shapes = round | rectangular | triangular ;
+datatype fillings = liquor | nuts | nougat ;
+ 
+local
+(* set constant pi *)
+   val pi = 3.14159
+(* define the surface computation functions *)
+   fun surface_round radius nought = pi * radius * radius
+   fun surface_rectangular side1 side2 : real = side1 * side2
+   fun surface_triangular base height = 0.5 * base * height
+ 
+(* calculate the weight with the passed function, with the
+   proper value for each filling *)
+   fun total_weight shape filling height dim1 dim2 fxn : real =
+                    if filling = liquor then 2.0 * (fxn dim1 dim2) * height
+                    else if filling = nuts then 3.0 * (fxn dim1 dim2) * height
+                    else 4.0 * (fxn dim1 dim2) * height
+ 
+(* the main function will pass the proper surface function
+   to total_weight based on the shape of the candy *)
+in fun candy shape filling height dim1 dim2 =
+       if shape = round then total_weight shape filling height dim1 0.0 surface_
+round
+       else if shape = rectangular then total_weight shape filling height dim1 d
+im2 surface_rectangular
+       else total_weight shape filling height dim1 dim2 surface_triangular : rea
+l end ;
+{csia}u428500(5) ls -al *.p
+-rw-r--r--  1 u428500      3024 Nov 29 07:35 candy.p
+-rw-r--r--  1 u428500      1934 Nov 28 21:45 hw4q2.p
+{csia}u428500(6) more candy.p
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q1 *)
+ 
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159 ;
+ 
+(* set types for the shapes, fillings, and string for the I/O *)
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   (* the candy parameters *)
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+ 
+   input_param: string ; (* used to convert the input to types *)
+   response: char ; (* used to test if the loop should continue *)
+ 
+(* the surface calculation functions *)
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+      surface_round := PI * radius * radius ;
+    end;
+ 
+function surface_rectangular(side1, side2:real):real ;
+    begin
+      surface_rectangular := side1 * side2 ;
+    end;
+ 
+function surface_triangular(base, height:real):real ;
+    begin
+      surface_triangular := 0.5 * base * height ;
+    end;
+ 
+(* calculate the weight using a surface function as a parameter *)
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+                        fill_param:filling; height,dim1,dim2:real):real ;
+    var
+       unit_weight_of_filling: integer ;
+    begin
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+)
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+    end;
+ 
+(*main program*)
+begin
+  (* identification *)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+ repeat
+  (* get the input values - can assume they will be perfect *)
+  write('Enter the shape of the candy top: ');
+  readln(input_param);
+  (* set the shape *)
+  if input_param = 'round' then top := round
+    else if input_param = 'triangular' then top := triangular
+    else top := rectangular ;
+  write('Enter the type of filling: ');
+  readln(input_param);
+  (* set the filling *)
+  if input_param = 'liquor' then fill := liquor
+    else if input_param = 'nuts' then fill := nuts
+    else fill := nougat ;
+  (* get the dimensions of the candy *)
+  write('Enter the height of the candy: ');
+  readln(hite);
+  write('Enter the dimensions of the top: ');
+  readln(dim1, dim2);
+  (* call total weight with a different function based on the shape *)
+  case top of
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, 0.0)
+ ;
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+    end;(*case*)
+  (* output the results *)
+  writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+  writeln;
+  (* check if more input *)
+  write('Another candy to enter? [Y/N]  ') ;
+  readln(response) ;
+ until response in ['N', 'n'] ;
+ writeln('It has been a pleasure serving you - bye for now.') ;
+end.
+{csia}u428500(7) pc candy.p
+{csia}u428500(8) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: round
+Enter the type of filling: nuts
+Enter the height of the candy: 11.22
+Enter the dimensions of the top: 4.5 7.8
+This candy weighs 2141.35 grams.
+ 
+Another candy to enter? [Y/N]  y
+Enter the shape of the candy top: rectangular
+Enter the type of filling: nougat
+Enter the height of the candy: 34
+Enter the dimensions of the top: 8.88 0.99
+This candy weighs 1195.60 grams.
+ 
+Another candy to enter? [Y/N]  n
+It has been a pleasure serving you - bye for now.
+{csia}u428500(9) a.out <candy.in
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: Enter the type of filling: Enter the height of
+ the candy: Enter the dimensions of the top: This candy weighs 942.48 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 353.57 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 3070.51 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 318.95 grams.
+ 
+Another candy to enter? [Y/N]  It has been a pleasure serving you - bye for now.
+{csia}u428500(10) vi hw4q2.p
+   CSI3125, DGD-2
+   HW4, Q2 *)
+ 
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+ (*Each function will print out that it has been called
+   and will give the new value of X inside that function.*)
+ 
+  function add1(var param : integer):integer ;
+    begin
+      writeln('Inside add1.') ;
+      param := param + 1 ;
+      writeln('Value of X now is: ', param) ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+:q
+{csia}u428500(11) vi hw4q2.c
+ 
+/* hw4q2rev.c */
+/* Mark Sattolo  428500 */
+/* CSI-3125, Homework4, Q2 */
+ 
+#include <stdio.h>
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /* identification */
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /* Get a maximum value for calculating the expression */
+ 
+"hw4q2.c" 80 lines, 2013 characters
+ 
+/* Mark Sattolo  428500
+   CSI-3125, DGD-2
+   HW4, Q2        */
+ 
+#include <stdio.h>
+ 
+/* FUNCTION  PROTOTYPES */
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /* identification */
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /* Get a maximum value for calculating the expression */
+  puts("We will calculate from X = 1 to a maximum value.") ;
+ 
+  printf("Enter a maximum integer value for the loop: ") ;
+ 
+  /* we can assume the input will be OK */
+ 
+  scanf("%d", &Y) ;
+ 
+  /*start the loop*/
+ 
+  for (W = 1; W <= Y; W++)
+ 
+         {
+ 
+          /* put the value to be calculated into X */
+ 
+          X = W ;
+ 
+          /* print out the initial value */
+ 
+          printf("\n >> Starting input value was: %d \n", X) ;
+ 
+          /* evaluate the expression */
+ 
+          Z = triple(&X) + subtract2(&X) + add1(&X) * double_(&X) * X ;
+ 
+          /* print out the final values */
+ 
+          printf(" >> Output value is: %d \n", Z) ;
+ 
+          printf(" >> Input value now is: %d \n", X) ;
+ 
+         }
+ 
+  puts("\n\t PROGRAM ENDED.") ;
+ 
+  return 0 ;
+ 
+ }
+"hw4q2.c" 80 lines, 2004 characters
+{csia}u428500(12) gcc hw4q2.c
+{csia}u428500(13) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter a maximum integer value for the loop: 5
+ 
+ >> Starting input value was: 1
+Inside triple.
+Value of X is now: 3.
+Inside subtract2.
+Value of X is now: 1.
+Inside add1.
+Value of X is now: 2.
+Inside double_.
+Value of X is now: 4.
+ >> Output value is: 36
+ >> Input value now is: 4
+ 
+ >> Starting input value was: 2
+Inside triple.
+Value of X is now: 6.
+Inside subtract2.
+Value of X is now: 4.
+Inside add1.
+Value of X is now: 5.
+Inside double_.
+Value of X is now: 10.
+ >> Output value is: 510
+ >> Input value now is: 10
+ 
+ >> Starting input value was: 3
+Inside triple.
+Value of X is now: 9.
+Inside subtract2.
+Value of X is now: 7.
+Inside add1.
+Value of X is now: 8.
+Inside double_.
+Value of X is now: 16.
+ >> Output value is: 2064
+ >> Input value now is: 16
+ 
+ >> Starting input value was: 4
+Inside triple.
+Value of X is now: 12.
+Inside subtract2.
+Value of X is now: 10.
+Inside add1.
+Value of X is now: 11.
+Inside double_.
+Value of X is now: 22.
+ >> Output value is: 5346
+ >> Input value now is: 22
+ 
+ >> Starting input value was: 5
+Inside triple.
+Value of X is now: 15.
+Inside subtract2.
+Value of X is now: 13.
+Inside add1.
+Value of X is now: 14.
+Inside double_.
+Value of X is now: 28.
+ >> Output value is: 11004
+ >> Input value now is: 28
+ 
+         PROGRAM ENDED.
+{csia}u428500(14) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter a maximum integer value for the loop: 3
+ 
+ >> Starting input value was: 1
+Inside triple.
+Value of X is now: 3.
+Inside subtract2.
+Value of X is now: 1.
+Inside add1.
+Value of X is now: 2.
+Inside double_.
+Value of X is now: 4.
+ >> Output value is: 36
+ >> Input value now is: 4
+ 
+ >> Starting input value was: 2
+Inside triple.
+Value of X is now: 6.
+Inside subtract2.
+Value of X is now: 4.
+Inside add1.
+Value of X is now: 5.
+Inside double_.
+Value of X is now: 10.
+ >> Output value is: 510
+ >> Input value now is: 10
+ 
+ >> Starting input value was: 3
+Inside triple.
+Value of X is now: 9.
+Inside subtract2.
+Value of X is now: 7.
+Inside add1.
+Value of X is now: 8.
+Inside double_.
+Value of X is now: 16.
+ >> Output value is: 2064
+ >> Input value now is: 16
+ 
+         PROGRAM ENDED.
+{csia}u428500(15) pc hw4q2.p
+{csia}u428500(16) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter the maximum integer value for the loop: 3
+ 
+ >> Starting input value was:          1
+Inside subtract2.
+Value of X now is:         -1
+Inside add1.
+Value of X now is:          0
+Inside double_.
+Value of X now is:          0
+Inside triple.
+Value of X now is:          0
+ >> Ouput value is:         -1
+ >> Input value now is:          0
+ 
+ >> Starting input value was:          2
+Inside subtract2.
+Value of X now is:          0
+Inside add1.
+Value of X now is:          1
+Inside double_.
+Value of X now is:          2
+Inside triple.
+Value of X now is:          6
+ >> Ouput value is:         10
+ >> Input value now is:          6
+ 
+ >> Starting input value was:          3
+Inside subtract2.
+Value of X now is:          1
+Inside add1.
+Value of X now is:          2
+Inside double_.
+Value of X now is:          4
+Inside triple.
+Value of X now is:         12
+ >> Ouput value is:         45
+ >> Input value now is:         12
+ 
+   PROGRAM ENDED.
+{csia}u428500(17) exit
+{csia}u428500(18) logout
+csia: u428500 logged out at Wed Nov 29 07:53:35 EST 2000
+Connection closed.
+{site0}u428500(16)$ ls
+a.out           candy.p         hw4.scm.out     hw4prolog       hw4q2.p
+candy.2.out     candy.p.x       hw4.sml         hw4q2.c         hw4q2.p.out
+candy.in        hw4.ari         hw4.sml.out     hw4q2.c.out     hw4q2.p.x
+candy.out       hw4.scm         hw4pro          hw4q2.c.x
+{site0}u428500(17)$ ls -al
+total 152
+drwxr-xr-x   2 u428500       512 Nov 29 07:53 .
+drwx------   9 u428500      1536 Nov 27 13:10 ..
+-rwx------   1 u428500     32768 Nov 29 07:53 a.out
+-rw-------   1 u428500       856 Nov 28 21:01 candy.2.out
+-rw-r--r--   1 u428500       120 Nov 27 13:19 candy.in
+-rw-------   1 u428500       856 Nov 27 13:20 candy.out
+-rw-r--r--   1 u428500      3024 Nov 29 07:35 candy.p
+-rwx------   1 u428500     32768 Nov 27 13:17 candy.p.x
+-rw-------   1 u428500       857 Nov 27 13:37 hw4.ari
+-rw-r--r--   1 u428500      1074 Nov 29 07:42 hw4.scm
+-rw-r--r--   1 u428500      1304 Nov 27 13:57 hw4.scm.out
+-rw-r--r--   1 u428500      1207 Nov 29 07:45 hw4.sml
+-rw-r--r--   1 u428500       850 Nov 27 13:55 hw4.sml.out
+-rw-r--r--   1 u428500      1272 Nov 29 07:38 hw4pro
+-rw-r--r--   1 u428500       871 Nov 27 13:58 hw4prolog
+-rw-r--r--   1 u428500      2004 Nov 29 07:52 hw4q2.c
+-rw-------   1 u428500      3374 Nov 28 21:04 hw4q2.c.out
+-rwx------   1 u428500     24576 Nov 27 13:21 hw4q2.c.x
+-rw-r--r--   1 u428500      1934 Nov 28 21:45 hw4q2.p
+-rw-------   1 u428500      3933 Nov 28 21:03 hw4q2.p.out
+-rwx------   1 u428500     32768 Nov 27 13:24 hw4q2.p.x
+{site0}u428500(18)$ ls -dl
+drwxr-xr-x   2 u428500       512 Nov 29 07:53 .
+{site0}u428500(19)$ ls -tl
+total 149
+-rwx------   1 u428500     32768 Nov 29 07:53 a.out
+-rw-r--r--   1 u428500      2004 Nov 29 07:52 hw4q2.c
+-rw-r--r--   1 u428500      1207 Nov 29 07:45 hw4.sml
+-rw-r--r--   1 u428500      1074 Nov 29 07:42 hw4.scm
+-rw-r--r--   1 u428500      1272 Nov 29 07:38 hw4pro
+-rw-r--r--   1 u428500      3024 Nov 29 07:35 candy.p
+-rw-r--r--   1 u428500      1934 Nov 28 21:45 hw4q2.p
+-rw-------   1 u428500      3374 Nov 28 21:04 hw4q2.c.out
+-rw-------   1 u428500      3933 Nov 28 21:03 hw4q2.p.out
+-rw-------   1 u428500       856 Nov 28 21:01 candy.2.out
+-rw-r--r--   1 u428500       871 Nov 27 13:58 hw4prolog
+-rw-r--r--   1 u428500      1304 Nov 27 13:57 hw4.scm.out
+-rw-r--r--   1 u428500       850 Nov 27 13:55 hw4.sml.out
+-rw-------   1 u428500       857 Nov 27 13:37 hw4.ari
+-rwx------   1 u428500     32768 Nov 27 13:24 hw4q2.p.x
+-rwx------   1 u428500     24576 Nov 27 13:21 hw4q2.c.x
+-rw-------   1 u428500       856 Nov 27 13:20 candy.out
+-rw-r--r--   1 u428500       120 Nov 27 13:19 candy.in
+-rwx------   1 u428500     32768 Nov 27 13:17 candy.p.x

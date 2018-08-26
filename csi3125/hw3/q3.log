@@ -1,0 +1,102 @@
+Q3, PART A
+----------
+
+F:\csi3125\hw3\turbo+>hw3q3a
+Mark Sattolo, 428500, CSI3125, DGD-2, Assn#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+Input: i -396
+Negation of input is: 396
+
+F:\csi3125\hw3\turbo+>hw3q3a
+Mark Sattolo, 428500, CSI3125, DGD-2, Assn#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+Input: r 2.55
+Negation of input is: -2.5500000000E+00
+
+F:\csi3125\hw3\turbo+>hw3q3a
+Mark Sattolo, 428500, CSI3125, DGD-2, Assn#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+Input: b false
+Negation of input is: TRUE
+
+-----------------------------------------------------------
+
+Q3, PART B
+----------
+
+F:\csi3125\hw3\turbo+>hw3q3b
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+
+Input: i -396
+Negation of input is: 396
+
+F:\csi3125\hw3\turbo+>hw3q3b
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+
+Input: r 2.55
+Negation of input is: -2.5500000000E+00
+
+F:\csi3125\hw3\turbo+>hw3q3b
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 3.14129
+
+Input: b false
+Negation of input is: TRUE
+
+------------------------------------------------------------
+
+Q3, PART C
+----------
+
+F:\csi3125\hw3\turbo+>hw3q3c
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 2.55
+
+r 3.456983
+
+Change effective interest rate: FALSE
+Principal is -2686
+Rate is  3.4569830000E+00
+Interest is -9.2854563380E+03
+
+F:\csi3125\hw3\turbo+>hw3q3c
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 2.55
+
+b true
+
+Change effective interest rate: TRUE
+Principal is 1
+Rate is  0.0000000000E+00
+Interest is  0.0000000000E+00
+
+F:\csi3125\hw3\turbo+>hw3q3c
+Mark Sattolo, 428500, CSI3125, DGD-2, Homework#3
+
+Please enter a value preceded by its type (i, r, or b).
+For example: r 2.55
+
+i 12500
+
+Change effective interest rate: TRUE
+Principal is -18572
+Rate is  1.2207031254E-04
+Interest is -2.2670898445E+00

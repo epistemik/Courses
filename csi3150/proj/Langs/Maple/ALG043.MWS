@@ -1,0 +1,159 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 115 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 270 "# ADAPTIVE QUADRATURE ALGORITM  4.
+3 #    \n# To approximate I = integral ( ( f(x) dx ) ) from a to b to \+
+within\n# a given tolerance TOL:\n#\n# INPUT:    endpoints a, b; toler
+ance TOL; limit N to number of levels\n#\n# OUTPUT:   approximation AP
+P or message that N is exceeded." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+111 "alg043 := proc() local F, OK, AA, BB, EPS, N, CNT, APP, I, TOL, A
+, H, FA, FC, FB, S, L, FD, FE, S1, S2, V, LEV;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 65 "printf(`This is Adaptive Quadrature with Simpson's Me
+thod.\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the
+ function F(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+30 "printf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := un
+apply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "printf(`Input lower limit of integration and `
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`upper limit of integr
+ation\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`separated by
+ a blank\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%f`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "BB := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if AA > BB then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 54 "printf(`Lower limit must be less than upper limit\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`Input \+
+tolerance.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "EPS := scanf(`%
+f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if EPS > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Tol
+erance must be positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`Input \+
+the maximum number of levels.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > \+
+0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "pri
+ntf(`Number must be positive\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "CNT := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "APP := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 17 "TOL[I] := 10*EPS;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "A[I] := AA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "H[I
+] := 0.5*(BB-AA);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "FA[I] := F(AA)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "CNT := CNT+1;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "FC[I] := F((AA+H[I]));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "CNT := CNT+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "F
+B[I] := F(BB);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "CNT := CNT+1;" }}
+{PARA 0 "" 0 "" {TEXT -1 56 "Approximation from Simpson's method for e
+ntire interval." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "S[I] := H[I]*(FA
+[I]+4*FC[I]+FB[I])/3;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "L[I] := 1;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 28 "while I > 0 and OK = TRUE do" }}{PARA 0 "" 0 "" {TEXT -1 6 "ST
+EP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "FD := F((A[I]+0.5*H[I]));" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "CNT := CNT+1;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 25 "FE := F((A[I]+1.5*H[I]));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "CNT := CNT+1;" }}{PARA 0 "" 0 "" {TEXT -1 60 "Approxi
+mations from Simpson's method for halves of intervals" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 32 "S1 := H[I]*(FA[I]+4*FD+FC[I])/6;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "S2 := H[I]*(FC[I]+4*FE+FB[I])/6;" }}{PARA 0 "
+" 0 "" {TEXT -1 23 "Save data at this level" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "V[0] := A[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "V
+[1] := FA[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "V[2] := FC[I];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "V[3] := FB[I];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "V[4] := H[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 
+"V[5] := TOL[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "V[6] := S[I];" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "LEV := L[I];" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }}{PARA 0 "" 0 "" {TEXT -1 16 "Delete the level" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I-1;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "if abs(S1+S2-V[6]) \+
+< V[5] then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "APP := APP+(S1+S2);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if LEV >= N then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "" 0 "" {TEXT -1 15 "procedure fails" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 13 
+"Add one level" }}{PARA 0 "" 0 "" {TEXT -1 31 "Data for right half sub
+interval" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 18 "A[I] := V[0]+V[4];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "FA[I] := V[2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "
+FC[I] := FE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "FB[I] := V[3];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "H[I] := 0.5*V[4];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "TOL[I] := 0.5*V[5];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "S[I] := S2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "L[I
+] := LEV+1;" }}{PARA 0 "" 0 "" {TEXT -1 30 "Data for left half subinte
+rval" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 13 "A[I] := V[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "FA[I] := V[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "FC[I] := FD;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "FB[I] := V[2];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 15 "H[I] := H[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "TOL[I] := TOL[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "S[I] :
+= S1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "L[I] := L[I-1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+27 "printf(`Level exceeded\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "
+else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "printf(`\\nThe integral of \+
+F from %12.8f to %12.8f is\\n`, AA, BB);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "printf(`%12.8f to within %14.8e\\n`, APP, EPS);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`The number of function eval
+uations is: %d\\n`, CNT); " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 
+12 "" 1 "" {XPPMATH 20 "6#>%'alg043G:6\"69%\"FG%#OKG%#AAG%#BBG%$EPSG%
+\"NG%$CNTG%$APPG%\"IG%$TOLG%\"AG%\"HG%#FAG%#FCG%#FBG%\"SG%\"LG%#FDG%#F
+EG%#S1G%#S2G%\"VG%$LEVGF&F&C/-%'printfG6#%UThis~is~Adaptive~Quadrature
+~with~Simpson's~Method.|+|+G-FA6#%GInput~the~function~F(x)~in~terms~of
+~x|+G-FA6#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\">FK-%(unap
+plyG6$FK%\"xG>8%%&FALSEG?(F&FRFRF&/FYFZC(-FA6#%FInput~lower~limit~of~i
+ntegration~and~G-FA6#%<upper~limit~of~integration|+G-FA6#%6separated~b
+y~a~blank|+G>8&&-FN6#%#%fGFQ>8'Fco@%2FhoFbo-FA6#%KLower~limit~must~be~
+less~than~upper~limit|+G>FY%%TRUEG>FYFZ?(F&FRFRF&FfnC%-FA6#%2Input~tol
+erance.|+G>8(Fco@%2\"\"!Fgp>FYF_p-FA6#%=Tolerance~must~be~positive.|+G
+>FYFZ?(F&FRFRF&FfnC%-FA6#%EInput~the~maximum~number~of~levels.|+G>8)&-
+FN6#%#%dGFQ@%2FjpFfq>FYF_p-FA6#%9Number~must~be~positive|+G@$/FYF_pC3>
+8*Fjp>FYF_p>8+Fjp>8,FR>&8-6#Fjr,$Fgp\"#5>&8.F^sFbo>&8/F^s,&Fho$\"\"&!
+\"\"Fbo$!\"&Fjs>&80F^s-FK6#Fbo>Fer,&FerFRFRFR>&81F^s-FK6#,&FboFRFesFR>
+FerFct>&82F^s-FK6#Fho>FerFct>&83F^s,$*&FesFR,(F^tFRFet\"\"%F\\uFRFR#FR
+\"\"$>&84F^sFR?(F&FRFRF&32FjpFjrFbrC2>85-FK6#,&FbsFRFesFhs>FerFct>86-F
+K6#,&FbsFRFes$\"#:Fjs>FerFct>87,$*&FesFR,(F^tFRFbvFguFetFRFR#FR\"\"'>8
+8,$*&FesFR,(FetFRFhvFguF\\uFRFRFdw>&896#FjpFbs>&F]xFQF^t>&F]x6#\"\"#Fe
+t>&F]x6#FiuF\\u>&F]x6#FguFes>&F]x6#FisF\\s>&F]x6#FewFbu>8:F[v>Fjr,&Fjr
+FRFjsFR@%2-%$absG6#,(F`wFRFgwFRF_yFjsF\\y>Fhr,(FhrFRF`wFRFgwFR@%1FfqFb
+y>FYFZC4>Fjr,&FjrFRFRFR>Fbs,&F\\xFRFixFR>F^tFbx>FetFhv>F\\uFfx>Fes,$Fi
+xFhs>F\\s,$F\\yFhs>FbuFgw>F[v,&FbyFRFRFR>FjrFbz>FbsF\\x>F^tF`x>FetFbv>
+F\\uFbx>Fes&Ffs6#Fdy>F\\s&F]sFf[l>FbuF`w>F[v&F\\vFf[l@%Ffn-FA6#%0Level
+~exceeded|+GC%-FA6%%M|+The~integral~of~F~from~%12.8f~to~%12.8f~is|+GFb
+oFho-FA6%%9%12.8f~to~within~%14.8e|+GFhrFgp-FA6$%KThe~number~of~functi
+on~evaluations~is:~%d|+GFer-%'RETURNGF^xF&F&" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 9 "alg043();" }}{PARA 6 "" 1 "" {TEXT -1 109 "This i
+s Adaptive Quadrature with Simpson's Method.\n\nInput the function F(x
+) in terms of x\nFor example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "100/x^2*sin(10/x)" }}{PARA 6 "" 1 "" {TEXT -1 84 "Inp
+ut lower limit of integration and upper limit of integration\nseparate
+d by a blank" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1 3" }}
+{PARA 6 "" 1 "" {TEXT -1 16 "Input tolerance." }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 5 ".0001" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input the m
+aximum number of levels." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "
+12" }}{PARA 6 "" 1 "" {TEXT -1 134 "\nThe integral of F from   1.00000
+000 to   3.00000000 is\n-1.42601481 to within 1.00000000e-04\nThe numb
+er of function evaluations is: 93" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#
+\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "7 0 0
+" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

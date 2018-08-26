@@ -1,0 +1,270 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+116 105 118 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 69 0 79 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 
+0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 565 "# NATURAL CUBIC SPLINE ALGORITHM 3
+.4                                     #\n# To construct the cubic spl
+ine interpolant S for the function f,\n# defined at the numbers x(0) <
+ x(1) < ... < x(n), satisfying\n# S''(x(0)) = S''(x(n)) = 0:\n#\n# INP
+UT:   n; x(0), x(1), ..., x(N); either generate A(I) = f(x(I))\n#     \+
+     for I = 0, 1, ..., n or input A(I) for I = 0, 1, ..., n.\n#\n# OU
+TPUT:  A(J), B(J), C(J), D(J) for J = 0, 1, ..., n - 1.\n#\n# NOTE:   \+
+ S(x) = A(J) + B(J) * ( x - x(J) ) + C(J) * ( x - x(J) )**2 +\n#      \+
+    D(J) * ( x - x(J) )**3 for x(J) <= x < x(J + 1) " }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 101 "alg034 := proc() local OK, FLAG, N, I, X, A, AA
+, NAME, INP, F, M, H, XA, XL, XU, XZ, C, J, B, D, OUP;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 60 "printf(`This is the natural cubic spline inter
+polation.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 36 "printf(`Choice of input method:\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`1. Input entry by entry fro
+m keyboard\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`2. Inpu
+t data from a text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "pr
+intf(`3. Generate data using a function F with nodes entered `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "printf(`from keyboard\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`4. Generate data using a fu
+nction F with nodes from `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "pri
+ntf(`a text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`C
+hoose 1, 2, 3, or 4 please\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 
+"FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "if FLAG
+ >= 1 and FLAG <= 4 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := T
+RUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 1 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "printf(`Input n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if \+
+N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 42 "printf(`Input X(%d) and F(X(%d)) `, I, I);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`separated by space\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[I] := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "A[I] := scanf(`%f`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "else pr
+intf(`Number must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "
+if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has a t
+ext file been created with the data in two `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`columns ?\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "AA := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 45 "printf(`Input the file name in the form - `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`For example: A:\\\\DATA.DT
+A\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "printf(`Input n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N \+
+:= scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 29 "X[I] := fscanf(INP, `%f`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 29 "A[I] := fscanf(INP, `%f`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclo
+se(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "
+printf(`Number must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 
+"printf(`Please create the input file in two column `);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 26 "printf(`form with the\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 67 "printf(`X values and F(X) values in the correspond
+ing columns.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The p
+rogram will end so the input file can be created.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 3 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+51 "printf(`Input the function F(x) in terms of x.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 30 "printf(`For example: cos(x)`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALS
+E do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "printf(`Input n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for I from 0 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "print
+f(`Input X(%d)\\n`, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[I] := \+
+scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "A[I] := F(X[I]);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Number must be a positi
+ve integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 4 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 58 "printf(`Has the text file with X-values been c
+reated?\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter Y or
+ N\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "AA := scanf(`\\n%c`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Input the file name in the \+
+form - `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\nam
+e.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`For example:
+   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := \+
+scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAM
+E,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`Input the \+
+function F(x) in terms of x.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+30 "printf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := un
+apply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "printf(`Input n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 29 "X[I] := fscanf(INP, `%f`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 16 "A[I] := F(X[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "else printf(`Number must be a p
+ositive integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`The program w
+ill end so the input file can be created`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+11 "M := N - 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "for I from 0 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "H[I] := X[I+1] - X[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "" 0 "" 
+{TEXT -1 24 "Use XA in place of ALPHA" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "XA[I]
+ := 3.0*(A[I+1]*H[I-1]-A[I]*(X[I+1]-X[I-1])+A[I-1]*H[I])/" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 14 "(H[I]*H[I-1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "
+" 0 "" {TEXT -1 76 "STEPs 3, 4, 5 and part of 6 solve the tridiagonal \+
+system using Algorithm 6.7" }}{PARA 0 "" 0 "" {TEXT -1 41 "use XL, XU,
+ XZ in place of L, MU, Z resp." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "X
+L[0] := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XU[0] := 0;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "XZ[0] := 0;" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "XL[I] := 2*(X[I+1]-X[I-1])-H[I-1]
+*XU[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "XU[I] := H[I]/XL[I];" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "XZ[I] := (XA[I]-H[I-1]*XZ[I-1])/X
+L[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XL[N] := 1;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XZ[N] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "C[N] := XZ[N];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to M do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "J := M-I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 27 "C[J] := XZ[J]-XU[J]*C[J+1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+64 "B[J] := (A[J+1]-A[J])/H[J] - H[J] * (C[J+1] + 2.0 * C[J]) / 3.0;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "D[J] := (C[J+1] - C[J]) / (3.0 * \+
+H[J]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`Selec
+t output destination\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "print
+f(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`2. Te
+xt file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or
+ 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - driv
+e:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`For
+ example:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP \+
+:= fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else \+
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "fprin
+tf(OUP, `NATURAL CUBIC SPLINE INTERPOLATION\\n\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 51 "fprintf(OUP, `The numbers X(0), ..., X(N) are:\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f`, X[I]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 73 "fprintf(OUP, `\\n\\nThe coefficients of the spline on the subint
+ervals `); " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "fprintf(OUP, `are:\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "fprintf(OUP, `for I = 0, ..
+., N-1\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "fprintf(OUP, `     \+
+A(I)          B(I)           C(I)         D(I)\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "for I from 0 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 72 "fprintf(OUP, ` %13.8f %13.8f %13.8f %13.8f \\n`, A[I]
+, B[I], C[I], D[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 50 "printf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg034G:6
+\"67%#OKG%%FLAGG%\"NG%\"IG%\"XG%\"AG%#AAG%%NAMEG%$INPG%\"FG%\"MG%\"HG%
+#XAG%#XLG%#XUG%#XZG%\"CG%\"JG%\"BG%\"DG%$OUPGF&F&C+-%'printfG6#%QThis~
+is~the~natural~cubic~spline~interpolation.|+G>8$%&FALSEG?(F&\"\"\"FFF&
+/FCFDC,-F?6#%9Choice~of~input~method:|+G-F?6#%G1.~Input~entry~by~entry
+~from~keyboard|+G-F?6#%@2.~Input~data~from~a~text~file|+G-F?6#%X3.~Gen
+erate~data~using~a~function~F~with~nodes~entered~G-F?6#%/from~keyboard
+|+G-F?6#%U4.~Generate~data~using~a~function~F~with~nodes~from~G-F?6#%-
+a~text~file|+G-F?6#%=Choose~1,~2,~3,~or~4~please|+G>8%&-%&scanfG6#%#%d
+G6#FF@$31FFF\\o1F\\o\"\"%>FC%%TRUEG@$/F\\oFFC$>FCFD?(F&FFFFF&FGC%-F?6#
+%)Input~n|+G>8&F]o@%2\"\"!FdpC$>FCFio?(8'FgpFFFdp%%trueGC&-F?6%%:Input
+~X(%d)~and~F(X(%d))~GF[qF[q-F?6#%4separated~by~space|+G>&8(6#F[q&-F_o6
+#%#%fGFbo>&8)FgqFhq-F?6#%CNumber~must~be~a~positive~integer|+G@$/F\\o
+\"\"#C'-F?6#%SHas~a~text~file~been~created~with~the~data~in~two~G-F?6#
+%+columns~?|+G-F?6#%.Enter~Y~or~N|+G>8*&-F_o6#%$|+%cGFbo@%5/F`s%\"YG/F
+`s%\"yGC)-F?6#%CInput~the~file~name~in~the~form~-~G-F?6#%1drive:\\name
+.ext|+G-F?6#%:For~example:~A:\\DATA.DTA|+G>8+&-F_o6#%#%sGFbo>8,-%&fope
+nG6%Fft%%READG%%TEXTG>FCFD?(F&FFFFF&FGC%F`p>FdpF]o@%FfpC%?(F[qFgpFFFdp
+F\\qC$>Feq&-%'fscanfG6$F\\uF[rFbo>F]rF[v-%'fcloseG6#F\\u>FCFioF_rC'-F?
+6#%LPlease~create~the~input~file~in~two~column~G-F?6#%/form~with~the|+
+G-F?6#%XX~values~and~F(X)~values~in~the~corresponding~columns.|+G-F?6#
+%XThe~program~will~end~so~the~input~file~can~be~created.|+G>FCFD@$/F\\
+o\"\"$C(-F?6#%HInput~the~function~F(x)~in~terms~of~x.|+G-F?6#%4For~exa
+mple:~cos(x)G>8-&-F_o6#%#%aGFbo>F]x-%(unapplyG6$F]x%\"xG>FCFD?(F&FFFFF
+&FGC%F`p>FdpF]o@%FfpC$?(F[qFgpFFFdpF\\qC%-F?6$%-Input~X(%d)|+GF[q>FeqF
+hq>F]r-F]x6#Feq>FCFioF_r@$/F\\oFgoC&-F?6#%OHas~the~text~file~with~X-va
+lues~been~created?|+GF\\s>F`sFas@%FfsC-F\\tF_t-F?6#%<For~example:~~~A:
+\\DATA.DTA|+G>FftFgt>F\\uF]uFfwFiw>F]xF^x>F]xFcx>FCFD?(F&FFFFF&FGC%F`p
+>FdpF]o@%FfpC%>FCFio?(F[qFgpFFFdpF\\qC$>FeqF[v>F]rFdyF`vF_rC$-F?6#%VTh
+e~program~will~end~so~the~input~file~can~be~createdG>FCFD@$/FCFioC<>8.
+,&FdpFF!\"\"FF?(F[qFgpFFF[\\lF\\q>&8/Fgq,&&Ffq6#,&F[qFFFFFFFFFeqF]\\l?
+(F[qFFFFF[\\lF\\q>&80Fgq,$*(,(*&&F^rFd\\lFF&Fa\\l6#,&F[qFFF]\\lFFFFFF*
+&F]rFF,&Fc\\lFF&FfqF`]lF]\\lFFF]\\l*&&F^rF`]lFFF`\\lFFFFFFF`\\lF]\\lF_
+]lF]\\l$\"#IF]\\l>&816#FgpFF>&82F\\^lFgp>&83F\\^lFgp?(F[qFFFFF[\\lF\\q
+C%>&F[^lFgq,(Fc\\lFdrFd]l!\"#*&F_]lFF&F_^lF`]lFFF]\\l>&F_^lFgq*&F`\\lF
+FFf^lF]\\l>&Fb^lFgq*&,&Fh\\lFF*&F_]lFF&Fb^lF`]lFFF]\\lFFFf^lF]\\l>&F[^
+l6#FdpFF>&Fb^lFf_lFgp>&84Ff_lFh_l?(F[qFgpFFF[\\lF\\qC&>85,&F[\\lFFF[qF
+]\\l>&F[`l6#F_`l,&&Fb^lFc`lFF*&&F_^lFc`lFF&F[`l6#,&F_`lFFFFFFFFF]\\l>&
+86Fc`l,&*&,&&F^rFi`lFF&F^rFc`lF]\\lFF&Fa\\lFc`lF]\\lFF*&FcalFF,&Fh`lFF
+Fb`l$\"#?F]\\lFF$!+LLLLL!#5>&87Fc`l,$*&,&Fh`lFFFb`lF]\\lFFFcalF]\\l$\"
++LLLLLFjal-F?6#%;Select~output~destination|+G-F?6#%+1.~Screen|+G-F?6#%
+.2.~Text~file|+G-F?6#%.Enter~1~or~2|+G>F\\oF]o@%FcrC&-F?6#%SInput~the~
+file~name~in~the~form~-~drive:\\name.ext|+G-F?6#%>For~example:~~~A:\\O
+UTPUT.DTA|+G>FftFgt>88-F^u6%Fft%&WRITEGFau>Fjcl%(defaultG-%(fprintfG6$
+Fjcl%ENATURAL~CUBIC~SPLINE~INTERPOLATION|+|+G-Fadl6$Fjcl%BThe~numbers~
+X(0),~...,~X(N)~are:|+G?(F[qFgpFFFdpF\\q-Fadl6%Fjcl%(~%11.8fGFeq-Fadl6
+$Fjcl%V|+|+The~coefficients~of~the~spline~on~the~subintervals~G-Fadl6$
+Fjcl%&are:|+G-Fadl6$Fjcl%5for~I~=~0,~...,~N-1|+G-Fadl6$Fjcl%U~~~~~A(I)
+~~~~~~~~~~B(I)~~~~~~~~~~~C(I)~~~~~~~~~D(I)|+G?(F[qFgpFFF[\\lF\\q-Fadl6
+(Fjcl%?~%13.8f~%13.8f~%13.8f~%13.8f~|+GF]r&F]alFgq&F[`lFgq&F]blFgq@$0F
+jclF_dlC$-Fav6#Fjcl-F?6$%COutput~file~%s~created~sucessfullyGFft-%'RET
+URNGF\\^lF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg034();" 
+}}{PARA 6 "" 1 "" {TEXT -1 301 "This is the natural cubic spline inter
+polation.\nChoice of input method:\n1. Input entry by entry from keybo
+ard\n2. Input data from a text file\n3. Generate data using a function
+ F with nodes entered from keyboard\n4. Generate data using a function
+ F with nodes from a text file\nChoose 1, 2, 3, or 4 please" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 72 "Has a text file been created with the data in two columns ?\nEn
+ter Y or N" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "
+" 1 "" {TEXT -1 74 "Input the file name in the form - drive:\\name.ext
+\nFor example: A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "c:\\data\\alg034.dta" }}{PARA 6 "" 1 "" {TEXT -1 7 "Input n" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" {TEXT 
+-1 61 "Select output destination\n1. Screen\n2. Text file\nEnter 1 or \+
+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 489 "NATURAL CUBIC SPLINE INTERPOLATION\n\nThe numbers X(0), \+
+..., X(N) are:\n  0.00000000   .25000000   .50000000   .75000000  1.00
+000000\n\nThe coefficients of the spline on the subintervals are:\nfor
+ I = 0, ..., N-1\n     A(I)          B(I)           C(I)         D(I)
+\n    1.00000000    2.26051633    0.00000000    5.34989989 \n    1.648
+72127    3.26362256    4.01242492     .18421506 \n    2.71828183    5.
+30437534    4.15058622   11.38571295 \n    4.48168907    9.51448963   \+
+12.68987093 -16.91982790 " }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "5 0 0" 18 }
+{VIEWOPTS 1 1 0 1 1 1803 }

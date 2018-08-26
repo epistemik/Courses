@@ -1,0 +1,35 @@
+<html>
+
+<body>
+<script language=javascript>
+function checkForm(form){
+	if (form.id.value==""){
+		alert("Please enter your student Number");
+		return false;
+	} else {
+		alert("Sending your assignment to the school's server. You will recieve a confirmation email.");
+		return true;
+	}
+}
+</script>
+<h1>CSI3125 Assignment 4</h1><br>
+If you have any difficulty please send an email to u1321643@site.uottawa.ca .... <i>Right away!!</i><br>
+<form name="form" onSubmit="return checkForm(this)" action="/servlet/Csi" method=POST>
+Student number: u<input type="text" name="id" size="10"> (do not include 'u').<br>
+
+<input type=hidden name=cmd value=assignFourHandin>
+1 PROLOG:<BR><textarea name="onepl" cols="50" rows="20"></textarea><HR><BR><BR>
+1 ML:<BR><textarea name="oneml" cols="50" rows="20"></textarea><BR><BR>
+1 SCHEME:<BR><textarea name="onescm" cols="50" rows="20"></textarea><BR><BR>
+1 PASCAL:<BR><textarea name="onepas" cols="50" rows="20"></textarea><BR><BR>
+<HR>
+2 C:<BR><textarea name="twoc" cols="50" rows="20"></textarea><BR><BR>
+2 PASCAL:<BR><textarea name="twopas" cols="50" rows="20"></textarea><BR><BR>
+
+<input type=submit value="Hand In" name="submitButton" >
+</form>
+<BR><BR><HR>
+<strong>Where is your assignment going?</strong><BR>
+First it's being sent to a Servlet running on my server. From there it is sent via ftp to the SITE server. Please be patient while your assignment is being sent. Processing time may vary depending on the load on both servers.
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://java.sun.com/docs/books/tutorial/essential/threads/group.html -->
+<HTML><HEAD><TITLE>Grouping Threads</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="10-Avoiding Starvation and Deadlock.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="12-The ThreadGroup Class.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>Grouping Threads </H2>
+<BLOCKQUOTE>Every Java thread is a member of a <EM>thread group</EM>. Thread 
+  groups provide a mechanism for collecting multiple threads into a single 
+  object and manipulating those threads all at once, rather than individually. 
+  For example, you can start or suspend all the threads within a group with a 
+  single method call. Java thread groups are implemented by the <A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+  target=apidoc><FONT color=#8800bb><CODE>ThreadGroup</CODE></FONT></A><A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+  target=apidoc><IMG align=absMiddle alt="(in the API reference documentation)" 
+  border=0 height=11 src="Thread_files/apiIcon.gif" width=11></A> 
+  class in the <CODE>java.lang</CODE> package. 
+  <P>The runtime system puts a thread into a thread group during thread 
+  construction. When you create a thread, you can either allow the runtime 
+  system to put the new thread in some reasonable default group or you can 
+  explicitly set the new thread's group. The thread is a permanent member of 
+  whatever thread group it joins upon its creation--you cannot move a thread to 
+  a new group after the thread has been created. </P></BLOCKQUOTE>
+<H3>The Default Thread Group</H3>
+<BLOCKQUOTE>If you create a new Thread without specifying its group in the 
+  constructor, the runtime system automatically places the new thread in the 
+  same group as the thread that created it (known as the <EM>current thread 
+  group</EM> and the <EM>current thread</EM>, respectively). So, if you leave 
+  the thread group unspecified when you create your thread, what group contains 
+  your thread? 
+  <P>When a Java application first starts up, the Java runtime system creates a 
+  <CODE>ThreadGroup</CODE> named <CODE>main</CODE>. Unless specified otherwise, 
+  all new threads that you create become members of the <CODE>main</CODE> thread 
+  group. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Note:</STRONG>&nbsp; If you create a thread within an applet, the 
+    new thread's group may be something other than <CODE>main</CODE>, depending 
+    on the browser or viewer that the applet is running in. Refer to <A 
+    href="http://java.sun.com/docs/books/tutorial/applet/practical/threads.html" 
+    target=_top>Threads in Applets</A><A 
+    href="http://java.sun.com/docs/books/tutorial/applet/practical/threads.html" 
+    target=_top><IMG align=absMiddle alt="(in the Essential Java Classes trail)" 
+    border=0 height=11 src="Thread_files/tutorialIcon.gif" 
+    width=11></A>for information about thread groups in applets. 
+    <HR>
+  </BLOCKQUOTE>
+  <P>Many Java programmers ignore thread groups altogether and allow the runtime 
+  system to handle all of the details regarding thread groups. However, if your 
+  program creates a lot of threads that should be manipulated as a group, or if 
+  you are implementing a custom security manager, you will likely want more 
+  control over thread groups. Continue reading for more details! </P></BLOCKQUOTE>
+<H3>Creating a Thread Explicitly in a Group</H3>
+<BLOCKQUOTE>As mentioned previously, a thread is a permanent member of 
+  whatever thread group it joins when its created--you cannot move a thread to a 
+  new group after the thread has been created. Thus, if you wish to put your new 
+  thread in a thread group other than the default, you must specify the thread 
+  group explicitly when you create the thread. The <CODE>Thread</CODE> class has 
+  three constructors that let you set a new thread's group: 
+  <BLOCKQUOTE><PRE>public Thread(ThreadGroup <EM>group</EM>, Runnable <EM>runnable</EM>)
+public Thread(ThreadGroup <EM>group</EM>, String <EM>name</EM>)
+public Thread(ThreadGroup <EM>group</EM>, Runnable <EM>runnable</EM>, String <EM>name</EM>)
+</PRE></BLOCKQUOTE>Each of these constructors creates a new thread, 
+  initializes it based on the <CODE>Runnable</CODE> and <CODE>String</CODE> 
+  parameters, and makes the new thread a member of the specified group. For 
+  example, the following code sample creates a thread group 
+  (<CODE>myThreadGroup</CODE>) and then creates a thread (<CODE>myThread</CODE>) 
+  in that group. 
+  <BLOCKQUOTE><PRE>ThreadGroup myThreadGroup = new ThreadGroup(
+                                    "My Group of Threads");
+Thread myThread = new Thread(myThreadGroup,
+                             "a thread for my group");
+</PRE></BLOCKQUOTE>The <CODE>ThreadGroup</CODE> passed into a 
+  <CODE>Thread</CODE> constructor does not necessarily have to be a group that 
+  you create--it can be a group created by the Java runtime system, or a group 
+  created by the application in which your applet is running. </BLOCKQUOTE>
+<H3>Getting a Thread's Group</H3>
+<BLOCKQUOTE>To find out what group a thread is in, you can call its 
+  <CODE>getThreadGroup</CODE> method: 
+  <BLOCKQUOTE><PRE>theGroup = myThread.getThreadGroup();
+</PRE></BLOCKQUOTE></BLOCKQUOTE>
+<H3>The <CODE>ThreadGroup</CODE> Class</H3>
+<BLOCKQUOTE>Once you've obtained a thread's <CODE>ThreadGroup</CODE>, you can 
+  query the group for information, such as what other threads are in the group. 
+  You can also modify the threads in that group, such as suspending, resuming, 
+  or stopping them, with a single method invocation. </BLOCKQUOTE>
+<BLOCKQUOTE></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="10-Avoiding Starvation and Deadlock.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="12-The ThreadGroup Class.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

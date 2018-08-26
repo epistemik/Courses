@@ -1,0 +1,218 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 16 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 523 "# GAUSSIAN ELIMINATION WITH PARTIA
+L PIVOTING ALGORITHM 6.2\n#\n# To solve the n by n linear system\n#\n#
+ E1:  A[1,1] X[1] + A[1,2] X[2] +...+ A[1,n] X[n] = A[1,n+1]\n# E2:  A
+[2,1] X[1] + A[2,2] X[2] +...+ A[2,n] X[n] = A[2,n+1]\n# :\n# .\n# EN:
+  A[n,1] X[1] + A[n,2] X[2] +...+ A[n,n] X[n] = A[n,n+1]\n#\n# INPUT: \+
+  number of unknowns and equations n; augmented\n#          matrix A =
+ (A(I,J)) where 1<=I<=n and 1<=J<=n+1.\n#\n# OUTPUT:  solution x(1), x
+(2),...,x(n) or a message that the\n#         linear system has no uni
+que solution." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 149 "alg062 := proc() \+
+local AA, NAME, INP, OK, N, I, J, A, M, NROW, NN, ICHG, IMAX, AMAX, JJ
+, IP, JP, NCOPY, I1, J1, XM, K, N1, X, N2, SUM, KK, FLAG, OUP;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`This is Gaussian Eliminatio
+n with Partial Pivoting.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "p
+rintf(`The array will be input from a text file in the order:\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`A(1,1), A(1,2), ..., A(1,N
++1), A(2,1), A(2,2), ..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "A(2,N
++1),\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "printf(`..., A(N,1), \+
+A(N,2), ..., A(N,N+1)\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "p
+rintf(`Place as many entries as desired on each line, but separate `);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least one blank.\\n\\n\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input file \+
+been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA \+
+= Y or AA = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input
+ the file name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.DTA\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf
+(`Input the number of equations - an integer.\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f
+or I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1
+ to N+1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(
+INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK :=
+ TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 56 "else printf(`The number must be a positive i
+nteger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else \+
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The program will end so
+ the input file can be created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N+1;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N d
+o" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "NROW[I-1] := I;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 22 "initialize \+
+row pointer" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "NN := N-1;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 10 "ICHG := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 7 "I := 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 30 "while OK = TRUE and I <= NN do" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "IMAX := NRO
+W[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "AMAX := abs(A[IMAX-1,I-1
+]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "IMAX := I;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 
+"for IP from JJ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "JP := NR
+OW[IP-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "if abs(A[JP-1,I-1]) > \+
+AMAX then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "AMAX := abs(A[JP-1,I-1
+]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "IMAX := IP;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "if AMAX <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK :
+= FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 5" }}{PARA 0 "" 0 "" {TEXT -1 24 "simulate row interc
+hange" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "if NROW[I-1] <> NROW[IMAX-
+1] then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "ICHG := ICHG+1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "NCOPY := NROW[I-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 26 "NROW[I-1] := NROW[IMAX-1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 22 "NROW[IMAX-1] := NCOPY;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "I1 := NROW[I
+-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for J from JJ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 16 "J1 := NROW[J-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "XM := A[J1-1,I-1]/A[I1-1,I-1];" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "for K from JJ to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "A[J1-1
+,K-1] := A[J1-1,K-1]-XM*A[I1-1,K-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 43 "Multiplier XM could be saved \+
+in A[J1-1,I-1]" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "A[J1-1,I-1] := 0;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "N1 := NROW[N-1];" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 35 "if abs(A[N1-1,N-1]) <= 1.0e-20 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "" 0 "" {TEXT -1 29 "s
+ystem has no unique solution" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else
+" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}{PARA 0 "" 0 "" {TEXT -1 
+26 "start backward subistution" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "X
+[N-1] := A[N1-1,M-1] / A[N1-1,N-1];" }}{PARA 0 "" 0 "" {TEXT -1 7 "STE
+P 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to NN do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "I := NN - K + 1;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "JJ := I + 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 
+"N2 := NROW[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "SUM := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for KK from JJ to N do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 32 "SUM := SUM-A[N2-1,KK-1]*X[KK-1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "X[
+I-1] := (A[N2-1,N] + SUM) / A[N2-1,I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 
+"" 0 "" {TEXT -1 32 "procedure completed successfully" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\
+\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for exa
+mple:  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NA
+ME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "OUP := fop
+en(NAME, WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "fprintf(OU
+P, `GAUSSIAN ELIMINATION - PARTIAL PIVOTING\\n\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 55 "fprintf(OUP, `The reduced system - output by row
+s:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, ` %11.8f`, A[I-1,J-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `\\n\\nHas solution v
+ector:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N d
+o" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, `  %12.8f`, X[I-1
+]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 56 "fprintf (OUP, `\\n\\nwith %d row interchange(s)\\n`, \+
+ICHG);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "fprintf(OUP, `\\nThe rows
+ have been logically re-ordered to:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for I from 1 to N do " }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 33 "fprintf(OUP, ` %2d`, NROW[I-1]); " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "fprintf(OUP,
+`\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 42 "printf(`System has no unique solution\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg062G:
+6\"6?%#AAG%%NAMEG%$INPG%#OKG%\"NG%\"IG%\"JG%\"AG%\"MG%%NROWG%#NNG%%ICH
+GG%%IMAXG%%AMAXG%#JJG%#IPG%#JPG%&NCOPYG%#I1G%#J1G%#XMG%\"KG%#N1G%\"XG%
+#N2G%$SUMG%#KKG%%FLAGG%$OUPGF&F&C.-%'printfG6#%UThis~is~Gaussian~Elimi
+nation~with~Partial~Pivoting.|+G-FG6#%XThe~array~will~be~input~from~a~
+text~file~in~the~order:|+G-FG6#%jnA(1,1),~A(1,2),~...,~A(1,N+1),~A(2,1
+),~A(2,2),~...,~|+A(2,N+1),|+G-FG6#%E...,~A(N,1),~A(N,2),~...,~A(N,N+1
+)|+|+G-FG6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~separ
+ate~G-FG6#%.entries~with|+G-FG6#%7at~least~one~blank.|+|+|+G-FG6#%RHas
+~the~input~file~been~created?~-~enter~Y~or~N.|+G>8$&-%&scanfG6#%#%cG6#
+\"\"\"@%5/Fjn%\"YG/Fjn%\"yGC(-FG6#%SInput~the~file~name~in~the~form~-~
+drive:\\name.ext|+G-FG6#%<for~example:~~~A:\\DATA.DTA|+G>8%&-F]o6#%#%s
+GF`o>8&-%&fopenG6%F`p%%READG%%TEXTG>8'%&FALSEG?(F&FaoFaoF&/F]qF^qC%-FG
+6#%MInput~the~number~of~equations~-~an~integer.|+G>8(&-F]o6#%#%dGF`o@%
+2\"\"!FfqC%?(8)FaoFaoFfq%%trueG?(8*FaoFao,&FfqFaoFaoFaoFar>&8+6$,&F`rF
+ao!\"\"Fao,&FcrFaoFjrFao&-%'fscanfG6$Ffp%#%fGF`o>F]q%%TRUEG-%'fcloseG6
+#Ffp-FG6#%HThe~number~must~be~a~positive~integer.|+G-FG6#%XThe~program
+~will~end~so~the~input~file~can~be~created.|+G@$/F]qFbsC*>8,Fdr?(F`rFa
+oFaoFfqFar>&8-6#FirF`r>8.,&FfqFaoFjrFao>8/F]r>F`rFao?(F&FaoFaoF&3F]t1F
+`rFgtC)>80Fct>81-%$absG6#&Fgr6$,&FauFaoFjrFaoFir>FauF`r>82,&F`rFaoFaoF
+ao?(83F\\vFaoFfqFarC$>84&Fdt6#,&F_vFaoFjrFao@$2Fcu-Feu6#&Fgr6$,&FbvFao
+FjrFaoFirC$>FcuFhv>FauF_v@%1FcuF]r>F]qF^qC%@$0Fct&Fdt6#FiuC&>Fjt,&FjtF
+aoFaoFao>85Fct>FctFfw>FfwF\\x>86Fct?(FcrF\\vFaoFfqFarC&>87&Fdt6#F[s>88
+*&&Fgr6$,&FdxFaoFjrFaoFirFao&Fgr6$,&F`xFaoFjrFaoFirFjr?(89F\\vFaoF`tFa
+r>&Fgr6$F\\y,&FayFaoFjrFao,&FcyFao*&FhxFao&Fgr6$F_yFeyFaoFjr>FjxF]r>F`
+rF]v@$F]tC$>8:&Fdt6#Fht@%1-Feu6#&Fgr6$,&F_zFaoFjrFaoFhtF]r>F]qF^qC4>&8
+;Faz*&&Fgr6$Fhz,&F`tFaoFjrFaoFaoFfzFjr?(FayFaoFaoFgtFarC(>F`r,(FgtFaoF
+ayFjrFaoFao>F\\vF]v>8<Fct>8=F]r?(8>F\\vFaoFfqFar>Fj[l,&Fj[lFao*&&Fgr6$
+,&Fh[lFaoFjrFao,&F\\\\lFaoFjrFaoFao&F][l6#Fc\\lFaoFjr>&F][lFet*&,&&Fgr
+6$Fb\\lFfqFaoFj[lFaoFao&Fgr6$Fb\\lFirFjr-FG6#%:Choice~of~output~method
+:|+G-FG6#%51.~Output~to~screen|+G-FG6#%82.~Output~to~text~file|+G-FG6#
+%6Please~enter~1~or~2.|+G>8?Fgq@%/F[^l\"\"#C&Fio-FG6#%=for~example:~~A
+:\\OUTPUT.DTA|+G>F`pFap>8@-Fhp6%F`p%&WRITEGF[q>Fe^l%(defaultG-%(fprint
+fG6$Fe^l%JGAUSSIAN~ELIMINATION~-~PARTIAL~PIVOTING|+|+G-F\\_l6$Fe^l%FTh
+e~reduced~system~-~output~by~rows:|+G?(F`rFaoFaoFfqFarC$?(FcrFaoFaoFfq
+Far-F\\_l6%Fe^l%(~%11.8fGFfr-F\\_l6$Fe^l%\"|+G-F\\_l6$Fe^l%8|+|+Has~so
+lution~vector:|+G?(F`rFaoFaoFfqFar-F\\_l6%Fe^l%)~~%12.8fGFg\\l-F\\_l6%
+Fe^l%>|+|+with~%d~row~interchange(s)|+GFjt-F\\_l6$Fe^l%N|+The~rows~hav
+e~been~logically~re-ordered~to:|+G?(F`rFaoFaoFfqFar-F\\_l6%Fe^l%%~%2dG
+FctFh_l@$0Fe^lFj^lC$-Fds6#Fe^l-FG6$%COutput~file~%s~created~sucessfull
+yGF`p@$F`q-FG6#%?System~has~no~unique~solution|+G-%'RETURNG6#F]rF&F&" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg062();" }}{PARA 6 "" 1 
+"" {TEXT -1 349 "This is Gaussian Elimination with Partial Pivoting.\n
+The array will be input from a text file in the order:\nA(1,1), A(1,2)
+, ..., A(1,N+1), A(2,1), A(2,2), ..., \nA(2,N+1),\n..., A(N,1), A(N,2)
+, ..., A(N,N+1)\n\nPlace as many entries as desired on each line, but \+
+separate entries with\nat least one blank.\n\n\nHas the input file bee
+n created? - enter Y or N." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "Input the file name in the form -
+ drive:\\name.ext\nfor example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg062.dta" }}{PARA 6 "" 1 "" {TEXT 
+-1 43 "Input the number of equations - an integer." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" {TEXT -1 88 "Choice of \+
+output method:\n1. Output to screen\n2. Output to text file\nPlease en
+ter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 
+"" 1 "" {TEXT -1 435 "GAUSSIAN ELIMINATION - PARTIAL PIVOTING\n\nThe r
+educed system - output by rows:\n  0.00000000  0.00000000  0.00000000 \+
+-.40000000\n  2.00000000 -2.00000000  3.00000000 -3.00000000\n  0.0000
+0000  2.00000000 -.50000000  1.50000000\n  0.00000000  0.00000000  2.5
+0000000  4.50000000\n\n\nHas solution vector:\n  -7.00000000    3.0000
+0000    2.00000000    2.00000000\n\nwith 3 row interchange(s)\n\nThe r
+ows have been logically re-ordered to:\n  2  3  4  1" }}{PARA 11 "" 1 
+"" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "
+" }}}}{MARK "1 60 0" 18 }{VIEWOPTS 1 1 0 1 1 1803 }

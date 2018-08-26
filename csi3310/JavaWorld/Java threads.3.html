@@ -1,0 +1,437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.javaworld.com/javaworld/jw-11-1998/jw-11-toolbox_p.html -->
+<HTML><HEAD><TITLE>Programming Java threads in the real world, Part 3 - JavaWorld November 1998</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Programming Java threads in the real world, Part 3" 
+name=description>
+<META content=1998-11 name=date>
+<META content="JavaWorld, Java, threads, multithreading" name=keywords>
+<META content="Allen Holub" name=author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b>
+<CENTER><FONT size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+border=0 height=60 
+src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/389936-kayak_ad1ab.gif" 
+vspace=5 width=468></A> </CENTER><IMG height=2 
+src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/blue.gif" 
+width="100%"><BR>
+<TABLE bgColor=#cccccc border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <CENTER><STRONG>November 1998</STRONG><BR><A 
+      href="http://www.javaworld.com/javaworld/home.html"><IMG border=0 
+      height=41 
+      src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/jwlogo-132.gif" 
+      vspace=5 width=132></A><BR><FONT size=-1><STRONG>FUELING 
+      INNOVATION</STRONG> </FONT></CENTER></TD>
+    <TD>
+      <P><FONT 
+      face=Arial,Helvetica,Sans-serif><STRONG><U>Search</U></STRONG></FONT> 
+      <FORM action=http://search.itworld.com:8765/query.html method=get 
+      name=seek>
+      <TABLE border=0 cellPadding=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><INPUT name=col size=-1 type=hidden value=jw> <!-- This is the text box for search terms --><!--See above--><INPUT 
+            maxLength=2047 name=qt size=12> <INPUT alt=GO border=0 height=25 
+            src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/button_blue.gif" 
+            type=image value=search width=27> </TD></TR></TBODY></TABLE></FORM></P></TD>
+    <TD><FONT face=Arial,Helvetica,Sans-serif><STRONG><A 
+      href="http://www.javaworld.com/javaworld/topicalindex/jw-ti-index.html">Topical&nbsp;index</A><BR><A 
+      href="http://www.javaworld.com/javaworld/netnews/">Net&nbsp;News&nbsp;Central</A><BR><A 
+      href="http://www.javaworld.com/javaworld/tools/">Developer&nbsp;Tools&nbsp;Guide</A><BR><A 
+      href="http://www.javaworld.com/javaworld/books/">Book&nbsp;Catalog</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-guidelines.html">Writers&nbsp;Guidelines</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-privacy.html">Privacy&nbsp;Policy</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-copyright.html">Copyright</A> 
+      </STRONG></FONT></TD></TR></TBODY></TABLE>Java Toolbox 
+<H1 align=center>Programming Java threads in the real world, Part 3 </H1>
+<H3 align=center>Roll-your-own mutexes and centralized lock management </H3>
+<BLOCKQUOTE><STRONG>Summary</STRONG><BR>In Parts 1 and 2 of this series on 
+  threads, Allen looked at some of the pitfalls of writing multithreaded 
+  applications in Java. This month, he starts looking at a few solutions. In 
+  particular, he looks at how and why you might want to roll your own exclusion 
+  semaphores, and presents a lock manager that will help you safely acquire 
+  multiple semaphores. <EM>(3,000 words)</EM> </BLOCKQUOTE><STRONG>By Allen 
+Holub</STRONG> 
+<P><IMG alt="" border=0 height=2 
+src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/blue.gif" 
+width="100%"> 
+<P><!-- begin body text --><IMG align=left alt=I 
+src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/I.gif">n 
+<A href="http://www.javaworld.com/javaworld/jw-10-1998/jw-10-toolbox.html">last 
+month's column</A>, I demonstrated a simple deadlock scenario using two nested 
+<CODE>synchronized</CODE> blocks that acquired the same two locks, but in a 
+different order. (Please review last month's example if this isn't fresh in your 
+mind.) This month, I'll take a look at a solution to this commonplace deadlock 
+problem, presenting a roll-your-own exclusion semaphore class and a lock manager 
+that supports the safe acquisition of multiple semaphores. Using these objects 
+rather than the built-in <CODE>synchronized</CODE> can save you hours of 
+searching for unexpected deadlocks. (They don't solve every possible deadlock 
+problem, of course, but are nonetheless pretty useful.) 
+<P><FONT size=+1><STRONG>When 'synchronized' isn't good 
+enough</STRONG></FONT><BR>The nested-<CODE>synchronized</CODE>-statements 
+example from last month was -- admittedly -- contrived, but the multiple-lock 
+situation comes up frequently in the real world. One common problem is the 
+too-coarse, object-level granularity of the <CODE>synchronized</CODE> keyword: 
+there's only one monitor per object, and sometimes that's not enough. 
+<P>Consider the following class, the methods of which can be broken up into 
+three partitions. The methods in the first partition use only a subset of the 
+fields in the class. The methods in the second partition use a non-overlapping 
+subset; they share fields that are not used by methods in the first partition. 
+The methods in the third partition use everything. 
+<P><CODE>1| class Complicated <EM>// NOT thread safe</EM><BR>2| {<BR>3| private 
+long a, b;<BR>4| private long x, y;<BR>5| <BR>6| <EM>// partition 1, functions 
+use a and/or b</EM><BR>7| <BR>8| public void use_a() { do_something_with(a); ); 
+}<BR>9| public void use_b() { do_something_with(b); ); }<BR>10 public void 
+use_a_and_b() { do_something_with(a+b); ); }<BR>11| <BR>12| <EM>// partition 2, 
+functions use x and/or y</EM><BR>13| <BR>14| public void use_x() { 
+do_something_with(x); ); }<BR>15| public void use_y() { do_something_with(y); ); 
+}<BR>16| public void use_x_and_y() { do_something_with(x+y); ); }<BR>17| <BR>18| 
+<EM>// partition 3, functions use a, b, x, and y</EM><BR>19| <BR>20| public void 
+use_everything() { do_something_with( a +<BR>x ); }<BR>21| public void 
+use_everything_else(){ do_something_with( b +<BR>y ); }<BR>22| }<BR></CODE>
+<P>As it stands, this code is a multithreading disaster. Nothing is synchronized 
+and we have guaranteed race conditions. (A <EM>race condition</EM> occurs when 
+two threads try to access the same object at the same time, and chance 
+determines which one wins the "race." Programs shouldn't work by chance.) 
+Synchronizing all the methods would fix the problem, but then you couldn't call 
+a method in <EM>partition 1</EM> (emphasized in the code above) simply because 
+some thread was using a method from <EM>partition 2 above.</EM> Since these two 
+partitions don't interact with each other, this solution imposes needless access 
+restrictions on the methods of the class. If you're accessing any method in 
+partition 3, though, you do want to lock out everything in the other two 
+partitions. We really need two locks in this situation. One to lock partition-1 
+variables and another for partition-2 variables. The methods in partition 3 can 
+then grab both locks. 
+<P><FONT size=+1><STRONG>So, roll your own</STRONG></FONT><BR>You can implement 
+the two-lock strategy by synchronizing on something other than the containing 
+object. Rather than synchronizing the methods, you can define two local 
+variables to use as locks and synchronize on them: 
+<P><CODE>1| class Complicated_and_thread_safe<BR>2| {<BR>3| private long a, 
+b;<BR>4| private long x, y;<BR>5| <BR>6| private Object ab_lock = new 
+int[];<BR>7| private Object xy_lock = new int[];<BR>8| <BR>9| <EM>// partition 
+1, functions use a and/or b</EM><BR>10| <BR>11| public void use_a() { 
+synchronized(ab_lock){<BR>&nbsp;<EM>/*...*/</EM> } } <BR>12| public void use_b() 
+{ synchronized(ab_lock){<BR><EM>/*...*/</EM> } } <BR>13| public void 
+use_a_and_b(){ synchronized(ab_lock){<BR><EM>/*...*/</EM> } } <BR>14| <BR>15| 
+<EM>// partition 2, functions use x and/or y</EM><BR>16| <BR>17| public void 
+use_x() { synchronized(xy_lock){<BR>&nbsp;<EM>/*...*/</EM> } }<BR>18| public 
+void use_y() { synchronized(xy_lock){<BR><EM>/*...*/</EM> } }<BR>19| public void 
+use_x_and_y(){ synchronized(xy_lock){<BR><EM>/*...*/</EM> } }<BR>20| <BR>21| 
+<EM>// partition 3, functions use a, b, x, and y</EM><BR>22| <BR>23| public void 
+use_everything()<BR>24| { synchronized(ab_lock) <EM>// grab both 
+locks</EM><BR>25| { synchronized(xy_lock)<BR>26| { <EM>/*...*/</EM><BR>27| 
+}<BR>28| }<BR>29| }<BR>30| <BR>31| public void use_everything_else()<BR>32| { 
+synchronized(ab_lock)<BR>33| { synchronized(xy_lock)<BR>34| { 
+<EM>/*...*/</EM><BR>35| }<BR>36| }<BR>37| }<BR>38| }<BR></CODE>
+<P>I haven't synchronized the methods themselves in this example. (Remember, 
+synchronizing a method is effectively the same thing as wrapping all the code in 
+the method in a <CODE>synchronized(this){...}</CODE> block.) Instead, I'm 
+providing a unique lock for each partition (<CODE>ab_lock</CODE> and 
+<CODE>xy_lock</CODE>) and then explicitly synchronizing on these individual 
+locks. 
+<P>Java associates locks with objects (instance of some class that extends 
+<CODE>Object</CODE>, so I can't use primitive-type variables as locks here. I 
+don't want to spend unnecessary time calling constructors and doing other 
+initialization operations on complicated objects, however. Consequently, the 
+locks themselves are declared as the simplest possible <CODE>Object</CODE> -- an 
+array. 
+<P>Arrays in Java are first-class objects: they implicitly extend the 
+<CODE>Object</CODE> class. (If you don't believe me, compile the following code: 
+
+<P><CODE>1| public class foo<BR>2| { static Object ref = new int[]{ 10 };<BR>3| 
+<BR>4| public static void main( String[] args )<BR>5| { System.out.println( 
+ref.toString() );<BR>6| }<BR>7| }<BR></CODE>
+<P>The class compiles just fine. Not only does the implicit cast from the array 
+to <CODE>Object</CODE> work (because <CODE>Object</CODE> is a base class of all 
+arrays), but the <CODE>println()</CODE> correctly invokes the compiler-generated 
+<CODE>toString()</CODE> override (which prints absolutely nothing useful -- but 
+you can't have everything). I've used a one-element array for my lock, rather 
+than something like an <CODE>Integer</CODE>, because arrays come into existence 
+very efficiently. For example, there's no constructor call. 
+<P>In the foregoing example, it's <EM>critical</EM> that methods that acquire 
+both locks always acquire them in the same order, otherwise we end up in the 
+Wilma-and-Betty deadlock scenario discussed <A 
+href="http://www.javaworld.com/javaworld/jw-10-1998/jw-10-toolbox.html">last 
+month</A>. Acquiring multiple locks is a commonplace enough problem that some 
+operating systems have system calls for this purpose. It would be nice to have 
+an easy way to acquire multiple locks, in Java, without having to worry about 
+the order-of-acquisition problem. The remainder of this month's column describes 
+one way to do that. 
+<P><!-- break -->
+<P><FONT size=+1><STRONG>Semaphores</STRONG></FONT><BR>Listing 1 shows the core 
+interface I use for all my roll-your-own semaphore classes: the 
+<CODE>Semaphore</CODE>. It's in the <EM>com.holub.asynch</EM> package, as are 
+all the thread-related classes and interfaces I'll be discussing. (I've also put 
+all the code that appears in the listings into the "Goodies" section on my Web 
+site; see <A 
+href="http://www.javaworld.com/javaworld/jw-11-1998/jw-11-toolbox_p.html#resources">Resources</A> 
+for the link.) 
+<P><CODE>1| package com.holub.asynch;<BR>2| <BR>3| interface Semaphore<BR>4| 
+{<BR>5| int id ();<BR>6| void acquire(long timeout) throws 
+InterruptedException;<BR>7| void release();<BR>8| } <BR></CODE>
+<P><STRONG><EM>Listing 1: Semaphore.java</EM></STRONG> 
+<P>If you haven't worked much with semaphores, a semaphore has to have two 
+properties in order to be useful: 
+<P>
+<OL>
+  <LI>It must be able to identify itself using a unique ID when passed an 
+  <CODE>id()</CODE> request. The current implementation uses a unique integer 
+  for the purpose. 
+  <P></P>
+  <LI>You must be able to acquire and release the semaphore, though the semantic 
+  meaning of "acquire" and "release" can vary, depending on what sort of 
+  semaphore you're dealing with. </LI></OL>
+<P><FONT size=+1><STRONG>Managing the locks</STRONG></FONT><BR>Any semaphore 
+that implements <CODE>Semaphore</CODE> can be locked in groups using the 
+<CODE>Lock_manager</CODE> class shown in Listing 2. There are several things 
+going on here. First of all, I've used the <CODE>Arrays.sort()</CODE> method, 
+one of the new JDK 1.2 data-structure facilities, to make life easier. The 
+<CODE>Arrays</CODE> class is a "Booch utility" -- a class that contains nothing 
+but static methods. The <EM>java.lang.Math</EM> utility is another example. In 
+fact, the <CODE>Lock_manager</CODE> itself is a utility, since it's made up 
+solely of static methods. 
+<P><CODE>01| package com.holub.asynch;<BR>02| <BR>03| import 
+com.holub.asynch.Semaphore;<BR>04| import java.util.Arrays;<BR>05| import 
+java.util.Comparator;<BR>06| <BR>07| class Lock_manager<BR>08| {<BR>09| private 
+static int[] id_lock = new int[1];<BR>10| private static int id_pool = 0;<BR>11| 
+<BR>12| public static int new_id( )<BR>13| {<BR>14| int id;<BR>15| synchronized( 
+id_lock ) {<BR>16| id = id_pool++; }<BR>17| return id;<BR>18| }<BR>19| <BR>20| 
+<EM>/**</EM><BR>21| <EM>* Every mutex is given a unique int ID when it's 
+created.</EM><BR>22| <EM>* This function returns once all of the locks in the 
+incoming</EM><BR>23| <EM>* array have been successfully acquired. Locks are 
+always</EM><BR>24| <EM>* acquired in ascending order of ID to attempt to 
+avoid</EM><BR>25| <EM>* deadlock situations.</EM><BR>26| <EM>*</EM><BR>27| <EM>* 
+@param <STRONG>locks</STRONG> All of these locks must be acquired 
+before</EM><BR>28| <EM>* acquire_multiple returns.</EM><BR>29| <EM>* @param 
+<STRONG>timeout</STRONG> Maximum time to wait to acquire each</EM><BR>30| <EM>* 
+lock (milliseconds). The total time for the multiple</EM><BR>31| <EM>* acquire 
+operation could be (timeout * locks.length).</EM><BR>32| <EM>**/</EM><BR>33| 
+<BR>34| public static void acquire_multiple( Semaphore[] locks, long timeout 
+)<BR>35| throws InterruptedException<BR>36| { try<BR>37| {<BR>38| 
+Arrays.sort(locks, new Lock_comparator() );<BR>39| for( int i = 0; i &lt; 
+locks.length; ++i )<BR>40| locks[i].acquire( timeout ) ;<BR>41| }<BR>42| catch( 
+Comparable.Not_comparable e )<BR>43| {<BR>44| <EM>// shouldn't happen. Convert 
+it to an uncaught</EM><BR>45| <EM>// exception to terminate the 
+program.</EM><BR>46| <BR>47| throw new Error( e.toString() );<BR>48| }<BR>49| 
+}<BR>50| <BR>51| private static class Lock_comparator implements 
+Comparator<BR>52| { public int compare(Object a, Object b)<BR>53| throws 
+Comparable.Not_comparable<BR>54| { return ((Semaphore)a).id() - 
+((Semaphore)b).id();<BR>55| }<BR>56| public boolean equals(Object obj)<BR>57| { 
+return obj instanceof Lock_comparator;<BR>58| }<BR>59| }<BR>60| }<BR></CODE>
+<P><STRONG><EM>Listing 2: Lock_manager.java</EM></STRONG> 
+<P><STRONG>"Booch utilities"</STRONG><BR>Digressing for a moment, in most 
+object-oriented languages, utilities are kludges needed to get around design 
+problems in the language itself or in existing libraries. The problem in Java is 
+that neither arrays nor primitive types really are true objects. If they were, 
+they would contain all the methods needed to manipulate them. For example, you 
+would be able to find a cosine using: 
+<P><CODE>int x = PI;<BR>x.cosine();<BR></CODE>
+<P>You'd also be able to extend <CODE>int</CODE>, and so forth. In the case of 
+arrays, you ought to be able to sort them by asking them to sort themselves, 
+like this: 
+<P><CODE>int array[] = new int[];<BR><EM>//...</EM><BR>array.sort();<BR></CODE>
+<P>Unfortunately, Java isn't a "pure" object-oriented language in which 
+everything is an object, so we have to make do with a utility class. 
+<P>You can use the <CODE>Arrays</CODE> utility as follows to sort an array of 
+<CODE>int</CODE>: 
+<P><CODE>int array[] = new int[];<BR><EM>//...</EM><BR>Arrays.sort( array 
+);<BR></CODE>
+<P>The problem is complicated a bit by arrays of objects of some arbitrary 
+class. How can a generic sort utility figure out the correct ordering? The 
+<CODE>Object</CODE> class contains an <CODE>equals()</CODE> function, but we'd 
+need a <CODE>greater_than()</CODE> as well to do sorting. 
+<P><STRONG>The Strategy pattern</STRONG><BR>To the rescue comes the "Strategy" 
+pattern. The notion is to pass into a method or object another object that 
+encapsulates the strategy needed to do something. There are lots of examples of 
+Strategy in Java. A <CODE>java.awt.LayoutManager</CODE>, for example, 
+encapsulates the strategy that a <CODE>Frame</CODE> uses for laying itself out. 
+You can change the layout simply by changing this strategy. You don't have to 
+define a new kind of <CODE>Frame</CODE> class using derivation or some other 
+mechanism. This, in turn, makes <CODE>Frame</CODE> much more "reusable" since 
+the behavior of a <CODE>Frame</CODE> can be changed without changing any of the 
+code that comprises <CODE>Frame</CODE>. 
+<P>The <CODE>Arrays</CODE> utility uses the Strategy pattern to define a 
+comparison strategy. In Listing 2, the <CODE>Lock_comparator</CODE> (at the 
+bottom of the listing) implements the comparison strategy by implementing the 
+new (to JDK 1.2) <CODE>java.util.Comparator</CODE> interface and its 
+<CODE>compare()</CODE> method. (This works like C's <CODE>strcmp()</CODE>: it 
+returns a negative number, zero, or a positive number depending on whether 
+<EM>a</EM> is less than, equal to, or greater than <EM>b</EM>.) An instance of 
+the <CODE>Comparator</CODE> is passed to the <CODE>Arrays.sort()</CODE> method 
+like this: 
+<P><CODE>Arrays.sort(locks, new Lock_comparator() );<BR></CODE>
+<P>The <CODE>Lock_comparator</CODE> object's <CODE>compare()</CODE> method is 
+called by <CODE>Arrays.sort()</CODE> when it needs to compare objects. C 
+programmers will recognize this approach as very similar to that of 
+<CODE>qsort()</CODE>, which is passed a pointer to a compare method -- another 
+example of Strategy. 
+<P><STRONG>How <CODE>Lock_manager</CODE> works</STRONG><BR>Now, let's look at 
+what the <CODE>Lock_manager</CODE> actually does. It starts out with the static 
+<CODE>new_id()</CODE> method that returns a unique <CODE>int</CODE> every time 
+it's called. This method will be called from the various objects that implement 
+the <CODE>Semaphore</CODE> interface to get the value they'll use for their ID. 
+<P>The <CODE>acquire</CODE> multiple method is used to safely acquire groups of 
+semaphores. You pass it an array of objects that implement 
+<CODE>Semaphore</CODE>, it sorts the array by ID, and then acquires the 
+semaphores one at a time in ID order. Consistent acquisition of multiple 
+semaphores in ID order effectively eliminates the deadlock scenario we've been 
+discussing. 
+<P><FONT size=+1><STRONG>A manageable mutex</STRONG></FONT><BR>Now let's move on 
+and look at the other side of the equation: a class that implements a semaphore. 
+The <CODE>Mutex</CODE> class in Listing 3 implements a simple mutual-exclusion 
+semaphore. Whether it makes sense to use it (as compared to synchronizing on a 
+lock object, as I did earlier) really depends on the situation. The main 
+advantage is in being able to use the 
+<CODE>Lock_manager.acquire_multiple()</CODE> to acquire several mutexes without 
+worrying about an order-of-acquisition deadlock. I personally think the code 
+also looks a little cleaner. I prefer this: 
+<P><CODE>1| class some_class<BR>2| { <BR>3| private Mutex lock = new 
+Mutex();<BR>4| <BR>5| public void f()<BR>6| { lock.acquire();<BR>7| 
+<EM>//...</EM><BR>8| lock.release();<BR>9| }<BR>10| }<BR></CODE>
+<P>to this: 
+<P><CODE>1| class some_class<BR>2| {<BR>3| private Object lock = new 
+int[1];<BR>4| <BR>5| public void f()<BR>6| { synchronized( lock )<BR>7| {<BR>8| 
+<EM>//...</EM><BR>9| }<BR>10| }<BR>11| }<BR></CODE>
+<P>even though it's possible to forget the explicit <CODE>release()</CODE>. 
+<P><CODE>1| package com.holub.asynch;<BR>2| <BR>3| import 
+com.holub.asynch.Semaphore;<BR>4| <BR>5| import 
+com.holub.tools.Comparable;<BR>6| import com.holub.tools.Sort;<BR>7| <BR>8| 
+<EM>// Implementation of a mutual-exclusion semaphore. It can be owned 
+by</EM><BR>9| <EM>// only one thread at a time. The thread can acquire it 
+multiple times,</EM><BR>10| <EM>// but there must be a release for every 
+acquire.</EM><BR>11| <BR>12| public class Mutex implements Semaphore<BR>13| 
+{<BR>14| private Thread owner = null; <EM>// Owner of mutex, null if 
+nobody</EM><BR>15| private int lock_count = 0;<BR>16| <BR>17| private final int 
+_id = Lock_manager.new_id();<BR>18| public int id() { return _id; }<BR>19| 
+<BR>20| <EM>/**</EM><BR>21| <EM>* Acquire the mutex. The mutex can be acquired 
+multiple times</EM><BR>22| <EM>* by the same thread, provided that it is 
+released as many</EM><BR>23| <EM>* times as it is acquired. The calling thread 
+blocks until</EM><BR>24| <EM>* it has acquired the mutex. (There is no 
+timeout).</EM><BR>25| <EM>*</EM><BR>26| <EM>* @see release</EM><BR>27| <EM>* 
+@see acquire_without_blocking</EM><BR>28| <EM>*/</EM><BR>29| <BR>30| public 
+synchronized void acquire( long timeout )<BR>31| throws 
+InterruptedException<BR>32| { while( acquire_without_blocking() == false)<BR>33| 
+this.wait( timeout );<BR>34| }<BR>35| <BR>36| <EM>/**</EM><BR>37| <EM>* Attempts 
+to acquire the mutex. Returns false (and does not</EM><BR>38| <EM>* block) if it 
+can't get it.</EM><BR>39| <EM>*</EM><BR>40| <EM>* @see release</EM><BR>41| <EM>* 
+@see acquire</EM><BR>42| <EM>*/</EM><BR>43| <BR>44| public synchronized boolean 
+acquire_without_blocking()<BR>45| {<BR>46| <EM>// Try to get the mutex. Return 
+true if you got it.</EM><BR>47| <BR>48| if( owner == null )<BR>49| { owner = 
+Thread.currentThread();<BR>50| lock_count = 1;<BR>51| return true;<BR>52| 
+}<BR>53| <BR>54| if( owner == Thread.currentThread() )<BR>55| { 
+++lock_count;<BR>56| return true;<BR>57| }<BR>58| <BR>59| return false;<BR>60| 
+}<BR>61| <BR>62| <EM>/**</EM><BR>63| <EM>* Release the mutex. The mutex has to 
+be released as many times</EM><BR>64| <EM>* as it was acquired to actually 
+unlock the resource. The mutex</EM><BR>65| <EM>* must be released by the thread 
+that acquired it</EM><BR>66| <EM>*</EM><BR>67| <EM>* @throws 
+Mutex.OwnershipException (a RuntimeException) if a thread</EM><BR>68| <EM>* 
+other than the current owner tries to release the mutex.</EM><BR>69| 
+<EM>*/</EM><BR>70| <BR>71| public synchronized void release()<BR>72| {<BR>73| 
+if( owner != Thread.currentThread() )<BR>74| throw new 
+OwnershipException();<BR>75| <BR>76| if( --lock_count &lt;= 0 )<BR>77| { owner = 
+null;<BR>78| notify();<BR>79| }<BR>80| }<BR>81| <BR>82| public static class 
+OwnershipException extends RuntimeException<BR>83| { public 
+OwnershipException()<BR>84| { super("Thread calling release() doesn't own 
+Mutex");<BR>85| }<BR>86| }<BR>87| }<BR></CODE>
+<P><STRONG><EM>Listing 3: Mutex.java</EM></STRONG> 
+<P>Admittedly, this preference for the explicit call to <CODE>acquire()</CODE> 
+is largely a matter of personal taste. We'll look at a few other semaphore 
+implementations next month that are a bit harder to simulate with a simple 
+<CODE>synchronized</CODE>, however. 
+<P>Getting back to Listing 3, the <CODE>Mutex</CODE> class starts out with the 
+stuff needed to keep the <CODE>Lock_manager</CODE> happy. It implements the 
+<CODE>Semaphore</CODE> interface with an <CODE>id()</CODE> method that returns 
+the value of the <CODE>_id</CODE> field, which in turn holds a unique value that 
+came from the <CODE>Lock_manager</CODE>. 
+<P>There are two versions of the <CODE>acquire</CODE> method: 
+<CODE>acquire()</CODE> itself and <CODE>acquire_without_blocking()</CODE>. The 
+latter simply returns <EM>false</EM> if it can't acquire the mutex. If the mutex 
+isn't owned, it sets <CODE>owner</CODE> to reference the thread that called 
+<CODE>acquire_without_blocking()</CODE> with the call to 
+<CODE>Thread.currentThread()</CODE>, which does the obvious. The blocking 
+version, <CODE>acquire()</CODE>, calls the nonblocking version and suspends 
+itself with a <CODE>wait()</CODE> call if it can't get the mutex right off the 
+bat. Note the use of a spin lock here. (I discussed spin locks last month.) The 
+<CODE>wait()</CODE> call is inside a loop in case some other thread breaks in at 
+an inopportune moment and steals the mutex. 
+<P>Interestingly, the <CODE>Mutex</CODE> code doesn't actually use the 
+<CODE>Mutex</CODE> object's monitor to implement the lock (though it does use 
+the monitor to make sure that two threads don't try to acquire the same mutex 
+simultaneously -- <CODE>acquire()</CODE> and <CODE>release()</CODE> are 
+<CODE>synchronized</CODE>). A local field called <CODE>owner</CODE> is used to 
+decide whether or not to block out an acquiring thread. The <CODE>owner</CODE> 
+field references the <CODE>Thread</CODE> instance that contains the 
+<CODE>run()</CODE> method for a given thread. If <CODE>owner</CODE> is 
+<CODE>null</CODE>, the mutex is up for grabs, otherwise, some thread "owns" the 
+mutex and any other thread that tries to acquire it will block at the 
+<CODE>wait()</CODE> call in <CODE>acquire()</CODE>. 
+<P>My <CODE>Mutex</CODE> class implements a "recursive" mutex. The "owner" 
+thread can acquire the mutex more than once, but it must release the mutex by 
+calling <CODE>release()</CODE> as many times as it acquired it by calling 
+<CODE>acquire()</CODE>. 
+<P>This facility is essential when two methods both must acquire the mutex. In 
+the following code, for example, <CODE>g()</CODE> calls <CODE>f()</CODE>, but 
+<CODE>f()</CODE> can also be called from outside -- without going through 
+<CODE>g()</CODE> first. If the mutex weren't recursive, the thread that called 
+<CODE>g()</CODE> would block when <CODE>g()</CODE> called <CODE>f()</CODE> and 
+tried to acquire the mutex a second time. As it is, the double acquisition isn't 
+a problem since every <CODE>acquire()</CODE> has a corresponding 
+<CODE>release()</CODE>. The <CODE>lock_count</CODE> field keeps track of the 
+number of times the mutex has been locked by its owner. 
+<P><CODE>1| class some_class<BR>2| { Mutex lock = new Mutex();<BR>3| <BR>4| 
+public void f()<BR>5| { lock.acquire();<BR>6| <EM>//...</EM><BR>7| 
+lock.release();<BR>8| }<BR>9| <BR>10| public void g()<BR>11| { 
+lock.acquire();<BR>12| <EM>//...</EM><BR>13| f();<BR>14| <EM>//...</EM><BR>15| 
+lock.release();<BR>16| }<BR>17| }<BR></CODE>
+<P><FONT size=+1><STRONG>Until next time</STRONG></FONT><BR>So that's a simple 
+roll-your-own semaphore. Though it's easy enough to use Java's 
+<CODE>synchronized</CODE> statement directly to do everything the 
+<CODE>Mutex</CODE> does, the code is cleaner when you use the <CODE>Mutex</CODE> 
+class, and the associated <CODE>Lock_manager</CODE> can solve a class of 
+otherwise hard-to-manage deadlock problems. 
+<P>Next month I'll look at a couple of other useful semaphores: a condition 
+variable and a Djikstra counting semaphore. I'll also discuss critical sections 
+and class-level locks. In future columns, we'll take a look at other 
+thread-related classes, such as timers and reader/writer locks, and explore 
+architectural solutions to threading-related problems. <IMG height=8 
+src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/dingbat.gif" 
+width=8> <!-- end body text -->
+<P>
+<DIV align=center><FONT face=Arial,Helvetica,Sans-serif><A 
+href="http://www.javaworld.com/javaworld/home.html">Home</A> | <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Programming%20Java%20threads%20in%20the%20real%20world%2C%20Part%203&amp;author=Allen%20Holub&amp;summary=In%20Parts%201%20and%202%20of%20this%20series%20on%20threads%2C%20Allen%20looked%20at%20some%20of%20the%0Apitfalls%20of%20writing%20multithreaded%20applications%20in%20Java.%20This%20month%2C%0Ahe%20starts%20looking%20at%20a%20few%20solutions.%20In%20particular%2C%0Ahe%20looks%20at%20how%20and%20why%20you%20might%20want%20to%20roll%20your%20own%20exclusion%0Asemaphores%2C%20and%20presents%20a%20lock%20manager%20that%20will%20help%20you%20safely%0Aacquire%20multiple%20semaphores.%20%3Cem%3E%283%2C000%20words%29%3C%2Fem%3E%0A">Mail&nbsp;this&nbsp;Story</A> 
+| <A 
+href="http://www.javaworld.com/javaworld/jw-11-1998/jw-11-toolbox_p.html#resources">Resources&nbsp;and&nbsp;Related&nbsp;Links</A> 
+</FONT></DIV>
+<P>
+<TABLE bgColor=#336699 border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+            href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+            border=0 height=60 
+            src="Programming Java threads in the real world, Part 3x - JavaWorld November 1998_files/389936-kayak_ad1ab.gif" 
+            vspace=5 width=468></A> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P align=center><A 
+href="http://www.javaworld.com/javaworld/common/jw-copyright.html">(c) Copyright 
+1998 ITworld.com, Inc., an IDG Communications company</A> </P>
+<P><A name=resources><STRONG>Resources</STRONG></A> 
+<UL>
+  <LI>All the real code (the stuff in the com.holub.asynch package) is available 
+  in the "Goodies" section on my Web site <BR><A 
+  href="http://www.holub.com/">http://www.holub.com/</A> </LI></UL>Feedback: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?jweditors@javaworld.com+/javaworld/jw-11-1998/jw-11-toolbox.html+jweditors" 
+name=jweditors>jweditors@javaworld.com</A><BR>Technical difficulties: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?webmaster@javaworld.com+/javaworld/jw-11-1998/jw-11-toolbox.html+webmaster" 
+name=webmaster>webmaster@javaworld.com</A><BR>URL: 
+http://www.javaworld.com/jw-11-1998/jw-11-toolbox.html <BR>Last modified: 
+Tuesday, April 18, 2000 </BODY></HTML>

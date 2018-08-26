@@ -1,0 +1,613 @@
+{csia}u428500(5) vi candy2.p
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+   ShapeString : array [shape] of string = ('round', 'rectangular', 'triangular'
+);
+   FillString : array [filling] of string = ('liquor', 'nuts', 'nougat');
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+ 
+     PI = 3.14159 ;
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+   ShapeString : array [shape] of string = ('round', 'rectangular', 'triangular'
+);
+   FillString : array [filling] of string = ('liquor', 'nuts', 'nougat');
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+ 
+      surface_round := Pi * radius * radius ;
+ 
+    end;
+ 
+ 
+ 
+      surface_round := PI * radius * radius ;
+    end;
+ 
+function surface_rectangular(side1, side2:real):real ;
+ 
+    begin
+ 
+      surface_rectangular := side1 * side2 ;
+ 
+    end;
+ 
+ 
+ 
+function surface_triangular(base, height:real):real ;
+ 
+    begin
+ 
+      surface_triangular := 0.5 * base * height ;
+ 
+    end;
+ 
+ 
+ 
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+ 
+                        fill_param:filling; height,dim1,dim2:real):real ;
+ 
+    var
+ 
+       unit_weight_of_filling: integer ;
+ 
+    begin
+ 
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+ 
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+ 
+    end;
+ 
+ 
+ 
+(*main program*)
+ 
+begin
+ 
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+ 
+  writeln ;
+ 
+ repeat
+ 
+  (*candy_wt := 0.0 ; just to keep the compiler quiet*)
+ 
+  write('Enter the shape of the candy top: ');
+ 
+  readln(input_param);
+ 
+  top := round ;
+"candy2.p" 74 lines, 2439 characters
+{csia}u428500(6) pc candy2.p
+Sat Nov 25 07:39 2000  candy2.p:
+    18     ShapeString : array [shape] of string = ('round', 'rectangular', 'tri
+angular');
+E -----------------------------------------------^--- Expected ';'
+    19     FillString : array [filling] of string = ('liquor', 'nuts', 'nougat')
+;
+E ------------------------------------------------^--- Expected ';'
+In function surface_round:
+  w - variable nought is never used
+In function total_weight:
+  w - variable shape_param is never used
+    54    while (top < triangular) and (ShapeString[top] <> input_param) do inc(
+top) ;
+E --------------------------------------------------------------------------^---
+ Undefined procedure
+In program candy:
+  E - inc undefined on line 54 58
+{csia}u428500(7) ls
+Deleted Items   candy.p         h_06_sml4.pdf   hw2exp2.sml     nsmail/
+Drafts          candy2.p        h_07_smtk4.pdf  hw2prolog       scheme.txt
+H:@             csi3125         hw2.ari         hw2rev.sml      scheme2.txt
+Mail/           ff.p            hw2.scm         hw4new.ari      sideFX.p
+Sent Items      fff.p           hw2.sml         hw4new.scm      sideFXc.c
+a.out*          h_05_scm4.pdf   hw2exp.sml      hw4new.sml
+{csia}u428500(8) vi fff.p
+program p(input, output);^M
+^M
+function DEFINITE_INTEGRAL(^M
+      function F(ARG: real): real;^M
+      LOW, HIGH: real): real;^M
+const N_INTERVALS = 10000;^M
+var DELTA, SUM, X: real; I: integer;^M
+begin^M
+   DELTA := (HIGH - LOW) / N_INTERVALS;^M
+   X := LOW;^M
+   SUM := F(X);^M
+   for I := 1 to N_INTERVALS - 1 do^M
+   begin^M
+      X := X + DELTA;^M
+      SUM := SUM + 2.0 * F(X);^M
+   end;^M
+   X := X + DELTA;^M
+   SUM := SUM + F(X);^M
+   DEFINITE_INTEGRAL := 0.5 * DELTA * SUM;^M
+end;^M
+^M
+function LI( A: real ): real;^M
+:q
+{csia}u428500(9) pc FFF.P
+pc: Warning: File with unknown suffix (FFF.P) passed to ld
+pc: Warning: bad format: FFF.P
+ld: FFF.P: bad magic number
+{csia}u428500(10) mv FFF.P fff.p
+{csia}u428500(11) pc fff.p
+{csia}u428500(12) a.out
+   72.00000000
+  243.00000121
+   -0.00000000
+{csia}u428500(13) pc candy3.p
+Sat Nov 25 07:56 2000  candy3.p:
+     7  type
+e ------^--- Inserted ';'
+    57    if input_param = 'liquor' then filling := liquor
+E ---------------------------------------^--- Replaced type id with a variable i
+d
+    69    writeln('This is a ', ShapeString[top], ' candy filled with ', FillStr
+ing[fill], ' which weighs ', candy_wt:6:2, ' grams.') ;
+E ------------------------------^--- Undefined array
+E -----------------------------------------------------------------------^--- Un
+defined array
+In program candy:
+  E - filling improperly used on line 57 58 59
+  E - FillString undefined on line 69
+  E - ShapeString undefined on lines 69
+{csia}u428500(14) vi candy3.p
+program candy(input,output);
+ 
+const
+     PI = 3.14159
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ;
+      surface_round := PI * radius * radius ;
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ;
+      surface_round := PI * radius * radius ;
+    end;
+ 
+ 
+ 
+function surface_rectangular(side1, side2:real):real ;
+ 
+    begin
+ 
+      surface_rectangular := side1 * side2 ;
+ 
+    end;
+ 
+ 
+ 
+function surface_triangular(base, height:real):real ;
+ 
+    begin
+ 
+      surface_triangular := 0.5 * base * height ;
+ 
+    end;
+ 
+ 
+ 
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+ 
+                        fill_param:filling; height,dim1,dim2:real):real ;
+ 
+    var
+ 
+       unit_weight_of_filling: integer ;
+ 
+    begin
+ 
+      shape_param := succ(pred(shape_param)) ;
+ 
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+ 
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+ 
+    end;
+ 
+ 
+ 
+(*main program*)
+ 
+begin
+ 
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+ 
+  writeln ;
+ 
+ repeat
+ 
+  write('Enter the shape of the candy top: ');
+ 
+  readln(input_param);
+ 
+  if input_param = 'round' then top := round
+ 
+    else if input_param = 'triangular' then top := triangular
+ 
+    else top := rectangular ;
+ 
+  write('Enter the type of filling: ');
+ 
+  readln(input_param);
+ 
+  if input_param = 'liquor' then filling := liquor
+ 
+    else if input_param = 'nuts' then filling := nuts
+ 
+    else filling := nougat ;
+ 
+  write('Enter the height of the candy: ');
+ 
+  readln(hite);
+ 
+  write('Enter the dimensions of the top: ');
+ 
+  if input_param = 'liquor' then fill := liquor
+    else if input_param = 'nuts' then fill := nuts
+    else fill := nougat ;
+  write('Enter the height of the candy: ');
+  readln(hite);
+  write('Enter the dimensions of the top: ');
+  readln(dim1, dim2);
+ 
+  case top of
+ 
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+ 
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+) ;
+ 
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+ 
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+ 
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ 
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+ 
+    end;(*case*)
+ 
+  writeln('This is a ', ShapeString[top], ' candy filled with ', FillString[fill
+ 
+ 
+  writeln('This candy weighs ', candy_wt, ' grams.') ;
+  writeln;
+"candy3.p" 75 lines, 2292 characters
+{csia}u428500(15) pc candy3.p
+Sat Nov 25 08:01 2000  candy3.p:
+     7  type
+e ------^--- Inserted ';'
+{csia}u428500(16) vi candy3.p
+program candy(input,output);
+ 
+const
+     PI = 3.14159
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ;
+      surface_round := PI * radius * radius ;
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159
+"candy3.p" 75 lines, 2294 characters
+{csia}u428500(17) pc candy3.p
+{csia}u428500(18) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: round
+Enter the type of filling: nuts
+Enter the height of the candy: 12
+Enter the dimensions of the top: 4 8
+This candy weighs  1.80955584000000e+03 grams.
+ 
+Another candy to enter? [Y/N]  n
+It has been a pleasure serving you - bye for now.
+{csia}u428500(19) vi candy3.p
+program candy(input,output);
+ 
+const
+     PI = 3.14159 ;
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ;
+      surface_round := PI * radius * radius ;
+    end;
+ 
+function surface_rectangular(side1, side2:real):real ;
+    begin
+      surface_rectangular := side1 * side2 ;
+    end;
+ 
+function surface_triangular(base, height:real):real ;
+    begin
+      surface_triangular := 0.5 * base * height ;
+    end;
+ 
+                        fill_param:filling; height,dim1,dim2:real):real ;
+    var
+       unit_weight_of_filling: integer ;
+    begin
+      shape_param := succ(pred(shape_param)) ;
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+    end;
+ 
+(*main program*)
+begin
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+ repeat
+  write('Enter the shape of the candy top: ');
+  readln(input_param);
+  if input_param = 'round' then top := round
+    else if input_param = 'triangular' then top := triangular
+    else top := rectangular ;
+  write('Enter the type of filling: ');
+  readln(input_param);
+  if input_param = 'liquor' then fill := liquor
+    else if input_param = 'nuts' then fill := nuts
+    else fill := nougat ;
+  write('Enter the height of the candy: ');
+  readln(hite);
+  write('Enter the dimensions of the top: ');
+  readln(dim1, dim2);
+  case top of
+  readln(dim1, dim2);
+  case top of
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+) ;
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+    end;(*case*)
+  writeln('This candy weighs ', candy_wt, ' grams.') ;
+  writeln;
+  write('Another candy to enter? [Y/N]  ');
+  readln(response) ;
+ until response in ['N', 'n'] ;
+ writeln('It has been a pleasure serving you - bye for now.') ;
+end.
+~
+~
+~
+~
+~
+~
+  readln(dim1, dim2);
+  case top of
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+) ;
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+    end;(*case*)
+  writeln('This candy weighs ', candy_wt, ' grams.') ;
+  writeln;
+  write('Another candy to enter? [Y/N]  ');
+  readln(response) ;
+ until response in ['N', 'n'] ;
+ writeln('It has been a pleasure serving you - bye for now.') ;
+ 
+ 
+"candy3.p" 75 lines, 2298 characters
+{csia}u428500(20) pc candy3.p
+{csia}u428500(21) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: triangular
+Enter the type of filling: nougat
+Enter the height of the candy: 7.5
+Enter the dimensions of the top: 3.048 7.111
+This candy weighs 325.11 grams.
+ 
+Another candy to enter? [Y/N]  y
+Enter the shape of the candy top: rectangulare
+Enter the type of filling: liqour
+Enter the height of the candy: 33
+Enter the dimensions of the top: 4.13 0.987
+This candy weighs 538.07 grams.
+ 
+Another candy to enter? [Y/N]  n
+It has been a pleasure serving you - bye for now.
+{csia}u428500(22) mv a.out candy3.x
+{csia}u428500(23) candy3.x <candy.in >candy3.out
+{csia}u428500(24) ls
+Deleted Items   candy2.p        h_05_scm4.pdf   hw2exp2.sml     scheme.txt
+Drafts          candy3.out      h_06_sml4.pdf   hw2prolog       scheme2.txt
+H:@             candy3.p        h_07_smtk4.pdf  hw2rev.sml      sideFX.p
+Mail/           candy3.x*       hw2.ari         hw4new.ari      sideFXc.c
+Sent Items      csi3125         hw2.scm         hw4new.scm
+candy.in        ff.p            hw2.sml         hw4new.sml
+candy.p         fff.p           hw2exp.sml      nsmail/
+{csia}u428500(25) more candy3.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: Enter the type of filling: Enter the height of
+ the candy: Enter the dimensions of the top: This candy weighs 942.48 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 353.57 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 3070.51 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 318.95 grams.
+ 
+Another candy to enter? [Y/N]  It has been a pleasure serving you - bye for now.
+{csia}u428500(26) exit
+{csia}u428500(27) logout
+csia: u428500 logged out at Sat Nov 25 08:07:28 EST 2000
+Connection closed.
+{site0}u428500(2)$ sml
+Standard ML of New Jersey, Version 75, November 11, 1991
+Arrays have changed; see Release Notes
+val it = () : unit
+- use "hw4new.sml";
+[opening hw4new.sml]
+datatype  shapes
+con rectangular : shapes
+con round : shapes
+con triangular : shapes
+datatype  fillings
+con liquor : fillings
+con nougat : fillings
+con nuts : fillings
+val candy = fn : shapes -> fillings -> real -> real -> real -> real
+[closing hw4new.sml]
+val it = () : unit
+- candy round nuts 7.0 8.0 4.567;
+val it = 4222.29696 : real
+- candy triangular nougat 2.345 0.632 11.0836;
+val it = 32.852677088 : real
+- ^Z
+[1]+  Stopped                 sml
+{site0}u428500(3)$ scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;loading /usr/local/lib/slib/require
+;done loading /usr/local/lib/slib/require.scm
+;loading /usr/local/lib/scm/Transcen
+;done loading /usr/local/lib/scm/Transcen.scm
+;Evaluation took 50 mSec (0 in gc) 15992 cells work, 4000 env, 17598 bytes other
+> (load "hw4new.scm")
+;loading hw4new.scm
+ 
+"hw4new.scm", line 10: WARNING: redefining built-in round
+;done loading hw4new.scm
+;Evaluation took 0 mSec (0 in gc) 343 cells work, 29 env, 673 bytes other
+#<unspecified>
+> (candy round nuts 3 4 5)
+;Evaluation took 0 mSec (0 in gc) 23 cells work, 19 env, 53 bytes other
+452.38896000000003
+> (candy triangulare nougat 7.5 11.1111 0.09875)
+ 
+unbound variable:  triangulare
+; in expression: (... triangulare nougat 7.5 11.111100000000002 0.09875) ...
+; in top level environment.
+;Evaluation took 0 mSec (0 in gc) 17 cells work, 0 env, 249 bytes other
+> (candy triangular nougat 7.5 11.11111 0.09875)
+;Evaluation took 0 mSec (0 in gc) 18 cells work, 19 env, 81 bytes other
+16.458331687500002
+> ^Z
+[2]+  Stopped                 scm
+{site0}u428500(4)$ exit
+logout
+There are stopped jobs.
+{site0}u428500(5)$ job
+bash: job: command not found
+{site0}u428500(6)$ jobs
+[1]-  Stopped                 sml
+[2]+  Stopped                 scm
+{site0}u428500(7)$ exit
+logout
+site0.site.uottawa.ca: u428500 logged out at Saturday November 25 08:11:59 EST 2
+000
+ 
+Software termination (no coredump)
+Connection closed.

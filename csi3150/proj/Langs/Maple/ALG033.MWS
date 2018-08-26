@@ -1,0 +1,244 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 736 "# HERMITE INTERPOLATION ALGORITHM \+
+3.3\n#\n# TO OBTAIN THE COEFFICIENTS OF THE HERMITE INTERPOLATING\n# P
+OLYNOMIAL H ON THE (N+1) DISTINCT NUMBERS X(0), ..., X(N)\n# FOR THE F
+UNCTION F:\n#\n# INPUT:   NUMBERS X(0), X(1), ..., X(N); VALUES F(X(0)
+), F(X(1)),\n#          ..., F(X(N)) AND F'(X(0)), F'(X(1)), ..., F'(X
+(N)).\n#\n# OUTPUT:  NUMBERS Q(0,0), Q(1,1), ..., Q(2N + 1,2N + 1) WHE
+RE\n#\n#          H(X) = Q(0,0) + Q(1,1) * ( X - X(0) ) + Q(2,2) *\n# \+
+                ( X - X(0) )**2 + Q(3,3) * ( X - X(0) )**2 *\n#       \+
+          ( X - X(1) ) + Q(4,4) * ( X - X(0) )**2 *\n#                \+
+ ( X - X(1) )**2 + ... + Q(2N + 1,2N + 1) *\n#                 ( X - X
+(0) )**2 * ( X - X(1) )**2 * ... *\n#                 ( X - X(N - 1) )
+**2 * (X - X(N) )." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 86 "alg033 := pro
+c() local OK, FLAG, N, I, X, Q, A, NAME, INP, F, FP, Z, K, J, OUP, XX,
+ S;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`This is Hermite inte
+rpolation.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OK := FALSE;   \+
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 36 "printf(`Choice of input method:\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`1. Input entry by entry fro
+m keyboard\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`2. Inpu
+t data from a text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "pr
+intf(`3. Generate data using a function F\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Choose 1, 2, or 3 please\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "if FLAG = 1 or FLAG = 2 or FLAG = 3 then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "OK := FALSE;         " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while \+
+OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`Input the \+
+number of data points minus 1\\n`);            " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "OK := TRUE; \+
+              " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "for I from 0 to N
+ do                  " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`In
+put X(%d), F(X(%d)), and `, I, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`F'(X(%d)) separated by space\\n `, I);                  " 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[I] := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 27 "Q[2*I,0] := scanf(`%f`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 29 "Q[2*I+1,1] := scanf(`%f`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 15 "od;            " }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "printf(`Number must \+
+be a positive integer\\n`);         " }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = \+
+2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 73 "printf(`Has a text file b
+een created with the data in three columns?\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "A := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if A = Y or A = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 45 "printf(`Input the file name in the form - `);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.DTA\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "prin
+tf(`Input the number of data points minus 1\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from
+ 0 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "X[I] := fscanf(INP, `
+%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "Q[2*I,0] := fscanf(INP,
+ `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "Q[2*I+1,1] := fscanf(
+INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Number must be a positive integer
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Please create the input fil
+e in three column `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`fo
+rm with the X values, F(X), and\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 55 "printf(`F'(X) values in the corresponding columns.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The program will end so the
+ input file can `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`be c
+reated.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 3 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`Input the function F(x) in \+
+terms of x.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`For ex
+ample: sin(x)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`
+%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "FP := diff(F,x);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "FP := unapply(FP,x);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Input \+
+the number of data points minus 1\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if \+
+N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`Input X(%d)\\n`, I);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[I] := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "Q[2*I,0] := F(X[I]);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 23 "Q[2*I+1,1] := FP(X[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "printf(`Number must be a positive integer\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "ST
+EP 1" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fr
+om 0 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }{MPLTEXT 1 0 0 "
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "Z[2*I] := X[I];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 17 "Z[2*I+1] := X[I];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "Q[2*I+1,0] := Q[2*I,0];" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 3" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if \+
+I <> 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "Q[2*I,1] := (Q[2*I,0
+]-Q[2*I-1,0])/(Z[2*I]-Z[2*I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "K := 2*N+1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to K do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for J from 2 to I do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "Q[I,J] := (Q[I,J-1]-Q[I-1,J-1])/(Z[I]-Z[I-J]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`for exampl
+e:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME
+ := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen
+(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "else OUP := d
+efault;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "fprintf(OUP, `HERMITE INTERPOLATING POLYNOMIAL\\n\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "fprintf(OUP, `The input data \+
+follows:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP, `  X
+, F(X), F'(X)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "fprintf(OUP, `  %12.10e
+ %12.10e %12.10e\\n`, X[I], Q[2*I,0], Q[2*I+1,1]);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "fprintf(OU
+P, `\\nThe Coefficients of the Hermite Interpolation `);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 29 "fprintf(OUP, `Polynomial\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 60 "fprintf(OUP, `in order of increasing exponent \+
+follow:\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to
+ K do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, `  %12.10e\\n
+`, Q[I,I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 53 "printf(`Do you wish to evaluate this polynomial?
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "A := scanf(`\\n%c`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if A = Y or A = y then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 47 "printf(`Enter a point at which to evaluate\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "XX := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "S := Q[K,K]*(XX-Z[K-1]);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to K do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "J := K-I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "S
+ := (S+Q[J,J])*(XX-Z[J-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "S := S + Q[0,0];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `x-value and interpolated-value\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `  %12.10e %12.1
+0e\\n`, XX, S);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg033G:6\"63%#OKG%%
+FLAGG%\"NG%\"IG%\"XG%\"QG%\"AG%%NAMEG%$INPG%\"FG%#FPG%\"ZG%\"KG%\"JG%$
+OUPG%#XXG%\"SGF&F&C*-%'printfG6#%@This~is~Hermite~interpolation.|+G>8$
+%&FALSEG?(F&\"\"\"FBF&/F?F@C)-F;6#%9Choice~of~input~method:|+G-F;6#%G1
+.~Input~entry~by~entry~from~keyboard|+G-F;6#%@2.~Input~data~from~a~tex
+t~file|+G-F;6#%E3.~Generate~data~using~a~function~F|+G-F;6#%:Choose~1,
+~2,~or~3~please|+G>8%&-%&scanfG6#%#%dG6#FB@$55/FUFB/FU\"\"#/FU\"\"$>F?
+%%TRUEG@$FinC$>F?F@?(F&FBFBF&FCC%-F;6#%IInput~the~number~of~data~point
+s~minus~1|+G>8&FV@%2\"\"!FioC$>F?F_o?(8'F\\pFBFio%%trueGC'-F;6%%<Input
+~X(%d),~F(X(%d)),~and~GF`pF`p-F;6$%?F'(X(%d))~separated~by~space|+~GF`
+p>&8(6#F`p&-FX6#%#%fGFen>&8)6$,$F`pF[oF\\pF]q>&Fcq6$,&F`pF[oFBFBFBF]q-
+F;6#%CNumber~must~be~a~positive~integer|+G@$FjnC&-F;6#%hnHas~a~text~fi
+le~been~created~with~the~data~in~three~columns?|+G-F;6#%.Enter~Y~or~N|
++G>8*&-FX6#%$|+%cGFen@%5/Ffr%\"YG/Ffr%\"yGC)-F;6#%CInput~the~file~name
+~in~the~form~-~G-F;6#%1drive:\\name.ext|+G-F;6#%<for~example:~~~A:\\DA
+TA.DTA|+G>8+&-FX6#%#%sGFen>8,-%&fopenG6%F\\t%%READG%%TEXTG>F?F@?(F&FBF
+BF&FCC%Feo>FioFV@%F[pC%?(F`pF\\pFBFioFapC%>Fjp&-%'fscanfG6$FbtF`qFen>F
+bqFau>FgqFau-%'fcloseG6#Fbt>F?F_oFjqC(-F;6#%NPlease~create~the~input~f
+ile~in~three~column~G-F;6#%Cform~with~the~X~values,~F(X),~and|+G-F;6#%
+LF'(X)~values~in~the~corresponding~columns.|+G-F;6#%LThe~program~will~
+end~so~the~input~file~can~G-F;6#%-be~created.|+G>F?F@@$F\\oC*-F;6#%HIn
+put~the~function~F(x)~in~terms~of~x.|+G-F;6#%5For~example:~sin(x)|+G>8
+-&-FX6#%#%aGFen>8.-%%diffG6$Few%\"xG>Few-%(unapplyGF^x>F[x-Fbx6$F[xF_x
+>F?F@?(F&FBFBF&FCC%Feo>FioFV@%F[pC$?(F`pF\\pFBFioFapC&-F;6$%-Input~X(%
+d)|+GF`p>FjpF]q>Fbq-Few6#Fjp>Fgq-F[xFdy>F?F_oFjq@$/F?F_oC8?(F`pF\\pFBF
+ioFapC&>&8/6#FeqFjp>&F_z6#FiqFjp>&Fcq6$FiqF\\pFbq@$0F`pF\\p>&Fcq6$FeqF
+B*&,&FbqFB&Fcq6$,&F`pF[o!\"\"FBF\\pFa[lFB,&F^zFB&F_z6#F`[lFa[lFa[l>80,
+&FioF[oFBFB?(F`pF[oFBFf[lFap?(81F[oFBF`pFap>&Fcq6$F`pFj[l*&,&&Fcq6$F`p
+,&Fj[lFBFa[lFBFB&Fcq6$,&F`pFBFa[lFBFb\\lFa[lFB,&&F_zF\\qFB&F_z6#,&F`pF
+BFj[lFa[lFa[lFa[l-F;6#%:Choice~of~output~method:|+G-F;6#%51.~Output~to
+~screen|+G-F;6#%82.~Output~to~text~file|+G-F;6#%5Please~enter~1~or~2|+
+G>FUFV@%FjnC&-F;6#%SInput~the~file~name~in~the~form~-~drive:\\name.ext
+|+G-F;6#%>for~example:~~~A:\\OUTPUT.DTA|+G>F\\tF]t>82-Fdt6%F\\t%&WRITE
+GFgt>Fb^l%(defaultG-%(fprintfG6$Fb^l%CHERMITE~INTERPOLATING~POLYNOMIAL
+|+|+G-Fi^l6$Fb^l%9The~input~data~follows:|+G-Fi^l6$Fb^l%2~~X,~F(X),~F'
+(X)|+G?(F`pF\\pFBFioFap-Fi^l6'Fb^l%;~~%12.10e~%12.10e~%12.10e|+GFjpFbq
+Fgq-Fi^l6$Fb^l%P|+The~Coefficients~of~the~Hermite~Interpolation~G-Fi^l
+6$Fb^l%,Polynomial|+G-Fi^l6$Fb^l%Jin~order~of~increasing~exponent~foll
+ow:|+|+G?(F`pF\\pFBFf[lFap-Fi^l6%Fb^l%+~~%12.10e|+G&Fcq6$F`pF`p-F;6#%J
+Do~you~wish~to~evaluate~this~polynomial?|+GFbr>FfrFgr@$F\\sC)-F;6#%DEn
+ter~a~point~at~which~to~evaluate|+G>83F]q>84*&&Fcq6$Ff[lFf[lFB,&F_alFB
+&F_z6#,&Ff[lFBFa[lFBFa[lFB?(F`pF[oFBFf[lFapC$>Fj[l,(Ff[lFBF`pFa[lFBFB>
+Faal*&,&FaalFB&Fcq6$Fj[lFj[lFBFB,&F_alFB&F_z6#Fb\\lFa[lFB>Faal,&FaalFB
+&Fcq6$F\\pF\\pFB-Fi^l6$Fb^l%@x-value~and~interpolated-value|+G-Fi^l6&F
+b^l%3~~%12.10e~%12.10e|+GF_alFaal@$0Fb^lFg^lC$-Fhu6#Fb^l-F;6$%COutput~
+file~%s~created~sucessfullyGF\\t-%'RETURNG6#F\\pF&F&" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "alg033();" }}{PARA 6 "" 1 "" {TEXT -1 184 
+"This is Hermite interpolation.\nChoice of input method:\n1. Input ent
+ry by entry from keyboard\n2. Input data from a text file\n3. Generate
+ data using a function F\nChoose 1, 2, or 3 please" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 73 "Has a text
+ file been created with the data in three columns?\nEnter Y or N" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT 
+-1 76 "Input the file name in the form - drive:\\name.ext\nfor example
+:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\dat
+a\\alg033.dta" }}{PARA 6 "" 1 "" {TEXT -1 39 "Input the number of data
+ points minus 1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}
+{PARA 6 "" 1 "" {TEXT -1 87 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text file\nPlease enter 1 or 2" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 506 "HERMITE IN
+TERPOLATING POLYNOMIAL\n\nThe input data follows:\n  X, F(X), F'(X)\n \+
+ 1.3000000000e+00 6.2008600000e-01 -5.2202320000e-01\n  1.6000000000e+
+00 4.5540220000e-01 -5.6989590000e-01\n  1.9000000000e+00 2.8181860000
+e-01 -5.8115710000e-01\n\nThe Coefficients of the Hermite Interpolatio
+n Polynomial\nin order of increasing exponent follow:\n\n  6.200860000
+0e-01\n  -5.2202320000e-01\n  -8.9742666670e-02\n  6.6365555570e-02\n \+
+ 2.6666666330e-03\n  -2.7746912770e-03\nDo you wish to evaluate this p
+olynomial?\nEnter Y or N" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "
+y" }}{PARA 6 "" 1 "" {TEXT -1 34 "Enter a point at which to evaluate" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1.5" }}{PARA 6 "" 1 "" 
+{TEXT -1 66 "x-value and interpolated-value\n  1.5000000000e+00 5.1182
+770170e-01" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "5 0 0" 18 }{VIEWOPTS 1 1 0 1 
+1 1803 }

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/sol04.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment Last Solution</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment Last Solution_files/3125.gif" 
+      valign="center"></A><FONT color=white size=+3>CSI 3125 Assignment Last 
+      Solution</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment Last Solution_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment Last Solution_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment Last Solution_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment Last Solution_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment Last Solution_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment Last Solution_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment Last Solution_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment Last Solution_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here is my solution to assignment Last.
+<P>
+<HR>
+
+<H2>Question 1: First Derivative</H2>Here is the simplest solution:
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><FONT size=-1><PRE>(define (firstderiv f)                  ; takes one argument: a function
+  (lambda (x)                           ; returns a function of one argument
+    (/ (- (f (+ x 0.01)) (f x)) 0.01)   ; (f(x+h) - f(x)) / h
+  )
+)
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>Here are three other possibilities:
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><FONT size=-1><PRE>(define (firstderiv1 f)
+  (let ((h 0.01))
+    (lambda (x)
+      (/ (- (f (+ x h)) (f x)) h)
+    )
+  )
+)
+
+(define firstderiv2
+  (lambda (f)
+    (lambda (x)
+      (/ (- (f (+ x 0.01)) (f x)) 0.01)
+    )
+  )
+)
+
+(define (firstderiv3 f)
+  (let ((fd (lambda (x)
+             (/ (- (f (+ x 0.01)) (f x)) 0.01)
+            )
+       ))
+    fd
+  )
+)
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Question 2: Reduce</H2>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><FONT size=-1><PRE>(define (reduce f i)                    ; takes 2 args: function and identity
+  (letrec
+    ((retfun (lambda (L)                ; returns retfun: a one-arg function
+               (if (null? L)            ; if the argument is the empty list
+                   i                    ; return the identity value
+                   (f (car L) (retfun (cdr L)))   ; otherwise apply f to
+               )                        ; the head of the list and the value
+             )                          ; resulting from applying retfun to 
+    ))                                  ; the tail
+    retfun         ; reduce returns the function retfun
+  )
+)
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Question Bonus: Linear Equation</H2>The function f returns a function 
+corresponding to the linear equation (<TT>y&nbsp;=&nbsp;mx&nbsp;+&nbsp;b</TT>) 
+of the line passing through two two-dimensional points. How the heck were you 
+supposed to figure that out, you ask? Here's how:
+<P>The function f takes four arguments, w, x, y and z. The first thing it does 
+is declare a local name p where: 
+<UL>
+  <LI><TT>p = (z - x) / (y - w)</TT> </LI></UL>
+<P>This form should always remind you of finding the slope of a line given by 
+the two points (w,x) and (y,z) (usually called (x1,y1) and (x2,y2)). So in the 
+linear equation <TT>y&nbsp;=&nbsp;mx&nbsp;+&nbsp;b</TT>, our p is the slope m.
+<P>Then f defines another local name q where: 
+<UL>
+  <LI><TT>q = x - pw</TT> </LI></UL>
+<P>This form finds the b in the equation <TT>y&nbsp;=&nbsp;mx&nbsp;+&nbsp;b</TT> 
+by rearranging the formula to <TT>b&nbsp;=&nbsp;y&nbsp;-&nbsp;mx</TT> and 
+plugging in the point (w,x).
+<P>Finally, the function f returns a function of one argument (the lambda 
+expression). Given some value v, the function returns <TT>pv&nbsp;+&nbsp;q</TT> 
+(or <TT>mv&nbsp;+&nbsp;b</TT> using the normal names). That is, you give the 
+function returned by f some x value and it gives you the y value along the line 
+defined by the two original points.
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update December 12, 1999)</I></FONT> </P></BODY></HTML>

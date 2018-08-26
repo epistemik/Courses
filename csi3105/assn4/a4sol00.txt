@@ -1,0 +1,183 @@
+CSI 3105/Fall, 2000
+
+Assignment 4:  Some Solutions
+-----------------------------
+
+ 1.
+     Stage      Job Considered    Time Slot For Job    Schedule     
+     -----      --------------    -----------------    --------
+      1              2                   1             2 _ _ _ _
+      2              3                   5             2 _ _ _ 3 
+      3              4                 None            2 _ _ _ 3 
+      4              1                   4             2 _ _ 1 3 
+      5              7                   3             2 _ 7 1 3
+      6              6                   2             2 6 7 1 3
+      7              5                 None            2 6 7 1 3
+
+      Final Schedule:  2 6 5 1 3
+      Profit: 188
+
+2. a) S = [a,b,c]
+                                a>b   (i=2,j=1,[a,b,c])
+                             /      \
+                       Yes /          \  No
+                         /              \
+                       /                  \
+  (i=3,j=2,[b,a,c])  a>c                    b>c (i=3,j=2,[a,b,c])
+               Yes /    \ No          Yes /     \ No
+                 /       \               /        \    
+               /          \             /           \
+  (i=3,j=1   b>c        b,a,c         a>c (i=3,j=1   a,b,c
+   [b,a,a])/    \                    /  \  [a,b,b])
+    Yes  /        \ No         Yes /      \ No
+       /            \            /          \
+    c,b,a         b,c,a       c,a,b        a,c,b
+
+   b) W(n) = the number of edges in a longest root to leaf path
+             (i.e. the depth of the tree)
+      So W(3) = 3.
+
+   c) The best case (i.e. fewest comparisons done for any input) can be
+      found by finding the number of edges in a shortest root to leaf path.
+      So for n=3, this would be 2.
+
+
+3.  Changes to the DFS algorithm:
+a)  Start the DFS at node u.
+b)  For both of the while loops, add the stopping criteria "and v is unmarked"
+    (so that we stop once we reach node v, IF we reach node v)
+c)  At the end, check to see if v is marked.  If it is, then there is a u to v
+    path u, v1, v2, ..., vk, v, and the nodes of the path (except for v) can
+    be found in the stack in order (bottom up):  i.e. the stack will be
+    u, v1, v2, ..., vk.  If v is not marked at the end of the algorithm, it
+    means that there is no u to v path in the graph.
+
+
+4.a)  If we relaxed the conditions of the problem, and allowed files to
+      be split over segments, then we would need exactly (the total sum of
+      the file sizes/K)--rounded up segments.  Since we certainly can't
+      do any better than that when we are restricted to not splitting
+      the files, we must have that taking the sum of the file sizes, dividing
+      by K, and rounding up the result gives us a lower bound for our
+      problem.
+
+  b)  Example where the algorithm fails for  K=2:
+      8 files of sizes:  1.7, 1.0, .8, .8, .6, .4, .4, .2
+
+      i)  The solution obtained by the heuristic requires 4 segments:
+
+          | 1.7   | 1.0, .8 .2 |.8  .6. .4 | .4   |
+
+      ii)  Here is a solution which only requires 3 segments:
+
+          | 1.7 .2| 1.0 .6  .4| .8  .8  .4|
+
+  c)%GAP =100 *(HCOST - LB)/HCOST
+    Here we have HCOST = 4
+                 LB =ceiling ((1.7 + 1.0 + .8 + .8 + .6 + .4 + .4 + .2) /2)
+                    = 3.
+    So %GAP = 100 (1/4) = 25%
+
+
+   d) Take K = 1, and 4 files of sizes 1.0, 1.0, 1.0 and 1.0.
+      The heuristic clearly uses 4 segments, and the lower bound is 4
+      as well, and so the %GAP is 0.  This tells us that the heuristic
+      solution is optimal.
+
+
+5. Let the number of variables be n (i.e. they are x1,x2,...,xn)
+   and let the number of literals in the logical expression be k.
+   Note that k+n is the size of the input.  (We assume that we are given
+   the logical expression, and the variables)
+
+   Certificate:  Let string S contain the n T/F values corresponding
+                 to the assignment which makes the answer true for
+                 the logical expression
+
+   Algorithm A to check S:  We must do the following:
+   i)  Check that there are exactly n symbols in S
+   ii)  Check that the symbols are all T or F
+   iii) Check that letting x1,x2,...,xn have these T/F values gives
+        a true value for the logical expression.  To do this we could
+        put these values into an array indexed from 1 to n (so we
+        can look up the values for each xi in constant time), then
+        go through the logical expression, checking that we have
+        at least one true for each clause.
+
+   Complexity of Alg. A:
+   i) Order(n)
+   ii)  Order(n)
+   iii)  Making the array:  Order(n)
+         Checking each clause has at least one true:  In the worst case,
+         this is Order(k).
+
+   Total complexity:  Order(max(n,k)), which is polynomial time, as required.
+
+
+6.a)
+
+Proving HAMILTON PATH is polynomially reducible to TSP (here TSP is the
+decision form of the problem):
+
+Transformation TRAN
+-------------------
+
+Take the graph G* for the HAMILTON PATH problem, and obtain the graph G for
+the TSP problem by:  Leaving all the edges in G* there with cost 1, adding
+all the edges not in G* and giving them cost 2, and adding an extra node
+u which is adjacent to all the other nodes, and the edges to u are given
+cost 0.  Let the value K for the TSP problem be n-1, where n is the number
+of nodes in the graph G*.
+
+Example (but not a very exciting one!):
+
+ G* (for Ham. Path):   A o----o B
+                         |
+                         | 
+                         |  
+                       C o   
+
+
+                     1
+ G (for TSP):   A o----o B
+                  |\ 2/|          K = 2
+                 1| \/ |0
+                  | /\0|
+                C o----o u
+                     0
+
+Consider the transformation TRAN.  There are 3 things we must
+prove to show that HAMILTONIAN PATH is polynomially reducible to TSP:
+
+i)  TRAN is in P.
+
+ii)  If the answer is yes for HAMILTON PATH, then the answer is yes for     
+     the TSP problem we formed.
+
+iii)  If the answer is yes for the TSP problem we formed, then the answer is 
+       yes for the HAMILTON PATH problem.
+
+Proof of i):  Given an adjacency matrix for G*, it will be at most
+              ORDER(n^2) work to create the adjacency matrix for the TSP
+              problem graph we form.  So TRAN is a polynomial-time algorithm.
+
+
+Proof of ii):  Suppose we have a yes answer for the HAMILTON PATH problem,
+              i.e. we have a path v1, v2, ..., vn in G* which visits all the
+              nodes, and thus has n-1 edges.  This path, with the edges
+              v1,u and u,vn is a tour in our TSP problem graph G, and it's
+              cost is n-1.  So we have a yes answer for the TSP problem.
+
+Proof of iii):  Suppose we have a tour of cost <= n-1 in the TSP problem we
+                formed.  This tour contains n+1 edges, and exactly 2 of
+                those edges have to be the ones incident with u (and so
+                there are exactly 2 edges of cost 0).  So if we
+              take away the 2 edges in the tour incident with u, we have
+              a path with n-1 edges of cost >=1 in G visiting all the nodes
+              other than u. Since the cost of this path is <= n-1, we must
+              have that the edges in this path all have cost 1, and thus
+              these are edges in G* as well.  So our path corresponds to a
+              Hamilton path in G*.
+
+
+b)  It would show that TSP is NP-complete.

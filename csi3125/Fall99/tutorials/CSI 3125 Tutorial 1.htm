@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut01.html -->
+<HTML><HEAD><TITLE>CSI 3125 Tutorial 1</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Tutorial 1_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Tutorial 1</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Tutorial 1_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Tutorial 1_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Tutorial 1_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Tutorial 1_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Tutorial 1_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Tutorial 1_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Tutorial 1_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Tutorial 1_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here are the grammars that you developed in tutorial 1.
+<P>Remember that these grammars are pretty arbitrary and there are many correct 
+answers.
+<P>
+<HR>
+
+<H2>Grammar #1:</H2>Write a BNF grammar for the language of Canadian postal 
+codes. 
+<H3>Example sentences:</H3><PRE>  K1N 6N5
+  M5W 2E4
+  X0A 1A1
+</PRE>
+<H3>Solution 1 (simple):</H3><PRE>  &lt;postalcode&gt; ::= &lt;letter&gt; &lt;number&gt; &lt;letter&gt; &lt;number&gt; &lt;letter&gt; &lt;number&gt;
+</PRE>
+<H3>Solution 2 (crazy):</H3><PRE>  &lt;postalcode&gt;           ::= &lt;forwardsortationarea&gt; &lt;space&gt; &lt;localdeliveryunit&gt;
+  &lt;forwardsortationarea&gt; ::= &lt;provarea&gt; &lt;loctype&gt; &lt;letter&gt;
+  &lt;localdeliveryunit&gt;    ::= &lt;digit&gt; &lt;letter&gt; &lt;digit&gt;
+  &lt;provarea&gt;             ::= A | B | C | E | G | H | J | K | L | M | N | 
+                             P | R | S | T | V | X | Y
+  &lt;loctype&gt;              ::= &lt;rural&gt; | &lt;urban&gt;
+  &lt;rural&gt;                ::= 0
+  &lt;urban&gt;                ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+  &lt;letter&gt;               ::= A | B | C | E | G | H | J | K | L | M | N | 
+                             P | R | S | T | V | W | X | Y | Z
+  &lt;digit&gt;                ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>
+<HR>
+
+<H2>Grammar #2:</H2>Write a BNF grammar for the language of University of Ottawa 
+course codes. 
+<H3>Example sentences:</H3><PRE>  CSI3125
+  MAT2743
+  PHY1200
+  EPI6581
+  CSI9999
+</PRE>
+<H3>Solution:</H3><PRE>  &lt;coursecode&gt;   ::= &lt;acadunit&gt; &lt;coursenumber&gt;
+  &lt;acadunit&gt;     ::= &lt;letter&gt; &lt;letter&gt; &lt;letter&gt;
+  &lt;coursenumber&gt; ::= &lt;year&gt; &lt;semesters&gt; &lt;digit&gt; &lt;digit&gt;
+  &lt;year&gt;         ::= &lt;ugrad&gt; | &lt;grad&gt;
+  &lt;ugrad&gt;        ::= 0 | 1 | 2 | 3 | 4
+  &lt;grad&gt;         ::= 5 | 6 | 7 | 9
+  &lt;semesters&gt;    ::= &lt;onesemester&gt; | &lt;twosemesters&gt;
+  &lt;onesemester&gt;  ::= &lt;frenchone&gt; | &lt;englishone&gt; | &lt;bilingual&gt;
+  &lt;frenchone&gt;    ::= 5 | 7
+  &lt;englishone&gt;   ::= 1 | 3
+  &lt;bilingual&gt;    ::= 9
+  &lt;twosemesters&gt; ::= &lt;frenchtwo&gt; | &lt;englishtwo&gt;
+  &lt;frenchtwo&gt;    ::= 6 | 8
+  &lt;englishtwo&gt;   ::= 2 | 4
+  &lt;digit&gt;        ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>
+<HR>
+
+<H2>Grammar #3:</H2>Write a BNF grammar for the language of palindromes. 
+<H3>Examples (spaces don't count!):</H3><PRE>  aba
+  pop
+  pop a pop
+  elu par cette crapule
+  a man a plan a canal panama
+</PRE>
+<H3>Solution:</H3><PRE>  &lt;palindrome&gt; ::= a &lt;palindrome&gt; a | b &lt;palindrome&gt; b |
+                   c &lt;palindrome&gt; c | d &lt;palindrome&gt; d | 
+                   e &lt;palindrome&gt; e | ...
+                                    | z &lt;palindrome&gt; z
+  &lt;palindrome&gt; ::= &lt;letter&gt;
+  &lt;letter&gt;     ::= a | b | c | ... | y | z
+</PRE>
+<HR>
+
+<H2>Grammar #4:</H2>Write a BNF grammar for the language of nonempty data files. 
+A nonempty data file consists of one or more records, where each record is one 
+or more fields. And let's say that each field is either integer (one or more 
+digits) or string (one or more alphabetic or numeric characters enclosed in 
+double quotes). Every record (including the last one) ends with a period. Every 
+field (except the last one in a record) ends with a semicolon. 
+<H3>Solution #1 (repetitive):</H3><PRE>  &lt;datafile&gt;    ::= &lt;record&gt; { &lt;record&gt; }
+  &lt;record&gt;      ::= &lt;field&gt; { ; &lt;field&gt; } .
+  &lt;field&gt;       ::= &lt;integer&gt;  |  &lt;string&gt;
+  &lt;integer&gt;     ::= &lt;digit&gt; { &lt;digit&gt; }
+  &lt;string&gt;      ::= " &lt;char&gt; { &lt;char&gt; } "
+  &lt;char&gt;        ::= &lt;letter&gt;  |  &lt;digit&gt;
+  &lt;letter&gt;      ::= the usual stuff
+  &lt;digit&gt;       ::= the usual stuff
+</PRE>
+<H3>Solution #2 (recursive):</H3><PRE>  &lt;datafile&gt;    ::= &lt;record&gt; . [ &lt;datafile&gt; ]
+  &lt;record&gt;      ::= &lt;field&gt; [ ; &lt;record&gt; ]
+  &lt;field&gt;       ::= &lt;integer&gt;  |  &lt;string&gt;
+  &lt;integer&gt;     ::= &lt;digit&gt; [ &lt;integer&gt; ]
+  &lt;string&gt;      ::= " &lt;stringchars&gt; "
+  &lt;stringchars&gt; ::= &lt;char&gt; [ &lt;stringchars&gt; ]
+  &lt;char&gt;        ::= &lt;letter&gt;  |  &lt;digit&gt;
+  &lt;letter&gt;      ::= the usual stuff
+  &lt;digit&gt;       ::= the usual stuff
+</PRE>
+<HR>
+
+<H2>Grammar #5</H2>Write a BNF grammar for the language of Pascal variable 
+declarations without defining user-defined types yet--they'll be defined in 
+Grammar #6. (The funny treatment of the semicolon is required to be able to 
+handle record types below in Grammar #6). 
+<H3>Examples:</H3><PRE>  var i : integer;
+  var b : boolean;
+  var myfloat : real;
+      mychar : char;
+      x, y, z : integer;
+</PRE>
+<H3>Solution:</H3><PRE>  &lt;vardecl&gt;     ::= var &lt;vardecllist&gt; ;
+  &lt;vardecllist&gt; ::= &lt;varandtype&gt; { ; &lt;varandtype&gt; }
+  &lt;varandtype&gt;  ::= &lt;ident&gt; { , &lt;ident&gt; } : &lt;typespec&gt;
+  &lt;ident&gt;       ::= &lt;letter&gt; { &lt;idchar&gt; }
+  &lt;idchar&gt;      ::= &lt;letter&gt;  |  &lt;digit&gt;  |  _
+</PRE>
+<HR>
+
+<H2>Grammar #6</H2>Write a BNF grammar for the language of Pascal type 
+declarations using, as needed, the variable definitions grammar above. (Of 
+course, this doesn't cover all of Pascal type declarations, but it at least 
+covers the examples). 
+<H3>Examples:</H3><PRE>  type string20 = packed array[1..20] of char;
+  type intptr = ^integer; 
+       floatptr = ^real;
+  type herb = (tarragon, rosemary, thyme, alpert);
+       tinyint = 1..7;
+       student = record
+                    name, address : string20;
+                    studentid : array[tinyint] of integer;
+                    grade : char
+                 end;
+</PRE>
+<H3>Solution:</H3><PRE>  &lt;typedecl&gt;     ::= type &lt;typedeflist&gt;
+  &lt;typedeflist&gt;  ::= &lt;typedef&gt; [ &lt;typedeflist&gt; ]
+  &lt;typedef&gt;      ::= &lt;typeid&gt; = &lt;typespec&gt; ;
+  &lt;typespec&gt;     ::= &lt;typeid&gt; |
+                     &lt;arraydef&gt;  |  &lt;ptrdef&gt;  |  &lt;rangedef&gt;  | 
+                     &lt;enumdef&gt;  |  &lt;recdef&gt;
+  &lt;typeid&gt;       ::= &lt;ident&gt;
+
+  &lt;arraydef&gt;     ::= [ packed ] array &lt;lbrack&gt; &lt;rangedef&gt; &lt;rbrack&gt; of &lt;typeid&gt;
+  &lt;lbrack&gt;       ::= [
+  &lt;rbrack&gt;       ::= ]
+
+  &lt;ptrdef&gt;       ::= ^ &lt;typeid&gt;
+
+  &lt;rangedef&gt;     ::= &lt;number&gt; .. &lt;number&gt;
+  &lt;number&gt;       ::= &lt;digit&gt; [ &lt;number&gt; ]
+
+  &lt;enumdef&gt;      ::= &lt;lparen&gt; &lt;idlist&gt; &lt;rparen&gt;
+  &lt;lparen&gt;       ::= (
+  &lt;rparen&gt;       ::= )
+  &lt;idlist&gt;       ::= &lt;ident&gt; { , &lt;ident&gt; }
+
+  &lt;recdef&gt;       ::= record &lt;vardecllist&gt; end ;
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update September 29, 1999)</I></FONT> </BODY></HTML>

@@ -1,0 +1,361 @@
+                    CSI3125, Fall 2000, Homework 2
+               handed out Oct. 5, due Oct. 26 at 20:00
+                     (electronic submission only)
+
+Problem 1 [5.0 marks]
+=====================
+
+Undirected graphs can be represented in Scheme as lists of "bundles".
+A bundle is a pair of this form:
+
+        (node (neighbour1 ... neighbourN))
+
+Let us have an example. The undirected graph
+
+        a --- b --- c       d --- g      h
+        |     |             |
+        f     e --- i       j
+
+can be represented as
+
+        (
+         (a (b f))  (b (a c e))  (c (b))  (d (g j))  (e (b i))
+         (f (a))    (g (d))      (h ())   (i (e))    (j (d))
+        )
+
+[Note: every edge appears, of course, twice in this representation.]
+
+As you see, this graph has three connected components.
+
+Please define a function named "connected-components" in Scheme, which
+takes an undirected graph represented as above, and returns a list of
+all connected components of this graph.
+
+This is not a small problem! Several auxiliary functions will obviously
+be necessary in your solution.
+
+Here is how the main function connected-components will work. Let us
+define a few example graphs (your program will be tested precisely on
+these three graphs):
+
+(define graph1
+    '(
+      (a (b f))  (b (a c e))  (c (b))  (d (g j))  (e (b i))
+      (f (a))    (g (d))      (h ())   (i (e))    (j (d))
+     )
+)
+
+(define graph2
+    '(
+      (a (b f))  (b (a c e))  (c (b))  (d (g j))  (e (b i))
+      (f (a))    (g (d))      (h (j))  (i (e))    (j (d h))
+     )
+)
+
+(define graph3
+    '(
+      (a (b f))  (b (a c e))  (c (b j))  (d (g j))  (e (b i))
+      (f (a))    (g (d))      (h (j))    (i (e))    (j (c d h))
+     )
+)
+
+A session with Scheme, testing your function, should look as follows.
+(I formatted the results a little, for readability. Scheme returns them
+in an ugly glut :>).
+
+> (connected-components graph1)
+
+(
+  (
+    (a (b f))  (b (a c e))  (f (a))  (c (b))  (e (b i))  (i (e))
+  )
+  (
+    (d (g j))  (g (d))  (j (d))
+  )
+  (
+    (h ())
+  )
+)
+
+> (connected-components graph2)
+
+(
+  (
+    (a (b f))  (b (a c e))  (f (a))  (c (b))  (e (b i))  (i (e))
+  )
+  (
+    (d (g j))  (g (d))  (j (d h))  (h (j))
+  )
+)
+
+> (connected-components graph3)
+
+(
+  (
+    (a (b f))  (b (a c e))  (f (a))  (c (b j))  (e (b i))
+    (j (c d h))  (i (e))  (d (g j))  (h (j))  (g (d))
+  )
+)
+
+============
+
+This problem can be very neatly solved in pure functional language.
+In my solution I used the "let" construct twice, to avoid repeated
+computation, but a solution without "let" is equally good. Other than
+that, all I have is functions calling functions. (I needed only a
+handful of built-in functions: cons; car, cdr, caar, cadr, cdar and
+so on; list; append; member; null?; equal?; and the "if" construct.)
+
+You have already noticed, I am sure, that the core of the solution
+should be graph traversal. That is right. The algorithm you know from
+your data structures course, with a queue of vertices to visit and a
+list of those vertices already visited, will be very useful here!
+
+There is a rather intuitive way to attack this whole problem. Suppose
+you have a function that traverses the graph, pulling out (one by
+one) all the bundles for one connected component and putting them on
+a list. If any bundles remain, the whole graph must have been
+unconnected. Now, put the first connected component on a list of
+completed components and repeat the process with the smaller graph.
+When no bundles remain after the next connected component has been
+pulled out, the list of complete components is the desired result.
+
+You can assume all along that you get correct data. I will ask the
+TAs to add a little bit of a bonus for verifying the data before
+starting the real work on connected components.
+
+One piece of general advice: a function returns _one_ data object. It
+may be as complicated as you wish, but it is one thing. So, what do
+we do if we need to return two things? Yes, of course. We return a
+pair. In Scheme, a pair is easily represented as a two-element list.
+
+============
+
+After you have programmed this challenging (but rewarding!!) algorithm,
+please add a small, easy piece. Define a function named "connected" that
+returns true if its argument is a list representing a connected graph,
+and false if the argument is a list representing an unconnected graph.
+
+
+Problem 2 [1.8 marks]
+=====================
+
+Newton's method of computing the square root of a non-negative number
+takes an estimate of the value of the root and tests it for accuracy.
+If the guess does not meet the required tolerance, the algorithm
+computes a new estimate and repeats the process. The Pascal code of
+Newton's method finding the square root of a number X is this:
+
+  GUESS := 1.0;
+  repeat
+    GUESS := 0.5 * (GUESS + X/GUESS);
+  until abs(X - GUESS*GUESS) < tolerance;
+
+The final value of GUESS is our result.
+
+I would like you to program this algorithm in Scheme, ML and Prolog.
+In each of these languages you need a recursive implementation of the
+loop. Assume that the value of "tolerance" is a global constant or
+some other globally accessible value. Test your programs with
+tolerance equal to 0.000001.
+
+Assume also that your programs receive a number on input. If the
+number is negative, you should return either -1.0 (in ML) or the atom
+'undef' (in Scheme and in Prolog). Your programs will be tested as
+follows.
+
+In Scheme:
+
+> (square-root 17.0)
+4.123105625617805
+> (square-root -17.0)
+undef
+
+In ML:
+
+- square_root(17.0);
+val it = 4.12310562561781 : real
+- square_root(~17.0);
+val it = ~1.0 : real
+
+In Prolog:
+
+?- square_root(17.0, Result).
+Result = 4.123105625617805E+00
+?- square_root(-17.0, Result).
+Result = undef
+
+
+Problem 3 [1.8 marks]
+=====================
+
+The following data type has been defined in the class notes:
+
+datatype tree =
+                nul |
+                node of int * tree * tree;
+
+Let us also define several objects of this type:
+
+val t1 = node (3, node (0, nul,
+                           node (1, nul,
+                                    node (2, nul, nul))),
+                  node (4, nul,
+                           node (6, node (5, nul, nul),
+                                    nul)) );
+
+val t2 = node (33, node (11, nul,
+                             node (22, nul, nul)),
+                   node (44, nul,
+                             node (66, nul, nul)) );
+
+val t3 = node (44, node (22, node (11, nul, nul),
+                             node (33, nul, nul)),
+                   node (66, node (55, nul, nul),
+                             node (77, nul, nul)) );
+
+val t4 = node (77, node (44, node (22, node (11, nul,
+                                                 node (33, nul, nul)),
+                                       nul),
+                             node (55, nul, nul)),
+                   node (88, node (66, nul, nul),
+                             node (99, nul, nul)) );
+
+Now, define three functions in ML, that find the following:
+
+  * the sum of all integers in a tree,
+  * the height of a tree,
+  * the balancing of a tree (true or false?).
+
+The functions must be named
+        sum_nodes,
+        tree_height,
+        is_balanced,
+respectively.
+
+The first two functions are very easy to program. The third function
+is not quite as trivial. Remember that a tree is balanced if the
+heights of its subtrees differ at most by one _and_ both subtrees
+are also balanced.
+
+By the way, Boolean connectives in ML are not plain old "and"/"or".
+ML performs lazy evaluation, which is presented in your textbook as
+"short-circuit evaluation". The ML conjunction and disjunction
+operators are "andalso" and "orelse", as in these examples:
+
+- true andalso false;
+val it = false : bool
+- true orelse false;
+val it = true : bool
+
+Your three tree functions will be tested as follows.
+
+- sum_nodes(t1);
+val it = 21 : int
+- sum_nodes(t2);
+val it = 176 : int
+- sum_nodes(t3);
+val it = 308 : int
+- sum_nodes(t4);
+val it = 495 : int
+- tree_height(t1);
+val it = 4 : int
+- tree_height(t2);
+val it = 3 : int
+- tree_height(t3);
+val it = 3 : int
+- tree_height(t4);
+val it = 5 : int
+- is_balanced(t1);
+val it = false : bool
+- is_balanced(t2);
+val it = true : bool
+- is_balanced(t3);
+val it = true : bool
+- is_balanced(t4);
+val it = false : bool
+
+
+Problem 4 [1.4 mark]
+====================
+
+Part (i)
+--------
+
+Suppose that, in Noah's Ark, the female and male elephant weighed
+4723 and 6457 kg respectively, the giraffes 1445 and 986 kg, the
+hippos 2072 and 2918 kg, and the snakes 47 and 72 kg. Suppose, too,
+that no other beasts were invited. What minimum weight should have
+Noah's Ark been able to support?
+
+The data are represented in Scheme like this:
+
+    ((4723 6457) (1445 986) (2072 2918) (47 72))
+
+Please write a single expression (!) that calculates one number --
+the answer to our question about the Ark. You will have to use both
+the higher-order functions map and reduce.
+
+The function map is built-in. The function reduce is this:
+
+(define (reduce f f0 l)
+  (if (null? l)
+      f0
+      (f (car l)
+         (reduce f f0 (cdr l)))
+) )
+
+The same Noah's Ark data can be represented in ML like this:
+
+  [{f=4723, m=6457}, {f=1445, m=986}, {f=2072, m=2918}, {f=47, m=72}]
+
+This is a list of records. The type of such a record is
+
+  {f:int, m:int}
+
+To access its fields, write #f(record) and #m(record). For example:
+
+- #f({f=4723, m=6457});
+val it = 4723 : int
+
+By the way, the type of the whole list is
+
+  {f:int, m:int} list
+
+Now, write in ML a single expression that calculates the answer to
+the Ark question. You will again have to use the higher-order
+functions map and reduce.
+
+The function reduce is defined like this:
+
+fun reduce(f, nil, v0) = v0 |
+    reduce(f, ( a::y ), v0) = f(a, reduce(f, y, v0));
+
+Part (ii)
+---------
+
+A beauty store sold 175 bottles of cologne at $19.95, 221 make-up
+kits at $24.99 and 207 jars of cream at $22.00. These sales can be
+represented in Scheme as a list:
+
+    ((cologne 175 19.95) (make-up 221 24.99) (cream 207 22.00))
+
+Please write a single expression that takes this list and returns
+a pair: sale value per product, and the total sales. You will need
+the higher-order functions map and reduce.
+
+The result should look like this:
+
+  (((cologne 3491.25) (make-up 5522.79) (cream 4554.00)) 13568.04)
+
+Do not worry if Scheme finds slightly less accurate numbers, such as
+5522.7900000000005 or 13568.040000000001.
+
+
+                        ##############
+                        #            #
+                        # Have fun!! #
+                        #            #
+                        ##############
+
+

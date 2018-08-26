@@ -1,0 +1,205 @@
+Concepts of Programming Languages: Fourth Edition
+
+
+                  Search by... Author Title ISBN    
+
+
+
+                   
+
+                    
+
+
+
+
+             
+
+                    
+                  About This Title
+                  Table of Contents
+                  Errata
+                  Supplements
+                  Author Info
+                    
+
+       
+            ISBN:0-201-38596-1
+             Copyright:1999 
+             Price:$73.00 
+             Binding:Cloth 
+             Pages: 608 
+      Concepts of Programming Languages: Fourth Edition
+      Robert W. Sebesta 
+      Errata
+The following errors have been found in the third printing:
+
+1. p. 53, LISP example program,
+	line 4 should be: 
+; if the two lists are equal, and NIL (false) otherwise
+	line 5 should be: 
+(DEFUN equal_lists (lis1 lis2)
+	line 9, "equal" should be "equal_list"
+	line 10, "equal" should be "equal_list"
+
+2. p. 60, ALGOL 60 example program, line 12, "&" should be "L"
+	
+3. p. 125, line 2,
+	"next_token) ==" should be "next_token =="
+
+4. p. 207, line 22,
+	"'A'..'U'" should be "'A'..'O'"
+
+5. p. 232, line 2 (after Figure 5.9),
+	"half as much" should be "the same"
+
+6. p. 243, 13th last line,
+	"Ada" should be "Ada-83"
+
+7. p. 301, 3rd last line,
+	"then-else simulation" should be "then-elsif simulation"
+
+8. p. 308, 
+line 3,	"loop" should be "loop;"
+line 13, "loop" should be "loop;"
+
+9. p. 309, 9th last line,
+	"0.0" should be "1.0"
+
+10. p. 313, line 6,
+	"exit;" should be "exit; end if;"
+
+11. p. 346, line 1,
+	"Ada" should be "Ada-83"
+
+12. p. 355, 19th last line,
+	"(a : integer, b : integer)" should be 
+"(a : in out integer, b : in out integer)"
+
+13. p. 362, just before 3rd last line, insert the lines,
+	procedure INTEGRATE (LOWERBD : in FLOAT;
+				   UPPERBD : in FLOAT;
+				   RESULT : out FLOAT);
+
+14. p. 363, line 8, 
+	"INTEGRATE_FUN1" should be "procedure INTEGRATE_FUN1"
+
+15. p. 386, Figure 9.6,
+	replace caption with:
+		The activation record for factorial
+	replace "N" on the parameter line with "n"
+
+16. p. 420, line 15,
+	"data" should be "types and constants"
+
+17. p. 422, 19th last line,
+	"STK.TOPSUB = 0" should be "STK.TOPSUB = 0;"
+
+18. p. 424, last line,
+	"in its header" should be "its header"
+
+19. p. 454, line 10,
+	"conventional" should be "unconventional"
+
+20. p. 457, 12th last line,
+	"binary" should be "unary"
+
+21. p. 461, last line, 3rd last line, and 4th last line,
+	"ourPen" should be "OurPen"
+
+22. p. 462, lines 5, 10, and 11,
+	"ourPen" should be "OurPen"
+	
+23. p. 478, 
+	line 16, "FRED : (" should be "FRED : PERSON := ("
+	line 17, "FREDDIE "(" should be "FREDDIE : STUDENT := ("
+	line 21, "FRED" should be "FREDDIE"
+
+24. p. 510, lines 15 & 16,
+	"each accept clause" should be "each entry clause"
+
+25. p. 512,
+	add the following line just before the 15th last line: "BUF : BUF_PTR;"
+ 	14th last line, "BUF_PTR" should be "BUF"
+	13th last line, "They" should be "Statically created tasks"
+	10th last line, add the following sentence between the two sentences on this line:
+	"Tasks created with new begin executing immediately."
+
+26. p. 514, 
+7th last line, "procedures or tasks" should be "tasks"
+
+27. p. 516, 
+8th last line, "those priorities does not" should be "those priorities do not"
+
+28. p. 517, line 13,
+	"alternatively" should be in alternating fashion"
+
+29. p. 518, 5th last line,
+	"accept" should be "entry"
+
+30. p. 519, line 3,
+	"accept" should be "entry"
+
+31. p. 522,
+	17th last line, "other methods" should be "other synchronized methods"
+	2nd last line, "numbering" should be "number"
+
+32. p. 536, paragraph 5, line 2,
+	"exception, handling" should be "exception handling,"
+
+33. p. 546, paragraph 7, line 1,
+	"occurs in a" should be "occurs at the outermost level in a"
+
+34. p. 547, 9th last line,
+	"is 0..125;" should be "is range 0..125;"
+
+ 
+The following mistakes were in the first and second printings, but have been fixed in the third printing:
+
+1. p. 43, first paragraph, 5th last line, 
+	"PDP-11 computers of 1970" should be "UNIVAC 1107 computers of 1962"
+
+2. p. 115, Figure 3.2 caption, 
+	"A := B = C * A" should be "A := B + C * A"
+
+3. p. 134, line 12,
+	"somewhatAdding" should be "somewhat. Adding"
+
+4. p. 174, line 27,
+	"records and unions)," should be "records) and unions,"
+
+5. p. 179, Figure 4.3,
+	Add a link from B to A
+
+6. p. 280, line 2,
+	"0 i else count2 = 0 i" should be "0; else count2 = 0;
+
+7. p. 306, line 9,
+	"141, 423," should be "147, 441,"
+
+8. p. 326, Problem 17, line 3,
+	"j := -3;" should be "j = -3;"
+
+9. p. 499, 
+line 6,	"semphore" should be "semaphore"
+paragraph 3, line 3, "the item" should be "an item"
+
+10. p. 514,
+line 5,	"Such an select" should be "Such a select"
+
+11. p. 516, 
+15th last line, "with a the last" should be "with the last"
+5th last line, "and it is not" should be "and the data structure is not"
+
+12. p. 551, line 6,
+	"part of the" should be "part on the"
+
+13. p. 556, 13th last line,
+	"If an matching" should be "If a matching"
+
+14. p. 565, 2nd last line, 
+	"three" should be "four"
+
+
+        back to top 
+ 
+14.0500 

@@ -1,0 +1,34 @@
+
+University of Ottawa 
+School of Information Technology and Engineering 
+CSI 3317 ­ 2000F 
+Assignment #2 
+Instructor: Dr. Cory Butz 
+Due: Friday, October 20, 2000 at noon 
+Hand in: to the CSI3317 box on 3rd floor MCD. 
+This assignment uses the supplier­part­project database from the first assignment. 
+
+Part 1 
+-------
+Provide the Oracle SQL data definitions to create the suppliers­parts­projects database. Include 
+the following constraints: 
+
+ - All names (sname, pname, jname) must not be NULL. 
+ - The Qty in the relation SPJ cannot be greater than 1000. 
+
+Part 2 
+-------
+Use the Oracle SQL query language to answer the following: 
+
+1. Provide supplier details of all suppliers in London. 
+2. Provide project names and cities. 
+3. Provide supplier numbers for suppliers who supply part P1. 
+4. Provide the supplier names which supply part p3 to project j4. 
+5. Provide the part names used in a project with quantity equal to 500. 
+6. Provide the supplier names for suppliers who do not supply a red part. 
+7. Provide the supplier name/project name pairs for which the indicated supplier supplies parts 
+to the indicated project. 
+8. Provide the supplier name/part name pairs for which the indicated supplier does not supply 
+the indicated part. 
+9. Provide project names which use all parts. 
+10. Provide the average quantity supplied by supplier s2. 

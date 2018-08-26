@@ -1,0 +1,170 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "War
+ning" 2 7 1 {CSTYLE "" -1 -1 "" 0 1 0 0 255 1 0 0 0 0 0 0 1 0 0 }0 0 
+0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" 
+-1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 
+-1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 "" 0 1 0 0 200 0 0 0 0 0 0 
+0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 459 "# WAVE EQUATION FINITE-DIFFERENCE \+
+ALGORITHM 12.4\n#\n# To approximate the solution to the wave equation:
+\n# subject to the boundary conditions\n#              u(0,t) = u(l,t)
+ = 0, 0 < t < T = max t\n# and the initial conditions\n#              \+
+u(x,0) = F(x) and Du(x,0)/Dt = G(x), 0 <= x <= l:\n#\n# INPUT:   endpo
+int l; maximum time T; constant ALPHA; integers m, N.\n#\n# OUTPUT:  a
+pproximations W(I,J) to u(x(I),t(J)) for each I = 0, ..., m\n#        \+
+  and J=0,...,N." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 107 "alg124 := proc
+() local F, G, OK, FX, FT, ALPHA, M, N, M1, M2, N1, N2, H, K, V, J, W,
+ I, flag, NAME, OUP, X;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`
+This is the Finite-Difference Method for the Wave Equation.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`Input the functions F(X) an
+d G(X) in terms of x, separated by a " }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "space.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%
+a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "G := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 18 "G := unapply(G,x);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 54 "printf(`The lefthand endpoint on the X-axis is 0.\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 56 "printf(`Input the righthand endpoint on the X-axis.\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FX := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if FX <= 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 39 "printf(`Must be a positive number.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 
+"OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the maximum value of \+
+the time variable T.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FT :=
+ scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if FT <= 0 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`Must be a positive numb
+er.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`Input the constant alpha.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "
+while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Inpu
+t integer m := number of intervals on X-axis\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 70 "printf(`and N := number of time intervals - separat
+ed by a blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Not
+e that m must be 3 or larger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := sc
+anf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if M <= 2 or N <= \+
+0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Numbers are not w
+ithin correct range.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "M1 := M+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "M2 :
+= M-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "N1 := N+1;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 10 "N2 := N-1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP
+ 1" }}{PARA 0 "" 0 "" {TEXT -1 20 "V is used for lambda" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 10 "H := FX/M;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+10 "K := FT/N;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "V := ALPHA*K/H;" 
+}}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "for J from 2 to N1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "W[0,
+J-1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "W[M1-1,J-1] := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "W[0,0] := evalf(F(0));" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "W[M1-1,0] := evalf(F(FX));" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 2 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "W[I-1,0
+] := F(H*(I-1));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "W[I-1,1] := (1-
+V^2)*F(H*(I-1))+V^2*(F(I*H)+F(H*(I-2)))/2+K*G(H*(I-1));" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 2 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "W[I-1,J] := " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "ev
+alf(2*(1-V^2)*W[I-1,J-1]+V^2*(W[I,J-1]+W[I-2,J-1])-W[I-1,J-2]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\
+\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for exa
+mple:  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NA
+ME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fop
+en(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "fprintf(OU
+P, `FINITE DIFFERENCE METHOD FOR THE WAVE EQUATION\\n\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 53 "fprintf(OUP, `  I    X(I)     W(X(I),%12.
+6e)\\n`, FT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 1 to M1
+ do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "X := (I-1)*H;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 55 "fprintf(OUP, `%3d %11.8f %13.8f\\n`, I, X, W[I
+-1,N1-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RET
+URN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 7 "" 1 "" 
+{TEXT -1 44 "Warning, `FLAG` is implicitly declared local" }}{PARA 12 
+"" 1 "" {XPPMATH 20 "6#>%'alg124G:6\"69%\"FG%\"GG%#OKG%#FXG%#FTG%&ALPH
+AG%\"MG%\"NG%#M1G%#M2G%#N1G%#N2G%\"HG%\"KG%\"VG%\"JG%\"WG%\"IG%%flagG%
+%NAMEG%$OUPG%\"XG%%FLAGGF&F&C3-%'printfG6#%gnThis~is~the~Finite-Differ
+ence~Method~for~the~Wave~Equation.|+G-FA6#%coInput~the~functions~F(X)~
+and~G(X)~in~terms~of~x,~separated~by~a~|+space.|+G>8$&-%&scanfG6#%#%aG
+6#\"\"\">8%FI>FH-%(unapplyG6$FH%\"xG>FQ-FT6$FQFV-FA6#%KThe~lefthand~en
+dpoint~on~the~X-axis~is~0.|+G>8&%&FALSEG?(F&FOFOF&/FhnFinC%-FA6#%MInpu
+t~the~righthand~endpoint~on~the~X-axis.|+G>8'&-FK6#%#%fGFN@%1Fao\"\"!-
+FA6#%<Must~be~a~positive~number.|+G>Fhn%%TRUEG>FhnFin?(F&FOFOF&F[oC%-F
+A6#%QInput~the~maximum~value~of~the~time~variable~T.|+G>8(Fbo@%1FepFho
+Fio>FhnF]p-FA6#%;Input~the~constant~alpha.|+G>8)Fbo>FhnFin?(F&FOFOF&F[
+oC(-FA6#%RInput~integer~m~:=~number~of~intervals~on~X-axis|+G-FA6#%ena
+nd~N~:=~number~of~time~intervals~-~separated~by~a~blank.|+G-FA6#%BNote
+~that~m~must~be~3~or~larger.|+G>8*&-FK6#%#%dGFN>8+F\\r@%51F[r\"\"#1Far
+Fho-FA6#%GNumbers~are~not~within~correct~range.|+G>FhnF]p@$/FhnF]pC8>8
+,,&F[rFOFOFO>8-,&F[rFO!\"\"FO>8.,&FarFOFOFO>8/,&FarFOFdsFO>80*&FaoFOF[
+rFds>81*&FepFOFarFds>82*(F]qFOF_tFOF\\tFds?(83FerFOFfs%%trueGC$>&846$F
+ho,&FetFOFdsFOFho>&Fjt6$,&F_sFOFdsFOF\\uFho>&Fjt6$FhoFho-%&evalfG6#-FH
+6#Fho>&Fjt6$F`uFho-Feu6#-FH6#Fao?(85FerFOF[rFftC$>&Fjt6$,&FavFOFdsFOFh
+o-FH6#*&F\\tFOFfvFO>&Fjt6$FfvFO,(*&,&FOFO*$FbtFerFdsFOFgvFOFO*&FbtFer,
+&-FH6#*&FavFOF\\tFOFO-FH6#*&F\\tFO,&FavFO!\"#FOFOFOFO#FOFer*&F_tFO-FQF
+hvFOFO?(FetFerFOFarFft?(FavFerFOF[rFft>&Fjt6$FfvFet-Feu6#,(*&F_wFO&Fjt
+6$FfvF\\uFOFer*&FbtFer,&&Fjt6$FavF\\uFO&Fjt6$FiwF\\uFOFOFO&Fjt6$Ffv,&F
+etFOFjwFOFds-FA6#%:Choice~of~output~method:|+G-FA6#%51.~Output~to~scre
+en|+G-FA6#%82.~Output~to~text~file|+G-FA6#%6Please~enter~1~or~2.|+G>8:
+F\\r@%/F_zFerC&-FA6#%SInput~the~file~name~in~the~form~-~drive:\\name.e
+xt|+G-FA6#%=for~example:~~A:\\OUTPUT.DTA|+G>87&-FK6#%#%sGFN>88-%&fopen
+G6%Fjz%&WRITEG%%TEXTG>F`[l%(defaultG-%(fprintfG6$F`[l%QFINITE~DIFFEREN
+CE~METHOD~FOR~THE~WAVE~EQUATION|+|+G-Fi[l6%F`[l%@~~I~~~~X(I)~~~~~W(X(I
+),%12.6e)|+GFep?(FavFOFOF_sFftC$>89Fiv-Fi[l6'F`[l%3%3d~%11.8f~%13.8f|+
+GFavFb\\l&Fjt6$Ffv,&FfsFOFdsFO@$0F`[lFg[lC$-%'fcloseG6#F`[l-FA6$%COutp
+ut~file~%s~created~sucessfullyGFjz-%'RETURNGFhuF&F&" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "alg124();" }}{PARA 6 "" 1 "" {TEXT -1 131 
+"This is the Finite-Difference Method for the Wave Equation.\nInput th
+e functions F(X) and G(X) in terms of x, separated by a \nspace." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "sin(Pi*x) 0" }}{PARA 6 "" 1 
+"" {TEXT -1 85 "The lefthand endpoint on the X-axis is 0.\nInput the r
+ighthand endpoint on the X-axis." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 47 "Input the maximum va
+lue of the time variable T." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+1 "1" }}{PARA 6 "" 1 "" {TEXT -1 25 "Input the constant alpha." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 139 "Input integer m := number of intervals on X-axis\nand N := num
+ber of time intervals - separated by a blank.\nNote that m must be 3 o
+r larger." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "10 20" }}{PARA 
+6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output to screen\n
+2. Output to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 414 "FINITE DIFFERE
+NCE METHOD FOR THE WAVE EQUATION\n\n  I    X(I)     W(X(I),1.000000e+0
+0)\n  1  0.00000000    0.00000000\n  2   .10000000     .30901699\n  3 \+
+  .20000000     .58778525\n  4   .30000000     .80901699\n  5   .40000
+000     .95105651\n  6   .50000000     .99999999\n  7   .60000000     \+
+.95105651\n  8   .70000000     .80901699\n  9   .80000000     .5877852
+5\n 10   .90000000     .30901699\n 11  1.00000000    0.00000000" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "7 1 0" 3 }{VIEWOPTS 1 1 0 1 1 1803 }

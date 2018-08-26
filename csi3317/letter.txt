@@ -1,0 +1,27 @@
+
+Good day,
+
+	As I mentioned after class on Monday, I set up the WinRDBI at home and in the CUBE to try the queries for assignment 1.
+	As explained on the web page for WinRDBI, you have to modify the start script for the WinRDBI
+	to point at the JRE/1.3/bin/javaw.exe file on your system and when I did this it would run.
+	There are still some bugs - when setting up an attribute in a  relation it is supposed to
+	give you a choice of char or numeric type, but for me you can never choose the numeric type
+	- you have to edit the rdb file in a text editor to change an attribute type to numeric.
+	Other than this, queries seemed to work fine, except for 'forall' queries in the tuple calculus.
+	I entered the example data we did in class and tried the queries from class.
+	The 'forall' query we did - "find students taking all courses" - doesn't work for me.
+	Checking the examples that come with WinRDBI, a forall clause has the quantification over an implication statement,
+	not a conjunction, and setting up the query like this gave me the right answer.  You can see what I did in the attachments.
+	I wondered if somehow my set-up is still not right, and wanted to get some confirmation that this query does work for you
+	as we did it in class, or that somehow WinRDBI 2.0 is now using a different syntax?
+	Also, regarding question 3 of the assignment, is it possible to do this using the WinRDBI syntax?
+	This is a trivial question to answer using the syntax in the textbook, where you do not have to specify
+	the relation of the output tuples, but for WinRDBI, where you must specify the output is from
+	e.g. supplier, or supplier and project, and you can't have something like { S.city or J.city | supplier(S)... },
+	I can't see how you can get a single query that will combine attributes from separate relations.
+	I would just like to know that this is indeed possible in WinRDBI before I spend any more time on this question.
+
+thanks,
+
+Mark Sattolo
+428500

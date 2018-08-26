@@ -1,0 +1,145 @@
+                          Errata File (June 2000)
+                      OPERATING SYSTEMS: Third Edition
+                               William Stallings
+                  (Prentice-Hall, 1998, ISBN 0-13-887407-7)
+
+-------------------------------------------------------------------------
+| ti = ith line from top;  bi = ith line from bottom; Fi = Figure i      |
+| X -> Y = replace X with Y; Ti = Table i                                |
+-------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+                                June list
+-------------------------------------------------------------------------
+
+608 F14.11a: if (request(j) > token(j) AND token_present)
+    F14.11b: if (token_present AND NOT token_held)
+
+-------------------------------------------------------------------------
+                                May list
+-------------------------------------------------------------------------
+
+  9 F1.4: PC should be 301,302,303 in steps 2,4,6, because the PC is
+          incremented at the end of the fetch cycle; narrative on 
+          pp 9 should reflect this
+
+ 38 Rightmost 100 should be 1000
+
+ 39 F1.23: Access Efficiency = T1/Ts
+
+ 43 F1.27a: Starting address of Proc2 is 4800
+
+ 56 T2.2, 2nd column: Last 3 entries: 15, 12, 10
+
+ 97 Open Group OS Program no longer exists
+
+105 F3.4: second part of the figure should be (b)
+
+110 b8: Suspend -> Blocked
+
+125 Process State Information -> Processor State Information
+
+131 t15: than some work -> then some work
+
+134 F3.14: Process State Information -> Processor State Information
+
+184 Prob 4.4: that running -> that process running
+
+207 Right-hand side of equation: 1 -> n
+    Paragraph following equation: exchange all 1s and 0s
+
+214 T5.2: Figure 5.14 -> Figure 5.13
+
+227 t3: [0..N] ->[0..N - 1]
+
+229 b3: completes in input -> completes an input
+
+235 t10: all messages are blocked -> all processes are blocked
+
+241 f5.30: (in procedure writerj, twice) rmsg :=j
+
+247 b6: <number[ -> <(number[
+
+262 Claim, Allocation matrices: U with accent -> 3 vertical dots
+
+265 F6.7a: Resource Vector & Available Vector should not have P1 label
+
+266 t16: to from newstate -> to form newstate
+    t18: that deadlock -> than deadlock
+
+267 allocated, allocation, and alloc are the same matrix
+
+282 Prob 6.3: Claim -> Request
+
+295 b4(not counting footnote): 12-megabyte -> 16- megabyte
+
+313 b18: 7.15b -> 7.15
+    The last sentence of that same paragraph refers to Figure 7.15b
+
+315 F7.15c: 2224 -> 1200
+
+335 b19: because -> since
+
+347 F8.14a: use = 1 in frame 1
+
+365 b10 default, this -> default, half this
+
+372 t16: range is 0 through M - 1
+
+374 t4: L2.b. -> I2.b.
+
+389 F9.5, last row: q = 2^i
+
+390 Last row: q = 2^i
+
+399 t7: 2^(i-1) -> 2^i
+
+405 3rd equation: GCPUk(i - 1) -> GCPUk(i)
+
+408 F9.17: priority of C is 60 at time 2 and 75 at time 3
+
+410 Prob 9.3. Assume that all jobs arrive at the same time
+
+430 b1: execution of the requires -> execution of the ISR requires
+
+448 problem 10.3b: C2 -> C3
+            10.3c: D1=150 -> D3=150
+
+463 t8: transfer time -> execution time
+
+472 b6: delete phrase "is larger than"
+
+474 RAID2/RAID3: b0 b1 b2 b2 -> b0 b1 b2 b3
+
+490 Prob 11.2b: two summing -> the summing
+
+532-533 Repeatedly MTF is written instead of MFT
+
+534 b4: CUST96 -> CUST94
+
+578 b6: failback -> rollback
+
+605 point 2b: all other processes -> Pi
+    point 2d: follows -> precedes
+
+607 b2: a process held - a resource held
+
+609 t16: R -> Rb
+
+642 t6: routing -> routine
+
+680 b24: generates -> accepts
+
+700 b8, b10: B -> Erlang C function
+    b19: packets -> processes
+
+703 b10: distribution -> density
+
+752 Virus def incorrect; see Table 15.4, p. 650
+
+A file of references missing from the book is at ftp://ftp.shore.net/members/ws/Errata/OS3e-Refs
+
+------------------------------------------------------------------------
+|        A current version of this file, named Errata-OS3e-mmyy        |
+|                  is available at WilliamStallings.com                |
+-----------------------------------------------------------------------

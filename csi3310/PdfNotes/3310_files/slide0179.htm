@@ -1,0 +1,226 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description content="20-Jan-00: The test-and-set instruction">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0179.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><o:shapelayout v:ext="edit">
+ <o:idmap v:ext="edit" data="242"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>179</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s247810"
+  type="#_x0000_m3075" style='position:absolute;left:81.125pt;top:25.625pt;
+  width:620.875pt;height:58.375pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s247811" type="#_x0000_m3076"
+  style='position:absolute;left:1in;top:102pt;width:4in;height:1in'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="body" position="1" size="half"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s247812" type="#_x0000_m3076"
+  style='position:absolute;left:390pt;top:78pt;width:282pt;height:180pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="body" position="2" size="half"/></v:shape><v:shapetype
+  id="_x0000_t202" coordsize="21600,21600" o:spt="202" path="m0,0l0,21600,21600,21600,21600,0xe">
+  <v:stroke joinstyle="miter"/>
+  <v:path gradientshapeok="t" o:connecttype="rect"/>
+ </v:shapetype><v:shape id="_x0000_s247813" type="#_x0000_t202" style='position:absolute;
+  left:66pt;top:192pt;width:306pt;height:266pt' filled="f" fillcolor="#ccecff [4]"
+  stroked="f" strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:rect id="_x0000_s247814" style='position:absolute;left:390pt;
+  top:270pt;width:287.625pt;height:237.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="#ccecff [4]" stroked="f"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:rect>
+ <div v:shape="_x0000_s247810" class=T style='position:absolute;top:5.25%;
+ left:12.35%;width:84.45%;height:8.75%'>The test-and-set instruction</div>
+ <div v:shape="_x0000_s247811" class=HB><span style='position:absolute;
+ top:19.75%;left:14.79%;width:37.07%'><span style='font-size:92%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-10.1%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:92%'>A C++<span
+ style="mso-spacerun: yes">  </span>description of </span></span><span
+ style='position:absolute;top:24.75%;left:14.79%;width:34.45%'><span
+ style='font-size:92%'>test-and-set:</span> </span></div>
+ <div v:shape="_x0000_s247812" class=HB>
+ <div style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:15.0%;left:58.98%;width:36.32%'><span style='font-size:83%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-10.3%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:83%'>An algorithm that
+ uses </span></span><span style='position:absolute;top:19.0%;left:58.98%;
+ width:33.52%'><span style='font-size:83%'>testset for Mutual </span></span><span
+ style='position:absolute;top:23.0%;left:58.98%;width:33.52%'><span
+ style='font-size:83%'>Exclusion:&#13;</span></span></div>
+ <div style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:28.0%;left:58.98%;width:33.52%'><span style='font-size:83%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-11.17%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:83%'>Shared variable b is
+ </span></span><span style='position:absolute;top:32.0%;left:58.98%;width:33.52%'><span
+ style='font-size:83%'>initialized to 0&#13;</span></span></div>
+ <div style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:36.75%;left:58.98%;width:39.88%'><span style='font-size:83%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-9.38%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:83%'>Only the first Pi
+ who sets </span></span><span style='position:absolute;top:40.75%;left:58.98%;
+ width:33.52%'><span style='font-size:83%'>b enter CS</span><span
+ style='mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ </div>
+ <div v:shape="_x0000_s247813" class=O>
+ <div style='position:absolute;top:36.5%;left:10.11%;width:48.12%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>bool testset(int&amp; i)&#13;</b></span></div>
+ <div style='position:absolute;top:41.75%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>{&#13;</b></span></div>
+ <div style='position:absolute;top:47.0%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>if (i==0) {&#13;</b></span></div>
+ <div style='position:absolute;top:52.5%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">   
+ </span>i=1;&#13;</b></span></div>
+ <div style='position:absolute;top:57.75%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">   
+ </span>return true;&#13;</b></span></div>
+ <div style='position:absolute;top:63.0%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>} else {&#13;</b></span></div>
+ <div style='position:absolute;top:68.5%;left:10.11%;width:41.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">   
+ </span>return false;&#13;</b></span></div>
+ <div style='position:absolute;top:73.75%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>}&#13;</b></span></div>
+ <div style='position:absolute;top:79.0%;left:10.11%;width:40.63%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>}</b></span></div>
+ </div>
+ <div v:shape="_x0000_s247814" class=O>
+ <div style='position:absolute;top:51.0%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>Process Pi:&#13;</b></span></div>
+ <div style='position:absolute;top:56.25%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>repeat&#13;</b></span></div>
+ <div style='position:absolute;top:61.5%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New";color:#FF9966;mso-color-index:6'><b><span
+ style="mso-spacerun: yes">  </span>repeat{}&#13;</b></span></div>
+ <div style='position:absolute;top:66.75%;left:55.24%;width:45.69%;height:5.25%'><span
+ style='font-family:"Courier New";color:#FF9966;mso-color-index:6'><b><span
+ style="mso-spacerun: yes">  </span>until testset(b);</b></span><span
+ style='font-family:"Courier New";display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:72.25%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">    
+ </span>CS&#13;</b></span></div>
+ <div style='position:absolute;top:77.5%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">  </span></b></span><span
+ style='font-family:"Courier New";color:#FF9966;mso-color-index:6'><b>b:=0;</b></span><span
+ style='font-family:"Courier New";display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:82.75%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">    
+ </span>RS&#13;</b></span></div>
+ <div style='position:absolute;top:88.25%;left:55.24%;width:38.01%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>forever</b></span></div>
+ </div>
+ <v:rect id="_x0000_s247815" style='position:absolute;left:60pt;top:228pt;
+  width:318pt;height:234pt;mso-wrap-style:none;v-text-anchor:middle' filled="f"
+  fillcolor="#ccecff [4]" strokecolor="#099 [1]" strokeweight="3pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:rect><v:shape id="_x0000_s247816" type="#_x0000_t202" style='position:absolute;
+  left:60pt;top:480pt;width:205.875pt;height:36pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="#ccecff [4]" stroked="f"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0 v:shapes="_x0000_s247815"
+ src="slide0179_image098.gif" style='position:absolute;top:42.0%;left:8.05%;
+ width:44.94%;height:44.25%'><![endif]>
+ <div v:shape="_x0000_s247816" class=O style='text-align:center;position:absolute;
+ top:90.0%;left:6.74%;width:32.02%;height:5.25%'><span lang=FR-CA><b>Non
+ Interruptible!</b></span></div>
+</p:slide></div>
+
+</body>
+
+</html>

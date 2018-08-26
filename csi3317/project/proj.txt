@@ -1,0 +1,61 @@
+Database Scheme Design using Entity Relationship Diagrams
+Mark Sattolo  428500
+CSI3317B - Class Project - Oracle SQL
+
+create table Dept (
+Dnumber CHAR(12),
+Name VARCHAR2(50) NOT NULL,
+constraint PK_DEPT_DNUMBER PRIMARY KEY (Dnumber) );
+
+create table Employee (
+Enumber CHAR(12),
+Ename VARCHAR2(50) NOT NULL,
+constraint PK_EMPLOYEE_ENUMBER PRIMARY KEY (Enumber) );
+
+create table Project (
+Name VARCHAR2(50),
+City VARCHAR2(50) NOT NULL,
+constraint PK_PROJECT_NAME PRIMARY KEY (Name));
+
+create table Works (
+Dnumber CHAR(12),
+Enumber CHAR(12),
+constraint PK_WORKS_DE PRIMARY KEY (Dnumber, Enumber),
+constraint FK_WORKS_DNUMBER FOREIGN KEY (Dnumber) REFERENCES Dept,
+constraint FK_WORKS_ENUMBER FOREIGN KEY (Enumber) REFERENCES Employee );
+
+create table Works_On (
+Enumber CHAR(12),
+Name VARCHAR2(50) NOT NULL,
+constraint PK_WORKS_ON_ENUMBER PRIMARY KEY (Enumber),
+constraint FK_WORKS_ON_ENUMBER FOREIGN KEY (Enumber) REFERENCES Employee,
+constraint FK_WORKS_ON_NAME FOREIGN KEY (Name) REFERENCES Project );
+
+create table Dependent (
+Dname VARCHAR2(50),
+Enumber CHAR(12),
+constraint PK_DEPENDENT_DE PRIMARY KEY (Dname, Enumber),
+constraint FK_DEPENDENT_ENUMBER FOREIGN KEY (Enumber) REFERENCES Employee
+           on delete cascade );
+
+
+Assumptions
+
+1.  Dept Number and Employee Number in the diagram are different numbers.
+2.  Since 'Number' is a reserved word in Oracle, we can use Dnumber  
+    and Enumber instead in Dept and Employee respectively.
+3.  The 'Number' attributes may contain alphabetic characters but are
+    a fixed size.
+4.  12 places is enough space for the Number type attributes.
+5.  50 places (more than half a line) is enough maximum space for 
+    the Name and City type attributes.
+6.  Non-PK attributes should not be null.
+7.  No distinct table for relationship set Emp_Dep is required.
+8.  Since entity set Employee is not existence dependent on entity set Project,
+    it is preferable to have an explicit table for relationship set Works_On. 
+9. Since Oracle 8i does not support the 'update cascade' foreign key constraint,
+    update cascade actions for Dependent and wherever else desired will have 
+    to be implemented with triggers.
+10. In the other table definitions, the default foreign key operation
+    for delete and update (i.e. no action) is acceptable.
+

@@ -1,0 +1,623 @@
+Provider White has made a deposit of $24 and the new balance is $524
+Provider Brown has made a deposit of $47 and the new balance is $571
+Provider Brown has made a deposit of $44 and the new balance is $615
+Withdrawer Green has withdrawn $506 and the new balance is $109
+
+Amount $240 is not valid!
+You may only withdraw funds up to the current balance of $109
+[Withdrawer Black]
+
+Provider White has made a deposit of $71 and the new balance is $180
+Provider Brown has made a deposit of $5 and the new balance is $185
+Provider White has made a deposit of $48 and the new balance is $233
+Withdrawer Green has withdrawn $93 and the new balance is $140
+Provider Brown has made a deposit of $36 and the new balance is $176
+
+Amount $186 is not valid!
+You may only withdraw funds up to the current balance of $176
+[Withdrawer Black]
+
+Provider White has made a deposit of $75 and the new balance is $251
+Provider White has made a deposit of $70 and the new balance is $321
+Provider Brown has made a deposit of $29 and the new balance is $350
+Withdrawer Green has withdrawn $13 and the new balance is $337
+Provider White has made a deposit of $10 and the new balance is $347
+Withdrawer Black has withdrawn $157 and the new balance is $190
+Provider Brown has made a deposit of $53 and the new balance is $243
+Provider White has made a deposit of $6 and the new balance is $249
+Provider Brown has made a deposit of $7 and the new balance is $256
+Withdrawer Green has withdrawn $151 and the new balance is $105
+Provider Brown has made a deposit of $22 and the new balance is $127
+
+Amount $237 is not valid!
+You may only withdraw funds up to the current balance of $127
+[Withdrawer Black]
+
+Provider White has made a deposit of $80 and the new balance is $207
+Withdrawer Black has withdrawn $70 and the new balance is $137
+Provider White has made a deposit of $28 and the new balance is $165
+Provider Brown has made a deposit of $73 and the new balance is $238
+Withdrawer Green has withdrawn $142 and the new balance is $96
+Provider White has made a deposit of $46 and the new balance is $142
+Provider Brown has made a deposit of $13 and the new balance is $155
+Provider Brown has made a deposit of $16 and the new balance is $171
+Withdrawer Black has withdrawn $8 and the new balance is $163
+Provider White has made a deposit of $13 and the new balance is $176
+Withdrawer Green has withdrawn $5 and the new balance is $171
+Provider White has made a deposit of $91 and the new balance is $262
+Provider Brown has made a deposit of $32 and the new balance is $294
+Withdrawer Black has withdrawn $160 and the new balance is $134
+Provider White has made a deposit of $24 and the new balance is $158
+Provider Brown has made a deposit of $27 and the new balance is $185
+
+Amount $274 is not valid!
+You may only withdraw funds up to the current balance of $185
+[Withdrawer Green]
+
+Provider White has made a deposit of $74 and the new balance is $259
+Provider Brown has made a deposit of $73 and the new balance is $332
+Withdrawer Green has withdrawn $44 and the new balance is $288
+Withdrawer Black has withdrawn $36 and the new balance is $252
+Provider White has made a deposit of $23 and the new balance is $275
+Provider Brown has made a deposit of $31 and the new balance is $306
+Provider White has made a deposit of $1 and the new balance is $307
+Withdrawer Green has withdrawn $206 and the new balance is $101
+Provider White has made a deposit of $7 and the new balance is $108
+Provider Brown has made a deposit of $45 and the new balance is $153
+Provider Brown has made a deposit of $95 and the new balance is $248
+Withdrawer Black has withdrawn $81 and the new balance is $167
+Provider White has made a deposit of $31 and the new balance is $198
+
+Amount $240 is not valid!
+You may only withdraw funds up to the current balance of $198
+[Withdrawer Green]
+
+Provider Brown has made a deposit of $63 and the new balance is $261
+Provider White has made a deposit of $85 and the new balance is $346
+Provider White has made a deposit of $73 and the new balance is $419
+Provider Brown has made a deposit of $60 and the new balance is $479
+Withdrawer Black has withdrawn $225 and the new balance is $254
+Withdrawer Green has withdrawn $164 and the new balance is $90
+Provider Brown has made a deposit of $84 and the new balance is $174
+Withdrawer Green has withdrawn $83 and the new balance is $91
+Provider White has made a deposit of $18 and the new balance is $109
+Provider Brown has made a deposit of $45 and the new balance is $154
+Withdrawer Black has withdrawn $132 and the new balance is $22
+
+Amount $38 is not valid!
+You may only withdraw funds up to the current balance of $22
+[Withdrawer Green]
+
+Provider White has made a deposit of $36 and the new balance is $58
+Provider Brown has made a deposit of $23 and the new balance is $81
+Provider White has made a deposit of $16 and the new balance is $97
+Withdrawer Black has withdrawn $41 and the new balance is $56
+Provider White has made a deposit of $31 and the new balance is $87
+Provider Brown has made a deposit of $57 and the new balance is $144
+Withdrawer Green has withdrawn $2 and the new balance is $142
+Provider Brown has made a deposit of $9 and the new balance is $151
+Provider White has made a deposit of $11 and the new balance is $162
+Withdrawer Black has withdrawn $48 and the new balance is $114
+Provider Brown has made a deposit of $2 and the new balance is $116
+Withdrawer Green has withdrawn $36 and the new balance is $80
+Provider White has made a deposit of $98 and the new balance is $178
+Provider Brown has made a deposit of $1 and the new balance is $179
+Withdrawer Black has withdrawn $92 and the new balance is $87
+Provider White has made a deposit of $52 and the new balance is $139
+Provider Brown has made a deposit of $84 and the new balance is $223
+Withdrawer Green has withdrawn $4 and the new balance is $219
+Provider White has made a deposit of $73 and the new balance is $292
+Withdrawer Black has withdrawn $110 and the new balance is $182
+Provider Brown has made a deposit of $57 and the new balance is $239
+Withdrawer Green has withdrawn $94 and the new balance is $145
+Provider White has made a deposit of $41 and the new balance is $186
+Provider Brown has made a deposit of $40 and the new balance is $226
+Withdrawer Black has withdrawn $137 and the new balance is $89
+Provider White has made a deposit of $40 and the new balance is $129
+Provider Brown has made a deposit of $10 and the new balance is $139
+Withdrawer Green has withdrawn $110 and the new balance is $29
+Provider White has made a deposit of $98 and the new balance is $127
+Withdrawer Black has withdrawn $68 and the new balance is $59
+Provider Brown has made a deposit of $99 and the new balance is $158
+Withdrawer Green has withdrawn $132 and the new balance is $26
+Provider White has made a deposit of $4 and the new balance is $30
+Provider Brown has made a deposit of $81 and the new balance is $111
+Withdrawer Black has withdrawn $100 and the new balance is $11
+Provider Brown has made a deposit of $10 and the new balance is $21
+Withdrawer Green has withdrawn $20 and the new balance is $1
+Provider White has made a deposit of $51 and the new balance is $52
+Provider White has made a deposit of $31 and the new balance is $83
+Provider Brown has made a deposit of $75 and the new balance is $158
+Withdrawer Black has withdrawn $19 and the new balance is $139
+Provider Brown has made a deposit of $81 and the new balance is $220
+Provider White has made a deposit of $66 and the new balance is $286
+Withdrawer Green has withdrawn $5 and the new balance is $281
+Provider Brown has made a deposit of $64 and the new balance is $345
+Withdrawer Black has withdrawn $28 and the new balance is $317
+Provider White has made a deposit of $85 and the new balance is $402
+Provider Brown has made a deposit of $39 and the new balance is $441
+Provider Brown has made a deposit of $41 and the new balance is $482
+Withdrawer Green has withdrawn $366 and the new balance is $116
+Provider White has made a deposit of $63 and the new balance is $179
+Withdrawer Black has withdrawn $86 and the new balance is $93
+Provider Brown has made a deposit of $28 and the new balance is $121
+Provider White has made a deposit of $35 and the new balance is $156
+Withdrawer Black has withdrawn $83 and the new balance is $73
+Provider Brown has made a deposit of $63 and the new balance is $136
+Provider White has made a deposit of $28 and the new balance is $164
+Withdrawer Green has withdrawn $60 and the new balance is $104
+Provider White has made a deposit of $39 and the new balance is $143
+Withdrawer Black has withdrawn $89 and the new balance is $54
+Provider White has made a deposit of $30 and the new balance is $84
+Provider Brown has made a deposit of $96 and the new balance is $180
+Provider Brown has made a deposit of $84 and the new balance is $264
+Provider White has made a deposit of $33 and the new balance is $297
+Withdrawer Green has withdrawn $24 and the new balance is $273
+Withdrawer Black has withdrawn $16 and the new balance is $257
+Provider White has made a deposit of $65 and the new balance is $322
+Provider Brown has made a deposit of $48 and the new balance is $370
+Withdrawer Black has withdrawn $144 and the new balance is $226
+Provider White has made a deposit of $92 and the new balance is $318
+Withdrawer Green has withdrawn $30 and the new balance is $288
+Provider Brown has made a deposit of $28 and the new balance is $316
+Provider White has made a deposit of $46 and the new balance is $362
+Withdrawer Green has withdrawn $288 and the new balance is $74
+Provider Brown has made a deposit of $31 and the new balance is $105
+
+Amount $187 is not valid!
+You may only withdraw funds up to the current balance of $105
+[Withdrawer Black]
+
+Provider White has made a deposit of $33 and the new balance is $138
+Provider White has made a deposit of $18 and the new balance is $156
+Provider Brown has made a deposit of $92 and the new balance is $248
+Provider White has made a deposit of $40 and the new balance is $288
+Withdrawer Green has withdrawn $66 and the new balance is $222
+Provider Brown has made a deposit of $38 and the new balance is $260
+Withdrawer Black has withdrawn $29 and the new balance is $231
+Provider White has made a deposit of $90 and the new balance is $321
+Withdrawer Green has withdrawn $320 and the new balance is $1
+Provider Brown has made a deposit of $83 and the new balance is $84
+Provider White has made a deposit of $3 and the new balance is $87
+
+Amount $135 is not valid!
+You may only withdraw funds up to the current balance of $87
+[Withdrawer Black]
+
+Provider White has made a deposit of $95 and the new balance is $182
+Provider Brown has made a deposit of $4 and the new balance is $186
+Withdrawer Black has withdrawn $12 and the new balance is $174
+Withdrawer Green has withdrawn $45 and the new balance is $129
+Provider Brown has made a deposit of $64 and the new balance is $193
+Provider White has made a deposit of $24 and the new balance is $217
+Withdrawer Black has withdrawn $178 and the new balance is $39
+Provider Brown has made a deposit of $82 and the new balance is $121
+Withdrawer Green has withdrawn $5 and the new balance is $116
+Provider White has made a deposit of $71 and the new balance is $187
+Provider White has made a deposit of $48 and the new balance is $235
+Provider Brown has made a deposit of $80 and the new balance is $315
+Withdrawer Black has withdrawn $108 and the new balance is $207
+Withdrawer Green has withdrawn $163 and the new balance is $44
+Provider White has made a deposit of $61 and the new balance is $105
+Provider Brown has made a deposit of $28 and the new balance is $133
+Provider Brown has made a deposit of $65 and the new balance is $198
+Withdrawer Black has withdrawn $20 and the new balance is $178
+Provider White has made a deposit of $97 and the new balance is $275
+Withdrawer Green has withdrawn $50 and the new balance is $225
+Provider Brown has made a deposit of $32 and the new balance is $257
+Provider White has made a deposit of $52 and the new balance is $309
+Provider Brown has made a deposit of $72 and the new balance is $381
+Withdrawer Black has withdrawn $95 and the new balance is $286
+Withdrawer Green has withdrawn $251 and the new balance is $35
+Provider Brown has made a deposit of $92 and the new balance is $127
+Provider White has made a deposit of $98 and the new balance is $225
+Provider White has made a deposit of $51 and the new balance is $276
+Withdrawer Black has withdrawn $218 and the new balance is $58
+Provider Brown has made a deposit of $33 and the new balance is $91
+Withdrawer Green has withdrawn $74 and the new balance is $17
+Provider Brown has made a deposit of $80 and the new balance is $97
+Provider White has made a deposit of $21 and the new balance is $118
+Withdrawer Black has withdrawn $97 and the new balance is $21
+Provider Brown has made a deposit of $21 and the new balance is $42
+Provider White has made a deposit of $36 and the new balance is $78
+Withdrawer Green has withdrawn $73 and the new balance is $5
+Provider Brown has made a deposit of $17 and the new balance is $22
+Provider White has made a deposit of $23 and the new balance is $45
+Withdrawer Black has withdrawn $4 and the new balance is $41
+Provider White has made a deposit of $61 and the new balance is $102
+Withdrawer Green has withdrawn $4 and the new balance is $98
+Provider Brown has made a deposit of $72 and the new balance is $170
+Provider Brown has made a deposit of $68 and the new balance is $238
+Withdrawer Black has withdrawn $30 and the new balance is $208
+Provider White has made a deposit of $73 and the new balance is $281
+Withdrawer Green has withdrawn $39 and the new balance is $242
+Provider Brown has made a deposit of $16 and the new balance is $258
+Provider White has made a deposit of $22 and the new balance is $280
+Withdrawer Green has withdrawn $31 and the new balance is $249
+Provider Brown has made a deposit of $74 and the new balance is $323
+Withdrawer Black has withdrawn $69 and the new balance is $254
+Provider White has made a deposit of $13 and the new balance is $267
+Withdrawer Green has withdrawn $46 and the new balance is $221
+Provider White has made a deposit of $63 and the new balance is $284
+Provider Brown has made a deposit of $39 and the new balance is $323
+Provider White has made a deposit of $81 and the new balance is $404
+Provider Brown has made a deposit of $46 and the new balance is $450
+Withdrawer Black has withdrawn $296 and the new balance is $154
+
+Amount $389 is not valid!
+You may only withdraw funds up to the current balance of $154
+[Withdrawer Green]
+
+Provider White has made a deposit of $73 and the new balance is $227
+Provider Brown has made a deposit of $29 and the new balance is $256
+Provider White has made a deposit of $21 and the new balance is $277
+Withdrawer Black has withdrawn $128 and the new balance is $149
+Withdrawer Green has withdrawn $129 and the new balance is $20
+Provider Brown has made a deposit of $17 and the new balance is $37
+Provider Brown has made a deposit of $28 and the new balance is $65
+Provider White has made a deposit of $36 and the new balance is $101
+Withdrawer Black has withdrawn $8 and the new balance is $93
+Withdrawer Green has withdrawn $28 and the new balance is $65
+Provider Brown has made a deposit of $35 and the new balance is $100
+Provider Brown has made a deposit of $89 and the new balance is $189
+Withdrawer Green has withdrawn $55 and the new balance is $134
+Provider White has made a deposit of $15 and the new balance is $149
+Provider White has made a deposit of $51 and the new balance is $200
+Withdrawer Black has withdrawn $185 and the new balance is $15
+Provider Brown has made a deposit of $29 and the new balance is $44
+Provider White has made a deposit of $74 and the new balance is $118
+Withdrawer Green has withdrawn $10 and the new balance is $108
+Withdrawer Black has withdrawn $14 and the new balance is $94
+Provider Brown has made a deposit of $83 and the new balance is $177
+Provider White has made a deposit of $33 and the new balance is $210
+Provider Brown has made a deposit of $12 and the new balance is $222
+Withdrawer Green has withdrawn $34 and the new balance is $188
+Provider Brown has made a deposit of $75 and the new balance is $263
+Provider White has made a deposit of $81 and the new balance is $344
+Withdrawer Black has withdrawn $132 and the new balance is $212
+Provider Brown has made a deposit of $58 and the new balance is $270
+Provider White has made a deposit of $59 and the new balance is $329
+Withdrawer Green has withdrawn $116 and the new balance is $213
+
+Amount $283 is not valid!
+You may only withdraw funds up to the current balance of $213
+[Withdrawer Black]
+
+Provider White has made a deposit of $43 and the new balance is $256
+Provider Brown has made a deposit of $41 and the new balance is $297
+Withdrawer Green has withdrawn $204 and the new balance is $93
+Provider White has made a deposit of $30 and the new balance is $123
+Provider Brown has made a deposit of $75 and the new balance is $198
+Withdrawer Black has withdrawn $149 and the new balance is $49
+Provider White has made a deposit of $23 and the new balance is $72
+
+Amount $198 is not valid!
+You may only withdraw funds up to the current balance of $72
+[Withdrawer Green]
+
+Provider Brown has made a deposit of $84 and the new balance is $156
+Provider Brown has made a deposit of $3 and the new balance is $159
+Provider White has made a deposit of $95 and the new balance is $254
+Provider Brown has made a deposit of $84 and the new balance is $338
+Withdrawer Black has withdrawn $103 and the new balance is $235
+Withdrawer Green has withdrawn $88 and the new balance is $147
+Provider White has made a deposit of $30 and the new balance is $177
+Provider Brown has made a deposit of $88 and the new balance is $265
+Provider White has made a deposit of $60 and the new balance is $325
+Withdrawer Black has withdrawn $119 and the new balance is $206
+Withdrawer Green has withdrawn $171 and the new balance is $35
+Provider Brown has made a deposit of $26 and the new balance is $61
+Provider White has made a deposit of $96 and the new balance is $157
+Provider Brown has made a deposit of $76 and the new balance is $233
+Provider White has made a deposit of $87 and the new balance is $320
+Withdrawer Black has withdrawn $18 and the new balance is $302
+Withdrawer Green has withdrawn $109 and the new balance is $193
+Provider White has made a deposit of $99 and the new balance is $292
+Provider Brown has made a deposit of $42 and the new balance is $334
+Withdrawer Black has withdrawn $188 and the new balance is $146
+
+Amount $292 is not valid!
+You may only withdraw funds up to the current balance of $146
+[Withdrawer Green]
+
+Provider White has made a deposit of $15 and the new balance is $161
+Provider Brown has made a deposit of $9 and the new balance is $170
+Provider White has made a deposit of $23 and the new balance is $193
+Provider Brown has made a deposit of $98 and the new balance is $291
+Withdrawer Green has withdrawn $165 and the new balance is $126
+Withdrawer Black has withdrawn $20 and the new balance is $106
+Provider Brown has made a deposit of $48 and the new balance is $154
+Provider White has made a deposit of $3 and the new balance is $157
+Provider Brown has made a deposit of $66 and the new balance is $223
+Withdrawer Black has withdrawn $141 and the new balance is $82
+Provider White has made a deposit of $38 and the new balance is $120
+Withdrawer Green has withdrawn $3 and the new balance is $117
+Provider Brown has made a deposit of $63 and the new balance is $180
+Provider White has made a deposit of $53 and the new balance is $233
+Withdrawer Green has withdrawn $163 and the new balance is $70
+Provider Brown has made a deposit of $38 and the new balance is $108
+
+Amount $124 is not valid!
+You may only withdraw funds up to the current balance of $108
+[Withdrawer Black]
+
+Provider White has made a deposit of $98 and the new balance is $206
+Provider Brown has made a deposit of $96 and the new balance is $302
+Withdrawer Green has withdrawn $27 and the new balance is $275
+Provider White has made a deposit of $10 and the new balance is $285
+Withdrawer Black has withdrawn $112 and the new balance is $173
+Provider Brown has made a deposit of $28 and the new balance is $201
+Provider White has made a deposit of $81 and the new balance is $282
+Provider Brown has made a deposit of $19 and the new balance is $301
+Withdrawer Green has withdrawn $76 and the new balance is $225
+Provider White has made a deposit of $38 and the new balance is $263
+Withdrawer Black has withdrawn $20 and the new balance is $243
+Provider Brown has made a deposit of $72 and the new balance is $315
+Provider Brown has made a deposit of $19 and the new balance is $334
+Withdrawer Black has withdrawn $220 and the new balance is $114
+
+Amount $260 is not valid!
+You may only withdraw funds up to the current balance of $114
+[Withdrawer Green]
+
+Provider White has made a deposit of $84 and the new balance is $198
+Provider Brown has made a deposit of $10 and the new balance is $208
+Provider Brown has made a deposit of $22 and the new balance is $230
+Provider White has made a deposit of $40 and the new balance is $270
+Withdrawer Black has withdrawn $112 and the new balance is $158
+
+Amount $188 is not valid!
+You may only withdraw funds up to the current balance of $158
+[Withdrawer Green]
+
+Provider Brown has made a deposit of $22 and the new balance is $180
+Provider White has made a deposit of $88 and the new balance is $268
+Provider White has made a deposit of $96 and the new balance is $364
+Provider Brown has made a deposit of $78 and the new balance is $442
+Withdrawer Green has withdrawn $1 and the new balance is $441
+Provider White has made a deposit of $75 and the new balance is $516
+Withdrawer Black has withdrawn $332 and the new balance is $184
+Provider Brown has made a deposit of $78 and the new balance is $262
+Provider White has made a deposit of $68 and the new balance is $330
+Withdrawer Green has withdrawn $209 and the new balance is $121
+Provider White has made a deposit of $64 and the new balance is $185
+Withdrawer Black has withdrawn $143 and the new balance is $42
+Provider Brown has made a deposit of $33 and the new balance is $75
+Provider Brown has made a deposit of $21 and the new balance is $96
+Withdrawer Black has withdrawn $44 and the new balance is $52
+Provider Brown has made a deposit of $32 and the new balance is $84
+Provider White has made a deposit of $20 and the new balance is $104
+Withdrawer Green has withdrawn $71 and the new balance is $33
+Provider White has made a deposit of $51 and the new balance is $84
+Provider White has made a deposit of $30 and the new balance is $114
+Provider Brown has made a deposit of $76 and the new balance is $190
+Withdrawer Black has withdrawn $75 and the new balance is $115
+Provider White has made a deposit of $14 and the new balance is $129
+Withdrawer Green has withdrawn $24 and the new balance is $105
+Provider White has made a deposit of $67 and the new balance is $172
+Withdrawer Black has withdrawn $38 and the new balance is $134
+Provider Brown has made a deposit of $74 and the new balance is $208
+Withdrawer Green has withdrawn $87 and the new balance is $121
+Provider White has made a deposit of $8 and the new balance is $129
+Provider Brown has made a deposit of $93 and the new balance is $222
+Provider Brown has made a deposit of $64 and the new balance is $286
+Withdrawer Black has withdrawn $75 and the new balance is $211
+Provider Brown has made a deposit of $83 and the new balance is $294
+Provider White has made a deposit of $66 and the new balance is $360
+Withdrawer Green has withdrawn $155 and the new balance is $205
+
+Amount $281 is not valid!
+You may only withdraw funds up to the current balance of $205
+[Withdrawer Black]
+
+Provider Brown has made a deposit of $35 and the new balance is $240
+Provider White has made a deposit of $32 and the new balance is $272
+Withdrawer Green has withdrawn $134 and the new balance is $138
+Provider Brown has made a deposit of $28 and the new balance is $166
+Provider White has made a deposit of $44 and the new balance is $210
+Provider White has made a deposit of $97 and the new balance is $307
+Withdrawer Black has withdrawn $133 and the new balance is $174
+Provider Brown has made a deposit of $68 and the new balance is $242
+Withdrawer Green has withdrawn $53 and the new balance is $189
+Provider White has made a deposit of $16 and the new balance is $205
+Provider Brown has made a deposit of $76 and the new balance is $281
+Provider White has made a deposit of $65 and the new balance is $346
+Withdrawer Green has withdrawn $278 and the new balance is $68
+
+Amount $196 is not valid!
+You may only withdraw funds up to the current balance of $68
+[Withdrawer Black]
+
+Provider Brown has made a deposit of $54 and the new balance is $122
+Provider White has made a deposit of $68 and the new balance is $190
+Provider Brown has made a deposit of $32 and the new balance is $222
+Provider White has made a deposit of $76 and the new balance is $298
+Provider Brown has made a deposit of $12 and the new balance is $310
+Withdrawer Green has withdrawn $33 and the new balance is $277
+Provider Brown has made a deposit of $47 and the new balance is $324
+Withdrawer Black has withdrawn $160 and the new balance is $164
+Provider White has made a deposit of $99 and the new balance is $263
+Provider Brown has made a deposit of $91 and the new balance is $354
+Provider White has made a deposit of $42 and the new balance is $396
+Withdrawer Green has withdrawn $26 and the new balance is $370
+Provider Brown has made a deposit of $52 and the new balance is $422
+Withdrawer Black has withdrawn $114 and the new balance is $308
+Provider Brown has made a deposit of $74 and the new balance is $382
+Provider White has made a deposit of $36 and the new balance is $418
+Withdrawer Green has withdrawn $256 and the new balance is $162
+Provider Brown has made a deposit of $97 and the new balance is $259
+Provider Brown has made a deposit of $4 and the new balance is $263
+Provider White has made a deposit of $21 and the new balance is $284
+Withdrawer Black has withdrawn $57 and the new balance is $227
+Provider White has made a deposit of $75 and the new balance is $302
+Provider Brown has made a deposit of $91 and the new balance is $393
+Withdrawer Black has withdrawn $225 and the new balance is $168
+Withdrawer Green has withdrawn $97 and the new balance is $71
+Provider Brown has made a deposit of $11 and the new balance is $82
+Provider White has made a deposit of $97 and the new balance is $179
+Provider Brown has made a deposit of $92 and the new balance is $271
+Provider White has made a deposit of $5 and the new balance is $276
+Withdrawer Black has withdrawn $52 and the new balance is $224
+Withdrawer Green has withdrawn $99 and the new balance is $125
+Provider White has made a deposit of $38 and the new balance is $163
+Provider Brown has made a deposit of $90 and the new balance is $253
+Provider Brown has made a deposit of $92 and the new balance is $345
+Provider White has made a deposit of $76 and the new balance is $421
+Withdrawer Black has withdrawn $116 and the new balance is $305
+Withdrawer Green has withdrawn $136 and the new balance is $169
+Provider Brown has made a deposit of $68 and the new balance is $237
+Provider White has made a deposit of $79 and the new balance is $316
+Withdrawer Black has withdrawn $121 and the new balance is $195
+Provider White has made a deposit of $4 and the new balance is $199
+Withdrawer Green has withdrawn $88 and the new balance is $111
+Provider Brown has made a deposit of $44 and the new balance is $155
+Provider White has made a deposit of $48 and the new balance is $203
+Provider White has made a deposit of $38 and the new balance is $241
+Provider Brown has made a deposit of $95 and the new balance is $336
+Withdrawer Black has withdrawn $159 and the new balance is $177
+Withdrawer Green has withdrawn $69 and the new balance is $108
+Provider White has made a deposit of $35 and the new balance is $143
+Provider Brown has made a deposit of $50 and the new balance is $193
+Withdrawer Green has withdrawn $27 and the new balance is $166
+Provider Brown has made a deposit of $91 and the new balance is $257
+Withdrawer Black has withdrawn $177 and the new balance is $80
+Provider White has made a deposit of $76 and the new balance is $156
+Provider White has made a deposit of $54 and the new balance is $210
+Provider Brown has made a deposit of $79 and the new balance is $289
+Withdrawer Black has withdrawn $40 and the new balance is $249
+Withdrawer Green has withdrawn $89 and the new balance is $160
+Provider White has made a deposit of $100 and the new balance is $260
+Provider Brown has made a deposit of $24 and the new balance is $284
+Provider White has made a deposit of $2 and the new balance is $286
+Withdrawer Black has withdrawn $198 and the new balance is $88
+Provider Brown has made a deposit of $11 and the new balance is $99
+
+Amount $101 is not valid!
+You may only withdraw funds up to the current balance of $99
+[Withdrawer Green]
+
+Provider White has made a deposit of $21 and the new balance is $120
+Withdrawer Black has withdrawn $7 and the new balance is $113
+Provider Brown has made a deposit of $85 and the new balance is $198
+Provider White has made a deposit of $64 and the new balance is $262
+Provider Brown has made a deposit of $93 and the new balance is $355
+Withdrawer Green has withdrawn $113 and the new balance is $242
+Provider White has made a deposit of $68 and the new balance is $310
+Provider Brown has made a deposit of $93 and the new balance is $403
+Withdrawer Black has withdrawn $249 and the new balance is $154
+Provider White has made a deposit of $21 and the new balance is $175
+Provider Brown has made a deposit of $27 and the new balance is $202
+Provider Brown has made a deposit of $46 and the new balance is $248
+Provider White has made a deposit of $72 and the new balance is $320
+Withdrawer Green has withdrawn $141 and the new balance is $179
+Withdrawer Black has withdrawn $100 and the new balance is $79
+Provider White has made a deposit of $14 and the new balance is $93
+Provider Brown has made a deposit of $53 and the new balance is $146
+Provider White has made a deposit of $17 and the new balance is $163
+Withdrawer Green has withdrawn $43 and the new balance is $120
+Provider White has made a deposit of $67 and the new balance is $187
+Withdrawer Black has withdrawn $90 and the new balance is $97
+Provider Brown has made a deposit of $56 and the new balance is $153
+Withdrawer Green has withdrawn $95 and the new balance is $58
+Withdrawer Black has withdrawn $53 and the new balance is $5
+Provider White has made a deposit of $42 and the new balance is $47
+Provider Brown has made a deposit of $86 and the new balance is $133
+Withdrawer Green has withdrawn $22 and the new balance is $111
+Provider White has made a deposit of $60 and the new balance is $171
+Provider Brown has made a deposit of $63 and the new balance is $234
+Withdrawer Black has withdrawn $85 and the new balance is $149
+Withdrawer Green has withdrawn $70 and the new balance is $79
+Provider White has made a deposit of $55 and the new balance is $134
+Provider Brown has made a deposit of $42 and the new balance is $176
+Withdrawer Black has withdrawn $91 and the new balance is $85
+Provider Brown has made a deposit of $71 and the new balance is $156
+Provider White has made a deposit of $59 and the new balance is $215
+Withdrawer Green has withdrawn $27 and the new balance is $188
+Provider Brown has made a deposit of $85 and the new balance is $273
+Provider Brown has made a deposit of $81 and the new balance is $354
+Withdrawer Black has withdrawn $30 and the new balance is $324
+Provider White has made a deposit of $67 and the new balance is $391
+Provider Brown has made a deposit of $77 and the new balance is $468
+Withdrawer Green has withdrawn $69 and the new balance is $399
+Provider White has made a deposit of $3 and the new balance is $402
+Provider Brown has made a deposit of $56 and the new balance is $458
+Provider White has made a deposit of $46 and the new balance is $504
+Withdrawer Black has withdrawn $169 and the new balance is $335
+Provider White has made a deposit of $26 and the new balance is $361
+Provider Brown has made a deposit of $41 and the new balance is $402
+Withdrawer Green has withdrawn $106 and the new balance is $296
+Provider White has made a deposit of $80 and the new balance is $376
+Provider Brown has made a deposit of $29 and the new balance is $405
+Provider White has made a deposit of $87 and the new balance is $492
+Withdrawer Black has withdrawn $314 and the new balance is $178
+Provider Brown has made a deposit of $42 and the new balance is $220
+Withdrawer Green has withdrawn $110 and the new balance is $110
+Provider White has made a deposit of $90 and the new balance is $200
+Provider Brown has made a deposit of $5 and the new balance is $205
+Withdrawer Black has withdrawn $109 and the new balance is $96
+
+Amount $195 is not valid!
+You may only withdraw funds up to the current balance of $96
+[Withdrawer Green]
+
+Provider White has made a deposit of $56 and the new balance is $152
+Provider Brown has made a deposit of $62 and the new balance is $214
+Withdrawer Black has withdrawn $64 and the new balance is $150
+Provider Brown has made a deposit of $84 and the new balance is $234
+Provider White has made a deposit of $7 and the new balance is $241
+Provider Brown has made a deposit of $76 and the new balance is $317
+Withdrawer Green has withdrawn $34 and the new balance is $283
+Provider White has made a deposit of $6 and the new balance is $289
+Provider Brown has made a deposit of $24 and the new balance is $313
+Withdrawer Black has withdrawn $196 and the new balance is $117
+Provider Brown has made a deposit of $83 and the new balance is $200
+Provider White has made a deposit of $63 and the new balance is $263
+Withdrawer Green has withdrawn $92 and the new balance is $171
+Provider White has made a deposit of $18 and the new balance is $189
+Withdrawer Black has withdrawn $6 and the new balance is $183
+Provider Brown has made a deposit of $58 and the new balance is $241
+Provider White has made a deposit of $75 and the new balance is $316
+Withdrawer Green has withdrawn $93 and the new balance is $223
+Provider Brown has made a deposit of $13 and the new balance is $236
+
+Amount $292 is not valid!
+You may only withdraw funds up to the current balance of $236
+[Withdrawer Black]
+
+Provider White has made a deposit of $93 and the new balance is $329
+Provider White has made a deposit of $79 and the new balance is $408
+Provider Brown has made a deposit of $24 and the new balance is $432
+Provider White has made a deposit of $89 and the new balance is $521
+Withdrawer Black has withdrawn $63 and the new balance is $458
+Withdrawer Green has withdrawn $221 and the new balance is $237
+Provider Brown has made a deposit of $74 and the new balance is $311
+Provider White has made a deposit of $10 and the new balance is $321
+Withdrawer Black has withdrawn $311 and the new balance is $10
+Provider Brown has made a deposit of $85 and the new balance is $95
+Provider Brown has made a deposit of $82 and the new balance is $177
+Withdrawer Green has withdrawn $173 and the new balance is $4
+
+Amount $39 is not valid!
+You may only withdraw funds up to the current balance of $4
+[Withdrawer Black]
+
+Provider White has made a deposit of $92 and the new balance is $96
+Provider Brown has made a deposit of $79 and the new balance is $175
+Provider White has made a deposit of $76 and the new balance is $251
+Provider Brown has made a deposit of $58 and the new balance is $309
+Withdrawer Green has withdrawn $30 and the new balance is $279
+Provider White has made a deposit of $85 and the new balance is $364
+Withdrawer Black has withdrawn $6 and the new balance is $358
+Provider Brown has made a deposit of $42 and the new balance is $400
+Provider Brown has made a deposit of $58 and the new balance is $458
+Withdrawer Green has withdrawn $155 and the new balance is $303
+Provider White has made a deposit of $11 and the new balance is $314
+Provider White has made a deposit of $40 and the new balance is $354
+Provider Brown has made a deposit of $19 and the new balance is $373
+Withdrawer Black has withdrawn $76 and the new balance is $297
+Withdrawer Green has withdrawn $197 and the new balance is $100
+Provider White has made a deposit of $26 and the new balance is $126
+Provider Brown has made a deposit of $36 and the new balance is $162
+Provider White has made a deposit of $8 and the new balance is $170
+Provider Brown has made a deposit of $89 and the new balance is $259
+Withdrawer Black has withdrawn $11 and the new balance is $248

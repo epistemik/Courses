@@ -1,0 +1,167 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+16 0 29 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE 
+"Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 
+0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" 
+-1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 
+0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 454 "# TRAPEZOIDAL WITH NEWTON ITERATIO
+N ALGORITHM 5.8\n#\n# TO APPROXIMATE THE SOLUTION OF THE INITIAL VALUE
+ PROBLEM:\n#            Y' = F(T,Y), A <= T <= B, Y(A) = ALPHA,\n# AT \+
+(N+1) EQUALLY SPACED NUMBERS IN THE INTERVAL [A,B].\n#\n# INPUT:   END
+POINTS A,B; INITIAL CONDITION ALPHA; INTEGER N;\n#          TOLERANCE \+
+TOL; MAXIMUM NUMBER OF ITERATIONS M AT ANY ONE STEP.\n#\n# OUTPUT:  AP
+PROXIMATION W TO Y AT THE (N+1) VALUES OF T\n#          OR A MESSAGE O
+F FAILURE." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 106 "alg058 := proc() loc
+al F, FYP, OK, A, B, ALPHA, N, TOL, M, FLAG, NAME, OUP, W, T, H, I, XK
+1, W0, J, IFLAG;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`This is
+ the Implicit Trapezoidal Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 58 "printf(`Input the function F(t,y) in terms of t and y\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`For example: y-t^2+1`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 17 "FYP := diff(F,y);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "F := unapply(F,t,y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 24 "FYP := unapply(FYP,t,y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "O
+K := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "while  OK = FALSE do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input left and right en
+dpoints separated by blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "A := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "B := sc
+anf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if A >= B then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Left endpoint must be less \+
+than right endpoint.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`Input the initial condition.\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 67 "printf(`Input a positive integer for the number of subintervals.
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if N <= 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 47 "printf(`Number must be a postiive integer.\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "
+OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`Input tolerance.\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 40 "printf(`Tolerance must be positive.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "
+OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`Input maximum number of
+ iterations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "M := scanf(`%
+f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if M > 0 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`Num
+ber of iterations must be positive.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`For exampl
+e   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME \+
+:= scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(
+NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "fprintf(OUP,
+ `IMPLICIT TRAPEZOIDAL METHOD USING NEWTONS METHOD\\n\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 42 "fprintf(OUP, `    t           w #iter\\n`
+);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "W := ALPHA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "T :=
+ A;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "H := (B-A)/N;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 41 "fprintf(OUP, `%5.3f %11.8f   0\\n`, T, W);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "while I <= N and OK = TRUE do" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "XK1 := W+0.5*H*F(T, W);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "W0 :
+= XK1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "J := 1;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 11 "IFLAG := 0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "while IFLAG = 0 and OK = TRUE d
+o" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 57 "W := W0-(W0-XK1-0.5*H*F(T+H, W0))/(1-0.5*H*FYP(T+H, W0));" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "if abs(W-W0) < TOL then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "IFLA
+G := 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "T := A+I*H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fpr
+intf(OUP,`%5.3f %11.8f %3d\\n`, T, W, J);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "J := J+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "W0 := W;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if J > \+
+M then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALS
+E then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "fprintf(OUP, `Maximum Num
+ber of Iterations Exceeded\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Out
+put file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "en
+d;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg058G:6\"66%\"FG%$FYPG%#OKG
+%\"AG%\"BG%&ALPHAG%\"NG%$TOLG%\"MG%%FLAGG%%NAMEG%$OUPG%\"WG%\"TG%\"HG%
+\"IG%$XK1G%#W0G%\"JG%&IFLAGGF&F&C5-%'printfG6#%JThis~is~the~Implicit~T
+rapezoidal~Method.|+G-F>6#%OInput~the~function~F(t,y)~in~terms~of~t~an
+d~y|+G-F>6#%5For~example:~y-t^2+1G>8$&-%&scanfG6#%#%aG6#\"\"\">8%-%%di
+ffG6$FH%\"yG>FH-%(unapplyG6%FH%\"tGFU>FQ-FX6%FQFZFU>8&%&FALSEG?(F&FOFO
+F&/FinFjnC&-F>6#%TInput~left~and~right~endpoints~separated~by~blank.|+
+G>8'&-FK6#%#%fGFN>8(Fco@%1FhoFbo-F>6#%QLeft~endpoint~must~be~less~than
+~right~endpoint.|+G>Fin%%TRUEG-F>6#%>Input~the~initial~condition.|+G>8
+)Fco>FinFjn?(F&FOFOF&F\\oC%-F>6#%YInput~a~positive~integer~for~the~num
+ber~of~subintervals.G>8*&-FK6#%#%dGFN@%1F\\q\"\"!-F>6#%DNumber~must~be
+~a~postiive~integer.|+G>FinF_p>FinFjn?(F&FOFOF&F\\oC%-F>6#%2Input~tole
+rance.|+G>8+Fco@%1F_rFcq-F>6#%=Tolerance~must~be~positive.|+G>FinF_p>F
+inFjn?(F&FOFOF&F\\oC%-F>6#%EInput~maximum~number~of~iterations.|+G>8,F
+co@%2FcqF]s>FinF_p-F>6#%HNumber~of~iterations~must~be~positive.|+G@$/F
+inF_pC3-F>6#%:Choice~of~output~method:|+G-F>6#%51.~Output~to~screen|+G
+-F>6#%82.~Output~to~text~file|+G-F>6#%5Please~enter~1~or~2|+G>8-F]q@%/
+Fdt\"\"#C&-F>6#%SInput~the~file~name~in~the~form~-~drive:\\name.ext|+G
+-F>6#%=For~example~~~A:\\OUTPUT.DTA|+G>8.&-FK6#%#%sGFN>8/-%&fopenG6%F`
+u%&WRITEG%%TEXTG>Ffu%(defaultG-%(fprintfG6$Ffu%SIMPLICIT~TRAPEZOIDAL~M
+ETHOD~USING~NEWTONS~METHOD|+|+G-F_v6$Ffu%9~~~~t~~~~~~~~~~~w~#iter|+G>8
+0Fdp>81Fbo>82*&,&FhoFOFbo!\"\"FOF\\qF]w-F_v6&Ffu%2%5.3f~%11.8f~~~0|+GF
+hvFfv>83FO>FinF_p?(F&FOFOF&31FbwF\\qFesC'>84,&FfvFO*&FjvFO-FH6$FhvFfvF
+O$\"\"&F]w>85Fiw>86FO>87Fcq?(F&FOFOF&3/FexFcqFesC$>Ffv,&FaxFO*&,(FaxFO
+FiwF]w*&FjvFO-FH6$,&FhvFOFjvFOFaxFO$!\"&F]wFO,&FOFO*&FjvFO-FQF`yFOFbyF
+]wF]w@%2-%$absG6#,&FfvFOFaxF]wF_rC&>FexFO>Fhv,&FboFO*&FbwFOFjvFOFO-F_v
+6'Ffu%2%5.3f~%11.8f~%3d|+GFhvFfvFcx>Fbw,&FbwFOFOFOC%>Fcx,&FcxFOFOFO>Fa
+xFfv@$2F]sFcx>FinFjn@$F\\o-F_v6$Ffu%GMaximum~Number~of~Iterations~Exce
+eded|+G@$0FfuF]vC$-%'fcloseG6#Ffu-F>6$%COutput~file~%s~created~sucessf
+ullyGF`u-%'RETURNG6#FcqF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "alg058();" }}{PARA 6 "" 1 "" {TEXT -1 107 "This is the Implicit Tra
+pezoidal Method.\nInput the function F(t,y) in terms of t and y\nFor e
+xample: y-t^2+1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "5*exp(5*
+t)*(y-t)^2+1" }}{PARA 6 "" 1 "" {TEXT -1 50 "Input left and right endp
+oints separated by blank." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 
+"0 1" }}{PARA 6 "" 1 "" {TEXT -1 28 "Input the initial condition." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "-1" }}{PARA 6 "" 1 "" {TEXT 
+-1 56 "Input a positive integer for the number of subintervals." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "5" }}{PARA 6 "" 1 "" {TEXT 
+-1 16 "Input tolerance." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 7 ".
+000001" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input maximum number of iterati
+ons." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "10" }}{PARA 6 "" 1 "
+" {TEXT -1 87 "Choice of output method:\n1. Output to screen\n2. Outpu
+t to text file\nPlease enter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 204 "IMPLICIT TRAPEZOIDA
+L METHOD USING NEWTONS METHOD\n\n    t           w #iter\n0.000 -1.000
+00000   0\n .200 -.14149685   4\n .400   .27486139   5\n .600   .55398
+284   5\n .800   .78307196   6\n1.000   .99377255   7" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 
+"" }}}}{MARK "10 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

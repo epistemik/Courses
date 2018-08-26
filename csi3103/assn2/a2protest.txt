@@ -1,0 +1,10 @@
+
+Prof. White,
+
+	Re Assn.2:
+
+Q2: You said in class, in response to a student's question, that it was up to us whether we considered the message string with the leading zeroes retained or dropped.  This question was posed right after you had explained in which direction to count to obtain the 7th bit.  Thus, we needed to know the answer to question of the leading zeroes obviously, as it makes a difference to which is the 7th bit if you include the leading zeroes or not.  It seemed a bit strange to change the message, but the polynomial interpretation of the calculation seemed to support this procedure, and you're the professor - so you should know whether or not this can be done.  I accept your declaration now that dropping the leading zeroes cannot be done, and that you never would have said such a thing in class if you had properly understood what was being asked.  However, you did say that it was entirely our own choice to retain the zeroes or not when doing this question, so I cannot see why I should lose any marks when I was following your directions, and all the other calculations are perfectly correct.
+
+Q3: All of these answers are checked and seem to be correct, but I do not seem to have been given any marks for them?
+
+Q4: I guess this question is marked incorrect because you could interpret my (admittedly confusing) indication that the I-frame in T(x) should be 01001111111, as meaning that the entire transmitted message should be 01001111111.  However, I think that I showed the proper removal of the bit stuffing, judging from the posted answer, so it seems rather picky to remove marks when I have indicated all the proper fields without the extra bits.

@@ -1,0 +1,214 @@
+'( ( person Jack  ( married Jill ) )
+   ( person Jim   ( single ) )
+   ( person Jerry ( alimony 800 ) )
+ )
+
+
+( cons 'alpha '( beta ) )
+
+( symbol? 'alpha )
+
+( symbol? '( alpha ) )
+
+( symbol? alpha )
+
+( null? 'alpha )
+
+( null? () )
+
+( cdr ( cons 'x '( y z ) ) )
+
+( cons 'x ( cdr '( y z ) ) )
+
+( define ( addOne x )
+  ( + x 1 )
+)
+
+( addOne 10 )
+
+( addOne ( addOne 15 ) )
+
+( define ( conj x y )
+  ( if x y #f )
+)
+
+( conj ( symbol? '(a) )  ( eq? 'a 'a ) )
+
+( define ( disj x y )
+  ( if x #t y )
+)
+
+( disj ( symbol? '(a) )  ( eq? 'a 'a ) )
+
+( eq? 'a 'a )
+
+( eq? 'a 'b )
+
+( eq? '( a ) '( a ) )
+
+; remember that this is NOT a complete solution...
+
+( define ( eqExpr? x y )
+  ( if  ( symbol? x )
+        ( if  ( symbol? y )
+              ( eq? x y )
+              #f
+        )
+        ( if  ( null? x )
+              ( null? y )
+              ( if  ( eqExpr? ( car x )
+                              ( car y ) )
+                    ( eqExpr? ( cdr x )
+                              ( cdr y ) )
+                    #f
+)  )    )     )
+
+( eqExpr?  '( a b ( c d ) )
+             '( a b ( c d ) )  )
+
+( eqExpr?  '( a b ( c d ) )
+             '( a b ( c d e) )  )
+
+( define ( eqExpr? x y )
+           ; the same as built-in "equal?"
+  ( cond
+    ( ( symbol? x )  ( eq? x y ) )
+    ( ( null? x )  ( null? y ) )
+    ( ( eqExpr? ( car x ) ( car y ) )
+      ( eqExpr? ( cdr x ) ( cdr y ) ) )
+    ( else  #f )
+) )
+
+
+( define ( member? K L )
+  ( cond
+    ( (null? L )  #f )
+    ( ( eqExpr? K ( car L ) )  #t )
+    ( else  ( member? K ( cdr L ) ) )
+) )
+
+( member? 'aa '( bb cc aa ee rr tt ) )
+
+
+( member? 'aa '( bb cc (aa) ee rr tt ) )
+
+
+( define ( append L1 L2 )    ; built-in!
+  (if  ( null? L1 )
+       L2
+       ( cons ( car L1 )
+              ( append ( cdr L1 ) L2 ) )
+) )
+
+( append '( ab bc cd )
+           '( de ef fg gh ) )
+
+
+(define pi 3.14159)
+(set! pi 3.141592)
+(set! pi 'alpha)
+(quote pi)
+'pi
+(* 2.0 pi)
+(* 2.0 'pi)
+('* 2.0 'pi)
+(write 'pi)
+(write pi)
+
+
+(define (square x)(* x x))
+
+(define square (lambda (x)(* x x)))
+
+(define (same_neighbours? l)
+  (cond
+    ((null? l) #f)
+    ((null? (cdr l)) #f)
+    ((equal? (car l)(cadr l)) #t)
+    (else
+       (same_neighbours? (cdr l)))
+) )
+
+
+(define (empty? stack)
+   (null? stack)
+)
+
+(define (push elem stack)
+   (cons elem stack)
+)
+
+(define (pop stack)
+   (if (empty? stack)
+       stack
+       (cdr stack)
+)
+
+(define (top stack)
+   (if (empty? stack)
+       ()
+       (car stack)
+)
+
+
+(define (minl l)
+  (if (null? l)
+      l
+      (minl-aux (car l)(cdr l))
+) )
+
+(define (minl-aux elt lst)
+  (cond
+   ((null? lst) elt)
+   ((> elt (car lst))
+    (minl-aux (car lst)(cdr lst)))
+   (else (minl-aux elt (cdr lst)))
+) )
+
+
+(define (minl-aux elt lst)
+   (if (null? lst)
+       elt
+       (let
+          ((carl (car lst))
+           (cdrl (cdr lst)))
+          (if
+            (> elt carl)
+            (minl-aux carl cdrl)
+            (minl-aux elt cdrl)
+)  )   )  )
+
+
+
+(define (map f l)
+  (if (null? l)
+      l
+      (cons (f (car l))
+            (map f (cdr l)))
+) )
+
+(map (lambda(x) (+ x 1)) '(1 2 3))
+
+
+(define (do-for-all f l)
+  (if (null? l)
+    l
+    (let ((dummy (f (car l))))
+         (do-for-all f (cdr l))
+) ) )
+
+(do-for-all write '(1 2 3))
+
+
+(define (reduce f f0 l)
+  (if (null? l)
+      f0
+      (f (car l)
+         (reduce f f0 (cdr l)))
+) )
+
+(reduce + 0 '(1 2 3 4)) gives 10
+(reduce * 1 '(1 2 3 4)) gives 24
+
+(reduce cons () '(1 2 3 4))
+

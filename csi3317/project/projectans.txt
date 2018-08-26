@@ -1,0 +1,97 @@
+\documentstyle[12pt]{article}
+\setlength{\topmargin}{-5ex}
+\setlength{\headheight}{0ex}
+\setlength{\headsep}{0ex}
+\setlength{\columnsep}{3em}
+\setlength{\textwidth}{7.0in}
+\setlength{\textheight}{10in}
+\setlength{\oddsidemargin}{-3em}
+\setlength{\evensidemargin}{0em}
+
+\begin{document}
+\vspace{-1in}
+\begin{center}
+{\bf University of Ottawa\\
+School of Information Technology and Engineering\\
+CSI 3317 - 2000F\\
+Class Project Solution Key}\\
+{\bf Instructor:} Dr. Cory Butz\\
+{\bf Due:}  Friday, November 24, 2000 at noon\\
+{\bf Hand in:} to the CSI3317 box on 3rd floor MCD.\\ 
+\end{center}
+
+Four rules for mapping an ER diagram into a database schema are:
+\begin{itemize}
+\item[(i)] Each regular entity type maps into a base relation.
+The primary key is underlined.
+\item[(ii)] Each many-to-many relationship also maps into a base relation.
+The participating foreign keys may be chosen as the primary key.
+\item[(iii)] Many-to-one relationships do {\it not} map into a base relation.
+Instead, we simply introduce a foreign key on the many side of the 
+relationship.
+\item[(iv)] Weak entities map into a base relation, but the foreign keys
+rules must be set to CASCADE. The primary key may be chosen as the
+weak entity discriminator together with the primary key of the
+regular entity.
+\end{itemize}
+
+By rule (i), the database will contain the following three relations:
+
+\begin{verbatim}
+CREATE TABLE dept (
+	d#	char(10) NOT NULL,
+	dname	char(10),
+	PRIMARY KEY (d#));
+
+CREATE TABLE project (
+	pname	char(10) NOT NULL,
+	pcity	char(10),
+	PRIMARY KEY (p#));
+
+CREATE TABLE employee (
+	e#	char(10) NOT NULL,
+	ename	char(10),
+	PRIMARY KEY (e#));
+\end{verbatim}
+
+By rule (ii), the database will contain the following relation:
+
+\begin{verbatim}
+CREATE TABLE works (
+	d#	char(10) NOT NULL,
+	e#	char(10) NOT NULL,
+	PRIMARY KEY (d#,e#),
+	FOREIGN KEY (d#) REFERENCES dept
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE,
+	FOREIGN KEY (e#) REFERENCES employee
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE);
+\end{verbatim}
+
+\newpage
+By rule (iii), we modify the definition of the employee relation:
+
+\begin{verbatim}
+CREATE TABLE employee (
+	e#	char(10) NOT NULL,
+	ename	char(10),
+	pname	char(10) NOT NULL,
+	PRIMARY KEY (e#));
+	FOREIGN KEY (pname) REFERENCES project
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE);
+\end{verbatim}
+
+By rule (iv), we have the following base relation:
+
+\begin{verbatim}
+CREATE TABLE dependent (
+	dname	char(10) NOT NULL,
+	e#	char(10) NOT NULL,
+	PRIMARY KEY (dname,e#),
+	FOREIGN KEY (e#) REFERENCES employee
+		ON DELETE CASCADE
+		ON UPDATE CASCADE);
+\end{verbatim}
+\end{document}

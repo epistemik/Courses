@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>No Title</TITLE>
+<META NAME="description" CONTENT="No Title">
+<META NAME="keywords" CONTENT="projectans">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="projectans.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1" HREF="node1.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www.csi.uottawa.ca/icons/next_motif.gif"></A> <IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www.csi.uottawa.ca/icons/up_motif_gr.gif"> <IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www.csi.uottawa.ca/icons/previous_motif_gr.gif">   <BR>
+<B> Next:</B> <A NAME="tex2html2" HREF="node1.html">  About this document </A>
+<BR> <P>
+<B>University of Ottawa<BR> 
+School of Information Technology and Engineering<BR> 
+CSI 3317 - 2000F<BR> 
+Class Project Solution Key</B><BR> 
+<B>Instructor:</B> Dr. Cory Butz<BR> 
+<B>Due:</B>  Friday, November 24, 2000 at noon<BR> 
+<B>Hand in:</B> to the CSI3317 box on 3rd floor MCD.<BR>
+<P>
+Four rules for mapping an ER diagram into a database schema are:
+<DL COMPACT><DT><STRONG>(i)</STRONG>
+<DD> Each regular entity type maps into a base relation.
+The primary key is underlined.
+<DT><STRONG>(ii)</STRONG>
+<DD> Each many-to-many relationship also maps into a base relation.
+The participating foreign keys may be chosen as the primary key.
+<DT><STRONG>(iii)</STRONG>
+<DD> Many-to-one relationships do <I>not</I> map into a base relation.
+Instead, we simply introduce a foreign key on the many side of the 
+relationship.
+<DT><STRONG>(iv)</STRONG>
+<DD> Weak entities map into a base relation, but the foreign keys
+rules must be set to CASCADE. The primary key may be chosen as the
+weak entity discriminator together with the primary key of the
+regular entity.
+<P>
+ </DL>
+<P>
+By rule (i), the database will contain the following three relations:
+<P>
+<PRE>CREATE TABLE dept (
+	d#	char(10) NOT NULL,
+	dname	char(10),
+	PRIMARY KEY (d#));
+
+CREATE TABLE project (
+	pname	char(10) NOT NULL,
+	pcity	char(10),
+	PRIMARY KEY (p#));
+
+CREATE TABLE employee (
+	e#	char(10) NOT NULL,
+	ename	char(10),
+	PRIMARY KEY (e#));</PRE>
+<P>
+By rule (ii), the database will contain the following relation:
+<P>
+<PRE>CREATE TABLE works (
+	d#	char(10) NOT NULL,
+	e#	char(10) NOT NULL,
+	PRIMARY KEY (d#,e#),
+	FOREIGN KEY (d#) REFERENCES dept
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE,
+	FOREIGN KEY (e#) REFERENCES employee
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE);</PRE>
+<P>
+By rule (iii), we modify the definition of the employee relation:
+<P>
+<PRE>CREATE TABLE employee (
+	e#	char(10) NOT NULL,
+	ename	char(10),
+	pname	char(10) NOT NULL,
+	PRIMARY KEY (e#));
+	FOREIGN KEY (pname) REFERENCES project
+		ON DELETE RESTRICTED
+		ON UPDATE CASCADE);</PRE>
+<P>
+By rule (iv), we have the following base relation:
+<P>
+<PRE>CREATE TABLE dependent (
+	dname	char(10) NOT NULL,
+	e#	char(10) NOT NULL,
+	PRIMARY KEY (dname,e#),
+	FOREIGN KEY (e#) REFERENCES employee
+		ON DELETE CASCADE
+		ON UPDATE CASCADE);</PRE>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html3" HREF="node1.html#SECTION00010000000000000000">  About this document ... </A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>u1773600 <BR>
+Wednesday December  6 14:18:07 EST 2000</I>
+</ADDRESS>
+</BODY>
+</HTML>
+

@@ -1,0 +1,25 @@
+{VERSION 3 0 "IBM INTEL NT" "3.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 1 255 0 0 1 0 1 0 0 
+1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 0 0 0 0 0 0 2 0 0 0 0 0 
+0 }{CSTYLE "2D Output" 2 20 "" 0 1 0 0 255 1 0 0 0 0 0 0 0 0 0 }
+{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 
+0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Maple Output" 0 11 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 
+0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "diff(e^x*sin(x),x$4)
+;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,,*()%\"eG%\"xG\"\"\")-%#lnG6#F&
+\"\"%\"\"\"-%$sinG6#F'F(F(*(F%F.)F*\"\"$F.-%$cosGF1F(F-*(F%F.)F*\"\"#F
+.F/F.!\"'*(F%F.F*F(F5F.!\"%*&F%F.F/F.F(" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "diff(e^x*sin(x),x);" }}{PARA 11 "" 1 "" {XPPMATH 20 "
+6#,&*()%\"eG%\"xG\"\"\"-%#lnG6#F&F(-%$sinG6#F'F(F(*&F%\"\"\"-%$cosGF.F
+(F(" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "diff(exp(x)*sin(x),x
+);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,&*&-%$expG6#%\"xG\"\"\"-%$sinGF
+'F)F)*&F%\"\"\"-%$cosGF'F)F)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 24 "diff(exp(x)*sin(x),x$4);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#,$*&
+-%$expG6#%\"xG\"\"\"-%$sinGF'F)!\"%" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "diff(exp(x)*sin(x),x$2);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#,$*&-%$expG6#%\"xG\"\"\"-%$cosGF'F)\"\"#" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "diff(exp(x)*sin(x),x$3);" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#,&*&-%$expG6#%\"xG\"\"\"-%$cosGF'F)\"\"#*&F%
+\"\"\"-%$sinGF'F)!\"#" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }
+}}}{MARK "6 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

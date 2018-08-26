@@ -1,0 +1,31 @@
+% Mark Sattolo 428500
+% TRC answers to assn1, question 3  for csi3317
+
+%SQL -- q3 := select city from supplier UNION select city from projet ;
+q3a := { S.city, J.city | supplier(S) and projet(J) and ((exists T) (supplier(T) and S.city=T.city) or (exists K)(projet(K) and J.city=K.city)) } ;
+q3a1:= { S.city, J.city | supplier(S) and projet(J) } ;
+%q3a2:= { S.city, J.city | supplier(S) or projet(J) } ;  << DOESN'T RUN
+%q3a3 := { city | supplier(S) and projet(J) } ;  << DOESN'T RUN
+%q3a4 := { city | supplier(S) or projet(J) } ;  << DOESN'T RUN
+q3b := { S.city | supplier(S) } ;
+q3c := { J.city | projet(J) } ;
+%q3d := { D.city | supplier(D) or projet(D) } ;  << DOESN'T RUN
+%q3e := { D.city | supplier(D) and projet(D) } ;  << DOESN'T RUN
+q3f := { K.city | q3b(K) and q3c(K) } ;
+
+% THIS ONE WORKS!!
+q3g := { K.city | q3b(K) or q3c(K) } ;
+
+q3h1 := { P.city | part(P) } ;
+q3h2 := { K.city | q3b(K) or q3c(K) or q3h1(K) } ;
+
+%q3y := { (S.city | supplier(S)) or (J.city | projet(J)) } ;  << DOESN'T RUN
+%q3z := { S.city or J.city | supplier(S) and projet(J) } ; << DOESN'T RUN
+q3z1 := { Q.city | q3a(Q) } ;
+q3z2 := { Q.city, K.city | q3b(Q) and q3c(K) } ;
+%q3z3 := { Q.city, K.city | q3b(Q) or q3c(K) } ;  << DOESN'T RUN
+%q3z2 := { city | q3b(Q) and q3c(K) } ;  << DOESN'T RUN
+q3z3 := { E, F | supplier(E) and projet(F) } ;
+q3z4 := { G | q3z3(G) } ;
+
+

@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/ass02.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment 2</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY background="CSI 3125 Assignment 2_files/heart.gif" bgColor=white 
+link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment 2_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Assignment 2</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment 2_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment 2_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment 2_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment 2_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment 2_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment 2_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment 2_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment 2_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><I><B>Marks:</B></I></TD>
+    <TD><B>8</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Time:</B></I></TD>
+    <TD><B>Monday, November 08, 1999, 12:00pm (NOON!)</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><I>Absolutely no late assignments will be accepted.</I></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Place:</B></I></TD>
+    <TD><B>Locked box for CSI3125, 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Part A: Variant Records</H2>
+<H3>The Story</H3>Your poor old CSI 3125 professor never really learned 
+<I>Pascal</I>. But he knows <I>C</I> pretty well. The problem is, whenever he 
+tries to write a program in Pascal, the strong type checking always gets in the 
+way.
+<P>For example, in <I>Pascal</I> a <TT>byte</TT> type is used to store unsigned 
+integers ranging in value from 0 to 255. A <TT>char</TT> type is used to store 
+characters. But we all know that characters are really ASCII codes, which are 
+integers that range from 0 to 255. In <I>C</I> on the other hand, a 
+<TT>char</TT> can be used as both a <I>Pascal</I>-style <TT>byte</TT> and a 
+<I>Pascal</I>-style <TT>char</TT> at the same time!
+<P>It sure would be nice to have a type in <I>Pascal</I> that allows a variable 
+to be used both like a <TT>byte</TT> and like a <TT>char</TT>. In fact, it would 
+be nice to do a lot of things: 
+<UL>
+  <LI>use the same variable as a <TT>byte</TT> or <TT>char</TT> 
+  <LI>treat zero as <TT>boolean</TT> false and non-zero as <TT>boolean</TT> true 
+
+  <LI>have a ternary if expression 
+  <LI>do arithmetic on pointers </LI></UL>
+<P>
+<H3>The Assignment</H3>All of these features (except the ternary if expression) 
+can be implemented in Pascal using variant records. Your job is to define the 
+types that allow you to fill in the blanks so that the program below compiles 
+and works.
+<P>
+<H3>The Hints</H3>
+<UL>
+  <LI>if you define your types properly, all you need to do with the program is 
+  fill in the blanks (no extra statements required) 
+  <LI>in Pascal the <TT>@</TT> operator gives you the address of a variable; 
+  I've used it twice inside the program; you shouldn't need to use it anywhere 
+  except where it appears in my program. 
+  <LI>here's the output I get when I run my program (with the blanks filled in): 
+
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>Cool! 'A' is 65!
+5
+Zero is the same as false!
+Nonzero is the same as true!
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+</PRE></TD></TR></TBODY></TABLE></LI></UL>
+<P>
+<H3>The Warnings</H3>My solution to the program works in <I>Borland Pascal 
+7.0</I> and in <A href="http://www.brain.uni-freiburg.de/~klaus/fpc"><I>Free 
+Pascal version 0.99.12b for i386</I></A>.
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>program p2c;
+
+type
+   bchar = ___________________;
+
+   intbool = _________________;
+
+   arithptr = _________________;
+
+function tif(C: ____; E1: ____; E2: ____): ____;
+   ____________
+
+var
+   ch: bchar;
+   i, j: integer;
+   ib: intbool;
+   memblock: array[1..26] of char;
+   p: arithptr;
+
+begin
+
+   { assign a character to ch then check its ASCII code byte value }
+   ch___ := 'A';
+   if ch___ = 65 then
+      writeln('Cool! ''A'' is 65!');
+
+   { assign either j or -j to i, depending on the sign of j to begin with }
+   j := -5;
+   i := tif(j &lt; 0, -j, j);
+   writeln(i);
+
+   { assign integers to ib then test ib as a boolean }
+   ib___ := 0;
+   if not ib___ then
+      writeln('Zero is the same as false!');
+
+   ib___ := 42;
+   if ib___ then
+      writeln('Nonzero is the same as true!');
+
+   ib___ := 13;
+   while ib___ do
+      ib___ := ib___ - 1;
+
+   { set p to point to memblock, then do arithmetic on p }
+
+   p___ := @memblock;
+   ch___ := 'A';
+   for i := 1 to 26 do begin
+      p___^ := ch___;
+      p___ := p___ + 1;
+      ch___ := ch___ + 1;
+   end;
+
+   p___ := @memblock;
+   for i := 1 to 26 do begin
+      write(p___^);
+      p___ := p___ + 1;
+   end;
+   writeln;
+   
+end.
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Part B: Types</H2>
+<H3>The Story</H3>Computer Science students keep telling me that the Computer 
+Science program doesn't reflect the "real world" enough. So instead of having an 
+assignment about <I>data types</I> we're going to have an assignment about 
+<I>dating types</I>.
+<P>
+<H3>The Assignment</H3>Ok, this assignment is actually about data types 
+<I>and</I> dating types.
+<P>The following Borland Pascal program defines a date type data type. It also 
+has a random date generator that creates new dates and returns a pointer to the 
+new date. Your job is to add some new procedures and functions to this program: 
+<UL>
+  <LI><TT>procedure killdate(dud: dateptr);</TT><BR>deletes the date pointed to 
+  by the pointer <TT>dud</TT> 
+  <LI><TT>function setcard(ls: set of loisirs): byte;</TT><BR>returns the number 
+  of elements in a set 
+  <LI><TT>function match(d1, d2: dateptr): boolean;</TT><BR>returns 
+  <TT>true</TT> if d1 and d2 would be good matches and <TT>false</TT> if they 
+  would be unhappy together. 
+  <UL>
+    <LI>two dates are good matches if there is no more than six years difference 
+    in their ages and they match on height and at least two of their interests 
+    <LI>otherwise, they would be unhappy together </LI></UL>
+  <LI><TT>procedure printdates(d1, d2: dateptr);</TT><BR>prints out the two 
+  dates in the format shown below </LI></UL>
+<P>
+<H3>The Hints</H3>Don't change anything in the program, just fill in the blanks 
+for the function and procedure definitions.
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>program d;
+
+type
+   loisirs = (music, reading, hockey, mature_interests,
+              travel, cooking, programming, haute_couture);
+
+   hobbies = set of loisirs;
+
+   hair = (brunette, blonde, red, dyed);
+   eyes = (brown, blue, green, grey);
+   height = (tall, short, medium);
+   build = (lightbulb, buoy, rake, pumpkin);
+
+   date = record
+      age: 18..100;
+      interests: hobbies;
+      physical: record
+         doo: hair;
+         gogs: eyes;
+         size: height;
+         shape: build
+      end;
+   end;
+
+   dateptr = ^date;
+
+function newdate: dateptr;
+   type
+      eb = (e, b);
+      sy = (s, y);
+   var
+      dp: dateptr;
+      interests: record case tag: sy of
+         s: (se: hobbies); y: (by: byte) end;
+      doo: record case tag: eb of
+         e: (en: hair); b: (by: byte) end;
+      gogs: record case tag: eb of
+         e: (en: eyes); b: (by: byte) end;
+      size: record case tag: eb of
+         e: (en: height); b: (by: byte) end;
+      shape: record case tag: eb of
+         e: (en: build); b: (by: byte) end;
+   begin
+      new(dp);
+      dp^.age := random(83) + 18;
+      interests.by := random(255);
+      dp^.interests := interests.se;
+      doo.by := random(4);
+      dp^.physical.doo := doo.en;
+      gogs.by := random(4);
+      dp^.physical.gogs := gogs.en;
+      size.by := random(3);
+      dp^.physical.size := size.en;
+      shape.by := random(4);
+      dp^.physical.shape := shape.en;
+      newdate := dp
+   end;
+
+function setcard(ls: hobbies): byte;
+   _________________
+
+procedure killdate(d: dateptr);
+   _________________
+
+function match(d1, d2: dateptr): boolean;
+   _________________
+
+procedure printdate(d: dateptr);
+   _________________
+
+var
+   date1, date2: dateptr;
+
+begin
+   randomize;
+   date1 := newdate;
+   date2 := newdate;
+   while not match(date1, date2) do begin
+      killdate(date1);
+      killdate(date2);
+      date1 := newdate;
+      date2 := newdate
+   end;
+
+   printdate(date1);
+   printdate(date2)
+
+end.
+</PRE></TD></TR></TBODY></TABLE>
+<P>So here is the output from running the program a couple of times:
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>Age: 33
+Interests: music reading hockey haute_couture
+Physical: dyed green short lightbulb
+
+Age: 27
+Interests: reading programming haute_couture
+Physical: brunette grey short rake
+</PRE></TD></TR>
+  <TR>
+    <TD bgColor=white><PRE>Age: 72
+Interests: music travel
+Physical: dyed green tall buoy
+
+Age: 70
+Interests: music reading mature_interests travel haute_couture
+Physical: brunette green tall buoy
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Part C: Parameter Passing</H2>
+<H3>The Story</H3>I'm tired. There's no story.
+<P>
+<H3>The Assignment</H3>The following program is written in the language 
+<I>Rascal</I>.
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>program p;
+
+   const MAX = 10;
+
+   var X: integer;
+       I: 1..MAX;
+       A: array [1..MAX] of integer;
+
+   procedure sub1(<B>mode</B> D, E: integer);
+   begin
+      D := D + 1;
+      writeln(X);
+      A[E] := D
+   end;
+
+begin
+
+   for I := 1 to MAX do
+      A[I] := I * 2;
+
+   X := 3;
+   A[X] := 7;
+   sub1(X, A[X]);
+   writeln(X);
+
+   for I := 1 to MAX-1 do begin
+      write(A[I]);
+      write(', ')
+   end;
+   writeln(A[MAX])
+
+end.
+</PRE></TD></TR></TBODY></TABLE>
+<P><I>Rascal</I> looks just like <I>Pascal</I>, except that it supports 
+<I>five</I> different parameter passing modes: 
+<UL>
+  <LI>pass-by-value 
+  <LI>pass-by-result 
+  <LI>pass-by-value-result 
+  <LI>pass-by-reference 
+  <LI>pass-by-name </LI></UL>Your mission is to show the exact output of the 
+<I>Rascal</I> program for each of the following values of <B><TT>mode</TT></B>. 
+<OL type=a>
+  <LI><B><TT>mode</TT></B> is <TT>in</TT> (pass-by-value) 
+  <LI><B><TT>mode</TT></B> is <TT>out</TT> (pass-by-result) 
+  <LI><B><TT>mode</TT></B> is <TT>in-out</TT> (pass-by-value-result) 
+  <LI><B><TT>mode</TT></B> is <TT>var</TT> (pass-by-reference) 
+  <LI><B><TT>mode</TT></B> is <TT>name</TT> (pass-by-name) </LI></OL>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update October 23, 1999)</I></FONT> </BODY></HTML>

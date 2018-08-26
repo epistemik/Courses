@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0073)http://java.sun.com/docs/books/tutorial/essential/threads/definition.html -->
+<HTML><HEAD><TITLE>What Is a Thread?</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="01-Subclassing Thread and Overriding run.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>What Is a Thread? </H2>
+<BLOCKQUOTE>All programmers are familiar with writing sequential programs. 
+  You've probably written a program that displays "Hello World!", or sorts a 
+  list of names, or computes a list of prime numbers. These are sequential 
+  programs: each has a beginning, an execution sequence, and an end. At any 
+  given time during the runtime of the program there is a single point of 
+  execution. 
+  <P>A thread is similar to the sequential programs described previously. A 
+  single thread also has a beginning, a sequence, and an end and at any given 
+  time during the runtime of the thread, there is a single point of execution. 
+  However, a thread itself is not a program; it cannot run on its own. Rather, 
+  it runs within a program. The following figure shows this relationship. 
+  <P>
+  <CENTER><IMG align=bottom alt="" height=121 
+  src="Thread_files/11thread.gif" width=246 
+  NATURALSIZEFLAG="3"></CENTER>
+  <P></P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Definition:</STRONG>&nbsp; A thread is a single sequential flow of 
+    control within a program. 
+    <HR>
+  </BLOCKQUOTE>
+  <P>There is nothing new in the concept of a single thread. The real hoopla 
+  surrounding threads is not about a single sequential thread. Rather, it's 
+  about the use of multiple threads in a single program, running at the same 
+  time and performing different tasks. This is illustrated by the following 
+  figure: 
+  <P>
+  <CENTER><IMG align=bottom alt="" height=121 
+  src="Thread_files/12thread.gif" width=359 
+  NATURALSIZEFLAG="3"></CENTER>
+  <P></P>
+  <P>The HotJava Web browser is an example of a multithreaded application. 
+  Within the HotJava browser you can scroll a page while it's downloading an 
+  applet or image, play animation and sound concurrently, print a page in the 
+  background while you download a new page, or watch three sorting algorithms 
+  race to the finish. You are used to life operating in a concurrent 
+  fashion...so why not your browser? 
+  <P>Some texts use the name <EM>lightweight process</EM> instead of thread. A 
+  thread is similar to a real process in that a thread and a running program are 
+  both a single sequential flow of control. However, a thread is considered 
+  lightweight because it runs within the context of a full-blown program and 
+  takes advantage of the resources allocated for that program and the program's 
+  environment. 
+  <P>As a sequential flow of control, a thread must carve out some of its own 
+  resources within a running program. (It must have its own execution stack and 
+  program counter for example.) The code running within the thread works only 
+  within that context. Thus, some other texts use <EM>execution context</EM> as 
+  a synonym for thread. </P></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="01-Subclassing Thread and Overriding run.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

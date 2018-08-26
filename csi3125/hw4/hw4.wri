@@ -1,0 +1,152 @@
+                   CSI 3125, Fall 2000, Homework 4
+               handed out Nov. 16, due Nov. 30 at 23:59
+    (on-line submission: programs with small "essays" in comments;
+  paper submission: a printout of all programs, a "log" of execution,
+                 and a written solution of problem 3)
+
+  ###################################################################
+  #   Watch this space for instructions on electronic submission.   #
+  ###################################################################
+
+
+Problem 1 [5.75 mark]
+=====================
+
+A thief is planning to break into a chocolate factory with a paper
+bag that can carry no more than 500 gram of very precious chocolate
+candies. The weight of a candy depends on its top surface, its height
+and the filling (indicated by a coloured wrapping, but we need not
+worry about colours). There are candies with round, rectangular and
+triangular top surface.
+
+Although candy can be weighed, the thief cannot carry a professional
+scales. He has instead a very sensitive measuring tape and a palm
+computer programmed to compute the weight of each candy.
+
+You have been hired to program the computer. The thief wants this
+program in four different languages: Prolog, Scheme, ML, and Pascal.
+
+Each of your _four_ programs will contains a subprogram with the
+following parameters:
+
+  * the shape of the candy's top (round, rectangular, triangular);
+  * its filling (liquor, nuts, nougat);
+  * its height;
+  * two numbers sufficient to estimate the candy's top surface area:
+    - radius and 0 (to be ignored) for round-top candy; 
+    - side1 and side2 for rectangular-top candy;
+    - base and height for triangular-top candy;
+  * a subprogram that computes the top surface area of the candy (like
+    the two numbers, it matches the shape of the candy's top surface) 
+
+The formula for computing the weight of a candy is as follows:
+
+        top_surface_area * height * unit_weight_of_filling 
+
+The unit weight of liquor filling is 2 gram, nut filling 3 gram,
+nougat filling 4 gram. (The height is measured in such units, so a
+candy twice as high weighs twice as much.)
+
+Each program will also define three subprograms that compute top
+surface area. This will be all for Prolog, Scheme and ML, but you
+also have to supply a test program for your Pascal subprograms.
+
+To facilitate testing, you _must_ name your subprograms as follows:
+
+        total_weight
+        surface_round
+        surface_rectangular
+        surface_triangular
+
+In Scheme, ML and Pascal you will probably define functions. In
+Prolog, naturally, you will define predicates; you may need the
+built-in predicates "=.." and "call".
+
+
+Problem 2 [2.75 mark]
+=====================
+
+Different languages may evaluate components of expressions in
+different order when it comes to a series of identical arithmetic
+operators, like in this expression:
+
+    triple(X) + subtract2(X) + add1(X) * double(X) * X
+
+This is not important when there are no side effects, but consider
+what happens if the functions in our expression do the following:
+
+    add1(X)        add 1 to X
+    subtract2(X)   subtract 2 from X
+    double(X)      multiply X by 2
+    triple(X)      multiply X by 3
+
+Each function changes the value of X, and returns the new value.
+
+Conduct an experimental study to establish the evaluation order used
+by C/C++ and by Pascal. Write two programs that define these four
+functions and evaluate our expression. Make sure to pick the right
+parameter-passing method in each language.
+
+You can (indeed you are expected to) add any control printouts that
+will help you determine the order. I expect clear output that can be
+quickly and easily understood by the user (that is, by the TA).
+
+
+Problem 3 [1.5 mark]
+====================
+
+Consider the following program fragment in Pascal.
+
+{A > 0 & B > 0}
+X := A;
+Y := B;
+F := 1;
+while Y <> 0 do
+begin
+  if odd( Y ) then
+  begin
+    Y := Y - 1;
+    F := F * X;
+  end;
+  Y := Y div 2;
+  X := X * X;
+end;
+
+Please do two things. First, supply the postcondition and the loop
+invariant. Next, rewrite this fragment using Dijkstra's if-fi and do-od
+constructs. If you need an empty statement, you can write it as "skip".
+
+
+Bonus problem [2 marks]
+=======================
+
+The following fragment of a program in a hypothetical low-level
+language can be rewritten into an equivalent fragment that does not
+contain even a single goto statement. Please show how this can be
+done in Pascal and in Dijkstra's guarded-command formalism. (Cond1,
+Cond2, Cond3, Cond4 are Boolean expressions. Stmt1, Stmt2, Stmt3,
+Stmt4, Stmt5, Stmt6, Stmt7 are statements.)
+
+      Stmt1;
+1:    goto 2 if Cond1;
+      goto 6;
+2:    Stmt2;
+      goto 3 if Cond2;
+      Stmt3;
+      goto 4;
+3:    Stmt4;
+4:    goto 5 if Cond3;
+      goto 2;
+5:    Stmt5;
+      goto 1;
+6:    goto 7 if Cond4;
+      Stmt6;
+7:    Stmt7;
+
+
+                    #########################
+                    #                       #
+                    #      That's it!!      #
+                    #  What a relief. (:>)  #
+                    #                       #
+                    #########################

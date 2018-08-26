@@ -1,0 +1,312 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+10 5 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "
+Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 
+0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" 
+-1 -1 "" 0 1 100 32 101 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 
+0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 623 "# WIELANDT'S DEFLATION ALGORITHM 9
+.4\n#\n# To approximate the second most dominant eigenvalue and an\n# \+
+associated eigenvector of the n by n matrix A given an\n# approximatio
+n LAMBDA to the dominant eigenvalue, an\n# approximation V to a corres
+ponding eigenvector and a vector X\n# belonging to R^(n-1), tolerance \+
+TOL, maximum number of\n# iterations N.\n#\n# INPUT:   Dimension n; ma
+trix A; approximate eigenvalue LAMBDA;\n#          approximate eigenve
+ctor V belonging to R^n; vector X\n#          belonging to R^(n-1).\n#
+\n# OUTPUT:  Approximate eigenvalue MU; approximate eigenvector U or\n
+#          a message that the method fails." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 132 "alg094 := proc() local POWER, OK, AA, NAME, INP, N, \+
+TOL, NN, I, J, A, V, XMU, YMU, M, X, FLAG, OUP, AMAX, K, B, W, S, VV, \+
+L1, L2, Y;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 75 "POWER := proc(X,M,OK,
+Y,B,YMU,TOL,NN) local K, LP, AMAX, I, DONE, J, ERR, T;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LP
+ := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "AMAX := abs(X[0]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 26 "if abs(X[I-1]) > AMAX then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 20 "AMAX := abs(X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 8 "LP := I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "DONE
+ := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "X[I-1] := X[I-1] / AMAX;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 47 "while K <= NN and OK = TRUE and DONE = FALSE do" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "Y[I-1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "fo
+r J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "Y[I-1] := Y[I
+-1] + B[I-1,J-1] * X[J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "YMU := Y[LP-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LP := 1;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "AMAX := abs(Y[0]);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "if abs(Y[I-1]) > AMAX then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "AMAX := abs(Y[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 8 "LP := I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if AM
+AX <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`Zero eigenv
+alue - B is singular\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK :=
+ FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 9 "ERR := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for \+
+I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "T := Y[I-1]/Y[L
+P-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if abs(X[I-1]-T) > ERR the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "ERR := abs(X[I-1]-T);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 12 "X[I-1] := T;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if ERR < TOL then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "Y[I-1] := X[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "DONE := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "K := K+1;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 28 "if K > NN and OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Power Method did not converge in %d iteration
+s.\\n`,NN);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 61 "fprintf(OUP, `Number Iterations for Power Method = %d\\n`, K);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Thi
+s is Wielandt Deflation.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "p
+rintf(`The array will be input from a text file in the order:\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "printf(`A(1,1), A(1,2), ..., A(1,n
+), A(2,1), A(2,2), ..., A(2,n),\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 47 "printf(`..., A(n,1), A(n,2), ..., A(n,n)\\n\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 61 "printf(`Next place the approximate eigenvector
+ V(1), ..., `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`V(n) and
+ follow it\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`by the \+
+approximate eigenvalue. Finally, an `);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 32 "printf(`initial approximate\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 59 "printf(`eigenvector of dimension n-1: X(1), ..., X(n-
+1) `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`should follow.\\n
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place as many ent
+ries as desired on each line, but separate `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`at least one blank.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 61 "printf(`Has the input file been created? - enter Y \+
+or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "
+printf(`for example:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`Input \+
+the dimension n.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scan
+f(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 1 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "OK := TRUE" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Di
+mension must be greater than 1.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "
+while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Inpu
+t a positive tolerance for the power method.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "if TOL > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 
+"OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 49 "printf(`Tolerance must be a positive number.\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 58 "printf(`Input the maximum number of iterati
+ons for the `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "printf(`power me
+thod.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NN := scanf(`%d`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NN > 0 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`The number must \+
+be a positive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1
+,J-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "fo
+r I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "V[I-1] := fsc
+anf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(V[I-1]
+) > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "XMU := fscanf(INP, `%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N-1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to
+ M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "X[I-1] := fscanf(INP, `%f`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(X[I-1]) > 0 then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "
+if OK = FALSE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`All v
+ectors must be nonzero.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(
+`The program will end so the input file can be created.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`
+Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "p
+rintf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 
+"printf(`2. Output to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "printf(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for example   A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "fprintf(OUP, `WIELANDT DEFLA
+TION\\n\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "AMAX \+
+:= abs(V[0]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 2 to N \+
+do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "if abs(V[J-1]) > AMAX then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := J;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "AMAX := abs(V[J-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if I <> 1 the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for K from 1 to I-1 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-1 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 50 "B[K-1,J-1] := A[K-1,J-1]-V[K-1]*A[I-1,J-1]/V
+[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if \+
+I <> 1 and I <> N then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for K fro
+m I to N-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-
+1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "B[K-1,J-1] := A[K,J-1]-V[K]
+*A[I-1,J-1]/V[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "B[J-1,K-1] :
+= A[J-1,K]-V[J-1]*A[I-1,K]/V[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 14 "if I <> N then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "for K from I to N-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 22 "for J from I to N-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "B
+[K-1,J-1] := A[K,J]-V[K]*A[I-1,J]/V[I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "
+POWER(X, M, OK, Y, B, YMU, TOL, NN);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if I <> 1 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 22 "for K from 1 to I-1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "W[K-1] := Y[K-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "W[I-1] := 0;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if I <>  N then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for K fr
+om I+1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "W[K-1] := Y[K - 2
+];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 7 "S := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "S := S + A
+[I-1,J-1] * W[J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 14 "S := S/V[I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for K from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 19 "
+Compute eigenvector" }}{PARA 0 "" 0 "" {TEXT -1 29 "VV is used in plac
+e of u here" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "VV[K-1] := (YMU-XMU)
+*W[K-1]+S*V[K-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 40 "fprintf(OUP, `The reduced matrix B:\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for L1 from 1 to M do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 21 "for L2 from 1 to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "fprintf(OUP, `%.10e  `, B[L1-1,L2-1]);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprin
+tf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `\\nThe Eigenvalue = %12.8f`, YM
+U);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, ` to Tolerance \+
+= %.10e\\n\\n`, TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "fprintf(OU
+P, `Eigenvector is:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I \+
+from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP,` %11
+.8f`, VV[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg094G:6\"6=%&POWERG%#OKG%#AAG%%NAMEG%$INPG%\"NG%$T
+OLG%#NNG%\"IG%\"JG%\"AG%\"VG%$XMUG%$YMUG%\"MG%\"XG%%FLAGG%$OUPG%%AMAXG
+%\"KG%\"BG%\"WG%\"SG%#VVG%#L1G%#L2G%\"YGF&F&C5>8$:6*F7F6F)FBF<F5F.F/6*
+F;%#LPGF:F0%%DONEGF1%$ERRG%\"TGF&F&C*>FE\"\"\">8%FO>8&-%$absG6#&9$6#\"
+\"!?(8'\"\"#FO9%%%trueG@$2FS-FU6#&FX6#,&FfnFO!\"\"FOC$>FSF\\o>FQFfn>8(
+%&FALSEG?(FfnFOFOFhnFin>F^o*&F^oFOFSFao?(F&FOFOF&331FE9+/9&%%TRUEG/Ffo
+FgoC(?(FfnFOFOFhnFinC$>&9'F_oFZ?(8)FOFOFhnFin>Fhp,&FhpFO*&&9(6$F`o,&F[
+qFOFaoFOFO&FX6#FbqFOFO>9)&Fip6#,&FQFOFaoFO>FQFO>FS-FU6#&FipFY?(FfnFgnF
+OFhnFin@$2FS-FU6#FhpC$>FSFbr>FQFfn@%1FSFZC$-%'printfG6#%AZero~eigenval
+ue~-~B~is~singular|+G>FapFgoC%>8*FZ?(FfnFOFOFhnFinC%>8+*&FhpFOFgqFao@$
+2Fas-FU6#,&F^oFOFesFao>FasFis>F^oFes@%2Fas9*C$?(FfnFOFOFhnFin>FhpF^o>F
+foFbp>FE,&FEFOFOFO@%32F_pFEF`pC$-F[s6$%QPower~Method~did~not~converge~
+in~%d~iterations.|+GF_p>FapFgo-%(fprintfG6%F9%INumber~Iterations~for~P
+ower~Method~=~%d|+GFEF&F&-F[s6#%=This~is~Wielandt~Deflation.|+G-F[s6#%
+XThe~array~will~be~input~from~a~text~file~in~the~order:|+G-F[s6#%enA(1
+,1),~A(1,2),~...,~A(1,n),~A(2,1),~A(2,2),~...,~A(2,n),|+G-F[s6#%C...,~
+A(n,1),~A(n,2),~...,~A(n,n)|+|+G-F[s6#%SNext~place~the~approximate~eig
+envector~V(1),~...,~G-F[s6#%4V(n)~and~follow~it|+G-F[s6#%Lby~the~appro
+ximate~eigenvalue.~Finally,~an~G-F[s6#%5initial~approximate|+G-F[s6#%Q
+eigenvector~of~dimension~n-1:~X(1),~...,~X(n-1)~G-F[s6#%1should~follow
+.|+|+G-F[s6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~sepa
+rate~G-F[s6#%.entries~with|+G-F[s6#%5at~least~one~blank.|+G-F[s6#%RHas
+~the~input~file~been~created?~-~enter~Y~or~N.|+G>FS&-%&scanfG6#%#%cG6#
+FO@%5/FS8>/FS%\"yGC4-F[s6#%SInput~the~file~name~in~the~form~-~drive:\\
+name.ext|+G-F[s6#%<for~example:~~~A:\\DATA.DTA|+G>Ffn&-F`x6#%#%sGFcx>F
+fo-%&fopenG6%Ffn%%READG%%TEXTG>FQFgo?(F&FOFOF&/FQFgoC%-F[s6#%8Input~th
+e~dimension~n.|+G>F[q&-F`x6#%#%dGFcx@%2FOF[q>FQFbp-F[s6#%CDimension~mu
+st~be~greater~than~1.|+G>FQFgo?(F&FOFOF&F^zC%-F[s6#%RInput~a~positive~
+tolerance~for~the~power~method.|+G>Fas&-F`x6#%#%fGFcx@%2FZFas>FQFbp-F[
+s6#%FTolerance~must~be~a~positive~number.|+G>FQFgo?(F&FOFOF&F^zC&-F[s6
+#%PInput~the~maximum~number~of~iterations~for~the~G-F[s6#%/power~metho
+d.|+G>FesFdz@%2FZFes>FQFbp-F[s6#%HThe~number~must~be~a~positive~intege
+r.|+G?(8,FOFOF[qFin?(8-FOFOF[qFin>&8.6$,&F`]lFOFaoFO,&Fb]lFOFaoFO&-%'f
+scanfG6$FfoFh[lFcx>FQFgo?(F`]lFOFOF[qFinC$>&8/6#Fg]lFi]l@$2FZ-FU6#Fa^l
+>FQFbp>80Fi]l>82Fbq@$/FQFbpC$>FQFgo?(F`]lFOFOF\\_lFinC$>&83Fc^lFi]l@$2
+FZ-FU6#Fd_l>FQFbp@$F^z-F[s6#%>All~vectors~must~be~nonzero.|+G-%'fclose
+G6#Ffo-F[s6#%XThe~program~will~end~so~the~input~file~can~be~created.|+
+G@$F^_lC2-F[s6#%:Choice~of~output~method:|+G-F[s6#%51.~Output~to~scree
+n|+G-F[s6#%82.~Output~to~text~file|+G-F[s6#%6Please~enter~1~or~2.|+G>8
+4Fdz@%/FdalFgnC&F[y-F[s6#%=for~example~~~A:\\OUTPUT.DTA|+G>FfnFby>85-F
+hy6%Ffn%&WRITEGF[z>F]bl%(defaultG-F`u6$F]bl%5WIELANDT~DEFLATION|+|+G>F
+`]lFO>86-FU6#&Fb^lFY?(Fb]lFgnFOF[qFin@$2Fhbl-FU6#&Fb^l6#Fh]lC$>F`]lFb]
+l>FhblF_cl@$0F`]lFO?(87FOFOFg]lFin?(Fb]lFOFOFg]lFin>&886$,&FiclFOFaoFO
+Fh]l,&&Fe]lF^dlFO*(&Fb^l6#F_dlFOFd]lFOFa^lFaoFao@$3Fgcl0F`]lF[q?(FiclF
+`]lFOFbqFin?(Fb]lFOFOFg]lFinC$>F\\dl,&&Fe]l6$FiclFh]lFO*(&Fb^l6#FiclFO
+Fd]lFOFa^lFaoFao>&F]dl6$Fh]lF_dl,&&Fe]l6$Fh]lFiclFO*(FaclFO&Fe]l6$Fg]l
+FiclFOFa^lFaoFao@$Fgdl?(FiclF`]lFOFbqFin?(Fb]lF`]lFOFbqFin>F\\dl,&&Fe]
+l6$FiclFb]lFO*(F`elFO&Fe]l6$Fg]lFb]lFOFa^lFaoFao-FE6*Fe_lF\\_lFQFgxF]d
+l81FasFes@$F^_lC0@$Fgcl?(FiclFOFOFg]lFin>&89Fddl&FgxFddl>&F^glFc^lFZ@$
+Fgdl?(Ficl,&F`]lFOFOFOFOF[qFin>F]gl&Fgx6#,&FiclFO!\"#FO>8:FZ?(Fb]lFOFO
+F[qFin>F[hl,&F[hlFO*&Fd]lFO&F^glFbclFOFO>F[hl*&F[hlFOFa^lFao?(FiclFOFO
+F[qFin>&8;Fddl,&*&,&FgflFOFj^lFaoFOF]glFOFO*&F[hlFOFcdlFOFO-F`u6$F]bl%
+7The~reduced~matrix~B:|+G?(8<FOFOF\\_lFinC$?(8=FOFOF\\_lFin-F`u6%F]bl%
+(%.10e~~G&F]dl6$,&F_ilFOFaoFO,&FbilFOFaoFO-F`u6$F]bl%\"|+G-F`u6%F]bl%9
+|+The~Eigenvalue~=~%12.8fGFgfl-F`u6%F]bl%8~to~Tolerance~=~%.10e|+|+GFa
+s-F`u6$F]bl%1Eigenvector~is:|+G?(F`]lFOFOF[qFin-F`u6%F]bl%(~%11.8fG&Ff
+hlFc^lFjil@$0F]blFbblC$-F``l6#F]bl-F[s6$%COutput~file~%s~created~suces
+sfullyGFfn-%'RETURNGFYF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "alg094();" }}{PARA 6 "" 1 "" {TEXT -1 512 "This is Wielandt Deflati
+on.\nThe array will be input from a text file in the order:\nA(1,1), A
+(1,2), ..., A(1,n), A(2,1), A(2,2), ..., A(2,n),\n..., A(n,1), A(n,2),
+ ..., A(n,n)\n\nNext place the approximate eigenvector V(1), ..., V(n)
+ and follow it\nby the approximate eigenvalue. Finally, an initial app
+roximate\neigenvector of dimension n-1: X(1), ..., X(n-1) should follo
+w.\n\nPlace as many entries as desired on each line, but separate entr
+ies with\nat least one blank.\nHas the input file been created? - ente
+r Y or N." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "
+" 1 "" {TEXT -1 76 "Input the file name in the form - drive:\\name.ext
+\nfor example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "c:\\data\\alg094.dta" }}{PARA 6 "" 1 "" {TEXT -1 22 "Input the d
+imension n." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 
+"" 1 "" {TEXT -1 48 "Input a positive tolerance for the power method.
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}{PARA 6 "" 1 "
+" {TEXT -1 60 "Input the maximum number of iterations for the power me
+thod." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "30" }}{PARA 6 "" 1 
+"" {TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Outp
+ut to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 234 "WIELANDT DEFLATION
+\n\nThe reduced matrix B:\n2.0000000000e+00  -1.0000000000e+00  \n-1.0
+000000000e+00  2.0000000000e+00  \n\nThe Eigenvalue =   2.99998871 to \+
+Tolerance = 1.0000000000e-05\n\nEigenvector is:\n  1.99999623  1.00000
+376 -1.00001505" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "4 0 0" 7 }{VIEWOPTS 1 
+1 0 1 1 1803 }

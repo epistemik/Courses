@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/Assignment3.html -->
+<HTML><HEAD><TITLE>Assignment</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY>
+<H2>Programming assignment #3</H2>
+<BLOCKQUOTE><B><FONT color=#ff0000>DUE DATE: July 6, at 16:00</FONT></B> 
+  <P>For the CSI 3310 class: submit your assignment to <A 
+  href="mailto:nhadibi@site.uottawa.ca">Nabila Hadibi</A> <BR>For the CSI 3710 
+  class: submit your assignment to <A 
+  href="mailto:ngorse@site.uottawa.ca">Nicolas Gorse</A></P></BLOCKQUOTE>
+<BLOCKQUOTE><B><FONT size=+2>A TRAFFIC CONTROLLER FOR A NARROW TUNNEL</FONT></B> 
+  <FONT size=+1><P>We have a 2-lane road (one lane is in the northbound direction and the
+  other is in the southbound direction) that goes through a narrow tunnel. There
+  were so many accidents in this tunnel that it was decided to install a set of
+  traffic lights and sensors (automobile detectors) at both entrances of the
+  tunnel that are to be connected to a computer controller.&nbsp; When a car
+  tries to enter the tunnel, it first passes by a sensor which sends a signal to
+  the controller. The controller then decides to display a GREEN light or a RED
+  light (there are no yellow lights). The car must wait in a queue when the
+  light is RED, otherwise it can enter the tunnel. At any time, the controller
+  must assure that there can be in the tunnel only cars that are traveling along
+  the same direction (otherwise an accident may occur). For example, if there
+  are one or more cars in the tunnel that are traveling along the southbound
+  direction, no northbound car should be permitted to enter but southbound cars
+  my be permitted to enter. If there are no cars in the tunnel, the first car
+  that tries to enter in the tunnel should be admitted no matter what is its
+  traveling direction.
+  <P>In this assignment, you must perform all thread synchronization and mutual
+  exclusion by using only Java monitors (ie: Java objects with synchronize
+  methods). You are not permitted to construct semaphores and use them (since
+  that was the method used in the previous assignment). <BR>&nbsp;
+  <H3>Programming exercise 1</H3>The tunnel controller has 2 public methods,
+  northbound_arrival() and southbound_arrival(), that cars need to call when
+  they try to enter the tunnel. These methods return either "RED" or "GREEN"
+  depending on the controller's decision. A car must wait in queue on "RED",
+  otherwise it may enter the tunnel. Use a northbound queue and a southbound
+  queue. The tunnel controller has 2 public methods, northbound_departure() and
+  southbound_departure() that cars must call when they exit the tunnel (since
+  they pass by sensors when they exit the tunnel). To examine the output of your
+  program, these methods should print a message to indicate which car is leaving
+  the tunnel; hence a integer car_identification should be passed to these
+  methods. (Of course, these departure methods will need to perform some other
+  tasks for the controller.)
+  <P>The controller should display the state of the traffic lights whenever one
+  of the lights changes its state. The controller can change the state of a
+  traffic light only when a car request to enter in the tunnel.
+  <P>In addition to the tunnel controller, you need to simulate some car
+  traffic. There are two types of cars: northbound cars that are calling
+  northbound methods of the tunnel controller, and southbound cars that are
+  calling southbound methods. Each car is a Thread that is performing the
+  following loop infinitely often: It first try to enter the tunnel by calling
+  the appropriate arrival method. If the light is RED then it must wait in the
+  appropriate queue, otherwise it can enter the tunnel. When it is permitted to
+  enter the tunnel, a car first print on screen that it is entering the tunnel
+  and then it goes to sleep for 1 msec. Then it calls the appropriate departure
+  method which will print a message indicating that this car is leaving the
+  tunnel (also, the departure method should notify the appropriate queue if
+  there are no more cars in the tunnel). Finally, after calling a departure
+  method, a car goes to sleep for 1 to 5 msec before trying to reenter again in
+  the same direction as before (and this cycle repeats infinitely often).
+  <P>After creating the appropriate objects, your main program creates an array
+  of 3 northbound cars and 3 southbound cars and then start these six threads.
+  Here is the <A
+  href="out3_1a.txt">output
+  file</A> obtained from my program. Notice that, at any time, no two cars that
+  are traveling along opposite directions are in the tunnel. Also, in contrast
+  with ordinary (and stupid) traffic lights, no car has to wait to enter the
+  tunnel when there are no cars in the tunnel.
+  <P>However this solution has a problem. Look at this other <A
+  href="out3_1b.txt">output
+  file</A> when I use a traffic of 6 northbound cars and 3 southbound cars.
+  Notice that southbound cars are forced to wait for an unfair amount of time
+  and can hardly get into the tunnel. I'm asking you to fix this problem for the
+  second exercise. <BR>&nbsp;
+  <H3>Programming exercise 2</H3>Modify the tunnel controller of the previous
+  exercise in the following way: when a car waits in queue, the controller
+  cannot permit more than X consecutive cars to enter the tunnel in the opposite
+  direction. Use the value of 5 for this amount X and use a traffic of 6
+  northbound cars and 3 southbound cars. Look at the <A
+  href="out3_2.txt">output
+  file</A> I have obtained. You can see that no more than 5 consecutive cars can
+  enter the tunnel when there is a waiting queue of cars in the opposite
+  direction. (Indeed, we can see that by the fact that there is always a light
+  change from GREEN to RED when a car is forced to wait and starts a new waiting
+  queue.)<BR><BR>
+  <P>For any questions you might have, please ask your TAs first
+:-)</FONT></P></BLOCKQUOTE>
+<P><BR>
+<HR width="100%">
+<BR>&nbsp; </BODY></HTML>

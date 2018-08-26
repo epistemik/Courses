@@ -1,0 +1,170 @@
+{site0}u428500(18)$ prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 5.5)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.010 sec 1,740 bytes
+ 
+yes
+| ?- candy(round, nuts, 8, 4, 5, Result).
+! Type error in argument 2 of is/2
+! number expected, but pi found
+! goal:  _7626 is pi*4*4*3*8
+ 
+| ?- ^Z
+[6]+  Stopped                 prolog
+{site0}u428500(19)$ vi hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), Result = pi * Radius *
+ Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result = Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result = 0.5 * Base * Height.
+ 
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), Result is pi * Radius
+surface_round(Radius,Nought,Result) :- !, number(Nought), Result is pi * Radius
+* Radius.
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+"hw4pro" 23 lines, 927 characters
+{site0}u428500(20)$ prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 5.5)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+* Bad operand:  pi
+* Approximate line: 10, file: '/a/csie/h/users/u428500/submit/hw4pro'
+* Bad operand:  pi*_8704
+* Approximate line: 10, file: '/a/csie/h/users/u428500/submit/hw4pro'
+* Bad operand:  pi*_8704*_8704
+* Approximate line: 10, file: '/a/csie/h/users/u428500/submit/hw4pro'
+* Invalid arithmetic goal:  _8742 is pi*_8704*_8704
+* Approximate line: 10, file: '/a/csie/h/users/u428500/submit/hw4pro'
+% hw4pro compiled in module user, 0.010 sec 1,752 bytes
+ 
+yes
+| ?- ^Z
+[7]+  Stopped                 prolog
+{site0}u428500(21)$ vi hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), Result is pi * Radius
+* Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), pResult is pi * Radius
+surface_round(Radius,Nought,Result) :- !, number(Nought), piResult is pi * Radiu
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(Result is pi * Radi
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PResult is pi * Rad
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PIResult is pi * Ra
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI)Result is pi * R
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI),Result is pi *
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI), Result is pi *
+"hw4pro" 23 lines, 935 characters
+{site0}u428500(22)$ prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 5.5)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.020 sec 1,720 bytes
+ 
+yes
+| ?- candy(rectangular, nuts, 8, 5, 4, Result).
+ 
+Result = 480 ;
+ 
+no
+| ?- candy(round, nougat, 8, 5, 4, REsult).
+ 
+REsult = 2.513272E+03 ;
+ 
+no
+| ?- candy(triangular, liquor, 11.077, 3.0932, 4.55, REsult).
+ 
+REsult = 1.5589836262E+02 ;
+ 
+no
+| ?- ^Z
+[8]+  Stopped                 prolog
+{site0}u428500(23)$ more hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI), Result is PI *
+ Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape,
+                            Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+face_round, Result)) ;
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+2, surface_rectangular, Result)) ;
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+, surface_triangular, Result)).

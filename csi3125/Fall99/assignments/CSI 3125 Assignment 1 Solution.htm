@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/sol01.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment 1 Solution</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment 1 Solution_files/3125.gif" 
+      valign="center"></A><FONT color=white size=+3>CSI 3125 Assignment 1 
+      Solution</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment 1 Solution_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment 1 Solution_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment 1 Solution_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment 1 Solution_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment 1 Solution_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment 1 Solution_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment 1 Solution_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment 1 Solution_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here is my solution to assignment 1. Writing a grammar is very creative. And 
+like other creative activities, no two people are likely to come up with 
+identical (or even similar) creations. I've sprinkled comments throughout my 
+solution. Maybe you'd rather see a <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/chaos-grammar.html">bare 
+bones grammar with no comments</A>.
+<P>
+<HR>
+
+<H2>Part 1</H2>There are two sections to a chaos program: the declarations 
+section and the code section. In my grammar I've made the declaration section 
+optional, but you probably didn't. That's ok. <PRE>&lt;chaos_program&gt; ::= [ &lt;decl_section&gt; ] &lt;code_section&gt;
+</PRE>Again, I've made the both the type declaration section and variable 
+declaration section optional, but it's ok if you made them mandatory. <PRE>&lt;decl_section&gt; ::= Declarations: 
+                   [ &lt;type_decl_section&gt; ] [ &lt;var_decl_section&gt; ]
+                   snoitaralceD.
+</PRE>The code section consists of one or more statements. Since the only kind 
+of statement is an assignment statement, it's possible that you said that the 
+code section consists of one or more assignment statements. That's ok. It's also 
+ok if you allowed "zero or more" instead of "one or more". Same holds for the 
+type declarations and variable declarations. <PRE>&lt;code_section&gt; ::= Code: &lt;statement&gt; { &lt;statement&gt; } edoC.
+
+&lt;type_decl_section&gt; ::= Types: &lt;type_decl&gt; { &lt;type_decl&gt; } sepyT.
+
+&lt;var_decl_section&gt; ::= Variables: &lt;var_decl&gt; { &lt;var_decl&gt; } selbairaV.
+</PRE>Don't forget the period on the end of the type declaration. It's possible 
+to put it on the end of the type specifier instead of the end of the type 
+declaration. The type identifier can be any identifier. You may have been more 
+restrictive (requiring a capital letter, etc.). That's ok. <PRE>&lt;type_decl&gt; ::= &lt;type_id&gt; ==&gt; &lt;type_spec&gt; .
+
+&lt;type_id&gt; ::= &lt;identifier&gt;
+</PRE>A type specifier can be a type identifier (including user-defined), a 
+range definition, an array definition or a record definition. You could state 
+integer and character explicitly, but it's not necessary. Allowing user-defined 
+type identifiers is necessary, but there's no need to check if the user-defined 
+type id is valid... that's semantics! <PRE>&lt;type_spec&gt; ::= &lt;type_id&gt;
+                | &lt;range_spec&gt; | &lt;array_spec&gt; | &lt;rec_spec&gt;
+</PRE>You might have checked to make sure that constants are the right type. 
+That's not necessary. You might have written two range rules: one for character 
+constants and one for numerics. Again, not necessary, but ok. It's also ok if 
+you allowed only numeric constants in the array definition. The type identifiers 
+can be anything, and you must allow for user-defined types. Semantics not needed 
+(matching constants, legal numeric or character type identifier, etc.). <PRE>&lt;range_spec&gt; ::= values &lt;const&gt; to &lt;const&gt; of &lt;type_id&gt;
+
+&lt;array_spec&gt; ::= &lt;const&gt; element array of &lt;type_id&gt;
+</PRE>The key to the record specification is that field definitions are variable 
+declarations. If you missed this, your record rule(s) might be much more 
+complicated than mine. <PRE>&lt;rec_spec&gt; ::= record of &lt;var_decl&gt; { &lt;var_decl&gt; } drocer
+</PRE>What I've got here is all that's needed for variable declarations: a type 
+identifier followed by a variable name (any identifier). <PRE>&lt;var_decl&gt; ::= &lt;type_id&gt; &lt;identifier&gt; .
+               | &lt;array_spec&gt; &lt;identifier&gt; .
+</PRE>The only legal statement is an assignment statement (so your grammar 
+should have some symbol that looks like &lt;assign_stmt&gt;; you might not have 
+my extra &lt;statement&gt; symbol, that's ok). <PRE>&lt;statement&gt; ::= &lt;assign_stmt&gt;
+
+&lt;assign_stmt&gt; ::= &lt;l-value&gt; &lt;== &lt;r-value&gt; .
+</PRE>Legal on the left side of an assignment: any identifier, a field in a 
+record, an element in an array. But these things can all be embedded in each 
+other: so you can have an array element inside a field in an array, etc. The 
+four rules here capture it all (and the may even be ambiguous, but I don't 
+really care). <PRE>&lt;l-value&gt; ::= &lt;identifier&gt; | &lt;field_id&gt; | &lt;elem_id&gt;
+&lt;field_id&gt; ::= &lt;identifier&gt; in &lt;l-value&gt;
+&lt;elem_id&gt; ::= element &lt;elem&gt; in &lt;l-value&gt;
+&lt;elem&gt; ::= &lt;r-value&gt;
+</PRE>The right side of an assignment can be a constant or an expression. 
+Constants are numbers or characters within single quotes. <PRE>&lt;r-value&gt; ::= &lt;const&gt; | &lt;expr&gt;
+
+&lt;const&gt; ::= &lt;number&gt; | ' &lt;char&gt; '
+</PRE>There are three levels of precedence within expressions. Lowest: the 
+additives (+ and -); Middle: the multiplicatives (* and /); Highest: 
+field-in-record and element-in-array. The expression grammar is simple if you 
+realize that the highest level is basically the same stuff that can appear on 
+the left side of an assignment. <PRE>&lt;expr&gt; ::= &lt;expr&gt; + &lt;term&gt;
+           | &lt;expr&gt; - &lt;term&gt;
+           | &lt;term&gt;
+&lt;term&gt; ::= &lt;term&gt; * &lt;factor&gt;
+           | &lt;term&gt; / &lt;factor&gt;
+           | &lt;factor&gt;
+&lt;factor&gt; ::= &lt;number&gt; | &lt;l-value&gt;
+</PRE>
+<HR>
+
+<H2>Part 2</H2>My derivation is probably meaningless to you, since your grammar 
+is different. But here it is anyway. <PRE><FONT size=-1>
+element X + 1 in A_nums in element 3 in My_rec_array &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;number&gt; in My_rec_array &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;const&gt; in My_rec_array &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;r-value&gt; in My_rec_array &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;elem&gt; in My_rec_array &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;elem&gt; in &lt;identifier&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in element &lt;elem&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in &lt;elem_id&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in A_nums in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in &lt;identifier&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in &lt;field_id&gt; &lt;== X + I in My_rec * 2 .
+element X + 1 in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + &lt;number&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + &lt;factor&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element X + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;identifier&gt; + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;l-value&gt; + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;factor&gt; + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;term&gt; + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;expr&gt; + &lt;term&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;expr&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;r-value&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+element &lt;elem&gt; in &lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+&lt;elem_id&gt; &lt;== X + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== X + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;identifier&gt; + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;l-value&gt; + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;factor&gt; + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;term&gt; + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + I in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;identifier&gt; in My_rec * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;identifier&gt; in &lt;identifier&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;identifier&gt; in &lt;l-value&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;field_id&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;l-value&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;factor&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;term&gt; * 2 .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;term&gt; * &lt;number&gt; .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;term&gt; * &lt;factor&gt; .
+&lt;l-value&gt; &lt;== &lt;expr&gt; + &lt;term&gt; .
+&lt;l-value&gt; &lt;== &lt;expr&gt; .
+&lt;l-value&gt; &lt;== &lt;r-value&gt; .
+&lt;assign_stmt&gt;
+</FONT>
+</PRE>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update October 17, 1999)</I></FONT> </BODY></HTML>

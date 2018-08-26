@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0072)http://www.site.uottawa.ca/~marchand/teaching/CSI3310/answers/ExSol.html -->
+<HTML><HEAD><TITLE>Solutions</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR><!-- saved from url=(0071)http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/answers/ExSol.html --></HEAD>
+<BODY>
+<H2>CSI 3310/3710: Solutions to theoretical exercises</H2>
+<H3>Chapter 1</H3>
+<BLOCKQUOTE>1.7) 
+  <P>If a processor is held up in attempting to read or write memory, usually no 
+  damage occurs except a slight loss of time. However, a DMA transfer may be to 
+  orfrom a device that is receiving or sending data in a stream (e.g., disk or 
+  tape), and cannot be stopped. Thus, if the DMA module is held up (denied 
+  <BR>continuing access to main memory), data will be lost. 
+  <P>1.8) 
+  <P>Let us ignore read/write operations and assume the processor only fetches 
+  instructions. Then the processor needs to access main memory once every 
+  microsecond. The DMA module is transferring characters at a rate of 1200 
+  characters per second, or once every 833 microseconds. The DMA therefore 
+  "steals" every 833rd cycle. This slows down the processor approximately 
+  (1/833) * 100% = 0.12% 
+  <P>1.9) 
+  <P>a) The processor can only devote 5% of its time to I/O instructions. Thus 
+  the maximum I/O instruction execution rate is 10^6 * 0.05 = 50000 instructions 
+  per second. The I/O transfer rate is therefore 25000 words/second. 
+  <P>b) The number of bus cycles available for DMA control is 5 during the 
+  fraction (5%) of the time that the processor is not busy executing background 
+  programs but only 2 during the fraction (95%) of the time where it is 
+  executing background jobs. Hence the total number of bus cycles available to 
+  the DMA is:&nbsp; 10^6 * (0.05*5 +0.95*2) = 2.15 * 10^6.&nbsp; If we assume 
+  that the DMA module can use all of those cycles, and ignore any setup or 
+  status checking time, then this value is the maximum I/O transfer rate. 
+  <P>1.12) Since the referenced data can either be in the cache, in main memory, 
+  or on disk, we have the following 3 cases to consider: <BR>&nbsp; <BR>&nbsp; 
+  <TABLE border=1 cols=3 width="100%">
+    <CAPTION></CAPTION>
+    <TBODY>
+    <TR>
+      <TD><B>Location of referenced word</B></TD>
+      <TD>&nbsp;<B>Probability for that case</B></TD>
+      <TD>&nbsp;<B>Total access time in ns</B></TD></TR>
+    <TR>
+      <TD>&nbsp;In cache</TD>
+      <TD>0.9</TD>
+      <TD>20ns</TD></TR>
+    <TR>
+      <TD>In main memory</TD>
+      <TD>(0.1)*(0.6) = 0.06</TD>
+      <TD>60ns + 20ns = 80ns</TD></TR>
+    <TR>
+      <TD>On disk</TD>
+      <TD>(0.1)*(0.4) = 0.04</TD>
+      <TD>12ms + 60ns + 20ns = 12000080ns</TD></TR></TBODY></TABLE>
+  <P>So the average access time will be: 
+  <P>(0.9)*20 + (0.06)*80 + (0.04)*12000080 = 480026ns</P></BLOCKQUOTE>
+<H3>Chapter 2</H3>
+<BLOCKQUOTE> <BR>2.1) 
+  <P>For each job and for each period T, half the time is spent in I/O and the 
+  other half in processor activity. Each job is run for a total of N periods. 
+  <P>(a) For each job and for each period T, the first half of T is spent in I/O 
+  and the second half in CPU activity. We have the following scenarios of 
+  execution for one, two and four simultaneous jobs: 
+  <P><IMG height=395 src="Solutions_files/q2.1a.jpe" width=545> 
+  <P>The Turnaround time (TAT) is the time to complete a job (ie: job 1). We see 
+  that for 1 simultaneous job we have TAT = NT. We also have TAT = NT for two 
+  simultaneous jobs since job 1 finishes at time NT (see figure). For the case 
+  of four simultaneous jobs, we see (in the figure) that, for each time interval 
+  of 2T,&nbsp; job 1 is busy with I/O and CPU during the first T and is doing 
+  nothing for the second T. Hence,&nbsp; job 1 finishes at time 2T*(N-1) + T 
+  (since we do not count the last time slots where job 1 was doing nothing). 
+  Hence following this analysis we have the following results: <BR>&nbsp; 
+  <TABLE border=1 cols=4 width="100%">
+    <CAPTION>
+    <TBODY><BR></TBODY></CAPTION>
+    <TBODY>
+    <TR>
+      <TD>Number of sumultaneous jobs</TD>
+      <TD>Turnaround time</TD>
+      <TD>Throughput</TD>
+      <TD>Processor utilization</TD></TR>
+    <TR>
+      <TD>1 job</TD>
+      <TD>N*T</TD>
+      <TD>1/N</TD>
+      <TD>50%</TD></TR>
+    <TR>
+      <TD>2 jobs</TD>
+      <TD>N*T</TD>
+      <TD>2/N</TD>
+      <TD>100%</TD></TR>
+    <TR>
+      <TD>4 jobs</TD>
+      <TD>(2N-1)*T</TD>
+      <TD>4/(2N-1)</TD>
+      <TD>100%</TD></TR></TBODY></TABLE>
+  <P>(b) The answers are the same as in (a) <BR>&nbsp; 
+  <P>2.2) 
+  <P>I/O-bound programs use relatively little processor time and are therefore 
+  favored by the algorithm. However, if a processor-bound process is denied CPU 
+  time for a sufficiently long period of time, the same algorithm will grant the 
+  processor to that process since it has not used the CPU at all in the recent 
+  past. Therefore, a CPU-bound process will not be permanently denied access. 
+  <P>2.4) 
+  <P>With time sharing, the concern is turnaround time. So time-slicing is 
+  preferred since it gives all processes access to the CPU over a short period 
+  of time. In a batch system, the concern is throughput, and the less process 
+  (context) switching, the more CPU time is available to processes. In that 
+  case, a policy that minimizes context switching is favored. 
+  <P>2.5) 
+  <P>A system call is used by an application program to invoke a function 
+  provided by the OS. Typically, the system call results in a transfer to a 
+  system program that runs in kernel mode. <BR>&nbsp; <BR>&nbsp;</P></BLOCKQUOTE>
+<H3>Chapter 3</H3>
+<BLOCKQUOTE> <BR>3.3) 
+  <P>We show the result for a single blocked queue. The figure readily 
+  generalizes to <BR>multiple blocked queues. 
+  <P><IMG height=237 src="Solutions_files/q3-3.jpe" width=502> 
+  <P>3.4) 
+  <P>Penalize the Ready-suspend processes by some fixed amount, such as one or 
+  two priority levels, so that a Ready-suspend process is chosen next only if it 
+  has a higher priority than the highest-priority Ready process by several 
+  levels of priority. 
+  <P>3.9) 
+  <P>This technique is based on the assumption that an interrupted process A 
+  will <BR>continue to run after the response to an interrupt. But in general, 
+  an interrupt <BR>may cause the OS to preempt a process A in favor of another 
+  process <BR>B. It is now necessary to copy the execution state of process A 
+  from the <BR>location associated with the interrupt to the process description 
+  associated <BR>with A. The machine might as well have stored them there in the 
+  first place. <BR>&nbsp;</P></BLOCKQUOTE>
+<H3>Chapter 4</H3>
+<BLOCKQUOTE> <BR>4.1) 
+  <P>Yes, because more state information must be save to switch from one process 
+  to another. 
+  <P>4.3) 
+  <P>In a multithreaded process, one KLT can make a blocking system call, while 
+  other KLTs (of the same process) can continue to run (on the uniprocessor). In 
+  contrast, a blocking system call of single-threaded process would block the 
+  entire process. 
+  <P>4.4) 
+  <P>No, when a process exits, it takes everything with it: the KLTs, the 
+  process structure, the memory space, everything including 
+threads.</P></BLOCKQUOTE>
+<H3>Chapter 5</H3>
+<BLOCKQUOTE> <BR><B>Question 1</B> 
+  <P>The proposed solution is not valid because mutual exclusion is not 
+  satisfied:&nbsp; P0 sets f[0] to true and t to 0 and it enters CS (since t=0). 
+  P1 then sets f[1] to true and t to 1 and then enters CS (since t=1). 
+  <P><B>Question 2</B> 
+  <P>Only 1 semaphore, s, is needed. The following solution is valid: 
+  <P>Initialization: s.count := 0;</P></BLOCKQUOTE>
+<TABLE border=1 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD>Process P1</TD>
+    <TD>Process P2</TD>
+    <TD>Process P3</TD></TR>
+  <TR>
+    <TD>S1;&nbsp; <BR>signal(s);</TD>
+    <TD>S2;&nbsp; <BR>signal(s)</TD>
+    <TD>wait(s);&nbsp; <BR>wait(s);&nbsp; <BR>S3;</TD></TR></TBODY></TABLE>
+<BLOCKQUOTE>The following solution is <B><FONT color=#ff0000>not 
+  valid</FONT></B>: 
+  <P>Initialization: s.count := -1;</P></BLOCKQUOTE>
+<TABLE border=1 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD>Process P1</TD>
+    <TD>Process P2</TD>
+    <TD>Process P3</TD></TR>
+  <TR>
+    <TD>S1;&nbsp; <BR>signal(s);</TD>
+    <TD>S2;&nbsp; <BR>signal(s)</TD>
+    <TD>wait(s);&nbsp; <BR>S3;</TD></TR></TBODY></TABLE>
+<BLOCKQUOTE>One scenario that fails: P3 executes first and gets blocked (and 
+  put into s.queue) by executing wait(s). We now have s.count = -2. P1 is 
+  executing S1 and then signal(s). This increases s.count to -1 and removes P3 
+  from the semaphore queue! so that P3 is moved to the ready-to-execute queue. 
+  P3 gets unfortunately control of the CPU and S3 gets executed (before S2). 
+  <P><B>Question 3</B> 
+  <P>Two semaphores, sm1 and sm2,&nbsp; are needed. <BR>Initialization: sm1 := 
+  0; sm2 := 0;</P></BLOCKQUOTE>
+<TABLE border=1 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD>Process P1</TD>
+    <TD>Process P2</TD>
+    <TD>Process P3</TD></TR>
+  <TR>
+    <TD>S1;&nbsp; <BR>signal(sm1);</TD>
+    <TD><BR>wait(sm1);&nbsp; <BR>S2;&nbsp; <BR>signal(sm2);</TD>
+    <TD>wait(sm2);&nbsp; <BR>S3;</TD></TR></TBODY></TABLE><BR>&nbsp; 
+<P>
+<HR width="100%">
+
+<P><I>Last updated: June 5, 2000.</I> </P></BODY></HTML>

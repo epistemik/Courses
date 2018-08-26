@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/sol02.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment 2 Solution</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment 2 Solution_files/3125.gif" 
+      valign="center"></A><FONT color=white size=+3>CSI 3125 Assignment 2 
+      Solution</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment 2 Solution_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment 2 Solution_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment 2 Solution_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment 2 Solution_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment 2 Solution_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment 2 Solution_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment 2 Solution_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment 2 Solution_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here is my solution to assignment 2.
+<P>
+<HR>
+
+<H2>Part A: Variant Records</H2>The title says it all. You needed to use variant 
+records to solve this part of the assignment.
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>program p2c;
+
+type
+   bchar = record
+      case tag: (byt, chr) of
+         byt: (b: byte);
+         chr: (c: char)
+      end;
+
+   intbool = record
+      case tag: (bool, inte) of
+         bool: (b: boolean);
+         inte: (i: byte)
+      end;
+
+   arithptr = record
+      case tag: (ptr, int) of
+         ptr: (p: ^char);
+         int: (i: longint)
+      end;
+
+function tif(C: boolean; E1: integer; E2: integer): integer;
+begin
+   if C then
+      tif := E1
+   else
+      tif := E2
+end;
+
+var
+   ch: bchar;
+   i, j: integer;
+   ib: intbool;
+   memblock: array[1..26] of char;
+   p: arithptr;
+
+begin
+
+   { assign a character to ch then check its ASCII code byte value }
+   ch.c := 'A';
+   if ch.b = 65 then
+      writeln('Cool! ''A'' is 65!');
+
+   { assign either j or -j to i, depending on the sign of j to begin with }
+   j := -5;
+   i := tif(j &lt; 0, -j, j);
+   writeln(i);
+
+   { assign integers to ib then test ib as a boolean }
+   ib.i := 0;
+   if not ib.b then
+      writeln('Zero is the same as false!');
+
+   ib.i := 42;
+   if ib.b then
+      writeln('Nonzero is the same as true!');
+
+   ib.i := 13;
+   while ib.b do
+      ib.i := ib.i - 1;
+
+   { set p to point to memblock, then do arithmetic on p }
+
+   p.p := @memblock;
+   ch.c := 'A';
+   for i := 1 to 26 do begin
+      p.p^ := ch.c;
+      p.i := p.i + 1;
+      ch.b := ch.b + 1;
+   end;
+
+   p.p := @memblock;
+   for i := 1 to 26 do begin
+      write(p.p^);
+      p.i := p.i + 1;
+   end;
+   writeln;
+end.
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Part B: Types</H2>Here are the procedures and functions that were to be 
+added to the dating program.
+<P>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>function setcard(ls: hobbies): byte;
+   type
+      sy = (s, y);
+   var
+      sum: byte;
+      i: byte;
+      interests: record case tag: sy of
+         s: (se: hobbies); y: (by: byte) end;
+   begin
+      interests.se := ls;
+      sum := 0;
+      i := 128;
+      while i &gt; 0 do begin
+         sum := sum + (interests.by div i);
+         interests.by := interests.by mod i;
+         i := i div 2
+      end;
+
+      setcard := sum
+   end;
+
+procedure killdate(d: dateptr);
+   begin
+      dispose(d)
+   end;
+
+function match(d1, d2: dateptr): boolean;
+   begin
+      match := ((abs(d1^.age - d2^.age) &lt;= 6) and
+                (d1^.physical.size = d2^.physical.size) and
+                (setcard(d1^.interests * d2^.interests) &gt;= 2))
+   end;
+
+procedure printdate(d: dateptr);
+   begin
+      write('Age: ');
+      writeln(d^.age);
+      write('Interests: ');
+      if (music in d^.interests) then
+         write('music ');
+      if (reading in d^.interests) then
+         write('reading ');
+      if (hockey in d^.interests) then
+         write('hockey ');
+      if (mature_interests in d^.interests) then
+         write('mature_interests ');
+      if (travel in d^.interests) then
+         write('travel ');
+      if (cooking in d^.interests) then
+         write('cooking ');
+      if (programming in d^.interests) then
+         write('programming ');
+      if (haute_couture in d^.interests) then
+         write('haute_couture ');
+      writeln;
+      write('Physical: ');
+      case d^.physical.doo of
+         brunette: write('brunette ');
+         blonde: write('blonde ');
+         red: write('red ');
+         dyed: write('dyed ')
+      end;
+      case d^.physical.gogs of
+         brown: write('brown ');
+         blue: write('blue ');
+         green: write('green ');
+         grey: write('grey ')
+      end;
+      case d^.physical.size of
+         tall: write('tall ');
+         short: write('short ');
+         medium: write('medium ')
+      end;
+      case d^.physical.shape of
+         lightbulb: writeln('lightbulb');
+         buoy: writeln('buoy');
+         rake: writeln('rake');
+         pumpkin: writeln('pumpkin')
+      end;
+      writeln
+   end;
+</PRE></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>Part C: Parameter Passing</H2>Here is the output of the Rascal program for 
+the five different parameter passing modes. You don't need a Rascal compiler to 
+find the answers, you can simulate the modes using Pascal.
+<P>
+<OL>
+  <LI><B>pass-by-value</B><BR>This one is easy. Just delete the word 
+  <TT>mode</TT> in <TT>sub1</TT> and run the program in Pascal: 
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>3
+3
+2, 4, 7, 8, 10, 12, 4, 16, 18, 20
+</PRE></TD></TR></TBODY></TABLE>
+  <P></P>
+  <LI><B>pass-by-result</B><BR>This one could also be simulated in Pascal, but 
+  there's no need to: <TT>sub1</TT> tries to use <TT>D</TT> on the right hand 
+  side of an assignment before D is given a value. In any language that supports 
+  <I>pass-by-result</I>, this would be illegal (the program wouldn't even 
+  compile, much less give output).
+  <P></P>
+  <LI><B>pass-by-value-result</B><BR>We can simulate <I>pass-by-value-result</I> 
+  by using <TT>var</TT> parameters in Pascal, but using new local variables 
+  inside <TT>sub1</TT>. Here's what the new <TT>sub1</TT> would look like:<BR><PRE>procedure sub1(var D, E: integer);
+  <B>var Q, R: integer;</B>
+begin
+  <B>Q := D;  R := E;</B>
+  Q := Q + 1;
+  writeln(X);
+  A[R] := Q;
+  <B>D := Q;  E := R</B>
+end;
+</PRE>And the output is: 
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE>3
+<B>4</B>
+2, 4, 7, 8, 10, 12, 4, 16, 18, 20
+</PRE></TD></TR></TBODY></TABLE>
+  <P></P>
+  <LI><B>pass-by-reference</B><BR>Just change the <TT>mode</TT> to <TT>var</TT> 
+  and run it in Pascal: 
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE><B>4</B>
+<B>4</B>
+2, 4, 7, 8, 10, 12, 4, 16, 18, 20
+</PRE></TD></TR></TBODY></TABLE>
+  <P></P>
+  <LI><B>pass-by-name</B><BR>To simulate <I>pass-by-name</I> in Pascal, change 
+  every occurrence of <TT>D</TT> and <TT>E</TT> in <TT>sub1</TT> to the actual 
+  parameters <TT>X</TT> and <TT>A[X]</TT>. (You can leave <TT>D</TT> and 
+  <TT>E</TT> in the procedure header): <PRE>procedure sub1(D, E: integer);
+begin
+   X := X + 1;
+   writeln(X);
+   A[A[X]] := X
+end;
+</PRE>And the output is: 
+  <TABLE border=1 cellPadding=2>
+    <TBODY>
+    <TR>
+      <TD bgColor=white><PRE><B>4</B>
+<B>4</B>
+2, 4, 7, 8, 10, 12, <B>14</B>, <B>4</B>, 18, 20
+</PRE></TD></TR></TBODY></TABLE>
+  <P>
+  <UL></UL>
+  <TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+    <TBODY>
+    <TR>
+      <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+  size=-2><I>(last update November 17, 1999)</I></FONT> </LI></OL></BODY></HTML>

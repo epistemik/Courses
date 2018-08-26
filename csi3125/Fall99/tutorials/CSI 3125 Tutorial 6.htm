@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut06.html -->
+<HTML><HEAD><TITLE>CSI 3125 Tutorial 6</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Tutorial 6_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Tutorial 6</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Tutorial 6_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Tutorial 6_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Tutorial 6_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Tutorial 6_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Tutorial 6_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Tutorial 6_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Tutorial 6_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Tutorial 6_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Tutorial 6 is chock full of all sorts of interesting instructions and example 
+programs for MIT Scheme.
+<P>
+<HR>
+
+<P>
+<H2>Finding Scheme</H2>From the PCs in the Cube, you should be able to find the 
+MIT Scheme interpreter on the Network drive called <TT>SOFTWARE</TT> on the 
+server <TT>FORSITE</TT>. On my machine, that drive is automatically mapped to 
+drive G: when I log in. If you don't have <TT>\\FORSITE\SOFTWARE</TT> 
+automatically mapped, you can map it from manually.
+<P>On the <TT>SOFTWARE</TT> drive, go to the <TT>Windows</TT> folder. There 
+should be a folder in there called <TT>Scheme</TT>. In the <TT>Scheme</TT> 
+folder you can find the interpreter (<TT>scheme.exe</TT>) in the <TT>bin</TT> 
+folder and the documentation in the <TT>doc</TT> folder.
+<P>To get your own copy of MIT Scheme, go to the download page for <A 
+href="http://www.swiss.ai.mit.edu/ftpdir/scheme-7.4/">MIT Scheme 7.4</A>.
+<P>
+<H2>Using Scheme</H2>Run Scheme. This gives you a window with some copyright 
+info and a funny looking prompt <TT>1 ]=&gt;</TT>. Here are a few useful 
+commands you can give at the prompt: 
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><TT>1 ]=&gt; (pwd)</TT></TD>
+    <TD>displays the current working directory</TD></TR>
+  <TR>
+    <TD><TT>1 ]=&gt; (cd "\\")</TT></TD>
+    <TD>changes directory to the root directory of the current drive; you need 
+      to give this command before changing drives (when you change drives Scheme 
+      tries to change to the directory you were in on the old drive; if it 
+      doesn't exist, you get a big ugly error message)</TD></TR>
+  <TR>
+    <TD><TT>1 ]=&gt; (cd "h:")</TT></TD>
+    <TD>changes the current drive to drive H</TD></TR>
+  <TR>
+    <TD><TT>1 ]=&gt; (load "foo.scm")</TT></TD>
+    <TD>loads an ASCII file (called foo.scm) of Scheme functions</TD></TR>
+  <TR>
+    <TD><TT>1 ]=&gt; (exit)</TT></TD>
+    <TD>prompts you to exit Scheme</TD></TR></TBODY></TABLE>
+<P>You <I>do stuff</I> in Scheme by loading Scheme programs and typing in 
+expressions. Scheme will attempt to evaluate any expression you type in. Here 
+are some example expressions that you can type in without loading a program 
+first:
+<P>Note that if you type in a list like this: <TT>(a b c)</TT> it tries to 
+evaluate b and c as variables and a as a function so that it can apply function 
+a to arguments b and c. If you mean the list constant <TT>(a, b, c)</TT> you 
+have to "quote" it: <TT>'(a b c)</TT>.
+<P>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1><PRE>1 ]=&gt; <B>42</B>
+
+;Value: 42
+
+1 ]=&gt; <B>"let's go senators"</B>
+
+;Value: "let's go senators"
+
+1 ]=&gt; <B>c</B>
+
+;Unbound variable: c
+;To continue, call RESTART with an option number:
+; (RESTART 3) =&gt; Specify a value to use instead of c.
+; (RESTART 2) =&gt; Define c to a given value.
+; (RESTART 1) =&gt; Return to read-eval-print level 1.
+
+2 error&gt; <B>(restart 1)</B>
+
+;Abort!
+
+1 ]=&gt; <B>'c'</B>
+
+;Value: c
+
+1 ]=&gt; <B>'c</B>
+
+;Value: (quote c)
+
+1 ]=&gt; <B>'(a b c)</B>
+
+;Value: (a b c)
+
+1 ]=&gt; <B>'(1 2 "sens" '(3 4))</B>
+
+;Value: (1 2 "sens" (quote (3 4))
+
+1 ]=&gt; <B>(* 5 3)</B>
+
+;Value: 15
+
+1 ]=&gt; <B>(/ 6 3)</B>
+
+;Value: 2
+
+1 ]=&gt; <B>(/ 5 3)</B>
+
+;Value: 5/3
+
+1 ]=&gt; <B>(* 3 (/ 5 3))</B>
+
+;Value: 5
+
+1 ]=&gt; <B>(car '(a b c))</B>
+
+;Value: a
+
+1 ]=&gt; <B>(cdr '(a b c))</B>
+
+;Value: (b c)
+
+1 ]=&gt; <B>(cons 'a '(b c d))</B>
+
+;Value: (a b c d)
+
+1 ]=&gt; <B>(cons '(a b c) '(d e))</B>
+
+;Value: ((a b c) d e)
+
+1 ]=&gt; <B>#t</B>
+
+;Value: #t
+
+1 ]=&gt; <B>#f</B>
+
+;Value: ()
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<P>
+<H2>Programming in Scheme</H2>Here are a bunch of little Scheme functions. We 
+usually define Scheme functions with the built-in <TT>define</TT> function: 
+<UL>
+  <LI><TT>(define 
+  (</TT><I>functionname&nbsp;&nbsp;parameters</I><TT>)<BR>&nbsp;&nbsp;</TT><I>body</I><TT><BR>)</TT> 
+  </LI></UL>
+<P>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1><PRE>(define (square x)                   
+  (* x x)                            
+)
+
+(define (cube x)                     
+  (* x (* x x))                      
+)                                    
+
+(define (factorial n)
+  (if (= n 0)                        
+      1
+      (* n (factorial (- n 1)))      
+  )                                  
+)                                    
+
+(define (addemup L)
+  (if (null? L)                      
+      0                              
+      (+ (car L) (addemup (cdr L)))  
+  )                                  
+)
+
+(define (memb A L)                   
+  (cond
+    ((null? L) #f)                   
+    ((eq? A (car L)) #t)             
+    (else (memb A (cdr L)))          
+  )
+)
+
+(define (append L1 L2)               
+  (if (null? L1)                     
+      L2                             
+      (cons (car L1) (append (cdr L1) L2))
+  )                                  
+)                                    
+                                     
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>Now let's use these functions:
+<P>
+<TABLE border=1 cellPadding=3>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1><PRE>1 ]=&gt; <B>(load "tut06.scm")</B>
+
+;Loading "tut06.scm" -- done
+;Value: append
+
+1 ]=&gt; <B>(square 3)</B>
+
+;Value: 9
+
+1 ]=&gt; <B>(cube 5)</B>
+
+;Value: 125
+
+1 ]=&gt; <B>(factorial 5)</B>
+
+;Value: 120
+
+1 ]=&gt; <B>(factorial 20)</B>
+
+;Value: 2432902008176640000
+
+1 ]=&gt; <B>(addemup '(3 4 8 6 9))</B>
+
+;Value: 30
+
+1 ]=&gt; <B>(memb 'a '(d e g a m n))</B>
+
+;Value: #t
+
+1 ]=&gt; <B>(memb 'a '(d e g b m n))</B>
+
+;Value: ()
+
+1 ]=&gt; <B>(memb '(b c) '(a b c d e))</B>
+
+;Value: ()
+
+1 ]=&gt; <B>(append '(a b c) '(d e f g))</B>
+
+;Value: (a b c d e f g)
+
+</PRE></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update November 21, 1999)</I></FONT> </P></BODY></HTML>

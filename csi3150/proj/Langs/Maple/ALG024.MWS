@@ -1,0 +1,160 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 200 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "M
+aple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 
+0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 
+-1 "" 0 1 0 0 160 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 
+0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 300 "# SECANT ALGORITHM 2.4\n#\n# To fi
+nd a solution to the equation f(x) = 0\n# given initial approximations
+ p0 and p1:\n#\n# INPUT:   initial approximation p0, p1; tolerance TOL
+;\n#          maximum number of iterations N0.\n#\n# OUTPUT:  approxim
+ate solution p or\n#          a message that the algorithm fails." }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 81 "alg024 := proc() local F, OK, P0, P
+1, TOL, NO, FLAG, NAME, OUP, F0, I, F1, P, FP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`This is the Secant Method\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 50 "printf(`Input the function F(x) in terms of x
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "printf(`For example: cos(
+x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`
+Input initial approximations P0 and P1 separated by a blank\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "P0 := scanf(`%f`)[1]; " }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "P1 := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "if P0 = P1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 
+"printf(`P0 cannot equal P1\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 
+"else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 28 "printf(`Input tolerance\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if TO
+L <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`Tolerance mu
+st be positive\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 66 "printf(`Input maximum number of iterations - no decimal point\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NO := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if NO <= 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 37 "printf(`Must be positive integer\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "O
+K := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = T
+RUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`Select output d
+estination\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "printf(`1. Scre
+en\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`2. Text file\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`For exampl
+e:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME
+ := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen
+(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Sele
+ct amount of output\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf
+(`1. Answer only\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2
+. All intermeditate approximations\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "fprintf(OUP, `Secant Method\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+48 "fprintf(OUP, `  I    P                 F(P)\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "F0 := F
+(P0);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "I := 2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "F0 := F(
+P0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "F1 := F(P1);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "OK := TRUE;        " }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "while I <= NO and O
+K = TRUE do  " }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "
+" {TEXT -1 12 "compute P(I)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "P :=
+ P1-F1*(P1-P0)/(F1-F0);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "FP := F(P);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+46 "fprintf(OUP,`%3d   %15.8e   %15.8e\\n`,I,P,FP);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(P-P1) < TOL then" }}{PARA 0 "" 0 "
+" {TEXT -1 31 "procedure completed sucessfully" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "fprintf(OUP,`\\nApproximate solution P = %12.8f\\n`,P
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "fprintf(OUP,`with F(P) = %12.
+8f\\n`,FP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "fprintf(OUP,`Number \+
+of iterations = %d\\n`,I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "fprin
+tf(OUP,`Tolerance = %14.8e\\n`,TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 12 "OK := FALSE;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I :=
+ I+1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "" 0 "" {TEXT -1 21 "update P0, F0, P1, F1" }{MPLTEXT 1 0 0 "
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "P0 := P1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "F0 := F1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "P1 := P
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "F1 := FP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }}{PARA 0 "" 0 "" {TEXT -1 34 "procedure completed
+ unsuccessfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "fprintf(OUP,`\\n
+Iteration number %d`,NO);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprint
+f(OUP,` gave approximation %12.8f\\n`,P);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 72 "fprintf(OUP,`with F(P) = %12.8f not within tolerance \+
+ %15.8e\\n`,FP,TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 50 "printf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg024G:6
+\"60%\"FG%#OKG%#P0G%#P1G%$TOLG%#NOG%%FLAGG%%NAMEG%$OUPG%#F0G%\"IG%#F1G
+%\"PG%#FPGF&F&C/-%'printfG6#%;This~is~the~Secant~Method|+G-F86#%GInput
+~the~function~F(x)~in~terms~of~x|+G-F86#%4For~example:~cos(x)G>8$&-%&s
+canfG6#%#%aG6#\"\"\">FB-%(unapplyG6$FB%\"xG>8%%&FALSEG?(F&FIFIF&/FPFQC
+&-F86#%gnInput~initial~approximations~P0~and~P1~separated~by~a~blank|+
+G>8&&-FE6#%#%fGFH>8'FZ@%/FYFin-F86#%4P0~cannot~equal~P1|+G>FP%%TRUEG>F
+PFQ?(F&FIFIF&FSC%-F86#%1Input~tolerance|+G>8(FZ@%1Fho\"\"!-F86#%<Toler
+ance~must~be~positive|+G>FPF`o>FPFQ?(F&FIFIF&FSC%-F86#%WInput~maximum~
+number~of~iterations~-~no~decimal~point|+G>8)&-FE6#%#%dGFH@%1FgpF[p-F8
+6#%:Must~be~positive~integer|+G>FPF`o@$/FPF`oC7-F86#%;Select~output~de
+stination|+G-F86#%+1.~Screen|+G-F86#%.2.~Text~file|+G-F86#%.Enter~1~or
+~2|+G>8*Fhp@%/Fbr\"\"#C&-F86#%SInput~the~file~name~in~the~form~-~drive
+:\\name.ext|+G-F86#%>For~example:~~~A:\\OUTPUT.DTA|+G>8+&-FE6#%#%sGFH>
+8,-%&fopenG6%F^s%&WRITEG%%TEXTG>Fds%(defaultG-F86#%9Select~amount~of~o
+utput|+G-F86#%01.~Answer~only|+G-F86#%E2.~All~intermeditate~approximat
+ions|+GF^r>FbrFhp-%(fprintfG6$Fds%/Secant~Method|+G@$Fdr-Fgt6$Fds%?~~I
+~~~~P~~~~~~~~~~~~~~~~~F(P)|+G>8--FB6#FY>8.Fer>F_uF`u>8/-FB6#Fin>FPF`o?
+(F&FIFIF&31FcuFgpFcqC&>80,&FinFI*(FfuFI,&FinFIFY!\"\"FI,&FfuFIF_uFcvFc
+vFcv>81-FB6#F_v@$Fdr-Fgt6'Fds%7%3d~~~%15.8e~~~%15.8e|+GFcuF_vFfv@%2-%$
+absG6#,&F_vFIFinFcvFhoC'-Fgt6%Fds%B|+Approximate~solution~P~=~%12.8f|+
+GF_v-Fgt6%Fds%4with~F(P)~=~%12.8f|+GFfv-Fgt6%Fds%;Number~of~iterations
+~=~%d|+GFcu-Fgt6%Fds%4Tolerance~=~%14.8e|+GFho>FPFQC'>Fcu,&FcuFIFIFI>F
+YFin>F_uFfu>FinF_v>FfuFfv@$FcqC%-Fgt6%Fds%5|+Iteration~number~%dGFgp-F
+gt6%Fds%<~gave~approximation~%12.8f|+GF_v-Fgt6&Fds%Qwith~F(P)~=~%12.8f
+~not~within~tolerance~~%15.8e|+GFfvFho@$0FdsF[tC$-%'fcloseG6#Fds-F86$%
+COutput~file~%s~created~sucessfullyGF^s-%'RETURNG6#F[pF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg024();" }}{PARA 6 "" 1 "" {TEXT 
+-1 83 "This is the Secant Method\nInput the function F(x) in terms of \+
+x\nFor example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "co
+s(x)-x" }}{PARA 6 "" 1 "" {TEXT -1 59 "Input initial approximations P0
+ and P1 separated by a blank" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 14 ".5 .7853981635" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 ".0005" }}{PARA 6 "" 1 "" 
+{TEXT -1 53 "Input maximum number of iterations - no decimal point" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "15" }}{PARA 6 "" 1 "" {TEXT 
+-1 61 "Select output destination\n1. Screen\n2. Text file\nEnter 1 or \+
+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 87 "Select amount of output\n1. Answer only\n2. All intermedi
+tate approximations\nEnter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 279 "Secant Method\n  I \+
+   P                 F(P)\n  2    7.36384138e-01    4.51771860e-03\n  \+
+3    7.39058139e-01    4.51772000e-05\n  4    7.39085149e-01   -2.6900
+0000e-08\n\nApproximate solution P =    .73908514\nwith F(P) =   -.000
+00002\nNumber of iterations = 4\nTolerance = 5.00000000e-04" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 0 "" }}}}{MARK "9 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,370 @@
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = GREEN
+Northbound car 0 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 5 enters the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 0 leaves the tunnel
+Northbound car 1 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 5 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 1 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 2 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 1 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 3 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 3 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 2 leaves the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 0 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 0 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 5 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 2 leaves the tunnel
+Northbound car 0 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 2 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 0 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 3 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 0 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 3 leaves the tunnel
+Northbound car 1 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 2 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 1 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = GREEN
+Northbound car 4 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 2 enters the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 1 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 4 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 4 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 1 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 3 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 1 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 3 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 1 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 3 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = GREEN
+Northbound car 4 enters the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 3 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 1 leaves the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 3 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+Northbound car 3 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 5 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 1 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 1 leaves the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 4 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 5 leaves the tunnel
+Northbound car 3 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 2 enters the tunnel
+Southbound car 1 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 1 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = GREEN
+Northbound car 3 enters the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 1 enters the tunnel
+Northbound car 2 enters the tunnel
+Northbound car 3 leaves the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 1 leaves the tunnel
+Northbound car 2 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Northbound car 4 leaves the tunnel
+Northbound car 0 leaves the tunnel
+Northbound car 5 leaves the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = GREEN
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 2 enters the tunnel
+Southbound car 0 enters the tunnel
+Southbound car 2 leaves the tunnel
+Southbound car 0 leaves the tunnel
+Southbound car 1 enters the tunnel
+NORTHBOUND light = RED  --  SOUTHBOUND light = RED
+Southbound car 1 leaves the tunnel
+NORTHBOUND light = GREEN  --  SOUTHBOUND light = RED
+Northbound car 2 enters the tunnel
+Northbound car 4 enters the tunnel
+Northbound car 0 enters the tunnel
+Northbound car 2 leaves the tunnel
+Northbound car 5 enters the tunnel
+Northbound car 4 leaves the tunnel
+Northbound car 3 enters the tunnel
+Northbound car 0 leaves the tunnel

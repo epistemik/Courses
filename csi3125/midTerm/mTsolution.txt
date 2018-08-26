@@ -1,0 +1,428 @@
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.
+The concept of call-by-name and the idea of formal syntactic
+description of a programming language were first introduced in:
+
+(A)    FORTRAN
+*(B)   ALGOL 60
+(C)    LISP 1.5
+(D)    COBOL
+(E)    SIMULA 67
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2.
+Which of the following statements is not true?
+
+(A)    PL/I was the first language to introduce the use of pointers.
+(B)    SIMULA 67 is an extension of ALGOL 60 that includes the class
+       construct. 
+*(C)   FORTRAN was the first language to have an orthogonal design.
+(D)    Plankalkuel was designed in the 1930s and 1940s and
+       introduced many of the features of modern programming languages. 
+(E)    Ada is a very large and complex language that includes many
+       facilities for exception handling. 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3.
+Machine languages are best characterized as:
+
+(A)    low-cost and high-level
+(B)    orthogonal and readable
+(C)    abstract and writable
+*(D)   low-level and general-purpose
+(E)    expressive and reliable
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4.
+Consider the following grammar:
+
+<word>      -->  <syll>  |  <syll> <word>
+<syll>      -->  <consonant> <vowels>  |  <consonant> <vowels> <consonant>
+<vowels>    -->  <vowel>  |  <vowel> <vowel>
+<consonant> -->  m  |  s
+<vowel>     -->  e  |  u
+
+Now, consider the following sequence of six terminal symbols: 
+        m u s e u m
+A top-down left-to-right derivation of this sequence contains a
+separate step for every application of a production of this grammar.
+The derivation looks like this (==> denotes one step; step 1 takes us
+from <word> to <syll> <word>):
+
+<word>         ==>
+<syll> <word>  ==>
+...
+m u s e u m
+
+The total length of this derivation, including the parts shown above,
+is:
+
+(A)     10 steps
+(B)     11 steps
+*(C)    12 steps
+(D)     13 steps
+(E)     14 steps
+
+#########################################
+#   The full derivation is this:
+#   
+#   <word>  ==>
+#   <syll> <word>  ==>
+#   <consonant> <vowels> <word>  ==>
+#   m <vowels> <word>  ==>
+#   m <vowel> <word>  ==>
+#   m u <word>  ==>
+#   m u <syll>  ==>
+#   m u <consonant> <vowels> <consonant>  ==>
+#   m u s <vowels> <consonant>  ==>
+#   m u s <vowel> <vowel> <consonant>  ==>
+#   m u s e <vowel> <consonant>  ==>
+#   m u s e u <consonant>  ==>
+#   m u s e u m
+#   
+#   The arrow ==> denotes one step. Twelve arrows = twelve steps.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5.
+Consider the following grammar of fences. It has two terminal symbols
+P and r.
+
+<fence>  -->  <post> <rails>  <post>
+<post>   -->  P
+<rails>  -->  r r <rails> r  |  r <rails> r r  |  <post>
+
+The two sequences of terminal symbols that both are examples of a
+fence are:
+
+(A)    P r r r r r P r r P    and  P r r r r P r r P
+(B)    P r r r P r r P        and  P r r r P r r r P
+(C)    P r r r r P r r r r P  and  P r r P r r r P
+(D)    P r r r r P r r P      and  P r P r r r P
+*(E)   P r r r r P r r P      and  P r r r P r r r P
+
+#########################################
+#   The grammar generates sequences P r ... r P r ... r P such that the
+#   number of r symbols is a multiple of 3 (we add three r symbols in
+#   every application of a recursive production).
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+6.
+Consider the following five grammars of words. The only terminal
+symbols are X and O. The first two productions are different in each
+grammar. The third, identical, production defines <partXO> that is
+any sequence of m+1 Xs and m Os, for m > 0. [[This actually should
+be m >=0, but the answer and the reasoning is the same.]]
+
+Reminder: { S } means that S can be repeated 0 or more times.
+
+Grammar 1                             Grammar 2
+<word>   --> {<partO> <partXO>}       <word>   --> {{<partO>} {<partXO>}}
+<partO>  --> O <partO> O | O O        <partO>  --> O O
+<partXO> --> X <partXO> O | X         <partXO> --> X <partXO> O | X
+
+Grammar 3                             Grammar 4
+<word>   --> {<partO>} {<partXO>}     <word>   --> {<partO>} {<partXO>}
+<partO>  --> O <partO> O | O O        <partO>  --> O O
+<partXO> --> X <partXO> O | X         <partXO> --> X <partXO> O | X
+
+Grammar 5 
+<word>   --> {<partO> <partXO>}                          
+<partO>  --> O O <partO> O | O O O
+<partXO> --> X <partXO> O | X                                        
+
+Consider now the following word (a sequence of terminal symbols):
+
+          O O O O X X X O O O O
+
+Which of these grammars generates this word?
+
+(A)    Grammar 1
+*(B)   Grammar 2
+(C)    Grammar 3
+(D)    Grammar 4
+(E)    Grammar 5
+
+#########################################
+#   We can start by isolating the segment with three X symbols and
+#   two O symbols (m+1 Xs and m Os). We get this:
+#         O O O O   X X X O O   O O
+#   or, after replacing X X X O O,
+#         O O O O   <partXO>   O O
+#   We see that what we need is a grammar that allows <partO> to
+#   appear at the end. Now, of all these grammars only one has this
+#   property. In grammars 1, 3, 4, 5 a <word> can have no <partXO>
+#   at all, or it must end with <partXO>.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+7.
+Consider the following program fragment with an initial condition and
+placeholders for two more conditions: INTERMEDIATE and FINAL.
+
+{ y > 0  &  x > -5 }
+y := x * x * y;
+{INTERMEDIATE}
+x := x + y;
+{FINAL}
+
+Hint
+You may be better off if you do not try to apply the assignment axiom
+very formally; think instead about the effect of these two assignment
+statements on the range of values of x and y.
+
+The only pair of conditions that are both true for this fragment is:
+
+        INTERMEDIATE       and         FINAL			
+*(A)   { y >= 0  &  x > -5 }  and  { y > -5  &  x > -5 }
+(B)    { y >  0  &  x > -5 }  and  { y >  0  &  x > -5 }
+(C)    { y >= 0  &  x > -5 }  and  { y >= 0  &  x >= 0 }
+(D)    { y >= 0  &  x > -5 }  and  { y > 0   &  x > -5 }
+(E)    { y <= 0  &  x > -5 }  and  { y <= 0  &  x > -5 }
+
+#########################################
+#   The first assignment multiplies y by x*x, so the value of y may
+#   either stay positive or drop to 0. That is, y >= 0. This shows
+#   that choices (B) and (E) are not acceptable. Next, we add y >= 0
+#   to x > -5. That is, we get x > -5. This eliminates choice (C).
+#   Choice (D) is also wrong: if y >= 0, we cannot say that y > 0.
+#   The remaining choice (A) is correct, even if it is not exactly
+#   y >= 0  &  x > -5. That is because y >= 0 _implies_ y > -5.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+8.
+Consider the following program, in which A and B are integers:
+
+{ A >= 0  &  B > 0 }
+m := A;
+d := 0;
+while  m >= B  do
+begin
+    m := m - B;
+    d := d + 1;
+end;
+{ m = A mod B  &  d = A div B }
+
+The correct loop invariant is:
+
+(A)    { A >= 0  &  B > 0  &  m + d = A + B }
+(B)    { A >= 0  &  B > 0  &  m * B + d = A }
+*(C)   { A >= 0  &  B > 0  &  m + d * B = A }
+(D)    { A >= 0  &  B > 0  &  m >= B }
+(E)    { A >= 0  &  B > 0  &  m * d = A * B }
+
+#########################################
+#   Since m = A mod B  &  d = A div B, it is rather clear that
+#   m + d * B = A.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+9.
+Consider the following nested if-then-else statement and precondition:
+
+{ p < q }
+if q < r then m := p else
+if p < r then m := p else m := r;
+{ ??? }
+
+The postcondition ??? established by this if-then-else statement is:
+
+*(A)   { m =< p  &  m =< q  &  m =< r }
+(B)    { m = p   &  p < q   &  q < r }
+(C)    { m = p   &  p < q   &  p < r }
+(D)    { m = r   &  p < q   &  p >= r }
+(E)    { p < q   &  q < r   &  p < r }
+
+#########################################
+#   The if-then-else-if-then-else fragment computes m as the minimum
+#   of p, q, r. To convince yourself, you might draw a decision tree:
+#                  p<q
+#                 /   \
+#               q<r   r<=q
+#               /    /    \
+#             m=p  p<r    r<=p
+#                  /      /
+#                m=p    m=r
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+10.
+Consider the following function definition:
+
+( define ( guess x y )
+   ( if ( null? y )
+        ()
+        ( if ( equal? x (car y))
+             y
+             ( guess x (cdr y))
+        )
+   )
+)
+
+and the following function call:
+
+( guess 4 '( 1 2 3 4 5 6 ) )
+
+The value produced by this call is:
+
+(A)    #t
+(B)    ()
+(C)    (4)
+*(D)   (4 5 6)
+(E)    4
+
+#########################################
+#   The key fragment is this:
+#       (if ( equal? x (car y)) y ......
+#   This means "if the head of a sublist is 4, return this sublist".
+#   The function traverses the given list and stops when it hits 4.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+11.
+Consider the following expression in Scheme:
+
+( map ( lambda (lst) (cadr lst) )
+      (cons '(a b) (cons '(c (d)) '((e f) (g h))))
+)
+
+Its value is:
+
+(A)    (c (d)) 
+(B)    ((c (d)) (g h))
+(C)    ((c (d)) f h)
+(D)    (() () () ())
+*(E)   (b (d) f h)
+
+#########################################
+#   The mapping function (lambda (lst)(cadr lst)) expects a list,
+#   since it wants to compute cadr. That is, "map" expects a list
+#   of lists -- and it gets a list of four lists:
+#      ((a b) (c (d)) (e f) (g h))
+#   We now recall that cadr returns the second element, so we need
+#   a list of four second elements.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+12.
+The following Scheme function, distleft, "distributes" its first
+argument in its second argument that must be a list of lists. Here is
+an example:
+
+>  ( distleft  'b  '( ( p q r ) ( s t ) ( u ) ) )
+((b p q r) (b s t) (b u))
+
+The definition with the function body taken out is this:
+
+( define ( distleft X LST )
+        ; THE FUNCTIONS BODY COMES HERE
+)
+       
+The correct function body is:
+
+(A)    ( if ( null? X )
+         ()
+         ( cons ( cons X ( car LST ) )
+                ( distleft X ( cdr LST ) ) )
+       )
+
+*(B)   ( if ( null? LST )
+         ()
+         ( cons ( cons X ( car LST ) )
+                ( distleft X ( cdr LST ) ) )
+       )
+
+(C)    ( map ( lambda ( Y ) ( list Y X ) ) LST )
+
+(D)    ( map ( lambda ( X ) ( cons X LST ) ) LST )
+
+(E)    ( cons ( cons X ( car LST ) )
+           ( distleft X ( cdr LST ) ) )
+
+#########################################
+#   We are looking for a simple recursive function that goes down
+#   the list LST, stopping when all elements have been processed,
+#   that is, when the list becomes empty. Each element is changed
+#   by adding X to the head: (cons X (car LST)). Only choices (A),
+#   (B), (E) have this operation, and only (B) has the correct 
+#   "recursive loop" with a test for empty LST.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13.
+Function guess is defined in ML as follows:
+
+fun guess x 0 = 1.0 |
+    guess x n = x * (guess x (n - 1));
+
+The evaluation of the expression
+
+guess 5.0 4
+
+gives:
+
+(A)      20.0
+(B)     500.0
+*(C)    625.0
+(D)    1024
+(E)    1024.0
+
+#########################################
+#   This is exponentiation: x^n = x * x^(n-1). Even if you do not
+#   see this, tracing the call guess 5.0 4 takes little time (:>).
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+14.
+Consider the following ML expression:
+
+length( (1::2::nil @ 3::nil)::(4::5::nil @ 6::nil @ 7::nil)::nil::nil )
+
+Its evaluation gives:
+
+*(A)   3
+(B)    4
+(C)    7
+(D)    8
+(E)    an error
+
+#########################################
+#   The list can be analyzed easily by denoting the segments in
+#   paretheses as int_lists:
+#      (1::2::nil @ 3::nil)::(4::5::nil @ 6::nil @ 7::nil)::nil::nil
+#   becomes
+#      int_list :: int_list :: nil :: nil
+#   Now, nil too is a perfectly valid int_list, so we get this:
+#      int_list :: int_list :: int_list :: nil
+#   That is, the length is 3.
+#########################################
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15.
+Function concatAll written in ML concatenates all elements of a list.
+For example:
+
+- concatAll(["Anne ", "Diane ", "Fred ", "Gilbert"]);
+val it = "Anne Diane Fred Gilbert" : string
+
+The correct definition of function concatAll is:
+
+(A)    fun concatAll(SL) =
+    	hd(SL) ^ tl(SL);
+(B)    fun concatAll(SL) =
+    	if SL = nil then hd(SL) else concatAll(tl(SL));
+(C)    fun concatAll(SL) =
+    	if SL = [] then [] else hd(SL) :: concatAll(tl(SL));
+(D)    fun concatAll(SL) =
+    	if SL = nil then "" else hd(SL) ^ tl(concatAll(SL));
+*(E)    fun concatAll(SL) =
+    	if SL = nil then "" else hd(SL) ^ concatAll(tl(SL));
+
+#########################################
+#   We need a function with recursion -- this eliminates choice (A) --
+#   and with string concatenation -- this eliminates (B) and (C). Now,
+#   only in choice (E) the recursively computed concatenation of the
+#   remaining strings is joined up with the first string.
+#########################################

@@ -1,0 +1,358 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut02.html -->
+<HTML><HEAD><TITLE>CSI 3125 Tutorial 2</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Tutorial 2_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Tutorial 2</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Tutorial 2_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Tutorial 2_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Tutorial 2_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Tutorial 2_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Tutorial 2_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Tutorial 2_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Tutorial 2_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Tutorial 2_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Here is the material for tutorial number 2.
+<P>
+<HR>
+
+<P>
+<H2>Section A: Grammars</H2>
+<H3>Part 1:</H3>
+<H4>Background:</H4>In class we saw that the following grammar for arithmetic 
+expressions was ambiguous: <PRE>  &lt;expr&gt;   ::= &lt;expr&gt; + &lt;expr&gt;
+               | &lt;expr&gt; * &lt;expr&gt;
+               | &lt;number&gt;
+  &lt;number&gt; ::= &lt;digit&gt; { &lt;digit&gt; }
+  &lt;digit&gt;  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>In particular, the expression 4 + 2 * 3 has two possible derivations: <PRE>  &lt;expr&gt; ==&gt;
+  &lt;expr&gt; + &lt;expr&gt; ==&gt;
+  &lt;number&gt; + &lt;expr&gt; ==&gt;
+  &lt;digit&gt; + &lt;expr&gt; ==&gt;
+  4 + &lt;expr&gt; ==&gt;
+  4 + &lt;expr&gt; * &lt;expr&gt; ==&gt;
+  4 + &lt;number&gt; * &lt;expr&gt; ==&gt;
+  4 + &lt;digit&gt; * &lt;expr&gt; ==&gt;
+  4 + 2 * &lt;expr&gt; ==&gt;
+  4 + 2 * &lt;number&gt; ==&gt;
+  4 + 2 * &lt;digit&gt; ==&gt;
+  4 + 2 * &lt;3&gt; ==&gt;
+</PRE>and <PRE>  &lt;expr&gt; ==&gt;
+  &lt;expr&gt; * &lt;expr&gt; ==&gt;
+  &lt;expr&gt; * &lt;number&gt; ==&gt;
+  &lt;expr&gt; * &lt;digit&gt; ==&gt;
+  &lt;expr&gt; * 3 ==&gt;
+  &lt;expr&gt; + &lt;expr&gt; * 3 ==&gt;
+  &lt;number&gt; + &lt;expr&gt; * 3 ==&gt;
+  &lt;digit&gt; + &lt;expr&gt; * 3 ==&gt;
+  4 + &lt;expr&gt; * 3 ==&gt;
+  4 + &lt;number&gt; * 3 ==&gt;
+  4 + &lt;digit&gt; * 3 ==&gt;
+  4 + 2 * 3 ==&gt;
+</PRE>
+<H4>Problem:</H4>Now consider the following grammar for expressions. It 
+describes the language of postfix notation expressions (operand operand 
+operator). <PRE>  &lt;expr&gt;   ::= &lt;expr&gt; &lt;expr&gt; +
+               | &lt;expr&gt; &lt;expr&gt; *
+               | &lt;number&gt;
+  &lt;number&gt; ::= &lt;digit&gt; { &lt;digit&gt; }
+  &lt;digit&gt;  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>Is this grammar ambiguous (i.e., is there a legal sentence that has more 
+than one derivation)? 
+<H4>Solution:</H4>This grammar is not ambiguous. Notice that with the infix 
+grammar, more than one top level <TT>&lt;expr&gt;</TT> rule could apply to a 
+given expression. That's not the case with the postfix grammar. Here is a 
+derivation of an expression with the postfix grammar 
+<TT>(4&nbsp;2&nbsp;+&nbsp;3&nbsp;*)</TT>: <PRE>  &lt;expr&gt; ==&gt;
+  &lt;expr&gt; &lt;expr&gt; * ==&gt;
+  &lt;expr&gt; &lt;expr&gt; + &lt;expr&gt; * ==&gt;
+  &lt;number&gt; &lt;expr&gt; + &lt;expr&gt; * ==&gt;
+  &lt;digit&gt; &lt;expr&gt; + &lt;expr&gt; * ==&gt;
+  4 &lt;expr&gt; + &lt;expr&gt; * ==&gt;
+  4 &lt;number&gt; + &lt;expr&gt; * ==&gt;
+  4 &lt;digit&gt; + &lt;expr&gt; * ==&gt;
+  4 2 + &lt;expr&gt; * ==&gt;
+  4 2 + &lt;number&gt; * ==&gt;
+  4 2 + &lt;digit&gt; * ==&gt;
+  4 2 + 3 *
+</PRE>
+<H3>Part 2:</H3>
+<H4>Background:</H4>The way to repair the grammar of infix expressions is to 
+introduce an intermediate nonterminal symbol that forces one of the two 
+operators (<TT>*</TT> or <TT>+</TT>) to have a higher precedence than the other: 
+<PRE>  &lt;expr&gt;   ::= &lt;expr&gt; + &lt;term&gt;
+               | &lt;term&gt;
+  &lt;term&gt;   ::= &lt;term&gt; * &lt;number&gt;
+               | &lt;number&gt;
+  &lt;number&gt; ::= &lt;digit&gt; { &lt;digit&gt; }
+  &lt;digit&gt;  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>
+<H4>Problem:</H4>a) Extend this grammar to allow exponentiation (using the 
+symbol <TT>^</TT>) and parentheses. As usual, <TT>+</TT> has the lowest 
+precedence, then <TT>*</TT> then <TT>^</TT> and finally <TT>()</TT>. b) Show a 
+bottom-up derivation of the expression 
+<TT>3&nbsp;*&nbsp;6&nbsp;^&nbsp;(9&nbsp;+&nbsp;2)</TT>. 
+<H4>Solution:</H4>a) <PRE>  &lt;expr&gt;    ::= &lt;expr&gt; + &lt;term&gt;
+                | &lt;term&gt;
+  &lt;term&gt;    ::= &lt;term&gt; * &lt;factor&gt;
+                | &lt;factor&gt;
+  &lt;factor&gt;  ::= &lt;factor&gt; ^ &lt;element&gt;
+                | &lt;element&gt;
+  &lt;element&gt; ::= ( &lt;expr&gt; )
+                | &lt;number&gt;
+  &lt;number&gt; ::= &lt;digit&gt; { &lt;digit&gt; }
+  &lt;digit&gt;  ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+</PRE>b) <PRE>  3 * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;digit&gt; * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;number&gt; * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;element&gt; * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;factor&gt; * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * 6 ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * &lt;digit&gt; ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * &lt;number&gt; ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * &lt;element&gt; ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( 9 + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;digit&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;number&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;element&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;factor&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;term&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + 2 ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + &lt;digit&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + &lt;number&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + &lt;element&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + &lt;factor&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; + &lt;term&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ ( &lt;expr&gt; ) ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ^ &lt;element&gt; ==&gt;
+  &lt;term&gt; * &lt;factor&gt; ==&gt;
+  &lt;term&gt; ==&gt;
+  &lt;expr&gt;
+</PRE>
+<HR>
+
+<P>
+<H2>Section B: Names, Binding, Scope</H2>
+<H3>Part 1:</H3>
+<H4>Background:</H4>Here is a useless Pascal program: <PRE>  program p;
+    var x, y, z: integer;
+  
+    procedure a;
+      var w: integer;
+  
+      procedure b;
+        procedure c;
+          var x: integer;
+          begin
+            x := y
+          end;
+  
+        procedure d;
+          var y: integer;
+          begin
+             y := x;
+             c
+          end;
+  
+        begin
+          d
+        end;
+  
+      procedure e;
+        var x: integer;
+        begin
+          x := 5;
+          b
+        end;
+  
+      begin
+        w := z;
+        e
+      end;
+  
+    begin
+      x := 1;  y := x;  z := 0;
+      a
+    end.
+</PRE>
+<H4>Problem:</H4>a) Draw a nesting diagram of the program. b) Draw a potential 
+call graph of the program. c) Give the scope of all the names in the program. d) 
+Give the referencing environment of all the statements in the program. e) List 
+all "holes in scope" for the program. 
+<H4>Solution:</H4>a) Each block is a box. The name of the block appears in the 
+top left corner of the box. The names defined within the block appear in square 
+brackets after the name of the block. The statements in the block appear as 
+S(name) in the bottom left corner.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=10>
+  <TBODY>
+  <TR>
+    <TD><B>p</B> [ x, y, z, a ]
+      <P>
+      <TABLE border=1 cellPadding=10>
+        <TBODY>
+        <TR>
+          <TD><B>a</B> [ w, b, e ]<BR>
+            <TABLE border=0 cellPadding=10 width="100%">
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE border=1 cellPadding=10>
+                    <TBODY>
+                    <TR>
+                      <TD><B>b</B> [ c, d ]<BR>
+                        <TABLE border=0 cellPadding=10 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD>
+                              <TABLE border=1 cellPadding=10>
+                                <TBODY>
+                                <TR>
+                                <TD><B>c</B> [ x ]
+                                <P><I>S</I>(<B>c</B>) 
+                              </P></TD></TR></TBODY></TABLE></TD>
+                            <TD>
+                              <TABLE border=1 cellPadding=10>
+                                <TBODY>
+                                <TR>
+                                <TD><B>d</B> [ y ]
+                                <P><I>S</I>(<B>d</B>) 
+                              </P></TD></TR></TBODY></TABLE>
+                              <P></P></TD></TR></TBODY></TABLE><I>S</I>(<B>b</B>) 
+                    </TD></TR></TBODY></TABLE></TD>
+                <TD>
+                  <TABLE border=1 cellPadding=10>
+                    <TBODY>
+                    <TR>
+                      <TD><B>e</B> [ x ]
+                        <P><BR><BR><BR><BR><BR><I>S</I>(<B>e</B>) 
+                    </P></TD></TR></TBODY></TABLE>
+                  <P></P></TD></TR></TBODY></TABLE><I>S</I>(<B>a</B>) 
+      </TD></TR></TBODY></TABLE>
+      <P><I>S</I>(<B>p</B>) </P></TD></TR></TBODY></TABLE></CENTER>
+<P>b) Note that I'm allowing a procedure to call a procedure declared later in 
+the block. This is standard, but it is not the way Turbo Pascal is implemented 
+(you'd need "<TT>forward</TT>" declarations in Turbo Pascal). Notice also that 
+programs are not re-entrant in Pascal, so nobody can call <TT>p</TT>. 
+<CENTER><IMG border=0 src="CSI 3125 Tutorial 2_files/callgraph.gif"></CENTER>
+<P>c) Remember, the "scope" of a name is the set of statements to which the name 
+is visible. To give the scope of all the names, we'll need to fully qualify 
+them.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD align=left>Variable</TD>
+    <TD align=left>Scope</TD></TR>
+  <TR>
+    <TD><PRE>p.x
+p.y
+p.z
+p.a
+p.a.w
+p.a.b
+p.a.e
+p.a.b.c
+p.a.b.d
+p.a.e.x
+p.a.b.c.x
+p.a.b.d.y</PRE></TD>
+    <TD><PRE>S(p), S(p.a), S(p.a.b), S(p.a.b.d)
+S(p), S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c)
+S(p), S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c), S(p.a.b.d)
+S(p), S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c), S(p.a.b.d)
+S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c), S(p.a.b.d)
+S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c), S(p.a.b.d)
+S(p.a), S(p.a.b), S(p.a.e), S(p.a.b.c), S(p.a.b.d)
+S(p.a.b), S(p.a.b.c), S(p.a.b.d)
+S(p.a.b), S(p.a.b.c), S(p.a.b.d)
+S(p.a.e)
+S(p.a.b.c)
+S(p.a.b.d)</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>d) Remember, the "referencing environment" of a statement is the set of names 
+visible to the statement. We don't need to give the referencing environment for 
+every single statement in the program. We only have to give it for each block 
+(since the referencing environment is the same for all statements in the same 
+block).
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=5>
+  <TBODY>
+  <TR>
+    <TD align=left>Statements</TD>
+    <TD align=left>Referencing Environment</TD></TR>
+  <TR>
+    <TD><PRE>S(p)
+S(p.a)
+S(p.a.b)
+S(p.a.e)
+S(p.a.b.c)
+S(p.a.b.d)</PRE></TD>
+    <TD><PRE>p.x, p.y, p.z, p.a
+p.x, p.y, p.z, p.a, p.a.w, p.a.b, p.a.e
+p.x, p.y, p.z, p.a, p.a.w, p.a.b, p.a.e, p.a.b.c, p.a.b.d
+p.y, p.z, p.a, p.a.w, p.a.b, p.a.e, p.a.e.x
+p.y, p.z, p.a, p.a.w, p.a.b, p.a.e, p.a.b.c, p.a.b.d, p.a.b.c.x
+p.x, p.z, p.a, p.a.w, p.a.b, p.a.e, p.a.b.c, p.a.b.d, p.a.b.d.y</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>e) Remember, a "hole in scope" is a place in a program where a name that 
+normally should be visible is hidden by a more local entity with the same name.
+<P>
+<CENTER>
+<TABLE border=0 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD><TT>S(p.a.e)</TT> is a hole in the scope of <TT>p.x</TT> because 
+      <TT>p.x</TT> is hidden by <TT>p.a.e.x</TT><BR><TT>S(p.a.b.c)</TT> is a 
+      hole in the scope of <TT>p.x</TT> because <TT>p.x</TT> is hidden by 
+      <TT>p.a.b.c.x</TT><BR><TT>S(p.a.b.d)</TT> is a hole in the scope of 
+      <TT>p.y</TT> because <TT>p.y</TT> is hidden by 
+  <TT>p.a.b.d.y</TT><BR></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update October 07, 1999)</I></FONT> </P></BODY></HTML>

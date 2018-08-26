@@ -1,0 +1,1726 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.geocities.com/Athens/Acropolis/3797/Java056.htm -->
+<HTML><HEAD><TITLE>Java Programming, Handling Errors using Exceptions, by Richard G Baldwin</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META 
+content="Online&#10; Java, Javascript, XML tutorial lessons designed to teach you&#10; how to program in Java. Content ranges from&#10; Introductory to Advanced." 
+name=DESCRIPTION>
+<META 
+content="java, programming,&#10; beans, applets, applications, programs, object oriented programming,&#10; oop, ood, class, method, thread, multithreading, exception handling,&#10; package, delegation event model, jdk1.1, interface, awt, swing,&#10; stack, queue, linked list, vector, hashtable, enumeration,event,&#10; lightweight, heavyweight, components, toolkit, border, flow, grid,&#10; card, layout, gui, socket, serversocket, datagram, client, server, &#10; border layout, flow layout, grid layout, card layout,&#10; xml, html, sgml " 
+name=KEYWORDS>
+<META content="Richard G. Baldwin" name=AUTHOR>
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#9400d3 text=#000000 
+vLink=#556b2f><FONT size=-2>Online Java, JavaScript, and XML tutorial lessons 
+designed to teach you how to program in Java and JavaScript and how to use XML. 
+Content ranges from Introductory to Advanced. The only authorized home page for 
+these tutorials is <A 
+href="http://www.geocities.com/Athens/7077/scoop/onjava.html">http://www.geocities.com/Athens/7077/scoop/onjava.html</A> 
+Because people continue to make copies of these tutorials and post them on their 
+servers, you may be viewing an out-of-date copy.&nbsp;To make certain that you 
+are viewing the most up-to-date version, you should bookmark and access the 
+tutorials by using the URL listed above.</FONT> <BR>
+<HR align=center width=300>
+<BR>
+<TABLE bgColor=#00ffff border=2 cellPadding=10 width=640>
+  <TBODY>
+  <TR>
+    <TD>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid853140.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid853140?siteid=7547706&amp;bfpage=link1" 
+      target=_top><IMG border=0 height=60 
+      src="Exceptions - by Richard G Baldwin_files/images.gif" 
+width=468></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/egghead.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/egghead?siteid=7547706&amp;bfpage=software" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(1).gif" 
+      width=468></A></P><A 
+      href="mailto:baldwin@austin.cc.tx.us"><B>Training/Consulting</B></A> If 
+      you or your company need training or consulting in Java programming or 
+      XML, (in central Texas), I will be pleased to provide those 
+      services.<BR><BR><A href="http://xml.about.com/"><B>XML</B></A> You are 
+      invited to visit my XML site.<BR><BR><A 
+      href="http://xml.about.com/library/weekly/aa071899.htm"><B>Read</B></A> 
+      how I use Java and XML to search smarter rather than harder.<BR><BR><A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Slow ISP</A> 
+      wasting your valuable time?.<BR></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=10 cellSpacing=0 width=640>
+  <TBODY>
+  <TR>
+    <TD bgColor=#00ffff vAlign=top width="25%">
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/goto.gif" width=1 NOSAVE>
+      <FORM action=http://geocities.bfast.com/bfast/click/goto><INPUT 
+      name=bfsiteid type=hidden value=7547706><INPUT name=bfpage type=hidden 
+      value=search>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=115>
+        <TBODY>
+        <TR>
+          <TD colSpan=3><IMG alt="GoTo.com: Search made simple" height=87 
+            src="Exceptions - by Richard G Baldwin_files/top.gif" 
+        width=115></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33><IMG height=6 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" width=1></TD>
+          <TD bgColor=#ffcc00><IMG height=1 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+width=113></TD>
+          <TD bgColor=#aa6600><IMG height=1 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+        width=1></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33 width=1><IMG height=25 
+            src="Exceptions - by Richard G Baldwin_files/cl.gif" width=1></TD>
+          <TD align=middle bgColor=#ffcc00 vAlign=center><INPUT name=Keywords 
+            size=8><IMG height=1 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+            width=4><INPUT align=absMiddle alt="Find It!" border=0 cache 
+            height=23 name=Submit 
+            src="Exceptions - by Richard G Baldwin_files/arrow.gif" type=image 
+            width=23></TD>
+          <TD bgColor=#aa6600><IMG height=25 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+        width=1></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33><IMG height=5 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" width=1></TD>
+          <TD bgColor=#ffcc00><IMG height=1 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+width=113></TD>
+          <TD bgColor=#aa6600><IMG height=1 
+            src="Exceptions - by Richard G Baldwin_files/clear.gif" 
+        width=1></TD></TR>
+        <TR>
+          <TD colSpan=3><A 
+            href="http://www.goto.com/d/affiliate/p/befree/?Promo=befree_refer"><IMG 
+            alt="Affiliate Info" border=0 height=16 
+            src="Exceptions - by Richard G Baldwin_files/bottom.gif" 
+            width=115></A></TD></TR></TBODY></TABLE></FORM></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/expedia.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/expedia?siteid=7547706&amp;bfpage=flight_wizard" 
+      target=_top><IMG border=0 height=70 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(2).gif" 
+      width=99></A><BR><B>Expedia Travel</B><BR></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/valueamerica.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/valueamerica?bfsiteid=7547706&amp;bfpage=8" 
+      target=_top><IMG border=0 height=80 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(3).gif" 
+      width=100></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/sportsite.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/sportsite?siteid=7547706&amp;bfpage=g_runningstore" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(4).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid1048002.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid1048002?siteid=7547706&amp;bfpage=search" 
+      target=_top><IMG border=0 height=90 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(5).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid573519.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid573519?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=80 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(6).gif" 
+      width=140></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid1556269.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid1556269?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(7).gif" 
+      width=130></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/proflowers.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/proflowers?sourceid=7547706&amp;categoryid=seasonal" 
+      target=_top><IMG border=0 height=95 
+      src="Exceptions - by Richard G Baldwin_files/seasonal_aff_468x60.gif" 
+      width=80></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid575442.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid575442?siteid=7547706&amp;bfpage=sk_home" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(8).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid573112.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid573112?siteid=7547706&amp;bfpage=home003" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(9).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/tickets.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/tickets?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=125 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(10).gif" 
+      width=125></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/mid651523.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid651523?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=65 
+      src="D:\My_Docs\CSI_3310\Threads\Exceptions - by Richard G Baldwin_files\images(11).gif" 
+      width=108></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Exceptions - by Richard G Baldwin_files/booklink.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/booklink?sourceid=7547706&amp;categoryid=subjx_comp" 
+      target=_top><B>Computer Books - Barnes &amp; Noble</B></A></P></TD>
+    <TD bgColor=#ffffff vAlign=top width="75%">
+      <CENTER>
+      <P>[<A 
+      href="http://www.geocities.com/Athens/7077/scoop/onjava.html">Home</A>] 
+      [<A href="http://home.att.net/~baldwin.r.g/scoop/toc.htm">Table of 
+      Contents</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Download this 
+      Tutorial</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/alphaindex.htm">Alphabetical 
+      Index</A>]</CENTER></P>
+      <H3 align=center><B><I>Richard G Baldwin (512) 223-4758, </I></B><A 
+      href="mailto:baldwin@austin.cc.tx.us"><B><I>baldwin@austin.cc.tx.us</I></B></A><B><I>, 
+      </I></B><A 
+      href="http://www2.austin.cc.tx.us/baldwin/"><B><I>http://www2.austin.cc.tx.us/baldwin/</I></B></A></H3>
+      <H2 align=center><B><!--title-->Handling Errors using Exceptions<!--endtitle--></B></H2>
+      <P>Java Programming, Lecture Notes # 56, Revised 08/12/99. </P>
+      <UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#preface">Preface</A> 
+
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#introduction">Introduction</A> 
+
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#exception hierarchy, an overview">Exception 
+        Hierarchy, An Overview</A> 
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#general discussion">General 
+        Discussion</A> 
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#advantages of using exception handling">Advantages 
+        of Using Exception Handling</A> 
+        <LI>
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#separating error handling code from regular code">Separating 
+          Error Handling Code from Regular Code</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#propagating errors up the call stack">Propagating 
+          Errors Up the Call Stack</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#grouping error types and error differentiation">Grouping 
+          Error Types and Error Differentiation</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#exception handling specifics">Exception 
+        Handling Specifics</A> 
+        <LI>
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#java's catch or specify requirement">Java's 
+          Catch or Specify Requirement</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#catch">Catch</A> 
+
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#specify">Specify</A> 
+
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#checked exceptions">Checked 
+          Exceptions</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#exceptions that can be thrown within the scope of">Exceptions 
+          That Can Be Thrown Within the Scope of the Method</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#some sample programs using standard exceptions">Some 
+        Sample Programs using Standard Exceptions</A> 
+        <LI>
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#sample program with no exception handling code">Sample 
+          Program with No Exception Handling Code</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#sample program which fixes one compiler error">Sample 
+          Program which Fixes One Compiler Error</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#sample program which fixes the remaining compiler error">Sample 
+          Program which Fixes the Remaining Compiler Error</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#a nuisance problem explained">A 
+        Nuisance Problem Explained</A> 
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#catching and handling exceptions">Catching 
+        and Handling Exceptions</A> 
+        <LI>
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#the try block">The 
+          try Block</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#the catch block(s)">The 
+          catch Block(s)</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#catching multiple exception types with one handler">Catching 
+          Multiple Exception Types with One Handler</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#the finally block">The 
+          finally Block</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#specifying (declaring) the exceptions thrown by a method">Specifying 
+          (Declaring) the Exceptions Thrown by a Method</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#the throw statement">The 
+        throw Statement</A> 
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#creating your own exception classes">Creating 
+        Your Own Exception Classes</A> 
+        <LI>
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#choosing the exception type to throw">Choosing 
+          the Exception Type to Throw</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#choosing a superclass">Choosing 
+          a Superclass</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#naming conventions">Naming 
+          Conventions</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#another sample program">Another 
+          Sample Program</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java056.htm#review">Review</A> 
+        </LI></UL>
+      <H2 align=center><A name=preface></A><FONT 
+      color=#ff0000>Preface</FONT></H2>
+      <P>Students in Prof. Baldwin's <B><U>Introductory Java Programming</U></B> 
+      classes at ACC are responsible for knowing and understanding all of the 
+      material in this lesson (except that they are not responsible for detailed 
+      information that is specific to C++). </P>
+      <P align=left>The detailed material on C++ is provided as supplementary 
+      material for the benefit of persons already familiar with C++ who are 
+      making the transition into Java. </P>
+      <H2 align=center><A name=introduction></A><FONT 
+      color=#ff0000><B>Introduction</B></FONT></H2>
+      <P>Stated in simple terms, the exception-handling capability of Java and 
+      C++ makes it possible for you to <U>monitor for exceptional conditions</U> 
+      within your program, and to <U>transfer control</U> to special 
+      exception-handling code which you design if an exceptional condition 
+      occurs. This is accomplished using three keywords: <I>try</I>, 
+      <I>throw</I>, and <I>catch </I>in C++. Java adds the <I>finally</I> 
+      keyword to the list. </P>
+      <P>You <I>try </I>to execute the statements contained within a block 
+      surrounded by braces. </P>
+      <P>If you <U>detect an exceptional</U> condition within that block, you 
+      <I>throw </I>an exception object of a specific type. </P>
+      <P>You then <I>catch </I>and process the exception object using code that 
+      you have designed. </P>
+      <P>In Java, you can then optionally execute a block of code designated by 
+      <I>finally</I> which is normally used to perform some type of cleanup 
+      which is needed <U>whether or not</U> an exception occurs. </P>
+      <P>There are also situations where an exceptional condition 
+      <U>automatically</U> transfers control to special exception-handling code 
+      which you write (cases where you don't provide the code to <I>throw</I> 
+      the exception object). In this case, you are responsible only for the code 
+      in the <I>catch</I> block and optionally, in Java, for the code in the 
+      <I>finally</I> block. </P>
+      <P>Although Java and C++ provide similar exception handling capabilities, 
+      the manner in which exception handling is implemented is different between 
+      the two languages. Therefore, the remainder of this lesson will 
+      concentrate on exception handling in Java only. </P>
+      <P>Our discussion in this lesson will include the following topics, not 
+      necessarily in this order: </P>
+      <UL>
+        <LI>What is an exception? 
+        <LI>How do you throw and catch exceptions? 
+        <LI>What do you do with an exception once you have caught it? 
+        <LI>How do you make use of the exception class hierarchy provided by the 
+        Java development environment? </LI></UL>
+      <H2 align=center><A name="exception hierarchy, an overview"></A><FONT 
+      color=#ff0000>Exception Hierarchy, An Overview</FONT></H2>
+      <P>According to <U>The Java Tutorial</U> by Campione and Walrath: </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"An exception is an event that occurs during the execution of a 
+            program that disrupts the normal flow of 
+      instructions."</TD></TR></TBODY></TABLE>
+      <P>When an exceptional condition causes an exception to be <I>thrown</I>, 
+      that exception <U>is an object</U> derived, either directly, or indirectly 
+      from the class <B>Throwable</B>. </P>
+      <P>The interpreter and many different methods in many different classes 
+      throw <I>exceptions </I>and <I>errors</I>. </P>
+      <P>A good summary of the entire list of exceptions and errors which can be 
+      thrown by the interpreter and the methods in the Java API is provided on 
+      page 349 of <U>Java in a Nutshell</U>, First Edition, by David Flanagan 
+      (unfortunately, that table seems to have been purged from the second 
+      edition). </P>
+      <P>In addition, you can define and throw exception objects of your own 
+      design (but you must inherit your exception class, either directly, or 
+      indirectly from <B>Throwable</B>). </P>
+      <P>The <B>Throwable</B> class has two subclasses: </P>
+      <UL>
+        <LI><B>Error</B> 
+        <LI><B>Exception</B> </LI></UL>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>Paraphrasing David Flanagan and <U>Java in a Nutshell</U>, an 
+            <B>Error</B> indicates that a <U>non-recoverable</U> error has 
+            occurred that <U>should not be caught</U>. Errors usually cause the 
+            Java interpreter to display a message and exit... 
+            <P>Still paraphrasing Flanagan, an <B>Exception</B> indicates an 
+            <U>abnormal condition</U> that must be <U>properly handled to 
+            prevent program termination</U>.</P></TD></TR></TBODY></TABLE>
+      <P>As of JDK 1.1.3, there are <U>nine subclasses</U> of the 
+      <B>Exception</B> class several of which have numerous subclasses. </P>
+      <P>One subclass of <B>Exception</B> is the class named 
+      <B>RuntimeException</B> This class has eleven subclasses, some of which 
+      are further subclassed. (Flanagan also provides an excellent exception 
+      class hierarchy chart in his book. By and large, it is an outstanding 
+      reference book.) </P>
+      <P>All exceptions <U>other than those in the 
+      </U><B><U>RuntimeException</U></B><U> class</U> must be either </P>
+      <UL>
+        <LI>caught, or 
+        <LI>declared (Campione and Walrath use the word "specified" whereas 
+        Flanagan uses "declared") in a <I>throws</I> clause of any method that 
+        can throw them. </LI></UL>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>According to Flanagan, the exception classes in this category 
+            represent <U>routine abnormal conditions</U> that <U>should be 
+            anticipated and caught</U> to prevent program 
+        termination.</TD></TR></TBODY></TABLE>
+      <P>Campione and Walrath refer to these as "checked" exceptions. </P>
+      <P>As mentioned above, all errors and exceptions are subclasses of the 
+      <B>Throwable</B> class. The following chart shows the declarations in the 
+      <B>Throwable</B> class definition as extracted from the JavaSoft <U>API 
+      Specification</U>. </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>public  class  java.lang.Throwable
+    extends  java.lang.Object
+{
+    // Constructors
+    public Throwable(); 
+    public Throwable(String  message);  
+
+    // Methods
+    public Throwable fillInStackTrace();        
+    public String getMessage(); 
+    public void printStackTrace();      
+    public void printStackTrace(PrintStream  s);        
+    public String toString();   
+}</PRE></TD></TR></TBODY></TABLE>
+      <P>All exception objects inherit the methods of the <B>Throwable</B> class 
+      which you see listed above. </P>
+      <P>All errors and exceptions <U>may</U> have a message associated with 
+      them which can be accessed using the <B>getMessage()</B> method. You can 
+      use this to display a message describing the error or exception. </P>
+      <P>You can also use other methods of the <B>Throwable</B> class to display 
+      a stack trace of where the exception or error occurred and to convert the 
+      exception object to a String. </P>
+      <H2 align=center><A name="general discussion"></A><FONT 
+      color=#ff0000>General Discussion</FONT></H2>
+      <P>Continuing with information from Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The term exception is shorthand for the phrase "exceptional 
+            event". It can be defined as follows: Definition: An exception is an 
+            event that occurs during the execution of a program that disrupts 
+            the normal flow of instructions."</TD></TR></TBODY></TABLE>
+      <P>When an exceptional condition occurs within a method, the method <U>may 
+      create an exception object</U> and <U>hand it off</U> to the runtime 
+      system to deal with it. </P>
+      <P>The exception object should contain information about the exception, 
+      including its type and the state of the program when the error occurred. 
+      </P>
+      <P>Per Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The runtime system is then responsible for finding some code to 
+            handle the error. In Java terminology, creating an exception object 
+            and handing it to the runtime system is called <U>throwing an 
+            exception</U>."</TD></TR></TBODY></TABLE>
+      <P>The runtime system then attempts to find a block of code designed to 
+      handle the <U>type of the exception object</U>. </P>
+      <P>The runtime system begins with the method in which the error occurred 
+      and searches backwards through the call stack until it finds a method that 
+      contains an <U>appropriate</U> exception handler. </P>
+      <P>Per Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"An exception handler is considered <U>appropriate</U> if the 
+            type of the exception thrown is the same as the type of exception 
+            handled by the handler. Thus the exception bubbles up through the 
+            call stack until an appropriate handler is found and one of the 
+            calling methods handles the exception. The exception handler chosen 
+            is said to <U>catch the exception</U>."</TD></TR></TBODY></TABLE>
+      <P>If an appropriate exception handler cannot be located by this method, 
+      the runtime system and the Java program terminate. </P>
+      <H2 align=center><A 
+      name="advantages of using exception handling"></A><FONT 
+      color=#ff0000>Advantages of Using Exception Handling</FONT></H2>
+      <P>According to Campione and Walrath, exception handling provides the 
+      following advantages over "traditional" error management techniques: </P>
+      <UL>
+        <LI>Separating Error Handling Code from "Regular" Code 
+        <LI>Propagating Errors Up the Call Stack 
+        <LI>Grouping Error Types and Error Differentiation </LI></UL>
+      <H3 align=center><A 
+      name="separating error handling code from regular code"></A><FONT 
+      color=#ff0000>Separating Error Handling Code from "Regular" 
+      Code</FONT></H3>
+      <P>I don't plan to discuss these advantages in detail. Rather, I will 
+      simply refer you to <U>The Java Tutorial</U> and other good books where 
+      you can read their discussions. However, I will comment briefly. </P>
+      <P>Campione and Walrath provide a good illustration where they show how a 
+      simple program having about six lines of code get "bloated" into about 29 
+      lines of very confusing code through use of <U>traditional</U> error 
+      management techniques. Not only does the program suffer bloat, the 
+      <U>logical flow</U> of the original program <U>gets lost</U> in the 
+      clutter of the modified program. </P>
+      <P>They then show how to accomplish the same error management using 
+      exception handling. Although this version contains about seventeen lines 
+      of code, it is orderly and easy to understand. The additional lines of 
+      code do <U>not</U> cause the original logic of the program to get lost. 
+      </P>
+      <P>The use of exception handling <U>does not spare you the effort</U> of 
+      doing the work of detecting, reporting, and handling errors. </P>
+      <P>What it does do provide a means to <U>separate the details</U> of what 
+      to do when something out-of-the-ordinary happens <U>from the normal 
+      logical flow</U> of the program code. </P>
+      <H3 align=center><A name="propagating errors up the call stack"></A><FONT 
+      color=#ff0000>Propagating Errors Up the Call Stack</FONT></H3>
+      <P>Sometimes it is desirable to propagate exception handling up the call 
+      stack and let the corrective action be taken at a higher level. </P>
+      <P>For example, you might provide a class with methods which implements a 
+      <I>stack</I>. One of the methods of your class might be to <I>pop</I> an 
+      element off the stack. </P>
+      <P>What should your program do if a using program attempts to pop an 
+      element off an empty stack? That decision might best be left to the user 
+      of your stack class and you might simply propagate the notification up to 
+      the calling method and let that method take the corrective action. </P>
+      <P>Again, Campione and Walrath provide some interesting examples which 
+      illustrate the advantage of propagating errors up the call stack. </P>
+      <H3 align=center><A 
+      name="grouping error types and error differentiation"></A><FONT 
+      color=#ff0000>Grouping Error Types and Error Differentiation</FONT></H3>
+      <P>Since </P>
+      <UL>
+        <LI>exceptional conditions throw objects, 
+        <LI>objects are instances of classes, and 
+        <LI>classes may be inherited in Java, </LI></UL>
+      <P>a natural hierarchy can be created which causes exceptions to be 
+      <U>grouped in logical ways</U>. </P>
+      <P>For example, going back to the stack example, you might create an 
+      exception class which <U>applies to all exceptional conditions</U> 
+      associated with an object of your stack class. From this, you might 
+      inherit other classes which <U>pertain to specific exceptional 
+      conditions</U> such a <I>push </I>exceptions, <I>pop </I>exceptions, 
+      <I>initialization </I>exceptions, etc. </P>
+      <P>If you code throws an exception object of one of the specific types, 
+      that object can be caught </P>
+      <UL>
+        <LI>by either an exception handler designed to catch on the basis of the 
+        <U>group</U> of exceptions, or 
+        <LI>designed to catch on the basis of <U>one</U> of the specialized 
+        exceptions. </LI></UL>
+      <P>This capability to handle exceptions on an organized hierarchical basis 
+      is very powerful, and is described very well by Campione and Walrath. You 
+      are strongly encouraged to study what they have to say on this topic. </P>
+      <P>Now let's set aside the general discussion of exception handling and 
+      take a look at the specifics. </P>
+      <H2 align=center><A name="exception handling specifics"></A><FONT 
+      color=#ff0000>Exception Handling Specifics</FONT></H2>
+      <P>As indicated earlier, except for <B>Throwable</B> objects of type 
+      <B>Error</B> and <B>Throwable/Exception</B> objects of type 
+      <B>RuntimeException</B>, Java programs must either </P>
+      <UL>
+        <LI><I>catch,</I> or 
+        <LI><I>declare</I> </LI></UL>
+      <P>all <B>Exception </B>objects which are thrown. </P>
+      <P>Campione and Walrath refer to these as "checked" exceptions, and they 
+      refer to <I>declaring </I>an exception as <I>specifying</I> an exception. 
+      More specifically, according to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The Java language requires that methods either catch or specify 
+            all checked exceptions that can be thrown within the scope of that 
+            method. ... If the compiler detects a method...that doesn't meet 
+            this requirement, it issues an error message...and refuses to 
+            compile the program.</TD></TR></TBODY></TABLE>
+      <H3 align=center><A name="java's catch or specify requirement"></A><FONT 
+      color=#ff0000>Java's Catch or Specify Requirement</FONT></H3>
+      <P>We need to further examine </P>
+      <UL>
+        <LI>catch 
+        <LI>specify 
+        <LI>checked exceptions, and 
+        <LI>exceptions that can be thrown within the scope of the method. 
+      </LI></UL>
+      <H3 align=center><A name=catch></A><FONT color=#ff0000>Catch</FONT></H3>
+      <P>A method <I>catches</I> an exception by providing an exception handler 
+      for that type of exception object. </P>
+      <H3 align=center><A name=specify></A><FONT 
+      color=#ff0000>Specify</FONT></H3>
+      <P>If a method does not provide an exception handler for the type of 
+      exception object thrown, the method must <I>specify </I>(declare) that it 
+      can throw that exception. </P>
+      <P>This is because any exception that can be thrown by a method is part of 
+      the method's public programming interface and users of a method must know 
+      about the exceptions that a method can throw. Thus, you must specify the 
+      exceptions that the method can throw <U>in the method signature</U>. </P>
+      <H3 align=center><A name="checked exceptions"></A><FONT 
+      color=#ff0000>Checked Exceptions</FONT></H3>
+      <P>As mentioned earlier, "checked" exceptions are all thrown objects of 
+      the <B>Exception</B> class <U>other than</U> those of the 
+      <B>RuntimeException</B> class which is a subclass of <B>Exception</B>. 
+</P>
+      <P><I>Non-checked</I> exceptions or exceptions of type 
+      <B>RuntimeException</B> are those exceptions that occur within the Java 
+      runtime system. This includes arithmetic exceptions (such as dividing by 
+      zero), pointer exceptions (such as trying to access an object through a 
+      null reference), and indexing exceptions (such as attempting to access an 
+      array element through an index that is too large or too small). </P>
+      <P><I>Checked</I> exceptions are <U>exceptions that are not runtime 
+      exceptions</U>. </P>
+      <P>Exceptions of all <B>Exception </B>classes and subclasses other than 
+      <B>RuntimeException </B>which is a subclass of <B>Exception</B> 
+      (approximately seventeen different classes plus any that you may add) are 
+      <U>checked by the compiler</U> and will result in compiler errors if they 
+      are not either <I>caught </I>or <I>specified</I>. </P>
+      <P>Later, we will learn how you can create your own exception classes. 
+      Whether your exception objects become non-checked or checked <U>depends on 
+      which class you choose as your superclass</U> in defining your exception 
+      class. </P>
+      <H3 align=center><A 
+      name="exceptions that can be thrown within the scope of"></A><FONT 
+      color=#ff0000>Exceptions That Can Be Thrown Within the Scope of the 
+      Method</FONT></H3>
+      <P>The statement <I>"exceptions that can be thrown within the scope of the 
+      method"</I> includes not only exceptions which are thrown by code written 
+      into the method, but also includes exceptions thrown by methods called by 
+      that method, or methods called by those methods, etc. </P>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"This phrase includes any exception that can be thrown <U>while 
+            the flow of control remains within the method</U>. Thus, this 
+            statement includes both exceptions that are thrown directly by the 
+            method with Java's throw statement, and exceptions that are thrown 
+            indirectly by the method through calls to other 
+        methods."</TD></TR></TBODY></TABLE>
+      <H2 align=center><A 
+      name="some sample programs using standard exceptions"></A><FONT 
+      color=#ff0000>Some Sample Programs using "Standard" Exceptions</FONT></H2>
+      <P>This section contains sample programs which illustrate exception 
+      handling for "standard" exceptions. </P>
+      <P>While the term "standard" may not be entirely appropriate, it is 
+      intended here to indicate those exceptions which are part of the Java JDK 
+      as delivered, and does not indicate exception classes that you define for 
+      custom purposes. </P>
+      <P>Later we will discuss the design and use of custom exception classes. 
+      </P>
+      <P>We will look at three applications which illustrate the successive 
+      stages of dealing with checked exceptions by either catching or specifying 
+      those exceptions. </P>
+      <H3 align=center><A 
+      name="sample program with no exception handling code"></A><FONT 
+      color=#ff0000>Sample Program with No Exception Handling Code</FONT></H3>
+      <P>The first sample program is shown below which <U>neither catches nor 
+      specifies</U> the <B>InterruptedException </B>which can be thrown by the 
+      <B>sleep() </B>method of the <B>Thread </B>class. This is a <I>checked</I> 
+      exception. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep01.java Copyright 1997, R.G.Baldwin
+Illustrates failure to catch or specify 
+InterruptedException in called method.
+
+This program won't compile.  Compiler errors are similar
+to the following:
+                
+<B>Excep01.java:27: Exception java.lang.InterruptedException 
+must be caught, or it must be declared in the throws 
+clause of this method.
+  Thread.currentThread().sleep(1000);
+
+</B>**********************************************************/
+import java.lang.Thread;
+
+class Excep01{
+  public static void main(String[] args){
+    //instantiate obj to dispatch method
+    Excep01 obj = new Excep01();
+    //call method which throws an exception
+    obj.myMethod();
+  }//end main
+  //-----------------------------------------------------//
+  
+  void myMethod(){
+    //sleep() throws exception
+    Thread.currentThread().<B>sleep(1000)</B>;
+  }//end myMethod
+}//end class Excep01</PRE></TD></TR></TBODY></TABLE>
+      <P>Despite its length which is largely made up of comments, this is a 
+      fairly simple program. The method named <B>main()</B> calls the method 
+      named <B>myMethod()</B> which in turn calls the method named 
+      <B>sleep()</B>. </P>
+      <P>The method named <B>sleep()</B> throws a <I>checked </I>exception named 
+      <B>InterruptedException</B>. </P>
+      <P>No provisions were made to deal with this exception. Therefore, the 
+      program refused to compile with the compiler errors shown. </P>
+      <P>Note that the compiler error identified the problem at the 
+      <B>sleep()</B> method. </P>
+      <H3 align=center><A 
+      name="sample program which fixes one compiler error"></A><FONT 
+      color=#ff0000>Sample Program which Fixes One Compiler Error</FONT></H3>
+      <P>The next version of the program, shown below, fixes the problem 
+      identified with the call to <B>sleep()</B> by declaring the exception in 
+      the signature for the method named <B>myMethod()</B>. An explanation of 
+      the fix follows the program listing. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep02.java Copyright 1997, R.G.Baldwin
+Illustrates failure to catch or specify 
+InterruptedException in called method.
+
+This program won't compile.  Compiler errors are similar
+to the following:
+                
+<B>Excep02.java:20: Exception java.lang.InterruptedException 
+must be caught, or it must be declared in the throws 
+clause of this method.
+  obj.myMethod();
+
+</B>**********************************************************/
+import java.lang.Thread;
+
+class Excep02{
+  public static void main(String[] args){
+    //instantiate obj to dispatch method
+    Excep02 obj = new Excep02();
+  <B>  obj.myMethod();
+</B>  }//end main
+  //-----------------------------------------------------//
+  
+  void myMethod() <B>throws InterruptedException</B>{
+    //sleep() throws exception
+    Thread.currentThread().sleep(1000);
+  }//end myMethod
+}//end class Excep02</PRE></TD></TR></TBODY></TABLE>
+      <P>As you can see from the comments, this version of the program 
+      eliminated the compiler error identified with the call to the method named 
+      <B>sleep()</B>. </P>
+      <P>This was accomplished by <I>specifying</I> that the method named 
+      <B>myMethod()</B> <I>throws InterruptedException</I>. This is one way to 
+      deal with an exception. In particular, this simply passes the exception up 
+      the call stack to the next higher-level method in a group of nested 
+      methods. This <U>doesn't solve the problem</U>, it simply hands it off to 
+      another method to solve. </P>
+      <P>The problem still exists, and is now identified solely with the call to 
+      <B>myMethod()</B> where it will have to be handled in order to make it go 
+      away. </P>
+      <H3 align=center><A 
+      name="sample program which fixes the remaining compiler error"></A><FONT 
+      color=#ff0000>Sample Program which Fixes the Remaining Compiler 
+      Error</FONT></H3>
+      <P>The next version of the program fixes the remaining compiler error. A 
+      discussion of the fix follows the program listing. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep03.java Copyright 1997, R.G.Baldwin
+Illustrates specifying and catching Interrupted Exception
+**********************************************************/
+import java.lang.Thread;
+
+class Excep03{
+  public static void main(String[] args){
+    //instantiate obj to dispatch method
+    Excep03 obj = new Excep03();
+    <B>try{//create</B> a proper try/catch sequence
+      //call method which throws an exception
+      <B>obj.myMethod()</B>;
+    }
+    <B>catch</B>(InterruptedException e){
+      //process exception inside braces
+    }//end catch
+  }//end main
+  //-----------------------------------------------------//
+  
+  void myMethod() <B>throws InterruptedException</B>{
+    //sleep() throws exception
+    Thread.currentThread().sleep(1000);
+  }//end myMethod
+}//end class Excep03</PRE></TD></TR></TBODY></TABLE>
+      <P>As you can see, this version of the program is fairly clean. </P>
+      <P>As in the previous version, the method named <B>myMethod()</B> gets rid 
+      of the problem by passing it upstream to the method from which it was 
+      called. </P>
+      <P>In this version, the method named <B>main()</B> provides an 
+      <U>appropriate structure</U> for dealing with the problem (although it 
+      doesn't actually deal with it in any significant way). </P>
+      <P>That structure consists of a <I>try</I> block and a <I>catch</I> block. 
+      This can be interpreted as follows: </P>
+      <P><U>Try</U><B> </B>to execute the code within the <I>try</I> block. </P>
+      <P>If an exception occurs, search for a <I>catch</I> block which matches 
+      the type of object thrown by the exception. </P>
+      <P>If such a <I>catch</I> block can be found, immediately transfer control 
+      to the catch block without executing any of the remaining code in the 
+      <I>try</I> block (for simplicity, our program didn't have any remaining 
+      code). Some later sample programs will illustrate code being skipped due 
+      to the occurrence of an exception. </P>
+      <P>This transfer of control is <U>not a method call</U>. It is an 
+      <U>unconditional transfer of control</U>. There is <U>no</U> <I>return</I> 
+      from a catch block. </P>
+      <P>In our case, there was a matching <I>catch</I> block to receive 
+      control. In the event of an exception, the program would execute the 
+      statements within the body of the <I>catch</I> block (which in our case 
+      was empty for simplicity) and then transfer control to the code following 
+      the final <I>catch</I> block in the group of <I>catch</I> blocks (in our 
+      case, there was only one). </P>
+      <P>Now let's look an a sample program that actually experiences an 
+      exceptional condition and deals with it. </P>
+      <P>You may have noticed that I try to keep my sample programs as simple as 
+      possible, introducing the minimum amount of complexity necessary to 
+      illustrate the main point of the program. </P>
+      <P>As it turns out, it is not easy to write a <U>really simple</U> program 
+      that is guaranteed to experience one of the checked exceptions. Therefore, 
+      the following program was written to experience an exception of the 
+      runtime variety which is very easy to create: divide by zero. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep04.java  Copyright 1997, R. G. Baldwin
+Illustrates implementation of exception handling using 
+try/catch blocks.
+
+Before implementing exception handling code, the output 
+was:
+<B>Program is running. The quotient is: 3
+Program is running. The quotient is: 6
+java.lang.ArithmeticException: / by zero
+  at Excep04.main(Excep04.java:8)
+
+</B>
+After implementing exception handling code, the output 
+was:
+<B>Program is running. The quotient is: 3
+Program is running. The quotient is: 6
+
+Oops, caught an exception with the message:  / by zero
+and with the stacktrace showing:
+java.lang.ArithmeticException: / by zero
+  at Excep04.main(Excep04.java:17)
+Converting the exception object to a String we get:
+java.lang.ArithmeticException: / by zero
+In a real program, we might take corrective action here,
+but in this sample program, we will simply terminate.
+Because of the way this program was developed and 
+documented, line numbers in the messages are not correct.
+
+</B>**********************************************************/
+
+class <B>Excep04</B>{
+  public static void <B>main</B>(String[] args){
+    <B>try</B>{
+      for(int cnt = 2; cnt &gt;-1; cnt--){
+        System.out.println(
+          "Program is running. The quotient is: " + 6/cnt);
+      }//end for-loop
+    }//end try block
+    <B>catch(ArithmeticException</B> e){
+      //put corrective code in here
+      System.out.println(
+          "\nOops, caught an exception with the message:  "
+                + e.getMessage() 
+                   + "\nand with the stacktrace showing:");
+      e.printStackTrace();
+      System.out.println(
+        "Converting the exception object to a String " +
+                               "we get:\n" + e.toString());
+      System.out.println(
+        "In a real program, we might take corrective " +
+        "action here,\nbut in this sample program, we " +
+        "will simply terminate.\nBecause of the way " +
+        "this program was developed and \ndocumented, " +
+        "line numbers in the messages are not correct.");
+    }//end catch block
+    
+  }//end main
+}//end class Excep04</PRE></TD></TR></TBODY></TABLE>
+      <P>As you can see, a <B>for</B> loop that was guaranteed to experience a 
+      <I>divide-by-zero</I> condition was placed in the program. The program was 
+      executed, and the output, including the runtime error message which 
+      appeared on the screen was captured and added to the comments at the 
+      beginning of the program. </P>
+      <P>At this stage, the program experienced abnormal termination, and the 
+      exceptional condition was <U>not properly handled</U>. </P>
+      <P>Then the <B>for</B> loop was enclosed in a <I>try</I> block which was 
+      followed by a catch block. (We will discuss the specifics of <I>try</I> 
+      and <I>catch</I> blocks later.) The <I>catch</I> block was designed to 
+      catch and process exceptions of the <B>ArithmeticException</B> class. </P>
+      <P>The bulk of the program consists of <U>processing</U> the exception 
+      object in various ways to <U>obtain</U> and display information about the 
+      exception. </P>
+      <P>The methods invoked using the exception object are all methods of the 
+      <B>Throwable</B> class, of which <B>ArithmeticException</B> is a subclass, 
+      two levels down. </P>
+      <P>This program does not attempt to illustrate how an actual program 
+      <U>might recover</U> from an exception of this sort. However, it is clear 
+      that (rather than experiencing <U>automatic and unconditional 
+      termination</U> as was the case before exception-handling was implemented) 
+      the program <U>remains in control</U>, and in some cases, <U>recovery 
+      might be possible</U>. </P>
+      <P>This example illustrates <I>try</I> and <I>catch</I>. The third, and 
+      optional part of exception handling, <I>finally</I>, will be discussed 
+      later. </P>
+      <H2 align=center><A name="a nuisance problem explained"></A><FONT 
+      color=#ff0000>A Nuisance Problem Explained</FONT></H2>
+      <P>While we are at it, we would be be remiss in failing to mention a 
+      <U>nuisance problem</U> associated with exception handling. </P>
+      <P>As you may recall, the scope of a variable in Java is limited to the 
+      block of code in which it is declared. A block is determined by enclosing 
+      code within a pair of matching braces: {...}. </P>
+      <P>Since a pair of braces is required to define a <I>try</I> block, the 
+      scope of any variables or objects declared inside the <I>try </I>block is 
+      limited to the <I>try </I>block. </P>
+      <P>While this is not an insurmountable problem, it may require you to 
+      modify your programming style in ways that you find distasteful. </P>
+      <P>This is illustrated in the following simple program which (for whatever 
+      good reason) declares and initializes a variable named <B>aVariable</B> 
+      inside the <I>try</I> block and then attempts to access the variable 
+      outside the <I>try</I> block. </P>
+      <P>The program won't compile. The compiler error message is shown in the 
+      comments at the beginning of the program. </P>
+      <P>True, you can avoid the problem by declaring the variable ahead of the 
+      <I>try</I> block and then assigning data to it within the <I>try</I> 
+      block, but that may not be consistent with your programming style. 
+      Regardless, this is a situation that you will have to learn to live with. 
+      </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep05.java  Copyright 1997, R. G. Baldwin
+
+Illustrates practical scoping problems which accompany 
+try blocks.
+
+<B>This program won't compile.  Compiler error is:
+Excep05.java:23: Undefined variable: aVariable
+    int myVariable = aVariable; </B> 
+**********************************************************/
+class Excep05{
+   public static void main(String[] args){
+     <B>try</B>{
+       for(int cnt = 2; cnt &gt;0; cnt--){
+         System.out.println(
+          "Program is running. The quotient is: " + 6/cnt);
+       }//end for-loop
+ <B>      int aVariable = 6;
+</B>     }<B>catch(ArithmeticException</B> e){
+       //put corrective code in here
+     }//end catch block
+  <B>   //Compiler error occurs here.  aVariable is not 
+     // accessible    
+     int myVariable = aVariable;
+</B>   }//end main
+ }//end class Excep05</PRE></TD></TR></TBODY></TABLE>
+      <H2 align=center><A name="catching and handling exceptions"></A><FONT 
+      color=#ff0000>Catching and Handling Exceptions</FONT></H2>
+      <P>Now that you have seen some sample programs to help you <U>visualize 
+      the process</U>, lets discuss the process in more detail. </P>
+      <H3 align=center><A name="the try block"></A><FONT color=#ff0000>The try 
+      Block</FONT></H3>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The first step in writing any exception handler is putting the 
+            Java statements within which an exception can occur into a try 
+            block. The try block is said to govern the statements enclosed 
+            within it and defines the scope of any exception handlers 
+            (established by subsequent catch blocks) associated with 
+        it."</TD></TR></TBODY></TABLE>
+      <P>Note that the terminology being used by Campione and Walrath treats the 
+      <I>catch </I>block as the "exception handler" and treats the <I>try</I> 
+      block as something that precedes one or more exception handlers. I don't 
+      necessarily disagree with their terminology, I mention it only for the 
+      purpose of avoiding confusion over terminology. </P>
+      <P>The general syntax of a <I>try</I> block, as you saw in the previous 
+      program has the word <I>try </I>followed by one or more statements 
+      enclosed in a pair of matching braces, as shown below: </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>try{ 
+  //java statements 
+}</TT></PRE></TD></TR></TBODY></TABLE>
+      <P>You could have more than one statement that could throw one or more 
+      exceptions and you will need to deal with all of them. </P>
+      <P>You could put each such statement that might throw exceptions within 
+      its own <I>try </I>block and provide separate exception handlers for each 
+      <I>try</I> block. Note that some statements, particularly those that 
+      invoke other methods, could potentially throw many different types of 
+      exceptions. Thus a <I>try</I> block consisting of a single statement might 
+      require many different exception handlers. </P>
+      <P>You could put all or several of the statements that might throw 
+      exceptions within a single <I>try</I> block and associate multiple 
+      exception handlers with it. There are a number of practical issues here, 
+      and only you can decide in any particular instance which approach would be 
+      best. </P>
+      <P>Exception handlers must be placed immediately following their 
+      associated <I>try</I> block. If an exception occurs within the <I>try 
+      </I>block, that exception is handled by the appropriate exception handler 
+      associated with the <I>try</I> block. </P>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"A <I>try</I> block must be accompanied by at least one <I>catch 
+            </I>block or one <I>finally </I>block."</TD></TR></TBODY></TABLE>
+      <H3 align=center><A name="the catch block(s)"></A><FONT color=#ff0000>The 
+      catch Block(s)</FONT></H3>
+      <P>Continuing with Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Next, you associate exception handlers with a try block by 
+            providing one or more catch blocks directly after the try 
+        block."</TD></TR></TBODY></TABLE>
+      <P>There can be <U>no intervening code</U> between the end of the <I>try 
+      </I>block and the beginning of the first <I>catch </I>block, and <U>no 
+      intervening code</U> between <I>catch</I> blocks. The general form of 
+      Java's catch statement is: </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>catch (</TT><B><TT>AThrowableObjectType variableName</TT></B><TT>) {
+  //Java statements 
+}</TT></PRE></TD></TR></TBODY></TABLE>
+      <P>The header line in the <I>catch</I> block requires a <U>single 
+      argument</U> as shown. </P>
+      <P>The syntax is the same as an argument declaration for a method. </P>
+      <P>The <U>argument type</U> declares the type of exception object that a 
+      particular exception handler can handle and must be the name of a class 
+      that inherits from the <B>Throwable</B> class discussed earlier. </P>
+      <P>Also as in a method declaration, there is a parameter which is the name 
+      by which the handler can refer to the exception object. </P>
+      <P>For example, in an earlier example program, we used statements such as 
+      <B><TT>e.getMessage()</TT></B><B> </B>to access an instance method of an 
+      exception object caught by our exception handler. </P>
+      <P>You access the instance variables and methods of exception objects the 
+      same way that you access the instance variables and methods of other 
+      objects. </P>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The catch block contains a series of legal Java statements. 
+            These statements are executed <U>if and when</U> the exception 
+            handler is invoked. The runtime system invokes the exception handler 
+            when the handler is the <U>first one in the call stack whose type 
+            matches that of the exception thrown</U>.</TD></TR></TBODY></TABLE>
+      <P>Therefore, the <U>order of your exception handlers is important</U>, 
+      particularly if you have some handlers which are further up the exception 
+      hierarchy tree than others. </P>
+      <P>Those handlers designed to handle exceptions <U>furthermost from the 
+      root </U>of the hierarchy tree should be placed <U>first in the list</U> 
+      of exception handlers. </P>
+      <P>Otherwise, an exception hander designed to handle a specialized "leaf" 
+      object may be preempted by another handler whose exception object type is 
+      closer to the root if the second exception handler appears earlier in the 
+      list of exception handlers. </P>
+      <H3 align=center><A 
+      name="catching multiple exception types with one handler"></A><FONT 
+      color=#ff0000>Catching Multiple Exception Types with One 
+      Handler</FONT></H3>
+      <P>Exception handlers that you write may be <U>more or less 
+      specialized</U>. In addition to writing handlers for very specialized 
+      exception objects, the Java language allows you to write general exception 
+      handlers that handle multiple types of exceptions. </P>
+      <P>Java exceptions are <B>Throwable</B> objects (instances of the 
+      <B>Throwable</B> class or a <U>subclass</U> of the <B>Throwable 
+      </B>class). </P>
+      <P>The Java packages contain numerous classes that derive from 
+      <B>Throwable</B> and build a hierarchy of <B>Throwable</B> classes. </P>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Your exception handler can be written to handle any class that 
+            inherits from <B>Throwable</B>. If you write a handler for a "leaf" 
+            class (a class with no subclasses), you've written a specialized 
+            handler: it will only handle exceptions of that specific type. If 
+            you write a handler for a "node" class (a class with subclasses), 
+            you've written a general handler: it will handle any exception whose 
+            type is the node class or any of its 
+subclasses."</TD></TR></TBODY></TABLE>
+      <H3 align=center><A name="the finally block"></A><FONT color=#ff0000>The 
+      finally Block</FONT></H3>
+      <P>And finally (no pun intended), Campione and Walrath tell us, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Java's <I>finally </I>block provides a mechanism that allows 
+            your method to clean up after itself <U>regardless of what 
+            happens</U> within the <I>try </I>block. Use the <I>finally 
+            </I>block to close files or release other system 
+        resources."</TD></TR></TBODY></TABLE>
+      <P>And again, from Campione and Walrath </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The final step in setting up an exception handler is providing 
+            a mechanism for cleaning up the state of the method before 
+            (possibly) allowing control to be passed to a different part of the 
+            program. You do this by enclosing the cleanup code within a finally 
+            block. ...The runtime system always executes the statements within 
+            the finally block regardless of what happens within the try block. 
+            ...After the exception handler has run, the runtime system passes 
+            control to the finally block."</TD></TR></TBODY></TABLE>
+      <P>Cleanup might include closing files, closing communication links, 
+      flushing buffers, etc. </P>
+      <P>There is something <U>less than total agreement</U> within the industry 
+      as to the value of the <I>finally</I> block. Campione and Walrath argue to 
+      justify its existence. You will simply need to review all the available 
+      material on the subject and make up your own mind. </P>
+      <P>A <U>sample program is presented at the end of this lesson</U> that 
+      demonstrates the power of the <I>finally</I> block. </P>
+      <P>In that program, an exception handler attempts to terminate the program 
+      by executing a <B>return</B> statement. However, before that <B>return</B> 
+      statement is executed to terminate the program, control is passed to the 
+      <I>finally</I> block and all of the statements in the <I>finally</I> block 
+      are executed. Then the program terminates. </P>
+      <P>This program demonstrates that the <I>finally</I> block does have the 
+      <U>final</U> word. </P>
+      <H3 align=center><A 
+      name="specifying (declaring) the exceptions thrown by a method"></A><FONT 
+      color=#ff0000>Specifying (Declaring) the Exceptions Thrown by a 
+      Method</FONT></H3>
+      <P>Sometimes it is best to handle exceptions in the method where they are 
+      detected, and sometimes it is better to <U>pass them up the call stack</U> 
+      and let another method handle them. This was illustrated in one of the 
+      sample programs early in this lesson. </P>
+      <P>I won't try to justify passing exceptions up the call stack. I will 
+      simply state that sometimes that is the best thing to do. In order to pass 
+      exceptions up the call stack, you must <I>specify</I> or <I>declare</I> 
+      them (depending on whether you prefer the terminology of Campione and 
+      Walrath, or the terminology of Flanagan). </P>
+      <P>To specify that a method throws one or more exceptions, you <U>add</U> 
+      a <I>throws</I> clause to the method signature for the method. The 
+      <I>throws </I>clause is composed of the <I>throws </I>keyword followed by 
+      a comma-separated list of all the exceptions thrown by that method. </P>
+      <P>The throws clause goes <U>after</U> the method name and argument list 
+      and <U>before</U> the curly bracket that defines the scope of the method. 
+      </P>
+      <P>One of the methods in an earlier sample program included a <I>throws 
+      </I>clause. The header line for the method is repeated below, but 
+      <U>modified</U> to indicate that it throws four different exceptions. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>void myMethod() throws 
+          InterruptedException, 
+          MyException, 
+          HerException, 
+          UrException
+{
+  //method code
+}//end myMethod()</TT></PRE></TD></TR></TBODY></TABLE>
+      <P>Any method calling this method would be required to <U>either 
+      handle</U> these exception types, or <U>continue passing</U> them up the 
+      call stack. Eventually, <U>some method must handle them</U> or the program 
+      <U>won't compile</U>. </P>
+      <H2 align=center><A name="the throw statement"></A><FONT color=#ff0000>The 
+      throw Statement</FONT></H2>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Before you can catch an exception, some Java code somewhere 
+            must throw one. Any Java code can throw an exception: your code, 
+            code from a package written by someone else (such as the packages 
+            that come with the Java development environment), or the Java 
+            runtime system. Regardless of who (or what) throws the exception, 
+            it's always thrown with the Java <I>throw 
+        </I>statement."</TD></TR></TBODY></TABLE>
+      <P>The <I>throw </I>statement requires a <U>single argument</U>, which 
+      must be an <U>object</U> derived either directly or indirectly from the 
+      class <B>Throwable</B>. </P>
+      <P>The object may be an instance of <U>any subclass</U> of the 
+      <B>Throwable </B>class defined in <B>java.lang</B> . Here is an example: 
+      </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>throw myThrowableObject;</TT></PRE></TD></TR></TBODY></TABLE>
+      <P>This is not too difficult, but if you attempt to throw an object that 
+      is not subclassed from the <B>Throwable</B> class, the compiler will 
+      <U>refuse to compile</U> your program and will display an error message. 
+      </P>
+      <H2 align=center><A name="creating your own exception classes"></A><FONT 
+      color=#ff0000>Creating Your Own Exception Classes</FONT></H2>
+      <P>Now you know how to write exception handlers for those exception 
+      objects which are <U>automatically thrown</U> by the system. </P>
+      <P>It is also possible for you to <U>define your own</U> exception 
+      classes, and to cause objects of those classes to be thrown whenever an 
+      exception occurs (according to <U>your definition of an exception</U>). 
+      </P>
+      <P>For example, you could write a data-processing application that 
+      processes integer data obtained via a TCP/IP link with another computer. 
+      </P>
+      <P>If for some reason the specification for the program is such that the 
+      integer value 10 should never be received, then you could use an 
+      occurrence of that situation to cause an exception object of your design 
+      to be thrown. </P>
+      <H3 align=center><A name="choosing the exception type to throw"></A><FONT 
+      color=#ff0000>Choosing the Exception Type to Throw</FONT></H3>
+      <P>Before creating your own exception class, you must <U>decide on its 
+      type</U>. </P>
+      <P>According to Campione and Walrath, when trying to decide on the type, 
+      you have two choices: <BR></P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>
+            <UL>
+              <LI>Use a class written by someone else. For example, the Java 
+              development environment provides a lot of exception classes that 
+              you could use. 
+              <LI>Write an exception class of your own. 
+      </LI></UL></TD></TR></TBODY></TABLE>
+      <P>Not too earthshaking, but true nonetheless. The big question is, 
+      <U>when should you write your own</U> exception classes and when should 
+      you use classes that are already available. </P>
+      <P>According to Campione and Walrath, if you answer "yes" to any of the 
+      following questions, you probably should write your own exception classes. 
+      Otherwise, you should strive to use existing classes. </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>
+            <UL>
+              <LI>Do you need an exception type that <U>isn't represented</U> by 
+              those in the Java development environment? 
+              <LI>Would it help your users if they could <U>differentiate your 
+              exceptions</U> from those thrown by classes written by other 
+              vendors? 
+              <LI>Does your code throw <U>more than one related</U> exception? 
+              <LI>If you use someone else's exceptions, will your users have 
+              <U>access</U> to those exceptions? 
+              <LI>A similar question is "Should your package be 
+              <U>independent</U> and self-contained?" 
+      </LI></UL></TD></TR></TBODY></TABLE>
+      <H3 align=center><A name="choosing a superclass"></A><FONT 
+      color=#ff0000>Choosing a Superclass</FONT></H3>
+      <P>If you decide to write your own exception classes, it will be necessary 
+      for them to be a subclass of <B>Throwable</B>. Then you must decide which 
+      class you will subclass. </P>
+      <P>The <U>two</U> subclasses of <B>Throwable</B> are <B>Exception</B> and 
+      <B>Error </B>and it probably doesn't make logical sense to create a third 
+      branch of <B>Throwable</B>. You can probably live within the two existing 
+      branches. </P>
+      <P>Given the earlier description of <B>Error</B> and its subclasses, it is 
+      not likely that your exceptions would fit the <B>Error</B> category. 
+      (Errors are reserved for <U>serious hard errors</U> that occur <U>deep in 
+      the system</U>.) </P>
+      <P>Therefore, you should probably make your new classes direct or indirect 
+      descendants of <B>Exception</B>. </P>
+      <P>Only you can decide how far down the <B>Exception</B> tree you want to 
+      go before creating a <U>new branch</U> of exception classes that are 
+      <U>unique to your application</U>. </P>
+      <H3 align=center><A name="naming conventions"></A><FONT 
+      color=#ff0000>Naming Conventions</FONT></H3>
+      <P>According to Campione and Walrath, </P>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"It's good practice to append the word "Exception" to the end of 
+            all classes that inherit (directly or indirectly) from the Exception 
+            class. Similarly, classes that inherit from the Error class should 
+            end with the string "Error"."</TD></TR></TBODY></TABLE>
+      <H3 align=center><A name="another sample program"></A><FONT 
+      color=#ff0000>Another Sample Program</FONT></H3>
+      <P>Let's examine one more sample program in which we create our own 
+      exception class. Then we will <I>throw</I>, <I>catch </I>and process it. 
+      </P>
+      <P>We will also provide a <I>finally</I> block to <U>prove</U> that the 
+      code in the <I>finally</I> block gets executed <U>despite</U> the fact 
+      that the exception handler attempts to terminate the program by executing 
+      a <B>return</B> statement. </P>
+      <P>If a <I>finally</I> block exists, it will <U>always</U> be executed 
+      before control can be transferred to another part of the program, or 
+      terminated altogether. That is why it is a good place to do cleanup work. 
+      </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Excep06.java  Copyright 1997, R. G. Baldwin
+Illustrates creating, throwing, catching, and processing a
+custom exception object that contains diagnostic 
+information.  
+
+Also illustrates that the code in the finally block 
+executes despite the fact that the exception handler tries
+to terminate the program by executing a return statement.
+
+The output from the program is:
+<B>Processing data for cnt = :0
+Processing data for cnt = :1
+Processing data for cnt = :2
+In exception handler, get the message
+The message is: buy low, sell high
+The diagnosticData value is: 3
+In exception handler, trying to terminate program.
+by executing a return statement
+In finally block just to prove that we get here despite
+the return statement in the exception handler.
+
+</B>
+**********************************************************/
+
+//The following class is used to construct a customized 
+// exception object. The instance variable in the object 
+// is used to simulate passing diagnostic information 
+// from the point where the exception is thrown to the 
+// exception handler.
+class <B>MyPrivateException </B>extends Exception{
+  int diagnosticData;
+  //constructor
+  <B>MyPrivateException(int</B> diagnosticInfo){
+    //save diagnosticInfo in the object
+    diagnosticData = diagnosticInfo;
+  }//end constructor
+  //-----------------------------------------------------//
+
+  //<B>Overrides </B>Throwable's <B>getMessage</B>() method
+  public String <B>getMessage</B>(){
+    return ("The message is: buy low, sell high\n" 
+      + "The diagnosticData value is: " 
+      + diagnosticData);  
+  }//end getMessage method
+}//end MyPrivateException class
+//=======================================================//
+
+class <B>Excep06{//controlling</B> class
+  public static void main(String[] args){
+    <B>try</B>{
+      for(int cnt = 0; cnt &lt; 5; cnt++){
+        //Throw a custom exception, and pass 
+        // diagnosticInfo if cnt == 3
+        if(cnt == 3) <B>throw </B>new MyPrivateException(3);
+        //Transfer control before 
+        // "processing" for cnt == 3
+        System.out.println(
+                  "Processing data for cnt = :" + cnt);
+      }//end for-loop
+      
+      System.out.println(
+              "This line of code will never execute.");
+    }<B>catch(MyPrivateException</B> e){
+      System.out.println(
+             "In exception handler, get the message\n"
+                                     + e.getMessage());
+      System.out.println(
+        "In exception handler, trying to terminate " +
+         "program.\n" 
+         + "by executing a return statement");
+      <B>return</B>; //try to terminate the program
+    }//end catch block
+    //---------------------------------------------------//
+    
+    <B>finally</B>{
+      System.out.println(
+       "In finally block just to prove that we get " +
+       "here despite\nthe return statement in the " +
+       "exception handler.");
+    }//end finally block
+    //---------------------------------------------------//
+    
+    System.out.println(
+      "This statement will never execute due to " +
+      "return statement in the exception handler.");
+  }//end main
+}//end class Excep06</PRE></TD></TR></TBODY></TABLE>
+      <P>The program and its associated comments are generally self-explanatory 
+      based on what you have learned earlier. </P>
+      <P>Note that even though the exception handler attempts to terminate the 
+      program by executing a <B>return </B>statement, before that <B>return 
+      </B>statement is executed, control is passed to the <I>finally</I> block 
+      and the code in the <I>finally</I> block is executed. Then the program 
+      terminates. </P>
+      <P>Note also that the program overrides the <B>getMessage() </B>method 
+      from the <B>Throwable </B>class. The output from a similar program (which 
+      is not reproduced here) shows that the <B>getMessage() </B>method returns 
+      <B>null</B> if it isn't <U>specifically overridden</U> by the new 
+      exception class. </P>
+      <H2 align=center><A name=review></A><FONT color=#ff0000>Review</FONT></H2>
+      <P>Q - The exception-handling capability of Java makes it possible for you 
+      to monitor for exceptional conditions within your program, and to transfer 
+      control to special exception-handling code which you design. List five 
+      keywords that are used for this purpose. </P>
+      <P><FONT color=#0000ff size=2>A - try, throw, catch, finally, and 
+      throws</FONT> </P>
+      <P>Q - All exceptions in Java are thrown by code that you write: True or 
+      False? If false, explain why. </P>
+      <P><FONT color=#0000ff size=2>A - False. There are situations where an 
+      exceptional condition <U>automatically</U> transfers control to special 
+      exception-handling code which you write (cases where you don't provide the 
+      code to <I>throw</I> the exception object).</FONT> </P>
+      <P>Q - When an exceptional condition causes an exception to be 
+      <I>thrown</I>, that exception is an object derived, either directly, or 
+      indirectly from the class <B>Exception</B>: True or False? If false, 
+      explain why. </P>
+      <P><FONT color=#0000ff size=2>A - False. When an exceptional condition 
+      causes an exception to be <I>thrown</I>, that exception is an object 
+      derived, either directly, or indirectly from the class 
+      <B>Throwable</B>.</FONT> </P>
+      <P>Q - All exceptions other than those in the <B>RuntimeException</B> 
+      class must be either <B>caught</B>, or <B>declared </B>in a <I>throws</I> 
+      clause of any method that can throw them: True or False? If false, explain 
+      why. </P>
+      <P><FONT color=#0000ff size=2>A - True.</FONT> </P>
+      <P>Q - What method of which class would you use to extract the 
+      <I>message</I> from an exception object? </P>
+      <P><FONT color=#0000ff size=2>A - The <B>getMessage()</B> method of the 
+      <B>Throwable</B> class.</FONT> </P>
+      <P>Q - Normally, those exception handlers designed to handle exceptions 
+      closest to the root of the exception class hierarchy should be placed 
+      first in the list of exception handlers: True or False? If false, explain 
+      why. </P>
+      <P><FONT color=#0000ff size=2>A - False. The above statement has it 
+      backwards. Those handlers designed to handle exceptions <U>furthermost 
+      from the root </U>of the hierarchy tree should be placed <U>first in the 
+      list</U> of exception handlers.</FONT> </P>
+      <P>Q - Explain why you should place exception handlers furthermost from 
+      the root of the exception hierarchy tree first in the list of exception 
+      handlers. </P>
+      <P><FONT color=#0000ff size=2>A - An exception hander designed to handle a 
+      specialized "leaf" object may be preempted by another handler whose 
+      exception object type is closer to the root of the exception hierarchy 
+      tree if the second exception handler appears earlier in the list of 
+      exception handlers.</FONT> </P>
+      <P>Q - In addition to writing handlers for very specialized exception 
+      objects, the Java language allows you to write general exception handlers 
+      that handle multiple types of exceptions: True or False? If false, explain 
+      why. </P>
+      <P><FONT color=#0000ff size=2>A - True.</FONT> </P>
+      <P>Q - Your exception handler can be written to handle any class that 
+      inherits from <B>Throwable</B>. If you write a handler for a node class (a 
+      class with no subclasses), you've written a specialized handler: it will 
+      only handle exceptions of that specific type. If you write a handler for a 
+      leaf class (a class with subclasses), you've written a general handler: it 
+      will handle any exception whose type is the node class or any of its 
+      subclasses. True or False? If false, explain why. </P>
+      <P><FONT color=#0000ff size=2>A - False. "Leaf" and "node" are reversed in 
+      the above statement. If you write a handler for a "leaf" class (a class 
+      with no subclasses), you've written a specialized handler: it will only 
+      handle exceptions of that specific type. If you write a handler for a 
+      "node" class (a class with subclasses), you've written a general handler: 
+      it will handle any exception whose type is the node class or any of its 
+      subclasses."</FONT> </P>
+      <P>Q - Java's <I>finally </I>block provides a mechanism that allows your 
+      method to clean up after itself <U>regardless of what happens</U> within 
+      the <I>try </I>block. True or False? If false, explain why. </P>
+      <P><FONT color=#0000ff size=2>A - True.</FONT> </P>
+      <P>Q - Explain how you would specify that a method throws <U>one or 
+      more</U> exceptions. </P>
+      <P><FONT color=#0000ff size=2>A - To specify that a method throws one or 
+      more exceptions, you <U>add</U> a <I>throws</I> clause to the method 
+      signature for the method. The <I>throws </I>clause is composed of the 
+      <I>throws </I>keyword followed by a comma-separated list of all the 
+      exceptions thrown by that method.</FONT> </P>
+      <P>Q - Provide a code fragment that illustrates how you would specify that 
+      a method throws more than one exception. </P>
+      <P><FONT color=#0000ff size=2>A - See code fragment below.</FONT> </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>void myMethod() throws InterruptedException, MyException, 
+     HerException, UrException
+{
+//method body
+}</TT></PRE></TD></TR></TBODY></TABLE>
+      <P>Q - What type of argument is required by the <B>throw</B> statement? 
+      </P>
+      <P><FONT color=#0000ff size=2>A - The <I>throw </I>statement requires a 
+      <U>single argument</U>, which must be an <U>object</U> derived either 
+      directly or indirectly from the class <B>Throwable</B>.</FONT> </P>
+      <P>Q - Some exception objects are automatically thrown by the system. It 
+      is also possible for you to define your own exception classes, and to 
+      cause objects of those classes to be thrown whenever an exception occurs. 
+      True or False? If false, explain why. </P>
+      <P><FONT color=#0000ff size=2>A - True.</FONT> </P>
+      <P>Q - Write a program that meets the following specifications. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg101.java, from lesson 56
+Copyright R.G.Baldwin, 1997
+
+The following program won't compile.  Without viewing
+the following solution, Fix the program by 
+declaring that the method named myMethod throws an
+exception of the proper type, and by catching and
+processing that exception in main.
+=======================================================
+
+import java.lang.Thread;
+
+class SampProg101{
+  public static void main(String[] args){
+    SampProg101 obj = new SampProg101();
+    obj.myMethod();
+  }//end main
+  
+  void myMethod(){
+    Thread.currentThread().sleep(1000);
+  }//end myMethod
+}//end class Excep01
+*/
+import java.lang.Thread;
+
+class SampProg101{
+  public static void main(String[] args){
+    SampProg101 obj = new SampProg101();
+    try{
+      obj.myMethod();
+    }catch(InterruptedException e){
+      //do something with the exception
+    }//end catch block
+  }//end main
+  
+  void myMethod() throws InterruptedException{
+    Thread.currentThread().sleep(1000);
+  }//end myMethod
+}//end class SampProg101</PRE></TD></TR></TBODY></TABLE>
+      <P>Q - Write a program that meets the following specifications. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg102.java  from lesson 56
+Copyright 1997, R. G. Baldwin
+Without viewing the following solution, write a Java
+application that purposely creates and then deals with
+an ArithmeticException caused by attempting to divide
+by zero.
+
+The output from the program should be similar to the
+following:
+  
+Before implementing exception handling code, the output 
+was:
+Program is running. The quotient is: 3
+Program is running. The quotient is: 6
+java.lang.ArithmeticException: / by zero
+  at SampProg102.main(SampProg102.java:8)
+
+After implementing exception handling code, the output 
+was:
+Program is running. The quotient is: 3
+Program is running. The quotient is: 6
+
+Oops, caught an exception with the message:  / by zero
+and with the stacktrace showing:
+java.lang.ArithmeticException: / by zero
+  at SampProg102.main(SampProg102.java:17)
+Converting the exception object to a String we get:
+java.lang.ArithmeticException: / by zero
+In a real program, we might take corrective action here
+**********************************************************/
+
+class SampProg102{
+  public static void main(String[] args){
+    try{
+      for(int cnt = 2; cnt &gt;-1; cnt--){
+        System.out.println(
+          "Program is running. The quotient is: "+6/cnt);
+      }//end for-loop
+    }catch(ArithmeticException e){
+      //put corrective code in here
+      System.out.println(
+        "\nOops, caught an exception with the message:  " 
+        + e.getMessage() 
+        + "\nand with the stacktrace showing:");
+      e.printStackTrace();
+      System.out.println(
+        "Converting the exception object to a "
+        + "String we get:\n"
+        + e.toString());
+      System.out.println(
+        "In a real program, we might take corrective "
+        + "action here");
+    }//end catch block
+    
+  }//end main
+}//end class SampProg102</PRE></TD></TR></TBODY></TABLE>
+      <P>Q - Write a program that meets the following specifications. </P>
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg103.java  from lesson 56
+Copyright 1997, R. G. Baldwin
+Without viewing the following solution, write a Java
+application that illustrates creating, throwing, catching,
+and processing a custom exception object that contains 
+diagnostic information.  
+
+Also illustrate that the code in the finally block 
+executes despite the fact that the exception handler tries
+to terminate the program by executing a return statement.
+
+The output from the program should be similar to the
+following:
+  
+Processing data for cnt =0
+Processing data for cnt =1
+Processing data for cnt =2
+In exception handler, get the message
+The message is: buy low, sell high
+The diagnosticData value is: 3
+In exception handler, trying to terminate program.
+by executing a return statement
+In finally block just to prove that we get here despite
+the return statement in the exception handler.
+**********************************************************/
+
+//The following class is used to construct a customized 
+// exception object.  The instance variable in the object 
+// is used to simulate passing diagnostic information from
+// the point where the exception is thrown to the 
+// exception handler.
+class MyPrivateException extends Exception{
+  int diagnosticData;
+  
+  MyPrivateException(int diagnosticInfo){//constructor
+    //save diagnosticInfo in the object
+    diagnosticData = diagnosticInfo;
+  }//end constructor
+
+  public String getMessage(){
+    //overrides Throwable's getMessage() method
+    return ("The message is: buy low, sell high\n" 
+      + "The diagnosticData value is: " 
+      + diagnosticData);  
+  }//end getMessage method
+}//end MyPrivateException class
+
+class SampProg103{//controlling class
+  public static void main(String[] args){
+    try{
+      for(int cnt = 0; cnt &lt; 5; cnt++){
+        //Throw a custom exception, and 
+        // pass diagnosticInfo if cnt == 3
+        if(cnt == 3) throw new MyPrivateException(3);
+        //Transfer control before 
+        // "processing" for cnt == 3
+        System.out.println(
+          "Processing data for cnt =" + cnt);
+      }//end for-loop
+      System.out.println(
+        "This line of code will never execute.");    
+    }catch(MyPrivateException e){
+      System.out.println(
+        "In exception handler, get the message\n"
+        + e.getMessage());
+      System.out.println(
+        "In exception handler, trying to terminate "
+        + "program.\n"
+        + "by executing a return statement");
+      return; //try to terminate the program
+    }//end catch block
+    
+    finally{
+      System.out.println(
+        "In finally block just to prove that we get "
+        + "here despite\n"
+        + "the return statement in the exception "
+        + "handler.");
+    }//end finally block
+    
+    System.out.println(
+      "This statement will never execute due to return "
+      + " statement in the exception handler.");
+  }//end main
+}//end class SampProg103</PRE></TD></TR></TBODY></TABLE>
+      <P>-end- </P>
+      <CENTER>
+      <P>[<A 
+      href="http://www.geocities.com/Athens/7077/scoop/onjava.html">Home</A>] 
+      [<A href="http://home.att.net/~baldwin.r.g/scoop/toc.htm">Table of 
+      Contents</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Download this 
+      Tutorial</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/alphaindex.htm">Alphabetical 
+      Index</A>]</CENTER></P>
+      <P>
+      <HR width=300>
+
+      <P></P>
+      <P><FONT size=-2>These tutorials were developed by Richard Baldwin and are 
+      the copyrighted property of Richard Baldwin. You have permission to print 
+      one copy for your own use, but may not, without written permission from 
+      Richard Baldwin, redistribute the tutorial documents. 
+      <P></P>The base material in these lessons is believed by the author to be 
+      in the public domain. If you use these lessons for any purpose, you are 
+      using them at your own risk, and this author assumes no responsibility or 
+      liability for any damages that you may incur. </FONT>
+      <P></P>
+      <P><FONT size=-2>Java, Sun, HotJava and various other related symbols and 
+      names are registered trademarks of Sun Microsystems, Inc. Macintosh is a 
+      registered trademark of Apple Computer, Inc. OS/2 is a registered 
+      trademark of International Business Machines Corporation. Microsoft, 
+      MS-DOS, Visual Basic, Windows, Windows NT, Internet Explorer and Visual 
+      J++ are registered trademarks of Microsoft Corporation. Netscape and 
+      JavaScript are trademarks of Netscape Communications Corporation. All 
+      other trademarks and service marks that may have been inadvertently used 
+      in these lessons without proper credit being given are the property of 
+      their respective owners. If you feel that your trademark or copyright has 
+      been compromised, please notify this author immediately, and an 
+      appropriate correction to the document will be issued.</FONT></P>
+      <P>
+      <HR width=300>
+
+      <P></P>
+      <P>© 1996, 1997, 1998, 1999 Richard G. Baldwin</P>
+      <CENTER>
+      <P><A href="http://java.miningco.com/"><IMG 
+      alt="alt=The Mining Company's 'Focus on Java' Best of the Net Award border=0></a><p>" 
+      border=0 height=72 
+      src="Exceptions - by Richard G Baldwin_files/BON_JUL.gif" 
+      width=83></A></P></CENTER><BR>
+      <CENTER><A href="http://software.pagecount.com/soft/map1/34114"><IMG isMap 
+      src="Exceptions - by Richard G Baldwin_files/counter.gif"></A> 
+      </CENTER><BR>
+      <CENTER>
+      <P><!--LINE1--><IMG height=11 
+      src="Exceptions - by Richard G Baldwin_files/red_thick_line_1.gif" 
+      width=300></P></CENTER></TD></TR></TBODY></TABLE></BODY></HTML>

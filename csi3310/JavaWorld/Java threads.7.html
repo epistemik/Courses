@@ -1,0 +1,1535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0066)http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html -->
+<HTML><HEAD><TITLE>Programming Java threads in the real world, Part 7 - JavaWorld April 1999</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Programming Java threads in the real world, Part 7" 
+name=description>
+<META content=1999-04 name=date>
+<META content="JavaWorld, Java, threads, multithreading, AWT" name=keywords>
+<META content="Allen Holub" name=author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b>
+<CENTER><FONT size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+border=0 height=60 
+src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/389936-kayak_ad1ab.gif" 
+vspace=5 width=468></A> </CENTER><IMG height=2 
+src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/blue.gif" 
+width="100%"><BR>
+<TABLE bgColor=#cccccc border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <CENTER><STRONG>April 1999</STRONG><BR><A 
+      href="http://www.javaworld.com/javaworld/home.html"><IMG border=0 
+      height=41 
+      src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/jwlogo-132.gif" 
+      vspace=5 width=132></A><BR><FONT size=-1><STRONG>FUELING 
+      INNOVATION</STRONG> </FONT></CENTER></TD>
+    <TD>
+      <P><FONT 
+      face=Arial,Helvetica,Sans-serif><STRONG><U>Search</U></STRONG></FONT> 
+      <FORM action=http://search.itworld.com:8765/query.html method=get 
+      name=seek>
+      <TABLE border=0 cellPadding=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><INPUT name=col size=-1 type=hidden value=jw> <!-- This is the text box for search terms --><!--See above--><INPUT 
+            maxLength=2047 name=qt size=12> <INPUT alt=GO border=0 height=25 
+            src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/button_blue.gif" 
+            type=image value=search width=27> </TD></TR></TBODY></TABLE></FORM></P></TD>
+    <TD><FONT face=Arial,Helvetica,Sans-serif><STRONG><A 
+      href="http://www.javaworld.com/javaworld/topicalindex/jw-ti-index.html">Topical&nbsp;index</A><BR><A 
+      href="http://www.javaworld.com/javaworld/netnews/">Net&nbsp;News&nbsp;Central</A><BR><A 
+      href="http://www.javaworld.com/javaworld/tools/">Developer&nbsp;Tools&nbsp;Guide</A><BR><A 
+      href="http://www.javaworld.com/javaworld/books/">Book&nbsp;Catalog</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-guidelines.html">Writers&nbsp;Guidelines</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-privacy.html">Privacy&nbsp;Policy</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-copyright.html">Copyright</A> 
+      </STRONG></FONT></TD></TR></TBODY></TABLE>Java Toolbox 
+<H1 align=center>Programming Java threads in the real world, Part 7 </H1>
+<H3 align=center>Singletons, critical sections, and reader/writer locks </H3>
+<BLOCKQUOTE><STRONG>Summary</STRONG><BR>This month's column builds on the 
+  preceding installments of the <STRONG>Java Toolbox</STRONG> threads series, 
+  adding a few more tools to your multithreading arsenal. Columnist Allen Holub 
+  looks at reader/writer locks, which let multiple threads safely access a 
+  shared resource in an efficient way. (Multiple threads can read from the 
+  resource while only one thread at a time can write to it, and reads and writes 
+  can't occur at the same time.) He'll also discuss the Singleton pattern, with 
+  a focus on implementing it in a multithreaded environment, and <EM>critical 
+  sections,</EM> or blocks of code that can be executed by only one thread at a 
+  time. <EM>(5,300 words)</EM> </BLOCKQUOTE><STRONG>By Allen Holub</STRONG> 
+<P><IMG alt="" border=0 height=2 
+src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/blue.gif" 
+width="100%"> 
+<P><!-- begin body text --><IMG align=left alt=T height=29 
+src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/T.gif" 
+width=24>his month I'm going to tie up a few synchronization-related loose ends 
+left over from my previous <STRONG>Java Toolbox</STRONG> installments in this 
+series. I'll start out looking at <EM>singletons,</EM> or one-of-a-kind objects. 
+These are surprisingly difficult to implement efficiently in a multithreaded 
+environment, but are essential in most programs. (<CODE>java.awt.Toolkit</CODE> 
+is an example of a singleton.) Along the way, I'll also look at <EM>critical 
+sections,</EM> or blocks of code -- as compared to objects -- that can be 
+locked. 
+<P>I'll finish up with a completely unrelated topic: <EM>reader/writer 
+locks,</EM> which give you efficient, thread-safe access to read/write resources 
+such as data structures and files. Reader/writer locks are simple enough to 
+implement that I didn't want to devote an entire column to them, but they're 
+essential in any multithreaded program that performs I/O operations, so I wanted 
+to include them in the present series of articles. Reader/writer locks combined 
+with the various semaphores and locks I've presented in previous installments of 
+this series comprise a reasonably complete toolkit for solving thread-related 
+synchronization problems. 
+<P><FONT size=+1><STRONG>Critical sections, singletons, and the Class 
+object</STRONG></FONT><BR>So far in this series I've been concentrating on the 
+<EM>monitor</EM> -- a means of locking an entire object while a body of code is 
+being executed. The other essential sort of lock you should be aware of is the 
+<EM>critical section.</EM> Critical sections are essential in implementing 
+one-time initialization code when that code can be accessed from multiple 
+threads. 
+<P>A critical section is a chunk of code that can be executed by only one thread 
+at a time. Compare this notion with a normal <CODE>synchronized</CODE> code 
+block -- a <EM>monitor</EM> -- which is basically an exclusion semaphore that 
+guards an entire object. Several threads can simultaneously execute a 
+<CODE>synchronized</CODE> method, but only if the objects that are receiving the 
+associated messages are different. In a critical section, the code itself is 
+locked, not the object. Only one thread can be in the critical section at a 
+time, even if the receiving objects are different. The mutex that guards a 
+monitor is an object-level mutex; the mutex that guards a critical section is 
+effectively a class-level mutex. Think of it this way: the code is defined in 
+the class, not the object, so when you're locking the code itself, you're 
+locking the entire class of objects. (By the way, I've seen authors get this 
+wrong in print when they call a block of code inside a nonstatic method a 
+"critical section." A block of code in a nonstatic method is part of the 
+object's monitor; it is <EM>not</EM> a critical section.) 
+<P><STRONG>Static members</STRONG><BR>In Java, the notion of a critical section 
+is closely tied to that of a static member, so let's start there. Java, like all 
+OO languages, supports two categories of fields and methods: 
+<P>
+<TABLE bgColor=#ffffcc border=0 cellPadding=3 cellSpacing=1>
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=#ffff00 vAlign=center><STRONG>Class 
+      variables</STRONG>:</TD>
+    <TD align=left vAlign=center>variables that control the state of all 
+      objects within a class.</TD></TR>
+  <TR>
+    <TD align=right bgColor=#ffff00 vAlign=center><STRONG>Instance 
+      variables</STRONG>:</TD>
+    <TD align=left vAlign=center>variables that control the state of a single 
+      object within a class.</TD></TR></TBODY></TABLE>
+<P>A class variable is implemented in Java by placing a <CODE>static</CODE> 
+keyword before its definition. 
+<P>To best explain how the two types of variables are used in practice, an 
+example seems in order. Back in the dark ages (the early 1990s) somebody had the 
+bright idea that every window on a computer screen should use a different color 
+scheme, even within a single application. Magenta backgrounds with yellow 
+borders, turquoise backgrounds with chartreuse borders -- it make your eyes 
+hurt. (The reasoning was that the users would somehow remember the color 
+combinations and more easily identify the windows. Nice theory, but the human 
+mind just doesn't work that way.) In this system, a window's color scheme is an 
+"instance variable": every instance -- every window -- potentially has a 
+different value for its color scheme. 
+<P>Eventually, people came to their senses and made all the windows the same 
+color. Now the color scheme is a "class variable." The entire class of window 
+objects uses the same color scheme. If the scheme changes, then all the windows 
+should change their appearance. 
+<P>You can model the class-level behavior like this: 
+<P><CODE><A name=Window>class Window // not the AWT window</A><BR>{ <BR><A 
+name=Window.foreground>private static Color foreground = 
+SystemColor.windowText;</A><BR><A name=Window.background>private static Color 
+background = SystemColor.window;</A><BR><BR><A 
+name=Window.change_color_scheme(Color,Color)>synchronized static public 
+change_color_scheme( Color foreground, Color background 
+)</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.foreground 
+= foreground;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.background 
+= background;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// code 
+goes here that tells all the extant Window objects 
+to<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// redraw themselves with 
+the new color scheme.<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>There are several problems with this simplistic approach, however, the first 
+being threading. 
+<P>Java creates a <CODE>Class</CODE> class object for every class in your 
+system, and the <CODE>static</CODE> fields are members of this 
+<CODE>Class</CODE> object. A <CODE>Class</CODE> object is a real object: It has 
+methods (declared <CODE>static</CODE> in the class definition) and state 
+(defined by the <CODE>static</CODE> fields). The <CODE>Class</CODE> object also 
+has its own monitor. When you call a <CODE>synchronized static</CODE> method, 
+you enter the monitor associated with the <CODE>Class</CODE> object. This means 
+that no two <CODE>synchronized static</CODE> methods can access the 
+<CODE>static</CODE> fields of the class at the same time. You can also lock the 
+<CODE>Class</CODE> object explicitly, like this: 
+<P><CODE>synchronized( Window.class )<BR>{ // modify static fields 
+here<BR>}<BR></CODE>
+<P>Unfortunately, the <CODE>Class</CODE>-level monitor is in no way connected to 
+the monitors of the various instances of the object, and a 
+<CODE>synchronized</CODE>, but nonstatic, method can also access the 
+<CODE>static</CODE> fields. Entering the <CODE>synchronized</CODE> nonstatic 
+method does not lock the <CODE>Class</CODE> object. Why is this a problem? Well, 
+in the previous example, it would appear to be harmless to omit the 
+<CODE>static</CODE> (but not the <CODE>synchronized</CODE>) from the definition 
+of <CODE>change_color_scheme()</CODE> since the <CODE>static</CODE> fields will 
+be modified, even if the modifying method isn't <CODE>static</CODE>. Appearances 
+are deceiving, though. If two threads simultaneously send 
+<CODE>change_color_scheme()</CODE> messages to two <EM>different</EM> objects of 
+class <CODE>Window</CODE>, a race condition results, and the color scheme will 
+be in an unknown state. In other words, the individual <CODE>Window</CODE> 
+objects are locked, but locking a <CODE>Window</CODE> object does not lock the 
+corresponding <CODE>Class</CODE> object (which contains the class variables), 
+and the <CODE>static</CODE> fields are unguarded. Consequently, we have two 
+threads modifying two variables at the same time. 
+<P>After threading, the second problem with the naive implementation is that 
+there's no way to guarantee that all the existing objects stay in synch with 
+changes to the class variables. A sloppy programmer can add an instance method 
+(one that is not <CODE>static</CODE>) to the <CODE>Window</CODE> class, and that 
+instance method can change the <CODE>foreground</CODE> or 
+<CODE>background</CODE> fields without notifying the other windows, or even 
+without updating its own color. 
+<P>You can fix both the race-condition and lack-of-update problems by 
+encapsulating the two <CODE>static</CODE> fields in a class of their own: 
+<P><CODE><A name=Color_scheme>class Color_scheme</A><BR>{<BR><A 
+name=Color_scheme.foreground>private Color foreground = 
+SystemColor.windowText;</A><BR><A name=Color_scheme.background>private Color 
+background = SystemColor.window;</A><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;/*package*/ 
+synchronized 
+change_color_scheme(<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color 
+foreground, Color background 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.foreground 
+= foreground;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.background 
+= background;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// code 
+goes here that tells all the extant Window objects 
+to<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// redraw themselves with 
+the new color scheme.<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR><BR><A 
+name=Window>class Window // not the AWT window</A><BR>{ 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;static Scheme color_scheme = new 
+Color_scheme();<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;static change_color_scheme( Color 
+foreground, Color background )<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ 
+scheme.change_color_scheme( foreground, background 
+);<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>Now there's no way to modify the foreground or background color without 
+notifying the other windows. Note that this is one of the few cases in which you 
+must use package access rather than an inner class. Had 
+<CODE>Color_scheme</CODE> been an inner class of <CODE>Window</CODE>, direct 
+access to <CODE>foreground</CODE> and <CODE>background</CODE> would still be 
+possible from methods of <CODE>Window</CODE>. This approach also has the 
+advantage of making the monitor that controls the <CODE>Color_scheme</CODE> more 
+visible -- it's obviously the one associated with the explicit 
+<CODE>Color_scheme</CODE> object, not the one associated with the 
+<CODE>Window</CODE>. 
+<P><!-- break -->
+<P><FONT size=+1><STRONG>Singletons</STRONG></FONT><BR>There's another problem 
+with the earlier code, however. We really want only one 
+<CODE>Color_scheme</CODE> to exist, ever. In the earlier code, I've done it 
+accidentally by making the reference <CODE>static</CODE> and only calling 
+<CODE>new</CODE> once, but I'd really like to guarantee that only one instance 
+of the object can exist. The Gang of Four's (see <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#resources">Resources</A>) 
+Singleton pattern describes exactly this situation. Two excerpts from the Gang 
+of Four book are relevant. The "Intent" section in the Gang of Four book's 
+chapter on singletons states: 
+<P>
+<BLOCKQUOTE><EM>Ensure a class only has one instance, and provide a global 
+  point of access to it.</EM> </BLOCKQUOTE>
+<P>and the "Consequences" section says: 
+<P><A name=singleton_consequences>
+<BLOCKQUOTE><EM>[Singleton] permits a variable number of instances. The 
+  pattern makes it easy to change your mind and allow more than one instance of 
+  the singleton class. Moreover, you can use the same approach to control the 
+  number of instances that the application uses. Only the [Instance] operation 
+  that grants access ot the singleton instance needs to change.</EM> 
+</BLOCKQUOTE></A>
+<P>That excerpt from the "Consequences" section is interesting because it allows 
+a <CODE>Class</CODE> object to be considered a singleton, even though there's 
+more than one instance of the <CODE>Class</CODE> class in the program. It's 
+guaranteed that there will be only a single instance of <CODE>Class</CODE> for a 
+given class, so it's a singleton: <CODE>Some_class.class</CODE> (the "operation 
+that grants access") always evaluates to the <EM>same</EM> <CODE>Class</CODE> 
+object. The <CODE>static</CODE> fields and methods, since they are members of 
+the <CODE>Class</CODE> object, define the state and methods of the singleton 
+object as well. Exploiting this reasoning, I can ensure that only one instance 
+of the <CODE>Color_scheme</CODE> exists by moving everything into the 
+<CODE>Class</CODE> object (making everything <CODE>static</CODE>): 
+<P><CODE><A name=Color_scheme>class Color_scheme</A><BR>{<BR><A 
+name=Color_scheme.foreground>private <STRONG>static</STRONG> Color foreground = 
+SystemColor.windowText;</A><BR><A name=Color_scheme.background>private 
+<STRONG>static</STRONG> Color background = 
+SystemColor.window;</A><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;<STRONG>private 
+Color_scheme(){}</STRONG><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;/*package*/ 
+synchronized <STRONG>static</STRONG> 
+change_color_scheme(<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color 
+foreground, Color background 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.foreground 
+= foreground;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.background 
+= background;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// code 
+goes here that tells all the extant Window objects 
+to<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// redraw themselves with 
+the new color scheme.<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>Note that I've also added a <CODE>private</CODE> constructor. A class, all of 
+whose constructors are private, can be created only by a <CODE>new</CODE> that's 
+invoked in a method that legitimately has access to the class's other 
+<CODE>private</CODE> components. There are no such methods here, so no instances 
+of <CODE>Color_scheme</CODE> can actually be created. This guarantees that only 
+one object can exist -- the <CODE>Class</CODE> object, a singleton. 
+<P>I also have to change the <CODE>Window</CODE> to use the <CODE>Class</CODE> 
+object rather than a specific instance: 
+<P><CODE><A name=Window>class Window // not the AWT window</A><BR>{ 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;// <STRONG>Note that there's no field here, 
+now.</STRONG><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;change_color_scheme( Color 
+foreground, Color background )<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ 
+<STRONG>Color_scheme</STRONG>.change_color_scheme( foreground, background 
+);<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><BR>}<BR></CODE>
+<P>I've eliminated the <CODE>static</CODE> field in the <CODE>Window</CODE> 
+class and have invoked <CODE>change_color_scheme()</CODE> directly through the 
+class. 
+<P>This sort of singleton -- a class all of whose methods are 
+<CODE>static</CODE> -- is called a <EM>Booch utility</EM> (after Grady Booch, 
+who identified the pattern in one of his early books). Java's <CODE>Math</CODE> 
+class is a good example of a utility-style singleton. 
+<P>The problem with the make-everything-<CODE>static</CODE> approach to 
+singleton creation is that all the information needed to create the object must 
+be known at class-load time, and that isn't always possible. Java's 
+<CODE>Toolkit</CODE> is a good example. An application must load a different 
+<CODE>Toolkit</CODE> than an applet, but a given chunk of code doesn't know 
+whether it's running in an application or an applet until runtime. The actual 
+instance of the toolkit is brought into existence by calling the 
+<CODE>static</CODE> method <CODE>Toolkit.getDefaultToolkit()</CODE>. The object 
+itself doesn't exist until the method is called the first time. Subsequent calls 
+return a reference to the object that's created by the first call. 
+<P><STRONG>Critical sections</STRONG><BR>Bringing a singleton into existence at 
+runtime (rather than at load-time) is fraught with peril in a multithreaded 
+environment. You can implement the creation function naively as follows: 
+<P><CODE><A name=.get_instance()>public static synchronized Singleton 
+get_instance()</A><BR>{ if( instance == null 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance = new 
+Singleton();<BR>&nbsp;&nbsp;&nbsp;&nbsp;return instance;<BR>}<BR></CODE>
+<P>The <CODE>static synchronized</CODE> method forms a <EM>critical section</EM> 
+-- a block of code that can be executed by only one thread at a time. If 
+<CODE>get_instance()</CODE> weren't synchronized, a thread could be preempted 
+after the <CODE>if</CODE> statement was processed, but before the 
+<CODE>instance=new Singleton()</CODE> was executed. The preempting thread could 
+then call <CODE>get_instance()</CODE>, create an instance, and yield. The 
+preempted thread would then wake up, think that there were no instances (because 
+it has already performed the test), and create a second instance of the object. 
+The "critical section" eliminates the multiple-creation problem by preventing 
+any thread from entering <CODE>get_instance()</CODE> if any other thread is 
+already inside the method. Any singleton object can be used to implement a 
+critical section. Here, the <CODE>Class</CODE> object whose monitor we're using 
+is itself a singleton, so by locking this object implicitly when we enter the 
+<CODE>static</CODE> method, we prevent other threads from executing the method 
+in parallel. (All <CODE>synchronized static</CODE> methods actually are critical 
+sections when you look at them that way.) 
+<P>This strategy of using the <CODE>Class</CODE> object's monitor as the 
+critical-section lock doesn't always work out because you lock all the 
+<CODE>static</CODE> methods of the class, not just the singleton-creation 
+method. You can do the same thing with an explicitly declared singleton lock as 
+follows: 
+<P><CODE><A name=.lock>private static Object lock = new Object();</A><BR><BR><A 
+name=.get_instance()>public static Singleton get_instance() // not 
+synchronized</A><BR>{ synchronized( lock )<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( 
+instance == null 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance 
+= new Singleton();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+instance;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>This version still assures that only one instance of the singleton will be 
+created, but it won't interfere with the execution of other static methods. 
+<P>The main problem with this naive approach is efficiency. We acquire the lock 
+every time we call <CODE>get_instance()</CODE>, even though the code only needs 
+to be locked the first time the method is called. The solution to this problem 
+is Doug Schmidt's "double-checked locking" strategy. Here's the general pattern: 
+
+<P><CODE><A name=Singleton>class Singleton</A><BR>{<BR><A 
+name=Singleton.instance>private Singleton 
+instance;</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;//...<BR><BR><A 
+name=Singleton.get_instance()>public static Singleton get_instance() // not 
+synchronized</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( instance == null 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ synchronized( Std.class 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+if( instance == null 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance 
+= new 
+Singleton();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+instance;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>Most of the time, the object will exist when <CODE>get_instance()</CODE> is 
+called, so we won't do any synchronization at all. On the first call, however, 
+<CODE>instance</CODE> is <CODE>null</CODE>, so we enter the <CODE>if</CODE> 
+statement and synchronize explicitly on the <CODE>Class</CODE> object to enter a 
+critical section. Now we have to test for <CODE>instance==null</CODE> again, 
+because we might have been preempted just after the first <CODE>if</CODE> was 
+processed but before the <CODE>synchronized</CODE> statement was executed. If 
+<CODE>instance</CODE> is <EM>still</EM> <CODE>null</CODE>, then no other thread 
+will be creating the singleton, and we can create the object safely. 
+<P><A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#_listing1_">Listing 
+1</A> shows you a real-world application of a singleton that compensates for a 
+problem in the design of the <CODE>System</CODE> class. A proper OO design 
+<EM>never</EM> uses public fields except for symbolic constants, and I really 
+mean "constant" here: The exposed field must be immutable, not just 
+<CODE>final</CODE>. (An object accessed via a <CODE>final</CODE> reference can 
+be modified; an "immutable" object (like a <CODE>String</CODE>) can't be 
+modified at all.) This rule applies to both "class" and "instance" variables, 
+and there are no exceptions to this rule. Ever. Period. Strong encapsulation of 
+an object's implementation is so central to what "object orientation" means, 
+that this point is simply not negotiable. If you use public fields, your program 
+just isn't object oriented -- it's some sort of part-OO/part-procedural 
+polyglot, and you will reap virtually none of the real benefits of OO such as 
+improved maintenance. The only legitimate public members of a class are those 
+methods that handle messages defined in your design's dynamic-model. 
+<P>The foregoing notwithstanding, there is one place in the Java packages where 
+instance variables are exposed: <CODE>System.in</CODE>, <CODE>System.out</CODE>, 
+and <CODE>System.err</CODE>. To my mind, this exposure is a serious design flaw: 
+These fields are not <CODE>Reader</CODE> or <CODE>Writer</CODE> derivatives, so 
+they are not internationalizable. Consequently, you can't use these variables 
+without wrapping them in a <CODE>Reader</CODE> or <CODE>Writer</CODE>. If 
+<CODE>System.in</CODE>, <CODE>System.out</CODE>, and <CODE>System.err</CODE> had 
+been accessed through "accessor" methods rather than directly, this wrapping 
+could have been done transparently by the (missing) method that returned the I/O 
+stream. This method could have easily been modified to return a 
+<CODE>PrintWriter</CODE> rather than a <CODE>PrintStream</CODE> without 
+impacting much of the code that used it. As it is, there's a lot of incorrect 
+code out there that uses the three streams directly. 
+<P><A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#_listing1_">Listing 
+1</A> solves the problem (or at least hides it) by using the Singleton pattern. 
+You write to standard output, for example, like this: 
+<CODE>Std.out().println("Hello world"); </CODE>The <CODE>out()</CODE> method (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Std.out()">Listing 
+1, line 33</A>) creates a singleton <CODE>PrintWriter</CODE> wrapper around 
+<CODE>System.out</CODE> and returns it. Subsequent calls to 
+<CODE>Std.out()</CODE> return the same wrapper object, so you don't have to 
+create a new one every time you need to write a string. 
+<P>Other methods in the class work the same way: <CODE>Std.err()</CODE> returns 
+a singleton <CODE>PrintWriter</CODE> that wraps <CODE>System.err</CODE>, and 
+<CODE>Std.in()</CODE> returns a <CODE>BufferedReader</CODE> that wraps 
+<CODE>System.in</CODE>. I've also provided a <CODE>Std.bit_bucket()</CODE> that 
+returns an implementation of <CODE>PrintWriter</CODE> that does nothing. This is 
+occasionally useful for throwing away otherwise undesirable output. For example, 
+you might pass a method a <CODE>Writer</CODE> onto which it prints error or 
+status messages. Passing this method <CODE>Std.bit_bucket()</CODE> causes the 
+messages to not be printed. 
+<P>Note, by the way, that the <CODE>Bit_bucket</CODE> class (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Std.Bit_bucket">Listing 
+1, line 61</A>) is <CODE>private</CODE>, but it extends <CODE>PrintWriter</CODE> 
+-- a <CODE>public</CODE> class -- overriding all the methods with no-ops. This 
+notion of a private class implementing a public interface is a useful one. The 
+outside world sees a <CODE>Bit_bucket</CODE> object as a 
+<CODE>Print_writer</CODE>, knowing nothing about its actual implementation -- 
+not even its class name. Though it doesn't do it here, the <CODE>private</CODE> 
+inner class can define a set of methods that comprise a private interface to the 
+outer class. This way the outer-class object can communicate with the 
+inner-class object using methods that nobody else can access. 
+<P><!-- --------- LISTING 1 (/src/com/holub/tools/Std.java) --------- --><A 
+name=_listing1_>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 1: 
+  <EM>/src/com/holub/tools/Std.java</EM></STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><!-- file: /src/com/holub/tools/Std.java -->
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=right vAlign=top><PRE>001  
+002  
+003  
+004  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE>package com.holub.tools;<BR>import 
+            java.io.*;<BR>import 
+            com.holub.asynch.JDK_11_unloading_bug_fix;<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>/** A convenience class that takes care of wrapping a writer around<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>standard output. </FONT></TD></TR></TBODY></TABLE> */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>005  
+006  
+007  
+008  
+009  
+010  
+011  
+012  
+013  
+014  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std>public final class 
+            Std</A><BR>{<BR><A name=Std.java.bug_fix>static{ new 
+            JDK_11_unloading_bug_fix(Std.class); }</A><BR><A 
+            name=Std.input>private static BufferedReader input; //= 
+            null</A><BR><A name=Std.output>private static PrintWriter output; 
+            //= null</A><BR><A name=Std.error>private static PrintWriter error; 
+            //= null</A><BR><A name=Std.bit_bucket>private static PrintWriter 
+            bit_bucket; //= null</A><BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>A private constructor, prevents anyone from manufacturing an instance. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>015  
+016  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.Std()>private 
+          Std(){}</A><BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Get a BufferedReader that wraps System.in </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>017  
+018  
+019  
+020  
+021  
+022  
+023  
+024  
+025  
+026  
+027  
+028  
+029  
+030  
+031  
+032  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.in()>public static BufferedReader 
+            in()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            input == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            Std.class 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( input == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            input = new 
+            BufferedReader(<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            InputStreamReader(System.in));<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch( 
+            Exception e 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            throw new Error( e.getMessage() 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            input;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Get a PrintWriter that wraps System.out. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>033  
+034  
+035  
+036  
+037  
+038  
+039  
+040  
+041  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.out()>public static PrintWriter 
+            out()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( output == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            Std.class 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( output == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output 
+            = new PrintWriter( System.out, true 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            output;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Get a PrintWriter that wraps System.err. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>042  
+043  
+044  
+045  
+046  
+047  
+048  
+049  
+050  
+051  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.err()>public static PrintWriter 
+            err()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( error == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            Std.class 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( error == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error 
+            = new PrintWriter( System.err, true 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            error;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Get an output stream that just discards the characters that are sent to it. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>052  
+053  
+054  
+055  
+056  
+057  
+058  
+059  
+060  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.bit_bucket()>public static 
+            PrintWriter bit_bucket()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( 
+            bit_bucket == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            Std.class 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( bit_bucket == null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit_bucket 
+            = new 
+            Bit_bucket();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            bit_bucket;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /**<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>The Bit_bucket class overrides all methods of PrintWriter to do nothing. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>061  
+062  
+063  
+064  
+065  
+066  
+067  
+068  
+069  
+070  
+071  
+072  
+073  
+074  
+075  
+076  
+077  
+078  
+079  
+080  
+081  
+082  
+083  
+084  
+085  
+086  
+087  
+088  
+089  
+090  
+091  
+092  
+093  
+094  
+095  
+096  
+097  
+098  
+099  
+100  
+101  
+102  
+103  
+104  
+105  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Std.Bit_bucket>private static final 
+            class Bit_bucket extends 
+            PrintWriter</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR><A 
+            name=Std.Bit_bucket.Bit_bucket()>private 
+            Bit_bucket()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            super( System.err ); // have to pass it something legal. Is never 
+            used.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A 
+            name=Std.Bit_bucket.close()>public void close() {}</A><BR><A 
+            name=Std.Bit_bucket.flush()>public void flush() {}</A><BR><A 
+            name=Std.Bit_bucket.print(boolean)>public void print(boolean b) 
+            {}</A><BR><A name=Std.Bit_bucket.print(char)>public void print(char 
+            c) {}</A><BR><A name=Std.Bit_bucket.print(char[])>public void 
+            print(char[] s) {}</A><BR><A 
+            name=Std.Bit_bucket.print(double)>public void print(double d) 
+            {}</A><BR><A name=Std.Bit_bucket.print(float)>public void 
+            print(float f) {}</A><BR><A name=Std.Bit_bucket.print(int)>public 
+            void print(int i) {}</A><BR><A 
+            name=Std.Bit_bucket.print(long)>public void print(long l) 
+            {}</A><BR><A name=Std.Bit_bucket.print(Object)>public void 
+            print(Object o) {}</A><BR><A 
+            name=Std.Bit_bucket.print(String)>public void print(String s) 
+            {}</A><BR><A name=Std.Bit_bucket.println()>public void println() 
+            {}</A><BR><A name=Std.Bit_bucket.println(boolean)>public void 
+            println(boolean b) {}</A><BR><A 
+            name=Std.Bit_bucket.println(char)>public void println(char c) 
+            {}</A><BR><A name=Std.Bit_bucket.println(char[])>public void 
+            println(char[] s) {}</A><BR><A 
+            name=Std.Bit_bucket.println(double)>public void println(double d) 
+            {}</A><BR><A name=Std.Bit_bucket.println(float)>public void 
+            println(float f) {}</A><BR><A 
+            name=Std.Bit_bucket.println(int)>public void println(int i) 
+            {}</A><BR><A name=Std.Bit_bucket.println(long)>public void 
+            println(long l) {}</A><BR><A 
+            name=Std.Bit_bucket.println(Object)>public void println(Object o) 
+            {}</A><BR><A name=Std.Bit_bucket.write(char[])>public void 
+            write(char[] buf) {}</A><BR><A 
+            name=Std.Bit_bucket.write(char[],int,int)>public void write(char[] 
+            buf, int off, int len) {}</A><BR><A 
+            name=Std.Bit_bucket.write(int)>public void write(int c) {}</A><BR><A 
+            name=Std.Bit_bucket.write(String)>public void write(String buf) 
+            {}</A><BR><A name=Std.Bit_bucket.write(String,int,int)>public void 
+            write(String buf, int off, int len) 
+            {}</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A name=Std.Test>static 
+            public class Test</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR><A 
+            name=Std.Test.main(String[])>static public void main( String[] args 
+            ) throws 
+            IOException</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            String 
+            s;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while( 
+            (s = Std.in().readLine()) != null 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            Std.out().println( s 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Std.err().println( 
+            s 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Std.bit_bucket().println( 
+            s 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></A><!-- --------- END LISTING 1 --------- -->
+<P>The final thread-related subtlety is the static initializer block (Listing 1, 
+line <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Std.java.bug_fix">8</A>): 
+
+<P><CODE>&nbsp;&nbsp;&nbsp;&nbsp;static{ new 
+JDK_11_unloading_bug_fix(Std.class); } <BR></CODE>
+<P>The <CODE>JDK_11_unloading_bug_fix</CODE> class in <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#_listing2_">Listing 
+2</A> gets around a bug in the VM released with all versions of JDK 1.1. The VM 
+in those releases was much too aggressive about unloading (and garbage 
+collecting) <CODE>Class</CODE> objects: If the only reference to an object of a 
+given class was a self-referential static member of the <CODE>Class</CODE> 
+object, then the VM would unload the class from memory, thereby destroying our 
+only copy of the singleton. The next time someone tried to get an instance, the 
+class would be reloaded and a second instance of the singleton would be created. 
+Sometimes this behavior did nothing but make the program a little slower. But if 
+the act of creating the singleton object has side effects (like creating 
+temporary files or opening data-base connections ), this second creation can be 
+a problem. 
+<P>The fix in Listing 2 is a kluge, but it works. I'm counting on the fact that 
+the VM itself keeps around references to potentially active threads. If the 
+current program is not running under a 1.1 version of the JDK 
+<CODE>System.getProperty("java.version").startsWith("1.1") )</CODE> is false, 
+nothing at all happens. If version 1.1 is active, the 
+<CODE>JDK_11_unloading_bug_fix</CODE>'s constructor creates a 
+<CODE>Thread</CODE> derivative whose one field holds a reference to the 
+<CODE>Class</CODE> object passed in as an argument. The thread's 
+<CODE>run()</CODE> method immediately suspends itself by calling 
+<CODE>wait()</CODE>. Since there never will be a <CODE>notify()</CODE>, the 
+thread doesn't use up any machine cycles, but since the <CODE>Thread</CODE> 
+object isn't garbage collected, the <CODE>Class</CODE>-object reference will 
+continue to exist, preventing the class from being unloaded. The created thread 
+is given "daemon" status so that its existence won't stop the program from 
+terminating when the non-daemon threads shut down. 
+<P><!-- --------- LISTING 2 (/src/com/holub/asynch/JDK_11_unloading_bug_fix.java) --------- --><A 
+name=_listing2_>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 2 
+  (<EM>/src/com/holub/asynch/JDK_11_unloading_bug_fix.java</EM>): Fixing the 1.1 
+  JDK's unloading problem</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><!-- file: /src/com/holub/asynch/JDK_11_unloading_bug_fix.java -->
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=right vAlign=top><PRE>01  
+02  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE>package com.holub.asynch;<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>/**<TABLE border=0 cellPadding=0 cellSpacing=0><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1><TABLE border=1 cellPadding=5 cellSpacing=0><TBODY><TR><TD><FONT size=-1><EM><CENTER>(c) 1999, Allen I. Holub.</CENTER><P>This code may not be distributed by yourself except in binary form, incorporated into a java .class file. You may use this code freely for personal purposes, but you may not incorporate it into any commercial product without getting my express permission in writing. </P></EM></FONT></TD></TR></TBODY></TABLE><P>This class provides a workaround for a bug in the JDK 1.1 VM that unloads classes too aggressively. The problem is that if the only reference to an object is held in a static member of the object, the class is subject to unloading, and the static member will be discarded. This behavior causes a lot of grief when you're implementing a singleton. Use it like this: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;class Singleton<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ private Singleton()<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ new JDK_11_unloading_bug_fix(Singleton.class);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ...<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE>In either event, once the "JDK_11_unloading_bug_fix" object is created, the class (and its static fields) won't be unloaded for the life of the program. </FONT></P></TD></TR></TBODY></TABLE> */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>03  
+04  
+05  
+06  
+07  
+08  
+09  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=JDK_11_unloading_bug_fix>public class 
+            JDK_11_unloading_bug_fix</A><BR>{<BR><A 
+            name=JDK_11_unloading_bug_fix.JDK_11_unloading_bug_fix(Class)>public 
+            JDK_11_unloading_bug_fix( final Class the_class 
+            )</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            System.getProperty("java.version").startsWith("1.1") 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread 
+            t = new Thread()<BR><A 
+            name=JDK_11_unloading_bug_fix.singleton_class>{ private Class 
+            singleton_class = the_class;</A><BR><A 
+            name=JDK_11_unloading_bug_fix.run()>public synchronized void 
+            run()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            try{ wait(); }catch(InterruptedException 
+            e){}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.setDaemon(true); 
+            // otherwise the program won't shut 
+            down<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></A><!-- --------- END LISTING 2 --------- -->
+<P><!-- break -->
+<P><FONT size=+1><STRONG>Reader/writer locks</STRONG></FONT><BR>And now for 
+something completely different... 
+<P>Controlling access to a shared resource such as a file or a data structure in 
+a multithreaded environment is a commonplace problem. Typically, you'd like to 
+allow any number of threads to simultaneously read from or otherwise access a 
+resource, but you want only one thread at a time to be able to write to or 
+otherwise modify the resource. That is, <EM>read</EM> operations can go on in 
+parallel, but <EM>write</EM> operations must be serialized -- and reads and 
+writes can't go on simultaneously. Moreover, it's nice if the write requests are 
+guaranteed to be processed in the order they are received so that sequential 
+writes to a file, for example, are indeed sequential. 
+<P>The simplest solution to this problem is to lock the entire data structure -- 
+just synchronize everything. But this approach is too simplistic to be workable 
+in the real world. With most resources (such as data structures and file 
+systems), there's absolutely no problem with multiple threads all accessing a 
+shared resource simultaneously, provided the resource isn't modified while it's 
+being accessed. If the "read" operations were all synchronized methods, though, 
+no thread could read while another was in the process of reading: You'd 
+effectively serialize the read operations. 
+<P>This problem is solved using a <EM>reader/writer lock</EM>. An attempt to 
+acquire the lock for reading will block only if any write operations are in 
+progress, so simultaneous read operations are the norm. An attempt to acquire 
+the lock for writing will block while ether read or write operations are in 
+progress, and the requesting thread will be released when the current read or 
+write completes. Write operations are serialized (on a first-come, first-served 
+basis in the current implementation), so that no two writing threads will be 
+permitted to write simultaneously. Readers who are waiting when a writer thread 
+completes are permitted to execute (in parallel) before subsequent write 
+operations are permitted. 
+<P><A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#_listing3_">Listing 
+3</A> implements a reader/writer lock that behaves as I've just described. 
+Generally, you'll use it like this: 
+<P><CODE><A name=Data_structure_or_resource>public class 
+Data_structure_or_resource</A><BR>{<BR>&nbsp;&nbsp;&nbsp;&nbsp;Reader_writer 
+lock = new Reader_writer();<BR><BR><A 
+name=Data_structure_or_resource.access()>public void access( 
+)</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+lock.request_read();</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+do the read/access operation 
+here.<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+lock.read_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><BR><A 
+name=Data_structure_or_resource.modify()>public void modify( 
+)</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+lock.request_write();</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+do the write/modify operation 
+here.<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+lock.write_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+<P>I've also provided nonblocking versions of <CODE>request_write()</CODE> 
+(<CODE>request_immediate_write()</CODE>, <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.request_immediate_write()">Listing 
+3, line 65</A>) and <CODE>request_read()</CODE> 
+(<CODE>request_immediate_read()</CODE>, <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.request_immediate_read()">Listing 
+3, line 24</A>), which return error flags (<CODE>false</CODE>) if they can't get 
+the resource, but these are not used as often as the blocking forms. 
+<P>The implementation logic is straightforward, and requires a surprisingly 
+small amount of code. (Most of Listing 3 is made up of comments and a test 
+routine.) I keep a count of the number of active readers -- readers that are in 
+the process of reading (<CODE>active_readers</CODE> (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.active_readers">Listing 
+3, line 8</A>)). This count is incremented when a reader requests the lock, and 
+is decremented when the reader releases the lock. If a writer thread comes along 
+and requests access to the resource while reads are in progress, we have to wait 
+for the active readers to finish before the writer can be let loose. A lock is 
+created (on line <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.java.lock_create">49</A>), 
+and the requesting thread is made to <CODE>wait()</CODE> on that lock. These 
+locks are queued up in the <CODE>writer_locks</CODE> linked list (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.writer_locks">Listing 
+3, line 12</A>). If any additional reader threads come along while a writer is 
+waiting, they are blocked (by a <CODE>wait()</CODE> on line <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.java.read_block">20</A>) 
+until the current batch of readers and the waiting writer have finished. (The 
+<CODE>waiting_readers</CODE> field [<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.waiting_readers">Listing 
+3, line 9</A>] keeps track of how many readers are blocked, waiting for access.) 
+Same goes with additional writers that come along at this point; they're just 
+added to the queue of waiting writers, blocked on a roll-your-own lock. 
+<P>As the readers finish up, they call <CODE>read_accomplished()</CODE> (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.read_accomplished()">Listing 
+3, line 32</A>), which decrements the <CODE>active_readers</CODE> count. When 
+that count goes to zero, the first writer in the queue is released. That thread 
+goes off and does its thing, then it calls <CODE>write_accomplished()</CODE> (<A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#Reader_writer.write_accomplished()">Listing 
+3, line 74</A>). If any readers have been patiently waiting while all this is 
+going on, they're released all at once at this point (they're all waiting on the 
+current <CODE>Reader_writer</CODE> object's internal condition variable). When 
+that batch of readers finishes reading, the process just described is repeated, 
+and the next batch of readers is released. If no readers are waiting when a 
+writer completes, then the next writer in line is released. 
+<P><!-- --------- LISTING 3 (/src/com/holub/asynch/Reader_writer.java) --------- --><A 
+name=_listing3_>
+<TABLE border=1 cellPadding=10 cellSpacing=0>
+  <CAPTION><STRONG>Listing 3 
+  (<EM>/src/com/holub/asynch/Reader_writer.java</EM>): A reader/writer 
+  lock</STRONG></CAPTION>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><!-- file: /src/com/holub/asynch/Reader_writer.java -->
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=right vAlign=top><PRE>001  
+002  
+003  
+004  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE>package com.holub.asynch;<BR>import 
+            java.util.LinkedList;<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>/**<TABLE border=0 cellPadding=0 cellSpacing=0><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1><TABLE border=1 cellPadding=5 cellSpacing=0><TBODY><TR><TD><FONT size=-1><EM><CENTER>(c) 1999, Allen I. Holub.</CENTER><P>This code may not be distributed except in binary form, incorporated into a java .class file. You may use this code freely for personal purposes, but you may not incorporate it into any commercial product without getting my express permission in writing. </P></EM></FONT></TD></TR></TBODY></TABLE><P>This reader/writer lock prevents reads from occurring while writes are in progress, and it also prevents multiple writes from happening simultaneously. Multiple read operations can run in parallel, however. Reads take priority over writes, so any read operations that are pending while a write is in progress will execute before any subsequent writes execute. Writes are guaranteed to execute in the order in which they were requested -- the oldest request is processed first. <P>You should use the lock as follows: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;public class Data_structure_or_resource<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader_writer lock = new Reader_writer();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void access( )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.request_read();</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do the read/access operation here.<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.read_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void modify( )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.request_write();</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do the write/modify operation here.<STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.write_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</STRONG><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE><FONT size=-1>This implementation is based on the one in Doug Lea's <EM>Concurrent Programming in Java</EM> (Addison Wesley, 1997, pp. 300-303), I've simplified the code (and cleaned it up) and added the nonblocking acquisition methods. I've also made the lock a standalone class rather than a base class from which you have to derive. You might also want to look at the very different implementation of the reader/writer lock in Scott Oaks and Henry Wong's <EM>Java Threads</EM> (O'Reilly, 1997, pp. 180-187). </FONT><BR><STRONG>@author <EM>Allen</EM></STRONG> I. Holub </FONT></P></TD></TR></TBODY></TABLE> */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>005  
+006  
+007  
+008  
+009  
+010  
+011  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer>public class 
+            Reader_writer</A><BR>{<BR><A 
+            name=Reader_writer.active_readers>private int active_readers; // = 
+            0</A><BR><A name=Reader_writer.waiting_readers>private int 
+            waiting_readers; // = 0</A><BR><A 
+            name=Reader_writer.active_writers>private int active_writers; // = 
+            0</A><BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>I keep a linked list of writers waiting for access so that I can release them in the order that the requests were received. The size of this list is the "waiting writers" count. Note that the monitor of the <CODE>Reader_writer</CODE> object itself is used to lock out readers while writes are in progress, thus there's no need for a separate "reader_lock." </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>012  
+013  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.writer_locks>private 
+            final LinkedList writer_locks = new 
+        LinkedList();</A><BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Request the read lock. Block until a read operation can be performed safely. This call must be followed by a call to <CODE>read_accomplished()</CODE> when the read operation completes. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>014  
+015  
+016  
+017  
+018  
+019  
+020  
+021  
+022  
+023  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.request_read()>public 
+            synchronized void 
+            request_read()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            active_writers==0 &amp;&amp; writer_locks.size()==0 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++active_readers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            ++waiting_readers;<BR><A name=Reader_writer.java.read_block>try{ 
+            wait(); }catch(InterruptedException 
+            e){}</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>This version of <CODE>read()</CODE> requests read access and returns <EM>true</EM> if you get it. If it returns <EM>false,</EM> you may not safely read from the guarded resource. If it returns <EM>true,</EM> you should do the read, then call <CODE>read_accomplished</CODE> in the normal way. Here's an example: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;public void read()<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( lock.request_immediate_read() )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do the read operation here<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.read_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// couldn't read safely.<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>024  
+025  
+026  
+027  
+028  
+029  
+030  
+031  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A 
+            name=Reader_writer.request_immediate_read()>public synchronized 
+            boolean 
+            request_immediate_read()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            active_writers==0 &amp;&amp; writer_locks.size()==0 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            ++active_readers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            true;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            false;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Release the lock. You must call this method when you're done with the read operation. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>032  
+033  
+034  
+035  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A 
+            name=Reader_writer.read_accomplished()>public synchronized void 
+            read_accomplished()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( 
+            --active_readers == 0 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify_writers();<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Request the write lock. Block until a write operation can be performed safely. Write requests are guaranteed to be executed in the order received. Pending read requests take precedence over all write requests. This call must be followed by a call to <CODE>write_accomplished()</CODE> when the write operation completes. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>036  
+037  
+038  
+039  
+040  
+041  
+042  
+043  
+044  
+045  
+046  
+047  
+048  
+049  
+050  
+051  
+052  
+053  
+054  
+055  
+056  
+057  
+058  
+059  
+060  
+061  
+062  
+063  
+064  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.request_write()>public 
+            void 
+            request_write()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            This method can't be synchronized or there'd be a 
+            nested-monitor<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            lockout problem: We have to acquire the lock for "this" 
+            in<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// order to 
+            modify the fields, but that lock must be 
+            released<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            before we start waiting for a safe time to do the 
+            writing.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If 
+            request_write() were synchronized, we'd be 
+            holding<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// the 
+            monitor on the Reader_writer lock object while we 
+            were<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// waiting. 
+            Since the only way to be released from the wait 
+            is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// for someone 
+            to call either 
+            read_accomplished()<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            or write_accomplished() (both of which are 
+            synchronized),<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            there would be no way for the wait to terminate.<BR><A 
+            name=Reader_writer.java.lock_create>Object lock = new 
+            Object();</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            lock )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            synchronized( this 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            boolean okay_to_write = writer_locks.size()==0 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; 
+            active_readers==0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; 
+            active_writers==0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            okay_to_write 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            ++active_writers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return; 
+            // the "return" jumps over the "wait" 
+            call<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer_locks.addLast( 
+            lock 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{ 
+            lock.wait(); } catch(InterruptedException 
+            e){}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>This version of the write request returns <EM>false</EM> immediately (without blocking) if any read or write operations are in progress and a write isn't safe; otherwise, it returns <EM>true</EM> and acquires the resource. Use it like this: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;public void write()<BR>&nbsp;&nbsp;&nbsp;&nbsp;{ if( lock.request_immediate_write() )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do the write operation here<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ lock.write_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// couldn't write safely.<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></FONT></CODE></TD></TR></TBODY></TABLE>     */<BR>
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>065  
+066  
+067  
+068  
+069  
+070  
+071  
+072  
+073  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A 
+            name=Reader_writer.request_immediate_write()>synchronized public 
+            boolean 
+            request_immediate_write()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            writer_locks.size()==0 &amp;&amp; 
+            active_readers==0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; 
+            active_writers==0 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            ++active_writers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            true;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            false;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Release the lock. You must call this method when you're done with the read operation. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>074  
+075  
+076  
+077  
+078  
+079  
+080  
+081  
+082  
+083  
+084  
+085  
+086  
+087  
+088  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A 
+            name=Reader_writer.write_accomplished()>public synchronized void 
+            write_accomplished()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            The logic here is more complicated than it 
+            appears.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If 
+            readers have priority, you'll notify them. As 
+            they<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// finish 
+            up, they'll call read_accomplished(), one 
+            at<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// a time. 
+            When they're all done, read_accomplished() 
+            will<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// notify 
+            the next writer. If no readers are waiting, 
+            then<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// just 
+            notify the writer 
+            directly.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--active_writers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            waiting_readers &gt; 0 ) // priority to waiting 
+            readers<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify_readers();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify_writers();<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Notify all the threads that have been waiting to read. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>089  
+090  
+091  
+092  
+093  
+094  
+</CODE></PRE></TD>
+          <TD valigngn="top"><CODE><A 
+            name=Reader_writer.notify_readers()>private void notify_readers() // 
+            must be accessed from a</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ // 
+            synchronized 
+            method<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;active_readers 
+            += 
+            waiting_readers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waiting_readers 
+            = 
+            0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notifyAll();<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Notify the writing thread that has been waiting the longest. </FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>095  
+096  
+097  
+098  
+099  
+100  
+101  
+102  
+103  
+104  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.notify_writers()>private 
+            void notify_writers() // must be accessed from 
+            a</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{ // synchronized 
+            method<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            writer_locks.size() &gt; 0 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object 
+            oldest = 
+            writer_locks.removeFirst();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++active_writers;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized( 
+            oldest ){ oldest.notify(); 
+            }<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>    /*******************************************************************<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>The <CODE>Test</CODE> class is a unit test for the other code in the current file. Run the test with: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;java com.holub.asynch.Reader_writer\$Test<BR></CODE>(the backslash isn't required with windows boxes), and don't include this class file in your final distribution. The output could vary in trivial ways, depending on system timing. The read/write order should be exactly the same as in the following sample: <CODE>&nbsp;&nbsp;&nbsp;&nbsp;Starting w/0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/0 writing<BR>&nbsp;&nbsp;&nbsp;&nbsp;Starting r/1<BR>&nbsp;&nbsp;&nbsp;&nbsp;Starting w/1<BR>&nbsp;&nbsp;&nbsp;&nbsp;Starting w/2<BR>&nbsp;&nbsp;&nbsp;&nbsp;Starting r/2<BR>&nbsp;&nbsp;&nbsp;&nbsp;Starting r/3<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/0 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping w/0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/1 reading<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/2 reading<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/3 reading<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/1 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping r/1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/2 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r/3 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping r/2<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping r/3<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/1 writing<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/1 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping w/1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/2 writing<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w/2 done<BR>&nbsp;&nbsp;&nbsp;&nbsp;Stopping w/2<BR></CODE></FONT></TD></TR></TBODY></TABLE>     */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>105  
+106  
+107  
+108  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.Test>public static class 
+            Test</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resource 
+            resource = new Resource();<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>        /**<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>The <CODE>Resource</CODE> class simulates a simple locked resource. The read operation simply pauses for .1 seconds. The write operation (which is typically higher overhead) pauses for .5 seconds. Note that the use of <CODE>try...finally</CODE> is not critical in the current test, but it's good style to always release the lock in a <CODE>finally</CODE> block in real code. </FONT></TD></TR></TBODY></TABLE>         */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>109  
+110  
+111  
+112  
+113  
+114  
+115  
+116  
+117  
+118  
+119  
+120  
+121  
+122  
+123  
+124  
+125  
+126  
+127  
+128  
+129  
+130  
+131  
+132  
+133  
+134  
+135  
+136  
+137  
+138  
+139  
+140  
+141  
+142  
+143  
+144  
+145  
+146  
+147  
+148  
+149  
+150  
+151  
+152  
+153  
+154  
+155  
+156  
+157  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.Test.Resource>static 
+            class 
+            Resource</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            Reader_writer lock = new Reader_writer();<BR><A 
+            name=Reader_writer.Test.Resource.read(String)>public void read( 
+            String reader 
+            )</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            lock.request_read();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( 
+            "\t\t" + reader + " reading" 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{ 
+            Thread.currentThread().sleep( 100 ); 
+            }<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(InterruptedException 
+            e){}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( 
+            "\t\t" + reader + " done" 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            lock.read_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A 
+            name=Reader_writer.Test.Resource.write(String)>public void write( 
+            String writer 
+            )</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            try<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            lock.request_write();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( 
+            "\t\t" + writer + " writing" 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{ 
+            Thread.currentThread().sleep( 500 ); 
+            }<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(InterruptedException 
+            e){}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println( 
+            "\t\t" + writer + " done" 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            lock.write_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A 
+            name=Reader_writer.Test.Resource.read_if_possible()>public boolean 
+            read_if_possible()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( lock.request_immediate_read() 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            in the real world, you'd actually do the read 
+            here<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lock.read_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            true;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            false;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A 
+            name=Reader_writer.Test.Resource.write_if_possible()>public boolean 
+            write_if_possible()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            if( lock.request_immediate_write() 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+            in the real world, you'd actually do the write 
+            here<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lock.write_accomplished();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            true;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+            false;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>        /**<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>A simple reader thread. Just reads from the resource, passing it a unique string id. </FONT></TD></TR></TBODY></TABLE>         */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>158  
+159  
+160  
+161  
+162  
+163  
+164  
+165  
+166  
+167  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.Test.Reader>class Reader 
+            extends Thread</A><BR><A name=Reader_writer.Test.Reader.name>{ 
+            private String 
+            name;</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader( 
+            String name ){ this.name = name; }<BR><A 
+            name=Reader_writer.Test.Reader.run()>public void run( 
+            )</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Starting 
+            " + name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.read( 
+            name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stopping 
+            " + name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>        /**<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>A simple writer thread. Just writes to the resource, passing it a unique string id. </FONT></TD></TR></TBODY></TABLE>         */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>168  
+169  
+170  
+171  
+172  
+173  
+174  
+175  
+176  
+177  
+178  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.Test.Writer>class Writer 
+            extends Thread</A><BR><A name=Reader_writer.Test.Writer.name>{ 
+            private String 
+            name;</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer( 
+            String name ){ this.name = name; }<BR><A 
+            name=Reader_writer.Test.Writer.run()>public void 
+            run()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Starting 
+            " + name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.write( 
+            name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stopping 
+            " + name 
+            );<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></CODE></TD></TR>
+        <TR>
+          <TD></TD>
+          <TD vAlign=top><PRE>        /**<TABLE border=0 cellPadding=0 cellSpacing=0 width=400><TBODY><TR><TD vAlign=top><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE><CODE>&nbsp;</CODE></TD><TD bgColor=#999999 vAlign=top><FONT color=#999999>|</FONT></TD><TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD vAlign=top><FONT size=-1>Test by creating several readers and writers. The initial write operation (w/0) should complete before the first read (r/1) runs. Since readers have priority, r/2 and r/3 should run before w/1; and r/1, r/2 and r3 should all run in parallel. When all three reads complete, w1 and w2 should execute sequentially in that order. </FONT></TD></TR></TBODY></TABLE>         */
+</CODE>
+</PRE></TD></TR>
+        <TR>
+          <TD align=right vAlign=top><PRE>179  
+180  
+181  
+182  
+183  
+184  
+185  
+186  
+187  
+188  
+189  
+190  
+191  
+192  
+193  
+194  
+195  
+196  
+197  
+198  
+199  
+200  
+</CODE></PRE></TD>
+          <TD vAlign=top><CODE><A name=Reader_writer.Test.Test()>public 
+            Test()</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            !resource.read_if_possible() 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Immediate 
+            read request didn't 
+            work");<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+            !resource.write_if_possible() 
+            )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Immediate 
+            write request didn't 
+            work");<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Writer( "w/0" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Reader( "r/1" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Writer( "w/1" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Writer( "w/2" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Reader( "r/2" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+            Reader( "r/3" 
+            ).start();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><A 
+            name=Reader_writer.Test.main(String[])>static public void main( 
+            String[] args 
+            )</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ Test t = 
+            new 
+            Test();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></A><!-- --------- END LISTING 3 --------- -->
+<P><FONT size=+1><STRONG>It's a wrap</STRONG></FONT><BR>So, that's it for the 
+part of this series that discusses what I think of as the "low-level" 
+thread-related problems. The toolkit I've developed over the past few months 
+should put you well on the way to solving many thorny issues that crop up in 
+every multithreaded program. But we're not done yet. 
+<P>If you've been following this series from the beginning, you're probably 
+asking yourself why you ever thought that programming with threads was a good 
+idea. There's just so much complexity, and the bugs are so hard to find. 
+Fortunately, there is a general solution to both problems: good architecture. 
+It's possible to design a program for multithreading in such a way that many of 
+the synchronization issues I've been discussing become immaterial. (Which is not 
+to say that synchronization-related problems don't pop up regularly, even when 
+the overall system is well designed. I regularly use all those semaphores and 
+locks we've been looking at for the last few months. With the proper 
+architecture, though, synchronization issues do tend to move to the background). 
+Next month I'll start looking at architectural solutions to threading problems, 
+with a discussion of thread pools and synchronous dispatching. <IMG height=8 
+src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/dingbat.gif" 
+width=8> <!-- end body text -->
+<P><A name=bio>
+<TABLE border=0 cellPadding=0 cellSpacing=3>
+  <TBODY>
+  <TR>
+    <TD vAlign=center></TD>
+    <TD bgColor=#000000><IMG align=bottom border=0 height=1 
+      src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/dot_clear.gif" 
+      width=2></TD>
+    <TD vAlign=top><STRONG><FONT face=Arial,Helvetica,Sans-serif size=-1>About 
+      the author </FONT></STRONG><BR>allen.holub Allen Holub has been working in 
+      the computer industry since 1979. He is widely published in magazines 
+      (<EM>Dr. Dobb's Journal,</EM> <EM>Programmers Journal</EM>, <EM>Byte</EM>, 
+      <EM>MSJ</EM>, among others). He has seven books to his credit, and is 
+      currently working on an eighth that will present the complete sources for 
+      a Java compiler written in Java. After eight years as a C++ programmer, 
+      Allen abandoned C++ for Java in early 1996. He now looks at C++ as a bad 
+      dream, the memory of which is mercifully fading. He's been teaching 
+      programming (first C, then C++ and MFC, now OO-Design and Java) both on 
+      his own and for the University of California Berkeley Extension since 
+      1982. Allen offers both public classes and in-house training in Java and 
+      object-oriented design topics. He also does object-oriented design 
+      consulting and contract Java programming. Get information, and contact 
+      Allen, via his Web site <A 
+      href="http://www.holub.com/">http://www.holub.com/</A>. 
+</TD></TR></TBODY></TABLE>
+<P>
+<DIV align=center><FONT face=Arial,Helvetica,Sans-serif><A 
+href="http://www.javaworld.com/javaworld/home.html">Home</A> | <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Programming%20Java%20threads%20in%20the%20real%20world%2C%20Part%207&amp;author=Allen%20Holub&amp;summary=This%20month%27s%20column%20builds%20on%20the%20preceding%20installments%20of%20the%0A%3Cstrong%3EJava%20Toolbox%3C%2Fstrong%3E%20threads%20series%2C%20adding%20a%20few%20more%20tools%0Ato%20your%20multithreading%20arsenal.%20Columnist%20Allen%20Holub%20looks%20at%20%0Areader%2Fwriter%20locks%2C%20which%20let%20multiple%20threads%20safely%20access%20a%20shared%20%0Aresource%20in%20an%20efficient%20way.%20%28Multiple%20threads%20can%20read%20from%20the%20resource%20%0Awhile%20only%20one%20thread%20at%20a%20time%20can%20write%20to%20it%2C%20and%20reads%20and%20writes%20can%27t%20%0Aoccur%20at%20the%20same%20time.%29%20%20He%27ll%20also%20discuss%20the%20Singleton%20pattern%2C%20with%20a%20%0Afocus%20on%20implementing%20it%20in%20a%20multithreaded%20environment%2C%20and%20%3Cem%3Ecritical%20%0Asections%2C%3C%2Fem%3E%20or%20blocks%20of%20code%20that%20can%20be%20executed%20by%20only%20one%20thread%20%0Aat%20a%20time.%20%20%3Cem%3E%285%2C300%20words%29%3C%2Fem%3E%0A">Mail&nbsp;this&nbsp;Story</A> 
+| <A 
+href="http://www.javaworld.com/javaworld/jw-04-1999/jw-04-toolbox_p.html#resources">Resources&nbsp;and&nbsp;Related&nbsp;Links</A> 
+</FONT></DIV>
+<P>
+<TABLE bgColor=#336699 border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click here!</FONT><BR><A 
+            href="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG 
+            border=0 height=60 
+            src="Programming Java threads in the real world, Part 7 - JavaWorld April 1999_files/389936-kayak_ad1ab.gif" 
+            vspace=5 width=468></A> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P align=center><A 
+href="http://www.javaworld.com/javaworld/common/jw-copyright.html">(c) Copyright 
+1999 ITworld.com, Inc., an IDG Communications company</A> </P>
+<P><A name=resources><STRONG>Resources</STRONG></A> 
+<UL>
+  <LI>Bill Venners discussed static members, though without much coverage of the 
+  implementation issues, in his <STRONG>Design Techniques</STRONG> column, 
+  "Design with static members" <BR><A 
+  href="http://www.javaworld.com/javaworld/jw-03-1999/jw-03-techniques.html">http://www.javaworld.com/javaworld/jw-03-1999/jw-03-techniques.html</A> 
+
+  <LI>The Singleton pattern is presented in the <STRONG>"Gang of Four"</STRONG> 
+  (or GoF) book: Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides's 
+  <EM>Design Patterns: Elements of Reusable Object-Oriented Software</EM> 
+  (Reading, MA: Addison Wesley, 1995). This book is essential reading for any OO 
+  designer. <BR><A href="http://www.javaworld.com/javaworld/jw-04-1999/"></A>
+  <LI>John Vlissides's <EM>Pattern Hatching: Design Patterns Applied</EM> 
+  (Reading, MA: Addison Wesley, 1998) also has a lot to say about singletons in 
+  Chapter 2 and the first section of Chapter 3. <BR><A 
+  href="http://www.javaworld.com/javaworld/jw-04-1999/"></A>
+  <LI>The double-checked locking strategy for singleton creation is described in 
+  "Double-Checked Locking" by Douglas C. Schmidt and Tim Harrison, <EM>Pattern 
+  Languages of Program Design 3</EM> (Reading, MA: Addison Wesley, 1998, pp. 
+  363-375). <BR><A href="http://www.javaworld.com/javaworld/jw-04-1999/"></A>
+  <LI>Reader/writer locks are described in Doug Lea's <EM>Concurrent Programming 
+  in Java</EM> (Reading, MA: Addison Wesley, 1997, pp. 300-303). My 
+  implementation is based on Lea's. <BR><A 
+  href="http://www.javaworld.com/javaworld/jw-04-1999/"></A>
+  <LI>Reader/writer locks are also described in Scott Oaks and Henry Wong's 
+  <EM>Java Threads</EM> (Sebastopol, CA: O'Reilly, 1997, pp. 180-187). <BR><A 
+  href="http://www.javaworld.com/javaworld/jw-04-1999/"></A></LI></UL>Feedback: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?jweditors@javaworld.com+/javaworld/jw-04-1999/jw-04-toolbox.html+jweditors" 
+name=jweditors>jweditors@javaworld.com</A><BR>Technical difficulties: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?webmaster@javaworld.com+/javaworld/jw-04-1999/jw-04-toolbox.html+webmaster" 
+name=webmaster>webmaster@javaworld.com</A><BR>URL: 
+http://www.javaworld.com/jw-04-1999/jw-04-toolbox.html <BR>Last modified: 
+Tuesday, April 18, 2000 </BODY></HTML>

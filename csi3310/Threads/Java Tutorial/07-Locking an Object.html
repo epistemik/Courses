@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0071)http://java.sun.com/docs/books/tutorial/essential/threads/monitors.html -->
+<HTML><HEAD><TITLE>Locking an Object</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="06-The Producer-Consumer Example.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="08-Re-acquiring a Lock.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>Locking an Object </H2>
+<BLOCKQUOTE>The code segments within a program that access the same object 
+  from separate, concurrent threads are called <EM>critical sections</EM>. In 
+  the Java language, a critical section can be a block or a method and are 
+  identified with the <CODE>synchronized</CODE> keyword. The Java platform then 
+  associates a lock with every object that has synchronized code. 
+  <P>In the producer/consumer example, the <CODE>put</CODE> and <CODE>get</CODE> 
+  methods of the <CODE>CubbyHole</CODE> are the critical sections. The 
+  <CODE>Consumer</CODE> should not access the <CODE>CubbyHole</CODE> when the 
+  <CODE>Producer</CODE> is changing it, and the <CODE>Producer</CODE> should not 
+  modify it when the <CODE>Consumer</CODE> is getting the value. So 
+  <CODE>put</CODE> and <CODE>get</CODE> in the <CODE>CubbyHole</CODE> class 
+  should be marked with the <CODE>synchronized</CODE> keyword. 
+  <P>Here's a code skeleton for the <CODE>CubbyHole</CODE> class: 
+  <BLOCKQUOTE><PRE>public class CubbyHole {
+    private int contents;
+    private boolean available = false;
+
+    public synchronized int get() {
+        ...
+    }
+
+    public synchronized void put(int value) {
+        ...
+    }
+}
+</PRE></BLOCKQUOTE>Note that the method declarations for both <CODE>put</CODE> 
+  and <CODE>get</CODE> contain the <CODE>synchronized</CODE> keyword. Hence, the 
+  system associates a unique lock with every instance of <CODE>CubbyHole</CODE> 
+  (including the one shared by the <CODE>Producer</CODE> and the 
+  <CODE>Consumer</CODE>). Whenever control enters a synchronized method, the 
+  thread that called the method locks the object whose method has been called. 
+  Other threads cannot call a synchronized method on the same object until the 
+  object is unlocked. 
+  <P>So, when the <CODE>Producer</CODE> calls <CODE>CubbyHole</CODE>'s 
+  <CODE>put</CODE> method, it locks the <CODE>CubbyHole</CODE>, thereby 
+  preventing the <CODE>Consumer</CODE> from calling the <CODE>CubbyHole</CODE>'s 
+  <CODE>get</CODE> method: 
+  <BLOCKQUOTE><PRE>public synchronized void put(int value) {
+    // CubbyHole locked by the Producer
+    ..
+    // CubbyHole unlocked by the Producer
+}
+</PRE></BLOCKQUOTE>When the <CODE>put</CODE> method returns, the 
+  <CODE>Producer</CODE> unlocks the <CODE>CubbyHole</CODE>. 
+  <P>Similarly, when the <CODE>Consumer</CODE> calls <CODE>CubbyHole</CODE>'s 
+  <CODE>get</CODE> method, it locks the <CODE>CubbyHole</CODE>, thereby 
+  preventing the <CODE>Producer</CODE> from calling <CODE>put</CODE>: 
+  <BLOCKQUOTE><PRE>public synchronized int get() {
+    // CubbyHole locked by the Consumer
+    ...
+    // CubbyHole unlocked by the Consumer
+}
+</PRE></BLOCKQUOTE>The acquisition and release of a lock is done automatically 
+  and atomically by the Java runtime system. This ensures that race conditions 
+  cannot occur in the underlying implementation of the threads, thus ensuring 
+  data integrity. Synchronization isn't the whole story. The two threads must 
+  also be able to notify one another when they've done their job. Learn more 
+  about that after a brief foray into reentrant locks. </BLOCKQUOTE><IMG 
+align=bottom height=8 src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="06-The Producer-Consumer Example.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="08-Re-acquiring a Lock.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

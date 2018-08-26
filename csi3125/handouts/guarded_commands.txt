@@ -1,0 +1,33 @@
+
+Hello students of DGD-2
+
+Instead of posting the problem on guarded commands on the web like I told in
+class, I am sending it to you by e-mail.  If you have any trouble with it
+fell free to ask me questions on it by e-mail
+
+Patrick Morin.
+
+> (4) Guarded commands (Dijkstra's language).
+>
+> Express the following three schemata in Dijkstra's language. Use
+> comparison operations (= <> < > <= >=) and Boolean operations (not,
+> and, or) as in Pascal. C, C1, C2, C3 are Boolean expressions. S, S1,
+> S2, S3, S4 are statements.
+>
+> if C1 then S1 else
+> if C2 then S2 else
+> if C3 then S3 else S4;
+>
+> case k of
+>   1: S1;
+>   2: S2;
+>   3: S3;
+>   else S4
+> end;
+>
+> for i := H downto L do S;
+> (* L..H is the subtype of any discrete type. *)
+>
+>
+> Thanks!!
+>

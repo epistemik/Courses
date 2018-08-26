@@ -1,0 +1,178 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+51 93 44 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 16 0 29 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 
+0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 518 "# RUNGE-KUTTA FOR SYSTEMS OF DIFFE
+RENTIAL EQUATIONS ALGORITHM 5.7\n#\n# TO APPROXIMATE THE SOLUTION OF T
+HE MTH-ORDER SYSTEM OF FIRST-\n# ORDER INITIAL-VALUE PROBLEMS\n#      \+
+      UJ' = FJ( T, U1, U2, ..., UM ), J = 1, 2, ..., M\n#            A
+ <= T <= B, UJ(A) = ALPHAJ, J = 1, 2, ..., M\n# AT (N+1) EQUALLY SPACE
+D NUMBERS IN THE INTERVAL [A,B].\n#\n# INPUT:   ENDPOINTS A,B; NUMBER \+
+OF EQUATIONS M; INITIAL\n#          CONDITIONS ALPHA1, ..., ALPHAM; IN
+TEGER N.\n#\n# OUTPUT:  APPROXIMATION WJ TO UJ(T) AT THE (N+1) VALUES \+
+OF T." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 86 "alg057 := proc() local OK,
+ M, I, F, A, B, ALPHA, N, FLAG, NAME, OUP, H, T, J, W, L, K;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 70 "printf(`This is the Runge-Kutta Method fo
+r Systems of m equations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "O
+K := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`Input the number of equ
+ations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "M := scanf(`%d`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if M <= 0 then " }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 46 "printf(`Number must be a positive integer\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 87 "printf(`Input the function F[%d](t,y1 ... y%d) in terms of t and
+ y1 ... y%d\\n`, I,M,M);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(
+`For example: y1-t^2+1`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "F[I] :
+= scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "F[I] := unappl
+y(F[I],t,evaln(y.(1..M)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 62 "printf(`Input left and right endpoints separated by blank\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 15 "if A >= B then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+59 "printf(`Left endpoint must be less than right endpoint\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "
+for I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`Inp
+ut the initial condition alpha[%d]\\n`, I);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 27 "ALPHA[I] := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 68 "printf(`Input a positive integer for the nu
+mber of subintervals\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := \+
+scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if N <= 0 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Number must be a positive
+ integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`For example   A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 77 "fprintf(OUP, `RUNGE-KUTTA ME
+THOD FOR SYSTEMS OF DIFFERENTIAL EQUATIONS\\n\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 22 "fprintf(OUP, `    T`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "fprintf(OUP, `          W%d`, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "H := (B-A)/N;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 7 "T := A;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to
+ M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "W[J] := ALPHA[J];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 3" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "fprintf
+(OUP, `\\n%5.3f`, T);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from
+ 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f
+`, W[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 4" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for L
+ from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 
+0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to M do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "K[1,J] := H*F[J](T,seq(W[i],i=1..M)
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 6" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "
+for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "K[2,J] := H
+*F[J](T+H/2.0,seq(W[i]+K[1,i]/2.0,i=1..M));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }{MPLTEXT 
+1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to M do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "K[3,J] := H*F[J](T+H/2.0,seq(W[i]+K
+[2,i]/2.0,i=1..M));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 8" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 46 "K[4,J] := H*F[J](T+H,seq(W[i]+K[3,i],i=1..M));" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to
+ M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "W[J] := W[J]+(K[1,J]+2.0*K
+[2,J]+2.0*K[3,J]+K[4,J])/6.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }{MPLTEXT 1 0 0 "" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 11 "T := A+L*H;" }}{PARA 0 "" 0 "" {TEXT -1 7 "
+STEP 11" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "fprin
+tf(OUP, `%5.3f`, T);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from \+
+1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f`
+, W[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 12" }{MPLTEXT 1 0 0 "" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg057G:6\"63%#OKG%\"MG%\"IG%\"FG%\"AG%\"BG%&ALPHAG%\"NG%%FLAGG%%NAME
+G%$OUPG%\"HG%\"TG%\"JG%\"WG%\"LG%\"KGF&F&C--%'printfG6#%enThis~is~the~
+Runge-Kutta~Method~for~Systems~of~m~equations|+G>8$%&FALSEG?(F&\"\"\"F
+BF&/F?F@C%-F;6#%?Input~the~number~of~equations|+G>8%&-%&scanfG6#%#%dG6
+#FB@%1FI\"\"!-F;6#%CNumber~must~be~a~positive~integer|+G>F?%%TRUEG?(8&
+FBFBFI%%trueGC&-F;6&%_oInput~the~function~F[%d](t,y1~...~y%d)~in~terms
+~of~t~and~y1~...~y%d|+GFYFIFI-F;6#%6For~example:~y1-t^2+1G>&8'6#FY&-FL
+6#%#%aGFO>F]o-%(unapplyG6%F]o%\"tG-%&evalnG6#(%\"yG;FBFI>F?F@?(F&FBFBF
+&FCC&-F;6#%SInput~left~and~right~endpoints~separated~by~blank|+G>8(&-F
+L6#%#%fGFO>8)Fgp@%1F\\qFfp-F;6#%PLeft~endpoint~must~be~less~than~right
+~endpoint|+G>F?FW?(FYFBFBFIFZC$-F;6$%GInput~the~initial~condition~alph
+a[%d]|+GFY>&8*F_oFgp>F?F@?(F&FBFBF&FCC%-F;6#%YInput~a~positive~integer
+~for~the~number~of~subintervals|+G>8+FJ@%1FbrFRFS>F?FW@$/F?FWC3-F;6#%:
+Choice~of~output~method:|+G-F;6#%51.~Output~to~screen|+G-F;6#%82.~Outp
+ut~to~text~file|+G-F;6#%5Please~enter~1~or~2|+G>8,FJ@%/Ffs\"\"#C&-F;6#
+%SInput~the~file~name~in~the~form~-~drive:\\name.ext|+G-F;6#%=For~exam
+ple~~~A:\\OUTPUT.DTA|+G>8-&-FL6#%#%sGFO>8.-%&fopenG6%Fbt%&WRITEG%%TEXT
+G>Fht%(defaultG-%(fprintfG6$Fht%enRUNGE-KUTTA~METHOD~FOR~SYSTEMS~OF~DI
+FFERENTIAL~EQUATIONS|+|+G-Fau6$Fht%&~~~~TG?(FYFBFBFIFZ-Fau6%Fht%.~~~~~
+~~~~~W%dGFY>8/*&,&F\\qFBFfp!\"\"FBFbrF_v>80Ffp?(81FBFBFIFZ>&826#Fcv&Fj
+qFgv-Fau6%Fht%'|+%5.3fGFav?(FYFBFBFIFZ-Fau6%Fht%(~%11.8fG&FfvF_o-Fau6$
+Fht%\"|+G?(83FBFBFbrFZC+?(FcvFBFBFIFZ>&846$FBFcv*&F\\vFB-&F^oFgv6$Fav-
+%$seqG6$&Ffv6#%\"iG/FexF^pFB?(FcvFBFBFIFZ>&Fjw6$FisFcv*&F\\vFB-F^x6$,&
+FavFBF\\v$\"+++++]!#5-Fax6$,&FcxFB&Fjw6$FBFexF_yFfxFB?(FcvFBFBFIFZ>&Fj
+w6$\"\"$Fcv*&F\\vFB-F^x6$F^y-Fax6$,&FcxFB&Fjw6$FisFexF_yFfxFB?(FcvFBFB
+FIFZ>&Fjw6$\"\"%Fcv*&F\\vFB-F^x6$,&FavFBF\\vFB-Fax6$,&FcxFB&Fjw6$F[zFe
+xFBFfxFB?(FcvFBFBFIFZ>Fev,,FevFBFiw$\"+nmmm;FayFix$\"+MLLLLFayFiyFg[lF
+fzFe[l>Fav,&FfpFB*&FewFBF\\vFBFB-Fau6%Fht%&%5.3fGFav?(FYFBFBFIFZF]wFaw
+@$0FhtF_uC$-%'fcloseG6#Fht-F;6$%COutput~file~%s~created~sucessfullyGFb
+t-%'RETURNG6#FRF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg05
+7();" }}{PARA 6 "" 1 "" {TEXT -1 87 "This is the Runge-Kutta Method fo
+r Systems of m equations\nInput the number of equations" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 86 "In
+put the function F[1](t,y1 ... y2) in terms of t and y1 ... y2\nFor ex
+ample: y1-t^2+1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "-4*y1+3*
+y2+6" }}{PARA 6 "" 1 "" {TEXT -1 86 "Input the function F[2](t,y1 ... \+
+y2) in terms of t and y1 ... y2\nFor example: y1-t^2+1" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "-2.4*y1+1.6*y2+3.6" }}{PARA 6 "" 1 
+"" {TEXT -1 49 "Input left and right endpoints separated by blank" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "0 .5" }}{PARA 6 "" 1 "" 
+{TEXT -1 36 "Input the initial condition alpha[1]" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 1 "0" }}{PARA 6 "" 1 "" {TEXT -1 36 "Input the i
+nitial condition alpha[2]" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 
+"0" }}{PARA 6 "" 1 "" {TEXT -1 55 "Input a positive integer for the nu
+mber of subintervals" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "5" }
+}{PARA 6 "" 1 "" {TEXT -1 87 "Choice of output method:\n1. Output to s
+creen\n2. Output to text file\nPlease enter 1 or 2" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 267 "RUNGE-KUT
+TA METHOD FOR SYSTEMS OF DIFFERENTIAL EQUATIONS\n\n    T          W1  \+
+        W2\n0.000  0.00000000  0.00000000\n .100   .53825520   .319626
+24\n .200   .96849873   .56878217\n .300  1.31071903   .76073313\n .40
+0  1.58126523   .90632061\n .500  1.79350749  1.01440241" }}{PARA 11 "
+" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}}{MARK "11 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,343 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description
+content="20-Jan-00: Solution of P/C: finite circular buffer of size k">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0202.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><o:shapelayout v:ext="edit">
+ <o:idmap v:ext="edit" data="265"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>202</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s271362"
+  type="#_x0000_m3075" style='position:absolute;left:81.125pt;top:25.625pt;
+  width:620.875pt;height:58.375pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="title"/></v:shape><v:shapetype id="_x0000_t202"
+  coordsize="21600,21600" o:spt="202" path="m0,0l0,21600,21600,21600,21600,0xe">
+  <v:stroke joinstyle="miter"/>
+  <v:path gradientshapeok="t" o:connecttype="rect"/>
+ </v:shapetype><v:shape id="_x0000_s271363" type="#_x0000_t202" style='position:absolute;
+  left:1in;top:96pt;width:618.25pt;height:93.5pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="#ccecff [4]" stroked="f"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:shape id="_x0000_s271364" type="#_x0000_t202" style='position:absolute;
+  left:270pt;top:210pt;width:192pt;height:266pt' filled="f" fillcolor="#ccecff [4]"
+  stroked="f" strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:rect id="_x0000_s271365" style='position:absolute;left:486pt;
+  top:210pt;width:201.375pt;height:266pt;mso-wrap-style:none;v-text-anchor:top-baseline'
+  filled="f" fillcolor="#ccecff [4]" stroked="f" strokecolor="#099 [1]"
+  strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:rect><v:rect id="_x0000_s271366" style='position:absolute;left:204pt;
+  top:7in;width:12pt;height:12pt;mso-wrap-style:none;v-text-anchor:middle'
+  fillcolor="black" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:rect><v:shape id="_x0000_s271367" type="#_x0000_t202" style='position:absolute;
+  left:228pt;top:492pt;width:258.875pt;height:36pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="#ccecff [4]" stroked="f"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:rect id="_x0000_s271368" style='position:absolute;left:66pt;
+  top:198pt;width:172.625pt;height:122.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' filled="f" fillcolor="#ccecff [4]" stroked="f"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:rect><v:rect id="_x0000_s271369" style='position:absolute;left:1in;top:330pt;
+  width:187pt;height:151pt;mso-wrap-style:none;v-text-anchor:top-baseline'
+  filled="f" fillcolor="#ccecff [4]" stroked="f" strokecolor="#099 [1]"
+  strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:rect><![if !vml]><img border=0 v:shapes="_x0000_s271366"
+ src="slide0202_image119.gif" style='position:absolute;top:93.25%;left:28.27%;
+ width:2.05%;height:2.75%'><![endif]>
+ <div v:shape="_x0000_s271362" class=T><span style='position:absolute;
+ top:2.25%;left:12.35%;width:100.56%'>Solution of P/C: finite circular buffer
+ of </span><span style='position:absolute;top:8.25%;left:12.35%;width:84.45%'>size
+ k</span></div>
+ <div v:shape="_x0000_s271363" class=O>
+ <div style='position:absolute;top:18.75%;left:11.04%;width:100.74%;height:
+ 5.25%'><span style='font-family:"Courier New"'><b>Initialization: S.count:=1; </b></span><span
+ style='font-family:"Courier New"'><b><i>//mutual excl</i></b></span><span
+ style='font-family:"Courier New"'><b>.&#13;</b></span></div>
+ <div style='position:absolute;top:24.0%;left:11.04%;width:98.5%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun:
+ yes">                </span>N.count:=0; </b></span><span style='font-family:
+ "Courier New"'><b><i>//full spaces</i></b></span><span style='font-family:
+ "Courier New";display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:29.25%;left:11.04%;width:100.74%;height:
+ 5.25%'><span style='font-family:"Courier New"'><b><span style="mso-spacerun:
+ yes">                </span>E.count:=k; </b></span><span style='font-family:
+ "Courier New"'><b><i>//empty spaces</i></b></span><span style='font-family:
+ "Courier New";mso-special-format:lastCR;display:none'><b>&#13;</b></span></div>
+ </div>
+ <div v:shape="_x0000_s271364" class=O>
+ <div style='position:absolute;top:39.75%;left:38.57%;width:24.9%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>Producer:&#13;</b></span></div>
+ <div style='position:absolute;top:45.0%;left:38.57%;width:24.9%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>repeat&#13;</b></span></div>
+ <div style='position:absolute;top:50.5%;left:38.57%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>produce v;&#13;</b></span></div>
+ <div style='position:absolute;top:55.75%;left:38.57%;width:24.9%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>wait(E);&#13;</b></span></div>
+ <div style='position:absolute;top:61.0%;left:38.57%;width:24.9%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>wait(S);&#13;</b></span></div>
+ <div style='position:absolute;top:66.5%;left:38.57%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">  </span></b></span><span
+ style='font-family:"Courier New";color:#010000;mso-color-index:2'><b>append(v);</b></span><span
+ style='font-family:"Courier New";display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:71.75%;left:38.57%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>signal(S);&#13;</b></span></div>
+ <div style='position:absolute;top:77.0%;left:38.57%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>signal(N);&#13;</b></span></div>
+ <div style='position:absolute;top:82.25%;left:38.57%;width:24.9%;height:5.5%'><span
+ style='font-family:"Courier New"'><b>forever</b></span><span style='mso-special-format:
+ lastCR;display:none'>&#13;</span></div>
+ </div>
+ <div v:shape="_x0000_s271365" class=O>
+ <div style='position:absolute;top:39.75%;left:68.53%;width:26.21%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>Consumer:&#13;</b></span></div>
+ <div style='position:absolute;top:45.0%;left:68.53%;width:26.21%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>repeat&#13;</b></span></div>
+ <div style='position:absolute;top:50.5%;left:68.53%;width:26.21%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>wait(N);&#13;</b></span></div>
+ <div style='position:absolute;top:55.75%;left:68.53%;width:26.21%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>wait(S);&#13;</b></span></div>
+ <div style='position:absolute;top:61.0%;left:68.53%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">  </span></b></span><span
+ style='font-family:"Courier New";color:#010000;mso-color-index:2'><b>w:=take();</b></span><span
+ style='font-family:"Courier New";display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:66.5%;left:68.53%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>signal(S);&#13;</b></span></div>
+ <div style='position:absolute;top:71.75%;left:68.53%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>signal(E);&#13;</b></span></div>
+ <div style='position:absolute;top:77.0%;left:68.53%;width:31.27%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes"> 
+ </span>consume(w);&#13;</b></span></div>
+ <div style='position:absolute;top:82.25%;left:68.53%;width:26.21%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>forever</b></span></div>
+ </div>
+ <div v:shape="_x0000_s271367" class=O style='position:absolute;top:92.0%;
+ left:32.58%;width:41.01%;height:5.25%'><span style='font-family:"Courier New";
+ color:#010000;mso-color-index:2'><b>critical sections</b></span></div>
+ <div v:shape="_x0000_s271368" class=O>
+ <div style='position:absolute;top:37.5%;left:10.11%;width:24.15%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>append(v):&#13;</b></span></div>
+ <div style='position:absolute;top:42.75%;left:10.11%;width:22.09%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>b[in]:=v;&#13;</b></span></div>
+ <div style='position:absolute;top:48.25%;left:10.11%;width:22.09%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>in++;&#13;</b></span></div>
+ <div style='position:absolute;top:53.5%;left:10.11%;width:26.59%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">    
+ </span>mod k;</b></span></div>
+ </div>
+ <div v:shape="_x0000_s271369" class=O>
+ <div style='position:absolute;top:62.0%;left:11.04%;width:24.15%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>take():&#13;</b></span></div>
+ <div style='position:absolute;top:67.25%;left:11.04%;width:24.15%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>w:=b[out];&#13;</b></span></div>
+ <div style='position:absolute;top:72.75%;left:11.04%;width:24.15%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>out++;&#13;</b></span></div>
+ <div style='position:absolute;top:78.0%;left:11.04%;width:29.02%;height:5.25%'><span
+ style='font-family:"Courier New"'><b><span style="mso-spacerun: yes">     
+ </span>mod k;&#13;</b></span></div>
+ <div style='position:absolute;top:83.25%;left:11.04%;width:24.15%;height:5.25%'><span
+ style='font-family:"Courier New"'><b>return w;</b></span></div>
+ </div>
+ <v:line id="_x0000_s271370" style='position:absolute;flip:y;mso-wrap-style:none;
+  v-text-anchor:middle' from="456pt,318pt" to="516pt,402pt" strokecolor="#099 [1]"
+  strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="block"
+   endarrowwidth="narrow" endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><v:line id="_x0000_s271371" style='position:absolute;flip:y;
+  mso-wrap-style:none;v-text-anchor:middle' from="456pt,4in" to="516pt,6in"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="block"
+   endarrowwidth="narrow" endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><v:line id="_x0000_s271372" style='position:absolute;flip:x y;
+  mso-wrap-style:none;v-text-anchor:middle' from="426pt,318pt" to="522pt,402pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="block"
+   endarrowwidth="narrow" endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><v:line id="_x0000_s271373" style='position:absolute;flip:x y;
+  mso-wrap-style:none;v-text-anchor:middle' from="426pt,342pt" to="516pt,372pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="block"
+   endarrowwidth="narrow" endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0
+ v:shapes="_x0000_s271370,_x0000_s271371,_x0000_s271372,_x0000_s271373"
+ src="slide0202_image120.gif" style='position:absolute;top:53.25%;left:58.98%;
+ width:13.85%;height:27.5%'><![endif]><v:line id="_x0000_s271374" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="4in,342pt" to="4in,408pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271374"
+ src="slide0202_image121.gif" style='position:absolute;top:63.25%;left:39.88%;
+ width:.56%;height:13.0%'><![endif]><v:line id="_x0000_s271375" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="4in,342pt" to="300pt,342pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271375"
+ src="slide0202_image122.gif" style='position:absolute;top:63.25%;left:39.88%;
+ width:2.24%;height:.75%'><![endif]><v:line id="_x0000_s271376" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="4in,408pt" to="306pt,408pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271376"
+ src="slide0202_image123.gif" style='position:absolute;top:75.5%;left:39.88%;
+ width:2.99%;height:.75%'><![endif]><v:line id="_x0000_s271377" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="684pt,312pt" to="684pt,378pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271377"
+ src="slide0202_image124.gif" style='position:absolute;top:57.5%;left:94.94%;
+ width:.56%;height:13.0%'><![endif]><v:line id="_x0000_s271378" style='position:absolute;
+  flip:x;mso-wrap-style:none;v-text-anchor:middle' from="666pt,312pt" to="684pt,312pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271378"
+ src="slide0202_image125.gif" style='position:absolute;top:57.5%;left:92.32%;
+ width:2.99%;height:.75%'><![endif]><v:line id="_x0000_s271379" style='position:absolute;
+  flip:x;mso-wrap-style:none;v-text-anchor:middle' from="672pt,378pt" to="684pt,378pt"
+  strokecolor="#099 [1]" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:line><![if !vml]><img border=0 v:shapes="_x0000_s271379"
+ src="slide0202_image126.gif" style='position:absolute;top:69.75%;left:93.25%;
+ width:2.24%;height:.75%'><![endif]><v:rect id="_x0000_s271380" style='position:absolute;
+  left:4in;top:366pt;width:12pt;height:12pt;mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="black" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:rect><![if !vml]><img border=0 v:shapes="_x0000_s271380"
+ src="slide0202_image127.gif" style='position:absolute;top:67.75%;left:39.88%;
+ width:2.05%;height:2.75%'><![endif]><v:rect id="_x0000_s271381" style='position:absolute;
+  left:7in;top:342pt;width:12pt;height:12pt;mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="black" strokeweight="1pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+ </v:rect><![if !vml]><img border=0 v:shapes="_x0000_s271381"
+ src="slide0202_image128.gif" style='position:absolute;top:63.25%;left:69.85%;
+ width:2.05%;height:2.75%'><![endif]></p:slide></div>
+
+</body>
+
+</html>

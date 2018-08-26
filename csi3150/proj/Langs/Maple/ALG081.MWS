@@ -1,0 +1,280 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 172 9 84 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 446 "# PADE' RATIONAL APPROXIMATION ALG
+ORITHM 8.1\n#\n# To obtain the rational approximation\n#\n#     r(x) =
+ p(x) / q(x)\n#          = (p0 + p1*x + ... + Pn*x^n) / (q0 + q1*x + .
+.. + qm*x^m)\n#\n# for a given function f(x):\n#\n# INPUT  nonnegative
+ integers m and n.\n#\n# OUTPUT  coefficients q0, q1, ... , qm, p0, p1
+, ... , pn.\n#\n# The coefficients of the Maclaurin polynomial a0, a1,
+  ... could\n# be calculated instead of input as is assumed in this pr
+ogram." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 171 "alg081 := proc() local O
+K, LM, LN, BN, FLAG, I, AA, AAA, NAME, INP, N, M, NROW, NN, Q, P, J, A
+, IMAX, AMAX, JJ, IP, JP, NCOPY, I1, J1, XM, K, N1, PP, N2, SUM, KK, L
+L, OUP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`This is Pade' Ap
+proximation.\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALS
+E;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 26 "printf(`Input m and n\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "LM := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "LN := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "BN := LM+LN;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if LM >= 0 \+
+and LN >= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 46 "printf(`m and n must both be nonnegative.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if LM
+ = 0 and LN = 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`Not both m and n can b
+e zero\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`The McLaurin coefficients a
+[0], a[1], ... , a[N]\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "prin
+tf(`are to be input.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "print
+f(`Choice of input method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 
+"printf(`1. Input entry by entry from keyboard\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 43 "printf(`2. Input data from a text file\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Choose 1 or 2 please\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "if FLAG = 1 or FLAG = 2 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "printf(`Input in order a[0] to a[N]\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 21 "for I from 0 to BN do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "printf(`Input A[ %d ] \\n`,I);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "AA[I] := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "printf(`As many entries as desired can be placed\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "printf(`on each line of the fi
+le each separated by blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+47 "printf(`Has such a text file been created?\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "AAA := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "if AAA = Y or AAA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 45 "printf(`Input the file name in the form - `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.
+DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 0 to BN do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 30 "AA[I] := fscanf(INP, `%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "
+fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 42 "printf(`Please create the input file.\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The program will end so th
+e input file can `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`be \+
+created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+8 "N := BN;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N+1;" }}{PARA 0 
+"" 0 "" {TEXT -1 27 "STEP 2 - performed in input" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 15 "NROW[I-1] := I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 40 "initialize row pointer for linear system
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "NN := N-1;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "Q[0] := 1;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "P[0] := AA[0];" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }}{PARA 0 "" 0 "" {TEXT -1 57 "Set up a linear sys
+tem, but use A[i,j] instead of B[i,j]." }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "for I from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-1 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 15 "if J <= LN then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "A[I-1,J-1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 
+"fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if I <= LN th
+en" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "A[I-1,I-1] := 1;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from I+1 to N do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "A[I-1,J-1] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to I do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if  J <= LM then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+26 "A[I-1,LN+J-1] := -AA[I-J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "for J from LN+I+1 t
+o N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "A[I-1,J-1] := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "S
+TEP 10" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "A[I-1,N] := AA[I];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 47 "
+Solve the linear system using partial pivoting." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "I := LN+1;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 11" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while OK = TRUE and I <= NN do" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "IMAX := NROW[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "AMAX := a
+bs(A[IMAX-1,I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "IMAX := I;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "for IP from JJ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 17 "JP := NROW[IP-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "if abs
+(A[JP-1,I-1]) > AMAX then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "AMAX :
+= abs(A[JP-1,I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "IMAX := IP;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 13" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 23 "if AMAX <= 1.0e-20 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := false;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "e
+lse" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 14" }}{PARA 0 "" 0 "" {TEXT 
+-1 24 "simulate row interchange" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "
+if NROW[I-1] <> NROW[IMAX-1] then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+19 "NCOPY := NROW[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "NROW[I-1
+] := NROW[IMAX-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "NROW[IMAX-1] \+
+:= NCOPY;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "I1 := NROW[I-1];" }}{PARA 0 "" 0 "" {TEXT -1 7 "STE
+P 15" }}{PARA 0 "" 0 "" {TEXT -1 20 "Perform elimination." }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "for J from JJ to M do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "J1 := NROW[J-1];" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP \+
+16" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "XM := A[J1-1,I-1]/A[I1-1,I-1]
+;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 17" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for K from JJ to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 44 "A[J1-1,K-1] := A[J1-1,K-1]-XM * A[I1-1,K-1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 18" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "A[J1-1,I-1] := 0;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 19" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "N1 := NROW[N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+35 "if abs(A[N1-1,N-1]) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "OK := FALSE;" }}{PARA 0 "" 0 "" {TEXT -1 29 "system has no uni
+que solution" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 
+0 "" {TEXT -1 7 "STEP 20" }}{PARA 0 "" 0 "" {TEXT -1 27 "Start backwar
+d subistution." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if LM > 0 then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "Q[LM] := A[N1-1,M-1]/A[N1-1,N-1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "A[N1-1,M-1] := Q[LM];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "P
+P := 1;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 21" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "for K from LN+1 to NN do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "I := NN-K+LN+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 
+"JJ := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "N2 := NROW[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "SUM := A[N2-1,N];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "for KK from JJ to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "LL := NROW[KK-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+36 "SUM := SUM-A[N2-1,KK-1]*A[LL-1,M-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "A[N2-1,M-1] \+
+:= SUM/A[N2-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "Q[LM-PP] := \+
+A[N2-1,M-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "PP := PP+1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "S
+TEP 22" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to LN do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "I := LN-K+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "N2 := NROW[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+17 "SUM := A[N2-1,N];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "for KK fro
+m LN+1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "LL := NROW[KK-1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "SUM := SUM-A[N2-1,KK-1]*A[LL-1,
+M-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "A[N2-1,M-1] := SUM;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 25 "P[LN-K+1] := A[N2-1,M-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 23" }}{PARA 0 "" 0 "" {TEXT -1 
+31 "procedure comleted successfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`for example:   A:\\\\OU
+TPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,T
+EXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `PADE' RATIONAL
+ APPROXIMATION\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "fprintf(
+OUP, `Denominator Coefficients Q[0], ..., Q[M] \\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 21 "for I from 0 to LM do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f`, Q[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP,
+ `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fprintf(OUP, `Numerator
+ Coefficients P[0], ..., P[N]\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "for I from 0 to LN do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprint
+f(OUP, ` %11.8f`, P[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "
+if OK = FALSE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`Syste
+m has no unique solution\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg081G:6\"6E%#OKG%#LMG%#LNG%#B
+NG%%FLAGG%\"IG%#AAG%$AAAG%%NAMEG%$INPG%\"NG%\"MG%%NROWG%#NNG%\"QG%\"PG
+%\"JG%\"AG%%IMAXG%%AMAXG%#JJG%#IPG%#JPG%&NCOPYG%#I1G%#J1G%#XMG%\"KG%#N
+1G%#PPG%#N2G%$SUMG%#KKG%#LLG%$OUPGF&F&C+-%'printfG6#%?This~is~Pade'~Ap
+proximation.|+|+G>8$%&FALSEG?(F&\"\"\"FTF&/FQFRC(-FM6#%/Input~m~and~n|
++G>8%&-%&scanfG6#%#%dG6#FT>8&Ffn>8',&FenFTF]oFT@%31\"\"!Fen1FdoF]o>FQ%
+%TRUEG-FM6#%Cm~and~n~must~both~be~nonnegative.|+G@$3/FenFdo/F]oFdoC$>F
+QFR-FM6#%>Not~both~m~and~n~can~be~zero|+G>FQFR?(F&FTFTF&FUC*-FM6#%RThe
+~McLaurin~coefficients~a[0],~a[1],~...~,~a[N]|+G-FM6#%2are~to~be~input
+.|+G-FM6#%9Choice~of~input~method:|+G-FM6#%G1.~Input~entry~by~entry~fr
+om~keyboard|+G-FM6#%@2.~Input~data~from~a~text~file|+G-FM6#%6Choose~1~
+or~2~please|+G>8(Ffn@$5/FjqFT/Fjq\"\"#>FQFgo@$F]rC$-FM6#%=Input~in~ord
+er~a[0]~to~a[N]|+G?(8)FdoFTF_o%%trueGC$-FM6$%0Input~A[~%d~]~|+GFgr>&8*
+6#Fgr&-Fhn6#%#%fGF[o@$F^rC(-FM6#%JAs~many~entries~as~desired~can~be~pl
+aced|+G-FM6#%Son~each~line~of~the~file~each~separated~by~blank.|+G-FM6
+#%DHas~such~a~text~file~been~created?|+G-FM6#%.Enter~Y~or~N|+G>8+&-Fhn
+6#%$|+%cGF[o@%5/Fdt%\"YG/Fdt%\"yGC)-FM6#%CInput~the~file~name~in~the~f
+orm~-~G-FM6#%1drive:\\name.ext|+G-FM6#%<for~example:~~~A:\\DATA.DTA|+G
+>8,&-Fhn6#%#%sGF[o>8--%&fopenG6%Fju%%READG%%TEXTG?(FgrFdoFTF_oFhr>F^s&
+-%'fscanfG6$F`vFdsF[o-%'fcloseG6#F`vC&-FM6#%?Please~create~the~input~f
+ile.|+G-FM6#%LThe~program~will~end~so~the~input~file~can~G-FM6#%-be~cr
+eated.|+G>FQFR@$/FQFgoC->8.F_o>8/,&F^xFTFTFT?(FgrFTFTF^xFhr>&806#,&Fgr
+FT!\"\"FTFgr>81,&F^xFTFhxFT>&826#FdoFT>&83F_y&F_sF_y?(FgrFTFTF^xFhrC(?
+(84FTFTFgxFhr@$1FgyF]o>&856$Fgx,&FgyFTFhxFTFdo@$1FgrF]o>&F\\z6$FgxFgxF
+T?(Fgy,&FgrFTFTFTFTF^xFhr>F[zFdo?(FgyFTFTFgrFhr@$1FgyFen>&F\\z6$Fgx,(F
+]oFTFgyFTFhxFT,$&F_s6#,&FgrFTFgyFhxFhx?(Fgy,(F]oFTFgrFTFTFTFTF^xFhr>F[
+zFdo>&F\\z6$FgxF^xF^s>Fgr,&F]oFTFTFT?(F&FTFTF&3F[x1FgrFjxC)>86Fdx>87-%
+$absG6#&F\\z6$,&F_\\lFTFhxFTFgx>F_\\lFgr>88Fez?(89Fj\\lFTF^xFhrC$>8:&F
+ex6#,&F\\]lFTFhxFT@$2Fa\\l-Fc\\l6#&F\\z6$,&F_]lFTFhxFTFgxC$>Fa\\lFe]l>
+F_\\lF\\]l@%1Fa\\lFdo>FQ%&falseGC%@$0Fdx&Fex6#Fg\\lC%>8;Fdx>FdxFd^l>Fd
+^lFh^l>8<Fdx?(FgyFj\\lFTF`xFhrC&>8=&Fex6#F^z>8>*&&F\\z6$,&F`_lFTFhxFTF
+gxFT&F\\z6$,&F\\_lFTFhxFTFgxFhx?(8?Fj\\lFTF`xFhr>&F\\z6$Fh_l,&F]`lFTFh
+xFT,&F_`lFT*&Fd_lFT&F\\z6$F[`lFa`lFTFhx>Ff_lFdo>FgrFez@$F[xC$>8@&Fex6#
+F[y@%1-Fc\\l6#&F\\z6$,&F[alFTFhxFTF[yFdo>FQFRC4@$2FdoFenC$>&F^y6#Fen*&
+&F\\z6$Fdal,&F`xFTFhxFTFTFbalFhx>F^blF[bl>8AFT?(F]`lFi[lFTFjxFhrC*>Fgr
+,*FjxFTF]`lFhxF]oFTFTFT>Fj\\lFez>8BFdx>8C&F\\z6$,&FjblFTFhxFTF^x?(8DFj
+\\lFTF^xFhrC$>8E&Fex6#,&FaclFTFhxFT>F\\cl,&F\\clFT*&&F\\z6$F_clFgclFT&
+F\\z6$,&FdclFTFhxFTF`blFTFhx>&F\\z6$F_clF`bl*&F\\clFT&F\\z6$F_clFgxFhx
+>&F^y6#,&FenFTFcblFhxFadl>Fcbl,&FcblFTFTFT?(F]`lFTFTF]oFhrC(>Fgr,(F]oF
+TF]`lFhxFTFT>FjblFdx>F\\clF]cl?(FaclFi[lFTF^xFhrC$>FdclFecl>F\\clFicl>
+FadlF\\cl>&Fby6#F_elFadl-FM6#%:Choice~of~output~method:|+G-FM6#%51.~Ou
+tput~to~screen|+G-FM6#%82.~Output~to~text~file|+G-FM6#%.Enter~1~or~2|+
+G>FjqFfn@%F^rC&-FM6#%SInput~the~file~name~in~the~form~-~drive:\\name.e
+xt|+G-FM6#%>for~example:~~~A:\\OUTPUT.DTA|+G>FjuF[v>8F-Fbv6%Fju%&WRITE
+GFev>Fagl%(defaultG-%(fprintfG6$Fagl%?PADE'~RATIONAL~APPROXIMATION|+|+
+G-Fhgl6$Fagl%KDenominator~Coefficients~Q[0],~...,~Q[M]~|+G?(FgrFdoFTFe
+nFhr-Fhgl6%Fagl%(~%11.8fG&F^yF`s-Fhgl6$Fagl%\"|+G-Fhgl6$Fagl%HNumerato
+r~Coefficients~P[0],~...,~P[N]|+G?(FgrFdoFTF]oFhr-Fhgl6%FaglFahl&FbyF`
+sFchl@$0FaglFfglC$-F]w6#Fagl-FM6$%COutput~file~%s~created~sucessfullyG
+Fju@$FU-FM6#%?System~has~no~unique~solution|+G-%'RETURNGF_yF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg081();" }}{PARA 6 "" 1 "" 
+{TEXT -1 43 "This is Pade' Approximation.\n\nInput m and n" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "2 3" }}{PARA 6 "" 1 "" {TEXT -1 179 
+"The McLaurin coefficients a[0], a[1], ... , a[N]\nare to be input.\nC
+hoice of input method:\n1. Input entry by entry from keyboard\n2. Inpu
+t data from a text file\nChoose 1 or 2 please" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 138 "As many entrie
+s as desired can be placed\non each line of the file each separated by
+ blank.\nHas such a text file been created?\nEnter Y or N" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "In
+put the file name in the form - drive:\\name.ext\nfor example:   A:\\D
+ATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg081
+.dta" }}{PARA 6 "" 1 "" {TEXT -1 80 "Choice of output method:\n1. Outp
+ut to screen\n2. Output to text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 195 "PADE' RAT
+IONAL APPROXIMATION\n\nDenominator Coefficients Q[0], ..., Q[M] \n  1.
+00000000   .40000000   .05000000\nNumerator Coefficients P[0], ..., P[
+N]\n  1.00000000 -.59999999   .15000000  -.01666666" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" 
+}}}}{MARK "1 204 0" 30 }{VIEWOPTS 1 1 0 1 1 1803 }

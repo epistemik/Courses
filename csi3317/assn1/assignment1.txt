@@ -1,0 +1,28 @@
+University of Ottawa
+School of Information Technology and Engineering
+CSI 3317 - 2000F
+Assignment #1
+Instructor: Dr. Cory Butz
+Due: Friday, October 6, 2000 at noon
+Hand in: to the CS13317 box on 3rd floor MCD.
+
+This assignment uses the supplier-part-project database listed on the reverse side. Create both the relational algebra and the tuple calculus expressions to answer the following nine (9) questions.
+
+1.	Provide complete details of all suppliers in London.
+
+2.	Provide project names and cities.
+
+3.	Provide all cities in which a supplier or project (or both) are located.
+
+4.	Provide supplier numbers for suppliers who supply part P1.
+
+5.	Provide project names which use red or green parts.
+
+6.	Provide the part names used in a project with quantity equal to 500.
+
+7.	Provide all the cities in which suppliers are located, but no parts are located.
+
+8.	Provide the supplier name/part name pairs for which the indicated supplier does not supply the indicated part.
+
+9.	Provide the supplier name/part name pairs for which the indicated supplier does not supply the indicated part.
+

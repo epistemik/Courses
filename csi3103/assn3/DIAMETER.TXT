@@ -1,0 +1,36 @@
+Hello,
+
+For any connected graph
+
+1) Calculate the length (hop number) of the shortest path between all
+pairs of nodes.
+
+2) The largest of these numbers is the "diameter" of the graph.
+
+The diameter of the graph on page 321 of Stallings is 3.
+
+George M. White,
+School of Information Technology and Engineering,
+University of Ottawa,
+Ottawa K1N 6N5,
+
+white@site.uottawa.ca
+
+Date: Wed, 22 Nov 2000 17:14:02 -0500 (est)
+From: white <white@site.uottawa.ca>
+To: csi3103@site.uottawa.ca
+Subject: Re: Diameter  (CORRECTION)
+
+The actual diameter of the graph on page 321 is 2 (not 3), assuming that
+all segments are bidirectional. For some reason, the hop counter of the
+flooding example is set to 3 rather than to the diameter of the graph.
+
+George M. White,
+School of Information Technology and Engineering,
+University of Ottawa,
+Ottawa K1N 6N5,
+
+white@site.uottawa.ca
+
+
+

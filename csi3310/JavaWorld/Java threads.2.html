@@ -1,0 +1,929 @@
+<HTML>
+<HEAD>
+<META VALUE="keyword" CONTENTS="javaworld">
+<TITLE>Java Toolbox: Programming Java threads in the real world, Part 2 - JavaWorld - October 1998</TITLE>
+<META NAME="description" content="Java Toolbox: Programming Java threads in the real world, Part 2 -- JavaWorld, October 1998">
+<META NAME="keywords" content="JavaWorld, Java, threads, multithreading, AWT ">
+<META NAME="author" content="Allen Holub">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#551a8b">
+
+<!--#config timefmt="%A, %B %d, %Y"-->
+
+<center>
+<table width="525" cellpadding="2" border="0">
+<tr>
+<td colspan="2" align="left" valign="center">
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+October 1998
+</font></strong>
+</td> <td align="center" valign="bottom">
+ 
+<IMG width="65" height="20" SRC="javaworld_logo.gif" ALT="JavaWorld">
+ 
+</td> <td colspan="2" align="right" valign="center">
+ 
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+<a href="jw-subscribe.html?article">Get FREE JW e-mail alerts</a>
+</font></strong>
+ 
+</td>
+</tr>
+<tr>
+<td align="center"><a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a></td>
+<td><a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a></td>
+<td><a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a></td>
+<td><a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a></td>
+<td><a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a></td>
+</tr>
+<tr>
+<td align="center" colspan="5">
+<BR CLEAR="ALL">
+</td>
+</tr>
+</table>
+</center>
+<CENTER><IMG SRC="green.gif" HEIGHT="4" WIDTH="468" ALT=""></CENTER>
+<H1 ALIGN="CENTER">
+Java Toolbox:<BR>
+Programming Java threads in the real world, Part 2
+</H1>
+<H3 ALIGN="CENTER">
+The perils of race conditions, deadlock, and other threading problems 
+</H3>
+<BLOCKQUOTE>
+<STRONG>Summary</STRONG><BR>
+This article, the second in a multipart series on threads, discusses
+the perils that can arise when you approach multithreading in a naive
+way.  As is the case with the entire series, this article assumes
+reader familiarity with the basic thread-related parts of Java: the
+<code>synchronized</code> keyword and monitors, <code>wait()</code>,
+<code>notify()</code>, the basics of using the <code>Thread</code>
+class, and so forth. Here, Allen focuses on the more advanced problems
+encountered when programming Java threads in the real world.
+
+<p>
+<strong>Editors' note:</strong> Due to the overwhelming and
+enthusiastic response from readers who read Allen Holub's Part 1
+article on threads, <em>JavaWorld</em> has created a regular column by
+this author. We hope you enjoy this debut article of <strong>Java
+Toolbox</strong>! <em>(3,800 words)</em>
+
+</BLOCKQUOTE>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER><P>
+<STRONG>By Allen Holub</STRONG><P>
+<table align="right" cellpadding="0" cellspacing="10" border="0">
+<tr><td colspan="2" align="center">
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+</font>
+<P>
+<BR>
+</td>
+</tr>
+<tr>
+<td width="1" align="center" bgcolor="#000000">
+</td>
+<td>
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+<p>
+
+<P>
+<P>
+<P>
+<P>
+
+</font>
+<P>
+<P>
+</td></tr></table>
+
+<!-- begin body text -->
+
+In his recent "<a
+href="http://www.javaworld.com/jw-08-1998/jw-08-techniques.html">
+Design for thread safety</a>" article (part of the <strong>Design
+Techniques</strong> column), Bill Venners introduced the notion of a
+<em>race condition,</em> a situation whereby two threads simultaneously
+contend for the same object and, as a consequence, leave the object in
+an undefined state. Bill pointed out that Java's
+<code>synchronized</code> keyword is in the language to help avoid
+these problems, and he provided a straightforward example of its use.
+<a href="http://www.javaworld.com/jw-09-1998/jw-09-threads.html">Last month's
+article</a> was the first in a series on threads. The present article
+continues that series, covering race conditions in depth. It also
+discusses various deadlock scenarios, which are related to race
+conditions but are much harder to find and debug. This month, we'll
+focus primarily on the problems encountered when programming Java
+threads.  Subsequent <strong>Java Toolbox</strong> columns will focus
+entirely on solutions.
+
+<P>
+<FONT SIZE="+1"><STRONG>Monitors, mutexes, and bathrooms</STRONG></FONT><BR>
+Just to make sure we're all starting from the same place, a little
+review of terms is in order. The central concept for synchronization in
+the Java model is the <em>monitor,</em> developed some 20 years ago by
+C.A.R.Hoare.  A monitor is a body of code guarded by a
+mutual-exclusion semaphore (or, to use a term coined at Digital Equipment
+Corp., a <em>mutex</em>).  The central notion of a mutex concerns
+ownership. Only one thread can own the mutex at a time. If a second
+thread tries to "acquire" ownership, it will block (be suspended) until
+the owning thread "releases" the mutex.  If several threads are all
+waiting to acquire the same mutex, they will all be released simultaneously 
+when the owning thread releases the mutex.  The released
+threads will then have to sort out amongst themselves who gains
+ownership.  (Typically, priority order, FIFO order, or some combination
+thereof is used to determine which thread gains control.) You <em>guard</em> a
+block of code by acquiring a mutex at the top of the block and
+releasing it at the bottom.  The code comprising the monitor does not
+have to be contiguous:  several discontiguous code blocks can all
+acquire and release the same mutex, in which case all of this code is considered
+to be in the same monitor because it uses a common mutex.
+
+<P>
+The best analogy I've heard for a monitor is an airplane bathroom.
+Only one person can be in the bathroom at a time (we hope). Everybody
+else is queued up in a rather narrow aisle waiting to use it. As long
+as the door is locked, the bathroom is unaccessible.  Given these terms,
+in our analogy the object is the airplane, the bathroom is the monitor 
+(assuming there's only one bathroom), and the lock on the door is the mutex.
+
+<P>
+In Java, every <em>object</em> has one and only one monitor and mutex
+associated with it.  The single monitor has several doors into it,
+however, each indicated by the <code>synchronized</code> keyword.  When
+a thread passes over the <code>synchronized</code> keyword, it
+effectively locks all the doors.  Of course, if a thread doesn't pass
+across the <code>synchronized</code> keyword, it hasn't locked the
+door, and some other thread is free barge in at any time.
+
+<P>
+Bear in mind that the monitor is associated with the <em>object,</em> not
+the <em>class.</em> Several threads can all be executing the same method in
+parallel, but the receiving objects (as identified by the <code>this</code>
+references) have to be different. For example,
+several instances of a thread-safe queue could
+be in use by several threads. These threads could simultaneously enqueue
+objects to different queues,
+but they could not enqueue to the same queue at the same time.
+Only one thread at a time can be in the monitor for a given queue.
+
+<P>
+To refine the earlier analogy, the airplane is still the object, but
+the monitor is really all the bathrooms combined (each synchronized
+chunk of code is a bathroom).  When a thread enters any bathroom, the
+doors on all the bathrooms are locked.  Different instances of a class
+are different airplanes, however, and if the bathroom doors in your
+airplane are unlocked, you needn't really care about the state of the
+doors in the other airplanes.
+
+<P>
+<FONT SIZE="+1"><STRONG>Why is stop() deprecated in JDK 1.2?</STRONG></FONT><BR>
+The fact that the monitor is built into every Java object is actually
+somewhat controversial. Some of the problems associated with
+bundling the condition variable and mutex together inside every Java
+object have been fixed in JDK 1.2, by the simple expediency of
+deprecating the most problematic methods of the <code>Thread</code> class:
+<code>stop()</code> and <code>suspend()</code>.  You can deadlock a
+thread if you call either of these methods from inside a synchronized
+method of your own.  Look at the following method, remembering that the
+mutex is the lock on the door, and the thread that locks the door
+"owns" the monitor.  That's why the <code>stop()</code> and
+<code>suspend()</code> methods are deprecated in JDK 1.2.  Consider
+this method:
+
+<P>
+<pre>
+class some_class
+{	//...
+
+	synchronized void f()
+	{	Thread.currentThread().stop();
+	}
+}
+</pre>
+
+<P>
+Now consider what happens when a thread calls <code>f()</code>.  The
+thread acquires the lock when entering the monitor but then stops.
+<em>The mutex is not released by <code>stop()</code></em>.  This is the
+equivalent of someone going into the bathroom, locking the door, and
+flushing himself down the toilet!  Any other thread that now
+tries to call <code>f()</code> (or any other synchronized method of the
+class) on the same object is blocked forever. The
+<code>suspend()</code> method (which is also deprecated) has the same
+problem.  The <code>sleep()</code> method (which is <em>not</em>
+deprecated) can be just as tricky. (Someone goes into the bathroom,
+locks the door, and falls asleep).  Also remember that Java objects,
+even those that extend <code>Thread</code> or implement
+<code>Runnable</code>, continue to exist, even if the associated thread
+has stopped.  You can indeed call a synchronized method on an object
+associated with a stopped thread.  Be careful.
+
+<P>
+<FONT SIZE="+1"><STRONG>Race conditions and spin locks</STRONG></FONT><BR>
+A <em>race condition</em> occurs when two threads try to access the
+same object at the same time, and the behavior of the code changes
+depending on who wins. The following diagram shows a single
+(unsynchronized) object accessed simultaneously by multiple threads.  A
+thread can be preempted in <code>fred()</code> after modifying one
+field but before modifying the other. If another thread comes along at
+that point and calls any of the methods shown, the object will be left
+in an unstable state, because the initial thread will eventually wake
+up and modify the other field.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="364" HEIGHT="380" SRC="threads.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Usually, you think of objects sending messages to other objects. In
+multithreaded environments, you must think about message handlers
+running on threads. Think: this thread causes this object to send
+a message to that object. A race condition can occur when two threads
+cause messages to be sent to the same object at the same time.
+
+<P>
+<FONT SIZE="+1"><STRONG>Working with <code>wait()</code> and <code>notify()</code></STRONG></FONT><BR>
+The following code demonstrates a blocking queue used for one thread to
+notify another when some event occurs. (We'll see a more realistic
+version of these in a future article, but for now I want to keep things
+simple.)  The basic notion is that a thread that tries to dequeue from
+an empty queue will block until some other thread puts something in the
+queue.
+
+<P>
+<pre>
+class Notifying_queue 
+{
+    private static final queue_size = 10;
+    private Object[]  queue = new Object[ queue_size ];
+    private int       head  = 0;
+    private int       tail  = 0;
+    public void synchronized enqueue( Object item )
+    {
+        queue[++head %= queue_size ]= item; 
+        this.notify();                  // The "this" is there only to
+    }                                   // improve readability.
+    public Object synchronized dequeue( )
+    {
+        try
+        {	if( head == tail ) // <em><=== This is a bug</em>
+	        	this.wait();
+    	}
+        catch( InterruptedException e )
+        {
+			// If we get here, we were not actually notified.
+			// returning null doesn't indicate that the
+			// queue is empty, only that the waiting was
+			// abandoned.
+
+        	return null;
+    	}
+
+        return queue[++tail %= queue_size ]; 
+    }
+}
+</pre>
+
+<P>
+Starting with an empty queue, let's follow the sequence of operations
+in play if one thread does a dequeue and then another (at some later
+time) enqueues an item.
+
+<P>
+<ol>
+<li>The dequeueing thread calls <code>dequeue()</code>, entering the
+monitor (and locking out other threads) until the monitor is released.
+The thread tests for an empty queue (<code>head==tail</code>) and then
+calls <code>wait()</code>.  (I'll explain why this is a bug in a
+moment.)
+
+<P>
+<li>The <code>wait()</code> releases the lock. (The current thread
+<em>temporarily</em> leaves the monitor.) It then blocks on a second
+synchronization object called a <em>condition variable.</em> (The basic notion
+of a condition variable is that a thread blocks until some condition
+becomes true. In the case of Java's built-in condition variable, the
+thread will wait until the notified condition is set to true by
+some other thread calling <code>notify</code>.) It's important to
+realize that <STRONG><FONT COLOR="FF0909">the waiting thread has released the monitor
+</FONT></STRONG> at this juncture.
+
+<P>
+<li>A second thread now comes along and enqueues an object, eventually
+calling <code>notify()</code>, thereby releasing the waiting
+(dequeueing) thread.
+
+<P>
+<li>The dequeueing thread now has to wait to reacquire the monitor
+before <code>wait()</code> can return, so it blocks again, this time on
+the lock associated with the monitor.
+
+<P>
+<li>The en queueing thread returns from the <code>enqueue()</code> method
+releasing the monitor.
+
+<P>
+<li>The dequeueing thread acquires the monitor, <code>wait()</code>
+returns, an object is dequeued, and <code>dequeue()</code> returns,
+releasing the monitor.
+</ol>
+
+<P>
+<strong>Race conditions following a wait()</strong><br>
+Now, what sorts of problems can arise? The main ones are unexpected
+race conditions.  First, what if you replaced the <code>notify()</code>
+call with a call to <code>notifyAll()</code>?  Imagine that several
+threads were simultaneously trying to dequeue something from the same,
+empty, queue.  All of these threads are blocked on a single condition
+variable, waiting for an enqueue operation to be executed.  When
+<code>enqueue()</code> sets the condition to true by calling
+<code>notifyAll()</code>, the threads are all released from the wait
+(moved from a <em>suspended</em> to a <em>runnable</em> state).  The released threads
+all try to acquire the monitor at once, but only one would "win" and
+get the enqueued object. The problem is that the others would then get
+the monitor too, in some undefined sequence, after the winning thread
+had dequeued the object and returned from <code>dequeue()</code>.
+Since these other threads don't retest for an empty queue, they will
+dequeue garbage. (Looking at the code, the <code>dequeue()</code>
+method will advance the tail pointer to the next slot, the contents of
+which are undefined since the queue is empty.)
+
+<P>
+Fix the problem by replacing the <code>if</code> statement with a
+<code>while</code> loop (called a <em>spin lock</em>). Now the threads that
+don't get the object will go back to waiting:
+
+<P>
+<pre>
+    public Object synchronized dequeue( )
+    {
+        try
+        {	<em>while</em>( head == tail )	// used to be an if
+	        	this.wait();
+    	}
+        catch( InterruptedException e )
+        {	return null;
+    	}
+
+        return queue[++tail %= queue_size ]; 
+    }
+</pre>
+
+<P>
+That <code>while</code> loop also solves another, less obvious
+problem.  What if we leave the <code>notify()</code> statement in
+place, and don't put in a <code>notifyAll()</code>? Since
+<code>notify()</code> releases only one waiting thread, won't that
+solve the problem? It turns out that the answer is no. Here's what can
+happen:
+
+<P>
+<ol>
+<li><code>notify()</code> is called by the enqueueing thread, releasing
+the condition variable.
+
+<P>
+<li>The dequeueing thread is then preempted, after being released from
+the wait on the condition variable, but <em>before</em> it tries to
+reacquire the monitor's lock.
+
+<P>
+<li>A second thread calls <code>dequeue()</code> at exactly this point,
+<em>and successfully enters the monitor</em> because no other threads
+are officially waiting. This second thread successfully dequeues the
+object; <code>wait()</code> is never called since the queue isn't
+empty.
+
+<P>
+<li>The original thread is now allowed to run, it acquires the monitor,
+doesn't test for empty a second time, and then dequeues garbage.
+</ol>
+
+<P>
+This second scenario is easily fixed the same way as the first: replace
+the <code>if</code> statement with a <code>while</code> loop.
+
+<P>
+Note that the Java specification does not require that
+<code>wait()</code> be implemented as an atomic operation (that is, one that
+can't be preempted while moving from the condition variable to the
+monitor's lock).  This means that using an <code>if</code> statement instead of a
+<code>while</code> loop might work in some Java implementations, but the
+behavior is really undefined.  Using a spin lock instead of a simple
+<code>if</code> statement is cheap insurance against implementations
+that don't treat <code>wait()</code> as atomic.
+
+<P>
+<FONT SIZE="+1"><STRONG>Threads are not objects</STRONG></FONT><BR>
+Now let's move on to harder-to-find problems.  The first difficulty is
+the commonplace confusion of threads and objects:  <em>Methods run
+on threads, objects do not.</em> Put another way, the only way to
+get a method to run on a given thread is to call it (either directly or
+indirectly) from that thread's <code>run()</code> method. Simply
+putting it into the <code>Thread</code> derivative is not enough.  For
+example, look at the following simple thread (which just prints its
+fields every so often):
+
+<P>
+<pre>
+class My_thread extends Thread
+{
+	private int field_1 = 0;
+	private int field_2 = 0;
+
+	public void run()
+	{	
+		setDaemon(true);  // this thread will not keep the app alive
+
+		while( true )
+		{
+			System.out.println( " field_1=" + field_1
+									" field_2=" + field_2 );
+			sleep(100);
+		}
+	}
+
+	synchronized public void modify( int new_value )
+	{	field_1 = new_value;
+			field_2 = new_value;
+	}
+}
+</pre>
+
+<P>
+You could start up the thread and send it a message like this:
+
+<P>
+<pre>
+My_thread test = new My_thread;
+
+test.start();
+//...
+test.modify(1);
+</pre>
+
+<P>
+The only functions that run on the new thread are <code>run()</code>
+itself and <code>println()</code> (which <code>run()</code> calls).
+The <code>modify()</code> method <em>never</em> runs on the same thread
+as the <code>println</code> call; rather, it runs on whatever thread
+was running when the call was made. (In this case, it runs on whatever
+thread <code>main()</code> is running on.) Depending on timing, the
+earlier fragment could print:
+
+<P>
+<pre>
+field_1=0, field2=0
+</pre>
+
+<P>
+But it could just as easily print:
+
+<P>
+<pre>
+field_1=0, field2=1
+</pre>
+
+<P>
+or
+
+<P>
+<pre>
+field_1=1, field2=1
+</pre>
+
+<P>
+There's just no telling. (In the first and last cases, the thread would have
+been outside the <code>println</code> statement when
+<code>modify()</code> was called.  In the second example, the thread
+would have been halfway through evaluating the arguments to
+<code>println()</code>, having fetched <code>field_1</code>, but not
+<code>field_2</code>. It prints the unmodified <code>field_1</code> and
+the <em>modified</em> <code>field_2</code>.
+
+<P>
+The main issue here is that there is no simple solution to this problem.
+The <code>modify()</code> method is indeed synchronized in the earlier
+example, but <code>run()</code> can't be.  Were it synchronized, you'd
+enter the monitor (and lock the object), when you started up the
+thread.  Thereafter, any other thread that called any synchronized
+method on the object (such as <code>modify()</code>) would block until 
+the monitor was released.  Since <code>run()</code>
+doesn't return (as is often the case), the release will never happen,
+and the thread will act like a black hole, sucking up any other thread
+that calls any of its synchronized methods.  In the current example,
+the main thread would be suspended, and the program would hang.  So just
+using the <code>synchronized</code> keyword in a naive way gets us
+nowhere.
+
+<P>
+<FONT SIZE="+1"><STRONG>The deadlock scenario</STRONG></FONT><BR>
+Synchronizing <code>run()</code> is a good example of a simple
+<em>deadlock</em> scenario, where a thread is blocked forever, waiting
+for something to happen that can't.  Let's look at a few examples that
+are more realistic than this.
+
+<P>
+The most common deadlock scenario occurs when two threads are both
+waiting for each other to do something. The following (admittedly
+contrived) code snippet makes what's going on painfully obvious:
+
+<P>
+<pre>
+class Flintstone
+{
+	int field_1;	private Object lock_1 = new int[1];
+	int field_2;	private Object lock_2 = new int[1];
+
+	public void fred( int value )
+	{	synchronized( lock_1 )
+		{	synchronized( lock_2 )
+			{
+				field_1 = 0;
+				field_2 = 0;
+			}
+		}
+	}
+
+	public void barney( int value )
+	{	synchronized( lock_2 )
+		{	synchronized( lock_1 )
+			{
+				field_1 = 0;
+				field_2 = 0;
+			}
+		}
+	}
+}
+</pre>
+
+<P>
+Now, imagine a scenario whereby one thread (call it Wilma) calls
+<code>fred()</code>, passes through the synchronization of
+<code>lock_1</code>, and is then preempted, allowing another thread
+(call it Betty) to execute.  Betty calls <code>barney()</code>,
+acquires <code>lock_2</code>, and tries to acquire <code>lock_1</code>, but
+can't because Wilma has it.  Betty is now blocked, waiting for
+<code>lock_1</code> to become available, so Wilma wakes up and tries to
+acquire <code>lock_2</code> but can't because Betty has it.  Wilma and
+Betty are now deadlocked.  Neither one can ever execute.
+
+<P>
+(Note that <code>lock_1</code> and <code>lock_2</code> have to be
+one-element arrays rather than simple <code>int</code>s, because only
+objects have monitors in Java; the argument to
+<code>synchronized</code> must be an object.  An array is a first-class
+object in Java; a primitive-type such as <code>int</code> is not.
+Consequently, you can synchronize on it.  Moreover, a one-element array
+is efficient to bring into existence compared to a more elaborate
+object (like an <code>Integer</code>) since it's both small and does
+not require a constructor call.  Also, note that I can keep the
+reference to the lock as a simple <code>Object</code> reference, since
+I'll never access the array elements.)
+
+<P>
+As I mentioned above, Wilma and Betty are a contrived example, but the
+multiple-lock situation comes up frequently. I'll give a more detailed
+example next month.
+
+<P>
+<FONT SIZE="+1"><STRONG>Get out the magnifying glass</STRONG></FONT><BR>
+If all deadlock scenarios were as easy to recognize as Wilma and Betty,
+deadlock wouldn't be a problem. Consider the following code, though:
+
+<P>
+<pre>
+class Boss
+{
+	private Side_kick robin;
+
+	public synchronized void set_side_kick( Side_kick kid_in_tights )
+	{	robin = kid_in_tights;
+	};
+
+	public synchronized void to_the_bat_cave()
+	{	robin.get_in_the_car();	
+	}
+
+	public synchronized void okay()		// sent to us by robin
+	{	//...
+	}
+
+	public synchronized void hold_on()	// sent to us by robin
+	{	//...
+	}
+}
+//----------------------------------------------------------------------
+class Side_kick
+{
+	private Boss batman;
+
+	public synchronized void set_boss( Boss guy_in_cape )
+	{	batman = guy_in_cape;
+	}
+
+	public synchronized void get_in_the_car()	// sent by batman
+	{	batman.okay();
+	}
+
+	public synchronized void sock_bam_pow()		// sent from outside
+	{	batman.hold_on();
+	}
+}
+//----------------------------------------------------------------------
+class Gotham_city
+{	static Boss		 batman	= new Boss();
+	static Side_kick robin	= new Side_kick();
+
+	public static void main( String[] args )
+	{
+		batman.set_side_kick( robin );
+		robin.set_boss( batman );
+
+		// spawn off a bunch of threads that use batman and robin.
+	}
+}
+</pre>
+
+<P>
+Now imagine the following:
+
+<P>
+<ol>
+<li>One thread (call it Alfred) issues a
+<code>to_the_bat_cave()</code> request to the <code>batman</code>
+object passed to it from <code>main()</code>.
+
+<P>
+<li>The <code>batman</code> object starts to process the method, but is
+preempted just before it calls <code>robin.get_in_the_car()</code>.  At
+this juncture, Alfred has acquired the lock for the <code>batman</code>
+object.
+
+<P>
+<li>Now along comes a second thread (call it Joker), which issues a
+<code>sock_bam_pow()</code> message to the <code>robin</code> object
+that it got from <code>main()</code>.
+
+<P>
+<li>The <code>robin</code> object (whose <code>sock_bam_pow()</code>
+method is running on the Joker thread) tries to send a
+<code>hold_on()</code> message to <code>batman</code>, but can't
+because Alfred owns the lock on <code>batman</code>. So the Joker
+thread is now blocked, waiting for Alfred to release the lock on
+<code>batman</code>.
+
+<P>
+<li>Now Alfred gets a chance to run, and it tries to send a
+<code>get_in_the_car()</code> message to the <code>robin</code> object,
+but it can't because the Joker thread owns the lock on
+<code>robin</code>.  Both threads are now deadlocked (sound familiar?)
+</ol>
+
+<P>
+<STRONG><FONT COLOR="FF0909">Remember: threads own the locks and methods
+execute on threads, not objects.</FONT></STRONG>
+
+<P>
+This situation is, of course, much harder to see than the
+Wilma-and-Betty problem because the locks in the
+<code>batman</code>-<code>robin</code> example are the natural locks
+associated with individual objects. There are no standalone
+synchronized statements in the <code>batman</code>-<code>robin</code>
+code, and the locks are associated with two completely distinct
+objects.
+
+<P>
+Multithreaded programmers tear their hair out looking for the causes of
+these sorts of problems, and there are only two solutions.  The first
+is to thoroughly design the code before implementing it, and then to
+really study both the design and the implementation before you even
+think about running it the first time.  When I do multithreaded
+programs, I spend much more time on code and design reviews than I
+spend on coding.
+
+<P>
+The other solution is to use an architecture that tends to minimize
+these sorts of problems. (Various threading architectures will be the
+subject of the remaining articles in this series.)
+
+<P>
+There is no magic bullet there.  I've seen ads for a couple of products
+that instrument a VM in a way that, in theory, will detect deadlock and
+race conditions.  The problem, though, is a classic
+Heisenberg-uncertainty dilemma: there's no way to observe the process
+without impacting it.  If the problem is timing-related, adding a print
+statement or changing to a debugging version of the VM will change the
+timing, perhaps eliminating the problem.  I haven't actually used any
+of these products yet, but I remain skeptical.
+
+<P>
+<FONT SIZE="+1"><STRONG>Nested-monitor lockout</STRONG></FONT><BR>
+Another important form of deadlock is not discussed much in the
+Java-language books: <em>nested-monitor lockout.</em> This problem
+usually occurs when you call a blocking function from within a
+synchronized method, and the only way to release the block is to call
+another synchronized method. The following code demonstrates the
+problem.
+
+<P>
+<pre>
+class Notifying_queue 
+{	// Same class as was described earlier, blocks on dequeue from
+	// an empty queue.
+	//...
+}
+
+class Black_hole
+{
+    private Notifying_queue queue = new Notifying_queue(5);
+
+    public synchronized void put( Object thing )
+    {	queue.enqueue( thing );
+    }
+
+    public synchronized Object get( )
+    {	return queue.dequeue();
+    }
+}
+
+</pre>
+
+<P>
+Consider what happens when you try to dequeue something from an empty
+queue:
+
+<P>
+<ol>
+<li>You call <code>get()</code> to get the item from the queue.
+
+<P>
+<li><code>get()</code> is synchronized, so the <code>Black_hole</code>
+is now locked.
+
+<P>
+<li><code>get()</code> calls <code>dequeue()</code>, which blocks,
+waiting for some other thread to enqueue something. <code>get()</code>
+does not return.
+
+<P>
+<li>Another thread tries to enqueue something, but the only way to
+enqueue something is by calling <code>put</code>, which we can't do
+because the <code>Black_hole</code> is locked. That is, any thread that
+tries to <code>put()</code> will block because the first thread has not
+returned from <code>get()</code> yet.
+</ol>
+
+<P>
+The <code>Black_hole</code> now sucks up all threads that try to
+<code>put()</code> or <code>get()</code> anything.  They all block
+forever.
+
+<P>
+Depending on where this occurs, the black hole could suck up every
+thread in your program. Also bear in mind that this problem can occur
+anytime you have a blocking call (such as a file read) inside a
+synchronized method.
+
+<P>
+The only cures are:
+
+<P>
+<ol>
+<li>Don't make blocking calls in synchronized methods
+
+<P>
+<li>Make sure there's a way to talk to the blocking object via another
+class or a nonsynchronized method
+</ol>
+
+<P>
+In the current situation, you could just not synchronize
+<code>put()</code>, but that wouldn't work in a more realistic
+situation where <code>put()</code> accessed fields of the class that
+were accessed by other methods.
+
+<P>
+This problem has been known since Java 1.0 was in the early prerelease
+stage, and several people complained vociferously about it.  (The
+problem is a direct result of the way Java's synchronization works
+-- the condition variable and mutex are both part of the object and not
+separate entities --- compounded by the fact that you have to acquire
+the mutex to wait on the condition.) But as Doug Lea pointed out in a
+recent e-mail to me:
+
+<P>
+<blockquote><em>
+[the complaints] boiled down to "you tend to like best what you are
+most used to." Java makes some things that are painful in POSIX easy,
+and vice-versa. In any case, it is pretty easy to simulate one set of
+primitives with the other.
+</em></blockquote>
+
+<P>
+That's life, I guess.
+
+<P>
+The next several articles in this series on threads will present a
+solution to the problem that decouples the semaphores from the things
+they guard, but that solution introduces a whole set of additional
+problems.
+
+<P>
+<FONT SIZE="+1"><STRONG>Conclusion</STRONG></FONT><BR>
+Hopefully, I've demonstrated by now that programming in a
+multithreaded environment isn't as easy as the evangelist types would
+have you believe.  Java provides platform-independent ways to use the
+two essential synchronization mechanisms: exclusion semaphores and
+condition variables.  It does it in an awkward way, however, that
+doesn't help much when you're trying to do more than blink your logo in
+a simple applet.  All is not lost, however.  Over the next few months,
+I'll present a library of classes that solve many common
+threading problems, including some of the ones I've just discussed.
+Sometimes, I even think of it as fun, but maybe that's because I've been 
+programming too long.
+<IMG HEIGHT="8" WIDTH="8" SRC="dingbat.gif">
+<P>
+
+<!-- end body text -->
+
+<P>
+<CENTER><table cellpadding="0" border="0">
+<tr><td>
+</td></tr></table></CENTER>
+
+<P>
+<P>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<A NAME="resources"><STRONG>Resources</STRONG></a>
+<UL>
+<LI>Sun's Technical Articles page has several articles on multithreading<BR>
+<A HREF="http://developer.javasoft.com/developer/technicalArticles/#thread">http://developer.javasoft.com/developer/technicalArticles/#thread</a>
+
+<LI>Prashant Jain and Douglas C. Schmidt have a good article contrasting C++ to Java that discusses many of the thread-related problems inherent in the language. The article can be found at<BR>
+<A HREF="http://www.cs.wustl.edu/%7Eschmidt/C++2java.html ">http://www.cs.wustl.edu/%7Eschmidt/C++2java.html </a>
+
+<LI>Doug Lea has a bunch of Mutex and Condition-variable classes in his util.concurrent package. See<BR>
+<A HREF="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html">http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html</a>
+
+<LI>Doug Schmidt's Ace Framework  is a good, though complex, attempt at a truly platform-independent threading system<BR>
+<A HREF="http://www.cs.wustl.edu/~schmidt/">http://www.cs.wustl.edu/~schmidt/</a>
+<p>
+<strong>There are several good books that discuss the Java threading issues mentioned in the first article in this series. For convenience, I've listed them again here:</strong>
+<ul>
+<LI>For a great in-depth look at multithreading in general and the implementation of multithreading both in and with Java in particular, this is a must. It's required reading if you're using threads heavily: Doug Lea, <em>Concurrent Programming in Java: Design Principles and Patterns</em> (Reading: Addison Wesley, 1997)<BR>
+<A HREF="http://java.sun.com/docs/books/cp/">http://java.sun.com/docs/books/cp/</a>
+
+<LI>For a book on Java threading that is less technical but more readable than Lea's, see: Scott Oaks and Henry Wong, <em>Java Threads</em> (Sebastopol, Calif.: O'Reilly, 1997)<BR>
+<A HREF="http://www.oreilly.com/catalog/jthreads/">http://www.oreilly.com/catalog/jthreads/</a>
+
+<LI>This book is good for the general subject of multithreading but doesn't have a Java slant: Bill Lewis and Daniel J. Berg, <em>Threads Primer: A Guide to Multithreaded Programming</em> (Englewood Cliffs: Prentice Hall/SunSoft Press, ISBN 0-13-443698-9)<BR>
+<A HREF="http://www.sun.com/books/books/Lewis/Lewis.html ">http://www.sun.com/books/books/Lewis/Lewis.html </a>
+</ul>
+</UL>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<STRONG>About the author</STRONG><BR>
+
+Allen Holub has been working in the computer industry since 1979.  He
+is widely published in magazines (<em>Dr. Dobb's Journal</em>,
+<em>Programmers Journal</em>, <em>Byte</em>, <em>MSJ</em>, among
+others).  He has seven books to his credit, and is currently working on
+an eighth that will present the complete sources for a Java compiler
+written in Java.  Allen abandoned C++ for Java in early 1996 and now
+looks at C++ as a bad dream, the memory of which is mercifully fading.
+He's been teaching programming (first C, then C++ and MFC, now
+OO-Design and Java) both on his own and for the University of
+California Berkeley Extension since 1982. Allen offers both public
+classes and in-house training in Java and object-oriented design
+topics. He also does object-oriented design consulting.  Get more
+information and contact Allen via his Web site <a
+href="http://www.holub.com">http://www.holub.com</a>.
+<BR CLEAR="ALL")
+
+<P>
+<P>
+<center>
+<a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a>
+<a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a>
+<a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a>
+<a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a>
+<a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a>
+</center>
+<P>
+<CENTER><A HREF="jw-copyright98.html"><IMG BORDER="0" width="338" height="20" SRC="b-copyright98.gif" ALT="[(c) Copyright 1998 Web Publishing Inc., an IDG Communications company]"></a></CENTER>
+<P>
+If you have problems with this magazine, contact
+<BR>
+URL: http://www.javaworld.com/javaworld/jw-10-1998/jw-10-toolbox.html
+<BR>
+Last modified: <!--#echo var="LAST_MODIFIED"-->
+</BODY>
+</HTML>
+

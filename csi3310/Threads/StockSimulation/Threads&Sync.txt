@@ -1,0 +1,300 @@
+From: "Lakhdissi Mouhsine" <mlakhdis@site.uottawa.ca>
+To: <csi3310x@site.uottawa.ca>
+Subject: Sample Code (Threads, Synchronization)
+Date: June 1, 2000 10:27 AM
+
+
+Here is an article presenting a sample application using threads and
+synchronization that may be helpful for you.
+Enjoy!!
+
+WHY USE THREADS?
+Support for concurrent programming is a central feature of the Java TM
+programming language. The java.lang package includes the Thread class, which
+allows you to start multiple threads of execution in your program. On a
+multi-cpu machine, threads increase performance by allowing your code to use
+all of the available processors. Even on a uniprocessor box, there are
+compelling reasons to use threads. Tasks should be placed on separate
+threads if they take a long time to finish, or if they force the processor
+to wait for disk or network access. Dividing tasks into these "worker"
+threads has two advantages. First, the code runs faster because the cpu does
+not waste time idly waiting for resources. Second, the code is more
+responsive, because the user interface can have its own thread which handles
+user input even while the "worker" threads are busy.
+Of course, this power comes with a price. If more than one thread can access
+a piece of data, then you must guarantee that simultaneous access does not
+corrupt that data. The second part of this tip addresses this problem,
+showing you how to use synchronized blocks to protect data shared between
+threads. The third part of the tip presents some ideas for minimizing the
+overhead of synchronized blocks in your code.
+
+
+PROTECTING SHARED RESOURCES WITH SYNCHRONIZED BLOCKS
+The example code for this tip manages mutual funds. When the program begins,
+all of the money in the fund is equally divided among several accounts. The
+fund is run by a group of fund managers, who may at any time decide to shift
+money from one account to another. The fund managers act independently of
+one another; to represent that fact, each fund manager has a thread
+dedicated to it. For simplicity, and to make it easy to detect concurrency
+problems when they occur, the total account value never changes--money
+simply moves from one account to another.
+View the code below.
+As you can see from the FundConstants interface, the mutual fund is divided
+among 3 stocks, each with an initial balance of 10000. The fund is
+co-managed by 150 different managers. The TestFundManagers class is the
+application main class. It begins by creating a thread for each manager. The
+code for each thread is specified by a constructor parameter of type
+Runnable. When Thread.start() is called, Runnable's run method executes on a
+new thread. In this example, FundManager is a subclass of Runnable, and the
+run method simply alternates between two tasks: (1) calling Sleep to put the
+thread to sleep for 1 millisecond, and (2) making a random change to the
+stock mix.
+After firing off the other threads, the application main thread goes to
+sleep, waking up once a second to verify that the total value of the stocks
+is still 30000. This should always be true because each fund manager can
+only move money around, it cannot create or destroy it. Try running the
+program, and see if the total value stays at 30000 after each iteration.
+Note that for all the programs in this tip, you should turn off Just-In-Time
+(JIT) compilation as follows:
+java -Djava.compiler=NONE TestFundManagers
+
+With a little bad luck, you will see the value drift away from 30000
+sometime during the test. This value drift problem can occur with or without
+JIT compilation, but in this example the absence of JIT compilation
+increases the chance of the problem occurring. Even without JIT compilation,
+you might have to experiment in order to see the problem. This is because
+the behavior is sensitive to several factors, such as your CPU speed, your
+cache, your JavaTM Virtual Machine*, and other applications and services
+that are currently running. If you do not see the problem the first time,
+try various combinations of the following:
+(1) Change the noOfManagers constant
+(2) Change the duration of Thread.sleep in the run() method
+(3) Eliminate the -Djava.compiler=NONE flag
+
+Some combination of these changes will manifest the problem on almost any
+Java Virtual Machine.
+The problem is with the FundManager object's call to Stocks.transfer. To see
+what goes wrong, you will need to take a look at the compiled byte code for
+the transfer method. (You can generate a bytecode listing by using the
+javap -c Stocks command.) Here is a partial listing that shows the trouble
+spot:
+Compiled byte code for the line balances[t.fundFrom] -= t.amount;
+
+   0 getstatic #14 <Field int balances[]>
+   3 aload_0
+   4 getfield #15 <Field int fundFrom>
+   7 dup2
+   8 iaload
+   9 aload_0
+  10 getfield #12 <Field int amount>
+  13 isub
+  14 iastore
+
+It is not important that you understand exactly what the bytecodes do. The
+important thing to understand is that your one line of code translates into
+multiple lines of bytecode. In particular, the loading and storing of the
+entry in the balances array happens in two separate steps (numbered 8 and 14
+above). On most JavaTM implementations, a thread may be context-switched at
+any time. This means that the current state of the thread is saved, and
+another thread is allowed a chance to execute. What happens if a thread gets
+context-switched between steps 8 and 14, and another thread comes along and
+changes the value of the stock's balance? That is, what if the following
+happens:
+ Thread 1 loads balance 2000
+ Thread 1 switched out,
+         thread 2 allowed to run
+ Thread 2 loads balance 2000
+ Thread 2 adds 500
+ Thread 2 stores new balance 2500
+ Thread 2 eventually switches out,
+                thread 1 allowed to run
+ Thread 1 subtracts 100 (from 2000,
+                             not 2500!)
+ Thread 1 stores 1900
+
+The change made by Thread 2 is permanently lost, and money has been
+seemingly destroyed. Investors are not happy.
+You might not see the problem behavior on your machines, which suggests that
+the problem occurs with low probability. However, though it might first
+appear counterintutive, bugs that manifest rarely are worse than those that
+occur frequently. By this standard, data corruption in a threaded program is
+a bug of the nastiest sort: it is hard to spot the problem by reading the
+code, it occurs only rarely in the field, and it may disappear entirely when
+you run the code in a debugger!
+Use a synchronized block to avoid basic data corruption problems in threaded
+Java programs. The synchronized block looks like this:
+
+ synchronized (someObject) {
+  //code to be protected
+    }
+
+Each object in the Java language is associated with its own concurrency
+protection object, called a monitor. When a thread encounters a synchronized
+block, it must acquire the monitor associated with someObject before
+proceeding into the block. When the thread exits a synchronized block, it
+releases the monitor. Only one thread at a time may acquire a monitor, which
+guarantees that there will never be more than one thread at a time inside
+the block. If several blocks of code synchronize on the same object, then
+only one thread can be in the entire set of blocks.
+So, to protect data, you need to (1) identify which pieces of data might be
+touched by multiple threads, and (2) protect that data in a synchronized
+block. In the Stocks example, the endangered data is the balances array. The
+balances array is accessed from both the transfer and checkSystem methods,
+so both methods will need synchronized blocks:
+    static void transfer(Transfer t) {
+        synchronized (balances) {
+            balances[t.fundFrom] -= t.amount;
+            balances[t.fundTo] += t.amount;
+        }
+    }
+    static void checkSystem() {
+        int actual = 0;
+        synchronized (balances) {
+            for (int n=0; n<noOfStocks; n++) {
+                actual += balances[n];
+            }
+        }
+        System.out.println("Actual balance is " + actual);
+    }
+
+Try running the program again. This time the balance will be correct
+throughout the progam's run.
+
+
+
+/**
+ * The FundConstants interface is a container for constants
+ * that are shared by all classes.  Any class that needs
+ * unqualified access to these names implements the interface
+ */
+interface FundConstants {
+    static final int noOfStocks = 3;
+    static final int noOfManagers = 150;
+    static final int testDuration = 20;
+    static final int randomTransfers = 1000;
+    static final int initialBalance = 10000;
+    static final int totalMoneyInUniverse = noOfStocks * initialBalance;
+}
+
+/**
+ * Data class representing a desired stock transfer
+ */
+class Transfer implements FundConstants {
+    final public int fundFrom;
+    final public int fundTo;
+    final public int amount;
+
+    public Transfer() {
+        fundFrom = (int)(Math.random() * noOfStocks);
+        fundTo = (int)(Math.random() * noOfStocks);
+        amount = (int)(Math.random() * 1000);
+    }
+}
+
+/**
+ * Contains the current value of each stock, plus methods to
+ * transfer between stocks and verify that the total value is
+ * correct.
+ */
+class Stocks implements FundConstants {
+    static int[] balances = new int[noOfStocks];
+    static
+    {
+        for (int n=0; n<noOfStocks; n++) {
+            balances[n] = 10000;
+        }
+    }
+
+    static void transfer(Transfer t) {
+        balances[t.fundFrom] -= t.amount;
+        balances[t.fundTo] += t.amount;
+    }
+    static void checkSystem() {
+        int actual = 0;
+        for (int n=0; n<noOfStocks; n++) {
+            actual += balances[n];
+        }
+        System.out.println("Actual balance is " + actual);
+    }
+}
+
+/**
+ * The FundManager class simulates fund managers who
+ * sleep a lot and move money around at random.
+ */
+class FundManager implements Runnable, FundConstants {
+
+    final String name;
+    long throughput;
+
+    public FundManager(String name) {
+        this.name = name;
+    }
+
+    public void run() {
+        int next = 0;
+        while (true) {
+            Stocks.transfer(TestFundManagers.transfers[next++]);
+            throughput++;
+            if (next == randomTransfers)
+                next = 0;
+            try {
+                Thread.sleep(1);
+            }
+            catch (InterruptedException ie) {
+                //System.out.println(name + " is closing for the day");
+                return;
+            }
+        }
+    }
+}
+
+/**
+ * This is the main class of the program. It gives each fund manager
+ * a thread and then starts it. The thread alternates between
+ * sleeping for a millisecond and making a random stock transfer.
+ */
+public class TestFundManagers implements FundConstants {
+
+    public static Transfer transfers[] =
+    new Transfer[randomTransfers];
+    static {
+        for (int n=0; n<randomTransfers; n++) {
+            transfers[n] = new Transfer();
+        }
+    }
+
+    public static void main(String [] args) {
+        Thread[] threads = new Thread[noOfManagers];
+        FundManager[] mgrs = new FundManager[noOfManagers];
+        for (int n=0; n<noOfManagers; n++) {
+            mgrs[n] = new FundManager("Manager " + n);
+            threads[n] = new Thread(mgrs[n]);
+     //WARNING! You would rarely call setPriority in production code
+     threads[n].setPriority(1 + (int)(Math.random() * 4));
+            threads[n].start();
+        }
+        for (int n=0; n<testDuration; n++) {
+            try {
+                Thread.sleep(1000);
+                Stocks.checkSystem();
+            }
+            catch (InterruptedException ie) {}
+        }
+        System.out.println();
+        for (int n=0; n<noOfManagers; n++) {
+            threads[n].interrupt();
+        }
+        for (int n=0; n<noOfManagers; n++) {
+            try {
+  threads[n].join();
+         } catch (InterruptedException ie) {}
+        }
+        long throughput = 0;
+        for (int n=0; n<noOfManagers; n++) {
+            throughput += mgrs[n].throughput;
+        }
+        Stocks.checkSystem();
+        System.out.println("Total transactions " + throughput);
+    }
+}

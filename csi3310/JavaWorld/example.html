@@ -1,0 +1,88 @@
+<html>
+<head> <title> example </title> </head>
+<body>
+<P>
+<PRE>
+Method void reverseOrder()
+
+// First place the reference to the object to lock into local
+// variable 1. This local variable will be used by both the
+// monitorenter and monitorexit instructions.
+0 aload_0        // Push local var 0 (the this reference)
+1 astore_1       // Store into local var 1
+
+// Now acquire the lock on the referenced object
+2 aload_1        // Push local var 1 (the this reference; the object to lock)
+3 monitorenter   // Pop reference, acquire the lock on referenced object
+
+// The code of the synchronized block begins here. A thread will not
+// execute the next instruction, aload_0, until a lock has been
+// successfully acquired on the this reference above.
+4 aload_0
+5 getfield #4 &lt;Field int intArray[]&gt;
+8 arraylength
+9 iconst_2
+10 idiv
+11 istore_3
+12 iconst_0
+13 istore 4
+15 goto 65
+18 aload_0
+19 getfield #4 &lt;Field int intArray[]&gt;
+22 arraylength
+23 iconst_1
+24 isub
+25 iload 4
+27 isub
+28 istore 5
+30 aload_0
+31 getfield #4 &lt;Field int intArray[]&gt;
+34 iload 5
+36 iaload
+37 istore 6
+39 aload_0
+40 getfield #4 &lt;Field int intArray[]&gt;
+43 iload 5
+45 aload_0
+46 getfield #4 &lt;Field int intArray[]&gt;
+49 iload 4
+51 iaload
+52 iastore
+53 aload_0
+54 getfield #4 &lt;Field int intArray[]&gt;
+57 iload 4
+59 iload 6
+61 iastore
+62 iinc 4 1
+65 iload 4
+67 iload_3
+68 if_icmplt 18       // The code of the synchronized block ends here
+
+// The next two instructions unlock the object, making it available
+// for other threads. The reference to the locked object was stored
+// in local variable 1 above.
+71 aload_1            // Push local var 1 (the this reference)
+72 monitorexit        // Pop ref, unlock object
+73 return             // return normally from method
+
+// This is a catch clause for any exception thrown (and not caught
+// from within the synchronized block. If an exception is thrown,
+// the locked object is unlocked, making it available for other
+// threads.
+74 aload_1            // Push local var 1 (the this reference)
+75 monitorexit        // Pop ref, unlock object
+76 athrow             // rethrow the same exception
+
+// The exception table shows the "catch all" clause covers the
+// entire synchronized block, from just after the lock is acquired
+// to just before the lock is released.
+Exception table:
+from to target type
+4 71 74 any
+
+</PRE>
+
+</noframes>
+</frameset>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+102 114 111 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 111 114 32 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 
+-1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 281 "# STEFFENSEN'S ALGORITHM 2.6\n#\n#
+ To find a solution to g(x) = x\n# given an initial approximation p0:
+\n#\n# INPUT:   initial approximation p0; tolerance TOL;\n#          m
+aximum number of iterations N0.\n#\n# OUTPUT:  approximate solution p \+
+or\n#          a message that the method fails." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 76 "alg026 := proc() local G, OK, P0, TOL, NO, FLAG, NAME
+, OUP, I, P1, P2, D, P;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`
+This is Steffensens Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+50 "printf(`Input the function G(x) in terms of x\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 30 "printf(`For example: cos(x)`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "G := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "G := unapply(G,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Input i
+nitial approximation\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "P0 :=
+ scanf(`%f`)[1]; " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FAL
+SE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "printf(`Input tolerance\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 39 "printf(`Tolerance must be positive\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK :
+= FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "printf(`Input maximum number of ite
+rations - no decimal point\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 
+"NO := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if NO <= \+
+0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive \+
+integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 38 "printf(`Select output destination\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`A:\\\\OUTPUT.DTA\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of output\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermeditate ap
+proximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter
+ 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "fprintf(OUP, `STEFFENSEN'S
+ METHOD\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "fprintf(OUP, `  I    P\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while I <= NO and OK = TRUE do" }
+}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "" {TEXT -1 35 "co
+mpute P(1) with superscript (I-1)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "P1 := G(P0);" }}{PARA 0 "" 0 "" {TEXT -1 35 "compute P(2) with sup
+erscript (I-1)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "P2 := G(P1);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "if abs(P2-2*P1+P0) < 1.0e-20 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "FLAG := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "D := 10;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf
+(OUP,`Denominator = 0, method fails\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 56 "fprintf(OUP,`best possible is P2(%2d) = %15.8f\\n`,I,
+P2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "D :=
+ (P1-P0)*(P1-P0)/(P2-2*P1+P0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "" 0 "" {TEXT -1 35 "compute P(0) with superscript (I-1)
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "P := P0-D;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+34 "fprintf(OUP, `%3d%15.8e\\n`, I, P);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "if abs(D) < TOL then" }}{PARA 0 "" 0 "" {TEXT -1 32 "
+procedure completed successfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 
+"fprintf(OUP, `\\nApproximate solution := %12.8f\\n`, P);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `Number of iterations := %3d`, \+
+I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, ` Tolerance := \+
+%15.8e\\n`,TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "" 0 "" {TEXT -1 9 "update P0" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "P0 := P;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }}{PARA 0 "" 0 "" {TEXT -1 34 "procedure completed
+ unsuvvessfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `\\
+nIteration number %3d`, NO);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "fpr
+intf(OUP, ` gave approximation %12.8f\\n`, P);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 48 "fprintf(OUP, `not within tolerance %14e\\n`,TOL);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fcl
+ose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s
+ created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg026G:6\"6/%\"GG%#OKG%#P0G%$T
+OLG%#NOG%%FLAGG%%NAMEG%$OUPG%\"IG%#P1G%#P2G%\"DG%\"PGF&F&C/-%'printfG6
+#%=This~is~Steffensens~Method.|+G-F76#%GInput~the~function~G(x)~in~ter
+ms~of~x|+G-F76#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\">FA-%
+(unapplyG6$FA%\"xG>8%%&FALSEG-F76#%=Input~initial~approximation|+G>8&&
+-FD6#%#%fGFG?(F&FHFHF&/FOFPC%-F76#%1Input~tolerance|+G>8'FV@%1F[o\"\"!
+-F76#%<Tolerance~must~be~positive|+G>FO%%TRUEG>FOFP?(F&FHFHF&FenC%-F76
+#%WInput~maximum~number~of~iterations~-~no~decimal~point|+G>8(&-FD6#%#
+%dGFG@%1F[pF^o-F76#%:Must~be~positive~integer|+G>FOFco@$/FOFcoC4-F76#%
+;Select~output~destination|+G-F76#%+1.~Screen|+G-F76#%.2.~Text~file|+G
+-F76#%.Enter~1~or~2|+G>8)F\\p@%/Ffq\"\"#C&-F76#%SInput~the~file~name~i
+n~the~form~-~drive:\\name.ext|+G-F76#%/A:\\OUTPUT.DTA|+G>8*&-FD6#%#%sG
+FG>8+-%&fopenG6%Fbr%&WRITEG%%TEXTG>Fhr%(defaultG-F76#%9Select~amount~o
+f~output|+G-F76#%01.~Answer~only|+G-F76#%E2.~All~intermeditate~approxi
+mations|+GFbq>FfqF\\p-%(fprintfG6$Fhr%5STEFFENSEN'S~METHOD|+G@$Fhq-F[t
+6$Fhr%*~~I~~~~P|+G>8,FH>FOFco?(F&FHFHF&31FctF[pFgpC(>8--FA6#FU>8.-FA6#
+Fjt@%2-%$absG6#,(F^uFHFjt!\"#FUFH$\"#5!#@C'>FfqFH>8/Fiu-F[t6$Fhr%?Deno
+minator~=~0,~method~fails|+G-F[t6&Fhr%Cbest~possible~is~P2(%2d)~=~%15.
+8f|+GFctF^u>FOFP>F^v*&,&FjtFHFU!\"\"FiqFfuFiv>80,&FUFHF^vFiv@$Fhq-F[t6
+&Fhr%+%3d%15.8e|+GFctF[w@%2-Fdu6#F^vF[oC&-F[t6%Fhr%A|+Approximate~solu
+tion~:=~%12.8f|+GF[w-F[t6%Fhr%<Number~of~iterations~:=~%3dGFct-F[t6%Fh
+r%6~Tolerance~:=~%15.8e|+GF[o>FOFPC$>Fct,&FctFHFHFH>FUF[w@$FgpC%-F[t6%
+Fhr%6|+Iteration~number~%3dGF[p-F[t6%Fhr%<~gave~approximation~%12.8f|+
+GF[w-F[t6%Fhr%;not~within~tolerance~%14e|+GF[o@$0FhrF_sC$-%'fcloseG6#F
+hr-F76$%COutput~file~%s~created~sucessfullyGFbr-%'RETURNG6#F^oF&F&" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg026();" }}{PARA 6 "" 1 "
+" {TEXT -1 85 "This is Steffensens Method.\nInput the function G(x) in
+ terms of x\nFor example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "sqrt(10/(4+x))" }}{PARA 6 "" 1 "" {TEXT -1 27 "Input \+
+initial approximation" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1.5
+" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 5 ".0005" }}{PARA 6 "" 1 "" {TEXT -1 53 "Input ma
+ximum number of iterations - no decimal point" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 2 "15" }}{PARA 6 "" 1 "" {TEXT -1 61 "Select output \+
+destination\n1. Screen\n2. Text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Select amo
+unt of output\n1. Answer only\n2. All intermeditate approximations\nEn
+ter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "
+" 1 "" {TEXT -1 161 "STEFFENSEN'S METHOD\n  I    P\n  1 1.36526522e+00
+\n  2 1.36523001e+00\n\nApproximate solution :=   1.36523001\nNumber o
+f iterations :=   2 Tolerance :=  5.00000000e-04" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}
+}}{MARK "9 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

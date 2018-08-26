@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0097)http://www.scs.carleton.ca/~ldnel/305f2000/notes/class_lecture_notes/functional_dependencies.html -->
+<HTML><HEAD><TITLE>functional_dependencies</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Louis Nel" name=Author>
+<META content="MSHTML 5.00.3019.2500" name=GENERATOR></HEAD>
+<BODY><B><FONT size=+2>Functional Dependencies</FONT></B> <BR>
+<HR width="100%">
+<BR><FONT size=+1>Expressing 1:1, 1:N, and N:N contraints with functional 
+dependencies</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+2>1:1 Relationships</FONT></FONT> <BR><FONT 
+size=+1>e.g. Dept has one Employee that manages the department and an Employee 
+can manage at most one department. Note department must participate in this 
+relationship but employees do not.</FONT><FONT size=+1></FONT> 
+<P><FONT size=+1>Given Tables</FONT> <BR><TT><FONT size=+1>Dept(<U>DeptNo</U>, 
+Manager, ...)</FONT></TT><FONT size=+1> and</FONT> <BR><TT><FONT 
+size=+1>Employee(<U>EmpNo</U>, Name, ...)</FONT></TT><TT><FONT 
+size=+1></FONT></TT> 
+<P><FONT size=+1><TT>DeptNo -&gt; Manager&nbsp;</TT> //a department can only 
+have one manager</FONT><FONT size=+1></FONT> 
+<P><FONT size=+1>alternatively given tables:</FONT> <BR><TT><FONT 
+size=+1>Dept(<U>DeptNo</U>, ...)</FONT></TT><FONT size=+1> and</FONT> 
+<BR><TT><FONT size=+1>Employee(<U>EmpNo</U>, Name, DeptTheyManage 
+...)</FONT></TT><TT><FONT size=+1></FONT></TT> 
+<P><TT><FONT size=+1>Employee -&gt; DeptTheyManage&nbsp;</FONT></TT><FONT 
+size=+1> //an employee can only manage one department,</FONT><FONT 
+size=+1></FONT> 
+<P><FONT size=+1>Here DeptTheyManage should be a foreign key refereing to the 
+Dept table's primary key. This last set of tables though would have a lot of 
+nulls in the DeptTheyManage field because not every employee needs to manage a 
+department, but every department must be managed (so the first approach is 
+better).</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+2>1:N Relationships</FONT></FONT> <BR><FONT 
+size=+1>e.g. Dept has many&nbsp; Employee that work for the&nbsp; department but 
+an Employee can work for most one department.</FONT><FONT size=+1></FONT> 
+<P><FONT size=+1>Given Tables</FONT> <BR><TT><FONT size=+1>Dept(<U>DeptNo</U>, 
+Manager, ...)</FONT></TT><FONT size=+1> and</FONT> <BR><TT><FONT 
+size=+1>Employee(<U>EmpNo</U>, Name, DeptTheyWorkFor...)</FONT></TT><TT><FONT 
+size=+1></FONT></TT> 
+<P><TT><FONT size=+1>EmpNo -&gt; DeptTheyWorkFor&nbsp;</FONT></TT><FONT size=+1> 
+//an employee must for at most one dept.</FONT><FONT size=+1></FONT> 
+<P><FONT size=+1>Here, DeptTheyWorkFor would be a foreign key refering to the 
+Dept table.</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+2>N:N Relationships</FONT></FONT> <BR><FONT 
+size=+1>e.g. An employee works on many projects and each project has many 
+employees.</FONT> <BR><FONT size=+1>Given tables</FONT> <BR><FONT 
+size=+1><TT>Project(ProjectNo, ProjectName, ...)</TT> and</FONT> <BR><TT><FONT 
+size=+1>Employee(EmpNo, EmpName, ...)</FONT></TT><FONT size=+1></FONT> 
+<P><FONT size=+1>We cannot easily express the many to many relationship as 
+A-&gt;B if this means that there can only be one unique B for every A.</FONT> 
+<BR><FONT size=+1>But we could presumably require that A-&gt;A. This is a 
+trivial dependency that&nbsp; says that A uniquely determines A.</FONT><FONT 
+size=+1></FONT> 
+<P><FONT size=+1>From example</FONT> <BR><TT><FONT size=+1>ProjNo, EmpNo -&gt; 
+ProjNo, EmpNo</FONT></TT><FONT size=+1></FONT> 
+<P><FONT size=+1>This will ensure that any process or algorithm that trys to 
+build tables from functional dependencies will build a table to capture that 
+fact that Employees must be matched with Projects. Also it would choose at the 
+key for the table <U>ProjNo,EmpNo</U> toghether.</FONT> <BR>
+<HR width="100%">
+<BR><FONT size=+1></FONT>&nbsp; <BR><FONT size=+1></FONT>&nbsp; <BR><FONT 
+size=+1></FONT>&nbsp; <BR><FONT size=+1></FONT>&nbsp; </BODY></HTML>

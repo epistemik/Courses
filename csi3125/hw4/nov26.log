@@ -1,0 +1,956 @@
+Password:
+Last login: Sat Nov 25 07:33:55 from site0.site.uotta
+SunOS Release 4.1.4 (csia) #1: Wed Mar 6 08:52:27 EST 1996
+You have mail.
+{csia}u428500(1) pc hw4q2.p
+Sun Nov 26 23:34 2000  hw4q2.p:
+E 46 - Can't modify the for variable X in the range of the loop
+E 46 - Can't modify the for variable X in the range of the loop
+E 46 - Can't modify the for variable X in the range of the loop
+E 46 - Can't modify the for variable X in the range of the loop
+E 52 - Can't modify the for variable X in the range of the loop
+e 56 - Input is used but not defined in the program statement
+e 56 - Output is used but not defined in the program statement
+{csia}u428500(2) vi hw4q2.p
+program hw4q2;
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+  function triple(var param : integer):integer ;
+    begin
+      param := param * 3 ;
+      triple := param ;
+    end;(*fxn triple*)
+ 
+(*Main program*)
+begin
+  (*identification*)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+  (*calculate the expression for a sequence of values in a loop*)
+  writeln('We will calculate the expression for 2 to a maximum value.') ;
+  write('Enter the maximum input value for the loop: ') ;
+  readln(Y) ;
+  (*start the loop*)
+  for X := 2 to Y do
+    begin
+    writeln;
+    (*preserve the initial value of X*)
+    W := X ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double(X) * X ;
+    (*write out the original and new values*)
+    writeln('Starting input value was: ', W) ;
+    writeln('Ouput value is: ', Z);
+    writeln('Input value now is: ', X);
+    (*restore the value of X for the loop*)
+    X := W ;
+    end ;
+ writeln;
+ writeln('PROGRAM ENDED.') ;
+end.
+~
+~
+~
+~
+~
+~
+~
+~
+    (*preserve the initial value of X*)
+    W := X ;
+    (*process the expression*)
+  writeln('We will calculate the expression for 2 to a maximum value.') ;
+  write('Enter the maximum input value for the loop: ') ;
+  readln(Y) ;
+  (*start the loop*)
+  for W := 2 to Y do
+    begin
+    writeln;
+    X := W ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double(X) * X ;
+    (*write out the original and new values*)
+    writeln('Starting input value was: ', W) ;
+    writeln('Ouput value is: ', Z);
+    writeln('Input value now is: ', X);
+ 
+ 
+"hw4q2.p" 54 lines, 1348 characters
+{csia}u428500(3) pc hw4q2.p
+Sun Nov 26 23:41 2000  hw4q2.p:
+e 54 - Input is used but not defined in the program statement
+e 54 - Output is used but not defined in the program statement
+{csia}u428500(4) vi hw4q2.p
+program hw4q2;
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+"hw4q2.p" 54 lines, 1362 characters
+{csia}u428500(5) pc hw4q2.p
+{csia}u428500(6) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 8
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+Starting input value was:          6
+Ouput value is:        534
+Input value now is:         30
+ 
+Starting input value was:          7
+Ouput value is:        905
+Input value now is:         36
+ 
+Starting input value was:          8
+Ouput value is:       1420
+Input value now is:         42
+ 
+PROGRAM ENDED.
+{csia}u428500(7) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 5
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+PROGRAM ENDED.
+{csia}u428500(8) mv a.out hw4q2.p.out
+{csia}u428500(9) more hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+    end;(*fxn double*)
+ 
+  function triple(var param : integer):integer ;
+    begin
+      param := param * 3 ;
+      triple := param ;
+    end;(*fxn triple*)
+ 
+(*Main program*)
+begin
+  (*identification*)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+  (*calculate the expression for a sequence of values in a loop*)
+  writeln('We will calculate the expression for 2 to a maximum value.') ;
+  write('Enter the maximum input value for the loop: ') ;
+  readln(Y) ;
+  (*start the loop*)
+  for W := 2 to Y do
+    begin
+    writeln;
+    (*preserve the initial value of W*)
+    X := W ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double(X) * X ;
+    (*write out the original and new values*)
+    writeln('Starting input value was: ', W) ;
+    writeln('Ouput value is: ', Z);
+    writeln('Input value now is: ', X);
+    end ;
+ writeln;
+ writeln('PROGRAM ENDED.') ;
+end.
+{csia}u428500(10) vi hw4q2.c
+ 
+/* hw4q2.c */
+/* Mark Sattolo  428500 */
+/* CSI-3125, Homework4, Q2 */
+ 
+#include <stdio.h>
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /*identification*/
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /*Get a maximum value for calculating the expression*/
+  /*Get a maximum value for calculating the expression*/
+  puts("We will calculate the expression for 2 to a maximum value.") ;
+  printf("Enter the maximum input value for the loop: ") ;
+  scanf("%d", &Y) ;
+  /*start the loop*/
+  for (X = 2; X <= Y; X++)
+         {
+          W = X ;
+          X = W ;
+         }
+  puts("\nPROGRAM ENDED.") ;
+  return 0 ;
+ }
+ 
+  /*Get a maximum value for calculating the expression*/
+  puts("We will calculate the expression for 2 to a maximum value.") ;
+  printf("Enter the maximum input value for the loop: ") ;
+  scanf("%d", &Y) ;
+  /*start the loop*/
+  for (X = 2; X <= Y; X++)
+  for (W = 2; W <= Y; W++)
+         {
+          X = W ;
+          /*evaluate the expression*/
+          Z = triple(&X) + subtract2(&X) + add1(&X) * double_(&X) * X ;
+          /*print out the values*/
+          printf("\nStarting input value was: %d \n", W) ;
+          printf("Output value is: %d \n", Z) ;
+          printf("Input value now is: %d \n", X) ;
+ 
+ 
+         }
+  puts("\nPROGRAM ENDED.") ;
+  return 0 ;
+ }
+ 
+/************* FUNCTION DEFINITIONS *****************/
+ 
+  int add1(int* param)
+ 
+         {
+ 
+          (*param)++ ;
+ 
+          return *param ;
+ 
+         };//add1()
+ 
+ 
+ 
+  int subtract2(int* param)
+ 
+         {
+ 
+          *param = (*param) - 2 ;
+ 
+          return *param ;
+ 
+         };//subtract2()
+ 
+ 
+ 
+  int double_(int* param)
+ 
+         {
+ 
+          *param = (*param) * 2 ;
+ 
+          return *param ;
+ 
+         };//double_()
+ 
+ 
+ 
+  int triple(int* param)
+ 
+         {
+ 
+          *param = (*param) * 3 ;
+ 
+          return *param ;
+ 
+         };//triple()
+ 
+ 
+ 
+/************** END OF PROGRAM **********************/
+"hw4q2.c" 68 lines, 1481 characters
+{csia}u428500(11) gcc hw4q2.c
+{csia}u428500(12) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 6
+ 
+Starting input value was: 2
+Output value is: 510
+Input value now is: 10
+ 
+Starting input value was: 3
+Output value is: 2064
+Input value now is: 16
+ 
+Starting input value was: 4
+Output value is: 5346
+Input value now is: 22
+ 
+Starting input value was: 5
+Output value is: 11004
+Input value now is: 28
+ 
+Starting input value was: 6
+Output value is: 19686
+Input value now is: 34
+ 
+PROGRAM ENDED.
+{csia}u428500(13) hw4q2.p.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 6
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+Starting input value was:          6
+Ouput value is:        534
+Input value now is:         30
+ 
+PROGRAM ENDED.
+{csia}u428500(14) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 6
+ 
+Starting input value was: 2
+Output value is: 510
+Input value now is: 10
+ 
+Starting input value was: 3
+Output value is: 2064
+Input value now is: 16
+ 
+Starting input value was: 4
+Output value is: 5346
+Input value now is: 22
+ 
+Starting input value was: 5
+Output value is: 11004
+Input value now is: 28
+ 
+Starting input value was: 6
+Output value is: 19686
+Input value now is: 34
+ 
+PROGRAM ENDED.
+{csia}u428500(15) hw4q2.p.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 6
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+Starting input value was:          6
+Ouput value is:        534
+Input value now is:         30
+ 
+PROGRAM ENDED.
+{csia}u428500(16) more hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+    end;(*fxn double*)
+ 
+  function triple(var param : integer):integer ;
+    begin
+      param := param * 3 ;
+      triple := param ;
+    end;(*fxn triple*)
+ 
+(*Main program*)
+begin
+  (*identification*)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+  (*calculate the expression for a sequence of values in a loop*)
+  writeln('We will calculate the expression for 2 to a maximum value.') ;
+  write('Enter the maximum input value for the loop: ') ;
+  readln(Y) ;
+  (*start the loop*)
+  for W := 2 to Y do
+    begin
+    writeln;
+    (*preserve the initial value of W*)
+    X := W ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double(X) * X ;
+    (*write out the original and new values*)
+    writeln('Starting input value was: ', W) ;
+    writeln('Ouput value is: ', Z);
+    writeln('Input value now is: ', X);
+    end ;
+ writeln;
+ writeln('PROGRAM ENDED.') ;
+end.
+{csia}u428500(17) vi hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+    end;(*fxn double*)
+ 
+ 
+  function triple(var param : integer):integer ;
+ 
+    begin
+ 
+      param := param * 3 ;
+ 
+      triple := param ;
+ 
+    end;(*fxn triple*)
+ 
+ 
+ 
+(*Main program*)
+ 
+begin
+ 
+  (*identification*)
+ 
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+ 
+  writeln ;
+ 
+  (*calculate the expression for a sequence of values in a loop*)
+ 
+  writeln('We will calculate the expression for 2 to a maximum value.') ;
+ 
+  write('Enter the maximum input value for the loop: ') ;
+ 
+  readln(Y) ;
+ 
+  (*start the loop*)
+ 
+  (*start the loop*)
+  writeln('We will calculate the expression from 1 to a maximum value.') ;
+  write('Enter the maximum input value for the loop: ') ;
+  readln(Y) ;
+  (*start the loop*)
+  for W := 1 to Y do
+"hw4q2.p" 54 lines, 1363 characters
+{csia}u428500(18) pc hw4q2.p
+{csia}u428500(19) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 5
+ 
+Starting input value was:          1
+Ouput value is:         -1
+Input value now is:          0
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+PROGRAM ENDED.
+{csia}u428500(20) cc hw4q2.c
+"hw4q2.c", line 10: syntax error at or near type word "int"
+"hw4q2.c", line 11: syntax error at or near type word "int"
+"hw4q2.c", line 12: syntax error at or near type word "int"
+"hw4q2.c", line 13: syntax error at or near type word "int"
+"hw4q2.c", line 17: syntax error at or near type word "void"
+"hw4q2.c", line 44: syntax error at or near type word "int"
+"hw4q2.c", line 46: param undefined
+"hw4q2.c", line 48: syntax error at or near symbol /
+"hw4q2.c", line 50: redeclaration of add1
+"hw4q2.c", line 50: syntax error at or near type word "int"
+"hw4q2.c", line 50: function declaration in bad context
+"hw4q2.c", line 51: warning: a function is declared as an argument
+"hw4q2.c", line 51: declared argument subtract2 is missing
+{csia}u428500(21) gcc hw4q2.c
+{csia}u428500(22) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 5
+ 
+Starting input value was: 2
+Output value is: 510
+Input value now is: 10
+ 
+Starting input value was: 3
+Output value is: 2064
+Input value now is: 16
+ 
+Starting input value was: 4
+Output value is: 5346
+Input value now is: 22
+ 
+Starting input value was: 5
+Output value is: 11004
+Input value now is: 28
+ 
+PROGRAM ENDED.
+{csia}u428500(23) pc hw4q2.p
+{csia}u428500(24) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 5
+ 
+Starting input value was:          1
+Ouput value is:         -1
+Input value now is:          0
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+PROGRAM ENDED.
+{csia}u428500(25) more hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+  function add1(var param : integer):integer ;
+    begin
+      param := param + 1 ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      param := param - 2 ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double(var param : integer):integer ;
+    begin
+      param := param * 2 ;
+      double := param ;
+    end;(*fxn double*)
+{csia}u428500(26) vi hw4q2.c
+ 
+/* hw4q2.c */
+/* Mark Sattolo  428500 */
+/* CSI-3125, Homework4, Q2 */
+ 
+#include <stdio.h>
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /*identification*/
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /*Get a maximum value for calculating the expression*/
+ 
+/* hw4q2.c */
+/* Mark Sattolo  428500 */
+/* CSI-3125, Homework4, Q2 */
+ 
+#include <stdio.h>
+ 
+/* FUNCTION  PROTOTYPES */
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /*identification*/
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /*Get a maximum value for calculating the expression*/
+  puts("We will calculate the expression for 2 to a maximum value.") ;
+ 
+  printf("Enter the maximum input value for the loop: ") ;
+ 
+  scanf("%d", &Y) ;
+ 
+  /*start the loop*/
+ 
+  for (W = 2; W <= Y; W++)
+ 
+         {
+ 
+          /*preserve the initial value of W*/
+ 
+  puts("We will calculate the expression from 1 to a maximum value.") ;
+  scanf("%d", &Y) ;
+  /*start the loop*/
+  for (W = 1; W <= Y; W++)
+         {
+          /*preserve the initial value of W*/
+          X = W ;
+"hw4q2.c" 68 lines, 1482 characters
+{csia}u428500(27) gcc hw4q2.c
+{csia}u428500(28) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 5
+ 
+Starting input value was: 1
+Output value is: 36
+Input value now is: 4
+ 
+Starting input value was: 2
+Output value is: 510
+Input value now is: 10
+ 
+Starting input value was: 3
+Output value is: 2064
+Input value now is: 16
+ 
+Starting input value was: 4
+Output value is: 5346
+Input value now is: 22
+ 
+Starting input value was: 5
+Output value is: 11004
+Input value now is: 28
+ 
+PROGRAM ENDED.
+{csia}u428500(29) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 8
+ 
+Starting input value was: 1
+Output value is: 36
+Input value now is: 4
+ 
+Starting input value was: 2
+Output value is: 510
+Input value now is: 10
+ 
+Starting input value was: 3
+Output value is: 2064
+Input value now is: 16
+ 
+Starting input value was: 4
+Output value is: 5346
+Input value now is: 22
+ 
+Starting input value was: 5
+Output value is: 11004
+Input value now is: 28
+ 
+Starting input value was: 6
+Output value is: 19686
+Input value now is: 34
+ 
+Starting input value was: 7
+Output value is: 32040
+Input value now is: 40
+ 
+Starting input value was: 8
+Output value is: 48714
+Input value now is: 46
+ 
+PROGRAM ENDED.
+{csia}u428500(30) hw4q2.p.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression for 2 to a maximum value.
+Enter the maximum input value for the loop: 3
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+PROGRAM ENDED.
+{csia}u428500(31) pc hw4q2.p
+{csia}u428500(32) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 9
+ 
+Starting input value was:          1
+Ouput value is:         -1
+Input value now is:          0
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+Starting input value was:          6
+Ouput value is:        534
+Input value now is:         30
+ 
+Starting input value was:          7
+Ouput value is:        905
+Input value now is:         36
+ 
+Starting input value was:          8
+Ouput value is:       1420
+Input value now is:         42
+ 
+Starting input value was:          9
+Ouput value is:       2103
+Input value now is:         48
+ 
+PROGRAM ENDED.
+{csia}u428500(33) mv a.out hw4q2.p.out
+{csia}u428500(34) hw4q2.p.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate the expression from 1 to a maximum value.
+Enter the maximum input value for the loop: 11
+ 
+Starting input value was:          1
+Ouput value is:         -1
+Input value now is:          0
+ 
+Starting input value was:          2
+Ouput value is:         10
+Input value now is:          6
+ 
+Starting input value was:          3
+Ouput value is:         45
+Input value now is:         12
+ 
+Starting input value was:          4
+Ouput value is:        128
+Input value now is:         18
+ 
+Starting input value was:          5
+Ouput value is:        283
+Input value now is:         24
+ 
+Starting input value was:          6
+Ouput value is:        534
+Input value now is:         30
+ 
+Starting input value was:          7
+Ouput value is:        905
+Input value now is:         36
+ 
+Starting input value was:          8
+Ouput value is:       1420
+Input value now is:         42
+ 
+Starting input value was:          9
+Ouput value is:       2103
+Input value now is:         48
+ 
+Starting input value was:         10
+Ouput value is:       2978
+Input value now is:         54
+ 
+Starting input value was:         11
+Ouput value is:       4069
+Input value now is:         60
+ 
+PROGRAM ENDED.

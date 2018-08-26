@@ -1,0 +1,114 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+186 136 204 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 
+0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 190 "# ROMBERG ALGORITHM 4.2\n#     \n#
+ INPUT:   endpoints a, b; integer n.\n#\n# OUTPUT:  an array R. ( R(2,
+n) is the approximation to I. )\n#\n# R is computed by rows; only 2 ro
+ws saved in storage   " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "alg042 :=
+ proc() local F, OK, A, B, N, H, R, I, SUM, M, K, J, L;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 43 "printf(`This is Romberg Integration.\\n\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the function F(x)
+ in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "printf(`For
+ example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`
+%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 48 "printf(`Input lower limit of integration and `);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 39 "printf(`upper limit of integration\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`separated by a blank\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "if A > B then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 
+"printf(`Lower limit must be less than upper limit\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK \+
+:= TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`Input number of rows - no d
+ecimal point.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`
+%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Num
+ber must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "H := B-A;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 26 "R[0,0] := (F(A)+F(B))/2*H;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "printf(`Initi
+al Data:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Limits of
+ integration = [%12.8f, %12.8f]\\n`, A, B);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 36 "printf(`Number of rows = %3d\\n`, N);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 41 "printf(`\\nRomberg Integration Table:\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`\\n%12.8f\\n\\n`, R[0,0]);
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "for I from 2 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}
+{PARA 0 "" 0 "" {TEXT -1 37 "approximation from Trapezoidal method" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "SUM := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "M := 2^(I-2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f
+or K from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "SUM := SUM+F
+(A+(K-0.5)*H);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 27 "R[1,0] := (R[0,0]+H*SUM)/2;" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 5" }}{PARA 0 "" 0 "" {TEXT -1 13 "extrapolation" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 2 to I do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 17 "L := 2^(2*(J-1));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "R[1,J-1] := R[1,J-2]+(R[1,J-2]-R[0,J-2])/(L-1);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for K from 1 to I do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(` %11.8f`,R[1,K-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 15 "printf(`\\n\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "H := H/2;" }}{PARA 0 "" 0 "" {TEXT 
+-1 81 "since only two rows are kept in storage, this step is to prepar
+e for the next row" }}{PARA 0 "" 0 "" {TEXT -1 22 "update row 1 to I o
+f R" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to I do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "R[0,J-1] := R[1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg042G:6\"6/%\"FG%#OKG%\"AG%\"BG%\"NG%\"HG%\"RG%\"IG%$SUMG%\"MG%\"KG
+%\"JG%\"LGF&F&C--%'printfG6#%?This~is~Romberg~Integration.|+|+G-F76#%G
+Input~the~function~F(x)~in~terms~of~x|+G-F76#%4For~example:~cos(x)G>8$
+&-%&scanfG6#%#%aG6#\"\"\">FA-%(unapplyG6$FA%\"xG>8%%&FALSEG?(F&FHFHF&/
+FOFPC(-F76#%FInput~lower~limit~of~integration~and~G-F76#%<upper~limit~
+of~integration|+G-F76#%6separated~by~a~blank|+G>8&&-FD6#%#%fGFG>8'Fin@
+%2F^oFhn-F76#%KLower~limit~must~be~less~than~upper~limit|+G>FO%%TRUEG>
+FOFP?(F&FHFHF&FRC%-F76#%JInput~number~of~rows~-~no~decimal~point.|+G>8
+(&-FD6#%#%dGFG@%2\"\"!F]p>FOFeo-F76#%CNumber~must~be~a~positive~intege
+r|+G@$/FOFeoC*>8),&F^oFHFhn!\"\">&8*6$FdpFdp,$*&,&-FA6#FhnFH-FA6#F^oFH
+FHF]qFH#FH\"\"#-F76#%/Initial~Data:|+G-F76%%JLimits~of~integration~=~[
+%12.8f,~%12.8f]|+GFhnF^o-F76$%6Number~of~rows~=~%3d|+GF]p-F76#%=|+Romb
+erg~Integration~Table:|+G-F76$%*|+%12.8f|+|+GFaq?(8+F\\rFHF]p%%trueGC+
+>8,Fdp>8-)F\\r,&F]sFH!\"#FH?(8.FHFHFcsF^s>Fas,&FasFH-FA6#,&FhnFH*&,&Fh
+sFH$!\"&F_qFHFHF]qFHFHFH>&Fbq6$FHFdp,&FaqF[r*&F]qFHFasFHF[r?(8/F\\rFHF
+]sF^sC$>80)F\\r,&FhtF\\rFfsFH>&Fbq6$FH,&FhtFHF_qFH,&&Fbq6$FH,&FhtFHFfs
+FHFH*&,&FcuFH&Fbq6$FdpFeuF_qFH,&F[uFHF_qFHF_qFH?(FhsFHFHF]sF^s-F76$%(~
+%11.8fG&Fbq6$FH,&FhsFHF_qFH-F76#%#|+|+G>F]q,$F]qF[r?(FhtFHFHF]sF^s>&Fb
+q6$FdpFauF_u-%'RETURNG6#FdpF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "alg042();" }}{PARA 6 "" 1 "" {TEXT -1 87 "This is Romberg Integ
+ration.\n\nInput the function F(x) in terms of x\nFor example: cos(x)
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 "sin(x)" }}{PARA 6 "" 1 "
+" {TEXT -1 84 "Input lower limit of integration and upper limit of int
+egration\nseparated by a blank" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 13 "0 3.141592654" }}{PARA 6 "" 1 "" {TEXT -1 40 "Input number of \+
+rows - no decimal point." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "
+6" }}{PARA 6 "" 1 "" {TEXT -1 379 "Initial Data:\nLimits of integratio
+n = [  0.00000000,   3.14159265]\nNumber of rows =   6\n\nRomberg Inte
+gration Table:\n\n  -.00000000\n\n  1.57079632  2.09439510\n\n  1.8961
+1889  2.00455975  1.99857073\n\n  1.97423160  2.00026917  1.99998313  \+
+2.00000555\n\n  1.99357034  2.00001659  1.99999975  2.00000001  1.9999
+9999\n\n  1.99839336  2.00000103  1.99999999  2.00000000  2.00000000  \+
+2.00000000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "6 0 0" 0 }{VIEWOPTS 1 1 0 1 
+1 1803 }

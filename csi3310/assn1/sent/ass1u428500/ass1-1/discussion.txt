@@ -1,0 +1,27 @@
+Mark Sattolo #428500: Assn 1, Exercise 1 - Discussion
+------------------------------------------------------
+
+	A withdrawer obtains the actual balance in the Account then sleeps for 20 ms before actually attempting to withdraw an amount based on that balance.  During that 20 ms, the other withdrawer in our program may be withdrawing an amount and reducing the balance.  Then, the original withdrawer wakes and calculates an amount less than the balance amount it possesses, but if that withdrawal amount is greater than the new balance, the withdrawal request can be rejected.  For example:
+
+Balance
+-------
+$400	> Withdrawer 1 obtains balance == $400 then sleeps.
+
+$400	> Withdrawer 2 obtains balance == $400 then sleeps.
+
+		> (Providers may actually run and INCREASE the balance here,
+		   but this won't cause a withdrawal error.)
+
+$400	> Withdrawer 1 wakes and removes e.g. $300 - new balance is $100.
+
+$100	> Withdrawer 2 wakes and calculates a withdrawal amount (based on $400)
+		  of $200, but the actual balance is now $100, so the attempt 
+		  to withdraw $200 is rejected.
+
+	This type of inconsistent view happens fairly often in a long run of the program.  I typically saw about a dozen of these errors in a 5 second simulation.
+
+	Other inconsistent views are also possible.  Any point in a program where there are two separate instructions that attempt to access the same external value, e.g. the balance in an Account, there can be an inconsistent view if the process happens to be interrupted after the first instruction had been carried out but before the second has occurred.  This must occur fairly infrequently - I never observed an error like this during a simulation - but I was able to generate this phenomenon quite frequently by inserting 'sleep(20);' at the relevant locations in the code.
+
+	For example, withdrawers could obtain an inconsistent view of the Account balance if they were interrupted between making a withdrawal and getting the new balance.  See my java code for this location - putting a 'sleep(20);' instruction here emphasizes the inconsistent views possible.  This type of inconsistent view does not produce any errors in the withdrawal, but does mean that a withdrawer can obtain, and print out, a balance figure that does not correspond to the actual balance that existed just after it made its deposit.
+
+	Similarly, a provider could obtain an inconsistent view of the balance if it were interrupted between making a deposit and finding the new balance.  Again, this can be demonstrated by inserting a 'sleep(20);' instruction in the code and then running a simulation.

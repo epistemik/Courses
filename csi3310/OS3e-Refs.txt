@@ -1,0 +1,49 @@
+                           Additional References for
+                       OPERATING SYSTEMS: Third Edition
+                               William Stallings
+                  (Prentice-Hall, 1998, ISBN 0-13-887407-7)
+
+ALMA89    Almasi, G., and Gottlieb, A. Highly Parallel Computing. Redwood City, CA: Benjamin/Cummings, 1989.
+
+ANDE89    Anderson, T.; Laxowska, E.; and Levy, H. "The Performance Implications of Thread Management Alternatives for Shared-Memory Multiprocessors." IEEE Transactions on Computers, December 1989.
+
+ATLA89    Atlas, A., and Blundon, B. "Time to Reach for It All." UNIX Review, January 1989.
+
+BLAC90    Black, D. "Scheduling Support for Concurrency and Parallelism in the Mach Operating System." Computer, May 1990.
+
+FEIT90b    Feitelson, D., and Rudolph, L. "Mapping and Scheduling in a Shared Parallel Environment Using Distributed Hierarchical Control." Proceedings, 1990 International Conference on Parallel Processing, August 1990.
+
+GEHR87    Gehringer, E.; Siewiorek, D.; and Segall, Z. Parallel Procesing: The Cm* Experience. Bedford, MA: Digital Press, 1987.
+
+HONG89    Hong, J.; Tan, X.; and Towsley, D. "A Performance Analysis of Minimum Laxity and Earliest Deadline Scheduling in a Real-Time System." IEEE Transactions on Computers, December 1989.
+
+JONE80    Jones, S., and Schwarz, P. "Experience Using Multiprocressor Systems-A Status Report." Computing Surveys, June 1980
+
+LEUT90    Leutenegger, S., and Vernon, M. "The Performance of Multiprogrammed Multiprocessor Scheduling Policies." Proceedings, Conference on Measurement and Modeling of Computer Systems, May 1990.
+
+LIU73        Liu, C., and Layland, J. "Scheduling Algorithms for Multiprogramming in  a Hard Real-time Environment." Journal of the ACM, February 1973.
+
+MAJU88    Majumdar, S.; Eager, D.; and Bunt, R. "Scheduling in Multiprogrammed Parallel Systems." Proceedings, Conference on Measurement and Modeling of Computer Systems, May 1988.
+
+MORG92    Morgan, K. "The RTOS Difference." Byte, August 1992.
+
+PANW88    Panwar, S.; Towsley, D.; and Wolf, J. "Optimal Scheduling Policies for a Class of Queues with Customer Deadlines in the Beginning of Service." Journal of the ACM, October 1988.
+
+RAMA94    Ramamritham, K., and Stankovic, J. "Scheduling Algorithms and Operating Systems Support for Real-Time Systems." Proceedings of the IEEE, January 1994.
+
+SAUE81    Sauer, C, and Chandy, K. Computer Systems Performance Modeling. Englewood Cliffs, NJ: Prentice-Hall, 1981.
+
+SHA91    Sha, L.; Klein, M.; and Goodenough, J. "Rate Monotonic Analysis for Real-Time Systems." in [TILB91].
+
+STAN89    Stankovic, J., and Ramamrithan, K. "The Spring Kernel: A New Paradigm for Real-Time Operating Systems." Operating Systems Review, July 1989.
+
+TILB91    Tilborg, A., and Koob, G.. eds. Foundations of Real-Time Computing: Scheduling and Resource Management. Boston: Kluwer Academic Publishers, 1991.
+
+TUCK89    Tucker, A., and Gupta, A. "Process Control and Scheduling Issues for Multiprogrammed Shared-Memory Multiprocessors." Proceedings, Twelfth ACM Symposium on Operating Systems Principles, December 1989.
+
+WEND89    Wendorf, J.; Wendorf, R.; and Tokuda, H. "Scheduling Operating System Processing on Small-Scale Microprocessors." Proceedings, 22nd Annual Hawaii International Conference on System Science, January 1989.
+
+WOOD89    Woodbury, P. et al. "Shared Memory Multiprocessors: The Right Approach to Parallel Processing." Proceedings, COMPCON Spring '89, March 1989.
+
+ZAHO90    Zahorjan, J., and McCann, C. "Processor Scheduling in Shared Memory Multiprocessors." Proceedings, Conference on Measurement and Modeling of Computer Systems, May 1990.
+

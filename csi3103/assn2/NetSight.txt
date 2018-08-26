@@ -1,0 +1,145 @@
+
+MARK SATTOLO  428500
+CSI-3103  ASSN#2
+
+*****************************************
+
+1.(c)&(d)
+
+IPX
+====
+
+FFFF FFFF FFFF 00E0  2919 3569 0064 E0E0
+03FF FF00 6000 0489  7A18 02FF FFFF FFFF
+FF04 5289 7A18 0200  E029 1935 6940 6000
+0206 4053 4954 4550  4333 3300 0000 0000
+0000 0000 0000 0000  0000 0000 0000 0000
+0000 0000 0000 0000  0000 0000 0000 0000
+0000 0089 7A18 0200  E029 1935 69E8 8500
+016F
+
+  Ethernet Header 14 Bytes at Offset 0
+  ------------------------------------
+
+DLC: Dest Address: <<<*>>> (FFFFFFFFFFFF)
+DLC: Src Address: 00E029193569
+DLC: Type: 802.2 Length = (0064)
+
+LLC: SSAP DSAP: Novell (E0E0)
+LLC: Control: UI (03)
+
+  Novell XNS Header 30 Bytes at Offset 17
+  ---------------------------------------
+
+XNS: Checksum: FFFF
+XNS: Length: 96
+XNS: Trans Control: 00
+XNS: Type: IPX (4)
+XNS: Dest Network: 897A1802, Dest Node: <<<*>>> (FFFFFFFFFFFF), Dest Socket: SAP (0452)
+XNS: Src Network: 897A1802, Src Node: 00E029193569, Src Socket: 4060
+
+  Service Advertizing Protocol Services 2 Bytes at Offset 47
+  ----------------------------------------------------------
+
+SAP: Sap Type: Service Advertise (0002)
+
+  Server Identification Packet 64 Bytes at Offset 49
+  --------------------------------------------------
+
+SIP: Server Type: 0640 (Unknown Server)
+SIP: Name: SITEPC33
+SIP: Network: 897A1802
+SIP: Node: 00E029193569
+SIP: Socket: E885
+SIP: Hops: 0001
+
+[Normal End of Packet]
+[Padded with 1 bytes of unused data]
+
+******************************************************
+
+
+1.(e)
+
+IP
+===
+
+FFFF FFFF FFFF 00E0  2919 2B49 0800 4500
+0060 2C00 0000 8011  3D2A 897A 5E6F 897A
+5FFF 0089 0089 004C  6F64 8004 2910 0001
+0000 0000 0001 2046  4445 4A46 4545 4645
+4D45 4245 4343 4143  4143 4143 4143 4143
+4143 4143 4141 4100  0020 0001 C00C 0020
+0001 0004 93E0 0006  8000 897A 5E6F
+
+  Ethernet Header 14 Bytes at Offset 0
+  ------------------------------------
+
+DLC: Dest Address: <<<*>>> (FFFFFFFFFFFF)
+DLC: Src Address: 00E029192B49
+DLC: Type: IP (0800)
+
+  Internet Protocol Header 20 Bytes at Offset 14
+  ----------------------------------------------
+
+IP: Version/Length: 45
+IP: Type of Service: 00
+IP: Length: 96
+IP: ID: 2C00
+IP: Flags/Fragments: 0000
+IP: Time to Live (Hopps): 128
+IP: Protocol: UDP (17)
+IP: Header Checksum: 3D2A
+IP: Src Address: 137.122.94.111
+IP: Dest Address: 137.122.95.255
+IP: Options: <EMPTY>
+
+  User Datagram Protocol 8 Bytes at Offset 34
+  -------------------------------------------
+
+UDP: Src Port: 137
+UDP: Dest Port: 137
+UDP: Length: 76
+UDP: Checksum: 6F64
+
+[68 bytes of data]
+[End of Packet]
+
+******************************************************
+
+
+1.(f)
+
+ARP
+====
+
+FFFF FFFF FFFF 00E0  2905 D78D 0806 0001
+0800 0604 0001 00E0  2905 D78D 897A 59DC
+0000 0000 0000 897A  5CC0 0000 0000 0000
+0000 0000 0000 0000  0000 0000
+
+  Ethernet Header 14 Bytes at Offset 0
+  ------------------------------------
+
+DLC: Dest Address: <<<*>>> (FFFFFFFFFFFF)
+DLC: Src Address: 00E02905D78D
+DLC: Type: ARP (0806)
+
+
+  Address Resolution Protocol Header 28 Bytes at Offset 14
+  --------------------------------------------------------
+
+ARP: Hardware Type: Ethernet (0001)
+ARP: Protocol Type: IP (0800)
+ARP: Hardware Length: 06
+ARP: Protocol Length: 04
+ARP: Opcode: Request (0001)
+ARP: Src Physical Address: 00E02905D78D
+ARP: Src Protocol Address: mail2n.site.UOt (137.122.89.220)
+ARP: Dest Physical Address: 000000000000
+ARP: Dest Protocol Address: 137.122.92.192
+
+[Normal End of Packet]
+[Padded with 18 bytes of unused data]
+
+

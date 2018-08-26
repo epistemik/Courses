@@ -1,0 +1,237 @@
+                  CSI 3125, Fall 2000, Homework 3
+                     posted Nov. 6, due Nov. 16
+           (written solutions are due at 17:30 in the drop box,
+        programs, to be submitted electronically, are due at 23:59)
+ 
+   ###################################################################
+   #  Problems 1, 2, 4 require a written answer. Please submit your  #
+   #  solution on paper, in the CSI 3125 drop box. Three programs    #
+   #  requested in Problem 3 will be submitted on the Web. Detailed  #
+   #  instructions will be posted separately. Explanations required  #
+   #  in Part 3B are expected in a comment inside your program. Do   #
+   #  not forget to sign all your programs with your name, student   #
+   #  number and the DGD number. Naturally, sign the envelope that   #
+   #  contains your written answers, and include a printout of all   #
+   #  programs and a printed "log" of their execution.               #
+   ###################################################################
+
+
+Problem 1
+=========
+
+Consider the following nesting diagram of program P in a block-structured
+programming language. 
+
+There are nine procedures in this program. Let us assume for now that the
+language is Pascal, and that the program includes all necessary forward
+declarations. In the main program:
+
+    procedure A; forward;
+    procedure D; forward;
+
+In procedure E:
+
+    procedure A; forward;
+    procedure B; forward;
+
+.---------------------------------------------------------------.
+|  P                                                            |
+|     .------------------------------------------------------.  |
+|     |  A                                                   |  |
+|     |     .----------------------------------.             |  |
+|     |     |  B                               |             |  |
+|     |     |     .--------------------.       |             |  |
+|     |     |     |  C                 |       |             |  |
+|     |     |     |                    |       |             |  |
+|     |     |     .--------------------.       |             |  |
+|     |     |                                  |             |  |
+|     |     .----------------------------------.             |  |
+|     |                                                      |  |
+|     .------------------------------------------------------.  |
+|                                                               |
+|     .------------------------------------------------------.  |
+|     |  D                                                   |  |
+|     |     .------------------.    .---------------------.  |  |
+|     |     |  E               |    |  C                  |  |  |
+|     |     |     .--------.   |    |     .-----------.   |  |  |
+|     |     |     |  A     |   |    |     |  J        |   |  |  |
+|     |     |     |        |   |    |     |           |   |  |  |
+|     |     |     .--------.   |    |     |           |   |  |  |
+|     |     |     .--------.   |    |     |           |   |  |  |
+|     |     |     |  B     |   |    |     .-----------.   |  |  |
+|     |     |     |        |   |    |                     |  |  |
+|     |     |     .--------.   |    |                     |  |  |
+|     |     |                  |.   |.                    |  |  |
+|     |     .------------------.    .---------------------.  |  |
+|     |                                                      |  |
+|     .------------------------------------------------------.  |
+|                                                               |
+.---------------------------------------------------------------.
+
+Part 1A: 1 mark
+---------------
+
+Draw the call graph for this program. Note that A and D in P are at the
+same level, and so are A and B in E. Please draw the graph in ten lines,
+one for each unit (P, A, ..., J), in this format:
+
+	P can call ......
+	P.A can call ......
+	......
+	P.D.C.J can call ......
+
+Part 1B: 1.5 mark
+-----------------
+
+Let a local integer variable x be declared in each of P, B (in A), B
+(in E) and A (in E), and initialized to 1, 2, 3, and 4, respectively.
+Also, a local integer variable y is declared in each of P, E, C (in D),
+and A, and initialized to 5, 6, 7 and 8, respectively. So, we have:
+
+x = 1 in P, x = 2 in B (in A), x = 3 in B (in E), x = 4 in A (in E),
+
+y = 5 in P, y = 6 in E, y = 7 in C (in D), y = 8 in A.
+
+Show the visibility graph (referencing environment) of this program,
+giving the value of every variable. Use fully qualified names of all
+variables, for example, P.D.E.y.
+
+Bonus part: 2 marks
+-------------------
+
+Assume that this programming language can use either static scoping or
+dynamic scoping [imagine a switch in the compiler]. The body of the
+program and the body of each procedure contains one or two statements
+in addition to the declaration described in Part 1B. The first of these
+statements prints the values of x and y. The second statement, if it is
+present, is a call to one of the visible procedures.
+
+(a) Construct a chain of at least four calls (starting with P calling one
+    of its procedures) that results in the same output, whether we choose
+    static scoping or dynamic scoping. You can put the necessary procedure
+    calls in any way you like. Explain your construction. Show the values
+    that are printed by this chain of calls.
+
+(b) Construct a chain of at least four calls that results in different
+    outputs for static scoping and for dynamic scoping. Explain your
+    construction. Show two sets of values that are printed. (It is not
+    necessary for all outputs of each procedure call to be different.
+    It is sufficient if one of them differs.)
+
+
+Problem 2: 2 marks
+==================
+
+Pascal does not allow constants defined by expressions, even if all the
+components of that expression are constant. C allows such definitions.
+For example, this is correct:
+
+    #define c 20+5
+    main(){printf("%d\n", c);}
+
+This is _not_ correct in standard Pascal:
+
+    program main(input, output);
+    const c = 20+5;
+    begin
+      writeln(c);
+    end.
+
+Discuss the advantages and disadvantages of this difference in language
+design. Be specific!
+
+
+Problem 3
+=========
+
+Consider these type definitions in Pascal:
+
+    type
+    TAGTYPE = (i, r, b);
+    IRB = record
+             case kind: TAGTYPE of
+               i: (IFIELD: integer);
+               r: (RFIELD: real);
+               b: (BFIELD: Boolean);
+          end;
+
+Part 3A: 1.25 mark
+------------------
+
+Using the type IRB, write a program that asks the user to enter a
+value V preceded by its type, in this way:
+
+    i -396
+or
+    r 2.55
+or
+    b false
+
+The program then calls procedure NEG (defined by you) which prints
+the negated value of V. For the examples shown above, you would get,
+respectively, 396, -2.55 and true.
+
+The input data must be read into a variant record of type IRB, which
+is then passed to procedure NEG.
+
+Part 3B: 1.25 mark
+------------------
+
+Write a program that works in the same way as the program in Part 3A,
+but does not use variant records. Negation of the input value must be
+done by a "negating" procedure.
+
+What are the differences between the two programs? In particular, can
+one procedure NEG negate and print any input value? If yes, make sure
+to have one procedure in your program. If it is not possible, what is
+the minimal number of negating procedures that you need to solve this
+part of Problem 3? Make sure that your program contains this minimal
+number of procedures. Explain your decision -- document your code.
+
+Part 3C: 1 mark
+---------------
+
+Variant records can be unsafe, because neither the user nor the program
+can detect the current type of a variant record and, as a result, may
+make a reference to an undefined object. Create such a situation by
+modifying the program you wrote for Part 3A, and show what happens when
+this unsafe program is run.
+
+Note
+----
+All your programs will be read as well as compiled. They will be tested 
+at least on the example data:
+    i -396
+    r 2.55
+    b false
+
+
+Problem 4: 2 marks
+==================
+
+The class notes -- and the textbook -- discuss formulae for accessing an
+element of a multi-dimensional array in memory, given the base address,
+the subscript values and the storage method (row-major or column-major).
+Write a formula for accessing an element E[I, J, K] of a three-dimensional
+array E stored in column-major order, assuming that the base address is B.
+Next, write a formula for row-major order.
+
+The declaration is array[LO1..HI1, LO2..HI2, LO3..HI3], and the size of
+the element is S.
+
+Column-major order for three dimensions means that the array is stored in
+slices. Assume for example that we have E: array [1..3, 1..4, 1..5]. All
+elements E[_, _, 1] are stored first, then all elements E[_, _, 2], and so
+on. Each slice is stored in column-major order.
+
+Row-major order for three dimensions means that slice E[1, _, _] is stored
+first, followed by E[2, _, _], and so on; each slice is stored in row-major
+order.
+
+
+                        ##############
+                        #            #
+                        #  Enjoy!!!  #
+                        #            #
+                        ##############
+

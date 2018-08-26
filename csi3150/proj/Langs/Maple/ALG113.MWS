@@ -1,0 +1,176 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+49 44 73 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 32 73 78 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 
+0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 327 "# LINEAR FINITE-DIFFERENCE ALGORIT
+HM 11.3\n#\n# To approximate the solution of the boundary-value proble
+m\n#\n#    Y'' = P(X)Y' + Q(X)Y + R(X), A<=X<=B, Y(A) = ALPHA, Y(B) = \+
+BETA:\n#\n# INPUT:   Endpoints A, B; boundary conditions ALPHA, BETA;
+\n#          integer N.\n#\n# OUTPUT:  Approximations W(I) to Y(X(I)) \+
+for each I=0,1,...,N+1." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 115 "alg113 \+
+:= proc() local P, Q, R, OK, AA, BB, ALPHA, BETA, N, FLAG, NAME, OUP, \+
+H, X, A, B, D, M, I, C, L, U, Z, W, J;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 57 "printf(`This is the Linear Finite-Difference Method.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 88 "printf(`Input the functions P(X), Q
+(X) and R(X) in terms of x, separated by spaces.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 56 "printf(`For example: -2/x 2/(x^2) sin(log(x))/
+(x^2)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "P := scanf(`%a`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "Q := scanf(`%a`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "R := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 18 "P := unapply(P,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "Q := unapply(Q,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "R := un
+apply(R,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 63 "printf(`Input left and right endpoints separat
+ed by blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`
+%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "BB := scanf(`%f`)[1];" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if AA >= BB then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 60 "printf(`Left endpoint must be less than right en
+dpoint.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 34 "printf(`Input Y(  %.10e).\\n`, AA);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 34 "printf(`Input Y(  %.10e).\\n`, BB);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 23 "BETA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`Input \+
+an integer > 1 for the number of\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 54 "printf(`subintervals.  Note that h := (b-a)/(n+1)\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 14 "if N <= 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 34 "printf(`Number must exceed 1.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output m
+ethod:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output t
+o screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output
+ to text File\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Plea
+se enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := s
+canf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in \+
+the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+40 "printf(`for example  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 52 "fprintf(OUP, `LINEAR FINITE DIFFERENCE METHOD\\n\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `  I      X(I)   \+
+        W(I)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 1 */" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "H := (BB-AA)/(N+1);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 10 "X := AA+H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+19 "A[0] := 2+H^2*Q(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "B[0] := \+
+-1+0.5*H*P(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "D[0] := -H^2*R(X)
++(1+0.5*H*P(X))*ALPHA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N-1;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 2 */" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "X := AA+I*H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "A[I-1] := 2
++H^2*Q(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "B[I-1] := -1+0.5*H*P(
+X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "C[I-1] := -1-0.5*H*P(X);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "D[I-1] := -H^2*R(X);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STE
+P 3 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "X := BB-H;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 21 "A[N-1] := 2+H^2*Q(X);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "C[N-1] := -1-0.5*H*P(X);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "D[N-1] := -H^2*R(X)+(1-0.5*H*P(X))*BETA;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 11 "# STEP 4 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 60 "# STEPS 4 through 8 solve a triagiagonal linear system using" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "#Algorithm 6.7 */" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 13 "L[0] := A[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "U[0] := B[0]/A[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "Z[0] := D
+[0]/L[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 5 */" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 31 "L[I-1] := A[I-1]-C[I-1]*U[I-2];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 24 "U[I-1] := B[I-1]/L[I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "Z[I-1] := (D[I-1]-C[I-1]*Z[I-2])/L[I-1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# S
+TEP 6 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "L[N-1] := A[N-1]-C[N-1]
+*U[N-2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "Z[N-1] := (D[N-1]-C[N-1
+]*Z[N-2])/L[N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 7 */" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "W[N-1] := Z[N-1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 11 "# STEP 8 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I := N-J
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "W[I-1] := Z[I-1]-U[I-1]*W[I];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "I := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 9
+ */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `%3d %13.8f %13
+.8f\\n`, I, AA, ALPHA);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fr
+om 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "X := AA+I*H;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `%3d %13.8f %13.8f\\n`
+, I, X, W[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 9 "I := N+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+49 "fprintf(OUP, `%3d %13.8f %13.8f\\n`, I, BB, BETA);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "# STEP 12 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fcl
+ose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s
+ created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg113G:6\"6;%\"PG%\"QG%\"RG%#O
+KG%#AAG%#BBG%&ALPHAG%%BETAG%\"NG%%FLAGG%%NAMEG%$OUPG%\"HG%\"XG%\"AG%\"
+BG%\"DG%\"MG%\"IG%\"CG%\"LG%\"UG%\"ZG%\"WG%\"JGF&F&C5-%'printfG6#%NThi
+s~is~the~Linear~Finite-Difference~Method.|+G-FC6#%goInput~the~function
+s~P(X),~Q(X)~and~R(X)~in~terms~of~x,~separated~by~spaces.|+G-FC6#%MFor
+~example:~-2/x~2/(x^2)~sin(log(x))/(x^2)|+G>8$&-%&scanfG6#%#%aG6#\"\"
+\">8%FN>8&FN>FM-%(unapplyG6$FM%\"xG>FV-Fen6$FVFgn>FX-Fen6$FXFgn>8'%&FA
+LSEG?(F&FTFTF&/F_oF`oC&-FC6#%TInput~left~and~right~endpoints~separated
+~by~blank.|+G>8(&-FP6#%#%fGFS>8)Fio@%1F^pFho-FC6#%QLeft~endpoint~must~
+be~less~than~right~endpoint.|+G>F_o%%TRUEG-FC6$%3Input~Y(~~%.10e).|+GF
+ho>8*Fio-FC6$FhpF^p>8+Fio>F_oF`o?(F&FTFTF&FboC&-FC6#%HInput~an~integer
+~>~1~for~the~number~of|+G-FC6#%Ksubintervals.~~Note~that~h~:=~(b-a)/(n
++1)|+G>8,&-FP6#%#%dGFS@%1FiqFT-FC6#%7Number~must~exceed~1.|+G>F_oFep@$
+/F_oFepCC-FC6#%:Choice~of~output~method:|+G-FC6#%51.~Output~to~screen|
++G-FC6#%82.~Output~to~text~File|+G-FC6#%6Please~enter~1~or~2.|+G>8-Fjq
+@%/Fds\"\"#C&-FC6#%SInput~the~file~name~in~the~form~-~drive:\\name.ext
+|+G-FC6#%<for~example~~A:\\OUTPUT.DTA|+G>8.&-FP6#%#%sGFS>8/-%&fopenG6%
+F`t%&WRITEG%%TEXTG>Fft%(defaultG-%(fprintfG6$Fft%BLINEAR~FINITE~DIFFER
+ENCE~METHOD|+|+G-F_u6$Fft%>~~I~~~~~~X(I)~~~~~~~~~~~W(I)|+G>80*&,&F^pFT
+Fho!\"\"FT,&FiqFTFTFTFiu>81,&FhoFTFfuFT>&826#\"\"!,&FgsFT*&FfuFgs-FV6#
+F\\vFTFT>&83Fav,&FiuFT*&FfuFT-FMFfvFT$\"\"&Fiu>&84Fav,&*&FfuFgs-FXFfvF
+TFiu*&,&FTFTF[wF]wFTFjpFTFT>85,&FiqFTFiuFT?(86FgsFTFhw%%trueGC'>F\\v,&
+FhoFT*&F[xFTFfuFTFT>&F`v6#,&F[xFTFiuFTFcv>&FivFcxFjv>&87Fcx,&FiuFTF[w$
+!\"&Fiu>&FawFcx,$FcwFiu>F\\v,&F^pFTFfuFiu>&F`v6#FiwFcv>&FixFdyFjx>&Faw
+Fdy,&FcwFiu*&,&FTFTF[wF[yFTF^qFTFT>&88FavF_v>&89Fav*&FhvFTF_vFiu>&8:Fa
+v*&F`wFTF]zFiu?(F[xFgsFTFhwF\\xC%>&F^zFcx,&FbxFT*&FhxFT&Faz6#,&F[xFT!
+\"#FTFTFiu>&FazFcx*&FfxFTFjzFiu>&FezFcx*&,&F^yFT*&FhxFT&FezF^[lFTFiuFT
+FjzFiu>&F^zFdy,&FcyFT*&FfyFT&Faz6#,&FiqFTF`[lFTFTFiu>&FezFdy*&,&FhyFT*
+&FfyFT&FezF_\\lFTFiuFTF[\\lFiu>&8;FdyFb\\l?(8<FTFTFhwF\\xC$>F[x,&FiqFT
+F[]lFiu>&Fi\\lFcx,&Fe[lFT*&Fb[lFT&Fi\\l6#F[xFTFiu>F[xFbv-F_u6'Fft%3%3d
+~%13.8f~%13.8f|+GF[xFhoFjp?(F[xFTFTFiqF\\xC$>F\\vF_x-F_u6'FftFh]lF[xF
+\\vF`]l>F[xFju-F_u6'FftFh]lF[xF^pF^q@$0FftF]uC$-%'fcloseG6#Fft-FC6$%CO
+utput~file~%s~created~sucessfullyGF`t-%'RETURNGFavF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg113();" }}{PARA 6 "" 1 "" {TEXT 
+-1 164 "This is the Linear Finite-Difference Method.\nInput the functi
+ons P(X), Q(X) and R(X) in terms of x, separated by spaces.\nFor examp
+le: -2/x 2/(x^2) sin(log(x))/(x^2)" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 27 "-2/x 2/x^2 sin(ln(x))/(x^2)" }}{PARA 6 "" 1 "" {TEXT 
+-1 50 "Input left and right endpoints separated by blank." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1 2" }}{PARA 6 "" 1 "" {TEXT -1 28 "
+Input Y(  1.0000000000e+00)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 28 "Input Y(  2.0000000000e+00)." }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 80 "Input an integer > 1 for the number of\nsubintervals.  Note tha
+t h := (b-a)/(n+1)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "9" }}
+{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text File\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 413 "LINEAR FI
+NITE DIFFERENCE METHOD\n\n  I      X(I)           W(I)\n  0    1.00000
+000    1.00000000\n  1    1.10000000    1.09260051\n  2    1.20000000 \+
+   1.18704312\n  3    1.30000000    1.28333686\n  4    1.40000000    1
+.38140204\n  5    1.50000000    1.48112026\n  6    1.60000000    1.582
+35989\n  7    1.70000000    1.68498901\n  8    1.80000000    1.7888817
+4\n  9    1.90000000    1.89392109\n 10    2.00000000    2.00000000" }
+}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "9 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

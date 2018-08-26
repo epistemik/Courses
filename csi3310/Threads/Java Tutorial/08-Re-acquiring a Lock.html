@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0072)http://java.sun.com/docs/books/tutorial/essential/threads/reentrant.html -->
+<HTML><HEAD><TITLE>Reaquiring a Lock</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="07-Locking an Object.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="09-Using the notifyAll and wait Methods.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>Reaquiring a Lock </H2>
+<BLOCKQUOTE>The Java runtime system allows a thread to re-acquire a lock that 
+  it already holds because Java locks are reentrant. Reentrant locks are 
+  important because they eliminate the possibility of a single thread 
+  deadlocking itself on a lock that it already holds. 
+  <P>Consider this class: 
+  <BLOCKQUOTE><PRE>public class Reentrant {
+    public synchronized void a() {
+	b();
+	System.out.println("here I am, in a()");
+    }
+    public synchronized void b() {
+	System.out.println("here I am, in b()");
+    }
+}
+</PRE></BLOCKQUOTE><CODE>Reentrant</CODE> contains two synchronized methods: 
+  <CODE>a</CODE> and <CODE>b</CODE>. The first synchronized method, 
+  <CODE>a</CODE>, calls the other synchronized method, <CODE>b</CODE>. 
+  <P>When control enters method <CODE>a</CODE>, the current thread acquires the 
+  lock for the <CODE>Reentrant</CODE> object. Now, <CODE>a</CODE> calls 
+  <CODE>b</CODE> and because <CODE>b</CODE> is also synchronized the thread 
+  attempts to acquire the same lock again. Because Java supports reentrant 
+  locks, this works. The current thread can acquire the <CODE>Reentrant</CODE> 
+  object's lock again and both <CODE>a</CODE> and <CODE>b</CODE> execute to 
+  conclusion as is evidenced by the output: 
+  <BLOCKQUOTE><PRE>here I am, in b()
+here I am, in a()
+</PRE></BLOCKQUOTE>In systems that don't support reentrant locks, this 
+  sequence of method calls would cause deadlock. </BLOCKQUOTE><IMG align=bottom 
+height=8 src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="07-Locking an Object.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="09-Using the notifyAll and wait Methods.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,405 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Controlling Access to Members of a Class</title>
+<script language="JavaScript">
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</script>
+</head>
+<body BGCOLOR="#ffffff" LINK="#000099">
+<B><FONT SIZE="-1">The Java</font><sup><font size="-2">TM</font></sup> <font size="-1">Tutorial</FONT></B>
+<br>
+<table width="550">
+<tr>
+<td align="left" valign="center">
+<a href="methodbody.html" target="_top"><img src="../../images/PreviousArrow.gif" width="26" height="26" align="center" border="0" alt="Previous Page"></a>
+<a href="../TOC.html#javaOO" target="_top"><img src="../../images/TOCIcon.gif" width="26" height="26" align="center" border="0" alt="Lesson Contents"></a>
+<a href="classvars.html" target="_top"><img src="../../images/NextArrow.gif" width="26" height="26" align="center" border="0" alt="Next Page"></a></td>
+
+<td align="center" valign="center">
+<font size="-1">
+<a href="../../index.html" target="_top">Start of Tutorial</a>
+&gt;
+<a href="../index.html" target="_top">Start of Trail</a>
+&gt;
+<a href="index.html" target="_top">Start of Lesson</a>
+</font>
+</td>
+
+<td align="right" valign="center">
+<font size="-1">
+<a href="../../search.html" target="_top">Search</a>
+<br><a href="../../forms/sendusmail.html">Feedback Form</a>
+</font>
+</td>
+
+</tr>
+</table>
+<img src="../../images/blueline.gif" width="550" height="8" ALIGN="BOTTOM" NATURALSIZEFLAG="3">
+<br>
+
+<font size="-1">
+<b>Trail</b>: Learning the Java Language
+<br>
+<b>Lesson</b>: Classes, Interfaces, and Packages
+</font>
+
+<h2>
+Controlling Access to Members of a Class
+</h2>
+<blockquote>
+
+One of the benefits of classes is that classes can protect
+their member variables and methods from access by other objects. Why
+is this important? Well, consider this. You're writing a class
+that represents a query on a database that contains all kinds of
+secret information, say employee records or income statements for
+your startup company.
+<p>
+Certain information and queries contained in the class, the ones
+supported by the publicly accessible methods and variables in your
+query object, are OK for the consumption of any other object in the
+system. Other queries contained in the class are there simply for
+the personal use of the class. They support the operation of the class
+but should not be used by objects of another type--you've got secret
+information to protect. You'd like to be able to protect these personal
+variables and methods at the language level and disallow access by
+objects of another type.
+<p>
+In Java, you can use access specifiers to protect both a class's
+variables and its methods when you declare them.
+The Java language supports four distinct access levels for
+member variables and methods: private, protected, public, and,
+if left unspecified, package.
+<p>
+<blockquote><hr><strong>Note:</strong>&nbsp;The 1.0 release of the Java language
+supported five access levels: the four listed above plus
+<code>private protected</code>. The <code>private protected</code>
+access level is not supported in versions of Java higher than 1.0;
+you should no longer be using it in your Java programs.
+<hr></blockquote>
+<p>
+The following chart shows the access level permitted by each specifier.
+<p>
+
+<table border cellpadding=5>
+<th>Specifier</th>
+<th>class</th>
+<th>subclass</th>
+<th>package</th>
+<th>world</th>
+<tr><td><code>private</code></td><td align=center>X</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+<tr><td><code>protected</code></td><td align=center>X</td><td align=center>X*</td><td align=center>X</td><td>&nbsp;</td>
+<tr><td><code>public</code></td><td align=center>X</td><td align=center>X</td><td align=center>X</td><td align=center>X</td>
+<tr><td><code>package</code></td><td align=center>X</td><td>&nbsp;</td><td align=center>X</td><td>&nbsp;</td>
+</table>
+
+
+<p>
+
+
+The first column indicates whether the class itself has access
+to the member defined by the access specifier. As you can see, a class
+always has access to its own members. The second
+column indicates whether subclasses of the class (regardless of
+which package they are in) have access to the member. The
+third column indicates whether classes in the same package as the
+class (regardless of their parentage) have access to the
+member. The fourth column indicates whether all classes have
+access to the member.
+<p>
+Note that the protected/subclass intersection
+has an '*' .  This particular access case
+has a special caveat discussed in detail
+<a href=#protectedcaveat>later</a>.
+<p>
+Let's look at each access level in more detail.
+
+</blockquote>
+<h3>Private</h3>
+<blockquote>
+The most restrictive access level is private.
+A private member is accessible only to the class in which it is defined.
+Use this access to declare members that should only be used by the class.
+This includes variables that contain information that if accessed by
+an outsider could put the object in an inconsistent state, or methods
+that, if invoked by an outsider, could jeopardize the state of the object
+or the program in which it's running. Private members are like secrets
+you never tell anybody.
+
+<p>
+To declare a private member, use the <code>private</code> keyword
+in its declaration. The following class contains one private member
+variable and one private method:
+<blockquote><pre>
+class Alpha {
+    private int iamprivate;
+    private void privateMethod() {
+        System.out.println("privateMethod");
+    }
+}
+</pre></blockquote>
+Objects of type <code>Alpha</code> can inspect or modify the <code>iamprivate</code>
+variable and can invoke <code>privateMethod</code>, but objects
+of other types cannot. For example, the <code>Beta</code> class defined here:
+<blockquote><pre>
+class Beta {
+    void accessMethod() {
+        Alpha a = new Alpha();
+        a.iamprivate = 10;      // illegal
+        a.privateMethod();      // illegal
+    }
+}
+</pre></blockquote>
+cannot access the <code>iamprivate</code> variable or invoke
+<code>privateMethod</code> on an object of type <code>Alpha</code> because
+<code>Beta</code> is not of type <code>Alpha</code>.
+<p>
+When one of your classes is attempting to access a member varible
+to which it does not have access, the compiler prints an error message similar
+to the following and refuses to compile your program:
+<blockquote><pre>
+Beta.java:9: Variable iamprivate in class Alpha not 
+accessible from class Beta.
+        a.iamprivate = 10;     // illegal
+         ^
+1 error
+</pre></blockquote>
+Also, if your program is attempting to access a method to which it does
+not have access, you will see a compiler error like this:
+<blockquote><pre>
+Beta.java:12: No method matching privateMethod()
+found in class Alpha.
+        a.privateMethod();         // illegal
+1 error
+</pre></blockquote>
+New Java programmers might ask if one <code>Alpha</code> object can access the private
+members of another <code>Alpha</code> object. This is illustrated by the following example.
+Suppose the <code>Alpha</code> class contained an instance method that compared the current
+<code>Alpha</code> object (<code>this</code>) to another object based on their
+<code>iamprivate</code> variables:
+<blockquote><pre>
+class Alpha {
+    private int iamprivate;
+    boolean isEqualTo(Alpha anotherAlpha) {
+        if (this.iamprivate == anotherAlpha.iamprivate)
+            return true;
+        else
+            return false;
+    }
+}
+</pre></blockquote>
+This is perfectly legal. Objects of the same type have access to one another's
+private members. This is because access restrictions apply at the class or type
+level (all instances of a class) rather than at the object level (this particular
+instance of a class).
+<p>
+<blockquote><hr><strong>Note:</strong>&nbsp;<code>this</code> is a Java language keyword that
+refers to the current object. For more information about how to use
+<code>this</code> see <a href="methodbody.html">The Method Body</a>.
+<hr></blockquote>
+</blockquote>
+
+<h3>Protected</h3>
+<blockquote>
+The next access level specifier is protected, which allows the class itself,
+subclasses (with the caveat that we referred to earlier), and all classes
+in the same package to access the members. Use the protected access level
+when it's appropriate for a class's subclasses to have access to the member,
+but not unrelated classes. Protected members are like family secrets--you
+don't mind if the whole family knows, and even a few trusted friends but you
+wouldn't want any outsiders to know.
+<p>
+To declare a protected member, use the keyword <code>protected</code>.
+First, let's look at how the protected specifier affects access for classes
+in the same package.
+Consider this version of the <code>Alpha</code> class which
+is now declared to be within a package named <code>Greek</code>
+and which has one protected member variable and one
+protected method declared in it:
+<blockquote><pre>
+package Greek;
+
+public class Alpha {
+    protected int iamprotected;
+    protected void protectedMethod() {
+        System.out.println("protectedMethod");
+    }
+}
+</pre></blockquote>
+Now, suppose that the class <code>Gamma</code> was also declared to be a member of
+the <code>Greek</code> package (and is not a subclass of <code>Alpha</code>). 
+The <code>Gamma</code> class
+can legally access an <code>Alpha</code> object's <code>iamprotected</code> member
+variable and can legally invoke its <code>protectedMethod</code>:
+<blockquote><pre>
+package Greek;
+
+class Gamma {
+    void accessMethod() {
+        Alpha a = new Alpha();
+        a.iamprotected = 10;    // legal
+        a.protectedMethod();    // legal
+    }
+}
+</pre></blockquote>
+<a name=protectedcaveat>
+That's pretty straightforward.</a> Now, let's investigate how the <code>protected</code>
+specifier affects access for subclasses of <code>Alpha</code>.
+<p>
+Let's introduce a new class, <code>Delta</code>, that
+derives from <code>Alpha</code> but lives in a different package--<code>Latin</code>. The <code>Delta</code> class can
+access both <code>iamprotected</code> and <code>protectedMethod</code>,
+but only on objects of type <code>Delta</code> or its subclasses. The <code>Delta</code>
+class cannot
+access <code>iamprotected</code> or <code>protectedMethod</code> on objects
+of type <code>Alpha</code>. <code>accessMethod</code> in the following code sample
+attempts to access the <code>iamprotected</code> member variable on an object
+of type <code>Alpha</code>, which is illegal, and on an object of type <code>Delta</code>, which is legal.
+Similarly, <code>accessMethod</code> attempts to invoke an
+<code>Alpha</code> object's <code>protectedMethod</code> which is also illegal:
+<blockquote><pre>
+package Latin;
+
+import Greek.*;
+
+class Delta extends Alpha {
+    void accessMethod(Alpha a, Delta d) {
+        a.iamprotected = 10;    // illegal
+        d.iamprotected = 10;    // legal
+        a.protectedMethod();    // illegal
+        d.protectedMethod();    // legal
+    }
+}
+</pre></blockquote>
+If a class is both a subclass of and in the same package as the class
+with the protected member, then the class has access to the protected
+member.
+</blockquote>
+
+<h3>Public</h3>
+<blockquote>
+The easiest access specifier is <code>public</code>. Any class, in any package,
+has access to a class's public members. Declare public members
+only if such access cannot produce undesirable results if an
+outsider uses them. There are no personal or family secrets here;
+this is for stuff you don't mind anybody else knowing.
+<p>
+To declare a public member,
+use the keyword <code>public</code>. For example,
+<blockquote><pre>
+package Greek;
+
+public class Alpha {
+    public int iampublic;
+    public void publicMethod() {
+        System.out.println("publicMethod");
+    }
+}
+</pre></blockquote>
+Let's rewrite our <code>Beta</code> class one more time and put it in a different package
+than <code>Alpha</code> and make sure that it is completely unrelated to (not a subclass of)
+<code>Alpha</code>:
+<blockquote><pre>
+package Roman;
+
+import Greek.*;
+
+class Beta {
+    void accessMethod() {
+        Alpha a = new Alpha();
+        a.iampublic = 10;       // legal
+        a.publicMethod();       // legal
+    }
+}
+</pre></blockquote>
+As you can see from the above code snippet, <code>Beta</code> can legally inspect
+and modify the <code>iampublic</code> variable in the <code>Alpha</code> class and
+can legally invoke <code>publicMethod</code>.
+</blockquote>
+
+<h3>Package</h3>
+<blockquote>
+The package access level is what you get if you don't
+explicitly set a member's access to one of the other levels. This
+access level allows classes in the same package as your class to
+access the members. This level of access assumes that classes in
+the same package are trusted friends. This level of trust is like
+that which you extend to your closest friends but wouldn't trust
+even to your family.
+<p>
+For example, this version of the <code>Alpha</code> class declares a single
+package-access member variable and a single package-access method.
+<code>Alpha</code> lives in the <code>Greek</code> package:
+<blockquote><pre>
+package Greek;
+
+class Alpha {
+    int iampackage;
+    void packageMethod() {
+        System.out.println("packageMethod");
+    }
+}
+</pre></blockquote>
+The <code>Alpha</code> class has access both to <code>iampackage</code>
+and <code>packageMethod</code>. In
+addition, all the classes declared within the same package as
+Alpha also have access to <code>iampackage</code> and
+<code>packageMethod</code>.
+Suppose that both <code>Alpha</code> and <code>Beta</code> were declared
+as part of the <code>Greek</code> package:
+<blockquote><pre>
+package Greek;
+
+class Beta {
+    void accessMethod() {
+        Alpha a = new Alpha();
+        a.iampackage = 10;     // legal
+        a.packageMethod();     // legal
+    }
+}
+</pre></blockquote>
+<code>Beta</code> can legally access <code>iampackage</code> and
+<code>packageMethod</code> as shown.
+</blockquote>
+
+
+</blockquote>
+
+<img src="../../images/blueline.gif" width="550" height="8" ALIGN="BOTTOM" NATURALSIZEFLAG="3">
+<br>
+<table width="550">
+<tr>
+<td align="left" valign="center">
+<a href="methodbody.html" target="_top"><img src="../../images/PreviousArrow.gif" width="26" height="26" align="center" border="0" alt="Previous Page"></a>
+<a href="../TOC.html#javaOO" target="_top"><img src="../../images/TOCIcon.gif" width="26" height="26" align="center" border="0" alt="Lesson Contents"></a>
+<a href="classvars.html" target="_top"><img src="../../images/NextArrow.gif" width="26" height="26" align="center" border="0" alt="Next Page"></a></td>
+
+<td align="center" valign="center">
+<font size="-1">
+<a href="../../index.html" target="_top">Start of Tutorial</a>
+&gt;
+<a href="../index.html" target="_top">Start of Trail</a>
+&gt;
+<a href="index.html" target="_top">Start of Lesson</a>
+</font>
+</td>
+
+<td align="right" valign="center">
+<font size="-1">
+<a href="../../search.html" target="_top">Search</a>
+<br><a href="../../forms/sendusmail.html">Feedback Form</a>
+</font>
+</td>
+
+</tr>
+</table>
+</body>
+</html>

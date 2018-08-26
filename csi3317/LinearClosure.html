@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<TITLE> Linear Closure </TITLE>
+</HEAD>
+<BODY>
+
+<H1> CSI3317 Winter </H1>
+
+<HR>
+
+<H2> Linear Closure Algorithm </H2>
+
+<PRE>
+	We now present the algorithm LINCLOSURE which can test
+membership in F^+ in linear time. We use an arrary COUNT of integers
+containing the counts for each FD in F, and an array LIST of lists
+of FDs for each attribute appearing in F. 
+
+Algorithm LINCLOSURE(X,F)
+
+% 1. Initialization
+for each FD W rightarrow Z in F
+	COUNT[W rightarrow Z] = | W |;
+	for each attribute A in W
+		add W rightarrow Z to LIST[A];
+NEWDEP = X;
+UPDATE = X;
+
+% 2. Computation
+while UPDATE neq emptyset
+	choose an A in UPDATE;
+	UPDATE = UPDATE - A;
+	for each FD W rightarrow Z in LIST[A]
+		COUNT[W rightarrow Z] = COUNT[W rightarrow Z] - 1;
+		if COUNT[W rightarrow Z] = 0 then
+			ADD = Z - NEWDEP;
+			NEWDEP = NEWDEP union ADD;
+			UPDATE = UPDATE union ADD;
+
+% 3. X^+ is NEWDEP
+return(NEWDEP)
+
+Ex: Let F = { A rightarrow D, AB rightarrow E, BI rightarrow E,
+	      CD rightarrow I, E rightarrow C }.
+Compute AE^+ under F using agorithm LINCLOSURE.
+
+LINCLOSURE(AE,F) initializes NEWDEP,UPDATE,COUNT, and LIST as follows:
+
+LIST[A] = A rightarrow D, AB rightarrow E 	COUNT[A rightarrow D] = 1
+LIST[B] = AB rightarrow E, BI rightarrow E	COUNT[AB rightarrow E] = 2
+LIST[C] = CD rightarrow I			COUNT[BI rightarrow E] = 2
+LIST[D] = CD rightarrow I			COUNT[CD rightarrow I] = 2
+LIST[I] = BI rightarrow E			COUNT[E rightarrow C] = 1
+LIST[E] = E rightarrow C		
+
+NEWDEP = AE
+UPDATE = AE
+
+We select the A UPDATE and traverse LIST[A].
+COUNT[A rightarrow D] is set to 0 and D is added to NEWDEP and UPDATE.
+COUNT[AB rightarrow E] is set to 1.
+If we next select E from UPDATE, the result is:
+
+                                          	COUNT[A rightarrow D] = 0
+                                          	COUNT[AB rightarrow E] = 1
+                         	 		COUNT[BI rightarrow E] = 2
+                         	 		COUNT[CD rightarrow I] = 2
+                                		COUNT[E rightarrow C] = 0
+
+NEWDEP = ACDE
+UPDATE = CD
+
+Traversing the list for C and D results in:
+
+                                          	COUNT[A rightarrow D] = 0
+                                          	COUNT[AB rightarrow E] = 1
+                         	 		COUNT[BI rightarrow E] = 2
+                         	 		COUNT[CD rightarrow I] = 0
+                                		COUNT[E rightarrow C] = 0
+
+NEWDEP = ACDEI
+UPDATE = I
+
+Traversing the list for I fails to reduce any count to 0.
+The algorithm terminates and returns AE^+ = ACDEI.
+</PRE>
+
+
+</BODY>
+</HTML>

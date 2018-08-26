@@ -1,0 +1,95 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+32 70 40 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 56 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 
+0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 282 "#  HORNER'S ALGORITHM 2.7\n#\n#  T
+o evaluate the polynomial\n#  p(x) = a(n) * x^n + a(n-1) * x^(n-1) + .
+.. + a(1) * x + a(0)\n#  and its derivative p'(x) at x = x0;\n#\n#  IN
+PUT:   degree n; coefficients aa(0),aa(1),...,aa(n);\n#           valu
+e of x0.\n#\n#  OUTPUT:  y = p(x0), z = p'(x0)." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "alg027 := proc() local OK, N, I, AA, X0, Y, Z, MM, J;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`This is Horners Method
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 60 "printf(`Input degree n of polynomial - no decimal poi
+nt\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N < 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 55 "printf(`Incorrect input - degree must be positive.
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "printf(`Input coefficients of P(X) in ascending order
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`Input coefficient of X^%d\\
+n`, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "AA[I] := scanf(`%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 56 "printf(`Input argument X0 at which to evaluate P(X)\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "X0 := scanf(`%f`)[1];" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "" 0 "" {TEXT -1 21 "com
+pute b(n) for p(x)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "Y := AA[N];" 
+}}{PARA 0 "" 0 "" {TEXT -1 31 "compute b(n-1) for q(x) = p'(x)" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N = 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "Z := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "Z := AA[N];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "MM := N-1;" 
+}}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "for I from 1 to MM do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "J := \+
+N-I;" }}{PARA 0 "" 0 "" {TEXT -1 21 "compute b(j) for p(x)" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 16 "Y := Y*X0+AA[J];" }}{PARA 0 "" 0 "" {TEXT 
+-1 23 "compute b(j-1) for q(x)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "Z
+ := Z*X0+Y;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "" {TEXT -1 21 "compute b(0) for \+
+p(x)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if N <> 0 then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "Y := Y*X0+AA[0];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`Coef
+ficients of polynominal P :\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP \+
+4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 58 "printf(`Exponent = %3d Coefficient = %12.
+8f\\n`, I, AA[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`\\n P ( %.10e ) = %12.8f\\n`, X0,
+ Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(` P' ( %.10e ) = %12
+.8f\\n`, X0, Z);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 
+20 "6#>%'alg027G:6\"6+%#OKG%\"NG%\"IG%#AAG%#X0G%\"YG%\"ZG%#MMG%\"JGF&F
+&C3-%'printfG6#%8This~is~Horners~Method|+G>8$%&FALSEG?(F&\"\"\"F:F&/F7
+F8C%-F36#%QInput~degree~n~of~polynomial~-~no~decimal~point|+G>8%&-%&sc
+anfG6#%#%dG6#F:@%2FA\"\"!-F36#%LIncorrect~input~-~degree~must~be~posit
+ive.|+G>F7%%TRUEG-F36#%OInput~coefficients~of~P(X)~in~ascending~order|
++G?(8&FJF:FA%%trueGC$-F36$%;Input~coefficient~of~X^%d|+GFT>&8'6#FT&-FD
+6#%#%fGFG-F36#%MInput~argument~X0~at~which~to~evaluate~P(X)|+G>8(Fhn>8
+)&Ffn6#FA@%/FAFJ>8*FJ>FhoFco>8+,&FAF:!\"\"F:?(FTF:F:F[pFUC%>8,,&FAF:FT
+F]p>Fbo,&*&FboF:F`oF:F:&Ffn6#FapF:>Fho,&*&FhoF:F`oF:F:FboF:@$0FAFJ>Fbo
+,&FepF:&Ffn6#FJF:-F36#%ACoefficients~of~polynominal~P~:|+G?(FTFJF:FAFU
+-F36%%EExponent~=~%3d~Coefficient~=~%12.8f|+GFTFen-F36%%8|+~P~(~%.10e~
+)~=~%12.8f|+GF`oFbo-F36%%8~P'~(~%.10e~)~=~%12.8f|+GF`oFho-%'RETURNGF`q
+F&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg027();" }}{PARA 
+6 "" 1 "" {TEXT -1 70 "This is Horners Method\nInput degree n of polyn
+omial - no decimal point" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "
+4" }}{PARA 6 "" 1 "" {TEXT -1 70 "Input coefficients of P(X) in ascend
+ing order\nInput coefficient of X^0" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 "-4" }}{PARA 6 "" 1 "" {TEXT -1 24 "Input coefficient o
+f X^1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "
+" {TEXT -1 24 "Input coefficient of X^2" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 "-3" }}{PARA 6 "" 1 "" {TEXT -1 24 "Input coefficient o
+f X^3" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "0" }}{PARA 6 "" 1 "
+" {TEXT -1 24 "Input coefficient of X^4" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 43 "Input argument X0 at
+ which to evaluate P(X)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "-
+2" }}{PARA 6 "" 1 "" {TEXT -1 321 "Coefficients of polynominal P :\nEx
+ponent =   0 Coefficient = -4.00000000\nExponent =   1 Coefficient =  \+
+ 3.00000000\nExponent =   2 Coefficient = -3.00000000\nExponent =   3 \+
+Coefficient =   0.00000000\nExponent =   4 Coefficient =   2.00000000
+\n\n P ( -2.0000000000e+00 ) =  10.00000000\n P' ( -2.0000000000e+00 )
+ = -49.00000000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "10 0 0" 0 }{VIEWOPTS 1 
+1 0 1 1 1803 }

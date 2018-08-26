@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0071)http://java.sun.com/docs/books/tutorial/essential/threads/deadlock.html -->
+<HTML><HEAD><TITLE>Avoiding Starvation and Deadlock</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="09-Using the notifyAll and wait Methods.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> 
+      <A 
+      href="11-Grouping Threads.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+    width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>Avoiding Starvation and Deadlock </H2>
+<BLOCKQUOTE>The dining philosophers are often used to illustrate various 
+  problems that can occur when many synchronized threads are competing for 
+  limited resources. 
+  <P>The story goes like this: Five philosophers are sitting at a round table. 
+  In front of each philosopher is a bowl of rice. Between each pair of 
+  philosophers is one chopstick. Before an individual philosopher can take a 
+  bite of rice he must have two chopsticks--one taken from the left, and one 
+  taken from the right. The philosophers must find some way to share chopsticks 
+  such that they all get to eat. 
+  <P>The following applet does a rough animation using an image of Duke for the 
+  dining philosophers. This particular algorithm works as follows: Duke always 
+  reaches for the chopstick on his right first. If the chopstick is there, Duke 
+  takes it and raises his right hand. Next, Duke tries for the left chopstick. 
+  If the chopstick is available, Duke picks it up and raises his other hand. Now 
+  that Duke has both chopsticks, he takes a bite of rice and says "Mmm!" He then 
+  puts both chopsticks down, allowing either of his two neighbors to get the 
+  chopsticks. Duke then starts all over again by trying for the right chopstick. 
+  Between each attempt to grab a chopstick, each Duke pauses for a random period 
+  of time. 
+  <P>
+  <P>
+  <CENTER><A 
+  href="http://java.sun.com/docs/books/tutorial/essential/threads/DiningPhilosophers.html" 
+  target=_blank><IMG align=bottom alt="Click this figure to run the applet." 
+  height=324 
+  src="Thread_files/DiningPhilosophers.gif" 
+  width=246 NATURALSIZEFLAG="3"></A><BR><EM>This is a picture of the applet's 
+  GUI. To run the applet, click the picture. The applet will appear in a new 
+  browser window.</EM></CENTER>
+  <P></P>
+  <P>The slider controls the amount of time that each philosopher will wait 
+  before attempting to pick up a chopstick. When the slider is set to 0, the 
+  philosophers don't wait--they just grab--and most often, the applet ends up in 
+  deadlock: all the philosophers are frozen with their right hand in the air. 
+  Why? Because each philosopher immediately has one chopstick and is waiting on 
+  a condition that cannot be satisfied--they are all waiting for the left 
+  chopstick, which is held by the philosopher to their left. 
+  <P>When you move the slider so that the waiting period is longer, the applet 
+  may proceed for a while without deadlocking. However, deadlock is always 
+  possible with this particular implementation of the dining philosophers 
+  problem because it is possible for all five philosophers to be holding their 
+  right chopsticks. Rather than rely on luck to prevent deadlock, you must 
+  either prevent it or detect it. 
+  <P>For most Java programmers, the best choice is to prevent deadlock rather 
+  than to try and detect it. Deadlock detection is complicated and beyond the 
+  scope of this tutorial. The simplest approach to preventing deadlock is to 
+  impose ordering on the condition variables. In the dining philosopher applet, 
+  there is no ordering imposed on the condition variables because the 
+  philosophers and the chopsticks are arranged in a circle. All chopsticks are 
+  equal. 
+  <P>However, we can change the rules in the applet by numbering the chopsticks 
+  1 through 5 and insisting that the philosophers pick up the chopstick with the 
+  lower number first. The philosopher who is sitting between chopsticks 1 and 2 
+  and the philosopher who is sitting between chopsticks 1 and 5 must now reach 
+  for the same chopstick first (chopstick 1) rather than picking up the one on 
+  the right. Whoever gets chopstick 1 first is now free to take another one. 
+  Whoever doesn't get chopstick 1 must now wait for the first philosopher to 
+  release it. Deadlock is not possible. </P></BLOCKQUOTE><IMG align=bottom 
+height=8 src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="09-Using the notifyAll and wait Methods.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> 
+      <A 
+      href="11-Grouping Threads.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+    width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

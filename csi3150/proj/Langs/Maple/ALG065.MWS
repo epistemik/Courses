@@ -1,0 +1,147 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 136 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 376 "# LDL^t ALGORITHM 6.5\n#\n# To fac
+tor the positive definite n by n matrix A into LDL**T,\n# where L is a
+ lower triangular matrix with ones along the diagonal\n# and D is a di
+agonal matrix with positive entries on the\n# diagonal.\n#\n# INPUT:  \+
+ the dimension n; entries A(I,J), 1<=I, J<=n of A.\n#\n# OUTPUT:  the \+
+entries L(I,J), 1<=J<I, 1<=I<=N of L and D(I),\n#          1<=I<=n of \+
+D." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 73 "alg065 := proc() local AA, NA
+ME, INP, OK, N, I, J, A, V, D, K, FLAG, OUP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 69 "printf(`This is the LDL^t Method for Positive Definit
+e Matrices.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The ar
+ray will be input from a text file in the order:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 70 "printf(`A(1,1), A(1,2), ..., A(1,N), A(2,1), A
+(2,2), ..., A(2,N),\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf
+(`..., A(N,1), A(N,2), ..., A(N,N)\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 71 "printf(`Place as many entries as desired on each line
+, but separate `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`entri
+es with\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least o
+ne blank.\\n\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Ha
+s the input file been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for exampl
+e:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME :
+= scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(N
+AME,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "printf(`Input the dimension n - an integer.\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1
+,J-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fcl
+ose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "else printf(`The numbe
+r must be a positive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`Th
+e program will end so the input file can be created.\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-1 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 28 "V[J-1] := A[I-1,J-1]*D[J-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "D[I-1] := A[I-1,I-1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 35 "D[I-1] := D[I-1]-A[I-1,J-1]*V[J-1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from I+1 to N do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 22 "for K from 1 to I-1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 43 "A[J-1,I-1] := A[J-1,I-1]-A[J-1,K-1]*V[K-1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "
+A[J-1,I-1] := A[J-1,I-1]/D[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of o
+utput method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. O
+utput to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2.
+ Output to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "print
+f(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FL
+AG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = \+
+2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file na
+me in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 41 "printf(`for example:  A:\\\\OUTPUT.DTA\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OU
+P := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 40 "fprintf(OUP, `LDL^t FACTORIZATION\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `The matrix L output b
+y rows:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N \+
+do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to I-1 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `  %12.8f`, A[I-1,J-1]
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `The diago
+nal of D:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to \+
+N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, `  %12.8f`, D[
+I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fcl
+ose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s
+ created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg065G:6\"6/%#AAG%%NAMEG%$INPG
+%#OKG%\"NG%\"IG%\"JG%\"AG%\"VG%\"DG%\"KG%%FLAGG%$OUPGF&F&C.-%'printfG6
+#%ZThis~is~the~LDL^t~Method~for~Positive~Definite~Matrices.|+G-F76#%XT
+he~array~will~be~input~from~a~text~file~in~the~order:|+G-F76#%enA(1,1)
+,~A(1,2),~...,~A(1,N),~A(2,1),~A(2,2),~...,~A(2,N),|+G-F76#%C...,~A(N,
+1),~A(N,2),~...,~A(N,N)|+|+G-F76#%gnPlace~as~many~entries~as~desired~o
+n~each~line,~but~separate~G-F76#%.entries~with|+G-F76#%7at~least~one~b
+lank.|+|+|+G-F76#%RHas~the~input~file~been~created?~-~enter~Y~or~N.|+G
+>8$&-%&scanfG6#%#%cG6#\"\"\"@%5/FP%\"YG/FP%\"yGC(-F76#%SInput~the~file
+~name~in~the~form~-~drive:\\name.ext|+G-F76#%<for~example:~~~A:\\DATA.
+DTA|+G>8%&-FS6#%#%sGFV>8&-%&fopenG6%F`o%%READG%%TEXTG>8'%&FALSEG?(F&FW
+FWF&/F]pF^pC%-F76#%EInput~the~dimension~n~-~an~integer.|+G>8(&-FS6#%#%
+dGFV@%2\"\"!FfpC%?(8)FWFWFfp%%trueG?(8*FWFWFfpFaq>&8+6$,&F`qFW!\"\"FW,
+&FcqFWFiqFW&-%'fscanfG6$Ffo%#%fGFV>F]p%%TRUEG-%'fcloseG6#Ffo-F76#%HThe
+~number~must~be~a~positive~integer.|+GC$-F76#%XThe~program~will~end~so
+~the~input~file~can~be~created.|+G>F]pF^p@$/F]pFarC0?(F`qFWFWFfpFaqC&?
+(FcqFWFWFhqFaq>&8,6#Fjq*&FeqFW&8-FfsFW>&Fis6#Fhq&Ffq6$FhqFhq?(FcqFWFWF
+hqFaq>F[t,&F[tFW*&FeqFWFdsFWFiq?(Fcq,&F`qFWFWFWFWFfpFaqC$?(8.FWFWFhqFa
+q>&Ffq6$FjqFhq,&FitFW*&&Ffq6$Fjq,&FgtFWFiqFWFW&Fes6#F_uFWFiq>Fit*&FitF
+WF[tFiq-F76#%:Choice~of~output~method:|+G-F76#%51.~Output~to~screen|+G
+-F76#%82.~Output~to~text~file|+G-F76#%6Please~enter~1~or~2.|+G>8/Fgp@%
+/Fav\"\"#C&Fin-F76#%=for~example:~~A:\\OUTPUT.DTA|+G>F`oFao>80-Fho6%F`
+o%&WRITEGF[p>F[w%(defaultG-%(fprintfG6$F[w%6LDL^t~FACTORIZATION|+|+G-F
+bw6$F[w%>The~matrix~L~output~by~rows:|+G?(F`qFWFWFfpFaqC$?(FcqFWFWFhqF
+aq-Fbw6%F[w%)~~%12.8fGFeq-Fbw6$F[w%\"|+G-Fbw6$F[w%4The~diagonal~of~D:|
++G?(F`qFWFWFfpFaq-Fbw6%F[wF]xF[tF^x@$0F[wF`wC$-Fcr6#F[w-F76$%COutput~f
+ile~%s~created~sucessfullyGF`o-%'RETURNG6#F]qF&F&" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 9 "alg065();" }}{PARA 6 "" 1 "" {TEXT -1 347 "Th
+is is the LDL^t Method for Positive Definite Matrices.\nThe array will
+ be input from a text file in the order:\nA(1,1), A(1,2), ..., A(1,N),
+ A(2,1), A(2,2), ..., A(2,N),\n..., A(N,1), A(N,2), ..., A(N,N)\n\nPla
+ce as many entries as desired on each line, but separate entries with
+\nat least one blank.\n\n\nHas the input file been created? - enter Y \+
+or N." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "
+" {TEXT -1 76 "Input the file name in the form - drive:\\name.ext\nfor
+ example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 
+"c:\\data\\alg065.dta" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input the dimens
+ion n - an integer." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}
+{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 155 "LDL^t FAC
+TORIZATION\n\nThe matrix L output by rows:\n\n   -.25000000\n     .250
+00000     .75000000\nThe diagonal of D:\n    4.00000000    4.00000000 \+
+   1.00000000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "4 0 0" 7 }{VIEWOPTS 1 
+1 0 1 1 1803 }

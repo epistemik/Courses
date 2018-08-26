@@ -1,0 +1,91 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 186 "# SIMPSON'S COMPOSITE ALGORITHM 4.
+1\n#\n# To approximate I = integral ( ( f(x) dx ) ) from a to b:\n#\n#
+ INPUT:   endpoints a, b; even positive integer n.\n#\n# OUTPUT:  appr
+oximation XI to I." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "alg041 := pro
+c() local F, OK, A, B, N, H, XI0, XI1, XI2, NN, I, X, XI;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 39 "printf(`This is Simpsons Method.\\n\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the function F(x) in
+ terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "printf(`For ex
+ample: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 48 "printf(`Input lower limit of integration and `);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 39 "printf(`upper limit of integration\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`separated by a blank\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "if A > B then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 
+"printf(`Lower limit must be less than upper limit\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK \+
+:= TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Input an even positive inte
+ger N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "if N > 0 and N mod 2 = 0 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`I
+nput must be even and positive\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "ST
+EP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "H := (B-A)/N;" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "XI0 :=
+ F(A) + F(B);" }}{PARA 0 "" 0 "" {TEXT -1 24 "summation of f(x(2*I-1))
+" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XI1 := 0.0;
+" }}{PARA 0 "" 0 "" {TEXT -1 22 "summation of f(x(2*I))" }{MPLTEXT 1 
+0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XI2 := 0.0;" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "NN := N \+
+- 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 1 to NN do" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+15 "X := A + I * H;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "if I mod 2 = 0 then " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "XI2 := XI2 + F(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "XI1 := XI1 + F(X);      \+
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }{MPLTEXT 
+1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "XI := (XI0 + 2.0 * XI2 +
+ 4.0 * XI1) * H / 3.0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`\\nThe integral of F from %12.8f \+
+to %12.8f is\\n`, A, B);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "printf(
+`%12.8f\\n`, XI);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg041G:6\"6/%\"FG%#OK
+G%\"AG%\"BG%\"NG%\"HG%$XI0G%$XI1G%$XI2G%#NNG%\"IG%\"XG%#XIGF&F&C--%'pr
+intfG6#%;This~is~Simpsons~Method.|+|+G-F76#%GInput~the~function~F(x)~i
+n~terms~of~x|+G-F76#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\"
+>FA-%(unapplyG6$FA%\"xG>8%%&FALSEG?(F&FHFHF&/FOFPC(-F76#%FInput~lower~
+limit~of~integration~and~G-F76#%<upper~limit~of~integration|+G-F76#%6s
+eparated~by~a~blank|+G>8&&-FD6#%#%fGFG>8'Fin@%2F^oFhn-F76#%KLower~limi
+t~must~be~less~than~upper~limit|+G>FO%%TRUEG>FOFP?(F&FHFHF&FRC%-F76#%C
+Input~an~even~positive~integer~N.|+G>8(&-FD6#%#%dGFG@%32\"\"!F]p/-%$mo
+dG6$F]p\"\"#Fep>FOFeo-F76#%AInput~must~be~even~and~positive|+G@$/FOFeo
+C+>8)*&,&F^oFHFhn!\"\"FHF]pFfq>8*,&-FA6#FhnFH-FA6#F^oFH>8+Fep>8,Fep>8-
+,&F]pFHFfqFH?(8.FHFHFcr%%trueGC$>8/,&FhnFH*&FfrFHFcqFHFH@%/-Fhp6$FfrFj
+pFep>Far,&FarFH-FA6#FjrFH>F_r,&F_rFHFcsFH>80,$*&,(FhqFHFar$\"#?FfqF_r$
+\"#SFfqFHFcqFH$\"+LLLLL!#5-F76%%M|+The~integral~of~F~from~%12.8f~to~%1
+2.8f~is|+GFhnF^o-F76$%(%12.8f|+GFhs-%'RETURNG6#FepF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg041();" }}{PARA 6 "" 1 "" {TEXT 
+-1 83 "This is Simpsons Method.\n\nInput the function F(x) in terms of
+ x\nFor example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 "s
+in(x)" }}{PARA 6 "" 1 "" {TEXT -1 84 "Input lower limit of integration
+ and upper limit of integration\nseparated by a blank" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "0 3.141592654" }}{PARA 6 "" 1 "" 
+{TEXT -1 33 "Input an even positive integer N." }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 2 "20" }}{PARA 6 "" 1 "" {TEXT -1 68 "\nThe integr
+al of F from   0.00000000 to   3.14159265 is\n  2.00000678" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 0 "" }}}}{MARK "6 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

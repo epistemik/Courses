@@ -1,0 +1,16 @@
+
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :- 
+            asserta(pi(3.14159)), asserta(liquor(2)), asserta(nuts(3)) , asserta(nougat(4)) ,
+            asserta((surface_round(Radius,Nought,ResRnd) :- ResRnd is pi * Radius * Radius)),
+            asserta((surface_rectangular(Side1,Side2,ResRect) :- ResRect is Side1 * Side2)),
+            asserta((surface_triangular(Base,Ht,ResTri) :- ResTri is 0.5 * Base * Ht)),
+            asserta((total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- 
+                    Q =.. [Subprog,Dim1,Dim2,X], Q, K =.. [Filling,W], K, Result is X * W * Height)),
+          ( (Shape = round, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_round, Result)) ;
+            (Shape = rectangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_rectangular, Result)) ;
+            (Shape = triangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_triangular, Result)) ),
+            retract(pi(Y)), retract(liquor(A)), retract(nuts(B)), retract(nougat(C)),
+            retract((surface_round(A1,B1,C1):-D1)),
+            retract((surface_rectangular(A2,B2,C2):-D2)),
+            retract((surface_triangular(A3,B3,C3):-D3)), 
+            retract((total_weight(A4,B4,C4,D4,E4,F4,G4):-H4,I4,J4,K4,L4)),!.

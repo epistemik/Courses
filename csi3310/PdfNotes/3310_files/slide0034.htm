@@ -1,0 +1,171 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<link rel=OLE-Object-Data href=oledata.mso>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description content="20-Jan-00: Cache Memory">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0034.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><p:slidetransition advancetime="0" flag="1"/><o:shapelayout
+ v:ext="edit">
+ <o:idmap v:ext="edit" data="65"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>34</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s66562"
+  type="#_x0000_m3075" style='position:absolute;left:81.125pt;top:25.625pt;
+  width:620.875pt;height:75.75pt;mso-wrap-style:square;v-text-anchor:middle'
+  filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s66563" type="#_x0000_m3076"
+  style='position:absolute;left:68.75pt;top:107.875pt;width:330.25pt;height:376.125pt;
+  mso-wrap-style:square;v-text-anchor:top' filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="body" position="1" size="half"/></v:shape>
+ <div v:shape="_x0000_s66562" class=T style='position:absolute;top:6.75%;
+ left:12.17%;width:84.45%;height:8.75%'>Cache Memory</div>
+ <div v:shape="_x0000_s66563" class=HB><span style='position:absolute;
+ top:21.0%;left:14.23%;width:46.62%'><span style='font-size:83%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-8.03%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:83%'>Small cache of
+ expensive but </span></span><span style='position:absolute;top:25.25%;
+ left:14.23%;width:45.69%'><span style='font-size:83%'>very fast memory
+ interacting </span></span><span style='position:absolute;top:29.75%;
+ left:14.23%;width:44.38%'><span style='font-size:83%'>with slower but much
+ larger </span></span><span style='position:absolute;top:34.25%;left:14.23%;
+ width:40.26%'><span style='font-size:83%'>memory&#13;</span></span><span
+ style='position:absolute;top:39.5%;left:14.23%;width:40.26%'><span
+ style='font-size:83%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-9.3%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:83%'>Invisible to OS and user </span></span><span
+ style='position:absolute;top:44.0%;left:14.23%;width:42.13%'><span
+ style='font-size:83%'>programs but interact with </span></span><span
+ style='position:absolute;top:48.5%;left:14.23%;width:43.82%'><span
+ style='font-size:83%'>other memory management </span></span><span
+ style='position:absolute;top:52.75%;left:14.23%;width:40.26%'><span
+ style='font-size:83%'>hardware&#13;</span></span><span style='position:absolute;
+ top:58.25%;left:14.23%;width:47.75%'><span style='font-size:83%;font-weight:
+ normal'><span style='mso-special-format:bullet;color:#FF9966;mso-color-index:
+ 6;position:absolute;left:-7.84%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-size:83%'>Processor first
+ checks if </span><span style='font-size:83%;color:#FF9966;mso-color-index:
+ 6'>word </span></span><span style='position:absolute;top:62.75%;left:14.23%;
+ width:40.26%'><span style='font-size:83%'>referenced to is in cache&#13;</span></span><span
+ style='position:absolute;top:68.0%;left:14.23%;width:46.06%'><span
+ style='font-size:83%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-8.13%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:83%'>If not found in cache, a </span><span style='font-size:
+ 83%;color:#FF9966;mso-color-index:6'>block</span><span style='font-size:83%'> </span></span><span
+ style='position:absolute;top:72.5%;left:14.23%;width:40.82%'><span
+ style='font-size:83%'>of memory containing the </span></span><span
+ style='position:absolute;top:76.75%;left:14.23%;width:43.82%'><span
+ style='font-size:83%'>word is moved to the cache</span></span></div>
+ <p:shaperange href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s66564"
+  type="#_x0000_m3076" style='position:absolute;left:405pt;top:112.5pt;width:285.375pt;
+  height:351.25pt' o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+  filled="f" stroked="f">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke joinstyle="miter" o:forcedash="f"/>
+  <v:imagedata src="slide0034_image034.png" o:title=""/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t" text="t"/>
+  <p:placeholder type="clipart" position="2" size="half"/></v:shape><o:OLEObject
+  Type="Embed" ProgID="Adobe.Illustrator.7" ShapeID="_x0000_s66564"
+  DrawAspect="Content" ObjectID="12">
+  <p:oleclientdata menuname="Artwork" clipboardname="Adobe Illustrator Artwork"/></o:OLEObject>
+ <![if !vml]><img border=0 v:shapes="_x0000_s66564" src="slide0034_image035.jpg"
+ style='position:absolute;top:20.75%;left:56.17%;width:39.7%;height:65.0%'><![endif]></p:slide></div>
+
+</body>
+
+</html>

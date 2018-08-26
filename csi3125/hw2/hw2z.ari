@@ -1,0 +1,6 @@
+tol(T) :- T = 0.000001.
+abs(X, Result) :- (X < 0 , Result is (-1.0 * X)) ; Result is X.
+calc(X,Y,Result) :- Result is (0.5 * (Y + X/Y)).
+test(A,B,Result) :- Result is (abs(A - B*B)).
+sqrt(Val, Guess, Result) :- calc(Val, Guess, A), test(Val, A, B), tol(T), ((B < T, Result is A) ; sqrt(Val,A,Result)).
+square_root(X, Result) :- (X < 0 , Result = undef); sqrt(X, 1.0, Result).

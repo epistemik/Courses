@@ -1,0 +1,159 @@
+ CSI 3105                    ASSIGNMENT 1                       Fall, 2000
+ ---------------------------------------------------------------------------
+
+ Due Date: Friday, October 6, 2000, by 12:00 (noon) in the appropriate
+           locked CSI 3105 hand-in box, third floor, MacDonald Hall.
+
+ Please be sure to explain all of your solutions carefully and clearly.
+ To be complete, any worst case analysis you do must state the input size,
+ the basic operations being counted, and a general input of size n which
+ gives the worst case (you should state these things in your solution, even
+ if some of them are given in the question).
+
+ This assignment will be marked out of 60.
+
+
+ 1. [9 marks total]
+ Suppose you need to search a given unsorted list of n keys for a key x,
+ and you know you will need to perform such a search on the same list for
+ different values of x a total of R times. You may assume that n is a power
+ of 2.
+
+ Consider 2 algorithms:
+
+     Alg. 1:  Use sequential search R times.
+     Alg. 2:  Use exchange sort once (to sort the list) and then use
+              binary search  (iterative version) R times.
+
+ a) [3 marks]
+ Do a worst case analysis of each of these 2 algorithms.  Use n as your
+ input size, and count the number of comparisons of x to keys in the
+ list and comparisons of keys to each other.  When stating the complexity
+ of sequential search, exchange sort and binary search, you must use
+ the value for W(n) which we developed IN CLASS (note that this is
+ sometimes different than the W(n) from the text).
+
+ b) [4 marks]
+ For what general values of R will Alg. 2 be faster than Alg. 1? (i.e. how
+ big does R have to be, as a function of n, for Alg. 2 to be the more
+ efficient algorithm?).
+
+ c) [2 marks]
+ Use your solution from b) to determine how large R must be for a list with
+ 1024 keys.
+
+
+ 2. [14 marks total]
+
+ Consider the following variation of the Fibonacci numbers, called the
+ Boyd numbers:
+
+    B[0] = 0, B[1] = 1, B[2] = 2, B[3] = 3,
+    and for n>=4, B[n] = B[n-1] + B[n-2] + B[n-3] + B[n-4].
+
+ A recursive algorithm which finds B[n] is the following:
+
+      Problem:  Determine the nth term in the Boyd sequence.
+      Inputs:   A nonnegative integer n.
+      Outputs:  b, the nth term of the Boyd sequence.
+
+         int b (int n)
+         {
+            if (n<=3)
+               return n;
+            else
+               return b(n-1) + b(n-2) + b(n-3) + b(n-4);
+         }
+
+ a)[3 marks]
+ Let T(n) represent the number of recursive calls required by the
+ above algorithm to obtain B[n].  Draw the recursive call tree for
+ n = 7.
+
+ b) [3 marks]
+ Make a table showing the values of T(n) for n = 0, 1, 2, ..., 7.
+
+ c) [8 marks]
+ Prove the following, using induction:  For n >= 4, T(n) > 4^(n/4)
+ (this notation means 4 raised to the power (n/4)).  Note that you
+  must CLEARLY state, for each line in your proof, the reasoning
+  behind it (i.e. how you got to that line from the line above it).
+
+
+ 3. [18 marks total]
+ For each of the following algorithms, do a worst case analysis, and be sure
+ to explain your answer.  Use n as the input size, and use multiplication
+ as the basic operation counted for each.  To be complete, your solution must
+ state for each algorithm, the input size, the basic operation being counted,
+ and an input which gives the worst case (you should state these in your
+ solution, even if some of them are given in the question).  Also you should
+ try to simplify your solutions for W(n) as much as possible (some of the
+ formulas for summations in Appendix A may help!).
+
+ a) [6 marks]
+     p = 5;
+     for (i = 1; i <= n-3; i++) {
+        for (j = i; j <= n-1; j++) {
+           p = p * 20;
+        }
+     }
+
+ b)  [ 6 marks]
+ (for this algorithm you can assume that n is a power of 2)
+
+      answer = 25;
+      for (i = 1; i <= n; i++) {
+         j = n;
+         while (j >= 1) {
+             answer = answer * 5;
+             j = j/2 (rounded down);
+         }
+      }
+
+ c)   [6 marks]
+      answer = 2;
+      for (i = 1; i <= n; i++) {
+        for (j = 1; j <= i^2; j++) {
+             answer = answer * 7;
+         }
+      }
+
+ 4. [6 marks (3 each)]
+ For each of the following inputs, calculate the exact number of comparisons
+ (counting 2 inside the loop) for the iterative version of binary search
+ (Alg. 1.5). For each iteration of the algorithm, show the values of high,
+ low and mid (so it is easy for us to check your answer).  For both examples,
+ compare the number you get to the number of comparisons in the worst case
+ for this value of n, using the analysis we did in class.  Is the number
+ of comparisons the same or less than in worst case number?
+
+ a) n=16, x=19, S=[2, 3, 6, 8, 10, 15, 18, 21, 25, 27, 30, 31, 40, 41, 47, 50]
+    (For this example, x is not in the list, and is in the gap between two
+    entries close to the middle).
+    
+ b) n=8, x=40, S = [7, 14, 23, 25, 30, 32, 35, 40]
+    (for this example, x is in the list, and is the last entry).
+
+5. [13 marks total]
+
+a) [7 marks]
+Consider the following problem.  You are given an array S of n numbers
+(unsorted), and you are given a value K.  You wish to rearrange S such
+that all the numbers <= K come before the others (other than that, there
+is no specification for the order of the entries in the output).  For
+example, suppose that K = 10, and S = [4, 40, 5, 2, 11, 9, 10].  Then your
+ouput would look something like S = [4, 5, 2, 9, 10, 40, 11].  Design an
+algorithm to solve this problem, trying to be as efficient as possible (in
+terms of order).  Describe the idea of your algorithm in words, and then also
+describe it in pseudocode (try to use pseudocode which is similar to that in
+the book). Note that you cannot use other arrays for this algorithm (i.e.
+S should be your only array).
+
+b) [6 marks]
+Do a worst case analysis of your algorithm, counting the number of times
+you compare two numbers in the list AND the number of times you compare K
+to a number in the list AND the number of times you move a number from one
+position to another. Use n as your input size. Be sure to explain your
+analysis.
+
+

@@ -1,0 +1,185 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 495 "# JACOBI ITERATIVE ALGORITHM 7.1\n
+#\n# To solve Ax = b given an initial approximation x(0).\n#\n# INPUT:
+   the number of equations and unknowns n; the entries\n#          A(I
+,J), 1<=I, J<=n, of the matrix A; the entries\n#          B(I), 1<=I<=
+n, of the inhomogeneous term b; the\n#          entries XO(I), 1<=I<=n
+, of x(0); tolerance TOL;\n#          maximum number of iterations N.
+\n#\n#  OUTPUT: the approximate solution X(1),...,X(n) or a message\n#
+          that the number of iterations was exceeded." }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 92 "alg071 := proc() local AA, OK, NAME, INP, N, I, \+
+J, A, X1, TOL, NN, K, ERR, S, X2, FLAG, OUP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "printf(`This is the Jacobi Method for Linear Systems.
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "printf(`The array will be
+ input from a text file in the order\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 60 "printf(`A(1,1), A(1,2), ..., A(1,n+1), A(2,1), A(2,2)
+, ..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "A(2,n+1),..., A(n,1), A(
+n,2), ..., A(n,n+1)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf
+(`Place as many entries as desired on each line, but separate\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`entries with `);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least one blank.\\n\\n\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input file been c
+reated? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA
+ := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "
+printf(`for example:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Input \+
+the number of equations - an integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to N+1 do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "X1[I-1] := fscanf(INP, \+
+`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "f
+close(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 50 "printf(`The number must be a positive integer\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 33 "printf(`Input the tolerance.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`Tolerance must be a pos
+itive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`Input maximum number of ite
+rations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NN := scanf(`%d`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NN > 0 then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`Number must be
+ a positive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The program \+
+will end so the input file can be created.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FA
+LSE;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "while OK = FALSE and K <= NN do" }}{PARA 0 "" 0 "" 
+{TEXT -1 60 "err is used to test accuracy - it measures the infinity-n
+orm" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "ERR := 0;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 \+
+to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := 0;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "S := S-A[I-1,J-1]*X1[J-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "S := (S+A[I-
+1,N])/A[I-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "if abs(S) > ER
+R then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "ERR := abs(S);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 12 "use X2
+ for X" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "X2[I-1] := X1[I-1]+S;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if ERR <= TOL then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 19 "process is complet
+e" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "K := K+1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "X1[I-1] := X2[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 51 "printf(`Maximum Number of Iterations Exceeded.\\n`);" }}{PARA 0 
+"" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "" 0 "" {TEXT -1 34 "procedure c
+ompleted unsuccessfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text
+ file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter
+ 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "
+printf(`for example:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "fprintf(OUP, `JACOBI ITERATIVE METHOD FOR LINEAR SYST
+EMS\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `The s
+olution vector is :\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I \+
+from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, ` %1
+1.8f`, X2[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `\\nusing %d iterations\\n`, K)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "fprintf(OUP, `with Tolerance  \+
+%.10e in infinity-norm\\n`, TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclos
+e(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s c
+reated sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg071G:6\"63%#AAG%#OKG%%NAMEG%$INPG%\"NG%\"IG%\"JG%\"AG%#X1G%$TOLG%#
+NNG%\"KG%$ERRG%\"SG%#X2G%%FLAGG%$OUPGF&F&C.-%'printfG6#%OThis~is~the~J
+acobi~Method~for~Linear~Systems.|+G-F;6#%WThe~array~will~be~input~from
+~a~text~file~in~the~order|+G-F;6#%\\qA(1,1),~A(1,2),~...,~A(1,n+1),~A(
+2,1),~A(2,2),~...,~|+A(2,n+1),...,~A(n,1),~A(n,2),~...,~A(n,n+1)|+G-F;
+6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~separate|+G-F;
+6#%.entries~with~G-F;6#%7at~least~one~blank.|+|+|+G-F;6#%RHas~the~inpu
+t~file~been~created?~-~enter~Y~or~N.|+G>8$&-%&scanfG6#%#%cG6#\"\"\">8%
+%&FALSEG@%5/FQ%\"YG/FQ%\"yGC,-F;6#%SInput~the~file~name~in~the~form~-~
+drive:\\name.ext|+G-F;6#%<for~example:~~~A:\\DATA.DTA|+G>8&&-FT6#%#%sG
+FW>8'-%&fopenG6%Fdo%%READG%%TEXTG>FZFen?(F&FXFXF&/FZFenC%-F;6#%MInput~
+the~number~of~equations~-~an~integer.|+G>8(&-FT6#%#%dGFW@%2\"\"!FhpC&?
+(8)FXFXFhp%%trueG?(8*FXFX,&FhpFXFXFXFcq>&8+6$,&FbqFX!\"\"FX,&FeqFXF\\r
+FX&-%'fscanfG6$Fjo%#%fGFW?(FbqFXFXFhpFcq>&8,6#F[rF^r>FZ%%TRUEG-%'fclos
+eG6#Fjo-F;6#%GThe~number~must~be~a~positive~integer|+G>FZFen?(F&FXFXF&
+FbpC%-F;6#%6Input~the~tolerance.|+G>8-&-FT6#FbrFW@%2F_qFgs>FZFir-F;6#%
+?Tolerance~must~be~a~positive.|+G>FZFen?(F&FXFXF&FbpC%-F;6#%EInput~max
+imum~number~of~iterations.|+G>8.Fip@%2F_qFht>FZFir-F;6#%DNumber~must~b
+e~a~positive~integer.|+G-F;6#%XThe~program~will~end~so~the~input~file~
+can~be~created.|+G@$/FZFirC&>8/FX>FZFen?(F&FXFXF&3Fbp1FfuFhtC'>80F_q?(
+FbqFXFXFhpFcqC'>81F_q?(FeqFXFXFhpFcq>Fav,&FavFX*&FhqFX&Ffr6#F]rFXF\\r>
+Fav*&,&FavFX&Fiq6$F[rFhpFXFX&Fiq6$F[rF[rF\\r@$2F]v-%$absG6#Fav>F]vFaw>
+&82Fgr,&FerFXFavFX@$1F]vFgs>FZFir>Ffu,&FfuFXFXFX?(FbqFXFXFhpFcq>FerFfw
+@%Fbp-F;6#%HMaximum~Number~of~Iterations~Exceeded.|+GC.-F;6#%:Choice~o
+f~output~method:|+G-F;6#%51.~Output~to~screen|+G-F;6#%82.~Output~to~te
+xt~file|+G-F;6#%6Please~enter~1~or~2.|+G>83Fip@%/Fby\"\"#C&F]o-F;6#%>f
+or~example:~~~A:\\OUTPUT.DTA|+G>FdoFeo>84-F\\p6%Fdo%&WRITEGF_p>F\\z%(d
+efaultG-%(fprintfG6$F\\z%MJACOBI~ITERATIVE~METHOD~FOR~LINEAR~SYSTEMS|+
+|+G-Fcz6$F\\z%:The~solution~vector~is~:|+G?(FbqFXFXFhpFcq-Fcz6%F\\z%(~
+%11.8fGFfw-Fcz6%F\\z%6|+using~%d~iterations|+GFfu-Fcz6%F\\z%Hwith~Tole
+rance~~%.10e~in~infinity-norm|+GFgs@$0F\\zFazC$-F[s6#F\\z-F;6$%COutput
+~file~%s~created~sucessfullyGFdo-%'RETURNG6#F_qF&F&" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "alg071();" }}{PARA 6 "" 1 "" {TEXT -1 340 
+"This is the Jacobi Method for Linear Systems.\nThe array will be inpu
+t from a text file in the order\nA(1,1), A(1,2), ..., A(1,n+1), A(2,1)
+, A(2,2), ..., \nA(2,n+1),..., A(n,1), A(n,2), ..., A(n,n+1)\nPlace as
+ many entries as desired on each line, but separate\nentries with at l
+east one blank.\n\n\nHas the input file been created? - enter Y or N.
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" 
+{TEXT -1 76 "Input the file name in the form - drive:\\name.ext\nfor e
+xample:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c
+:\\data\\alg071.dta" }}{PARA 6 "" 1 "" {TEXT -1 43 "Input the number o
+f equations - an integer." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 
+"4" }}{PARA 6 "" 1 "" {TEXT -1 20 "Input the tolerance." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "0.00001" }}{PARA 6 "" 1 "" {TEXT -1 
+35 "Input maximum number of iterations." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 "25" }}{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output me
+thod:\n1. Output to screen\n2. Output to text file\nPlease enter 1 or \+
+2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 186 "JACOBI ITERATIVE METHOD FOR LINEAR SYSTEMS\n\nThe soluti
+on vector is :\n  1.00000075  1.99999868 -.99999899   .99999861\nusing
+ 17 iterations\nwith Tolerance  1.0000000000e-05 in infinity-norm" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "4 0 0" 7 }{VIEWOPTS 1 1 0 1 1 1803 }

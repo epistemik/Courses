@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0076)http://java.sun.com/docs/books/tutorial/essential/threads/waitAndNotify.html -->
+<HTML><HEAD><TITLE>Using the notifyAll and wait Methods</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="08-Re-acquiring a Lock.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26></A> <A 
+      href="10-Avoiding Starvation and Deadlock.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>Using the notifyAll and wait Methods </H2>
+<BLOCKQUOTE>The <CODE>CubbyHole</CODE> stores its value in a private member 
+  variable called <CODE>contents</CODE>. <CODE>CubbyHole</CODE> has another 
+  private member variable, <CODE>available</CODE>, that is a 
+  <CODE>boolean</CODE>. <CODE>available</CODE> is <CODE>true</CODE> when the 
+  value has just been put but not yet gotten and is false when the value has 
+  been gotten but not yet put. So, here's one possible implementation for the 
+  <CODE>put</CODE> and <CODE>get</CODE> methods: 
+  <BLOCKQUOTE><PRE>public synchronized int get() {    // won't work!
+    if (available == true) {
+        available = false;
+        return contents;
+    }
+}
+public synchronized void put(int value) {    // won't work!
+    if (available == false) {
+        available = true;
+        contents = value;
+    }
+}
+</PRE></BLOCKQUOTE>As implemented, these two methods won't work. Look at the 
+  <CODE>get</CODE> method. What happens if the <CODE>Producer</CODE> hasn't put 
+  anything in the <CODE>CubbyHole</CODE> and <CODE>available</CODE> isn't 
+  <CODE>true</CODE>? <CODE>get</CODE> does nothing. Similarly, if the 
+  <CODE>Producer</CODE> calls <CODE>put</CODE> before the <CODE>Consumer</CODE> 
+  got the value, <CODE>put</CODE> doesn't do anything. 
+  <P>You really want the <CODE>Consumer</CODE> to wait until the 
+  <CODE>Producer</CODE> puts something in the <CODE>CubbyHole</CODE> and the 
+  <CODE>Producer</CODE> must notify the <CODE>Consumer</CODE> when it's done so. 
+  Similarly, the <CODE>Producer</CODE> must wait until the <CODE>Consumer</CODE> 
+  takes a value (and notifies the <CODE>Producer</CODE> of its activities) 
+  before replacing it with a new value. The two threads must coordinate more 
+  fully and can use <CODE>Object</CODE>'s <CODE>wait</CODE> and 
+  <CODE>notifyAll</CODE> methods to do so. 
+  <P>Here are the new implementations of <CODE>get</CODE> and <CODE>put</CODE> 
+  that wait on and notify each other of their activities: 
+  <BLOCKQUOTE><PRE>public synchronized int get() {
+    while (available == false) {
+        try {
+            // wait for Producer to put value
+            wait();
+        } catch (InterruptedException e) {
+        }
+    }
+    available = false;
+    // notify Producer that value has been retrieved
+    notifyAll();
+    return contents;
+}
+public synchronized void put(int value) {
+    while (available == true) {
+        try {
+            // wait for Consumer to get value
+            wait();
+        } catch (InterruptedException e) {
+        }
+    }
+    contents = value;
+    available = true;
+    // notify Consumer that value has been set
+    notifyAll();
+} 
+</PRE></BLOCKQUOTE>The code in the <CODE>get</CODE> method loops until the 
+  <CODE>Producer</CODE> has produced a new value. Each time through the loop, 
+  <CODE>get</CODE> calls the <CODE>wait</CODE> method. The <CODE>wait</CODE> 
+  method relinquishes the lock held by the <CODE>Consumer</CODE> on the 
+  <CODE>CubbyHole</CODE> (thereby allowing the <CODE>Producer</CODE> to get the 
+  lock and update the <CODE>CubbyHole</CODE>) and then waits for notification 
+  from the <CODE>Producer</CODE>. When the <CODE>Producer</CODE> puts something 
+  in the <CODE>CubbyHole</CODE>, it notifies the <CODE>Consumer</CODE> by 
+  calling <CODE>notifyAll</CODE>. The <CODE>Consumer</CODE> then comes out of 
+  the wait state, <CODE>available</CODE> is now <CODE>true</CODE>, the loop 
+  exits, and the <CODE>get</CODE> method returns the value in the 
+  <CODE>CubbyHole</CODE>. 
+  <P>The <CODE>put</CODE> method works in a similar fashion, waiting for the 
+  <CODE>Consumer</CODE> thread to consume the current value before allowing the 
+  <CODE>Producer</CODE> to produce a new one. 
+  <P>The <CODE>notifyAll</CODE> method wakes up all threads waiting on the 
+  object in question (in this case, the <CODE>CubbyHole</CODE>). The awakened 
+  threads compete for the lock. One thread gets it, and the others go back to 
+  waiting. The <CODE>Object</CODE> class also defines the notify method, which 
+  arbitrarily wakes up one of the threads waiting on this object. 
+  <P>The <CODE>Object</CODE> class contains not only the version of 
+  <CODE>wait</CODE> that is used in the producer/consumer example and which 
+  waits indefinitely for notification, but also two other versions of the 
+  <CODE>wait</CODE> method: 
+  <DL>
+    <DT><STRONG>wait(long <EM>timeout</EM>)</STRONG> 
+    <DD>Waits for notification or until the <CODE>timeout</CODE> period has 
+    elapsed. <CODE>timeout</CODE> is measured in milliseconds. 
+    <DT><STRONG>wait(long <EM>timeout</EM>, int <EM>nanos</EM>)</STRONG> 
+    <DD>Waits for notification or until <CODE>timeout</CODE> milliseconds plus 
+    <CODE>nanos</CODE> nanoseconds have elapsed. </DD></DL>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Note:</STRONG>&nbsp; Besides using these timed <CODE>wait</CODE> 
+    methods to synchronize threads, you also can use them in place of 
+    <CODE>sleep</CODE>. Both <CODE>wait</CODE> and <CODE>sleep</CODE> delay for 
+    the requested amount of time, but you can easily wake up <CODE>wait</CODE> 
+    with a notify but a sleeping thread cannot be awoken prematurely. This 
+    doesn't matter too much for threads that don't sleep for long, but it could 
+    be important for threads that sleep for minutes at a time. 
+    <HR>
+  </BLOCKQUOTE></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="08-Re-acquiring a Lock.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26></A> <A 
+      href="10-Avoiding Starvation and Deadlock.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

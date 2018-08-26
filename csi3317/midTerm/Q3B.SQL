@@ -1,0 +1,1 @@
+ select p.pname from pilot p, airplane a, schedule s where p.p# = s.p# and s.a# = a.a# and a.type = 'TURBINE' INTERSECT select p.pname from pilot p, airplane a, schedule s where p.p# = s.p# and s.a# = a.a# and a.type = 'JET' ;

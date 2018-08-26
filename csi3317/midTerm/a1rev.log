@@ -1,0 +1,54 @@
+% Mark Sattolo 428500
+% a1rev.trc / WinRDBI
+% TRC answers to assn1 & assn2 for csi3317
+
+% Provide complete details of all suppliers in London.
+q1 := { S | supplier(S) and S.city = 'London' } ;
+
+% Provide project names and cities.
+q2 := { J.jname, J.city | projet(J) } ;
+
+% Provide all cities in which a supplier or project (or both) are located.
+q3b := { S.city | supplier(S) } ;
+q3c := { J.city | projet(J) } ;
+q3 := { Q | q3b(Q) or q3c(Q) } ;
+
+% Provide supplier numbers for suppliers who supply part P1.
+q4 := { R.snum | spj(R) and R.pnum = 'p1' } ;
+
+% Provide project names which use red or green parts.
+q5 := { J.jname | projet(J) and (exists R)( spj(R) and R.jnum = J.jnum and 
+            (exists P)( part(P) and R.pnum = P.pnum and (P.color = 'Red' or P.color = 'Green' ) ) )  } ;
+
+q5alt := { J.jname | projet(J) and (exists R, P)( spj(R) and part(P)
+                and R.jnum = J.jnum and R.pnum = P.pnum and (P.color = 'Red' or P.color = 'Green' ) )  } ;
+
+% Provide the part names used in a project with quantity equal to 500.
+q6 := { P.pname | part(P) and (exists R)(spj(R) and R.pnum = P.pnum and R.qty = 500) } ;
+
+% Provide all the cities in which suppliers are located, but no parts are located.
+q7 := { S.city | supplier(S) and not (exists P) (part(P) and S.city = P.city) } ;
+
+q7temp1 := { S.city | supplier(S) } ;
+q7temp2 := { P.city | part(P) } ;
+q7alt := { Q | q7temp1(Q) and not q7temp2(Q) }  ;
+
+% Provide the supplier name/project name pairs for which the indicated supplier supplies parts to the indicated project.
+q8 := { S.sname, J.jname | supplier(S) and projet(J) and (exists R)(spj(R) and S.snum = R.snum and J.jnum = R.jnum) } ;
+
+% Provide the supplier name/part name pairs for which the indicated supplier does NOT supply the indicated part.
+q9s1 := { S.sname, P.pname | supplier(S) and part(P) } ;
+q9s2 := { S.sname, P.pname | supplier(S) and part(P) and (exists R) (spj(R) and S.snum = R.snum and P.pnum = R.pnum) } ;
+q9 := { Q | q9s1(Q) and not q9s2(Q) } ;
+
+% Provide the supplier names which supply part p3 to project j4. 
+q2_4 := { S.sname | supplier(S) and (exists R) ( spj(R) and S.snum = R.snum and R.pnum = 'p3' and R.jnum = 'j4' ) } ;
+
+% Provide the supplier names for suppliers who do NOT supply a red part. 
+q2_6s1 := { S.sname | supplier(S) and (exists P, R) ( part(P) and spj(R) and S.snum = R.snum and R.pnum = P.pnum and P.color = 'Red' ) } ;
+q2_6s2 := { S.sname | supplier(S) } ;
+q2_6 := { Q | q2_6s2(Q) and not q2_6s1(Q) } ;
+
+% Provide project names which use all parts. 
+% This syntax DOES NOT work: { J.jname | projet(J) and (forall P)( part(P) and (exists R)( spj(R) and R.pnum = P.pnum and R.jnum = J.jnum ) ) } ;
+q2_9 := { J.jname | projet(J) and (forall P)( not part(P) or (exists R)( spj(R) and R.pnum = P.pnum and R.jnum = J.jnum ) ) } ;

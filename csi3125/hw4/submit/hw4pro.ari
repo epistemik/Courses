@@ -1,0 +1,33 @@
+% Mark Sattolo  428500
+% CSI3125, DGD-2
+% HW4, Q1
+
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'singleton variable' messages*/,
+                                       pi(PI), Result is PI * Radius * Radius.
+
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+                  Shape /*just to prevent 'singleton variable' messages*/,
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q), 
+                  K =.. [Filling,W], call(K), Result is X * W * Height.
+
+% the main predicate determines which predicate to pass to total weight
+% based on the shape
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, 0, surface_round, Result)) ;
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_rectangular, Result)) ;
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_triangular, Result)).

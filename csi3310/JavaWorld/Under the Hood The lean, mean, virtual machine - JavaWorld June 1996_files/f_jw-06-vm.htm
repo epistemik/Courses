@@ -1,0 +1,472 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.javaworld.com/javaworld/jw-06-1996/f_jw-06-vm.html -->
+<HTML><HEAD><TITLE>Under the Hood: The lean, mean, virtual machine - JavaWorld June 1996</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Under the Hood: The lean, mean, virtual machine" 
+name=description>
+<META content=1996-06 name=date>
+<META content="JavaWorld, Java, " name=keywords>
+<META content="Bill Venners" name=author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b><!-- table 1 -->
+<TABLE bgColor=#336699 border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG align=bottom alt="" border=0 height=8 
+      src="f_jw-06-vm_files/ul-blue.gif" width=8></TD>
+    <TD align=middle vAlign=center>&nbsp; 
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click 
+            here!</FONT><BR><NOLAYER><IFRAME frameBorder=0 height=60 
+            marginHeight=0 marginWidth=0 scrolling=no 
+            src="f_jw-06-vm_files/archives;sz=468x60.htm" 
+            width=468><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=468x60" height="60" width="468"></A></IFRAME></NOLAYER><ILAYER 
+            id=ph1 width="468" height="60" 
+        visibility="hide"></ILAYER></TD></TR></TBODY></TABLE>&nbsp; </TD>
+    <TD align=right vAlign=top width="1%"><IMG alt="" border=0 height=8 
+      src="f_jw-06-vm_files/ur-blue.gif" width=8></TD></TR></TBODY></TABLE><!-- end table 1 -->
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#336699><IMG align=bottom border=0 height=1 
+      src="f_jw-06-vm_files/dot_clear.gif" width=2></TD>
+    <TD bgColor=#cccccc vAlign=top><IMG align=top border=0 height=8 
+      src="f_jw-06-vm_files/blue-grey-ul.gif" width=8></TD>
+    <TD bgColor=#cccccc vAlign=top><FONT face=Arial,Helvetica,Sans-serif><IMG 
+      border=0 height=6 src="f_jw-06-vm_files/dot_clear.gif" width=1><BR>
+      <CENTER><STRONG>June 1996</STRONG><BR><A 
+      href="http://www.javaworld.com/javaworld/home.html"><IMG border=0 
+      height=41 src="f_jw-06-vm_files/jwlogo-132.gif" vspace=5 
+      width=132></A><BR><FONT size=-1><STRONG>FUELING INNOVATION</STRONG> 
+      </FONT></CENTER>
+      <P>
+      <TABLE border=0 cellPadding=2 cellSpacing=0 width=125>
+        <TBODY>
+        <TR>
+          <TD align=middle><A 
+            href="http://www.javaworld.com/javaworld/home.html"><IMG 
+            align=bottom border=0 height=14 src="f_jw-06-vm_files/house.gif" 
+            width=14></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/home.html">Home</A> 
+          </FONT></TD></TR>
+        <TR>
+          <TD align=middle><A 
+            href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Under%20the%20Hood%3A%20The%20lean%2C%20mean%2C%20virtual%20machine&amp;author=Bill%20Venners&amp;summary=A%20key%20component%20of%20Java%20is%20the%20Java%20Virtual%20Machine%20--%20%20a%20virtual%0Acomputer%2C%20typically%20implemented%20in%20software%20on%20top%20of%20%20a%0A%26quot%3Breal%26quot%3B%20hardware%20platform%20and%20operating%20system%2C%20%20that%0Aruns%20compiled%20Java%20programs.%20Thanks%20to%20the%20JVM%2C%20programs%20written%0Ain%20Java%20don%27t%20have%20to%20be%20rewritten%20to%20run%20on%20different%20computers.%0AHere%27s%20a%20hands-on%20%20introduction%20to%20the%20JVM.%20%28%3CEM%3E1%2C500%20words%3C%2FEM%3E%29%0A"><IMG 
+            border=0 height=9 src="f_jw-06-vm_files/envelope.gif" 
+          width=14></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Under%20the%20Hood%3A%20The%20lean%2C%20mean%2C%20virtual%20machine&amp;author=Bill%20Venners&amp;summary=A%20key%20component%20of%20Java%20is%20the%20Java%20Virtual%20Machine%20--%20%20a%20virtual%0Acomputer%2C%20typically%20implemented%20in%20software%20on%20top%20of%20%20a%0A%26quot%3Breal%26quot%3B%20hardware%20platform%20and%20operating%20system%2C%20%20that%0Aruns%20compiled%20Java%20programs.%20Thanks%20to%20the%20JVM%2C%20programs%20written%0Ain%20Java%20don%27t%20have%20to%20be%20rewritten%20to%20run%20on%20different%20computers.%0AHere%27s%20a%20hands-on%20%20introduction%20to%20the%20JVM.%20%28%3CEM%3E1%2C500%20words%3C%2FEM%3E%29%0A">Mail&nbsp;this&nbsp;Article</A> 
+            </FONT></TD></TR>
+        <TR>
+          <TD align=middle vAlign=top><A 
+            href="http://www.javaworld.com/javaworld/jw-06-1996/"><IMG 
+            align=bottom border=0 height=16 src="f_jw-06-vm_files/printer.gif" 
+            width=16></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/jw-06-1996/jw-06-vm_p.html">Printer-Friendly 
+            Version</A> </FONT></TD></TR></TBODY></TABLE>
+      <P><FONT 
+      face=Arial,Helvetica,Sans-serif><STRONG><U>Search</U></STRONG></FONT> 
+      <FORM action=http://search.itworld.com:8765/query.html method=get 
+      name=seek>
+      <TABLE border=0 cellPadding=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><INPUT name=col size=-1 type=hidden value=jw> <!-- This is the text box for search terms --><!--See above--><INPUT 
+            maxLength=2047 name=qt size=12> <INPUT alt=GO border=0 height=25 
+            src="f_jw-06-vm_files/button_blue.gif" type=image value=search 
+            width=27> </TD></TR></TBODY></TABLE></FORM>
+      <P><STRONG><A 
+      href="http://www.javaworld.com/javaworld/topicalindex/jw-ti-index.html">Topical&nbsp;index</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-netnews.html">Net&nbsp;News&nbsp;Central</A><BR><A 
+      href="http://www.javaworld.com/javaworld/tools/">Developer&nbsp;Tools&nbsp;Guide</A><BR><A 
+      href="http://www.javaworld.com/javaworld/books/">Book&nbsp;Catalog</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-guidelines.html">Writers&nbsp;Guidelines</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-privacy.html">Privacy&nbsp;Policy</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-copyright.html">Copyright</A><BR><A 
+      href="http://www.itcareers.com/">ITcareers</A> </STRONG>
+      <P>
+      <DIV align=left><A 
+      href="http://www.javaworld.com/javaworld/common/jw-subscribe.html"><IMG 
+      align=bottom border=0 height=25 hspace=3 
+      src="f_jw-06-vm_files/jw-subscribe.gif" width=120></A><BR></DIV>
+      <P><STRONG><U>Advertisement</U></STRONG><BR><NOLAYER><IFRAME frameBorder=0 
+      height=125 marginHeight=0 marginWidth=0 scrolling=no 
+      src="f_jw-06-vm_files/archives;sz=125x125;tile=1.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=1"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=1" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph2 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no src="f_jw-06-vm_files/archives;sz=125x125;tile=2.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=2"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=2" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph3 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no src="f_jw-06-vm_files/archives;sz=125x125;tile=3.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=3"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=3" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph4 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no src="f_jw-06-vm_files/archives;sz=125x125;tile=4.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=4"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=4" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph5 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no src="f_jw-06-vm_files/archives;sz=125x125;tile=5.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=5"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=5" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph6 width="125" height="125" visibility="hide"></ILAYER>
+      <P></FONT></P></TD>
+    <TD align=right bgColor=#cccccc vAlign=top><IMG align=top border=0 
+      height=8 src="f_jw-06-vm_files/blue-grey-ur.gif" width=8></TD>
+    <TD bgColor=#336699><IMG align=bottom border=0 height=1 
+      src="f_jw-06-vm_files/dot_clear.gif" width=2></TD>
+    <TD vAlign=top><IMG align=bottom border=0 height=4 
+      src="f_jw-06-vm_files/white-blue-bl4.gif" width=4></TD>
+    <TD rowSpan=2 vAlign=top><BR>
+      <H1 align=center>Under the Hood: The lean, mean, virtual machine </H1>
+      <H3 align=center>An introduction to the basic structure and functionality 
+      of the Java Virtual Machine </H3>
+      <BLOCKQUOTE><STRONG>Summary</STRONG><BR>A key component of Java is the 
+        Java Virtual Machine -- a virtual computer, typically implemented in 
+        software on top of a "real" hardware platform and operating system, that 
+        runs compiled Java programs. Thanks to the JVM, programs written in Java 
+        don't have to be rewritten to run on different computers. Here's a 
+        hands-on introduction to the JVM. (<EM>1,500 words</EM>) 
+      </BLOCKQUOTE><STRONG>By Bill Venners</STRONG> 
+      <P><IMG height=2 src="f_jw-06-vm_files/blue.gif" width="100%"> 
+      <P><!-- begin body text --><IMG align=left alt=W height=29 
+      src="f_jw-06-vm_files/W.gif" width=40>elcome to the first installment of 
+      "Under The Hood." In this column I'd like to explore topics concerning the 
+      inner workings of Java. Each month I'll focus on one area and attempt to 
+      demystify it. My aim is to help programmers understand what is actually 
+      going on when they compile and run their Java programs. In this 
+      installment, I provide an introduction to the basic structure and 
+      functionality of the Java Virtual Machine.</P>
+      <P><FONT size=+1><STRONG>What is the Java Virtual Machine? Why is it 
+      here?</STRONG></FONT><BR>The Java Virtual Machine, or JVM, is an abstract 
+      computer that runs compiled Java programs. The JVM is "virtual" because it 
+      is generally implemented in software on top of a "real" hardware platform 
+      and operating system. All Java programs are compiled for the JVM. 
+      Therefore, the JVM must be implemented on a particular platform before 
+      compiled Java programs will run on that platform. </P>
+      <P>
+      <CENTER><IMG height=92 src="f_jw-06-vm_files/Sandwich.gif" 
+      width=342></CENTER>
+      <P>The JVM plays a central role in making Java portable. It provides a 
+      layer of abstraction between the compiled Java program and the underlying 
+      hardware platform and operating system. The JVM is central to Java's 
+      portability because compiled Java programs run on the JVM, independent of 
+      whatever may be underneath a particular JVM&nbsp;implementation.</P>
+      <P>What makes the JVM lean and mean? The JVM&nbsp;is lean because it is 
+      small when implemented in software. It was designed to be small so that it 
+      can fit in as many places as possible -- places like TV sets, cell phones, 
+      and personal computers. The JVM is mean because it of its ambition. 
+      "Ubiquity!" is its battle cry. It wants to be everywhere, and its success 
+      is indicated by the extent to which programs written in Java will run 
+      everywhere.</P>
+      <P><FONT size=+1><STRONG>Java bytecodes</STRONG></FONT><BR>Java programs 
+      are compiled into a form called Java bytecodes. The JVM&nbsp;executes Java 
+      bytecodes, so Java bytecodes can be thought of as the machine language of 
+      the JVM. The Java compiler reads Java language source (.java) files, 
+      translates the source into Java bytecodes, and places the bytecodes into 
+      class (.class) files. The compiler generates one class file per class in 
+      the source.</P>
+      <P>
+      <CENTER><IMG height=80 src="f_jw-06-vm_files/Filter.gif" 
+      width=367></CENTER>
+      <P>To the JVM, a stream of bytecodes is a sequence of instructions. Each 
+      instruction consists of a one-byte opcode and zero or more operands. The 
+      opcode tells the JVM what action to take. If the JVM requires more 
+      information to perform the action than just the opcode, the required 
+      information immediately follows the opcode as operands.</P>
+      <P>A mnemonic is defined for each bytecode instruction. The mnemonics can 
+      be thought of as an assembly language for the JVM. For example, there is 
+      an instruction that will cause the JVM to push a zero onto the stack. The 
+      mnemonic for this instruction is <STRONG>iconst_0</STRONG>, and its 
+      bytecode value is <STRONG>60</STRONG> hex. This instruction takes no 
+      operands. Another instruction causes program execution to unconditionally 
+      jump forward or backward in memory. This instruction requires one operand, 
+      a 16-bit signed offset from the current memory location. By adding the 
+      offset to the current memory location, the JVM can determine the memory 
+      location to jump to. The mnemonic for this instruction is 
+      <STRONG>goto</STRONG>, and its bytecode value is <STRONG>a7</STRONG> 
+      hex.</P>
+      <P>
+      <CENTER><IMG height=99 src="f_jw-06-vm_files/Bytecode.gif" 
+      width=511></CENTER>
+      <P><FONT size=+1><STRONG>Virtual parts</STRONG></FONT><BR>The "virtual 
+      hardware" of the Java Virtual Machine can be divided into four basic 
+      parts: the registers, the stack, the garbage-collected heap, and the 
+      method area. These parts are abstract, just like the machine they compose, 
+      but they must exist in some form in every JVM implementation.</P>
+      <P>The size of an address in the JVM is 32 bits.The JVM can, therefore, 
+      address up to 4 gigabytes (2 to the power of 32) of memory, with each 
+      memory location containing one byte. Each register in the JVM stores one 
+      32-bit address. The stack, the garbage-collected heap, and the method area 
+      reside somewhere within the 4 gigabytes of addressable memory. The exact 
+      location of these memory areas is a decision of the implementor of each 
+      particular JVM.</P>
+      <P>A word in the Java Virtual Machine is 32 bits. The JVM has a small 
+      number of primitive data types: byte (8 bits), short (16 bits), int (32 
+      bits), long (64 bits), float (32 bits), double (64 bits), and char (16 
+      bits). With the exception of char, which is an unsigned Unicode character, 
+      all the numeric types are signed. These types conveniently map to the 
+      types available to the Java programmer. One other primitive type is the 
+      object handle, which is a 32-bit address that refers to an object on the 
+      heap.</P>
+      <P>The method area, because it contains bytecodes, is aligned on byte 
+      boundaries. The stack and garbage-collected heap are aligned on word 
+      (32-bit) boundaries.</P>
+      <P><FONT size=+1><STRONG>The proud, the few, the 
+      registers</STRONG></FONT><BR>The JVM has a program counter and three 
+      registers that manage the stack. It has few registers because the bytecode 
+      instructions of the JVM operate primarily on the stack. This 
+      stack-oriented design helps keep the JVM's instruction set and 
+      implementation small.</P>
+      <P>The JVM&nbsp;uses the program counter, or pc register, to keep track of 
+      where in memory it should be executing instructions. The other three 
+      registers -- optop register, frame register, and vars register -- point to 
+      various parts of the stack frame of the currently executing method. The 
+      stack frame of an executing method holds the state (local variables, 
+      intermediate results of calculations, etc.) for a particular invocation of 
+      the method.</P>
+      <P><FONT size=+1><STRONG>The method area and the program 
+      counter</STRONG></FONT><BR>The method area is where the bytecodes reside. 
+      The program counter always points to (contains the address of) some byte 
+      in the method area. The program counter is used to keep track of the 
+      thread of execution. After a bytecode instruction has been executed, the 
+      program counter will contain the address of the next instruction to 
+      execute. After execution of an instruction, the JVM sets the program 
+      counter to the address of the instruction that immediately follows the 
+      previous one, unless the previous one specifically demanded a jump.</P>
+      <P><FONT size=+1><STRONG>The Java stack and related 
+      registers</STRONG></FONT><BR>The Java stack is used to store parameters 
+      for and results of bytecode instructions, to pass parameters to and return 
+      values from methods, and to keep the state of each method invocation. The 
+      state of a method invocation is called its stack frame. The vars, frame, 
+      and optop registers point to different parts of the current stack 
+      frame.</P>
+      <P>There are three sections in a Java stack frame: the local variables, 
+      the execution environment, and the operand stack. The local variables 
+      section contains all the local variables being used by the current method 
+      invocation. It is pointed to by the vars register. The execution 
+      environment section is used to maintain the operations of the stack 
+      itself. It is pointed to by the frame register. The operand stack is used 
+      as a work space by bytecode instructions. It is here that the parameters 
+      for bytecode instructions are placed, and results of bytecode instructions 
+      are found. The top of the operand stack is pointed to by the optop 
+      register.</P>
+      <P>The execution environment is usually sandwiched between the local 
+      variables and the operand stack. The operand stack of the currently 
+      executing method is always the topmost stack section, and the optop 
+      register therefore always points to the top of the entire Java stack.</P>
+      <P><FONT size=+1><STRONG>The garbage-collected heap</STRONG></FONT><BR>The 
+      heap is where the objects of a Java program live. Any time you allocate 
+      memory with the <STRONG>new</STRONG> operator, that memory comes from the 
+      heap. The Java language doesn't allow you to free allocated memory 
+      directly. Instead, the runtime environment keeps track of the references 
+      to each object on the heap, and automatically frees the memory occupied by 
+      objects that are no longer referenced -- a process called garbage 
+      collection.</P>
+      <P><FONT size=+1><STRONG>Eternal math: a JVM 
+      simulation</STRONG></FONT><BR>The applet below simulates a JVM executing a 
+      few bytecode instructions. The instructions in the simulation were 
+      generated by the javac compiler given the following java code:</P>
+      <P><CODE>class Act {<BR>&nbsp;&nbsp;&nbsp;&nbsp;public static void 
+      doMathForever() {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i 
+      = 0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) 
+      {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i 
+      += 
+      1;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i 
+      *= 
+      2;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR></CODE>
+      <P>The instructions in the simulation represent the body of the 
+      doMathForever() method. These instructions were chosen because they are a 
+      short sequence of bytecodes that do something mildly interesting on the 
+      stack. This simulation stars the registers, the stack, and the method 
+      area. The heap is not involved in this bytecode sequence, so it is not 
+      shown as part of the applet's user interface. All numbers in the 
+      simulation are shown in hex.</P>
+      <P>As our story opens, the program counter (pc register)&nbsp;is pointing 
+      to an <STRONG>iconst_0</STRONG> instruction. The <STRONG>iconst_0</STRONG> 
+      instruction is in the method area, where bytecodes like to hang out.</P>
+      <P>When you press the Step button, the JVM will execute the single 
+      instruction that is being pointed to by the program counter. So, the first 
+      time you press the Step button, the <STRONG>iconst_0</STRONG> instruction, 
+      which pushes a zero onto the stack, will be executed. After this 
+      instruction has executed,the program counter will be pointing to the next 
+      instruction to execute.Subsequent presses of the Step button will execute 
+      subsequent instructions and the program counter will lead the way. 
+      Pressing the Reset button will cause the simulation to start over at the 
+      beginning.</P>
+      <P>The value of each register is shown two ways. The contents of each 
+      register, a 32-bit address, is shown in hex across the top of the 
+      simulation. Additionally, I&nbsp;put a small pointer to the address 
+      contained in each register next to the address in either the stack or the 
+      method area. The address contained by the program counter, for example, 
+      has a <STRONG>pc&gt;</STRONG> next to it in the method area.</P>
+      <P>The Java stack is word-based. Each time something is pushed onto the 
+      Java stack, it goes on as a word (although longs and doubles actually go 
+      on as two words). In the simulation, the Java stack is shown as an 
+      upside-down tower of words. It is shown growing down the panel (up in 
+      memory addresses) as words are pushed onto it. The stack recedes back up 
+      the panel as words are popped from it. In this implementation of the JVM, 
+      the optop register always points to the next available slot on the Java 
+      stack.</P>
+      <P>All three sections of the stack frame for the currently executing 
+      method-- the local variables, the execution environment, and the operand 
+      stack -- are shown in the simulation. Only the local variables and operand 
+      stack take part in this simulation, though. The execution environment 
+      isn't involved in this particular bytecode sequence, so it is shown filled 
+      with zeros.</P>
+      <P>The local variables section of the Java stack is treated as an array of 
+      words starting at the location pointed to by the vars register. Bytecodes 
+      that deal with local variables generally include an array index, which is 
+      an offset from the vars register. The address of the nth local variable is 
+      (vars + (n *&nbsp;4)). You must multiply n by 4, because each word is 4 
+      bytes long. </P>
+      <P>The doMathForever() method has only one local variable, i. It is 
+      therefore at array position zero and is pointed to directly by the vars 
+      register. For example, the iinc instruction takes two byte-sized operands, 
+      a local variable index and an amount. In the simulation, "iinc 0 1" 
+      increments by one the integer at local variable array position zero. This 
+      instruction implements the "i += 1;" statement from doMathForever().</P>
+      <P>With enough patience and clicks of the Step button, you can get an 
+      arithmetic overflow. When the JVM encounters such a condition, it just 
+      truncates, as is shown by this simulation. No exceptions are thrown. 
+      (Actually, I am just displaying the result of a multiply operation 
+      performed by the "real" JVM in your browser.)</P>
+      <P>I put a text description of each step at the bottom of the applet, 
+      which I hope will help to carry you through the simulation with clarity 
+      and deep understanding. Happy clicking.</P>
+      <P><APPLET code=EternalMath.class 
+      codeBase=/javaworld/jw-06-1996/vmsupport/classes height=360 width=625><PARAM NAME="code" VALUE="EternalMath.class"><PARAM NAME="codeBase" VALUE="http://www.javaworld.com/javaworld/jw-06-1996/vmsupport/classes"><PARAM NAME="height" VALUE="360"><PARAM NAME="width" VALUE="625"></APPLET></P>
+      <P>Click here for the <A 
+      href="http://www.javaworld.com/javaworld/jw-06-1996/vmsupport/source/EternalMath.java">source 
+      code</A>. 
+      <P>:ENDNOTE <EM><FONT size=-1>The small print: "The Lean, Mean Virtual 
+      Machine" Article Copyright (c) 1996 Bill Venners. All rights reserved. 
+      "Eternal Math" Applet Copyright (c) 1996 Artima Software Company. All 
+      rights reserved. </FONT></EM><IMG height=8 
+      src="f_jw-06-vm_files/dingbat.gif" width=8> <!-- end body text -->
+      <P><A name=bio>
+      <TABLE border=0 cellPadding=0 cellSpacing=3>
+        <TBODY>
+        <TR>
+          <TD vAlign=center></TD>
+          <TD bgColor=#000000><IMG align=bottom border=0 height=1 
+            src="D:\My_Docs\CSI_3310\JavaWorld\Under the Hood The lean, mean, virtual machine - JavaWorld June 1996_files\f_jw-06-vm_files\dot_clear(1).gif" 
+            width=2></TD>
+          <TD vAlign=top><STRONG><FONT face=Arial,Helvetica,Sans-serif 
+            size=-1>About the author </FONT></STRONG><BR>bill.venners 
+            <P>Bill Venners is president and chief propeller-head of <A 
+            href="http://www.artima.com/">Artima Software Company</A>. Through 
+            Artima, he does custom software development and consulting. 
+        </P></TD></TR></TBODY></TABLE><BR><BR></A></P></TD></TR>
+  <TR>
+    <TD bgColor=#336699 width=2><IMG align=bottom alt="" border=0 height=1 
+      src="f_jw-06-vm_files/dot_clear.gif" width=2></TD>
+    <TD bgColor=#cccccc vAlign=bottom><IMG align=bottom border=0 height=8 
+      src="f_jw-06-vm_files/blue-grey-bl.gif" width=8></TD>
+    <TD bgColor=#cccccc vAlign=bottom><BR>
+      <P>
+      <FORM action=/javaworld/cgi-bin/jw-mini-survey.cgi?1996-jw-06-vm.html 
+      method=post><A name=mini-ditka>
+      <TABLE border=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#336699><FONT color=#ffffff 
+            face=Arial,Helvetica,Sans-serif><STRONG>Feedback</STRONG> 
+        </FONT></TD></TR>
+        <TR>
+          <TD bgColor=#cccccc><FONT face=Arial,Helvetica,Sans-serif 
+            size=-1><STRONG>Tell&nbsp;us&nbsp;what&nbsp;you<BR>thought&nbsp;of&nbsp;this&nbsp;story</STRONG> 
+
+            <P><INPUT name=worth type=radio value=3>-Very worth 
+            reading<BR><INPUT name=worth type=radio value=2>-Worth 
+            reading<BR><INPUT name=worth type=radio value=1>-Not worth reading 
+            <P><INPUT name=length type=radio value=3>-Too long<BR><INPUT 
+            name=length type=radio value=2>-Just right<BR><INPUT name=length 
+            type=radio value=1>-Too short 
+            <P><INPUT name=tech type=radio value=3>-Too technical<BR><INPUT 
+            name=tech type=radio value=2>-Just right<BR><INPUT name=tech 
+            type=radio value=1>-Not technical enough 
+            <P><TEXTAREA cols=15 name=comments rows=3 wrap=VIRTUAL>Comments: </TEXTAREA><BR>Name:<BR><INPUT 
+            name=comments size=15><BR>Email:<BR><INPUT name=comments 
+            size=15><BR>Company Name:<BR><INPUT name=comments size=15><BR><INPUT type=submit value="Send data"> 
+        </FONT></P></TD></TR></TBODY></TABLE></A></FORM></P></TD>
+    <TD align=right bgColor=#cccccc vAlign=bottom><IMG align=bottom border=0 
+      height=8 src="f_jw-06-vm_files/blue-grey-br.gif" width=8></TD>
+    <TD bgColor=#336699><IMG align=bottom alt="" border=0 height=1 
+      src="f_jw-06-vm_files/dot_clear.gif" width=1></TD>
+    <TD bgColor=#ffffff vAlign=bottom>&nbsp;&nbsp;<BR><IMG align=bottom 
+      border=0 height=4 src="f_jw-06-vm_files/white-blue-ul4.gif" width=4></TD></TR>
+  <TR>
+    <TD bgColor=#336699 colSpan=7 height=6><IMG align=bottom border=0 height=1 
+      src="f_jw-06-vm_files/dot_clear.gif" width=1></TD></TR></TBODY></TABLE>
+<P>
+<DIV align=center><FONT face=Arial,Helvetica,Sans-serif><A 
+href="http://www.javaworld.com/javaworld/home.html">Home</A> | <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=Under%20the%20Hood%3A%20The%20lean%2C%20mean%2C%20virtual%20machine&amp;author=Bill%20Venners&amp;summary=A%20key%20component%20of%20Java%20is%20the%20Java%20Virtual%20Machine%20--%20%20a%20virtual%0Acomputer%2C%20typically%20implemented%20in%20software%20on%20top%20of%20%20a%0A%26quot%3Breal%26quot%3B%20hardware%20platform%20and%20operating%20system%2C%20%20that%0Aruns%20compiled%20Java%20programs.%20Thanks%20to%20the%20JVM%2C%20programs%20written%0Ain%20Java%20don%27t%20have%20to%20be%20rewritten%20to%20run%20on%20different%20computers.%0AHere%27s%20a%20hands-on%20%20introduction%20to%20the%20JVM.%20%28%3CEM%3E1%2C500%20words%3C%2FEM%3E%29%0A">Mail&nbsp;this&nbsp;Story</A> 
+| <!-- print --><A 
+href="http://www.javaworld.com/javaworld/jw-06-1996/jw-06-vm_p.html">Printer-Friendly&nbsp;Version</A> 
+| <!-- end_print --><A 
+href="http://www.javaworld.com/javaworld/jw-06-1996/f_jw-06-vm.html#resources">Resources&nbsp;and&nbsp;Related&nbsp;Links</A> 
+</FONT></DIV>
+<P>
+<TABLE bgColor=#336699 border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click 
+            here!</FONT><BR><NOLAYER><IFRAME frameBorder=0 height=60 
+            marginHeight=0 marginWidth=0 scrolling=no 
+            src="f_jw-06-vm_files/archives;sz=468x60.htm" 
+            width=468><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=468x60" height="60" width="468"></A></IFRAME></NOLAYER><ILAYER 
+            id=ph7 width="468" height="60" 
+        visibility="hide"></ILAYER></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P align=center><A 
+href="http://www.javaworld.com/javaworld/common/jw-copyright.html">(c) Copyright 
+1996 ITworld.com, Inc., an IDG Communications company</A> </P>
+<P><A name=resources><STRONG>Resources</STRONG></A> 
+<UL>
+  <LI>"<A href="http://java.sun.com/1.0alpha3/doc/vmspec/vmspec_1.html">The Java 
+  Virtual Machine Specification</A>," the official word from 
+  Sun.<BR>http://java.sun.com/1.0alpha3/doc/vmspec/vmspec_1.html
+  <LI>When it comes out, the book <EM><A 
+  href="http://www.aw.com/cp/lindholm-yellin.html">The Java Virtual Machine 
+  Specification </A></EM>(http://www.aw.com/cp/lindholm-yellin.html), by Tim 
+  Lindholm and Frank Yellin (ISBN&nbsp;0-201-63452-X), part of <A 
+  href="http://www.aw.com/cp/javaseries.html">The Java Series</A> 
+  (http://www.aw.com/cp/javaseries.html), from Addison-Wesley, will likely be 
+  the best JVM resource. </LI></UL>Feedback: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?jweditors@javaworld.com+/javaworld/jw-06-1996/jw-06-vm.html+jweditors" 
+name=jweditors>jweditors@javaworld.com</A><BR>Technical difficulties: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?webmaster@javaworld.com+/javaworld/jw-06-1996/jw-06-vm.html+webmaster" 
+name=webmaster>webmaster@javaworld.com</A><BR>URL: 
+http://www.javaworld.com/jw-06-1996/jw-06-vm.html <BR>Last modified: Tuesday, 
+April 18, 2000 <LAYER visibility="hide" 
+onload="moveToAbsolute(ph1.pageX, ph1.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=468x60"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph2.pageX, ph2.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=1"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph3.pageX, ph3.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=2"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph4.pageX, ph4.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=3"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph5.pageX, ph5.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=4"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph6.pageX, ph6.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=5"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph7.pageX, ph7.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=468x60"></LAYER></BODY></HTML>

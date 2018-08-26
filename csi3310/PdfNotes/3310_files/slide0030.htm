@@ -1,0 +1,161 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<link rel=OLE-Object-Data href=oledata.mso>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description content="20-Jan-00: Interrupt-Driven I/O">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0030.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><p:slidetransition advancetime="0" flag="1"/><o:shapelayout
+ v:ext="edit">
+ <o:idmap v:ext="edit" data="58"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>30</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s59394"
+  type="#_x0000_m3075" style='position:absolute;left:81.125pt;top:25.625pt;
+  width:620.875pt;height:75.75pt;mso-wrap-style:square;v-text-anchor:middle'
+  filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s59395" type="#_x0000_m3076"
+  style='position:absolute;left:81pt;top:109.5pt;width:372.25pt;height:371.5pt;
+  mso-wrap-style:square;v-text-anchor:top' filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="body" position="1" size="half"/></v:shape>
+ <div v:shape="_x0000_s59394" class=T style='position:absolute;top:6.75%;
+ left:12.17%;width:84.45%;height:8.75%'>Interrupt-Driven I/O</div>
+ <div v:shape="_x0000_s59395" class=HB><span style='position:absolute;
+ top:21.25%;left:15.91%;width:46.44%'><span style='font-weight:normal'><span
+ style='mso-special-format:bullet;color:#FF9966;mso-color-index:6;position:
+ absolute;left:-8.06%;top:.91em;font-family:"Monotype Sorts";font-size:50%'>n</span></span>Processor
+ is interrupted </span><span style='position:absolute;top:26.5%;left:15.91%;
+ width:48.87%'>when I/O module ready to </span><span style='position:absolute;
+ top:31.75%;left:15.91%;width:46.06%'>exchange data&#13;</span><span
+ style='position:absolute;top:38.25%;left:15.91%;width:54.68%'><span
+ style='font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-6.84%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span>Processor is free to do other </span><span
+ style='position:absolute;top:43.5%;left:15.91%;width:46.06%'>work.&#13;</span>
+ <div style='position:absolute;top:50.0%;left:12.17%;width:49.81%;height:5.25%'><span
+ style='position:absolute;top:0%;left:7.51%;width:92.48%'><span
+ style='font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-8.13%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span>No needless waiting&#13;</span></div>
+ <span style='position:absolute;top:56.25%;left:15.91%;width:53.74%'><span
+ style='font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-6.96%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span>However every word read or </span><span
+ style='position:absolute;top:61.75%;left:15.91%;width:52.05%'>written still
+ passes through </span><span style='position:absolute;top:67.0%;left:15.91%;
+ width:46.06%'>the CPU (<span style='font-weight:normal'><i>cycle stealing</i></span>)&#13;</span><span
+ style='position:absolute;top:73.5%;left:15.91%;width:54.86%'><span
+ style='font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-6.82%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>è</span></span>CPU performance is affected </span><span
+ style='position:absolute;top:78.75%;left:15.91%;width:46.06%'>by I/O</span></div>
+ <p:shaperange href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s59396"
+  type="#_x0000_m3076" style='position:absolute;left:471.625pt;top:35.75pt;
+  width:224.875pt;height:481.75pt' o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+  filled="f" stroked="f">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke joinstyle="miter" o:forcedash="f"/>
+  <v:imagedata src="slide0030_image022.png" o:title=""/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t" text="t"/>
+  <p:placeholder type="clipart" position="2" size="half"/></v:shape><o:OLEObject
+  Type="Embed" ProgID="Adobe.Illustrator.7" ShapeID="_x0000_s59396"
+  DrawAspect="Content" ObjectID="10">
+  <p:oleclientdata menuname="Artwork" clipboardname="Adobe Illustrator Artwork"/></o:OLEObject>
+ <![if !vml]><img border=0 v:shapes="_x0000_s59396" src="slide0030_image023.jpg"
+ style='position:absolute;top:6.5%;left:65.54%;width:31.27%;height:89.25%'><![endif]></p:slide></div>
+
+</body>
+
+</html>

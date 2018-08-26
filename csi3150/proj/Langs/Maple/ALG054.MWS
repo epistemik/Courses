@@ -1,0 +1,154 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+65 32 58 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 114 110 105 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 
+-1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 341 "# ADAMS-FORTH ORDER PREDICTOR-CORR
+ECTOR ALGORITHM 5.4\n#\n# To approximate the solution of the initial v
+alue problem\n#        y' = f(t,y), a <= t <= b, y(a) = alpha,\n# at N
++1 equally spaced points in the interval [a,b].\n#\n# INPUT:   endpoin
+ts a,b; initial condition alpha; integer N.\n#\n# OUTPUT:  approximati
+on w to y at the (N+1) values of t." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+101 "alg054 := proc() local F, OK, A, B, ALPHA, N, FLAG, NAME, OUP, H,
+ T, W, I, K1, K2, K3, K4, T0, W0, J;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 63 "printf(`This is Adams-Bashforth Predictor Corrector Method\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "printf(`Input the function F(t,
+y) in terms of t and y\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "pri
+ntf(`For example: y-t^2+1`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F :
+= scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := unapply(F
+,t,y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 62 "printf(`Input left and right endpoints separated by b
+lank\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "if A >= B then " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 59 "printf(`Left endpoint must be less than right endpoin
+t\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "printf(`Input the initial condition\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 
+"while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "printf(`Inp
+ut a positive integer for the number of subintervals\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "if N <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "
+printf(`Number must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output m
+ethod:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output t
+o screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output
+ to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`Plea
+se enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := sc
+anf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in th
+e form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+41 "printf(`For example   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 76 "fprintf(OUP, `ADAMS-BASHFORTH FOURTH ORDER PREDICTOR \+
+CORRECTOR METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprint
+f(OUP, `    t           w\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1
+" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "H := (B-A)/N
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "T[0] := A;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 14 "W[0] := ALPHA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+43 "fprintf(OUP, `%5.3f %11.7f\\n`, T[0], W[0]);" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 2" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for I from 1 to 3 do" }}{PARA 0 "" 0 "" {TEXT -1 12 "STEP 3 AND \+
+4" }{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 48 "compute starting \+
+values using Ringe-Kutta method" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "T[I] := T[I-1]+H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 26 "K1 := H*F(T[I-1], W[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 
+"K2 := H*F(T[I-1]+0.5*H, W[I-1]+0.5*K1);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 39 "K3 := H*F(T[I-1]+0.5*H, W[I-1]+0.5*K2);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 27 "K4 := H*F(T[I], W[I-1]+K3);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 39 "W[I] := W[I-1]+(K1+2.0*(K2+K3)+K4)/6.0;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `%5.3f %11.7f\\n`, T[I], W[I]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 6" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I f
+rom 4 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }{MPLTEXT 1 0 0 "
+" }}{PARA 0 "" 0 "" {TEXT -1 42 "T0, W0 will be used in place of t, w \+
+resp." }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "T0 := A
++I*H;" }}{PARA 0 "" 0 "" {TEXT -1 12 "predict W(I)" }{MPLTEXT 1 0 0 "
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 91 "W0 := W[3]+H*(55.0*F(T[3],W[3])
+-59.0*F(T[2],W[2])+37.0*F(T[1],W[1])-9.0*F(T[0],W[0]))/24.0;" }}{PARA 
+0 "" 0 "" {TEXT -1 12 "correct W(I)" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 81 "W0 := W[3]+H*(9.0*F(T0,W0)+19.0*F(T[3],W[3])-5
+.0*F(T[2],W[2])+F(T[1],W[1]))/24.0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STE
+P 8" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "fprintf(O
+UP, `%5.3f %11.7f\\n`, T0, W0);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9
+" }{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 26 "prepare for next i
+teration" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for \+
+J from 1 to 3 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "T[J-1] := T[J];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "W[J-1] := W[J];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "T[3] := T0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "W[3] := W0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 11" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Out
+put file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg054G:6\"66%\"FG%#OKG%\"AG%\"BG%&ALPHAG%\"NG%%FLAGG%%NAMEG%$OUPG%\"
+HG%\"TG%\"WG%\"IG%#K1G%#K2G%#K3G%#K4G%#T0G%#W0G%\"JGF&F&C0-%'printfG6#
+%TThis~is~Adams-Bashforth~Predictor~Corrector~Method|+G-F>6#%OInput~th
+e~function~F(t,y)~in~terms~of~t~and~y|+G-F>6#%5For~example:~y-t^2+1G>8
+$&-%&scanfG6#%#%aG6#\"\"\">FH-%(unapplyG6%FH%\"tG%\"yG>8%%&FALSEG?(F&F
+OFOF&/FWFXC&-F>6#%SInput~left~and~right~endpoints~separated~by~blank|+
+G>8&&-FK6#%#%fGFN>8'F[o@%1F`oFjn-F>6#%PLeft~endpoint~must~be~less~than
+~right~endpoint|+G>FW%%TRUEG-F>6#%=Input~the~initial~condition|+G>8(F[
+o>FWFX?(F&FOFOF&FZC%-F>6#%YInput~a~positive~integer~for~the~number~of~
+subintervals|+G>8)&-FK6#%#%dGFN@%1Fdp\"\"!-F>6#%CNumber~must~be~a~posi
+tive~integer|+G>FWFgo@$/FWFgoC0-F>6#%:Choice~of~output~method:|+G-F>6#
+%51.~Output~to~screen|+G-F>6#%82.~Output~to~text~file|+G-F>6#%5Please~
+enter~1~or~2|+G>8*Fep@%/F`r\"\"#C&-F>6#%SInput~the~file~name~in~the~fo
+rm~-~drive:\\name.ext|+G-F>6#%=For~example~~~A:\\OUTPUT.DTA|+G>8+&-FK6
+#%#%sGFN>8,-%&fopenG6%F\\s%&WRITEG%%TEXTG>Fbs%(defaultG-%(fprintfG6$Fb
+s%ZADAMS-BASHFORTH~FOURTH~ORDER~PREDICTOR~CORRECTOR~METHOD|+|+G-F[t6$F
+bs%3~~~~t~~~~~~~~~~~w|+G>8-*&,&F`oFOFjn!\"\"FOFdpFet>&8.6#F[qFjn>&8/Fi
+tF\\p-F[t6&Fbs%.%5.3f~%11.7f|+GFgtF[u?(80FOFO\"\"$%%trueGC)>&Fht6#Fau,
+&&Fht6#,&FauFOFetFOFOFbtFO>81*&FbtFO-FH6$Fiu&F\\uFjuFO>82*&FbtFO-FH6$,
+&FiuFOFbt$\"\"&Fet,&FavFOF]vFhvFO>83*&FbtFO-FH6$Fgv,&FavFOFcvFhvFO>84*
+&FbtFO-FH6$Ffu,&FavFOF\\wFOFO>&F\\uFgu,,FavFOF]v$\"+nmmm;!#5Fcv$\"+MLL
+LLF\\xF\\wF]xFbwFjw-F[t6&FbsF_uFfuFhw?(Fau\"\"%FOFdpFcuC)>85,&FjnFO*&F
+auFOFbtFOFO>86,&&F\\u6#FbuFO*&FbtFO,*-FH6$&FhtF\\yF[y$\"$]&Fet-FH6$&Fh
+t6#Fcr&F\\uFgy$!$!fFet-FH6$&FhtFN&F\\uFN$\"$q$Fet-FH6$FgtF[u$!#!*FetFO
+$\"+nmmmT!#6>Fix,&F[yFO*&FbtFO,*-FH6$FexFix$\"#!*FetF_y$\"$!>FetFdy$!#
+]FetF[zFOFOFez-F[t6&FbsF_uFexFix?(87FOFOFbuFcuC$>&Fht6#,&Fg[lFOFetFO&F
+ht6#Fg[l>&F\\uF[\\l&F\\uF^\\l>FayFex>F[yFix@$0FbsFisC$-%'fcloseG6#Fbs-
+F>6$%COutput~file~%s~created~sucessfullyGF\\s-%'RETURNGFitF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg054();" }}{PARA 6 "" 1 "" 
+{TEXT -1 117 "This is Adams-Bashforth Predictor Corrector Method\nInpu
+t the function F(t,y) in terms of t and y\nFor example: y-t^2+1" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "y-t^2+1" }}{PARA 6 "" 1 "" 
+{TEXT -1 49 "Input left and right endpoints separated by blank" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0 2" }}{PARA 6 "" 1 "" {TEXT 
+-1 27 "Input the initial condition" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 ".5" }}{PARA 6 "" 1 "" {TEXT -1 55 "Input a positive in
+teger for the number of subintervals" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 "10" }}{PARA 6 "" 1 "" {TEXT -1 87 "Choice of output me
+thod:\n1. Output to screen\n2. Output to text file\nPlease enter 1 or \+
+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 272 "ADAMS-BASHFORTH FOURTH ORDER PREDICTOR CORRECTOR METHOD
+\n\n    t           w\n0.000    .5000000\n .200    .8292933\n .400   1
+.2140762\n .600   1.6489220\n .800   2.1272056\n1.000   2.6408285\n1.2
+00   3.1799026\n1.400   3.7323504\n1.600   4.2834208\n1.800   4.815096
+3\n2.000   5.3053706" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 93 0" 0 }
+{VIEWOPTS 1 1 0 1 1 1803 }

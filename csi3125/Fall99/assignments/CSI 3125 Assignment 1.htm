@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/ass01.html -->
+<HTML><HEAD><TITLE>CSI 3125 Assignment 1</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY background="CSI 3125 Assignment 1_files/ring.jpg" bgColor=white 
+link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Assignment 1_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Assignment 1</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Assignment 1_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Assignment 1_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Assignment 1_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Assignment 1_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Assignment 1_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Assignment 1_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Assignment 1_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Assignment 1_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE border=0>
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top><I><B>Marks:</B></I></TD>
+    <TD><B>6</B></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Time:</B></I></TD>
+    <TD><B>Thursday, October 14, 1999, 12:00pm (NOON!)</B></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD><I>Absolutely no late assignments will be accepted.</I></TD></TR>
+  <TR>
+    <TD align=right vAlign=top><I><B>Due&nbsp;Place:</B></I></TD>
+    <TD><B>Locked box for CSI3125, 3rd floor MCD</B></TD></TR></TBODY></TABLE>
+<P>
+<HR>
+
+<H2>The Story</H2>Your buddy in Computer Engineering has come to you with a 
+problem. He has an assignment due in his fourth-year <I>Programming in Chaos</I> 
+course (CEG 4242... it's a two-semester course). Unfortunately, the Novell 
+network is down again, so he can't get access to Microsoft Chaos and can't 
+compile his Chaos program. Since he needs this course to get the ring, he has 
+asked you to look at the program to see if it's correct.
+<P>Of course, being a Computer Science student, you've never even heard of the 
+programming language Chaos. But also because you're a Computer Science student, 
+you know that it doesn't really matter what language a program is written in, 
+you can figure it out based on your knowledge of the theory of programming 
+languages in general.
+<P>So you look at your buddy's program and figure: "I could write an EBNF 
+grammar for the program. If the grammar is short, fairly simple and uses the 
+standard programming language constructs, it probably describes a language that 
+is consistent enough to be a real programming language."
+<P>Here is your buddy's program.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>Declarations:
+  Types:
+    Small_number ==&gt; integer.
+    Tiny_number ==&gt; values 0 to 10 of Small_number.
+    Lower_case ==&gt; values 'a' to 'z' of character.
+
+    Int_array ==&gt; 10 element array of integer.
+
+    Simple_rec ==&gt; record of
+       integer I, J, K.
+       Tiny_number Subs.
+       character Code.
+       Int_array A_nums.
+    drocer.
+  sepyT.
+
+  Variables:
+     integer X.
+     character Ch.
+     Int_array A.
+     Simple_rec My_rec.
+     10 element array of Simple_rec My_rec_array.
+     5 element array of character Ch_array.
+     6 element array of Int_array Int_matrix.
+  selbairaV.
+snoitaralceD.
+
+Code:
+  X &lt;== 3.
+  Ch &lt;== 'a'.
+
+  I in My_rec &lt;== 42.
+
+  element 2 in Ch_array &lt;== 'k'.
+  element X in A_nums in My_rec &lt;== 15.
+  element X in element 3 in Int_matrix &lt;== 42.
+  element X in A_nums in element 3 in My_rec_array &lt;== X + I in My_rec * 2.
+
+edoC.
+</PRE></TD></TR></TBODY></TABLE></CENTER>
+<P>
+<HR>
+
+<H2>Part 1</H2>
+<H3>The Assignment</H3>Write an EBNF grammar that accepts the Chaos program 
+above. 
+<H3>The Hints</H3>Here is your goal symbol: 
+<UL>
+  <LI><TT>&lt;chaos_program&gt;</TT> </LI></UL>Here are some of the terminal 
+symbols and some rules combining them that you might find useful: 
+<UL>
+  <LI><TT>&lt;digit&gt; ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9</TT> 
+  <LI><TT>&lt;char&gt; ::= a | b | c | d | ... | z | _ | A | B | C | D | ... | Z 
+  </TT>
+  <LI><TT>&lt;lo_op&gt; ::= + | -</TT> 
+  <LI><TT>&lt;hi_op&gt; ::= * | /</TT>
+  <P></P>
+  <LI><TT>&lt;identifier&gt; ::= &lt;char&gt; { &lt;char&gt; | &lt;digit&gt; 
+  }</TT> 
+  <LI><TT>&lt;number&gt; ::= &lt;digit&gt; { &lt;digit&gt; }</TT> </LI></UL>Note 
+that all of the statements in the code section are assignment statements in this 
+program. You should probably have a nonterminal somewhere in your grammar called 
+<TT>&lt;assign_stmt&gt;</TT>. Don't worry about any other kinds of statements.
+<P>Look at the possible values that can appear on the left side and the right 
+side of the assignment operator (<TT>&lt;==</TT>). The left side can be a simple 
+identifier or an element of an array or a field of a record, or combinations of 
+these. The right side is an expression, which consists of identifiers, numbers, 
+elements of arrays, fields in records, etc.
+<P>Notice that there is an assumed priority of operations in expressions: 
+addition and subtraction are lowest priority, multiplication and division are 
+higher priority, and resolving array elements or fields in records is the 
+highest priority. For example, in the expression:<BR><TT>X + I in My_rec * 
+2</TT><BR>the order of operations is: 
+<UL>
+  <LI>first <TT>I in My_rect</TT> 
+  <LI>then <TT>* 2</TT> 
+  <LI>then <TT>+ X</TT> </LI></UL>Don't forget that <A 
+href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut01.html">Tutorial 
+1</A> had an example of an EBNF grammar for part of Pascal.
+<P>
+<HR>
+
+<H2>Part 2</H2>
+<H3>The Assignment</H3>Show a bottom-up derivation of the last assignment 
+statement in the program.
+<P>
+<H3>The Hints</H3>Don't bother showing all of the characters in identifiers. You 
+can directly substitute <TT>&lt;identifier&gt;</TT> for things like 
+<TT>A_nums</TT> for example.
+<P>The goal symbol will not be <TT>&lt;chaos_program&gt;</TT>, since the last 
+statement is not a full program. Your goal symbol will be something like 
+<TT>&lt;assign_stmt&gt;</TT> or whatever symbol you have in your grammar for 
+assignment statements.
+<P>Let me help you get started.
+<P>
+<CENTER>
+<TABLE border=1 cellPadding=2>
+  <TBODY>
+  <TR>
+    <TD bgColor=white><PRE>element X in A_nums in element <FONT color=green><U>3</U></FONT> in My_rec_array &lt;== X + I in My_rec * 2.
+element X in A_nums in element <FONT color=green><U>&lt;digit&gt;</U></FONT> in My_rec_array &lt;== X + I in My_rec * 2.
+element X in A_nums in element &lt;number&gt; in <FONT color=green><U>My_rec_array</U></FONT> &lt;== X + I in My_rec * 2.
+element X in A_nums in element &lt;number&gt; in &lt;identifier&gt; &lt;== X + I in My_rec * 2.
+</PRE>etc. </TD></TR></TBODY></TABLE></CENTER>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update October 07, 1999)</I></FONT> </P></BODY></HTML>

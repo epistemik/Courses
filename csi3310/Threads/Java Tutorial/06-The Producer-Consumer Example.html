@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0078)http://java.sun.com/docs/books/tutorial/essential/threads/synchronization.html -->
+<HTML><HEAD><TITLE>The Producer/Consumer Example</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="05-Synchronizing Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> 
+      <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="07-Locking an Object.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>The Producer/Consumer Example </H2>
+<BLOCKQUOTE>The <A 
+  href="example/Producer.java" 
+  target=source><FONT color=#bb000f><CODE>Producer</CODE></FONT></A><A 
+  href="example/Producer.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> 
+  generates an integer between 0 and 9 (inclusive), stores it in a <A 
+  href="example/CubbyHole.java" 
+  target=source><FONT color=#bb000f><CODE>CubbyHole</CODE></FONT></A><A 
+  href="example/CubbyHole.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> object, 
+  and prints the generated number. To make the synchronization problem more 
+  interesting, the <CODE>Producer</CODE> sleeps for a random amount of time 
+  between 0 and 100 milliseconds before repeating the number generating cycle: 
+  <BLOCKQUOTE><PRE>public class Producer extends Thread {
+    private CubbyHole cubbyhole;
+    private int number;
+
+    public Producer(CubbyHole c, int number) {
+        cubbyhole = c;
+        this.number = number;
+    }
+
+    public void run() {
+        for (int i = 0; i &lt; 10; i++) {
+            cubbyhole.put(i);
+            System.out.println("Producer #" + this.number
+                               + " put: " + i);
+            try {
+                sleep((int)(Math.random() * 100));
+            } catch (InterruptedException e) { }
+        }
+    }
+}
+</PRE></BLOCKQUOTE>The <A 
+  href="example/Consumer.java" 
+  target=source><FONT color=#bb000f><CODE>Consumer</CODE></FONT></A><A 
+  href="example/Consumer.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A>, being 
+  ravenous, consumes all integers from the <CODE>CubbyHole</CODE> (the exact 
+  same object into which the <CODE>Producer</CODE> put the integers in the first 
+  place) as quickly as they become available. 
+  <BLOCKQUOTE><PRE>public class Consumer extends Thread {
+    private CubbyHole cubbyhole;
+    private int number;
+
+    public Consumer(CubbyHole c, int number) {
+        cubbyhole = c;
+        this.number = number;
+    }
+
+    public void run() {
+        int value = 0;
+        for (int i = 0; i &lt; 10; i++) {
+            value = cubbyhole.get();
+            System.out.println("Consumer #" + this.number
+                               + " got: " + value);
+        }
+    }
+}
+
+</PRE></BLOCKQUOTE>The <CODE>Producer</CODE> and <CODE>Consumer</CODE> in this 
+  example share data through a common <CODE>CubbyHole</CODE> object. And you 
+  will note that neither the <CODE>Producer</CODE> nor the <CODE>Consumer</CODE> 
+  makes any effort whatsoever to ensure that the <CODE>Consumer</CODE> is 
+  getting each value produced once and only once. The synchronization between 
+  these two threads actually occurs at a lower level, within the 
+  <CODE>get</CODE> and <CODE>put</CODE> methods of the <CODE>CubbyHole</CODE> 
+  object. However, let's assume for a moment that these two threads make no 
+  arrangements for synchronization and talk about the potential problems that 
+  might arise in that situation. 
+  <P>One problem arises when the <CODE>Producer</CODE> is quicker than the 
+  <CODE>Consumer</CODE> and generates two numbers before the 
+  <CODE>Consumer</CODE> has a chance to consume the first one. Thus the 
+  <CODE>Consumer</CODE> would skip a number. Part of the output might look like 
+  this: 
+  <BLOCKQUOTE><PRE>    . . .
+
+Consumer #1 got: 3
+Producer #1 put: 4
+Producer #1 put: 5
+Consumer #1 got: 5
+
+    . . .
+</PRE></BLOCKQUOTE>Another problem that might arise is when the 
+  <CODE>Consumer</CODE> is quicker than the <CODE>Producer</CODE> and consumes 
+  the same value twice. In this situation, the <CODE>Consumer</CODE> would print 
+  the same value twice and might produce output that looked like this: 
+  <BLOCKQUOTE><PRE>    . . .
+
+Producer #1 put: 4
+Consumer #1 got: 4
+Consumer #1 got: 4
+Producer #1 put: 5
+
+    . . .
+</PRE></BLOCKQUOTE>Either way, the result is wrong. You want the 
+  <CODE>Consumer</CODE> to get each integer produced by the 
+  <CODE>Producer</CODE> exactly once. Problems such as those just described are 
+  called <EM>race conditions</EM>. They arise from multiple, asynchronously 
+  executing threads trying to access a single object at the same time and 
+  getting the wrong result. 
+  <P>Race conditions in the producer/consumer example are prevented by having 
+  the storage of a new integer into the <CODE>CubbyHole</CODE> by the 
+  <CODE>Producer</CODE> be synchronized with the retrieval of an integer from 
+  the <CODE>CubbyHole</CODE> by the <CODE>Consumer</CODE>. The 
+  <CODE>Consumer</CODE> must consume each integer exactly once. 
+  <P>The activities of the <CODE>Producer</CODE> and <CODE>Consumer</CODE> must 
+  be synchronized in two ways. First, the two threads must not simultaneously 
+  access the <CODE>CubbyHole</CODE>. A Java thread can prevent this from 
+  happening by locking an object. When an object is locked by one thread and 
+  another thread tries to call a synchronized method on the same object, the 
+  second thread will block until the object is unlocked. <A 
+  href="07-Locking an Object.html">Locking 
+  an Object</A> discusses this. 
+  <P>And second, the two threads must do some simple coordination. That is, the 
+  <CODE>Producer</CODE> must have some way to indicate to the 
+  <CODE>Consumer</CODE> that the value is ready and the <CODE>Consumer</CODE> 
+  must have some way to indicate that the value has been retrieved. The 
+  <CODE>Thread</CODE> class provides a collection of methods--<CODE>wait</CODE>, 
+  <CODE>notify</CODE>, and <CODE>notifyAll</CODE>--to help threads wait for a 
+  condition and notify other threads of when that condition changes. <A 
+  href="09-Using the notifyAll and wait Methods.html">Using 
+  the <CODE>notifyAll</CODE> and <CODE>wait</CODE> Methods </A>has more 
+  information. </P></BLOCKQUOTE>
+<H3>The Main Program</H3>
+<BLOCKQUOTE>Here's a small stand-alone <A 
+  href="example/ProducerConsumerTest.java" 
+  target=source><FONT color=#bb000f><CODE>Java application</CODE></FONT></A><A 
+  href="example/ProducerConsumerTest.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> that 
+  creates a <CODE>CubbyHole</CODE> object, a <CODE>Producer</CODE>, a 
+  <CODE>Consumer</CODE>, and then starts both the <CODE>Producer</CODE> and the 
+  <CODE>Consumer</CODE>. 
+  <BLOCKQUOTE><PRE>public class ProducerConsumerTest {
+    public static void main(String[] args) {
+        CubbyHole c = new CubbyHole();
+        Producer p1 = new Producer(c, 1);
+        Consumer c1 = new Consumer(c, 1);
+
+        p1.start();
+        c1.start();
+    }
+}
+</PRE></BLOCKQUOTE></BLOCKQUOTE>
+<H3>The Output</H3>
+<BLOCKQUOTE>Here's the output of ProducerConsumerTest. 
+  <BLOCKQUOTE><PRE>Producer #1 put: 0
+Consumer #1 got: 0
+Producer #1 put: 1
+Consumer #1 got: 1
+Producer #1 put: 2
+Consumer #1 got: 2
+Producer #1 put: 3
+Consumer #1 got: 3
+Producer #1 put: 4
+Consumer #1 got: 4
+Producer #1 put: 5
+Consumer #1 got: 5
+Producer #1 put: 6
+Consumer #1 got: 6
+Producer #1 put: 7
+Consumer #1 got: 7
+Producer #1 put: 8
+Consumer #1 got: 8
+Producer #1 put: 9
+Consumer #1 got: 9
+</PRE></BLOCKQUOTE></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="05-Synchronizing Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> 
+      <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="07-Locking an Object.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

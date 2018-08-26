@@ -1,0 +1,2305 @@
+{csia}u428500(5) pc candy.p
+{csia}u428500(6) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: round
+Enter the type of filling: nuts
+Enter the height of the candy: 11.5
+Enter the dimensions of the top: 4 6
+This candy weighs 1734.16 grams.
+ 
+Another candy to enter? [Y/N]  y
+Enter the shape of the candy top: rectangular
+Enter the type of filling: liquor
+Enter the height of the candy: 3.44
+Enter the dimensions of the top: 7.66 0.9033
+This candy weighs 47.60 grams.
+ 
+Another candy to enter? [Y/N]  n
+It has been a pleasure serving you - bye for now.
+{csia}u428500(7) a.out <candy.in >candy.2.out
+{csia}u428500(8) more candy.2.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: Enter the type of filling: Enter the height of
+ the candy: Enter the dimensions of the top: This candy weighs 942.48 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 353.57 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 3070.51 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 318.95 grams.
+ 
+Another candy to enter? [Y/N]  It has been a pleasure serving you - bye for now.
+{csia}u428500(9) pc hw4q2.p
+{csia}u428500(10) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter the maximum integer value for the loop: 3
+ 
+ >> Starting input value was:          1
+Inside subtract2.
+Value of X now is:         -1
+Inside add1.
+Value of X now is:          0
+Inside double_.
+Value of X now is:          0
+Inside triple.
+Value of X now is:          0
+ >> Ouput value is:         -1
+ >> Input value now is:          0
+ 
+ >> Starting input value was:          2
+Inside subtract2.
+Value of X now is:          0
+Inside add1.
+Value of X now is:          1
+Inside double_.
+Value of X now is:          2
+Inside triple.
+Value of X now is:          6
+ >> Ouput value is:         10
+ >> Input value now is:          6
+ 
+ >> Starting input value was:          3
+Inside subtract2.
+Value of X now is:          1
+Inside add1.
+Value of X now is:          2
+Inside double_.
+Value of X now is:          4
+Inside triple.
+Value of X now is:         12
+ >> Ouput value is:         45
+ >> Input value now is:         12
+ 
+   PROGRAM ENDED.
+{csia}u428500(11) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter the maximum integer value for the loop: 9
+ 
+ >> Starting input value was:          1
+Inside subtract2.
+Value of X now is:         -1
+Inside add1.
+Value of X now is:          0
+Inside double_.
+Value of X now is:          0
+Inside triple.
+Value of X now is:          0
+ >> Ouput value is:         -1
+ >> Input value now is:          0
+ 
+ >> Starting input value was:          2
+Inside subtract2.
+Value of X now is:          0
+Inside add1.
+Value of X now is:          1
+Inside double_.
+Value of X now is:          2
+Inside triple.
+Value of X now is:          6
+ >> Ouput value is:         10
+ >> Input value now is:          6
+ 
+ >> Starting input value was:          3
+Inside subtract2.
+Value of X now is:          1
+Inside add1.
+Value of X now is:          2
+Inside double_.
+Value of X now is:          4
+Inside triple.
+Value of X now is:         12
+ >> Ouput value is:         45
+ >> Input value now is:         12
+ 
+ >> Starting input value was:          4
+Inside subtract2.
+Value of X now is:          2
+Inside add1.
+Value of X now is:          3
+Inside double_.
+Value of X now is:          6
+Inside triple.
+Value of X now is:         18
+ >> Ouput value is:        128
+ >> Input value now is:         18
+ 
+ >> Starting input value was:          5
+Inside subtract2.
+Value of X now is:          3
+Inside add1.
+Value of X now is:          4
+Inside double_.
+Value of X now is:          8
+Inside triple.
+Value of X now is:         24
+ >> Ouput value is:        283
+ >> Input value now is:         24
+ 
+ >> Starting input value was:          6
+Inside subtract2.
+Value of X now is:          4
+Inside add1.
+Value of X now is:          5
+Inside double_.
+Value of X now is:         10
+Inside triple.
+Value of X now is:         30
+ >> Ouput value is:        534
+ >> Input value now is:         30
+ 
+ >> Starting input value was:          7
+Inside subtract2.
+Value of X now is:          5
+Inside add1.
+Value of X now is:          6
+Inside double_.
+Value of X now is:         12
+Inside triple.
+Value of X now is:         36
+ >> Ouput value is:        905
+ >> Input value now is:         36
+ 
+ >> Starting input value was:          8
+Inside subtract2.
+Value of X now is:          6
+Inside add1.
+Value of X now is:          7
+Inside double_.
+Value of X now is:         14
+Inside triple.
+Value of X now is:         42
+ >> Ouput value is:       1420
+ >> Input value now is:         42
+ 
+ >> Starting input value was:          9
+Inside subtract2.
+Value of X now is:          7
+Inside add1.
+Value of X now is:          8
+Inside double_.
+Value of X now is:         16
+Inside triple.
+Value of X now is:         48
+ >> Ouput value is:       2103
+ >> Input value now is:         48
+ 
+   PROGRAM ENDED.
+{csia}u428500(12) ls
+a.out*       candy.out    hw4.ari      hw4.sml      hw4prolog    hw4q2.p
+candy.2.out  candy.p      hw4.scm      hw4.sml.out  hw4q2.c      hw4q2.p.x*
+candy.in     candy.p.x*   hw4.scm.out  hw4pro       hw4q2.c.x*
+{csia}u428500(13) a.out >hw4q2.p.out
+13
+{csia}u428500(14) more hw4q2.p.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter the maximum integer value for the loop:
+ >> Starting input value was:          1
+Inside subtract2.
+Value of X now is:         -1
+Inside add1.
+Value of X now is:          0
+Inside double_.
+Value of X now is:          0
+Inside triple.
+Value of X now is:          0
+ >> Ouput value is:         -1
+ >> Input value now is:          0
+ 
+ >> Starting input value was:          2
+Inside subtract2.
+Value of X now is:          0
+Inside add1.
+Value of X now is:          1
+Inside double_.
+Value of X now is:          2
+Inside triple.
+Value of X now is:          6
+ >> Ouput value is:         10
+ >> Input value now is:          6
+ 
+ >> Starting input value was:          3
+Inside subtract2.
+Value of X now is:          1
+Inside add1.
+Value of X now is:          2
+Inside double_.
+Value of X now is:          4
+Inside triple.
+Value of X now is:         12
+ >> Ouput value is:         45
+ >> Input value now is:         12
+ 
+ >> Starting input value was:          4
+Inside subtract2.
+Value of X now is:          2
+Inside add1.
+Value of X now is:          3
+Inside double_.
+Value of X now is:          6
+Inside triple.
+Value of X now is:         18
+ >> Ouput value is:        128
+ >> Input value now is:         18
+ 
+ >> Starting input value was:          5
+Inside subtract2.
+Value of X now is:          3
+Inside add1.
+Value of X now is:          4
+Inside double_.
+Value of X now is:          8
+Inside triple.
+Value of X now is:         24
+ >> Ouput value is:        283
+ >> Input value now is:         24
+ 
+ >> Starting input value was:          6
+Inside subtract2.
+Value of X now is:          4
+Inside add1.
+Value of X now is:          5
+Inside double_.
+Value of X now is:         10
+Inside triple.
+Value of X now is:         30
+ >> Ouput value is:        534
+ >> Input value now is:         30
+ 
+ >> Starting input value was:          7
+Inside subtract2.
+Value of X now is:          5
+Inside add1.
+Value of X now is:          6
+Inside double_.
+Value of X now is:         12
+Inside triple.
+Value of X now is:         36
+ >> Ouput value is:        905
+ >> Input value now is:         36
+ 
+ >> Starting input value was:          8
+Inside subtract2.
+Value of X now is:          6
+Inside add1.
+Value of X now is:          7
+Inside double_.
+Value of X now is:         14
+Inside triple.
+Value of X now is:         42
+ >> Ouput value is:       1420
+ >> Input value now is:         42
+ 
+ >> Starting input value was:          9
+Inside subtract2.
+Value of X now is:          7
+Inside add1.
+Value of X now is:          8
+Inside double_.
+Value of X now is:         16
+Inside triple.
+Value of X now is:         48
+ >> Ouput value is:       2103
+ >> Input value now is:         48
+ 
+ >> Starting input value was:         10
+Inside subtract2.
+Value of X now is:          8
+Inside add1.
+Value of X now is:          9
+Inside double_.
+Value of X now is:         18
+Inside triple.
+Value of X now is:         54
+ >> Ouput value is:       2978
+ >> Input value now is:         54
+ 
+ >> Starting input value was:         11
+Inside subtract2.
+Value of X now is:          9
+Inside add1.
+Value of X now is:         10
+Inside double_.
+Value of X now is:         20
+Inside triple.
+Value of X now is:         60
+ >> Ouput value is:       4069
+ >> Input value now is:         60
+ 
+ >> Starting input value was:         12
+Inside subtract2.
+Value of X now is:         10
+Inside add1.
+Value of X now is:         11
+Inside double_.
+Value of X now is:         22
+Inside triple.
+Value of X now is:         66
+ >> Ouput value is:       5400
+ >> Input value now is:         66
+ 
+ >> Starting input value was:         13
+Inside subtract2.
+Value of X now is:         11
+Inside add1.
+Value of X now is:         12
+Inside double_.
+Value of X now is:         24
+Inside triple.
+Value of X now is:         72
+ >> Ouput value is:       6995
+ >> Input value now is:         72
+ 
+   PROGRAM ENDED.
+{csia}u428500(15) ls
+a.out*       candy.out    hw4.ari      hw4.sml      hw4prolog    hw4q2.p
+candy.2.out  candy.p      hw4.scm      hw4.sml.out  hw4q2.c      hw4q2.p.out
+candy.in     candy.p.x*   hw4.scm.out  hw4pro       hw4q2.c.x*   hw4q2.p.x*
+{csia}u428500(16) gcc hw4q2.c
+{csia}u428500(17) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter a maximum integer value for the loop: 3
+ 
+ >> Starting input value was: 1
+Inside triple.
+Value of X is now: 3.
+Inside subtract2.
+Value of X is now: 1.
+Inside add1.
+Value of X is now: 2.
+Inside double_.
+Value of X is now: 4.
+ >> Output value is: 36
+ >> Input value now is: 4
+ 
+ >> Starting input value was: 2
+Inside triple.
+Value of X is now: 6.
+Inside subtract2.
+Value of X is now: 4.
+Inside add1.
+Value of X is now: 5.
+Inside double_.
+Value of X is now: 10.
+ >> Output value is: 510
+ >> Input value now is: 10
+ 
+ >> Starting input value was: 3
+Inside triple.
+Value of X is now: 9.
+Inside subtract2.
+Value of X is now: 7.
+Inside add1.
+Value of X is now: 8.
+Inside double_.
+Value of X is now: 16.
+ >> Output value is: 2064
+ >> Input value now is: 16
+ 
+         PROGRAM ENDED.
+{csia}u428500(18) a.out >hw4q2.c.out
+13
+{csia}u428500(19) more hw4q2.c.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter a maximum integer value for the loop:
+ >> Starting input value was: 1
+Inside triple.
+Value of X is now: 3.
+Inside subtract2.
+Value of X is now: 1.
+Inside add1.
+Value of X is now: 2.
+Inside double_.
+Value of X is now: 4.
+ >> Output value is: 36
+ >> Input value now is: 4
+ 
+ >> Starting input value was: 2
+Inside triple.
+Value of X is now: 6.
+Inside subtract2.
+Value of X is now: 4.
+Inside add1.
+Value of X is now: 5.
+Inside double_.
+Value of X is now: 10.
+ >> Output value is: 510
+ >> Input value now is: 10
+ 
+ >> Starting input value was: 3
+Inside triple.
+Value of X is now: 9.
+Inside subtract2.
+Value of X is now: 7.
+Inside add1.
+Value of X is now: 8.
+Inside double_.
+Value of X is now: 16.
+ >> Output value is: 2064
+ >> Input value now is: 16
+ 
+ >> Starting input value was: 4
+Inside triple.
+Value of X is now: 12.
+Inside subtract2.
+Value of X is now: 10.
+Inside add1.
+Value of X is now: 11.
+Inside double_.
+Value of X is now: 22.
+ >> Output value is: 5346
+ >> Input value now is: 22
+ 
+ >> Starting input value was: 5
+Inside triple.
+Value of X is now: 15.
+Inside subtract2.
+Value of X is now: 13.
+Inside add1.
+Value of X is now: 14.
+Inside double_.
+Value of X is now: 28.
+ >> Output value is: 11004
+ >> Input value now is: 28
+ 
+ >> Starting input value was: 6
+Inside triple.
+Value of X is now: 18.
+Inside subtract2.
+Value of X is now: 16.
+Inside add1.
+Value of X is now: 17.
+Inside double_.
+Value of X is now: 34.
+ >> Output value is: 19686
+ >> Input value now is: 34
+ 
+ >> Starting input value was: 7
+Inside triple.
+Value of X is now: 21.
+Inside subtract2.
+Value of X is now: 19.
+Inside add1.
+Value of X is now: 20.
+Inside double_.
+Value of X is now: 40.
+ >> Output value is: 32040
+ >> Input value now is: 40
+ 
+ >> Starting input value was: 8
+Inside triple.
+Value of X is now: 24.
+Inside subtract2.
+Value of X is now: 22.
+Inside add1.
+Value of X is now: 23.
+Inside double_.
+Value of X is now: 46.
+ >> Output value is: 48714
+ >> Input value now is: 46
+ 
+ >> Starting input value was: 9
+Inside triple.
+Value of X is now: 27.
+Inside subtract2.
+Value of X is now: 25.
+Inside add1.
+Value of X is now: 26.
+Inside double_.
+Value of X is now: 52.
+ >> Output value is: 70356
+ >> Input value now is: 52
+ 
+ >> Starting input value was: 10
+Inside triple.
+Value of X is now: 30.
+Inside subtract2.
+Value of X is now: 28.
+Inside add1.
+Value of X is now: 29.
+Inside double_.
+Value of X is now: 58.
+ >> Output value is: 97614
+ >> Input value now is: 58
+ 
+ >> Starting input value was: 11
+Inside triple.
+Value of X is now: 33.
+Inside subtract2.
+Value of X is now: 31.
+Inside add1.
+Value of X is now: 32.
+Inside double_.
+Value of X is now: 64.
+ >> Output value is: 131136
+ >> Input value now is: 64
+ 
+ >> Starting input value was: 12
+Inside triple.
+Value of X is now: 36.
+Inside subtract2.
+Value of X is now: 34.
+Inside add1.
+Value of X is now: 35.
+Inside double_.
+Value of X is now: 70.
+ >> Output value is: 171570
+ >> Input value now is: 70
+ 
+ >> Starting input value was: 13
+Inside triple.
+Value of X is now: 39.
+Inside subtract2.
+Value of X is now: 37.
+Inside add1.
+Value of X is now: 38.
+Inside double_.
+Value of X is now: 76.
+ >> Output value is: 219564
+ >> Input value now is: 76
+ 
+         PROGRAM ENDED.
+{csia}u428500(20) ls
+a.out*       candy.p      hw4.scm.out  hw4prolog    hw4q2.p
+candy.2.out  candy.p.x*   hw4.sml      hw4q2.c      hw4q2.p.out
+candy.in     hw4.ari      hw4.sml.out  hw4q2.c.out  hw4q2.p.x*
+candy.out    hw4.scm      hw4pro       hw4q2.c.x*
+{csia}u428500(21) prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 4.1.3_U1)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to Departement of Computer Science, University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.083 sec 1,752 bytes
+ 
+yes
+| ?- candy(round, nuts, 8.5, 5.6, 3.4, Result).
+ 
+Result = 2.5122666912E+03 ;
+ 
+no
+| ?- ^Z
+Stopped
+{csia}u428500(22) vi hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI), Result is PI *
+ Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, atom(Nought), pi(PI), Result is PI * R
+"hw4pro" 23 lines, 933 characters
+{csia}u428500(23) prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 4.1.3_U1)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to Departement of Computer Science, University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.083 sec 1,752 bytes
+ 
+yes
+| ?- candy(round, nuts, 8.5, 6,7,Result).
+ 
+no
+| ?- ^Z
+Stopped
+{csia}u428500(24) vi hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, atom(Nought), pi(PI), Result is PI * R
+adius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, atom(Nought), pi(PI), Result is PI * R
+adius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_round(Radius,Nought,Result) :- !, numbe(Nought), pi(PI), Result is PI *
+surface_round(Radius,Nought,Result) :- !, number(Nought), pi(PI), Result is PI *
+ 
+ 
+surface_round(Radius,Nought,Result) :- !, (Nought), pi(PI), Result is PI * Radiu
+surface_round(Radius,Nought,Result) :- !, Nought), pi(PI), Result is PI * Radius
+surface_round(Radius,Nought,Result) :- !, ), pi(PI), Result is PI * Radius * Rad
+surface_round(Radius,Nought,Result) :- !, pi(PI), Result is PI * Radius * Radius
+"hw4pro" 23 lines, 919 characters
+{csia}u428500(25) prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 4.1.3_U1)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to Departement of Computer Science, University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+* Singleton variables, clause 1 of surface_round/3: Nought
+* Approximate line: 10, file: '/a/csie/h/users/u428500/submit/hw4pro'
+% hw4pro compiled in module user, 0.117 sec 1,760 bytes
+ 
+yes
+| ?- candy(round, nuts, 11.11, 3.4, 4.5, Result).
+ 
+Result = 1.210438290732E+03
+ 
+| ?- ^Z
+Stopped
+{csia}u428500(26) vi hw4pro
+ 
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+surface_round(Radius,Nought,Result) :- !, pi(PI), Result is PI * Radius * Radius
+.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+ 
+surface_round(Radius,Nought,Result) :- !, npi(PI), Result is PI * Radius * Radiu
+surface_round(Radius,Nought,Result) :- !, nupi(PI), Result is PI * Radius * Radi
+surface_round(Radius,Nought,Result) :- !, numpi(PI), Result is PI * Radius * Rad
+surface_round(Radius,Nought,Result) :- !, numbpi(PI), Result is PI * Radius * Ra
+surface_round(Radius,Nought,Result) :- !, numbepi(PI), Result is PI * Radius * R
+surface_round(Radius,Nought,Result) :- !, numberpi(PI), Result is PI * Radius *
+surface_round(Radius,Nought,Result) :- !, number(pi(PI), Result is PI * Radius *
+surface_round(Radius,Nought,Result) :- !, number(Npi(PI), Result is PI * Radius
+surface_round(Radius,Nought,Result) :- !, number(Nopi(PI), Result is PI * Radius
+surface_round(Radius,Nought,Result) :- !, number(Noupi(PI), Result is PI * Radiu
+surface_round(Radius,Nought,Result) :- !, number(Nougpi(PI), Result is PI * Radi
+surface_round(Radius,Nought,Result) :- !, number(Noughpi(PI), Result is PI * Rad
+surface_round(Radius,Nought,Result) :- !, number(Noughtpi(PI), Result is PI * Ra
+surface_round(Radius,Nought,Result) :- !, number(Nought)pi(PI), Result is PI * R
+surface_round(Radius,Nought,Result) :- !, number(Nought) pi(PI), Result is PI *
+surface_round(Radius,Nought,Result) :- !, number(Nought) /pi(PI), Result is PI *
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*pi(PI), Result is PI
+surface_round(Radius,Nought,Result) :- !, number(Nought) /**pi(PI), Result is PI
+surface_round(Radius,Nought,Result) :- !, number(Nought) /**/pi(PI), Result is P
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*j*/pi(PI), Result is
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*ju*/pi(PI), Result is
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*jus*/pi(PI), Result i
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just*/pi(PI), Result
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just */pi(PI), Result
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just t*/pi(PI), Resul
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to*/pi(PI), Resu
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to */pi(PI), Res
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to k*/pi(PI), Re
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to ke*/pi(PI), R
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to kee*/pi(PI),
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep*/pi(PI),
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep */pi(PI)
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep t*/pi(PI
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep th*/pi(P
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep the*/pi(
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to keep the */pi
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 's*/p
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'si*/
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sin*
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape,
+                            Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+.
+ 
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+ 
+face_round, Result)) ;
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+ 
+2, surface_rectangular, Result)) ;
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+ 
+.
+ 
+"hw4pro" 26 lines, 1154 characters
+{csia}u428500(27) prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 4.1.3_U1)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to Departement of Computer Science, University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.100 sec 1,752 bytes
+ 
+yes
+| ?- candy(round, nougat, 3.4, 5.066, 11.933, X).
+ 
+X = 1.096525624658144E+03
+ 
+| ?- ^Z
+Stopped
+{csia}u428500(28) vi hw4por
+ 
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+:q
+{csia}u428500(29) clear
+{csia}u428500(30) vi hw4pro
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+                            K =.. [Filling,W], call(K), Result is X * W * Height
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape,
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape /* j,
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape /* j,
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape /* ju
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape /* ju
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- Shape /*jus
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+                  Shape /*just to prevent 'singleton variable' messages*/,
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+                           K =.. [Filling,W], call(K), Result is X * W * Height.
+                  K =.. [Filling,W], call(K), Result is X * W * Height.
+ 
+ 
+% the main predicate determines which predicate to pass to total weight
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+face_round, Result)) ;
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+2, surface_rectangular, Result)) ;
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+ 
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+                  Shape /*just to prevent 'singleton variable' messages*/,
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+                  K =.. [Filling,W], call(K), Result is X * W * Height.
+ 
+ 
+% the main predicate determines which predicate to pass to total weight
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+face_round, Result)) ;
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+2, surface_rectangular, Result)) ;
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+, surface_triangular, Result)).
+ 
+ 
+"hw4pro" 28 lines, 1203 characters
+{csia}u428500(31) prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 4.1.3_U1)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to Departement of Computer Science, University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.100 sec 1,752 bytes
+ 
+yes
+| ?- candy(round, nuts, 8.5, 3.45, 9.003, Result).
+ 
+Result = 9.535157618625E+02 ;
+ 
+no
+| ?- candy(rectangular, liquor, 3.5, 0.990, 7.778, X).
+ 
+X = 5.390154E+01
+ 
+| ?- candy(triangular, nougat, 33.333, 0.087744, 111.34, Yellow).
+ 
+Yellow = 6.512879510553601E+02 ;
+ 
+no
+| ?- ^Z
+Stopped
+{csia}u428500(32) ls
+a.out*       candy.p      hw4.scm.out  hw4prolog    hw4q2.p
+candy.2.out  candy.p.x*   hw4.sml      hw4q2.c      hw4q2.p.out
+candy.in     hw4.ari      hw4.sml.out  hw4q2.c.out  hw4q2.p.x*
+candy.out    hw4.scm      hw4pro       hw4q2.c.x*
+{csia}u428500(33) scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+ 
+ERROR: No such file or directory
+ERROR: load: Could not open file "Init5d3.scm"
+;Evaluation took 0 mSec (0 in gc) 1428 cells work, 2 env, 3281 bytes other
+> (load "hw4.scm")
+ 
+unbound variable:  load
+; in expression: (... load "hw4.scm")
+; in top level environment.
+;Evaluation took 16 mSec (0 in gc) 8 cells work, 0 env, 224 bytes other
+> (candy round nuts 3.4 5.7 9.09)
+ 
+unbound variable:  candy
+; in expression: (... candy round nuts 3.4 5.7 9.09)
+; in top level environment.
+;Evaluation took 16 mSec (0 in gc) 20 cells work, 0 env, 252 bytes other
+> ^Z
+Stopped
+{csia}u428500(34) exit
+There are stopped jobs.
+{csia}u428500(35) jobs
+[1]    Stopped              prolog
+[2]    Stopped              prolog
+[3]    Stopped              prolog
+[4]    Stopped              prolog
+[5]  - Stopped              prolog
+[6]  + Stopped              scm
+{csia}u428500(36) exit
+{csia}u428500(37) logout
+csia: u428500 logged out at Tue Nov 28 21:30:09 EST 2000
+Connection closed.
+{site0}u428500(2)$ ls
+Deleted Items   candy3.out      h_07_smtk4.pdf  hw4new.ari      scheme.txt
+Drafts          candy3.p        hw2.ari         hw4new.scm      scheme2.txt
+H:              candy3.x        hw2.scm         hw4new.sml      sideFX.p
+Mail            csi3125         hw2.sml         hw4q2.c         sideFXc.c
+Sent Items      ff.p            hw2exp.sml      hw4q2.c.out     submit
+candy.in        fff.p           hw2exp2.sml     hw4q2.p
+candy.p         h_05_scm4.pdf   hw2prolog       hw4q2.p.out
+candy2.p        h_06_sml4.pdf   hw2rev.sml      nsmail
+{site0}u428500(3)$ scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;loading /usr/local/lib/slib/require
+;done loading /usr/local/lib/slib/require.scm
+;loading /usr/local/lib/scm/Transcen
+;done loading /usr/local/lib/scm/Transcen.scm
+;Evaluation took 66 mSec (0 in gc) 15992 cells work, 4000 env, 17598 bytes other
+> (load "hw4.scm")
+;loading hw4.scm
+ 
+ERROR: No such file or directory
+ERROR: LOAD couldn't find file  "hw4.scm"
+;Evaluation took 16 mSec (0 in gc) 81 cells work, 31 env, 245 bytes other
+> ^Z
+[1]+  Stopped                 scm
+{site0}u428500(4)$ cd submit
+{site0}u428500(5)$ ls
+a.out           candy.p         hw4.scm.out     hw4prolog       hw4q2.p
+candy.2.out     candy.p.x       hw4.sml         hw4q2.c         hw4q2.p.out
+candy.in        hw4.ari         hw4.sml.out     hw4q2.c.out     hw4q2.p.x
+candy.out       hw4.scm         hw4pro          hw4q2.c.x
+{site0}u428500(6)$ scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;loading /usr/local/lib/slib/require
+;done loading /usr/local/lib/slib/require.scm
+;loading /usr/local/lib/scm/Transcen
+;done loading /usr/local/lib/scm/Transcen.scm
+;Evaluation took 50 mSec (0 in gc) 15992 cells work, 4000 env, 17598 bytes other
+> (load "hw4.scm")
+;loading hw4.scm
+ 
+"hw4.scm", line 10: WARNING: redefining built-in round
+;done loading hw4.scm
+;Evaluation took 0 mSec (0 in gc) 343 cells work, 29 env, 664 bytes other
+#<unspecified>
+> (candy round nuts 8.55 3.04 11.1)
+;Evaluation took 0 mSec (0 in gc) 28 cells work, 19 env, 93 bytes other
+744.7046103936001
+> (candy triangular nougat 3 0.099 111.22)
+;Evaluation took 0 mSec (0 in gc) 16 cells work, 19 env, 81 bytes other
+66.06468000000001
+> (candy rectangular liquor 3.04 0.55 23.3)
+;Evaluation took 0 mSec (0 in gc) 17 cells work, 19 env, 85 bytes other
+77.91520000000001
+> ^Z
+[2]+  Stopped                 scm
+{site0}u428500(7)$ vi hw4.scm
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+;---------
+ 
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+(define (total_weight shape filling height dim1 dim2 subprog)
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+;---------
+ 
+; the constants
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+ 
+;the surface calculation functions
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+ 
+(define (total_weight shape filling height dim1 dim2 subprog)
+;total weight has a function as a parameter
+(define (total_weight shape filling height dim1 dim2 subprog)
+ 
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+ 
+ 
+(define (candy shape filling height dim1 dim2)
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+surface_round) )
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ dim2 surface_rectangular) )
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+gular) )
+ 
+       ))
+ 
+ 
+ 
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+;the main function definition determines which sub-function to call
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+ 
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+ 
+;MARK SATTOLO  428500
+;CSI3125  HW4
+;Problem 1
+ 
+; the constants
+(define pi 3.14159)
+(define liquor 2)
+(define nuts 3)
+(define nougat 4)
+(define round 'round)
+(define rectangular 'rectangular)
+(define triangular 'triangular)
+ 
+;the surface calculation functions
+(define (surface_round radius nought) (* (* radius radius) pi) )
+ 
+(define (surface_rectangular side1 side2) (* side1 side2) )
+ 
+(define (surface_triangular base height) (* (* base height) 0.5) )
+ 
+;total weight has a function as a parameter
+(define (total_weight shape filling height dim1 dim2 subprog)
+        ( * (* filling height) (subprog dim1 dim2) ) )
+ 
+ 
+ 
+;the main function definition determines which sub-function to call
+ 
+;with total_weight based on the shape
+ 
+(define (candy shape filling height dim1 dim2)
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+ 
+        ( cond ( (eq? shape round) (total_weight shape filling height dim1 dim2
+surface_round) )
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ 
+               ( (eq? shape rectangular) (total_weight shape filling height dim1
+ dim2 surface_rectangular) )
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+ 
+               ( else (total_weight shape filling height dim1 dim2 surface_trian
+gular) )
+ 
+       ))
+ 
+ 
+ 
+ 
+ 
+~
+"hw4.scm" 32 lines, 1077 characters
+{site0}u428500(8)$ scm
+SCM version 5d3, Copyright (C) 1990-1999 Free Software Foundation.
+SCM comes with ABSOLUTELY NO WARRANTY; for details type `(terms)'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `(terms)' for details.
+;loading /usr/local/lib/slib/require
+;done loading /usr/local/lib/slib/require.scm
+;loading /usr/local/lib/scm/Transcen
+;done loading /usr/local/lib/scm/Transcen.scm
+;Evaluation took 66 mSec (0 in gc) 15992 cells work, 4000 env, 17598 bytes other
+> (load "hw4.scm")
+;loading hw4.scm
+ 
+"hw4.scm", line 10: WARNING: redefining built-in round
+;done loading hw4.scm
+;Evaluation took 0 mSec (0 in gc) 343 cells work, 29 env, 664 bytes other
+#<unspecified>
+> (candy round nuts 3.4 5.6 6.7)
+;Evaluation took 0 mSec (0 in gc) 28 cells work, 19 env, 93 bytes other
+1004.9066764799996
+> (candy triangular liquor 4.5 7.8 0.9)
+;Evaluation took 0 mSec (0 in gc) 18 cells work, 19 env, 77 bytes other
+31.589999999999998
+> ^Z
+[3]+  Stopped                 scm
+{site0}u428500(9)$ ls
+a.out           candy.p         hw4.scm.out     hw4prolog       hw4q2.p
+candy.2.out     candy.p.x       hw4.sml         hw4q2.c         hw4q2.p.out
+candy.in        hw4.ari         hw4.sml.out     hw4q2.c.out     hw4q2.p.x
+candy.out       hw4.scm         hw4pro          hw4q2.c.x
+{site0}u428500(10)$ vi hw4pro
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+                  Shape /*just to prevent 'singleton variable' messages*/,
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+%Mark Sattolo  428500
+%CSI3125  DGD-2
+%Mark Sattolo  428500
+%CSI3125  DGD-2
+%HW4, Q1
+%Mark Sattolo  428500
+%CSI3125  DGD-2
+%HW4, Q1
+ 
+%CSI3125, DGD-2
+%HW4, Q1
+ 
+% the constants
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+round.
+rectangular.
+triangular.
+ 
+% the surface computation predicates
+surface_round(Radius,Nought,Result) :- !, number(Nought) /*just to prevent 'sing
+leton variable' messages*/, pi(PI), Result is PI * Radius * Radius.
+ 
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+ 
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+ 
+% calculate total weight using univ and call
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :-
+ 
+                  Shape /*just to prevent 'singleton variable' messages*/,
+ 
+                  Q =.. [Subprog,Dim1,Dim2,X], call(Q),
+ 
+                  K =.. [Filling,W], call(K), Result is X * W * Height.
+ 
+ 
+ 
+% the main predicate determines which predicate to pass to total weight
+ 
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+ 
+           (Shape == round, total_weight(Shape, Filling, Height, Dim1, Dim2, sur
+face_round, Result)) ;
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+ 
+           (Shape == rectangular, total_weight(Shape, Filling, Height, Dim1, Dim
+2, surface_rectangular, Result)) ;
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+ 
+           (Shape == triangular, total_weight(Shape, Filling, Height, Dim1, Dim2
+, surface_triangular, Result)).
+ 
+ 
+% the main predicate determines which predicate to pass to total weight
+% Mark Sattolo  428500
+% CSI3125, DGD-2
+"hw4pro" 33 lines, 1275 characters
+{site0}u428500(11)$ prolog
+Quintus Prolog Release 3.2 (Sun 4, SunOS 5.5)
+Copyright (C) 1994, Quintus Corporation.  All rights reserved.
+301 East Evelyn Ave, Mountain View, California U.S.A. (415) 254-2800
+Licensed to University of Ottawa
+ 
+| ?- consult(hw4pro).
+% compiling file /a/csie/h/users/u428500/submit/hw4pro
+% hw4pro compiled in module user, 0.020 sec 1,720 bytes
+ 
+yes
+| ?- candy(round, nuts, 4.5, 7.6, 3.2, X).
+ 
+X = 2.449686218399999E+03 ;
+ 
+no
+| ?- candy(rectangular, nougat, 11.22, 0.099, 33.4).
+! Existence error in candy/5
+! procedure user:candy/5 does not exist
+! however, candy/6 is defined
+! goal:  candy(rectangular,nougat,1.122E+01,9.9E-02,3.34E+01)
+ 
+| ?- candy(rectangular, nougat, 111.22, 0.0099, 333.4, Res).
+ 
+Res = 1.4683976208E+03
+ 
+| ?- ^Z
+[4]+  Stopped                 prolog
+{site0}u428500(12)$ more hw4q2.c
+ 
+/* hw4q2rev.c */
+/* Mark Sattolo  428500 */
+/* CSI-3125, Homework4, Q2 */
+ 
+#include <stdio.h>
+ 
+/* FUNCTION  PROTOTYPES */
+ 
+         int add1(int*) ;
+         int subtract2(int*) ;
+         int double_(int*) ;
+         int triple(int*) ;
+ 
+/*********************** MAIN *******************************/
+ 
+int main(void)
+ {
+  int X, Y, W, Z ;
+  /* identification */
+  puts("Mark Sattolo 428500, CSI3125, DGD-2, Homework#4 \n") ;
+  /* Get a maximum value for calculating the expression */
+  puts("We will calculate from X = 1 to a maximum value.") ;
+  printf("Enter a maximum integer value for the loop: ") ;
+  /* we can assume the input will be OK */
+  scanf("%d", &Y) ;
+  /*start the loop*/
+  for (W = 1; W <= Y; W++)
+         {
+          /* put the value to be calculated into X */
+          X = W ;
+          /* print out the initial value */
+          printf("\n >> Starting input value was: %d \n", X) ;
+          /* evaluate the expression */
+          Z = triple(&X) + subtract2(&X) + add1(&X) * double_(&X) * X ;
+          /* print out the final values */
+          printf(" >> Output value is: %d \n", Z) ;
+          printf(" >> Input value now is: %d \n", X) ;
+         }
+  puts("\n\t PROGRAM ENDED.") ;
+  return 0 ;
+ }
+ 
+/************* FUNCTION DEFINITIONS ****************
+ Each function will print out that it has been called
+ and will give the new value of X inside that function.  */
+ 
+  int add1(int* param)
+         {
+          puts("Inside add1.") ;
+          (*param)++ ;
+          printf("Value of X is now: %d. \n", *param) ;
+          return *param ;
+         };//add1()
+ 
+  int subtract2(int* param)
+         {
+          puts("Inside subtract2.") ;
+          *param = (*param) - 2 ;
+          printf("Value of X is now: %d. \n", *param) ;
+          return *param ;
+         };//subtract2()
+ 
+  int double_(int* param)
+         {
+          puts("Inside double_.") ;
+          *param = (*param) * 2 ;
+          printf("Value of X is now: %d. \n", *param) ;
+          return *param ;
+         };//double_()
+ 
+  int triple(int* param)
+         {
+          puts("Inside triple.") ;
+          *param = (*param) * 3 ;
+          printf("Value of X is now: %d. \n", *param) ;
+          return *param ;
+         };//triple()
+ 
+/************** END OF PROGRAM **********************/
+{site0}u428500(13)$  more hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+ (*Each function will print out that it has been called
+   and will give the new value of X inside that function.*)
+ 
+  function add1(var param : integer):integer ;
+    begin
+      writeln('Inside add1.') ;
+      param := param + 1 ;
+      writeln('Value of X now is: ', param) ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      writeln('Inside subtract2.') ;
+      param := param - 2 ;
+      writeln('Value of X now is: ', param) ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double_(var param : integer):integer ;
+    begin
+      writeln('Inside double_.') ;
+      param := param * 2 ;
+      writeln('Value of X now is: ', param) ;
+      double_ := param ;
+    end;(*fxn double_*)
+ 
+  function triple(var param : integer):integer ;
+    begin
+      writeln('Inside triple.') ;
+      param := param * 3 ;
+      writeln('Value of X now is: ', param) ;
+      triple := param ;
+    end;(*fxn triple*)
+ 
+(*Main program*)
+begin
+  (*identification*)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+  (*calculate the expression for a sequence of values in a loop*)
+  writeln('We will calculate from X = 1 to a maximum value.') ;
+  write('Enter the maximum integer value for the loop: ') ;
+  (*can assume that the input is perfect*)
+  readln(Y) ;
+  (*start the loop*)
+  for W := 1 to Y do
+    begin
+    writeln;
+    (* set the initial value of X*)
+    X := W ;
+    (* print out the initial value *)
+    writeln(' >> Starting input value was: ', X) ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double_(X) * X ;
+    (*write out the new values*)
+    writeln(' >> Ouput value is: ', Z);
+    writeln(' >> Input value now is: ', X);
+    end ;
+ writeln;
+ writeln('   PROGRAM ENDED.') ;
+end.
+ 
+{site0}u428500(14)$ more candy.p
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159 ;
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+      surface_round := PI * radius * radius ;
+{site0}u428500(15)$ vi hw4q2.p
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+ (*Each function will print out that it has been called
+   and will give the new value of X inside that function.*)
+ 
+  function add1(var param : integer):integer ;
+    begin
+      writeln('Inside add1.') ;
+      param := param + 1 ;
+      writeln('Value of X now is: ', param) ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      writeln('Inside subtract2.') ;
+      param := param - 2 ;
+      writeln('Value of X now is: ', param) ;
+      subtract2 := param ;
+(* Mark Sattolo  428500
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q2 *)
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q2 *)
+ 
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+ (*Each function will print out that it has been called
+   and will give the new value of X inside that function.*)
+ 
+  function add1(var param : integer):integer ;
+    begin
+      writeln('Inside add1.') ;
+      param := param + 1 ;
+      writeln('Value of X now is: ', param) ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      writeln('Inside subtract2.') ;
+ 
+      param := param - 2 ;
+ 
+      writeln('Value of X now is: ', param) ;
+ 
+      subtract2 := param ;
+ 
+    end;(*fxn subtract2*)
+ 
+ 
+ 
+  function double_(var param : integer):integer ;
+ 
+    begin
+ 
+      writeln('Inside double_.') ;
+ 
+      param := param * 2 ;
+ 
+      writeln('Value of X now is: ', param) ;
+ 
+      double_ := param ;
+ 
+    end;(*fxn double_*)
+ 
+ 
+ 
+  function triple(var param : integer):integer ;
+ 
+    begin
+ 
+      writeln('Inside triple.') ;
+ 
+      param := param * 3 ;
+ 
+      writeln('Value of X now is: ', param) ;
+ 
+      triple := param ;
+ 
+    end;(*fxn triple*)
+ 
+ 
+ 
+(*Main program*)
+ 
+begin
+ 
+  (*identification*)
+ 
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+ 
+  writeln ;
+ 
+  (*calculate the expression for a sequence of values in a loop*)
+ 
+  writeln('We will calculate from X = 1 to a maximum value.') ;
+ 
+  write('Enter the maximum integer value for the loop: ') ;
+ 
+  (*can assume that the input is perfect*)
+ 
+  readln(Y) ;
+ 
+  (*start the loop*)
+ 
+  for W := 1 to Y do
+ 
+    begin
+ 
+    writeln;
+ 
+    (* set the initial value of X*)
+ 
+    X := W ;
+ 
+    (* print out the initial value *)
+ 
+    writeln(' >> Starting input value was: ', X) ;
+ 
+    (*process the expression*)
+ 
+    Z := triple(X) + subtract2(X) + add1(X) * double_(X) * X ;
+ 
+    (*write out the new values*)
+ 
+    writeln(' >> Ouput value is: ', Z);
+ 
+    writeln(' >> Input value now is: ', X);
+ 
+    end ;
+ 
+ writeln;
+ 
+ writeln('   PROGRAM ENDED.') ;
+ 
+end.
+ 
+ 
+"hw4q2.p" 72 lines, 1934 characters
+{site0}u428500(16)$ vi candy.p
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159 ;
+ 
+type
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+      surface_round := PI * radius * radius ;
+(* Mark Sattolo  428500
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q1 *)
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q1 *)
+ 
+program candy(input,output);
+ 
+const
+     LIMIT = 13 ;
+     PI = 3.14159 ;
+ 
+ 
+(* set types for the shapes, fillings, and string for the I/O *)
+    shape = (round, rectangular, triangular) ;
+    filling = (liquor, nuts, nougat) ;
+    string = packed array[1..LIMIT] of char ;
+ 
+var
+   top: shape ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ;
+   response: char ;
+ 
+ 
+var
+   top: shape ;
+   hite, dim1, dim2, candy_wt: real ;
+   input_param: string ; (* used to convert the input to types *)
+var
+   (* the candy parameters *)
+   top: shape ;
+   fill: filling ;
+   hite, dim1, dim2, candy_wt: real ;
+ 
+   input_param: string ; (* used to convert the input to types *)
+   response: char ; (* used to test if the loop should continue *)
+ 
+ 
+ 
+function surface_round(radius, nought:real):real ;
+ 
+    begin
+ 
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+ 
+      surface_round := PI * radius * radius ;
+ 
+    end;
+ 
+ 
+(* the surface calculation functions *)
+function surface_round(radius, nought:real):real ;
+    begin
+      nought := 0.0 ; (*just to keep the compiler from complaining*)
+      surface_round := PI * radius * radius ;
+    end;
+ 
+ 
+ 
+function surface_rectangular(side1, side2:real):real ;
+ 
+    begin
+ 
+      surface_rectangular := side1 * side2 ;
+ 
+    end;
+ 
+ 
+ 
+function surface_triangular(base, height:real):real ;
+ 
+    begin
+ 
+      surface_triangular := 0.5 * base * height ;
+ 
+    end;
+ 
+ 
+ 
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+ 
+                        fill_param:filling; height,dim1,dim2:real):real ;
+ 
+    var
+ 
+       unit_weight_of_filling: integer ;
+ 
+    begin
+ 
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+ 
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+)
+ 
+ 
+(* calculate the weight using a surface function as a parameter *)
+function total_weight(function surface(a,b:real):real; shape_param:shape;
+                        fill_param:filling; height,dim1,dim2:real):real ;
+    var
+       unit_weight_of_filling: integer ;
+    begin
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+)
+ 
+      unit_weight_of_filling := ord(fill_param) + 2 ;
+ 
+      total_weight := surface(dim1, dim2) * height * unit_weight_of_filling ;
+ 
+    end;
+ 
+ 
+ 
+(*main program*)
+ 
+begin
+ 
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+ 
+  writeln ;
+ 
+ repeat
+ 
+  write('Enter the shape of the candy top: ');
+ 
+  readln(input_param);
+ 
+  if input_param = 'round' then top := round
+ 
+    else if input_param = 'triangular' then top := triangular
+ 
+    else top := rectangular ;
+ 
+  write('Enter the type of filling: ');
+ 
+  readln(input_param);
+ 
+  if input_param = 'liquor' then fill := liquor
+ 
+    else if input_param = 'nuts' then fill := nuts
+ 
+    else fill := nougat ;
+ 
+  write('Enter the height of the candy: ');
+ 
+  readln(hite);
+ 
+  write('Enter the dimensions of the top: ');
+ 
+  readln(dim1, dim2);
+ 
+  case top of
+ 
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+ 
+begin
+ 
+(*main program*)
+begin
+  (* identification *)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+ repeat
+ 
+ 
+  (* get the input values - can assume they will be perfect *)
+  write('Enter the shape of the candy top: ');
+  readln(input_param);
+  (* set the shape *)
+  if input_param = 'round' then top := round
+    else if input_param = 'triangular' then top := triangular
+    else top := rectangular ;
+  write('Enter the type of filling: ');
+  readln(input_param);
+  (* set the filling *)
+  if input_param = 'liquor' then fill := liquor
+    else if input_param = 'nuts' then fill := nuts
+    else fill := nougat ;
+  (* get the dimensions of the candy *)write('Enter the height of the candy: ');
+  (* get the dimensions of the candy *)
+ 
+  readln(hite);
+  write('Enter the height of the candy: ');
+  readln(hite);
+ 
+  write('Enter the dimensions of the top: ');
+ 
+  readln(dim1, dim2);
+ 
+  case top of
+ 
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+ 
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+) ;
+ 
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+ 
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+ 
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ 
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+ 
+    end;(*case*)
+ 
+  writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+ 
+  writeln;
+ 
+  write('Another candy to enter? [Y/N]  ') ;
+ 
+  readln(response) ;
+ 
+ until response in ['N', 'n'] ;
+ 
+ writeln('It has been a pleasure serving you - bye for now.') ;
+ 
+  readln(hite);
+  write('Enter the dimensions of the top: ');
+  readln(dim1, dim2);
+  (* call total weight with a different function based on the shape *case top of
+  (* call total weight with a different function based on the shape *case top of
+  (* call total weight with a different function based on the shape *)case top o
+  (* call total weight with a different function based on the shape *)
+  case top of
+    round: candy_wt := total_weight(surface_round, round, fill, hite, dim1, dim2
+) ;
+    rectangular: candy_wt := total_weight(surface_rectangular, rectangular, fill
+, hite, dim1, dim2) ;
+    triangular: candy_wt := total_weight(surface_triangular, triangular, fill, h
+ite, dim1, dim2) ;
+    end;(*case*)
+  writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+    end;(*case*)
+  (* output the results writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+  (* output the results writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+ 
+  writeln;
+  write('Another candy to enter? [Y/N]  ') ;
+  readln(response) ;
+ until response in ['N', 'n'] ;
+  (* output the results *writeln('This candy weighs ', candy_wt:5:2, ' grams.')
+  (* output the results *)writeln('This candy weighs ', candy_wt:5:2, ' grams.')
+  (* output the results *)
+  writeln('This candy weighs ', candy_wt:5:2, ' grams.') ;
+  writeln;
+  (* check if more input *)
+ 
+  readln(response) ;
+  write('Another candy to enter? [Y/N]  ') ;
+  readln(response) ;
+ 
+ until response in ['N', 'n'] ;
+ 
+ writeln('It has been a pleasure serving you - bye for now.') ;
+ 
+      shape_param := succ(pred(shape_param)) ; (*just to stop compiler warnings*
+"candy.p" 92 lines, 3025 characters
+{site0}u428500(17)$ rlogin csia.site.uottawa.ca
+Password:
+Last login: Tue Nov 28 20:58:32 from site0.site.uotta
+SunOS Release 4.1.4 (csia) #1: Wed Mar 6 08:52:27 EST 1996
+You have mail.
+{csia}u428500(1) pwd
+/a/csie/h/users/u428500
+{csia}u428500(2) cd submit
+{csia}u428500(3) ls -al
+total 143
+drwxr-xr-x  2 u428500       512 Nov 28 21:04 ./
+drwx------  9 u428500      1536 Nov 27 13:10 ../
+-rwx------  1 u428500     24576 Nov 28 21:04 a.out*
+-rw-------  1 u428500       856 Nov 28 21:01 candy.2.out
+-rw-r--r--  1 u428500       120 Nov 27 13:19 candy.in
+-rw-------  1 u428500       856 Nov 27 13:20 candy.out
+-rw-r--r--  1 u428500      3025 Nov 28 21:56 candy.p
+-rwx------  1 u428500     32768 Nov 27 13:17 candy.p.x*
+-rw-------  1 u428500       857 Nov 27 13:37 hw4.ari
+-rw-r--r--  1 u428500      1077 Nov 28 21:35 hw4.scm
+-rw-r--r--  1 u428500      1304 Nov 27 13:57 hw4.scm.out
+-rw-r--r--  1 u428500       910 Nov 27 13:14 hw4.sml
+-rw-r--r--  1 u428500       850 Nov 27 13:55 hw4.sml.out
+-rw-r--r--  1 u428500      1275 Nov 28 21:40 hw4pro
+-rw-r--r--  1 u428500       871 Nov 27 13:58 hw4prolog
+-rw-r--r--  1 u428500      2013 Nov 27 13:14 hw4q2.c
+-rw-------  1 u428500      3374 Nov 28 21:04 hw4q2.c.out
+-rwx------  1 u428500     24576 Nov 27 13:21 hw4q2.c.x*
+-rw-r--r--  1 u428500      1934 Nov 28 21:45 hw4q2.p
+-rw-------  1 u428500      3933 Nov 28 21:03 hw4q2.p.out
+-rwx------  1 u428500     32768 Nov 27 13:24 hw4q2.p.x*
+{csia}u428500(4) date
+Tue Nov 28 21:57:26 EST 2000
+{csia}u428500(5) pc candy.p
+{csia}u428500(6) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: round
+Enter the type of filling: nougat
+Enter the height of the candy: 12.22
+Enter the dimensions of the top: 4.5 9.06
+This candy weighs 3109.61 grams.
+ 
+Another candy to enter? [Y/N]  y
+Enter the shape of the candy top: triangular
+Enter the type of filling: liquor
+Enter the height of the candy: 33.33
+Enter the dimensions of the top: 4.5 9.8
+This candy weighs 1469.85 grams.
+ 
+Another candy to enter? [Y/N]  n
+It has been a pleasure serving you - bye for now.
+{csia}u428500(7) a.out <candy.in
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+Enter the shape of the candy top: Enter the type of filling: Enter the height of
+ the candy: Enter the dimensions of the top: This candy weighs 942.48 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 353.57 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 3070.51 grams.
+ 
+Another candy to enter? [Y/N]  Enter the shape of the candy top: Enter the type
+of filling: Enter the height of the candy: Enter the dimensions of the top: This
+ candy weighs 318.95 grams.
+ 
+Another candy to enter? [Y/N]  It has been a pleasure serving you - bye for now.
+{csia}u428500(8) more hw4q2.p
+(* Mark Sattolo  428500
+   CSI3125, DGD-2
+   HW4, Q2 *)
+ 
+program hw4q2(input,output);
+ 
+var
+   X,Y,W,Z : integer ;
+ 
+ (*Each function will print out that it has been called
+   and will give the new value of X inside that function.*)
+ 
+  function add1(var param : integer):integer ;
+    begin
+      writeln('Inside add1.') ;
+      param := param + 1 ;
+      writeln('Value of X now is: ', param) ;
+      add1 := param ;
+    end;(*fxn add1*)
+ 
+  function subtract2(var param : integer):integer ;
+    begin
+      writeln('Inside subtract2.') ;
+      param := param - 2 ;
+      writeln('Value of X now is: ', param) ;
+      subtract2 := param ;
+    end;(*fxn subtract2*)
+ 
+  function double_(var param : integer):integer ;
+    begin
+      writeln('Inside double_.') ;
+      param := param * 2 ;
+      writeln('Value of X now is: ', param) ;
+      double_ := param ;
+    end;(*fxn double_*)
+ 
+  function triple(var param : integer):integer ;
+    begin
+      writeln('Inside triple.') ;
+      param := param * 3 ;
+      writeln('Value of X now is: ', param) ;
+      triple := param ;
+    end;(*fxn triple*)
+ 
+(*Main program*)
+begin
+  (*identification*)
+  writeln('Mark Sattolo 428500, CSI3125, DGD-2, Homework#4') ;
+  writeln ;
+  (*calculate the expression for a sequence of values in a loop*)
+  writeln('We will calculate from X = 1 to a maximum value.') ;
+  write('Enter the maximum integer value for the loop: ') ;
+  (*can assume that the input is perfect*)
+  readln(Y) ;
+  (*start the loop*)
+  for W := 1 to Y do
+    begin
+    writeln;
+    (* set the initial value of X*)
+    X := W ;
+    (* print out the initial value *)
+    writeln(' >> Starting input value was: ', X) ;
+    (*process the expression*)
+    Z := triple(X) + subtract2(X) + add1(X) * double_(X) * X ;
+    (*write out the new values*)
+    writeln(' >> Ouput value is: ', Z);
+    writeln(' >> Input value now is: ', X);
+    end ;
+ writeln;
+ writeln('   PROGRAM ENDED.') ;
+end.
+ 
+{csia}u428500(9) pc hw4q2.p
+{csia}u428500(10) a.out
+Mark Sattolo 428500, CSI3125, DGD-2, Homework#4
+ 
+We will calculate from X = 1 to a maximum value.
+Enter the maximum integer value for the loop: 5
+ 
+ >> Starting input value was:          1
+Inside subtract2.
+Value of X now is:         -1
+Inside add1.
+Value of X now is:          0
+Inside double_.
+Value of X now is:          0
+Inside triple.
+Value of X now is:          0
+ >> Ouput value is:         -1
+ >> Input value now is:          0
+ 
+ >> Starting input value was:          2
+Inside subtract2.
+Value of X now is:          0
+Inside add1.
+Value of X now is:          1
+Inside double_.
+Value of X now is:          2
+Inside triple.
+Value of X now is:          6
+ >> Ouput value is:         10
+ >> Input value now is:          6
+ 
+ >> Starting input value was:          3
+Inside subtract2.
+Value of X now is:          1
+Inside add1.
+Value of X now is:          2
+Inside double_.
+Value of X now is:          4
+Inside triple.
+Value of X now is:         12
+ >> Ouput value is:         45
+ >> Input value now is:         12
+ 
+ >> Starting input value was:          4
+Inside subtract2.
+Value of X now is:          2
+Inside add1.
+Value of X now is:          3
+Inside double_.
+Value of X now is:          6
+Inside triple.
+Value of X now is:         18
+ >> Ouput value is:        128
+ >> Input value now is:         18
+ 
+ >> Starting input value was:          5
+Inside subtract2.
+Value of X now is:          3
+Inside add1.
+Value of X now is:          4
+Inside double_.
+Value of X now is:          8
+Inside triple.
+Value of X now is:         24
+ >> Ouput value is:        283
+ >> Input value now is:         24
+ 
+   PROGRAM ENDED.
+{csia}u428500(11) exit
+{csia}u428500(12) logout
+csia: u428500 logged out at Tue Nov 28 21:59:47 EST 2000
+Connection closed.
+{site0}u428500(18)$ ls
+a.out           candy.p         hw4.scm.out     hw4prolog       hw4q2.p
+candy.2.out     candy.p.x       hw4.sml         hw4q2.c         hw4q2.p.out
+candy.in        hw4.ari         hw4.sml.out     hw4q2.c.out     hw4q2.p.x
+candy.out       hw4.scm         hw4pro          hw4q2.c.x
+{site0}u428500(19)$ pwd
+/a/csie/h/users/u428500/submit
+{site0}u428500(20)$ vi hw4.sml
+ 
+datatype shapes = round | rectangular | triangular ;
+datatype fillings = liquor | nuts | nougat ;
+ 
+local
+   val pi = 3.14159
+   fun surface_round radius nought = pi * radius * radius
+   fun surface_rectangular side1 side2 : real = side1 * side2
+   fun surface_triangular base height = 0.5 * base * height
+ 
+                    else 4.0 * (fxn dim1 dim2) * height
+ 
+in fun candy shape filling height dim1 dim2 =
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+_round
+       else if shape = rectangular then total_weight shape filling height dim1 d
+im2 surface_rectangular
+       else total_weight shape filling height dim1 dim2 surface_triangular : rea
+l end ;
+ 
+ 
+(* set the types *)
+datatype shapes = round | rectangular | triangular ;
+datatype fillings = liquor | nuts | nougat ;
+ 
+local
+(* set constant pi *)
+   val pi = 3.14159
+(* define the surface computation functions *)
+   fun surface_round radius nought = pi * radius * radius
+   fun surface_rectangular side1 side2 : real = side1 * side2
+   fun surface_triangular base height = 0.5 * base * height
+ 
+(* calculate the weight with the passed function, with the
+   proper value for each filling *)
+   fun total_weight shape filling height dim1 dim2 fxn : real =
+                    if filling = liquor then 2.0 * (fxn dim1 dim2) * height
+                    else if filling = nuts then 3.0 * (fxn dim1 dim2) * height
+                    else 4.0 * (fxn dim1 dim2) * height
+ 
+ 
+in fun candy shape filling height dim1 dim2 =
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+in fun candy shape filling height dim1 dim2 =
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+ 
+       if shape = round then total_weight shape filling height dim1 dim2 surface
+_round
+ 
+       else if shape = rectangular then total_weight shape filling height dim1 d
+ 
+       else if shape = rectangular then total_weight shape filling height dim1 d
+im2 surface_rectangular
+ 
+       else total_weight shape filling height dim1 dim2 surface_triangular : rea
+ 
+(* the main function will pass the proper surface function
+"hw4.sml" 26 lines, 1208 characters
+{site0}u428500(21)$ sml
+Standard ML of New Jersey, Version 75, November 11, 1991
+Arrays have changed; see Release Notes
+val it = () : unit
+- use "hw4.sml";
+[opening hw4.sml]
+datatype  shapes
+con rectangular : shapes
+con round : shapes
+con triangular : shapes
+datatype  fillings
+con liquor : fillings
+con nougat : fillings
+con nuts : fillings
+val candy = fn : shapes -> fillings -> real -> real -> real -> real
+[closing hw4.sml]
+val it = () : unit
+- candy;
+val it = fn : shapes -> fillings -> real -> real -> real -> real
+- candy round nougat 3.4 4.5 6.7;
+val it = 865.193886 : real
+- candy triangular nuts 33.33 0.0998877 111.22;
+val it = 555.41995215003 : real
+- candy rectangular liquor 3.4 5.6 0.99;
+val it = 37.6992 : real
+- ^Z
+[5]+  Stopped                 sml
+{site0}u428500(22)$ ls
+a.out           candy.p         hw4.scm.out     hw4prolog       hw4q2.p
+candy.2.out     candy.p.x       hw4.sml         hw4q2.c         hw4q2.p.out
+candy.in        hw4.ari         hw4.sml.out     hw4q2.c.out     hw4q2.p.x
+candy.out       hw4.scm         hw4pro          hw4q2.c.x

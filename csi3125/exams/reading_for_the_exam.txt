@@ -1,0 +1,31 @@
+                CSI 3125, Fall 2000
+             Reading for the final exam
+
+[0] Material from the prerequisite courses (:>)
+
+[1] All class notes except "Data Abstraction"
+
+[2] All additional handouts
+
+[3] Homework and solutions, the midterm and its solution
+
+[4] The textbook
+
+    Chapter  1 -- all sections
+    Chapter  2 -- all sections
+    Chapter  3 -- sections 3.1, 3.2, 3.3, 3.6.2
+    Chapter  4 -- all sections
+    Chapter  5 -- all sections except 5.10.3, 5.10.7, 5.10.10
+    Chapter  6 -- all sections
+    Chapter  7 -- all sections
+    Chapter  8 -- sections 8.1, 8.2, 8.3, 8.4, 8.5
+                  (except 8.5.5, 8.5.6), 8.6, 8.9, 8.10, 8.12
+    Chapter  9 -- sections 9.1, 9.3 (except 9.3.4.2)
+    Chapter 11 -- sections 11.4, 11.5, 11.6, 11.7, 11.8
+    Chapter 14 -- sections 14.1, 14.4, 14.5, 14.7, 14.9, 14.10
+    Chapter 15 -- all sections except 15.2, 15.3
+
+    Review questions and problem sets for all these sections
+
+[5] Your at most two hand-written double-sided crib sheets
+    of the standard 8.5 by 12.0 inches (US Letter) size

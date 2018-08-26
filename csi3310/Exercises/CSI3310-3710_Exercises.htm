@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.site.uottawa.ca/~marchand/teaching/CSI3310/CSI3310_ex.html -->
+<HTML><HEAD><TITLE>CSI3310/3710_Exercises</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY>
+<H2>Exercises for CSI 3310 and CSI 3710</H2>
+<BLOCKQUOTE>You will find here some theoretical exercises. They are provided 
+  to improve your knowledge and your preparation for the final exam but they 
+  will not be marked and will not count for your (programming) assignment mark. 
+  Since many exercises are taken from the end-of-chapter problems of your 
+  textbook, the solutions to these exercises will not be posted on the web in a 
+  place available to students of other universities. We will discuss this matter 
+  in class.</BLOCKQUOTE>
+<HR>
+
+<H3>Chapter 1</H3>&nbsp;&nbsp;&nbsp; Problems (from the textbook): 1.7, 1.8, 
+1.9, 1.12 (see eqn. 1.1 of appendix 1A) <BR>&nbsp; 
+<H3>Chapter 2</H3>&nbsp;&nbsp;&nbsp; Problems (from the textbook): 2.1, 2.2, 
+2.4, 2.5 <BR>&nbsp; 
+<H3>Chapter 3</H3>&nbsp;&nbsp;&nbsp; Problems (from the textbook): 3.3, 3.4, 3.9 
+<BR>&nbsp; 
+<H3>Chapter 4</H3>&nbsp;&nbsp;&nbsp; Problems (from the textbook): 4.1, 4.3, 4.4 
+<BR>&nbsp; 
+<H3>Chapter 5</H3>
+<BLOCKQUOTE>Question 1: 
+  <P>We have 2 processes (P0 and P1) that share&nbsp; common data.&nbsp; The 
+  following tentative solution has been proposed to solve this critical section 
+  problem. Specify whether or not it is valid. If it is valid, explain why. If 
+  it is not valid, you must provide at least one reason and a scenario of where 
+  it fails. Note: when j is used in the code describing process Pi, it refers to 
+  j=1 when i=0 and to j=0 when i=1. 
+  <P><TT>Global variables f[0] and f[1] are initialized to false.</TT> 
+  <BR><TT>Global variable t is initialized to 0.</TT> 
+  <P><TT>Process Pi:</TT> <BR><TT>repeat</TT> <BR><TT>&nbsp; f[i]:=true;</TT> 
+  <BR><TT>&nbsp; t:=i;</TT> <BR><TT>&nbsp; do {nothing} while</TT> 
+  <BR><TT>&nbsp; (f[j] and t=j);</TT> <BR><TT>&nbsp;&nbsp;&nbsp;&nbsp; critical 
+  section</TT> <BR><TT>&nbsp; f[i]:=false;</TT> <BR><TT>&nbsp;&nbsp;&nbsp;&nbsp; 
+  remaining section</TT> <BR><TT>forever</TT> 
+  <P>Question 2: 
+  <P>Use counting semaphores to solve the following synchronization problem. 
+  Statement S1 in process P1 and statement S2 in process P2 must be both 
+  executed before statement S3 in process P3. There is no constraint on the 
+  relative order of execution of S1 and S2. Assume that all these statements 
+  will be executed only once (ie: they are not inside a repeat-forever loop). 
+  The number of semaphores you use must be minimal. Write the pseudo code only. 
+  <P>Question 3: 
+  <P>Use counting semaphores to solve the following synchronization problem. 
+  Statement S1 in process P1 must be executed before statement S2 in process P2. 
+  Statement S2 in process P2 must be executed before statement S3 in process P3. 
+  Assume that all these statements will be executed only once (ie: they are not 
+  inside a repeat-forever loop). The number of semaphores you use must be 
+  minimal. Write the pseudo code only. 
+  <P>Question 4: 
+  <P>&nbsp;A read-only file is to be shared among many processes. The file can 
+  be accessed simultaneously by at most 35 processes (but must be accessible by 
+  more than 1 process). Write a monitor to coordinate the access to the file. 
+  <BR>Show how each process Pi uses the monitor to access the file. Show 
+  explicitely where the file reading is done. 
+  <P>Problem 5.12 of your textbook <BR>&nbsp;</P></BLOCKQUOTE>
+<H3>Chapter 6</H3>
+<BLOCKQUOTE>Problems from your textbook: 6.2, 6.3, and 6.8. For problem 6.3, 
+  the "Claim" matrix should be called the "Request" matrix (since the claimed 
+  matrix is not used for deadlock detection).</BLOCKQUOTE>
+<H3>Chapter 7</H3>
+<BLOCKQUOTE><B>Question 1</B> 
+  <P>In a dynamic partitioning system, suppose that a memory of size 5000 
+  includes a segment A of length 1000 at address 0, and a segment B of length 
+  1500 at address 2500. Consider the following sequence of events: C requests 
+  1000, D requests 1500, A ends, E requests 1500. Which results are produced by 
+  the followig algorithms: first fit, best fit, next fit? If you encounter a 
+  situation where a request cannot be satisfied, do compaction selecting the 
+  segments to be moved in such a way that as few words are moved as possible. By 
+  using diagrams similar to those in the book (Fig. 7.5) show the memory 
+  allocation after each event. 
+  <P><B>Question 2</B> 
+  <P>Consider the following segment table: <BR>&nbsp;</P></BLOCKQUOTE>
+<TABLE border=1 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <BLOCKQUOTE>Segment</BLOCKQUOTE></TD>
+    <TD>
+      <BLOCKQUOTE>Base</BLOCKQUOTE></TD>
+    <TD>
+      <BLOCKQUOTE>Length</BLOCKQUOTE></TD></TR>
+  <TR>
+    <TD>
+      <BLOCKQUOTE>0 <BR>1 <BR>2 <BR>3 <BR>4</BLOCKQUOTE></TD>
+    <TD>
+      <BLOCKQUOTE>219 <BR>2300 <BR>90 <BR>1327 <BR>1952</BLOCKQUOTE></TD>
+    <TD>
+      <BLOCKQUOTE>600 <BR>14 <BR>100 <BR>580 
+<BR>96</BLOCKQUOTE></TD></TR></TBODY></TABLE>
+<BLOCKQUOTE> <BR>For each of these logical addresses below indicate&nbsp; 
+  whether or not it is a valid memory reference.&nbsp; If it is valid, give the 
+  physical address. 
+  <P>(a) logical address (0,430): <BR>(b) logical address (1,10): <BR>(c) 
+  logical address (2,500): <BR>(d) logical address (3,400): <BR>(e) logical 
+  address (4,112):</P></BLOCKQUOTE>
+<H3>Chapter 8</H3>
+<BLOCKQUOTE><B>Question 1:</B> 
+  <P>On a demand paging system, a process produces&nbsp; the following sequence 
+  of page references: 
+  <P>1,2,3,4,2,1,5,6,2,1,2,3,7,6,3,2,1,2,3,6 
+  <P>The replacement scope policy is local&nbsp; and fixed allocation is used. 
+  For the LRU, FIFO, and Optimal replacement algorithms,&nbsp;&nbsp; indicate 
+  the number of page faults that would occur&nbsp; when the number of frames 
+  allocated to this process&nbsp; is 2, and 4.&nbsp;&nbsp; Note: Initially all 
+  frames are empty, so the first page&nbsp; to bring in will always cost one 
+  page fault. 
+  <P><B>Problems from your textbook: 8.1, 8.7, 8.13</B></P></BLOCKQUOTE>
+<H3>Chapter 9</H3>
+<BLOCKQUOTE><B>Problems from your textbook: 9.1, and 9.2</B></BLOCKQUOTE>
+<HR>
+
+<P><I>Last update: July 3, 2000</I> <BR>&nbsp; </P></BODY></HTML>

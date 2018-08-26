@@ -1,0 +1,27 @@
+Mark Sattolo #428500: Assn 1, Exercise 2 - Discussion
+------------------------------------------------------
+
+	A credit card service runs as a separate thread which calculates the total funds in the owner's three accounts.  The owner thread continually withdraws a random amount from one account and deposits this same amount to another account.  If the owner thread is interrupted after making the withdrawal from the first account, but before depositing this amount to the second account, then the credit card service will obtain an inconsistent view of the sum of the account balances if it runs in this interval.  The possibility of this inconsistent view is significantly increased by making the owner thread sleep for 20 ms after it has made the initial withdrawal.  An example:
+
+acct1   acct2   acct3   total
+-----   -----   -----   -----
+ $90    $140     $70    $300	> owner withdraws $50 from acct2 and sleeps.
+
+ $90     $90     $70    $250	> credit card service runs and calculates that
+					  the total = $250, and rejects the request
+					  for a credit card as the total is < $280.
+
+ $90     $90     $70    $250	> owner wakes and deposits the $50 in acct3.
+
+ $90     $90    $120    $300	> actual total is restored to the value of $300
+					  which it should always have - if not for the fact
+					  that the threads can obtain inconsistent views.
+
+
+	This type of inconsistent view happens quite frequently in a run of the program.  I typically saw around 50 of these errors in a 5 second simulation.
+
+	Other inconsistent views are also possible.  Again, at any point in a program where there are two separate instructions that depend on an external value, e.g. the balance in an Account, remaining the same between the instructions, there can be an inconsistent view if the process happens to be interrupted after the first instruction had occurred but before the second has taken place.  
+
+	For exercise 2, this can happen when the credit card service is calculating the sum of the balances in the three accounts - if the process is interrupted between calculations, e.g. while in getBalance() method of one of the accounts - a balance amount already obtained could be changed with one not yet obtained.  Then, when the summation is resumed, the amount obtained for the sum would be incorrect.  For example, balance_1 is found to be $100, then the calculation is interrupted, and $50 is transferred from balance_1 to balance_2.  When the calculation is resumed, balance_2 + balance_3 will be $250 (as it now includes the extra $50 transferred from balance_1) and the total will be an inconsistent $350.  This type of interruption must happen quite rarely - I never saw one occur, and it may be strictly a 'theoretical' type of inconsistent view.
+
+	Because there is only one owner thread in this program, the credit card simulation does not have the possibility of inconsistent views of the withdrawal amount as in the banking simulation.  However, if there were a 'co-owner' of the accounts, i.e. a second owner thread running that had access to the same accounts, then there could be withdrawal errors exactly as noted in the discussion for exercise 1.  These errors would be emphasized by inserting a 'sleep(20);' instruction in the code and then running the program.

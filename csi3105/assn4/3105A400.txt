@@ -1,0 +1,132 @@
+ CSI 3105                    ASSIGNMENT 4                       Fall, 2000
+                             (LAST ONE!!)
+ ---------------------------------------------------------------------------
+
+ Due Date: Wednesday, November 29, 2000, by 12:00 (noon) in the appropriate
+           locked CSI 3105 hand-in box, third floor, MacDonald Hall.
+
+ On your assignment and all future assignments, you MUST include the
+ following (failure to do so will result in an immediate LOSS OF 5 MARKS):
+ i)    Your name in the form FIRST NAME followed by LAST NAME.
+ ii)   Your Student ID number at University of Ottawa.
+ iii)  The section in which you are REGISTERED, which I would like you to
+       list as CSI 3105A (even though the section is actually 3105) or
+       CSI 3105B. The CSI 3105A students have the tues/fri. classes, and
+       the CSI 3105B students have the mon/wed. classes.
+       
+ Please be sure to explain all of your solutions carefully and clearly.
+
+ This assignment will be marked out of 60.
+
+1.  [7 marks]
+    Using the greedy method TAUGHT IN CLASS (which is different
+    than the one in the text), find a maximum profit schedule for the
+    following scheduling-with-deadlines problem:
+
+    Job        Deadline       Profit
+   ----------------------------------
+     1           5              35
+     2           1              60
+     3           5              40
+     4           1              38
+     5           4              20
+     6           3              25
+     7           5              28
+
+    Please show your work--more specifically, for each stage of the algorithm
+    state which job you are considering next, and the time slot in which it
+    gets scheduled by the algorithm, or mention it doesn't get scheduled (but
+    you don't have to explain why).  Be sure, at the end, to state the final
+    answer, i.e. state the final schedule, and the total profit it gives.
+
+2.  [10 marks total]
+a)  [8 marks]
+    Draw the decision tree for n=3 for the insertion sort algorithm, which is
+    on page 261 in your text.  For your decision tree, let S = [a, b, c]. To
+    make it easier for us to follow your solution, please mark beside each
+    non-leaf node, the current ordering of a, b and c in S, and the current
+    values of i and j from the algorithm (like we did for exchange sort in
+    class).  Note:  Be sure to mark the branches of the tree as Yes and No,
+    where the Yes branches are always on the left.
+
+b)  [1 mark]
+    From the tree, what is W(3) for insertion sort?  Briefly explain your
+    answer.
+
+c)  [1 mark]
+    From the tree, what is the fewest comparisons done by insertion sort for
+    any input?  Again, please briefly explain your answer.
+
+
+3. [8 marks]
+   Suppose you are given an undirected graph G=(V,E) and you are asked to
+   find a path (any path) between two specified nodes u and v in G, or
+   determine that no such path exists.  Explain how you could adapt the
+   depth first search algorithm, in the form taken in class (which is
+   different than the text) to solve this problem.  You will be marked on the
+   clarity and simplicity of your solution.
+ 
+4. [13 marks total]
+   Consider the following problem.  You have a set of n files with sizes
+   f1, f2, f3,...,fn, which you would like to store on a disk.  The disk is
+   divided into segments, each of size K.  We assume that all files have
+   size <= K, and that we have at least n segments (so we have room for
+   all the files).  When storing a file, you cannot split it over segments,
+   i.e. it must be stored entirely in a single segment.  The problem is to
+   find a way to pack your files onto the disk such that you use as few
+   segments as possible.  For example, if K=1 and you have 5 files of
+   sizes .2, .3, .6, .3 and .5, the best solution uses only two segments:
+   Pack files of size .3 and .6 in one segment, and all the other files in
+   the second segment.
+
+
+   a)[5 marks]
+     Suggest a way that one could obtain a lower bound for this problem.
+     (I'm not looking for rocket science here, but please don't give the
+     answer of 1 segment as a lower bound--that would be TOO simplistic.
+     I know that you all can be more clever than that!)
+
+   b)[5 marks]
+     Consider the following greedy heuristic for this problem:
+     Sort the files from largest to smallest in size.  Then considering
+     the files in this order, always pack the next file F into the segment
+     which has the least space left, but has enough space for that next
+     file F.
+
+     For the above heuristic, find an example, for K = 2, where it fails to
+     find the optimal solution.  Illustrate that the algorithm fails to
+     always find the optimal solution (i.e. pack the files in the fewest
+     segments) by showing
+     i) the solution obtained using the heuristic on your example, and
+     ii) another solution for your example which uses fewer segments.
+
+   c)[2 marks]
+     Take the example you came up with in b), and in the same manner as
+     described in class for the TSP problem, find the %gap (percentage gap)
+     between the cost of the heuristic solution (HCOST) and the lower
+     bound for this example (LB) obtained using your method from a).
+
+   d) [1 marks]
+      Find an example for which the %gap is 0 for this problem.  What does
+      this tell you about the heuristic solution in this case?
+
+5) [10 marks]
+   Consider the CNF Satisfiability problem.  Show that this problem is in NP.
+
+6) [12 marks]
+   Consider the following problem:
+
+   LONGEST CYCLE:
+   Given a graph G=(V,E) (with no weights!) and a number K, does there exist a
+   cycle containing >= K edges? (Note that a cycle, using our definition from
+   class, must have distinct nodes.)
+
+   Suppose that we already know that LONGEST CYCLE is in NP, and we also know
+   that TSP (the undirected version, decision form) is NP-complete.  Show
+   that LONGEST CYCLE is NP-complete by showing that TSP is polynomially
+   reducible to LONGEST CYCLE.  (To do this, you must show a way of
+   transforming any TSP problem into a LONGEST CYCLE problem such that the
+   answer is yes for the LONGEST CYCLE problem if and only if it is YES for
+   the original TSP problem).  Be sure to prove your transformation works in
+   both directions (if, and only if), and please illustrate it on a small
+   example. State (without proof) the complexity of your transformation.

@@ -1,0 +1,239 @@
+CSI 3105 Assignment 1 Fall/2000
+
+SOME SOLUTIONS
+--------------
+1.  a)  Analysis of Alg. 1:
+
+Input Size:  n, the number of keys in the list.
+Basic Operation Counted:  Comparison of x with keys, and comparison of
+                          keys with each other.
+Input that gives worst case:  When none of the R values of x being searched
+                              for are in the list.
+
+Analysis:  From class, W(n) = n for sequential search.  Since Alg. 1 uses
+           sequential search R times, W(n) = R*n for Alg. 1.
+
+
+Analysis of Alg. 2:
+
+Input Size:  n, the number of keys in the list.
+Basic Operation Counted:  Comparison of x with keys, and comparison of
+                          keys with each other.
+Input that gives worst case:  When all of the R values of x being searched
+                              for are bigger than all the entries in the list.
+
+Analysis:  From class, W(n) = (n(n-1))/2 for exchange sort, and W(n) =2lgn + 2
+           for binary search (iterative version) for n a power of 2.  So
+           performing exchange sort once and binary serach R times gives
+           W(n) = (n(n-1))/2 + 2R(lgn + 1) for Alg. 2.
+
+b)  We want to see when W(Alg 2)(n) < W(Alg1)(n)  (i.e. for which values of
+    R).  i.e. when do we have
+
+        (n(n-1))/2 + R(2lgn + 2) < n*R  ?
+
+    Solving for R (and of course, you would have more details here!), we
+    end up with the result
+
+        R > (n(n-1))/(2n-4lgn-4)
+
+c) Using the formula from b), we put in n=1024 to obtain R > 522.73.  Thus,
+   since R is integer, we conclude that we must have R >= 523 to make
+   Alg. 2 more efficient when n = 1024.
+
+2.  c)
+
+Claim:  For n>= 4, T(n) > 4^(n/4).
+
+Proof:  (By induction)
+
+Base Case:  We need to show the claim is true for n = 4, 5, 6 and 7.  It is
+            straight-forward to show this using your table from b) and
+            plugging in these values of n into the formula for T(n) (of
+            course, you would need to show the details for your assignments).
+
+Induction Hyposthesis:  Assume the claim is true for all 4 <= m < n, i.e.
+                        T(m) > 4^(m/4) (note that we have already SHOWN
+                        this is true for n = 4, 5, 6 and 7).
+
+Now consider n>7:
+
+T(n) = 1 + T(n-1) + T(n-2) + T(n-3) + T(n-4)  (from the recurrence relation)
+     > 1 + 4^((n-1)/4) + 4^((n-2)/4) + 4^((n-3)/4) + 4^((n-4)/4)  ( this
+                  follows from the induction hypothesis AND the base cases--
+                  if you didn't prove the claim was true for FOUR base case
+                  values, you cannot write this line in your proof!)
+
+ Aside:
+ 4^((n-1)/4)+4^((n-2)/4)+4^((n-3)/4) > 4^((n-4)/4)+4^((n-4)/4)+4^((n-4)/4)
+ So, 1 + 4^((n-1)/4) + 4^((n-2)/4) + 4^((n-3)/4) > 3(4^((n-4)/4))  (***)
+
+ Continuing from above:
+
+    > 3(4^((n-4)/4)) +  4^((n-4)/4)     (by (***))
+    = 4 * 4^((n-4)/4)                   (simplifying)
+    = 4 ^((n-4)/4  + 1)                 (    "      )
+    = 4^ (n/4)  , as required.
+
+3. a)
+Input size: n
+Basic Operation Counted:  multiplication
+Input which gives worst case:  all the same
+
+Analysis:
+
+Clearly for n<=3, W(n) = 0.
+
+For n > 3:  For each value of i, the number of multiplications is
+n - 1 - i + 1 = n - i, because this is the number of executions of the inner
+loop.  The value of i runs from 1 to n-3 in the outer loop.  So
+
+W(n) = (n-1) + (n-2) + (n-3) +
+
+
+... + 4 + 3
+
+Written another way, so that we can use the formula for the sum of the
+first k numbers:
+
+W(n) = Summation (i: for i=1 to n-1) - 2 - 1
+     = (n(n-1))/2 - 3 (using the formula for the sum of the first n-1 numbers)
+     = (n^2 - n - 6)/2
+
+b) 
+Input size: n
+Basic Operation Counted:  multiplication
+Input which gives worst case:  all the same
+
+Analysis:  (Assuming n is a power of 2, i.e. n = 2^k)
+
+Number of outer loops:  n    
+
+For each outer loop:  The inner loop starts with j=n, and divides by
+                      2 each time until j<n.  So the inner loop
+                      executes k + 1 times.  There is one multiplication
+                      for each execution of the inner loop.
+
+So,
+W(n) = n * (k + 1)
+     = n * (lgn + 1)   
+
+
+c) 
+Input size: n
+Basic Operation Counted:  multiplication
+Input which gives worst case:  all the same
+
+Outer loop:  The values of i run from 1 to n  
+
+Inner loop:  For each value of i from the outer loop, the value of
+             j goes from 1 up to i^2. There is one multiplication per
+             iteration of the inner loop, so there are a total of i^2
+             multiplications for each value of i from the outer loop.
+
+So W(n) = Summation (i^2: for i = 1 to n)
+
+        = n(n+1)(2n+1)
+          ------------     (from Appendix A, pg. 437)
+              6
+
+4.
+a)  Iteration 1:  low=1, high=16, mid=8, 2 comparisons
+    Iteration 2:  low=1, high=7, mid=4, 2 comparisons
+    Iteration 3:  low=5, high=7, mid=6, 2 comparisons
+    Iteration 4:  low=7, high=7, mid=7, 2 comparisons
+    Iteration 5:  low=8, high=7, no loop--x not found
+
+    Total number of comparisons:  8
+    From class:  W(n) = 2(lgn) + 2 for n a power of 2
+                 So W(16) = 2(lg16) + 2
+                          = 10
+    For this example, the number of comparisons is less than worst case.
+
+
+b)  Iteration 1:  low=1, high=8, mid=4, 2 comparisons
+    Iteration 2:  low=5, high=8, mid=6, 2 comparisons
+    Iteration 3:  low=7, high=8, mid=7, 2 comparisons
+    Iteration 4:  low=8, high=8, mid=8, 1 comparison (x is found)
+
+    Total number of comparisons:  7
+    From class:  W(n) = 2(lgn) + 2 for n a power of 2
+                 So W(8) = 2(lg8) + 2
+                          = 8
+    For this example, the number of comparisons is less than worst case.
+
+
+5)Idea of algorithm:
+
+Keep two indices ("pointers") for array S, called Index1 and Index2.  We will
+use Index1 to scan S from the beginning (left to right), looking for numbers
+in S which are > K.  We will use Index2 to scan S from the end and in the
+backwards direction, looking for numbers in S which are <= K.   As soon as we
+find a number >K at Index1 and a number <=K at Index2 (which will represent a
+pair of numbers in the wrong order), we swap these two numbers.  We continue
+scanning for pairs of numbers to swap in this manner, until we have all the
+numbers <= K ahead of the numbers > K.  It will be easy to recognize when we
+have achieved this--once Index1 is >= Index2 (i.e. our two scanners meet), it
+will mean that we have the desired ordering.
+
+Pseudocode:
+
+Inputs:  integer n, array S of n integers indexed from 1 to n, a value K
+Outputs:  S is modified to have all the numbers <= K coming before the
+          numbers which are > K.
+
+void FixArray(int n, int array S, int K)
+{
+  int Index1, Index2;
+
+  Index1 = 1;
+  Index2 = n;
+  while (Index1 < Index2) {
+    while [S[Index1] <= K] && (Index1 < Index2) {
+       Index1 = Index1 + 1;
+    }
+    while ((S[Index2] > K) && (Index1 < Index2)) {
+       Index2 = Index2 - 1;
+    }
+    if (Index1 < Index2) then {
+       swap(S[Index1], S[Index2]);
+       Index1 = Index1 + 1;
+       Index2 = Index2 - 1;
+    }
+  }
+
+
+
+b)
+Input size:  n
+Basic operations counted:  comparison of numbers in S with each other and
+                           with K, and each time a number is moved within
+                           S.
+Input which gives the worst case:  Basically any input which maximizes
+                                   the number of swaps (since the number of
+                                   comparisons of K with a number in S
+                                   is constant over all inputs, and we do
+                                   no comparisons of numbers in S).  So
+                                   we get worst case whenever we have an
+                                   input where the first n/2 (rounded down)
+                                   entries are >K, and the rest are <=K.
+
+Worst case analysis:
+n even:  We will compare K to all numbers in S, and do n/2 swaps.  Each swap
+         counts as two elements of S being moved, and so
+         W(n) = n + 2(n/2) = 2n.
+
+n odd:  In this case we will do (n-1)/2 swaps, and we will compare K to all
+        the numbers in S except the one in the middle. So
+        W(n) = n-1 + 2((n-1)/2)
+             = 2n - 2.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description content="20-Jan-00: Job Control Language (JCL)">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0047.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><p:slidetransition advancetime="0" flag="1"/><o:shapelayout
+ v:ext="edit">
+ <o:idmap v:ext="edit" data="81"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>47</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s82946"
+  type="#_x0000_m3075" style='position:absolute;left:81.125pt;top:25.625pt;
+  width:620.875pt;height:75.75pt;mso-wrap-style:square;v-text-anchor:middle'
+  filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s82947" type="#_x0000_m3076"
+  style='position:absolute;left:81pt;top:102pt;width:393pt;height:384pt;
+  mso-wrap-style:square;v-text-anchor:top' filled="f" stroked="f" o:insetmode="custom">
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <v:shadow on="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <v:textbox style='layout-flow:horizontal;mso-rotate:0;direction:LTR;
+   mso-rotate-with-shape:f;mso-fit-shape-to-text:f;mso-fit-text-to-shape:f'
+   inset="90488emu,3.5pt,90488emu,3.5pt" o:singleclick="t"/>
+  <p:placeholder type="body" position="1" size="half"/></v:shape><v:shapetype
+  id="_x0000_t202" coordsize="21600,21600" o:spt="202" path="m0,0l0,21600,21600,21600,21600,0xe">
+  <v:stroke joinstyle="miter"/>
+  <v:path gradientshapeok="t" o:connecttype="rect"/>
+ </v:shapetype><v:shape id="_x0000_s82948" type="#_x0000_t202" style='position:absolute;
+  left:492pt;top:120pt;width:210pt;height:319.25pt' filled="f" fillcolor="#ccecff [4]"
+  stroked="f" strokecolor="#099 [1]" strokeweight="1pt">
+  <v:fill color2="white [0]"/>
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" endcap="square"/>
+  <v:shadow color="#010000 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape>
+ <div v:shape="_x0000_s82946" class=T style='position:absolute;top:6.75%;
+ left:12.17%;width:84.45%;height:8.75%'>Job Control Language (JCL)</div>
+ <div v:shape="_x0000_s82947">
+ <div class=HB style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:19.5%;left:15.91%;width:49.62%'><span style='font-weight:normal'><span
+ style='mso-special-format:bullet;color:#FF9966;mso-color-index:6;position:
+ absolute;left:-7.54%;top:.91em;font-family:"Monotype Sorts";font-size:50%'>n</span></span>Is
+ the language to provide </span><span style='position:absolute;top:24.25%;
+ left:15.91%;width:51.12%'>instructions to the monitor&#13;</span></div>
+ <div class=HB1 style='mso-line-spacing:"90 20 0";position:absolute;top:30.0%;
+ left:17.22%;width:47.75%;height:4.75%'><span style='position:absolute;
+ top:0%;left:6.66%;width:93.33%'><span style='mso-special-format:bullet;
+ color:#336699;mso-color-index:3;position:absolute;left:-7.14%;top:.3em;
+ font-family:"Monotype Sorts";font-size:75%'>u</span>what compiler to use&#13;</span></div>
+ <div class=HB1 style='mso-line-spacing:"90 20 0";position:absolute;top:35.25%;
+ left:17.22%;width:47.75%;height:4.75%'><span style='position:absolute;
+ top:0%;left:6.66%;width:93.33%'><span style='mso-special-format:bullet;
+ color:#336699;mso-color-index:3;position:absolute;left:-7.14%;top:.3em;
+ font-family:"Monotype Sorts";font-size:75%'>u</span>what files to use&#13;</span></div>
+ <div class=HB style='mso-line-spacing:"90 20 0";position:absolute;top:40.75%;
+ left:12.17%;width:62.35%;height:5.25%'><span style='position:absolute;
+ top:0%;left:6.0%;width:93.99%'><span style='font-weight:normal'><span
+ style='mso-special-format:bullet;color:#FF9966;mso-color-index:6;position:
+ absolute;left:-6.38%;top:.91em;font-family:"Monotype Sorts";font-size:50%'>n</span></span>Example
+ of job format: -------&gt;&gt;&#13;</span></div>
+ <div class=HB style='mso-line-spacing:"90 20 0";position:absolute;top:46.25%;
+ left:12.17%;width:52.8%;height:5.5%'><span style='position:absolute;
+ top:0%;left:7.09%;width:92.9%'><span style='font-family:"Courier New";
+ font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-7.63%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-family:"Courier New"'>$JOB </span>sets
+ up machine<span style='font-family:"Courier New";display:none'>&#13;</span></span></div>
+ <div class=HB style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:52.25%;left:15.91%;width:54.49%'><span style='font-family:"Courier New";
+ font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-6.87%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-family:"Courier New"'>$FTN</span>
+ loads the compiler and </span><span style='position:absolute;top:57.25%;
+ left:15.91%;width:49.06%'>transfers control to it&#13;</span></div>
+ <div class=HB style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:62.75%;left:15.91%;width:49.43%'><span style='font-family:"Courier New";
+ font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-7.57%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-family:"Courier New"'>$LOAD</span>
+ loads the compiled </span><span style='position:absolute;top:68.0%;left:15.91%;
+ width:49.06%'>object code&#13;</span></div>
+ <div class=HB style='mso-line-spacing:"90 20 0"'><span style='position:absolute;
+ top:73.5%;left:15.91%;width:49.06%'><span style='font-family:"Courier New";
+ font-weight:normal'><span style='mso-special-format:bullet;color:#FF9966;
+ mso-color-index:6;position:absolute;left:-7.63%;top:.91em;font-family:"Monotype Sorts";
+ font-size:50%'>n</span></span><span style='font-family:"Courier New"'>$RUN</span>
+ transfers control to </span><span style='position:absolute;top:78.25%;
+ left:15.91%;width:49.06%'>same<span style='font-family:"Courier New";
+ font-weight:normal;mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ </div>
+ <div v:shape="_x0000_s82948" class=O>
+ <div style='position:absolute;top:23.0%;left:69.28%;width:32.2%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$JOB setup parms &#13;</b></span></div>
+ <div style='position:absolute;top:27.5%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$FTN&#13;</b></span></div>
+ <div style='position:absolute;top:32.0%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:Arial;font-size:83%'><b>FORTRAN &#13;</b></span></div>
+ <div style='position:absolute;top:36.5%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:Arial;font-size:83%'><b>program cards&#13;</b></span></div>
+ <div style='position:absolute;top:40.75%;left:69.28%;width:27.34%;height:4.75%'><span
+ style='font-family:Arial;font-size:83%'><b>.<span style="mso-spacerun:
+ yes">    </span>.<span style="mso-spacerun: yes">    </span>.</b></span><span
+ style='font-family:"Courier New";font-size:83%;display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:45.25%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$LOAD&#13;</b></span></div>
+ <div style='position:absolute;top:49.75%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$RUN&#13;</b></span></div>
+ <div style='position:absolute;top:54.0%;left:69.28%;width:27.34%;height:4.75%'><span
+ style='font-family:Arial;font-size:83%'><b>Data cards</b></span><span
+ style='font-family:"Courier New";font-size:83%;display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:58.5%;left:69.28%;width:27.34%;height:4.75%'><span
+ style='font-family:Arial;font-size:83%'><b>.<span style="mso-spacerun:
+ yes">    </span>.<span style="mso-spacerun: yes">    </span>.</b></span><span
+ style='font-family:"Courier New";font-size:83%;display:none'><b>&#13;</b></span></div>
+ <div style='position:absolute;top:63.0%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$END&#13;</b></span></div>
+ <div style='position:absolute;top:67.5%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>$JOB&#13;</b></span></div>
+ <div style='position:absolute;top:72.0%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:"Courier New";font-size:83%'><b>Other pgm.&#13;</b></span></div>
+ <div style='position:absolute;top:76.5%;left:69.28%;width:27.34%;height:4.5%'><span
+ style='font-family:Arial;font-size:83%'><b>.<span style="mso-spacerun:
+ yes">    </span>.<span style="mso-spacerun: yes">    </span>.</b></span></div>
+ </div>
+</p:slide></div>
+
+</body>
+
+</html>

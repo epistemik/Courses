@@ -1,0 +1,197 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 401 "# NEVILLE'S ITERATED INTERPOLATION
+ ALGORITHM 3.1\n#\n# To evaluate the interpolating polynomial P on the
+\n# (n+1) distinct numbers x(0), ..., x(n) at the number x\n# for the \+
+function f:\n#\n# INPUT:   numbers x(0),..., x(n) as XX(0),...,XX(N);
+\n#          number x; values of f as the first column of Q\n#        \+
+  or may be computed if function f is supplied.\n#\n# OUTPUT:  the tab
+le Q with P(x) = Q(N+1,N+1)." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 89 "alg
+031 := proc() local TRUE, FALSE, OK, FLAG, N, I, XX, Q, A, NAME, INP, \+
+F, X, D, J, OUP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`This is
+ Neville's Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Choice of input method:\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`1. Input entry by ent
+ry from keyboard\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`2
+. Input data from a text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+48 "printf(`3. Generate data using a function F\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "printf(`Choose 1, 2, or 3 please\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 40 "if FLAG = 1 or FLAG = 2 or FLAG = 3 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK <> TRUE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "printf(`Input \+
+n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for
+ I from 0 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`Input \+
+X(%d) and F(X(%d)) `, I, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "pri
+ntf(`separated by a space\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "
+XX[I] := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "Q[I,0] \+
+:= scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 
+"printf(`Number must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "
+if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`Has a t
+ext file been created with the data in two columns ?\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "A := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if A = Y or A = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 45 "printf(`Input the file name in the form - `);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 40 "printf(`For example:   A:\\\\DATA.DTA\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "prin
+tf(`Input N\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "XX[I] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "Q[I,0] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`N
+umber must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`
+Please create the input file in two column `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 39 "printf(`form with the X values and\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 54 "printf(`F(X) values in the corresponding col
+umns.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The program \+
+will end so the input file can `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+24 "printf(`be created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK
+ := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG =
+ 3 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the functi
+on F(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "prin
+tf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := \+
+scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "printf(`Input n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if \+
+N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`Input X(%d)\\n`, I);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "XX[I] := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 19 "Q[I,0] := F(XX[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "printf(`Number must be a positive integer\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 71 "printf(`Input the point at which the polynomial is to be evaluat
+ed\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "X := scanf(`%f`)[1];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "D[0] := evalf(X-XX[0]);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "D[I] := evalf(X-XX[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to I do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 65 "Q[I,J] := evalf((D[I]*Q[I-1,J-1]-D[I-J]*Q[I,J-1])/(D[I]-D[I-J]))
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 38 "printf(`Select output destination\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`For example:   A:\\\\OU
+TPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,T
+EXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP, `NEVILLE'S METH
+OD\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "fprintf(OUP, `Table for
+ P evaluated at X = %12.8f , follows: \\n`, X);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 56 "fprintf(OUP, `Entries are XX(I), Q(I,0), ..., Q(I,I) \+
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "fprintf(OUP, `for each I = 0
+, ..., N where N = %3d\\n\\n`, N); " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 0 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "fprintf
+(OUP, `%11.8f `, XX[I]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J f
+rom 0 to I do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, `%11.
+8f `, Q[I,J]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg031G:6\"62%%TRUEG%&FALSEG%#OKG%%FLAGG%\"NG%\"IG%#
+XXG%\"QG%\"AG%%NAMEG%$INPG%\"FG%\"XG%\"DG%\"JG%$OUPGF&F&C+-%'printfG6#
+%;This~is~Neville's~Method.|+G>8&8%?(F&\"\"\"FAF&/F>F?C)-F:6#%9Choice~
+of~input~method:|+G-F:6#%G1.~Input~entry~by~entry~from~keyboard|+G-F:6
+#%@2.~Input~data~from~a~text~file|+G-F:6#%E3.~Generate~data~using~a~fu
+nction~F|+G-F:6#%:Choose~1,~2,~or~3~please|+G>8'&-%&scanfG6#%#%dG6#FA@
+$55/FTFA/FT\"\"#/FT\"\"$>F>8$@$FhnC$>F>F??(F&FAFAF&0F>F^oC%-F:6#%)Inpu
+t~n|+G>8(FU@%2\"\"!FioC$>F>F^o?(8)F\\pFAFio%%trueGC&-F:6%%:Input~X(%d)
+~and~F(X(%d))~GF`pF`p-F:6#%6separated~by~a~space|+G>&8*6#F`p&-FW6#%#%f
+GFZ>&8+6$F`pF\\pF]q-F:6#%CNumber~must~be~a~positive~integer|+G@$FinC&-
+F:6#%gnHas~a~text~file~been~created~with~the~data~in~two~columns~?|+G-
+F:6#%.Enter~Y~or~N|+G>8,&-FW6#%$|+%cGFZ@%5/Far%\"YG/Far%\"yGC)-F:6#%CI
+nput~the~file~name~in~the~form~-~G-F:6#%1drive:\\name.ext|+G-F:6#%<For
+~example:~~~A:\\DATA.DTA|+G>8-&-FW6#%#%sGFZ>8.-%&fopenG6%Fgs%%READG%%T
+EXTG>F>F??(F&FAFAF&FBC%-F:6#%)Input~N|+G>FioFU@%F[pC%?(F`pF\\pFAFioFap
+C$>Fjp&-%'fscanfG6$F]tF`qFZ>FbqF_u-%'fcloseG6#F]t>F>F^oFeqC(-F:6#%LPle
+ase~create~the~input~file~in~two~column~G-F:6#%<form~with~the~X~values
+~and|+G-F:6#%KF(X)~values~in~the~corresponding~columns.|+G-F:6#%LThe~p
+rogram~will~end~so~the~input~file~can~G-F:6#%-be~created.|+G>F>F?@$F[o
+C(-F:6#%GInput~the~function~F(x)~in~terms~of~x|+G-F:6#%4For~example:~c
+os(x)G>8/&-FW6#%#%aGFZ>Fbw-%(unapplyG6$Fbw%\"xG>F>F??(F&FAFAF&FBC%Feo>
+FioFU@%F[pC$?(F`pF\\pFAFioFapC%-F:6$%-Input~X(%d)|+GF`p>FjpF]q>Fbq-Fbw
+6#Fjp>F>F^oFeq@$/F>F^oC$-F:6#%fnInput~the~point~at~which~the~polynomia
+l~is~to~be~evaluated|+G>80F]q@$F]yC0>&816#F\\p-%&evalfG6#,&FcyFA&F[qFi
+y!\"\"?(F`pFAFAFioFapC$>&FhyF\\q-F[z6#,&FcyFAFjpF_z?(82FAFAF`pFap>&Fcq
+6$F`pFhz-F[z6#*&,&*&FczFA&Fcq6$,&F`pFAF_zFA,&FhzFAF_zFAFAFA*&&Fhy6#,&F
+`pFAFhzF_zFA&Fcq6$F`pFd[lFAF_zFA,&FczFAFf[lF_zF_z-F:6#%;Select~output~
+destination|+G-F:6#%+1.~Screen|+G-F:6#%.2.~Text~file|+G-F:6#%.Enter~1~
+or~2|+G>FTFU@%FinC&-F:6#%SInput~the~file~name~in~the~form~-~drive:\\na
+me.ext|+G-F:6#%>For~example:~~~A:\\OUTPUT.DTA|+G>FgsFhs>83-F_t6%Fgs%&W
+RITEGFbt>Fc]l%(defaultG-%(fprintfG6$Fc]l%2NEVILLE'S~METHOD|+G-Fj]l6%Fc
+]l%QTable~for~P~evaluated~at~X~=~%12.8f~,~follows:~|+GFcy-Fj]l6$Fc]l%H
+Entries~are~XX(I),~Q(I,0),~...,~Q(I,I)~G-Fj]l6%Fc]l%Gfor~each~I~=~0,~.
+..,~N~where~N~=~%3d|+|+GFio?(F`pF\\pFAFioFapC%-Fj]l6%Fc]l%(%11.8f~GFjp
+?(FhzF\\pFAF`pFap-Fj]l6%Fc]lFj^lFjz-Fj]l6$Fc]l%\"|+G@$0Fc]lFh]lC$-Feu6
+#Fc]l-F:6$%COutput~file~%s~created~sucessfullyGFgs-%'RETURNGFiyF&F&" }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg031();" }}{PARA 6 "" 1 "
+" {TEXT -1 179 "This is Neville's Method.\nChoice of input method:\n1.
+ Input entry by entry from keyboard\n2. Input data from a text file\n3
+. Generate data using a function F\nChoose 1, 2, or 3 please" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 72 "Has a text file been created with the data in two columns ?\nEn
+ter Y or N" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "
+" 1 "" {TEXT -1 76 "Input the file name in the form - drive:\\name.ext
+\nFor example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "c:\\data\\alg031.dta" }}{PARA 6 "" 1 "" {TEXT -1 7 "Input N" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" {TEXT 
+-1 58 "Input the point at which the polynomial is to be evaluated" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "1.5" }}{PARA 6 "" 1 "" {TEXT 
+-1 61 "Select output destination\n1. Screen\n2. Text file\nEnter 1 or \+
+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 392 "NEVILLE'S METHOD\nTable for P evaluated at X =   1.50000
+000 , follows: \nEntries are XX(I), Q(I,0), ..., Q(I,I) for each I = 0
+, ..., N where N =   4\n\n 1.00000000   .76519770 \n 1.30000000   .620
+08600   .52334486 \n 1.60000000   .45540220   .51029680   .51247147 \n
+ 1.90000000   .28181860   .51326340   .51128566   .51181269 \n 2.20000
+000   .11036230   .51042700   .51373613   .51183021   .51181999 " }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "5 0 0" 18 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,153 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 306 "# CHOLESKI'S ALGORITHM 6.6\n#\n# T
+o factor the positive definite n by n matrix A into LL**T,\n# where L \+
+is lower triangular.\n#\n# INPUT:   the dimension n; entries A(I,J), 1
+<=I, J<=n of A.\n#\n# OUTPUT:  the entries L(I,J), 1<=J<=I, 1<=I<=n of
+ L.\n#\n# the entries of U = L**T are U(I,J) = L(J,I), I<=J<=n, 1<=I<=
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 82 "alg066 := proc() local AA, NAM
+E, INP, OK, N, I, J, A, NN, KK, S, K, JJ, FLAG, OUP;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 51 "printf(`This is Choleski Factorization Method.\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The array will be i
+nput from a text file in the order:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "printf(`A(1,1), A(1,2), ..., A(1,N), A(2,1), A(2,2), \+
+..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "A(2,N),\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 47 "printf(`..., A(N,1), A(N,2), ..., A(N,N)\\n
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place as many ent
+ries as desired on each line, but separate `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 36 "printf(`at least one blank.\\n\\n\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input file been created? - en
+ter Y or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%
+c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or AA = y then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in \+
+the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+40 "printf(`for example:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`Input \+
+the dimension n - an integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > \+
+0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+56 "else printf(`The number must be a positive integer.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 67 "printf(`The program will end so the input file can
+ be created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP
+ 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "A[0,0] := sqrt(A[0,0]);" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for J from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "A[J-1,0
+] := A[J-1,0]/A[0,0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+10 "NN := N-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 2 to N
+N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "KK := I-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := \+
+0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to KK do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "S := S-A[I-1,K-1]*A[I-1,K-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "A[I-1,I-1] := sqrt(A[I-1,I-1]+S);" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "for J from JJ to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "S := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "KK := I-
+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to KK do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "S := S - A[J-1,K-1]*A[I-1,K-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 40 "A[J-1,I-1] := (A[J-1,I-1]+S)/A[I-1,I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S :=
+ 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to NN do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "S := S-A[N-1,K-1]*A[N-1,K-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "A[N-1,N-1] := sqrt(A[N-1,N-1]+S);" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output
+ method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output
+ to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Outp
+ut to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Pl
+ease enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG :=
+ scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in
+ the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 42 "printf(`for example:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 43 "fprintf(OUP, `CHOLESKI FACTORIZATION\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `The matrix L output b
+y rows:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N \+
+do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to I do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `  %12.8f`, A[I-1,J-1]
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 
+20 "6#>%'alg066G:6\"61%#AAG%%NAMEG%$INPG%#OKG%\"NG%\"IG%\"JG%\"AG%#NNG
+%#KKG%\"SG%\"KG%#JJG%%FLAGG%$OUPGF&F&C.-%'printfG6#%HThis~is~Choleski~
+Factorization~Method.|+G-F96#%XThe~array~will~be~input~from~a~text~fil
+e~in~the~order:|+G-F96#%fnA(1,1),~A(1,2),~...,~A(1,N),~A(2,1),~A(2,2),
+~...,~|+A(2,N),|+G-F96#%C...,~A(N,1),~A(N,2),~...,~A(N,N)|+|+G-F96#%gn
+Place~as~many~entries~as~desired~on~each~line,~but~separate~G-F96#%.en
+tries~with|+G-F96#%7at~least~one~blank.|+|+|+G-F96#%RHas~the~input~fil
+e~been~created?~-~enter~Y~or~N.|+G>8$&-%&scanfG6#%#%cG6#\"\"\"@%5/FR%
+\"YG/FR%\"yGC(-F96#%SInput~the~file~name~in~the~form~-~drive:\\name.ex
+t|+G-F96#%<for~example:~~~A:\\DATA.DTA|+G>8%&-FU6#%#%sGFX>8&-%&fopenG6
+%Fbo%%READG%%TEXTG>8'%&FALSEG?(F&FYFYF&/F_pF`pC%-F96#%EInput~the~dimen
+sion~n~-~an~integer.|+G>8(&-FU6#%#%dGFX@%2\"\"!FhpC%?(8)FYFYFhp%%trueG
+?(8*FYFYFhpFcq>&8+6$,&FbqFY!\"\"FY,&FeqFYF[rFY&-%'fscanfG6$Fho%#%fGFX>
+F_p%%TRUEG-%'fcloseG6#Fho-F96#%HThe~number~must~be~a~positive~integer.
+|+GC$-F96#%XThe~program~will~end~so~the~input~file~can~be~created.|+G>
+F_pF`p@$/F_pFcrC3>&Fhq6$F_qF_q-%%sqrtG6#Fcs?(Feq\"\"#FYFhpFcq>&Fhq6$F
+\\rF_q*&F[tFYFcsF[r>8,,&FhpFYF[rFY?(FbqFisFYF_tFcqC(>8-Fjq>8.F_q?(8/FY
+FYFdtFcq>Fft,&FftFY*$&Fhq6$Fjq,&FhtFYF[rFYFisF[r>&Fhq6$FjqFjq-Ffs6#,&F
+`uFYFftFY>80,&FbqFYFYFY?(FeqFfuFYFhpFcqC&>FftF_q>FdtFjq?(FhtFYFYFdtFcq
+>Fft,&FftFY*&&Fhq6$F\\rF^uFYF\\uFYF[r>&Fhq6$F\\rFjq*&,&FcvFYFftFYFYF`u
+F[r>FftF_q?(FhtFYFYF_tFcq>Fft,&FftFY*$&Fhq6$F`tF^uFisF[r>&Fhq6$F`tF`t-
+Ffs6#,&F_wFYFftFY-F96#%:Choice~of~output~method:|+G-F96#%51.~Output~to
+~screen|+G-F96#%82.~Output~to~text~file|+G-F96#%6Please~enter~1~or~2.|
++G>81Fip@%/FaxFisC&F[o-F96#%>for~example:~~~A:\\OUTPUT.DTA|+G>FboFco>8
+2-Fjo6%Fbo%&WRITEGF]p>Fjx%(defaultG-%(fprintfG6$Fjx%9CHOLESKI~FACTORIZ
+ATION|+|+G-Fay6$Fjx%>The~matrix~L~output~by~rows:|+G?(FbqFYFYFhpFcqC$?
+(FeqFYFYFbqFcq-Fay6%Fjx%)~~%12.8fGFgq-Fay6$Fjx%\"|+G@$0FjxF_yC$-Fer6#F
+jx-F96$%COutput~file~%s~created~sucessfullyGFbo-%'RETURNG6#F_qF&F&" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg066();" }}{PARA 6 "" 1 "
+" {TEXT -1 330 "This is Choleski Factorization Method.\nThe array will
+ be input from a text file in the order:\nA(1,1), A(1,2), ..., A(1,N),
+ A(2,1), A(2,2), ..., \nA(2,N),\n..., A(N,1), A(N,2), ..., A(N,N)\n\nP
+lace as many entries as desired on each line, but separate entries wit
+h\nat least one blank.\n\n\nHas the input file been created? - enter Y
+ or N." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 
+"" {TEXT -1 76 "Input the file name in the form - drive:\\name.ext\nfo
+r example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "c:\\data\\alg066.dta" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input the dim
+ension n - an integer." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3
+" }}{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output t
+o screen\n2. Output to text file\nPlease enter 1 or 2." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 138 "C
+HOLESKI FACTORIZATION\n\nThe matrix L output by rows:\n    2.00000000
+\n   -.50000000    2.00000000\n     .50000000    1.50000000    1.00000
+000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "4 0 0" 7 }{VIEWOPTS 1 1 0 1 1 1803 }
+

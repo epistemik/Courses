@@ -1,0 +1,186 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+108 32 40 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 58 61 32 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 
+0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 421 "# GAUSSIAN TRIPLE INTEGRAL ALGORIT
+HM 4.6\n# \n# To approximate I = triple integral ( ( f(x,y,z) dz dy dx
+ ) ) with       # limits of integration from a to b for x, from c(x) t
+o d(x) for y, and   # from alpha(x,y) to beta(x,y) for z.\n#\n# INPUT:
+   endpoints a, b; positive integers m, n, p. (Assume that the\n#     \+
+     roots r(i,j) and coefficients c(i,j) are available for i\n#      \+
+    equals m, n, and p and for 1 <= j <= i." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 143 "alg046 := proc() local F, C, D, alpha, beta, OK, A, \+
+B, M, N, P, r, co, H1, H2, AJ, I, X, JX, C1, D1, K1, K2, J, Y, JY, Z1,
+ Z2, L1, L2, K, Z, Q;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`Th
+is is Gaussian Quadrature for triple integrals.\\n`);  " }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 60 "printf(`Input the function F(x) in terms of x,
+ y, and z\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`For exam
+ple: sqrt(x^2+y^2)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf
+(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "F := unapply(F,x,y,z)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the functions C(
+x), and D(x) in terms of x `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "p
+rintf(`separated by a space\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+37 "printf(`For example: cos(x) sin(x)`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "C := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "C := unapply(C,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "D := sc
+anf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "D := unapply(D,x);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Input the functions alp
+ha(x,y) and beta(x,y) in `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "pri
+ntf(`terms of x and y, separated by a space\\n`); " }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 24 "alpha := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "alpha := unapply(alpha,x,y);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "beta := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "beta := unapply(beta,x,y);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`Input \+
+lower limit of integration and upper limit of `); " }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 51 "printf(`integration separated by a blank space\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "if A > B then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 
+"printf(`Lower limit must be less than upper limit\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK \+
+:= TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Input three positive intege
+rs M, N, P. This\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`i
+mplementation of Gaussian quadrature requires\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 51 "printf(`that they are less than or equal to 5.\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "printf(`They will be used in \+
+`);  " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "printf(`first, second, and
+ third dimensions, resp.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "p
+rintf(` - separate with blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := \+
+scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "P := scanf(`%d`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "if M <= 0 or N <= 0 or P <=
+ 0 then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`Integers must b
+e positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 31 "if M > 5 or N > 5 or P > 5 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`Integers must be less than or equ
+al to 5.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TR
+UE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "r[1,0] := 0.5773502692; \+
+r[1,1] := -r[1,0]; co[1,0] := 1.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+54 "co[1,1] := 1.0; r[2,0] := 0.7745966692; r[2,1] := 0.0;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 68 "r[2,2] := -r[2,0]; co[2,0] := 0.5555555556;
+ co[2,1] := 0.8888888889;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "co[2,2
+] := co[2,0]; r[3,0] := 0.8611363116; r[3,1] := 0.3399810436;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "r[3,2] := -r[3,1]; r[3,3] := -r[3,0
+]; co[3,0] := 0.3478548451;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "co[3
+,1] := 0.6521451549; co[3,2] := co[3,1]; co[3,3] := co[3,0];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 62 "r[4,0] := 0.9061798459; r[4,1] := 0.53846
+93101; r[4,2] := 0.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "r[4,3] := \+
+-r[4,1]; r[4,4] := -r[4,0]; co[4,0] := 0.2369268850;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 69 "co[4,1] := 0.4786286705; co[4,2] := 0.5688888889
+; co[4,3] := co[4,1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "co[4,4] :=
+ co[4,0];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "H1 := (B-A)/2;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 14 "H2 := (B+A)/2;" }}{PARA 0 "" 0 "" {TEXT -1 19 "use \+
+AJ instead of J" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+8 "AJ := 0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }{MPLTEXT 1 0 0 "" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "X := H
+1*r[M-1,I-1]+H2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "JX := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "C1 := C(X);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "D1 := D(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "K1 \+
+:= (D1-C1)/2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "K2 := (D1+C1)/2;" 
+}}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "
+Y := K1*r[N-1,J-1]+K2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "JY := 0;" 
+}}{PARA 0 "" 0 "" {TEXT -1 32 "use Z1 for Beta and Z2 for Alpha" }
+{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "Z1 := beta(X,Y)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "Z2 := alpha(X,Y);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "L1 := (Z1-Z2)/2;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "L2 := (Z1+Z2)/2;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP \+
+6" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for K from \+
+1 to P do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "Z := L1*r[P-1,K-1]+L2;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "Q := F(X,Y,Z);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 23 "JY := JY+co[P-1,K-1]*Q;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }{MPLTEXT 
+1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "JX := JX+co[N-1,J-1]*L1*
+JY;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 8" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "
+AJ := AJ+co[M-1,I-1]*K1*JX;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "AJ := AJ*H1;" }}{PARA 0 "" 0 "" {TEXT -1 7 "ST
+EP 10" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(
+`\\nThe integral of F from %12.8f to %12.8f is   `, A, B);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 22 "printf(`%.10e\\n`, AJ);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 66 "printf(` obtained with M = %3d , N = %3d and P = %3
+d\\n`, M, N, P);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg046G:6\"6C%\"FG%\"C
+G%\"DG%&alphaG%%betaG%#OKG%\"AG%\"BG%\"MG%\"NG%\"PG%\"rG%#coG%#H1G%#H2
+G%#AJG%\"IG%\"XG%#JXG%#C1G%#D1G%#K1G%#K2G%\"JG%\"YG%#JYG%#Z1G%#Z2G%#L1
+G%#L2G%\"KG%\"ZG%\"QGF&F&C:-%'printfG6#%SThis~is~Gaussian~Quadrature~f
+or~triple~integrals.|+G-FK6#%QInput~the~function~F(x)~in~terms~of~x,~y
+,~and~z|+G-FK6#%;For~example:~sqrt(x^2+y^2)G>8$&-%&scanfG6#%#%aG6#\"\"
+\">FU-%(unapplyG6&FU%\"xG%\"yG%\"zG-FK6#%RInput~the~functions~C(x),~an
+d~D(x)~in~terms~of~x~G-FK6#%6seperated~by~a~space|+G-FK6#%;For~example
+:~cos(x)~sin(x)G>8%FV>Fho-Fin6$FhoF[o>8&FV>F]p-Fin6$F]pF[o-FK6#%QInput
+~the~functions~alpha(x,y)~and~beta(x,y)~in~G-FK6#%Hterms~of~x~and~y,~s
+eperated~by~a~space|+G>8'FV>Fhp-Fin6%FhpF[oF\\o>8(FV>F]q-Fin6%F]qF[oF
+\\o>8)%&FALSEG?(F&FfnFfnF&/FbqFcqC'-FK6#%UInput~lower~limit~of~integra
+tion~and~upper~limit~of~G-FK6#%Hintegration~separated~by~a~blank~space
+|+G>8*&-FX6#%#%fGFen>8+F_r@%2FdrF^r-FK6#%KLower~limit~must~be~less~tha
+n~upper~limit|+G>Fbq%%TRUEG>FbqFcq?(F&FfnFfnF&FeqC,-FK6#%MInput~three~
+positive~integers~M,~N,~P.~This|+G-FK6#%Pimplementation~of~Gaussian~qu
+adrature~requires|+G-FK6#%Hthat~they~are~less~than~or~equal~to~5.|+G-F
+K6#%6They~will~be~used~in~G-FK6#%Lfirst,~second,~and~third~dimensions,
+~resp.|+G-FK6#%9~-~separate~with~blank.|+G>8,&-FX6#%#%dGFen>8-Fct>8.Fc
+t@%551Fbt\"\"!1FhtF_u1FjtF_u-FK6#%<Integers~must~be~positive.|+G@%552
+\"\"&Fbt2FiuFht2FiuFjt-FK6#%KIntegers~must~be~less~than~or~equal~to~5.
+|+G>FbqF[s@$/FbqF[sCF>&8/6$FfnF_u$\"+#p-Nx&!#5>&Fev6$FfnFfn,$Fdv!\"\">
+&80Ffv$\"#5F^w>&FawF\\wFbw>&Fev6$\"\"#F_u$\"+#pmfu(Fiv>&Fev6$FiwFfnF_u
+>&Fev6$FiwFiw,$FgwF^w>&FawFhw$\"+cbbbbFiv>&FawF^x$\"+*)))))))))Fiv>&Fa
+wFaxFdx>&Fev6$\"\"$F_u$\"+;JO6')Fiv>&Fev6$F`yFfn$\"+O/\")*R$Fiv>&Fev6$
+F`yFiw,$FdyF^w>&Fev6$F`yF`y,$F^yF^w>&FawF_y$\"+^%[&yMFiv>&FawFey$\"+\\
+:X@lFiv>&FawFjyFez>&FawF^zFaz>&Fev6$\"\"%F_u$\"+f%)zh!*Fiv>&Fev6$F_[lF
+fn$\"+,Jp%Q&Fiv>&Fev6$F_[lFiwF_u>&Fev6$F_[lF`y,$Fc[lF^w>&Fev6$F_[lF_[l
+,$F][lF^w>&FawF^[l$\"+])o#pBFiv>&FawFd[l$\"+0nG'y%Fiv>&FawFi[l$\"+*)))
+)))o&Fiv>&FawF\\\\lFg\\l>&FawF`\\lFc\\l>81,&Fdr#FfnFiwF^r#F^wFiw>82,&F
+drFe]lF^rFe]l>83F_u?(84FfnFfnFbt%%trueGC*>85,&*&Fc]lFfn&Fev6$,&FbtFfnF
+^wFfn,&F]^lFfnF^wFfnFfnFfnFh]lFfn>86F_u>87-Fho6#Fa^l>88-F]pF]_l>89,&F_
+_lFe]lF[_lFf]l>8:,&F__lFe]lF[_lFe]l?(8;FfnFfnFhtF^^lC*>8<,&*&Fb_lFfn&F
+ev6$,&FhtFfnF^wFfn,&Fh_lFfnF^wFfnFfnFfnFe_lFfn>8=F_u>8>-F]q6$Fa^lF[`l>
+8?-FhpFg`l>8@,&Fe`lFe]lFi`lFf]l>8A,&Fe`lFe]lFi`lFe]l?(8BFfnFfnFjtF^^lC
+%>8C,&*&F\\alFfn&Fev6$,&FjtFfnF^wFfn,&FbalFfnF^wFfnFfnFfnF_alFfn>8D-FU
+6%Fa^lF[`lFeal>Fc`l,&Fc`lFfn*&&FawFialFfnF]blFfnFfn>Fi^l,&Fi^lFfn*(&Fa
+wF_`lFfnF\\alFfnFc`lFfnFfn>F[^l,&F[^lFfn*(&FawFe^lFfnFb_lFfnFi^lFfnFfn
+>F[^l*&F[^lFfnFc]lFfn-FK6%%O|+The~integral~of~F~from~%12.8f~to~%12.8f~
+is~~~GF^rFdr-FK6$%'%.10e|+GF[^l-FK6&%N~obtained~with~M~=~%3d~,~N~=~%3d
+~and~P~=~%3d|+GFbtFhtFjt-%'RETURNG6#F_uF&F&" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 9 "alg046();" }}{PARA 6 "" 1 "" {TEXT -1 124 "This is \+
+Gaussian Quadrature for triple integrals.\nInput the function F(x) in \+
+terms of x, y, and z\nFor example: sqrt(x^2+y^2)" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 13 "sqrt(x^2+y^2)" }}{PARA 6 "" 1 "" {TEXT -1 96 
+"Input the functions C(x), and D(x) in terms of x seperated by a space
+\nFor example: cos(x) sin(x)" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "0 sqrt(4-x^2)" }}{PARA 6 "" 1 "" {TEXT -1 86 "Input the function
+s alpha(x,y) and beta(x,y) in terms of x and y, seperated by a space" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "sqrt(x^2+y^2) 2" }}{PARA 
+6 "" 1 "" {TEXT -1 90 "Input lower limit of integration and upper limi
+t of integration separated by a blank space" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "0 2" }}{PARA 6 "" 1 "" {TEXT -1 217 "Input three po
+sitive integers M, N, P. This\nimplementation of Gaussian quadrature r
+equires\nthat they are less than or equal to 5.\nThey will be used in \+
+first, second, and third dimensions, resp.\n - separate with blank." }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "5 5 5" }}{PARA 6 "" 1 "" 
+{TEXT -1 119 "\nThe integral of F from   0.00000000 to   2.00000000 is
+   2.0937611860e+00\n obtained with M =   5 , N =   5 and P =   5" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "8 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,16 @@
+
+CSI3103 - Fall 2000 - Assignment 3 
+ 
+Assignment 3 - November 8, 2000 
+
+1) Stallings: Q.10.10, P. 340. 
+2) Stallings: Q.10.21, P. 341. 
+3) Stallings: Q.14.1, P. 508. 
+4) Stallings: Q.14.4, P. 508. 
+5) Stallings: Q.15.6, P. 567. 
+
+This assignment is due at 23:00 on November 24, 2000.
+                          --------------------
+
+An assignment submitted late will still be marked but will be subject to a 
+penalty of 0.95**n where n is the number of days late. 

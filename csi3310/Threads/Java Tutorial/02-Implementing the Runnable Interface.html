@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://java.sun.com/docs/books/tutorial/essential/threads/clock.html -->
+<HTML><HEAD><TITLE>Implementing the Runnable Interface</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="01-Subclassing Thread and Overriding run.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> 
+      <A 
+      href="03-The Life Cycle of a Thread.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+    width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>Implementing the Runnable Interface </H2>
+<BLOCKQUOTE>The <CODE>Clock</CODE> applet shown below displays the current 
+  time and updates its display every second. You can scroll this page and 
+  perform other tasks while the clock continues to update because the code that 
+  updates the clock's display runs within its own thread. 
+  <P><APPLET code=Clock.class codeBase=example height=13 width=90><PARAM NAME="code" VALUE="Clock.class"><PARAM NAME="codeBase" VALUE="http://java.sun.com/docs/books/tutorial/essential/threads/example"><PARAM NAME="height" VALUE="10"><PARAM NAME="width" VALUE="60"></APPLET> 
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Note:</STRONG> Because some old browsers don't support 1.1, the 
+    above applet is a <EM>1.0</EM> version (here is the <A 
+    href="http://java.sun.com/docs/books/tutorial/essential/threads/example/Clock.java" 
+    target=_top>1.0 code</A>; here's the <A 
+    href="example/Clock.java">1.1 
+    code</A>). To run the <EM>1.1</EM> version of the applet, go to <A 
+    href="http://java.sun.com/docs/books/tutorial/essential/threads/example-1dot1/Clock.html" 
+    target=_top><CODE>example-1dot1/Clock.html</CODE></A>. For more information 
+    about running applets, refer to <A 
+    href="http://java.sun.com/docs/books/tutorial/information/examples.html" 
+    target=_top>About Our Examples</A>.
+    <HR>
+  </BLOCKQUOTE>
+  <P>The <CODE>Clock</CODE> applet uses a different technique than 
+  <CODE>SimpleThread</CODE> for providing the <CODE>run</CODE> method for its 
+  thread. Instead of subclassing <CODE>Thread</CODE>, <CODE>Clock</CODE> 
+  implements the <CODE>Runnable</CODE> interface (and therefore implements the 
+  run method defined in it). <CODE>Clock</CODE> then creates a thread and 
+  provides itself as an argument to the <CODE>Thread</CODE>'s constructor. When 
+  created in this way, the <CODE>Thread</CODE> gets its <CODE>run</CODE> method 
+  from the object passed into the constructor. The code that accomplishes this 
+  is shown in bold here: 
+  <BLOCKQUOTE><PRE>import java.awt.Graphics;
+import java.util.*;
+import java.text.DateFormat;
+import java.applet.Applet;
+
+public class Clock extends Applet <STRONG>implements Runnable</STRONG> {
+    private Thread clockThread = null;
+    public void start() {
+        if (clockThread == null) {
+            <STRONG>clockThread = new Thread(this, "Clock");</STRONG>
+            clockThread.start();
+        }
+    }
+    <STRONG>public void run() {
+        Thread myThread = Thread.currentThread();
+        while (clockThread == myThread) {
+            repaint();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e){
+            // the VM doesn't want us to sleep anymore,
+            // so get back to work
+            }
+        }
+    }</STRONG>
+    public void paint(Graphics g) {
+        // get the time and convert it to a date
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        // format it and display it
+        DateFormat dateFormatter = DateFormat.getTimeInstance();
+        g.drawString(dateFormatter.format(date), 5, 10);
+    }
+    // overrides Applet's stop method, not Thread's
+    public void stop() {
+        clockThread = null;
+    }
+}
+
+</PRE></BLOCKQUOTE>The <CODE>Clock</CODE> applet's <CODE>run</CODE> method 
+  loops until the browser asks it to stop. During each iteration of the loop, 
+  the clock repaints its display. The <CODE>paint</CODE> method figures out what 
+  time it is, formats it in a localized way, and displays it. You'll see more of 
+  the <CODE>Clock</CODE> applet in <A 
+  href="03-The Life Cycle of a Thread.html">The 
+  Life Cycle of a Thread</A> which uses it to teach you about the life of a 
+  thread. </BLOCKQUOTE>
+<H3>Deciding to Use the <CODE>Runnable</CODE> Interface</H3>
+<BLOCKQUOTE>You have now seen two ways to provide the run method for a Java 
+  thread: 
+  <OL>
+    <LI>Subclass the <CODE>Thread</CODE> class defined in the 
+    <CODE>java.lang</CODE> package and override the <CODE>run</CODE> method. 
+    <P>
+    <BLOCKQUOTE>
+      <HR>
+      <STRONG>Example:</STRONG>&nbsp; See the <CODE>SimpleThread</CODE> class 
+      described in <A 
+      href="01-Subclassing Thread and Overriding run.html">Subclassing 
+      <CODE>Thread</CODE> and Overriding <CODE>run</CODE></A>. 
+      <HR>
+    </BLOCKQUOTE>
+    <LI>Provide a class that implements the <CODE>Runnable</CODE> interface 
+    (also defined in the <CODE>java.lang</CODE> package) and therefore 
+    implements the <CODE>run</CODE> method. In this case, a 
+    <CODE>Runnable</CODE> object provides the <CODE>run</CODE> method to the 
+    thread. 
+    <P>
+    <BLOCKQUOTE>
+      <HR>
+      <STRONG>Example:</STRONG>&nbsp; See the <CODE>Clock</CODE> applet just 
+      shown. 
+      <HR>
+    </BLOCKQUOTE></LI></OL>There are good reasons for choosing either of these 
+  options over the other. However, for most cases, including that of the 
+  <CODE>Clock</CODE> applet, the following rule of thumb will guide you to the 
+  best option. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Rule of Thumb:</STRONG>&nbsp; If your class must subclass some other 
+    class (the most common example being <CODE>Applet</CODE>), you should use 
+    <CODE>Runnable</CODE> as described in option #2. 
+    <HR>
+  </BLOCKQUOTE>
+  <P>To run in a Java-enabled browser, the <CODE>Clock</CODE> class has to be a 
+  subclass of the <CODE>Applet</CODE> class. Also, the <CODE>Clock</CODE> applet 
+  needs a thread so that it can continuously update its display without taking 
+  over the process in which it is running. (Some browsers might create a new 
+  thread for each applet so as to prevent a misbehaved applet from taking over 
+  the main browser thread. However, you should not count on this when writing 
+  your applets; your applets should create their own threads when doing 
+  computer-intensive work.) But since the Java language does not support 
+  multiple class inheritance, the <CODE>Clock</CODE> class cannot be a subclass 
+  of both <CODE>Thread</CODE> and <CODE>Applet</CODE>. Thus the 
+  <CODE>Clock</CODE> class must use the <CODE>Runnable</CODE> interface to 
+  provide its threaded behavior. </P></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="01-Subclassing Thread and Overriding run.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> 
+      <A 
+      href="03-The Life Cycle of a Thread.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+    width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

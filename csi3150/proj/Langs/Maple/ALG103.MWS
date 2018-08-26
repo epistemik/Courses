@@ -1,0 +1,268 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+219 136 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 
+0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 357 "# STEEPEST DESCENT ALGORITHM 10.3
+\n#\n# To approximate a solution P to the minimization problem\n#     \+
+           G(P) = MIN( G(X) : X in R(n) )\n# given an initial approxim
+ation X:\n#\n# INPUT:   Number n of variables; initial approximation X
+;\n#          tolerance TOL; maximum number of iterations N.\n#\n# OUT
+PUT:  Approximate solution X or a message of failure." }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 130 "alg103 := proc() global F,CF; local OK, N, I, P
+, J, TOL, NN, X, FLAG1, NAME, OUP, K, G, Z0, Z, A, X0, C, G0, FLAG, H1
+, H2, H3, A0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "F := proc(X,N) loc
+al D, I, f;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "D := 0;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "D := D+(CF[I](seq(X[i],i=0..N-1)))*(CF[I](seq(X[i],i=
+0..N-1)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 7 "f := D;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "RETUR
+N(evalf(f));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 49 "printf(`This is the Steepest Descent Method.\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 45 "printf(`Input the number n of equations.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 14 "if N >= 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "printf(`N must be an integer greate
+r than 1.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for \+
+I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`Input t
+he function CF[%d](x1..x%d).\\n`,I, N);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 24 "CF[I] := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "P[I] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 44 "P[I] := P[I]+2*CF[J]*diff(CF[J],evaln(x.I));" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "P[I] := un
+apply(P[I],evaln(x.(1..N)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 40 "CF[I] := unapply(CF[I],evaln(x.(1..N)));
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "printf(`Input \+
+tolerance\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Tol
+erance must be positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Input \+
+the maximum number of iterations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 21 "NN := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if
+ NN > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 40 "printf(`Must be a positive integer.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 50 "printf(`Input initial approximation X(%d).\\n`
+, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "X[I-1] := scanf(`%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "printf(`Select output destination\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "FLAG1 := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if FLAG1 = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for example  A:\\\\OUTP
+UT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEX
+T);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of out
+put\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermedit
+ate approximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(
+`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "FLAG1 := sca
+nf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "fprintf(OUP, `STEEP
+EST DESCENT METHOD FOR NONLINEAR SYSTEMS\\n\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 17 "if FLAG1 = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 43 "fprintf(OUP, `Iteration, Approximation\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STE
+P 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while OK = TRUE and K <= NN \+
+do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "G[0] := evalf(F(X, N));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "Z0 := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I f
+rom 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "Z[I-1] := evalf(P[
+I](seq(X[i],i=0..N-1)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "Z0 := Z
+0+(Z[I-1])*(Z[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "Z0 := sqrt(Z0);" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "if Z0 <= 1.0e
+-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `0 qradient - may have a min
+imum\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from \+
+1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "Z[I-1] := Z[I-1] / Z0;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "A[0] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "X0 :=
+ 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "C[I-1] := X[I-1]-X0*Z[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "G0 := evalf(F(C, N));" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "FLAG := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if G0 < G[0] then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "FLAG := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 34 "while FLAG = TRUE and OK = TRUE do" }}
+{PARA 0 "" 0 "" {TEXT -1 13 "STEPS 7 and 8" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "X0 := 0.5*X0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "i
+f X0 <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprintf(OUP, `No likely improv
+ement - may\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, `
+have a minimum\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 27 "C[I-1] := X[I-1]-X0*Z[I-1];" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "G0 := eva
+lf(F(C, N));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 17 "if G0 < G[0] then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 14 "FLAG := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "A[2] := \+
+X0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "G[2] := G0;" }}{PARA 0 "" 0 
+"" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "X0 := 0.5*
+X0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "C[I-1] := X[I-1]-X0*Z[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "A[1] := X0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "G[1] := evalf(
+F(C, N));" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "H1 := (G[1]-G[0])/(A[1]-A[0]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "H2 := (G[2]-G[1])/(A[2]-A[1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "H3 := (H2-H1)/(A[2]-A[0]);" }}{PARA 0 "" 0 "" {TEXT 
+-1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "X0 := 0.5*(A[0]+A[
+1]-H1/H3);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "C[I-1] := X[I-1]-X0*Z[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 21 "G0 := evalf(F(C, N));" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 12" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "A0 := X0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 29 "if abs(G[I-1]) < abs(G0) then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+13 "A0 := A[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "G0 := G[I-1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "if abs(A0) <
+= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP, `No change likely\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "fprintf(OUP, `- probably round
+ing error problems\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEP 13" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "X[I-1] \+
+:= evalf(X[I-1]-A0*Z[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 14" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if FLAG1 = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "fprintf(
+OUP, ` %2d`, K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to
+ N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`, X[
+I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "if abs(G0) < TOL or abs
+(G0-G[0]) < TOL then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "fprintf(OUP, `Iteration number
+ %d\\n`, K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP, `gives
+ solution\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 \+
+to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`, \+
+X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 45 "fprintf(OUP, `\\n\\nto within %.10e\\n\\n`, TOL);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "fprintf(OUP, `Process is complete
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" 
+{TEXT -1 7 "STEP 15" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "K := K+1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if K > NN then" }}{PARA 0 "" 0 "" 
+{TEXT -1 7 "STEP 16" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "fprintf(OUP,
+ `Process does not converge in %d\\n`, NN);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "fprintf(OUP, ` iterations\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg103G:6\"6:%#OKG%\"NG%\"IG%\"PG%\"JG%$TOLG%#NNG%\"
+XG%&FLAG1G%%NAMEG%$OUPG%\"KG%\"GG%#Z0G%\"ZG%\"AG%#X0G%\"CG%#G0G%%FLAGG
+%#H1G%#H2G%#H3G%#A0GF&F&C0>%\"FG:6$F/F)6%%\"DGF*%\"fGF&F&C&>8$\"\"!?(8
+%\"\"\"FN9%%%trueG>FJ,&FJFN*$-&%#CFG6#FM6#-%$seqG6$&9$6#%\"iG/Fin;FK,&
+FOFN!\"\"FN\"\"#FN>8&FJ-%'RETURNG6#-%&evalfG6#F`oF&F&-%'printfG6#%FThi
+s~is~the~Steepest~Descent~Method.|+G>FJ%&FALSEG?(F&FNFNF&/FJF\\pC%-Fho
+6#%BInput~the~number~n~of~equations.|+G>FM&-%&scanfG6#%#%dG6#FN@%1F^oF
+M>FJ%%TRUEG-Fho6#%FN~must~be~an~integer~greater~than~1.|+G?(F`oFNFNFMF
+PC$-Fho6%%EInput~the~function~CF[%d](x1..x%d).|+GF`oFM>&FVFfo&-Ffp6#%#
+%aGFip?(F`oFNFNFMFPC%>&8'FfoFK?(8(FNFNFMFP>F_r,&F_rFN*&&FV6#FbrFN-%%di
+ffG6$Ffr-%&evalnG6#(%\"xGF`oFNF^o>F_r-%(unapplyG6$F_r-F\\s6#(F_s;FNFM?
+(F`oFNFNFMFP>Fgq-Fbs6$FgqFds>FJF\\p?(F&FNFNF&F^pC%-Fho6#%1Input~tolera
+nce|+G>8)&-Ffp6#%#%fGFip@%2FKFct>FJF]q-Fho6#%=Tolerance~must~be~positi
+ve.|+G>FJF\\p?(F&FNFNF&F^pC%-Fho6#%IInput~the~maximum~number~of~iterat
+ions.|+G>8*Fdp@%2FKFeu>FJF]q-Fho6#%=Must~be~a~positive~integer.|+G?(F`
+oFNFNFMFPC$-Fho6$%DInput~initial~approximation~X(%d).|+GF`o>&8+6#,&F`o
+FNF]oFNFdt@$/FJF]qC3-Fho6#%;Select~output~destination|+G-Fho6#%+1.~Scr
+een|+G-Fho6#%.2.~Text~file|+G-Fho6#%.Enter~1~or~2|+G>8,Fdp@%/FfwF^oC&-
+Fho6#%SInput~the~file~name~in~the~form~-~drive:\\name.ext|+G-Fho6#%<fo
+r~example~~A:\\OUTPUT.DTA|+G>8-&-Ffp6#%#%sGFip>8.-%&fopenG6%Fax%&WRITE
+G%%TEXTG>Fgx%(defaultG-Fho6#%9Select~amount~of~output|+G-Fho6#%01.~Ans
+wer~only|+G-Fho6#%E2.~All~intermeditate~approximations|+GFbw>FfwFdp-%(
+fprintfG6$Fgx%PSTEEPEST~DESCENT~METHOD~FOR~NONLINEAR~SYSTEMS|+|+G@$Fhw
+-Fjy6$Fgx%:Iteration,~Approximation|+G>8/FN?(F&FNFNF&3Fgv1FbzFeuC'>&80
+6#FK-Feo6#-FB6$FcvFM>81FK?(F`oFNFNFMFPC$>&82Fdv-Feo6#-F_r6#-FZ6$&FcvFh
+n/Fin;FK,&FMFNF]oFN>F`[l,&F`[lFN*$Fd[lF^oFN>F`[l-%%sqrtG6#F`[l@%1F`[lF
+KC$>FJF\\p-Fjy6$Fgx%A0~qradient~-~may~have~a~minimum|+GC+?(F`oFNFNFMFP
+>Fd[l*&Fd[lFNF`[lF]o>&83FjzFK>84FN?(F`oFNFNFMFP>&85Fdv,&FbvFN*&Ff]lFNF
+d[lFNF]o>86-Feo6#-FB6$Fj]lFM>87F]q@$2F^^lFhz>Fd^lF\\p?(F&FNFNF&3/Fd^lF
+]qFgvC%>Ff]l,$Ff]l$\"\"&F]o@%1Ff]lFKC%>FJF\\p-Fjy6$Fgx%=No~likely~impr
+ovement~-~may|+G-Fjy6$Fgx%0have~a~minimum|+GC$?(F`oFNFNFMFP>Fi]lF[^l>F
+^^lF_^l@$Ff^l>Fd^lF\\p@$FgvC1>&Fd]l6#F^oFf]l>&FizFd`lF^^l>Ff]lF]_l?(F`
+oFNFNFMFP>Fi]lF[^l>&Fd]lFipFf]l>&FizFipF_^l>88*&,&F]alFNFhzF]oFN,&F[al
+FNFc]lF]oF]o>89*&,&Ff`lFNF]alF]oFN,&Fc`lFNF[alF]oF]o>8:*&,&FdalFNF_alF
+]oFN,&Fc`lFNFc]lF]oF]o>Ff]l,(Fc]lF^_lF[alF^_l*&F_alFNFialF]o$!\"&F]o?(
+F`oFNFNFMFP>Fi]lF[^l>F^^lF_^l>8;Ff]l?(F`oFNFNFMFP@$2-%$absG6#&FizFdv-F
+[cl6#F^^lC$>Ffbl&Fd]lFdv>F^^lF]cl@%1-F[cl6#FfblFKC%>FJF\\p-Fjy6$Fgx%2N
+o~change~likely|+G-Fjy6$Fgx%D-~probably~rounding~error~problems|+GC%?(
+F`oFNFNFMFP>Fbv-Feo6#,&FbvFN*&FfblFNFd[lFNF]o@$FhwC%-Fjy6%Fgx%%~%2dGFb
+z?(F`oFNFNFMFP-Fjy6%Fgx%(~%11.8fGFbv-Fjy6$Fgx%\"|+G@%52F^clFct2-F[cl6#
+,&F^^lFNFhzF]oFctC(>FJF\\p-Fjy6%Fgx%5Iteration~number~%d|+GFbz-Fjy6$Fg
+x%1gives~solution|+|+G?(F`oFNFNFMFPF]el-Fjy6%Fgx%4|+|+to~within~%.10e|
++|+GFct-Fjy6$Fgx%5Process~is~complete|+G>Fbz,&FbzFNFNFN@$2FeuFbzC$-Fjy
+6%Fgx%AProcess~does~not~converge~in~%d|+GFeu-Fjy6$Fgx%-~iterations|+G@
+$0FgxF^yC$-%'fcloseG6#Fgx-Fho6$%COutput~file~%s~created~sucessfullyGFa
+x-FboFjzF&6$FBFV" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg103()
+;" }}{PARA 6 "" 1 "" {TEXT -1 69 "This is the Steepest Descent Method.
+\nInput the number n of equations." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" {TEXT -1 33 "Input the function C
+F[1](x1..x3)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "3*x1-cos(x
+2*x3)-.5 " }}{PARA 6 "" 1 "" {TEXT -1 33 "Input the function CF[2](x1.
+.x3)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "x1^2-81*(x2+.1)^2+
+sin(x3)+1.06 " }}{PARA 6 "" 1 "" {TEXT -1 33 "Input the function CF[3]
+(x1..x3)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "exp(-x1*x2)+20
+*x3+(10*Pi-3)/3" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 ".05" }}{PARA 6 "" 1 "" {TEXT 
+-1 39 "Input the maximum number of iterations." }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 2 "10" }}{PARA 6 "" 1 "" {TEXT -1 33 "Input initia
+l approximation X(1)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "0" 
+}}{PARA 6 "" 1 "" {TEXT -1 33 "Input initial approximation X(2)." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "0" }}{PARA 6 "" 1 "" {TEXT 
+-1 33 "Input initial approximation X(3)." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "0" }}{PARA 6 "" 1 "" {TEXT -1 61 "Select output destin
+ation\n1. Screen\n2. Text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Select amount o
+f output\n1. Answer only\n2. All intermeditate approximations\nEnter 1
+ or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "
+" {TEXT -1 463 "STEEPEST DESCENT METHOD FOR NONLINEAR SYSTEMS\n\nItera
+tion, Approximation\n  1   .01121817   .01009635 -.52274077\n  2   .13
+785971 -.20545284 -.52205941\n  3   .26695943   .00551102 -.55849444\n
+  4   .27273377  -.00811750 -.52200607\n  5   .30868927  -.02040262 -.
+53311161\n  6   .31430817  -.01470463 -.52092339\n  7   .32426665  -.0
+0852548 -.52843082\nIteration number 7\ngives solution\n\n   .32426665
+  -.00852548 -.52843082\n\nto within 5.0000000000e-02\n\nProcess is co
+mplete" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 205 0" 0 }{VIEWOPTS 1 1 0 1 1 
+1803 }

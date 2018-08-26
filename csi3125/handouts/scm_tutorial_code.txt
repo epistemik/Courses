@@ -1,0 +1,335 @@
+; ------------ add an element to a queue ------------
+
+(define (add-to-queue ELEMENT QUEUE)
+    (append QUEUE (list ELEMENT))
+)
+
+; ------------ set operations ------------
+
+(define (union SET1 SET2)
+    (if
+        (null? SET1)
+        SET2
+        (if
+            (member (car SET1) SET2)
+            (union (cdr SET1) SET2)
+            (cons (car SET1) (union (cdr SET1) SET2))
+        ) ;if[2]
+    ) ;if[1]
+)
+
+(define (intersection SET1 SET2)
+    (if
+        (null? SET1)
+        ()
+        (if
+            (member (car SET1) SET2)
+            (cons (car SET1) (intersection (cdr SET1) SET2))
+            (intersection (cdr SET1) SET2)
+        ) ;if[2]
+    ) ;if[1]
+)
+
+; ------------ example of an association list ------------
+; ------------ [a list of pairs (name value)] ------------
+
+(define a-list1
+    '(
+      (p (n))  (q 26)  (r alpha)  (s -10)  (t (a (b)))
+     )
+)
+
+; ------------ find the value of a pair given the name ------------
+
+(define (find-value NAME A-LIST)
+    (if
+        (null? A-LIST)
+        'not-found
+        (if
+            (equal? NAME (caar A-LIST))
+            (cadar A-LIST)
+            (find-value NAME (cdr A-LIST))
+        ) ;if[2]
+    ) ;if[1]
+)
+
+; ------------ delete an association pair ------------
+
+(define (delete-pair NAME A-LIST)
+    (if
+        (null? A-LIST)
+        ()
+        (if
+            (equal? NAME (caar A-LIST))
+            (cdr A-LIST)
+            (cons (car A-LIST) (delete-pair NAME (cdr A-LIST)))
+        ) ;if[2]
+    ) ;if[1]
+)
+
+; ------------ find association pairs with numbers ------------
+; ------------ [this solution uses an accumulator] ------------
+
+(define (find-pairs-with-numbers A-LIST)
+    (add-pairs-with-numbers A-LIST ())
+)
+
+; ------------ add association pairs with numbers ------------
+
+(define (add-pairs-with-numbers A-LIST ACCUMULATED)
+    (if
+        (null? A-LIST)
+        ACCUMULATED
+        (if
+            (number? (cadar A-LIST))
+            (add-pairs-with-numbers
+                (cdr A-LIST)
+                (add-to-queue (car A-LIST) ACCUMULATED)
+            )
+            (add-pairs-with-numbers
+                (cdr A-LIST)
+                ACCUMULATED
+            )
+        ) ;if[2]
+    ) ;if[1]
+)
+
+; ================
+
+; Given: map (built-in). Use this higher-order function to "wrap" every
+; element of a list. If an element x is a number, we want the list (num x).
+; If x is anything else, we want (nonnum x). Specifically, take the list
+; 
+;       ( e 3 r 5 6 (5) )
+; 
+; and produce for it this "wrapped" list:
+; 
+;       ((nonnum e) (num 3) (nonnum r) (num 5) (num 6) (nonnum (5)))
+; 
+; This must be one expression. Do not define any functions!
+
+( map
+  ( lambda ( x )
+    ( if ( number? x )
+         ( list 'num x )
+         ( list 'nonnum x ) ) )
+ '( e 3 r 5 6 (5) )
+)
+
+; ================
+
+; Given: reduce -- as defined in the class notes.
+
+( define ( reduce F F0 L )
+  ( if ( null? L )
+       F0
+       ( F ( car L )
+           (reduce F F0 (cdr L) ) )
+) )
+
+; Use this higher-order function to "remove one level of parentheses"
+; from a list of lists. You have the list
+;       ( (1 2) (3) (4 5) )
+; and you are to produce this:
+;       (1 2 3 4 5)
+; 
+; This must be one expression. Define no functions other than "reduce"!
+
+( reduce append () '( (1 2) (3) (4 5) ) )
+
+; ================
+
+; Define function left-then-right that takes a list of pairs of this form:
+;       ( (L1 R1) (L2 R2) ...... (Ln Rn) )
+; and returns a two-element list:
+;       ( (L1 L2 ...... Ln) (R1 R2 ...... Rn) )
+; For example:
+; > ( left-then-right '( (a 1) (b 2) (e 3) (r 5) (f -6) ) )
+; ((a b e r f) (1 2 3 5 -6))
+; 
+; Do not define any auxiliary functions. They are unnecessary if you use
+; higher-order functions!
+
+( define ( left-then-right x )
+  ( list
+    ( map car x )
+    ( map cadr x )
+) )
+
+; ================
+
+; Build a triangle of length LEN, like this:
+; ( ( 1 )  ( 2 1 )  ( 3 2 1 ) ...... ( LEN LEN-1 ... 2 1 ) )
+; Return the symbol wrong-length if LEN is negative,
+; return () if LEN is zero.
+
+( define ( triangle LEN )
+  ( cond
+    ( ( < LEN 0 )  'wrong-length )
+    ( ( = LEN 0 )  () )
+    ( else  ( build-triangle () 1 LEN ) )
+) )
+
+; If LEN is positive, build the first row (with one element), then
+; build the remaining rows (starting with the two-element row).
+
+( define ( build-triangle LASTROW CURRLEN LEN )
+  ( if
+    ( > CURRLEN LEN )
+    ()
+    ( cons ( cons CURRLEN LASTROW )
+           ( build-triangle
+             ( cons CURRLEN LASTROW ) ( + CURRLEN 1 ) LEN )
+    )
+) )
+
+; A few tests.
+
+( triangle -100 )
+( triangle 0 )
+( triangle 4 )
+
+; ---------
+
+; Another method, less nifty but acceptable.
+
+( define ( triangle LEN )
+  ( cond
+    ( ( < LEN 0 )  'wrong-length )
+    ( ( = LEN 0 )  () )
+    ( else  ( build-triangle 1 LEN ) )
+) )
+
+; If LEN is positive, build the first row (with one element), then
+; build the remaining rows (starting with the two-element row).
+
+( define ( build-triangle CURRLEN LEN )
+  ( if
+    ( > CURRLEN LEN )
+    ()
+    ( cons ( build-row CURRLEN )
+           ( build-triangle ( + CURRLEN 1 ) LEN )
+    )
+) )
+
+; Build a row with CURRLEN elements.
+
+( define ( build-row CURRLEN )
+  ( if
+    ( = CURRLEN 0 )
+    ()
+    ( cons CURRLEN ( build-row ( - CURRLEN 1 ) ) )
+) )
+
+; ================
+
+; Is the argument a triangle-shaped list (never mind the values)?
+; A non-list and an empty list are never triangle-shaped.
+
+( define ( triangle? LST )
+  ( if
+    ( or ( not ( list? LST ) ) ( null? LST ) )
+    #f
+    ( is-triangle? LST 1 )
+) )
+
+; The elements of the given list should be lists with the lengths
+; 1, 2, 3 and so on. Start with the current length 1.
+; If the head of the given list has the expected length,
+; test the tail; otherwise return "false".
+
+( define ( is-triangle? LST CURRLEN )
+  ( cond
+    ( ( null? LST )  #t )
+    ( ( = ( length ( car LST ) ) CURRLEN )
+      ( is-triangle? ( cdr LST ) ( + CURRLEN 1 ) ) )
+    ( else  #f )
+) )
+ 
+; A few tests.
+
+( triangle?  ' a )
+( triangle?  () )
+( triangle?  ' ( (a) (a a) (a a a) ) )
+( triangle?  ' ( (a) (a a) (a (a non-list here) a) ) )
+( triangle?  ( triangle 4 ) )
+( triangle?  ' ( (a) (a a) (a a a a) ) )
+( triangle?  ' ( (a) (a a a) (a a a) ) )
+
+; ================
+
+; Are the arguments identically shaped lists?
+
+( define ( same-shape? LS1 LS2 )
+  ( if ( and ( not ( list? LS1 ) ) ( not ( list? LS2 ) ) )
+       #f
+       ( same-shape-aux? LS1 LS2 )
+) )
+
+( define ( same-shape-aux? LS1 LS2 )
+  ( cond
+    ( ( not ( list? LS1 ) )  ( not ( list? LS2 ) ) )
+    ( ( not ( list? LS2 ) )  #f )
+    ( ( null? LS1 )  ( null? LS2 ) )
+    ( ( null? LS2 )  #f )
+    ( ( same-shape-aux? ( car LS1 ) (car LS2 ) )
+      ( same-shape-aux? ( cdr LS1 ) (cdr LS2 ) ) )
+    ( else  #f )
+) )
+
+; Several tests.
+
+( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' ( (-100) (b c) (delta theta zero one) )
+)
+( same-shape?
+  ' ( (a a) rho (a a a a) )
+  ' ( (b c) 26 (delta theta zero one) )
+)
+( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' ( (-100) (b c) (delta theta zero) )
+)
+( same-shape?
+  ' ( (a) )
+  ()
+)
+( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' delta
+)
+
+; and one more test...
+
+( same-shape?
+  ' gamma
+  ' delta
+)
+
+; ---------
+
+; It is possible to have one function without a "wrapper", but it is
+; not very elegant. The top-most test (are we getting two non-lists?
+; if yes, _stop_) must be overridden during the normal processing.
+
+( define (same-shape? LS1 LS2 )
+  ( cond
+    ( ( or ( not ( list? LS1 ) )
+           ( not ( list? LS2 ) ) )  #f )
+    ( ( and ( null? LS1 )
+            ( null? LS2 ) )  #t )
+    ( ( or ( null? LS1 )
+           ( null? LS2 ) )  #f )
+; Are we getting two non-lists? if yes, _continue_...
+    ( ( and ( not ( list? ( car LS1 ) ) )
+            ( not ( list? ( car LS2 ) ) ) )
+      ( same-shape? ( cdr LS1 ) ( cdr LS2 ) ) )
+    ( ( and ( list? ( car LS1 ) )
+            ( list? ( car LS2 ) ) )
+      ( and ( same-shape? ( car LS1 ) ( car LS2 ) )
+            ( same-shape? ( cdr LS1 ) ( cdr LS2 ) ) ) )
+    ( else #f )
+) )
+
+

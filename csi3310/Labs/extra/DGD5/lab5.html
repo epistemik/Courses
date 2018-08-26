@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://lotos.site.uottawa.ca/~ngorse/csi3310/lab5.html -->
+<HTML><HEAD><TITLE>CSI3310, Tutorials, DGD 5</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY background="CSI3310, Tutorials, DGD 5_files/stucco.jpe">
+<CENTER>
+<TABLE border=0 width="95%">
+  <TBODY>
+  <TR>
+    <TD align=left><I>Operating<BR>systems</I></TD>
+    <TD align=middle>
+      <H1>CSI3310</H1><B><I>Tutorials, DGD 5</I></B></TD>
+    <TD align=right><I>Nicolas Gorse<BR>Summer 
+2000</I></TD></TR></TBODY></TABLE></CENTER>
+<CENTER>
+<HR width="100%">
+</CENTER>
+<P>
+<P>
+<CENTER><FONT size=+2>Readers / Writers</FONT></CENTER>
+<P>
+<HR width="60%">
+
+<P><FONT size=+2>Problem</FONT> 
+<UL>Let us consider a system having a file, several readers and several 
+  writers. Readers want to read from the file while writers want to write to it. 
+  restrictions are the followind: 
+  <P>A writer (W) can write to the file only if no other writer or reader is 
+  currently accessing it. <BR>A reader (R) can read from the file only if no 
+  other writer is currently accessing it. Several readers can read at the same 
+  time. 
+  <P>In other words, the system is in a safe state if: <BR><B>W = 0 ET R &gt;= 
+  0</B> or <B>W &lt;= 1 ET R = 0</B> 
+  <P>This mutual exclusion problem can be solved by the use of blocking 
+  semaphores. The following files contain an example of solution using blocking 
+  semaphores. 
+  <P>
+  <UL>
+    <LI><A 
+    href="SemaphoreFile.java">SemaphoreFile.java</A>, 
+    implementation of class SemaphoreFile defining the semaphores for mutual 
+    exclusion 
+    <P></P>
+    <LI><A 
+    href="Reader.java">Reader.java</A>, 
+    implementation of class Reader simulating the behavior of a reader. 
+    <P></P>
+    <LI><A 
+    href="Writer.java">Writer.java</A>, 
+    implementation of class Writer simulating the behavior of a writer. 
+    <P></P>
+    <LI><A 
+    href="ReadersWriters.java">ReadersWriters.java</A>, 
+    implementation of class ReadersWriters used to launch the system. <BR>
+    <P></P></LI></UL><BR>The use of this solution can lead to the fact that 
+  writers will wait forever for the access if the number of readers is too high. 
+  In order to eliminate this problem, the addition of a variable 
+  <B>writersWaiting</B> can allow the system to know if writers are waiting for 
+  the access, and thus, not allow new readers to get access. Thus, the number of 
+  readers will decrease until a writer will be able to get the access. File 
+  below implements this conceps: 
+  <P>
+  <UL>
+    <LI><A 
+    href="SemaphoreFile2.java">SemaphoreFile2.java</A>, 
+    implementation of class SemaphoreFile defining the semaphores for mutual 
+    exclusion </LI></UL></UL>
+<CENTER>
+<HR width="90%">
+<A href="../main.html">page 
+principale</A></CENTER>
+<UL></UL></BODY></HTML>

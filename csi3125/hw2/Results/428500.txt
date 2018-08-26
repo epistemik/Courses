@@ -1,0 +1,130 @@
+
+(define (minus list1 list2)
+        ( cond ( (null? list1) list1 )
+               ( (null? list2) list1 )
+               ( (member (car list1) list2) (minus (cdr list1) list2) )
+               ( else   (cons (car list1) (minus (cdr list1) list2)) )
+       ))
+
+(define (remove node xlist)
+        ( cond ( (null? xlist) xlist )
+               ( (equal? node (caar xlist)) (cdr xlist) )
+               ( else (cons (car xlist) (remove node (cdr xlist))) )
+       ))
+
+(define (find item xlist)
+        ( cond ( (null? xlist) xlist )
+               ( (equal? item (caar xlist)) (cadar xlist) )
+               ( else (find item (cdr xlist)) )
+       ))
+
+(define (contains itemlist grlist) 
+        ( cond ( (null? itemlist) itemlist )
+               ( (null? grlist) grlist )
+               ( else ( let ( (h-item (car itemlist))
+                              (t-list (cdr itemlist))
+                              (target (find (car itemlist) grlist)) )
+                            ( if (null? target) (contains t-list grlist)
+                                 ( let ( (node (cons h-item (list target)))
+                                         (rest (contains (append t-list target)
+                                                         (remove h-item grlist))) )
+                                       ( if (null? rest) (list node)
+                                            (append (list node) rest)) )) )
+               )))
+
+(define (component x glist)
+        ( let ( (xcomp (contains (cadr x) (cdr glist))) )
+              ( cond ( (null? xcomp) (list x) )
+                     ( (symbol? (car xcomp)) (list x xcomp) )
+                     ( else (append (list x) xcomp) )
+            )))
+
+(define (connected-components xgraph) 
+        (if (null? xgraph) xgraph 
+            ( let ( (xcomp (component (car xgraph) xgraph)) )
+                  ( cons xcomp (connected-components (minus xgraph xcomp)) )
+          )))
+
+
+(define (connected xgraph) (if (> (length (connected-components xgraph)) 1) #f #t)) 
+
+
+*comments?
+4.5
+---------
+
+(define tol 0.000001)
+
+(define (sqroot num guess) ( let ( (calc (* 0.5 (+ guess (/ num guess)))) )
+                                   ( let ( (test (abs(- num (* calc calc)))) )
+                                         ( if (< test tol) calc (sqroot num calc)))
+                          ))
+
+(define (square-root num) (if (< num 0) 'undef (sqroot num 1.0)))
+0.6
+---------
+
+val tol = 0.000001; 
+local
+   fun calc x y = 0.5 * (y + x/y)
+   fun test a b:real = abs(a - b*b)
+   fun sqroot num guess = if test num (calc num guess) < tol then (calc num guess) else sqroot num (calc num guess)
+in fun square_root x = if x < 0.0 then ~1.0 else sqroot x 1.0 end ;
+
+
+0.6
+---------
+
+tol(T) :- T = 0.000001.
+calc(X,Y,Result) :- Result is (0.5 * (Y + X/Y)).
+test(A,B,Result) :- Result is abs(A - B*B).
+sqroot(Num, Guess, Result) :- calc(Num, Guess, A), test(Num, A, B), tol(T), ((B < T, !, Result is A) ; sqroot(Num,A,Result)).
+square_root(X, Result) :- (X < 0 , !, Result = undef); sqroot(X, 1.0, Result).
+
+0.6
+---------
+
+fun max(x,y) : int = if x > y then x else y ;
+
+exception NoSumForTree ;
+
+fun sum_nodes(nul) = raise NoSumForTree |
+    sum_nodes(node(h,nul,nul)) = h |
+    sum_nodes(node(h,L,nul)) = h + sum_nodes(L) |
+    sum_nodes(node(h,nul,R)) = h + sum_nodes(R) |
+    sum_nodes(node(h,L,R)) = h + sum_nodes(L) + sum_nodes(R) ;
+
+fun tree_height(nul) = 0 |
+    tree_height(node(h,nul,nul)) = 1 |
+    tree_height(node(h,L,nul)) = 1 + tree_height(L) |
+    tree_height(node(h,nul,R)) = 1 + tree_height(R) |
+    tree_height(node(h,L,R)) = 1 + max(tree_height(L), tree_height(R)) ;
+
+fun is_balanced(nul) = true |
+    is_balanced(node(h,nul,nul)) = true |
+    is_balanced(node(h,L,nul)) = if tree_height(L) <= 1 then true else false |
+    is_balanced(node(h,nul,R)) = if tree_height(R) <= 1 then true else false |
+    is_balanced(node(h,L,R)) = if is_balanced(L) andalso is_balanced(R) 
+                               andalso (abs(tree_height(L) - tree_height(R)) <= 1) then true else false ;
+
+1.8
+---------
+
+(reduce + 0 (map (lambda (x) (+ (car x) (cadr x))) '((4723 6457) (1445 986) (2072 2918) (47 72))))
+
+
+
+reduce(op +, map (fn x => #f(x) + #m(x)) [{f=4723,m=6457},{f=1445,m=986},{f=2072,m=2918},{f=47,m=72}], 0);
+
+
+---------
+
+(let ( (mylist '((cologne 175 19.95) (make-up 221 24.99) (cream 207 22.00))) )
+     ( list (map (lambda (x) (list (car x) (* (cadr x) (caddr x)))) mylist)
+            (reduce + 0 (map (lambda (x) (* (cadr x) (caddr x))) mylist) ) 
+    ))
+
+1.4
+---------
+
+total : 9.5

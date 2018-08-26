@@ -1,0 +1,1 @@
+select bname, anumber from account where balance > 500 ;

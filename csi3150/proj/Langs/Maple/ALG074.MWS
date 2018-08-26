@@ -1,0 +1,399 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 476 "# ITERATIVE REFINEMENT ALGORITHM 7
+.4\n#\n# To approximate the solution to the linear system Ax=b when A \+
+is\n# suspected to be ill-conditioned:\n#\n# INPUT:  The number of equ
+ations and unknowns n; the entries\n#         A(i,j), 1<=i, j<=n, of t
+he matrix A; the entries b(i),\n#         1<=i<=n, of the inhomogeneou
+s term b; the maximum number\n#         of iterations N.\n#\n# OUTPUT:
+ The approximation XX(1),...,XX(n) or a message that the\n#         nu
+mber of iterations was exceeded. " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+172 "alg074 := proc() local CHIP, A1, OK, NAME, INP, N, I, J, A, NN, R
+ND, D, TOL, FLAG, OUP, M, NROW, B, KK, IS, C, L, X, S, K, XX, LL, R, I
+1, J1, XXMAX, YMAX, ERR1, TEMP, COND;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "CHIP := proc(RND,R,X) local x,e;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if RND = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "Digits :
+= R;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "x := evalf(X);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 10 "RETURN(x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if X = 0 then " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "x := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "e := trunc(
+evalf(log10(abs(X))));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if abs(X)
+ > 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "e := e+1;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "x :=
+ evalf(trunc(X*10^(R-e))*10^(e-R));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(x);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(`This is the Iterative Ref
+inement Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "printf(`Th
+e array will be input from a text file in the order\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 60 "printf(`A(1,1), A(1,2), ..., A(1,n+1), A(2,1
+), A(2,2), ..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "A(2,n+1),..., A
+(n,1), A(n,2), ..., A(n,n+1)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+72 "printf(`Place as many entries as desired on each line, but separat
+e\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`entries with `);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least one blank.\\n
+\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input \+
+file been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "A1 := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if A1 = Y o
+r A1 = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the \+
+file name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.DTA\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 
+"while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Inp
+ut the number of equations - an integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to N+1 do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`
+The number must be a positive integer\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 47 "NN is used for the maximun number of iterations
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 48 "printf(`Input maximum number of iterations.\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "NN := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "if NN > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "
+OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 47 "printf(`Number must be a positive integer.\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`Choice of rounding or c
+hopping:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`1. Roundi
+ng\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`2. Chopping\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "printf(`Enter 1 or 2.\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "RND := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 54 "printf(`Input number of digits D <= 8 of rounding\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "D := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if D > 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`D must be a positive in
+teger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "printf(`Input tolerance, which is u
+sually 10^(-D).\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := sca
+nf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`Tol
+erance must be a positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The
+ program will end so the input file can be created.\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if \+
+OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of
+ output method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1.
+ Output to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`
+2. Output to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "pri
+ntf(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "
+FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG \+
+= 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file \+
+name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 42 "printf(`for example:   A:\\\\OUTPUT.DTA\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OU
+P := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "fprintf(OUP, `ITERATIVE REFINEMENT METHOD\\n\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N+1;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 34 "fprintf(OUP, `Original system\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "fprintf(OUP,` %.10e`,A[I-1,J-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "fprintf(OUP,`\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if RND = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "fprintf(
+OUP,`Rounding to %d Digits.\\n`,D);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+47 "else fprintf(OUP,`Chopping to %d Digits.\\n`,D);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf
+(OUP,`\\n Modified System \\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "NROW[I-1] \+
+:= I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to M do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "A[I-1,J-1] := CHIP(RND,D,A[I-1,J-1]
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "B[I-1,J-1] := A[I-1,J-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP,`  %.10e`, A[I-1,J-1]);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 62 "NROW and B have been initiali
+zed, Gauss elimination will begin" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP \+
+0" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "while I <= N-1 and OK = TRUE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "KK := I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "while a
+bs(A[KK-1,I-1]) < 1.0e-20 and KK <= N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "KK := KK+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if KK > N then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 12 "OK := false;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+58 "fprintf(OUP, `System does not have a unique solution.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if KK <> I then" }}{PARA 0 "" 0 "" {TEXT -1 25 "Row interchang
+e necessary" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "IS := NROW[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "NROW[I-1] := NROW[KK-1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "NROW[KK-1] := IS;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 16 "C := A[I-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "A[I-1,J-1
+] := A[KK-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "A[KK-1,J-1] :=
+ C;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from I
++1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "A[J-1,I-1] := CHIP(RN
+D,D,A[J-1,I-1]/A[I-1,I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for \+
+L from I+1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "A[J-1,L-1] :=
+ CHIP(RND,D,A[J-1,L-1]-CHIP(RND,D,A[J-1,I-1]*A[I-1,L-1]));" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "if abs(A[N-1,N-1]) < 1.0e-20 and OK
+ = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "fprintf(OUP, `System has singular m
+atrix\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 33 "fprintf(OUP, `Reduced system\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for J from 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprin
+tf(OUP, `  %.10e`, A[I-1,J-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 44 "X[N-1] := CHIP(RND,D,A[N-1,M-1]/A[N-1,N-1]);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 22 "for I from 1 to N-1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "J := N-I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "S := 0.
+0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for L from J+1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "S := CHIP(RND,D,S-CHIP(RND,D,A[J-1,
+L-1]*X[L-1]));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 30 "S := CHIP(RND,D,A[J-1,M-1]+S);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 35 "X[J-1] := CHIP(RND,D,S/A[J-1,J-1]);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "fprintf(OUP, `Initial solutio
+n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "fprintf(OUP,`  %.10e`, X[I-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 17 "Refinement \+
+begins" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+7 "K := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "XX[I-1] := X[I-1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }{MPLTEXT 1 0 0 "" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 30 "while OK = TRUE and K <= NN do" }}{PARA 0 "
+" 0 "" {TEXT -1 116 "LL is set to 1 if the desired accuracy in any com
+ponent is not achieved.  Thus LL is initially 0 for each iteration." }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LL := 0;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N d
+o" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "R[I-1] := 0;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 64 "R[I-1] := CHIP(RND,2*D,R[I-1]-CHIP(RND,2*D,B[I-1,J-1]
+*XX[J-1]));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 42 "R[I-1] := CHIP(RND,2*D,B[I-1,M-1]+R[I-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 40 "fprintf(OUP, `Residual number %d\\n`, K);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 29 "R[I-1] := CHIP(RND,D,R[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+33 "fprintf(OUP, `%18.10e `, R[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }
+}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "" 0 "" {TEXT -1 103 "S
+olve the linear system in the same order as in step 0.  The solution w
+ill be placed in X instead of Y." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 
+"for I from 1 to N-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "I1 := NR
+OW[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from I+1 to N do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "J1 := NROW[J-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 62 "R[J1-1] := CHIP(RND,D,R[J1-1]-CHIP(RND,D,A[J-1
+,I-1]*R[I1-1]));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "X[N
+-1] := CHIP(RND,D,R[NROW[N-1]-1]/A[N-1,N-1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "for I from 1 to N-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "J := N-I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for L from J+1 to N do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 49 "S := CHIP(RND,D,S-CHIP(RND,D,A[J-1,L-1]*X[L-
+1]));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 34 "S := CHIP(RND,D,S+R[NROW[J-1]-1]);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 35 "X[J-1] := CHIP(RND,D,S/A[J-1,J-1]);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "fprin
+tf(OUP, `Vector Y\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fr
+om 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP,`%18.10
+e `, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 0 "" {TEXT 
+-1 13 "Steps 5 and 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "XXMAX := 0;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "YMAX := 0;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 10 "ERR1 := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "fo
+r I from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 27 "If not accurate set
+ LL to 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if abs(X[I-1]) > TOL th
+en" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LL := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if K = 1 the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "if abs(X[I-1]) > YMAX then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "YMAX := abs(X[I-1]);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "if ab
+s(XX[I-1]) > XXMAX then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "XXMAX :=
+ abs(XX[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "TEMP \+
+:= XX[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "XX[I-1] := CHIP(RND,
+D,XX[I-1]+X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "TEMP := abs(T
+EMP-XX[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "if TEMP > ERR1 the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "ERR1 := TEMP;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "if ERR1 <= TOL then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 8 "LL := 2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if K = 1 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 24 "COND := YMAX/XXMAX*10^D;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP,
+ `New approximation\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I \+
+from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "fprintf(OUP, `%18
+.10e `, XX[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if LL = 0 the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "fprintf(OUP, `The above vector
+ is the solution.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FA
+LSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "if LL = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "
+fprintf(OUP,`The above vector is the best possible\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 42 "fprintf(OUP,`with TOL := %18.10e \\n`,TOL);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "K := K+1;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "fi" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 41 "STEP 8 is not used
+ in this implementation" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if K > NN th
+en" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fprintf(OUP, `Maximum Number \+
+of Iterations Exceeded.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `Condition number \+
+is %.10e\\n`, COND);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> d
+efault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg074G:6\"6E%%CHIPG%#A1G%#OKG%%NAMEG%$INPG%\"NG%\"I
+G%\"JG%\"AG%#NNG%$RNDG%\"DG%$TOLG%%FLAGG%$OUPG%\"MG%%NROWG%\"BG%#KKG%#
+ISG%\"CG%\"LG%\"XG%\"SG%\"KG%#XXG%#LLG%\"RG%#I1G%#J1G%&XXMAXG%%YMAXG%%
+ERR1G%%TEMPG%%CONDGF&F&C/>8$:6%F2FCF>6$%\"xG%\"eGF&F&@%/9$\"\"\"C%>%'D
+igitsG9%>FM-%&evalfG6#9&-%'RETURNG6#FMC$@%/Fin\"\"!>FMF`oC%>8%-%&trunc
+G6#-Fgn6#-%&log10G6#-%$absGFhn@$2FVF]p>Fdo,&FdoFVFVFV>FM-Fgn6#*&-Ffo6#
+*&FinFV)\"#5,&FZFVFdo!\"\"FVFV)F[q,&FdoFVFZF]qFVFjnF&F&-%'printfG6#%JT
+his~is~the~Iterative~Refinement~Method.|+G-Faq6#%WThe~array~will~be~in
+put~from~a~text~file~in~the~order|+G-Faq6#%\\qA(1,1),~A(1,2),~...,~A(1
+,n+1),~A(2,1),~A(2,2),~...,~|+A(2,n+1),...,~A(n,1),~A(n,2),~...,~A(n,n
++1)|+G-Faq6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~sepa
+rate|+G-Faq6#%.entries~with~G-Faq6#%7at~least~one~blank.|+|+|+G-Faq6#%
+RHas~the~input~file~been~created?~-~enter~Y~or~N.|+G>Fdo&-%&scanfG6#%#
+%cG6#FV>8&%&FALSEG@%5/Fdo%\"YG/Fdo%\"yGC3-Faq6#%SInput~the~file~name~i
+n~the~form~-~drive:\\name.ext|+G-Faq6#%<for~example:~~~A:\\DATA.DTA|+G
+>8'&-Fir6#%#%sGF\\s>8(-%&fopenG6%F^t%%READG%%TEXTG>F^sF_s?(F&FVFVF&/F^
+sF_sC%-Faq6#%MInput~the~number~of~equations~-~an~integer.|+G>8)&-Fir6#
+%#%dGF\\s@%2F`oFbuC%?(8*FVFVFbu%%trueG?(8+FVFV,&FbuFVFVFVF\\v>&8,6$,&F
+[vFVF]qFV,&F^vFVF]qFV&-%'fscanfG6$Fdt%#%fGF\\s>F^s%%TRUEG-%'fcloseG6#F
+dt-Faq6#%GThe~number~must~be~a~positive~integer|+G>F^sF_s?(F&FVFVF&F\\
+uC%-Faq6#%EInput~maximum~number~of~iterations.|+G>8-Fcu@%2F`oFjw>F^sF
+\\w-Faq6#%DNumber~must~be~a~positive~integer.|+G>F^sF_s-Faq6#%AChoice~
+of~rounding~or~chopping:|+G-Faq6#%-1.~Rounding|+G-Faq6#%-2.~Chopping|+
+G-Faq6#%/Enter~1~or~2.|+G>8.Fcu?(F&FVFVF&F\\uC%-Faq6#%KInput~number~of
+~digits~D~<=~8~of~rounding|+G>8/Fcu@%2F`oFfy>F^sF\\w-Faq6#%?D~must~be~
+a~positive~integer.|+G>F^sF_s?(F&FVFVF&F\\uC%-Faq6#%LInput~tolerance,~
+which~is~usually~10^(-D).|+G>80&-Fir6#FjvF\\s@%2F`oFdz>F^sF\\w-Faq6#%?
+Tolerance~must~be~a~positive.|+G-Faq6#%XThe~program~will~end~so~the~in
+put~file~can~be~created.|+G@$/F^sF\\wC;-Faq6#%:Choice~of~output~method
+:|+G-Faq6#%51.~Output~to~screen|+G-Faq6#%82.~Output~to~text~file|+G-Fa
+q6#%6Please~enter~1~or~2.|+G>81Fcu@%/Fa\\l\"\"#C&Fgs-Faq6#%>for~exampl
+e:~~~A:\\OUTPUT.DTA|+G>F^tF_t>82-Fft6%F^t%&WRITEGFit>F[]l%(defaultG-%(
+fprintfG6$F[]l%>ITERATIVE~REFINEMENT~METHOD|+|+G>83F_v-Fb]l6$F[]l%1Ori
+ginal~system|+G?(F[vFVFVFbuF\\vC$?(F^vFVFVFf]lF\\v-Fb]l6%F[]l%'~%.10eG
+Fav-Fb]l6$F[]l%\"|+G@%/F_yFV-Fb]l6%F[]l%8Rounding~to~%d~Digits.|+GFfy-
+Fb]l6%F[]l%8Chopping~to~%d~Digits.|+GFfy-Fb]l6$F[]l%4|+~Modified~Syste
+m~|+G?(F[vFVFVFbuF\\vC%>&846#FdvF[v?(F^vFVFVFf]lF\\vC%>Fav-FM6%F_yFfyF
+av>&85FcvFav-Fb]l6%F[]l%(~~%.10eGFavF`^l>F[vFV?(F&FVFVF&31F[v,&FbuFVF]
+qFVFb[lC&>86F[v?(F&FVFVF&32-F^p6#&Fbv6$,&Ff`lFVF]qFVFdvF`o1Ff`lFbu>Ff`
+l,&Ff`lFVFVFV@%2FbuFf`lC$>F^s%&falseG-Fb]l6$F[]l%ISystem~does~not~have
+~a~unique~solution.|+GC$@$0Ff`lF[vC&>87Fa_l>Fa_l&Fb_l6#F^al>FablF_bl?(
+F^vFVFVFf]lF\\vC%>88Fav>Fav&Fbv6$F^alFev>FiblFgbl?(F^v,&F[vFVFVFVFVFbu
+F\\vC$>&Fbv6$FevFdv-FM6%F_yFfy*&F`clFV&Fbv6$FdvFdvF]q?(89F]clFVFf]lF\\
+v>&Fbv6$Fev,&FhclFVF]qFV-FM6%F_yFfy,&FjclFV-FM6%F_yFfy*&F`clFV&Fbv6$Fd
+vF\\dlFVF]q>F[vF]cl@$32-F^p6#&Fbv6$Fc`lFc`lF`oFb[lC$>F^sF_s-Fb]l6$F[]l
+%<System~has~singular~matrix|+G@$Fb[lC&-Fb]l6$F[]l%0Reduced~system|+G?
+(F[vFVFVFbuF\\vC$?(F^vFVFVFf]lF\\vF\\`lF`^l>&8:6#Fc`l-FM6%F_yFfy*&&Fbv
+6$Fc`l,&Ff]lFVF]qFVFVF[elF]q?(F[vFVFVFc`lF\\vC'>F^v,&FbuFVF[vF]q>8;F`o
+?(Fhcl,&F^vFVFVFVFVFbuF\\v>Fifl-FM6%F_yFfy,&FiflFV-FM6%F_yFfy*&FjclFV&
+F\\fl6#F\\dlFVF]q>Fifl-FM6%F_yFfy,&&Fbv6$FevFcflFVFiflFV>&F\\fl6#Fev-F
+M6%F_yFfy*&FiflFV&Fbv6$FevFevF]q-Fb]l6$F[]l%2Initial~solution|+G?(F[vF
+VFVFbuF\\v-Fb]l6%F[]lF^`l&F\\flFc_lF`^l@$Fb[lC$>8<FV?(F[vFVFVFbuF\\v>&
+8=Fc_lFihl?(F&FVFVF&3Fb[l1F]ilFjwC7>8>F`o?(F[vFVFVFbuF\\vC%>&8?Fc_lF`o
+?(F^vFVFVFbuF\\v>F[jl-FM6%F_y,$FfyFd\\l,&F[jlFV-FM6%F_yFajl*&Fj_lFV&Fa
+ilF]hlFVF]q>F[jl-FM6%F_yFajl,&&F[`l6$FdvFcflFVF[jlFV-Fb]l6%F[]l%4Resid
+ual~number~%d|+GF]il?(F[vFVFVFbuF\\vC$>F[jl-FM6%F_yFfyF[jl-Fb]l6%F[]l%
+)%18.10e~GF[jlF`^l?(F[vFVFVFc`lF\\vC$>8@Fa_l?(F^vF]clFVFbuF\\vC$>8A&Fb
+_lF]hl>&F\\jl6#,&F_\\mFVF]qFV-FM6%F_yFfy,&Fb\\mFV-FM6%F_yFfy*&F`clFV&F
+\\jl6#,&F[\\mFVF]qFVFVF]q>F[fl-FM6%F_yFfy*&&F\\jl6#,&&Fb_lF]flFVF]qFVF
+VF[elF]q?(F[vFVFVFc`lF\\vC'>F^vFgfl>FiflF`o?(FhclF[glFVFbuF\\v>FiflF]g
+l>Fifl-FM6%F_yFfy,&FiflFV&F\\jl6#,&F`\\mFVF]qFVFV>F\\hlF^hl-Fb]l6$F[]l
+%*Vector~Y|+G?(F[vFVFVFbuF\\v-Fb]l6%F[]lFg[mFihlF`^l>8BF`o>8CF`o>8DF`o
+?(F[vFVFVFbuF\\vC(@$2Fdz-F^p6#Fihl>FgilFV@$/F]ilFVC$@$2F]_mFd_m>F]_mFd
+_m@$2F[_m-F^p6#F`il>F[_mF_`m>8EF`il>F`il-FM6%F_yFfy,&F`ilFVFihlFV>Fc`m
+-F^p6#,&Fc`mFVF`ilF]q@$2F__mFc`m>F__mFc`m@$1F__mFdz>FgilFd\\l@$Fh_m>8F
+*(F]_mFVF[_mF]q)F[qFfyFV-Fb]l6$F[]l%3New~approximation|+G?(F[vFVFVFbuF
+\\v-Fb]l6%F[]lFg[mF`ilF`^l@%/FgilF`oC$-Fb]l6$F[]l%CThe~above~vector~is
+~the~solution.|+G>F^sF_s@%/FgilFd\\lC%-Fb]l6$F[]l%GThe~above~vector~is
+~the~best~possible|+G-Fb]l6%F[]l%6with~TOL~:=~%18.10e~|+GFdz>F^sF_s>F]
+il,&F]ilFVFVFV@$2FjwF]il-Fb]l6$F[]l%HMaximum~Number~of~Iterations~Exce
+eded.|+G-Fb]l6%F[]l%;Condition~number~is~%.10e|+GFdam@$0F[]lF`]lC$-F^w
+6#F[]l-Faq6$%COutput~file~%s~created~sucessfullyGF^t-F[o6#F`oF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg074();" }}{PARA 6 "" 1 "" 
+{TEXT -1 335 "This is the Iterative Refinement Method.\nThe array will
+ be input from a text file in the order\nA(1,1), A(1,2), ..., A(1,n+1)
+, A(2,1), A(2,2), ..., \nA(2,n+1),..., A(n,1), A(n,2), ..., A(n,n+1)\n
+Place as many entries as desired on each line, but separate\nentries w
+ith at least one blank.\n\n\nHas the input file been created? - enter \+
+Y or N." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 
+1 "" {TEXT -1 76 "Input the file name in the form - drive:\\name.ext\n
+for example:   A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "c:\\data\\alg074.dta" }}{PARA 6 "" 1 "" {TEXT -1 43 "Input the num
+ber of equations - an integer." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 1 "3" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input maximum number of itera
+tions." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "25" }}{PARA 6 "" 
+1 "" {TEXT -1 69 "Choice of rounding or chopping:\n1. Rounding\n2. Cho
+pping\nEnter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }
+}{PARA 6 "" 1 "" {TEXT -1 41 "Input number of digits D <= 8 of roundin
+g" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" 
+{TEXT -1 42 "Input tolerance, which is usually 10^(-D)." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 6 "0.0001" }}{PARA 6 "" 1 "" {TEXT -1 
+88 "Choice of output method:\n1. Output to screen\n2. Output to text f
+ile\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 
+"1" }}{PARA 6 "" 1 "" {TEXT -1 1587 "ITERATIVE REFINEMENT METHOD\n\nOr
+iginal system\n 3.3330000000e+00 1.5920000000e+04 -1.0333000000e+01 1.
+5913000000e+04\n 2.2220000000e+00 1.6710000000e+01 9.6120000000e+00 2.
+8544000000e+01\n 1.5611000000e+00 5.1791000000e+00 1.6852000000e+00 8.
+4254000000e+00\nRounding to 4 Digits.\n\n Modified System \n  3.333000
+0000e+00  1.5920000000e+04  -1.0330000000e+01  1.5910000000e+04\n  2.2
+220000000e+00  1.6710000000e+01  9.6120000000e+00  2.8540000000e+01\n \+
+ 1.5610000000e+00  5.1790000000e+00  1.6850000000e+00  8.4250000000e+0
+0\nReduced system\n  3.3330000000e+00  1.5920000000e+04  -1.0330000000
+e+01  1.5910000000e+04\n  6.6670000000e-01  -1.0590000000e+04  1.65000
+00000e+01  -1.0580000000e+04\n  4.6830000000e-01  7.0350000000e-01  -5
+.0870000000e+00  0.0000000000e-01\nInitial solution\n  0.0000000000e-0
+1  9.9910000000e-01  0.0000000000e-01\nResidual number 1\n  4.32800000
+00e+00   1.1850000000e+01   3.2510000000e+00 \nVector Y\n  1.002000000
+0e+00   7.1060000000e-04   9.9920000000e-01 \nNew approximation\n  1.0
+020000000e+00   9.9980000000e-01   9.9920000000e-01 \nResidual number \+
+2\n  1.6600000000e-01   2.5880000000e-03  -7.3820000000e-04 \nVector Y
+\n -1.0200000000e-03   1.0950000000e-05   4.7770000000e-04 \nNew appro
+ximation\n  1.0010000000e+00   9.9980000000e-01   9.9970000000e-01 \nR
+esidual number 3\n  1.7500000000e-01   4.0000000000e-06  -1.9700000000
+e-05 \nVector Y\n -3.0000000000e-05   1.0980000000e-05  -2.5560000000e
+-05 \nNew approximation\n  1.0010000000e+00   9.9980000000e-01   9.997
+0000000e-01 \nThe above vector is the best possible\nwith TOL :=   1.0
+000000000e-04 \nCondition number is 1.0029026120e+04" }}{PARA 11 "" 1 
+"" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "
+" }}}}{MARK "1 244 0" 8 }{VIEWOPTS 1 1 0 1 1 1803 }

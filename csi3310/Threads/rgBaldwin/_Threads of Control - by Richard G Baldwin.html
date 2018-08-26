@@ -1,0 +1,2659 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.geocities.com/Athens/Acropolis/3797/Java058.htm -->
+<HTML><HEAD><TITLE>Java Threads, by Richard G Baldwin</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META 
+content="Online&#10; Java, Javascript, XML tutorial lessons designed to teach you&#10; how to program in Java. Content ranges from&#10; Introductory to Advanced." 
+name=DESCRIPTION>
+<META 
+content="java, programming,&#10; beans, applets, applications, programs, object oriented programming,&#10; oop, ood, class, method, thread, multithreading, exception handling,&#10; package, delegation event model, jdk1.1, interface, awt, swing,&#10; stack, queue, linked list, vector, hashtable, enumeration,event,&#10; lightweight, heavyweight, components, toolkit, border, flow, grid,&#10; card, layout, gui, socket, serversocket, datagram, client, server, &#10; border layout, flow layout, grid layout, card layout,&#10; xml, html, sgml " 
+name=KEYWORDS>
+<META content="Richard G. Baldwin" name=AUTHOR>
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#9400d3 text=#000000 
+vLink=#556b2f><FONT size=-2>Online Java, JavaScript, and XML tutorial lessons 
+designed to teach you how to program in Java and JavaScript and how to use XML. 
+Content ranges from Introductory to Advanced. The only authorized home page for 
+these tutorials is <A 
+href="http://www.geocities.com/Athens/7077/scoop/onjava.html">http://www.geocities.com/Athens/7077/scoop/onjava.html</A> 
+Because people continue to make copies of these tutorials and post them on their 
+servers, you may be viewing an out-of-date copy.&nbsp;To make certain that you 
+are viewing the most up-to-date version, you should bookmark and access the 
+tutorials by using the URL listed above.</FONT> <BR>
+<HR align=center width=300>
+<BR>
+<TABLE bgColor=#00ffff border=2 cellPadding=10 width=640>
+  <TBODY>
+  <TR>
+    <TD>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid853140.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid853140?siteid=7547706&amp;bfpage=link1" 
+      target=_top><IMG border=0 height=60 
+      src="Threads of Control - by Richard G Baldwin_files/images.gif" 
+      width=468></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/egghead.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/egghead?siteid=7547706&amp;bfpage=software" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(1).gif" 
+      width=468></A></P><A 
+      href="mailto:baldwin@austin.cc.tx.us"><B>Training/Consulting</B></A> If 
+      you or your company need training or consulting in Java programming or 
+      XML, (in central Texas), I will be pleased to provide those 
+      services.<BR><BR><A href="http://xml.about.com/"><B>XML</B></A> You are 
+      invited to visit my XML site.<BR><BR><A 
+      href="http://xml.about.com/library/weekly/aa071899.htm"><B>Read</B></A> 
+      how I use Java and XML to search smarter rather than harder.<BR><BR><A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Slow ISP</A> 
+      wasting your valuable time?.<BR></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=10 cellSpacing=0 width=640>
+  <TBODY>
+  <TR>
+    <TD bgColor=#00ffff vAlign=top width="25%">
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/goto.gif" width=1 
+      NOSAVE>
+      <FORM action=http://geocities.bfast.com/bfast/click/goto><INPUT 
+      name=bfsiteid type=hidden value=7547706><INPUT name=bfpage type=hidden 
+      value=search>
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=115>
+        <TBODY>
+        <TR>
+          <TD colSpan=3><IMG alt="GoTo.com: Search made simple" height=87 
+            src="Threads of Control - by Richard G Baldwin_files/top.gif" 
+            width=115></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33><IMG height=6 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=1></TD>
+          <TD bgColor=#ffcc00><IMG height=1 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=113></TD>
+          <TD bgColor=#aa6600><IMG height=1 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33 width=1><IMG height=25 
+            src="Threads of Control - by Richard G Baldwin_files/cl.gif" 
+          width=1></TD>
+          <TD align=middle bgColor=#ffcc00 vAlign=center><INPUT name=Keywords 
+            size=8><IMG height=1 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=4><INPUT align=absMiddle alt="Find It!" border=0 cache 
+            height=23 name=Submit 
+            src="Threads of Control - by Richard G Baldwin_files/arrow.gif" 
+            type=image width=23></TD>
+          <TD bgColor=#aa6600><IMG height=25 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD bgColor=#ffff33><IMG height=5 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=1></TD>
+          <TD bgColor=#ffcc00><IMG height=1 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=113></TD>
+          <TD bgColor=#aa6600><IMG height=1 
+            src="Threads of Control - by Richard G Baldwin_files/clear.gif" 
+            width=1></TD></TR>
+        <TR>
+          <TD colSpan=3><A 
+            href="http://www.goto.com/d/affiliate/p/befree/?Promo=befree_refer"><IMG 
+            alt="Affiliate Info" border=0 height=16 
+            src="Threads of Control - by Richard G Baldwin_files/bottom.gif" 
+            width=115></A></TD></TR></TBODY></TABLE></FORM></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/expedia.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/expedia?siteid=7547706&amp;bfpage=flight_wizard" 
+      target=_top><IMG border=0 height=70 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(2).gif" 
+      width=99></A><BR><B>Expedia Travel</B><BR></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/valueamerica.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/valueamerica?bfsiteid=7547706&amp;bfpage=8" 
+      target=_top><IMG border=0 height=80 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(3).gif" 
+      width=100></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/sportsite.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/sportsite?siteid=7547706&amp;bfpage=g_runningstore" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(4).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid1048002.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid1048002?siteid=7547706&amp;bfpage=search" 
+      target=_top><IMG border=0 height=90 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(5).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid573519.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid573519?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=80 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(6).gif" 
+      width=140></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid1556269.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid1556269?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(7).gif" 
+      width=130></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/proflowers.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/proflowers?sourceid=7547706&amp;categoryid=seasonal" 
+      target=_top><IMG border=0 height=95 
+      src="Threads of Control - by Richard G Baldwin_files/seasonal_aff_468x60.gif" 
+      width=80></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid575442.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid575442?siteid=7547706&amp;bfpage=sk_home" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(8).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid573112.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid573112?siteid=7547706&amp;bfpage=home003" 
+      target=_top><IMG border=0 height=60 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(9).gif" 
+      width=120></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/tickets.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/tickets?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=125 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(10).gif" 
+      width=125></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/mid651523.gif" 
+      width=1 NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/mid651523?siteid=7547706&amp;bfpage=homepage" 
+      target=_top><IMG border=0 height=65 
+      src="D:\My_Docs\CSI_3310\Threads\Threads of Control - by Richard G Baldwin_files\images(11).gif" 
+      width=108></A></P>
+      <P align=center><IMG border=0 height=1 
+      src="Threads of Control - by Richard G Baldwin_files/booklink.gif" width=1 
+      NOSAVE><A 
+      href="http://geocities.bfast.com/bfast/click/booklink?sourceid=7547706&amp;categoryid=subjx_comp" 
+      target=_top><B>Computer Books - Barnes &amp; Noble</B></A></P></TD>
+    <TD bgColor=#ffffff vAlign=top width="75%">
+      <CENTER>
+      <P>[<A 
+      href="http://www.geocities.com/Athens/7077/scoop/onjava.html">Home</A>] 
+      [<A href="http://home.att.net/~baldwin.r.g/scoop/toc.htm">Table of 
+      Contents</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Download this 
+      Tutorial</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/alphaindex.htm">Alphabetical 
+      Index</A>]</CENTER></P>
+      <CENTER>
+      <H3><B><I>Richard G Baldwin (512) 223-4758, <A 
+      href="mailto:baldwin@austin.cc.tx.us">baldwin@austin.cc.tx.us</A>, <A 
+      href="http://www2.austin.cc.tx.us/baldwin/">http://www2.austin.cc.tx.us/baldwin/</A></I></B></H3></CENTER>
+      <CENTER>
+      <H2><!--title--><B>Threads of Control</B><!--endtitle--></H2></CENTER>Java 
+      Programming, Lecture Notes # 58, Revised 08/12/99. 
+      <UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#preface">Preface</A> 
+
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#introduction">Introduction</A> 
+
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#overview">Overview</A> 
+
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#multithreading and multiprocessing, the difference">Multithreading 
+          and Multiprocessing, the Difference</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#why do we need multithreading">Why 
+          Do We Need Multithreading</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#two ways to thread">Two 
+          Ways to Thread</A> 
+          <UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#implement the runnable interface">Implement 
+            the Runnable Interface</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#extend the thread class">Extend 
+            the Thread Class</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#another approach which extends the thread class">Another 
+            Approach which Extends the Thread Class</A> </LI></UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#stopping threads">Stopping 
+          Threads</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#daemon threads - 1">Daemon 
+          Threads</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#synchronization">Synchronization</A> 
+
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#thread priority-1">Thread 
+          Priority</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#sharing resources at the same priority">Sharing 
+          Resources at the Same Priority</A> </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#technical details">Technical 
+        Details</A> 
+        <UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#a slightly more substantive sample program">A 
+          Slightly More Substantive Sample Program</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#thread attributes">Thread 
+          Attributes</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#where the action is">Where 
+          the Action Is, the run() Method</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#thread state">Thread 
+          State</A> 
+          <UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#new thread">New 
+            Thread</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#runnable">Runnable</A> 
+
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#not runnable">Not 
+            Runnable</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#dead">Dead</A> 
+            </LI></UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#threads that apparently refuse to die">Threads 
+          that Apparently Refuse to Die</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#illegalthreadstateexception">IllegalThreadStateException</A> 
+
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the isalive() method">The 
+          isAlive() Method</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#thread priority">Thread 
+          Priority</A> 
+          <UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#preemptive scheduling">Preemptive 
+            Scheduling</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#selfish threads">Selfish 
+            Threads</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#time-slicing">Time-Slicing</A> 
+
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the yield() method">The 
+            yield() Method</A> </LI></UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#daemon threads">Daemon 
+          Threads</A> 
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#thread group">Thread 
+          Group</A> 
+          <UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the default thread group">The 
+            Default Thread Group</A> </LI></UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#synchronizing threads">Synchronizing 
+          Threads</A> 
+          <UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#fairness, starvation, and deadlock">Fairness, 
+            Starvation, and Deadlock</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the producer/consumer model">The 
+            Producer/Consumer Model</A> 
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#monitors">Monitors</A> 
+
+            <UL>
+              <LI><A 
+              href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#java monitors are re-entrant">Java 
+              Monitors Are Re-entrant</A> </LI></UL>
+            <LI><A 
+            href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the notify() and wait() methods">The 
+            notify() and wait() Methods</A> 
+            <UL>
+              <LI><A 
+              href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the notify() method">The 
+              notify() method</A> 
+              <LI><A 
+              href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#the wait() method">The 
+              wait() Method</A> 
+              <LI><A 
+              href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#other versions of the wait() method">Other 
+              Versions of the wait() method</A> </LI></UL></LI></UL>
+          <LI><A 
+          href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#deadlock">Deadlock</A> 
+          </LI></UL>
+        <LI><A 
+        href="http://www.geocities.com/Athens/Acropolis/3797/Java058.htm#review">Review</A> 
+        </LI></UL>
+      <CENTER>
+      <H2><A name=preface></A><FONT 
+      color=#ff0000>Preface</FONT></H2></CENTER>Students in Prof. Baldwin's 
+      <B><U>Introductory Java Programming</U></B> classes at ACC are responsible 
+      for knowing and understanding all of the material in this lesson (except 
+      that they are not responsible for detailed information that is specific to 
+      C++). 
+      <P>The detailed material on C++ is provided as supplementary material for 
+      the benefit of persons already familiar with C++ who are making the 
+      transition into Java. 
+      <CENTER>
+      <H2><A name=introduction></A><B><FONT 
+      color=#ff0000>Introduction</FONT></B></H2></CENTER>According to <U>The 
+      Java Handbook</U>, by Patrick Naughton, one of the original members of the 
+      Java design team at Sun, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Multi-threaded programming is a conceptual paradigm for 
+            programming where you divide programs into <U>two or more 
+            processes</U> which can be <U>run in 
+      parallel</U>."</TD></TR></TBODY></TABLE>Because many students in the class 
+      will not be familiar with the concept, or even worse, may have it confused 
+      with "multi-processing", we will begin this lesson with a <U>non-technical 
+      overview</U> discussion. Following the overview, we will launch into the 
+      technical details. <BR>
+      <TABLE bgColor=#00ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>NOTICE: The following is the partial text of a message received 
+            from a reader on 3/6/98 giving us a "heads-up" on what to expect in 
+            the future of threads. Thanks go out to this reader for the 
+            information: <BR>==================== <BR>Thread.stop, 
+            Thread.suspend, and Thread.resume will be deprecated in the next 
+            major release of the JDK. 
+            <P>The following link: 
+            <P>http://java.sun.com/docs/books/tutorial/post1.0/preview/threads.html 
+
+            <P>explains why, and how to write better Java programs without these 
+            keywords. You might want to mention it in your discussion on 
+            Threads. 
+            <P>Overall, this is the best discussion of Java I've seen on-line 
+            and all my books are hopelessly out of date. 
+            <P>Keep up the good work. <BR>Tim</P></TD></TR></TBODY></TABLE>
+      <CENTER>
+      <H2><A name=overview></A><FONT 
+      color=#ff0000>Overview</FONT></H2></CENTER>A <I>thread</I> is short for 
+      <I>thread of control</I>. We will also learn some other names as we go 
+      along. 
+      <P>If you have spent any time working with a web browser, you have <U>been 
+      using threads</U> without even knowing it. 
+      <P>Web browsers typically use different threads running in parallel to 
+      accomplish a variety of tasks, "apparently" concurrently. 
+      <P>For example, on many web pages, you can begin <U>scrolling</U> the page 
+      and <U>reading</U> the text <U>before</U> all the images are available for 
+      display. In this case, the browser would be <U>downloading</U> an image in 
+      one thread and supporting your <U>scrolling</U> activity in <U>another 
+      thread</U>. 
+      <TABLE bgColor=#80ff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>C and C++ do not support threading as an inherent part of the 
+            language. If you need to write a threaded program in one of these 
+            languages, you must either deal with features of the operating 
+            system, or perhaps install a set of class libraries designed 
+            specifically to support threading for a particular 
+        platform.</TD></TR></TBODY></TABLE>Threading is <U>supported directly by 
+      the Java language</U>, and as such provides the ability to write threaded 
+      programs which are platform independent (unfortunately, with some 
+      variations in behavior between platforms). 
+      <CENTER>
+      <H3><A name="multithreading and multiprocessing, the difference"></A><FONT 
+      color=#ff0000>Multithreading and Multiprocessing, the 
+      Difference</FONT></H3></CENTER>Most books have a page or more devoted to 
+      this topic. For an interesting and somewhat humorous discussion of the 
+      topic, see the <U>Java Primer Plus</U> by Tyma, Torok, and Downing. 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>In a nutshell, <I>multiprocessing</I> refers to <U>two or more 
+            programs</U> executing, "apparently" concurrently, under control of 
+            the operating system. The programs need have <U>no relationship with 
+            each other</U>, other than the fact that you want to start and run 
+            them all concurrently.</TD></TR></TBODY></TABLE><I>Multiprocessing</I> is 
+      sometimes referred to as a <I>heavyweight</I> process, possibly because 
+      the challenges involved in making it all work are heavyweight challenges. 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><I>Multithreading</I> refers to <U>two or more tasks</U> 
+            executing, "apparently" concurrently, <U>within a single 
+            program</U>. This is often referred to as a <I>lightweight</I> 
+            process, possibly because the challenges involved in making it all 
+            work are, -- well, you get the picture.</TD></TR></TBODY></TABLE>In both 
+      cases, I used the terminology "apparently" concurrently, because if the 
+      platform has a single CPU, the processes are <U>not really executing 
+      concurrently</U>. Rather, they are sharing the CPU on some basis. However, 
+      on platforms with multiple CPUs, it is possible that the processes might 
+      actually be executing concurrently. 
+      <P>In both cases, the behavior of the operating system normally gives the 
+      <U>illusion of concurrent execution</U>. 
+      <P>Even more important, <I>multithreading</I> can produce programs that 
+      <U>accomplish more</U> work in the <U>same amount of time</U> due to the 
+      fact that the CPU is being shared between tasks. 
+      <P><I>Multiprocessing</I> is implemented within the operating system. 
+      <U>Any</U> two or more programs capable of executing on the platform can 
+      be executed on a multiprocessing basis with <U>no requirement</U> for 
+      planning in advance by the authors of the programs. 
+      <P>However, although multithreading definitely requires support from the 
+      operating system, in the final analysis, <I>multithreading</I> is 
+      <U>implemented within the program</U>. Furthermore, advance planning is 
+      required on the part of the author of the program, because it must be 
+      specifically designed to run in a multithreaded manner. 
+      <P>And finally, two or more multithreaded programs can be concurrently 
+      executing in a multiprocessing system. Therefore, <I>multithreading</I> 
+      and <I>multiprocessing</I> can exist concurrently with one another. 
+      <CENTER>
+      <H3><A name="why do we need multithreading"></A><FONT color=#ff0000>Why Do 
+      We Need Multithreading</FONT></H3></CENTER>Most books have a page or more 
+      devoted to this topic also. Again, in a nutshell, many types of programs 
+      can <U>make better use of available machine resources</U> by separating 
+      tasks into concurrently executing threads. 
+      <P>Some tasks experience <U>long periods</U> while <U>nothing useful</U> 
+      is being done, while other tasks constantly <U>need all the resource that 
+      they can get</U>. 
+      <P>Suppose, for example, we needed a program that could read 1000 numbers 
+      from the keyboard, compute the square root of each number to 100 decimal 
+      places, and write the results out to a disk file. 
+      <P>Most keyboard input activities consume very little computer resource. 
+      In a strictly <U>sequential</U> program, which is the norm in Pascal, C, 
+      and C++, the computer would spend a very large percentage of the time 
+      waiting for the keyboard operator to press the <I>Enter </I>key, and would 
+      spend relatively little time actually extracting data from the keyboard 
+      buffer. 
+      <P>Similarly, but not nearly as severe, a program that needs to write data 
+      to a disk file experiences wasted time while the operating system locates 
+      the file, positions the write head, etc., before any data actually gets 
+      transferred. 
+      <P>Thus, much in the way of computer resource is wasted during keyboard 
+      (and other) input/output operations. 
+      <P>I have never attempted to write a program that can compute the square 
+      root of a number out to 100 decimal places. However, I am fairly confident 
+      that it would <U>consume all the computer resource that it can garner</U>, 
+      at least in short bursts. 
+      <P>Therefore, if we were to write our program so that 
+      <UL>
+        <LI>the keyboard input is handled by one thread, 
+        <LI>the disk output is handled by a second thread, and 
+        <LI>the computation is handled by a third thread, </LI></UL>the 
+      computational thread could gain <U>access to most of the computer 
+      resources</U> while the other two threads were <I>blocked</I> awaiting 
+      communication with the keyboard and the disk controller. 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>The term <I>blocked</I> means that the thread is waiting for 
+            something to happen and is not consuming computer 
+        resources.</TD></TR></TBODY></TABLE>Sequential programs do not have this 
+      advantage. While it is possible to write sequential programs that cycle in 
+      tight control loops, testing various conditions and queuing up tasks, that 
+      is probably a less efficient approach than threading. 
+      <P>Obviously, with threading, all that we have accomplished is to <U>move 
+      that looping process</U> from the application program to the operating 
+      system, but we can <U>hope</U> that the system programmers can do a 
+      <U>better job</U> than the rest of us in implementing such a process. 
+      <P>Whether it is better or not, it <U>only has to be programmed once</U> 
+      when the operating system is developed, rather than being <U>reprogrammed 
+      at varying levels of efficiency</U> in every new application program. 
+      <CENTER>
+      <H3><A name="two ways to thread"></A><FONT color=#ff0000>Two Ways to 
+      Thread</FONT></H3></CENTER>In Java, there are <U>two ways</U> to create 
+      threaded programs: 
+      <UL>
+        <LI><I>Implement</I> the <B>Runnable</B> interface 
+        <LI><I>Extend</I> the <B>Thread</B> class </LI></UL>I am going to start 
+      out by showing you a very simple example of both approaches. 
+      <P>Some authors suggest that <I>implementing </I>the Runnable interface is 
+      the most "object oriented" of the two. Whether or not that is true, it is 
+      an approach which apparently <U>can be used in all cases</U>, while the 
+      approach which <I>extends </I>the Thread class <U>cannot be used in some 
+      situations</U> (which I will explain later). 
+      <CENTER>
+      <H3><A name="implement the runnable interface"></A><FONT 
+      color=#ff0000>Implement the Runnable Interface</FONT></H3></CENTER>All 
+      that is necessary to <I>spawn</I> a thread in Java is to 
+      <UL>
+        <LI>instantiate an object of type <B>Thread</B> and 
+        <LI>start its <B>run()</B> method. </LI></UL>
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>The code to accomplish the desired objective (<U>do the 
+            work</U>) of the thread is <U>placed in</U> the <B>run()</B> method, 
+            or in other methods invoked by the <B>run()</B> 
+      method.</TD></TR></TBODY></TABLE><U>One way</U> (which will be the topic 
+      of a later section) to instantiate an object of the <B>Thread</B> class is 
+      to 
+      <UL>
+        <LI><I>extend</I> the <B>Thread </B>class into a class of your own and 
+        <LI>then instantiate an object of your class. </LI></UL>Then 
+      <U>override</U> the <B>run()</B> method of the <B>Thread</B> class in your 
+      new class. 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>Important: To <U>start the thread actually running</U>, you do 
+            not invoke the <B>run()</B> method. Rather, you invoke the 
+            <B>start()</B> method on your object.</TD></TR></TBODY></TABLE>However, 
+      sometimes it is <U>not possible to <I>extend</I></U><I> </I>the 
+      <B>Thread</B> class, because you must <I>extend </I>some other class. 
+      Remember that Java does not support multiple inheritance. 
+      <P>In programming applets, for example, <U>you must extend</U> the 
+      <B>Applet</B> class. 
+      <P>In those cases where it is not possible to <I>extend</I> the 
+      <B>Thread</B> class, you can design your class to <I>extend </I>some 
+      required class, and <U>also to <I>implement</I> the <B>Runnable</B> 
+      interface</U>. 
+      <P>So, the second way (which is the topic of this section) to instantiate 
+      an object of the <B>Thread</B> class is to 
+      <UL>
+        <LI><I>implement</I> the <B>Runnable</B> interface into a class of your 
+        own (<I>extending</I> some other class if need be), and 
+        <LI>then instantiate an object of your class </LI></UL>As before, you 
+      would <U>override</U> the <B>run()</B> method of the <B>Thread</B> class 
+      in your new class. 
+      <P>This approach is illustrated in the following sample program. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Thread01.java  Copyright 1997, R.G.Baldwin
+Illustrates instantiation and running of threads using the 
+runnable interface instead of extending the Thread class.
+
+Tested using JDK 1.1.3 under Win95.
+
+The output is:
+<B>Thread[threadA,5,main]
+Thread[threadB,5,main]
+Thread[main,5,main]
+
+</B>
+**********************************************************/
+
+class Thread01{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+<B>    Thread myThreadA = 
+      new Thread(new MyThread(),"threadA");
+    Thread myThreadB = 
+      new Thread(new MyThread(),"threadB");
+
+</B>    //Start them running
+   <B> myThreadA.start();
+    myThreadB.start();
+</B>    
+    try{
+      //delay for one second
+      Thread.currentThread().<B>sleep</B>(1000);
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread<B>()</B>);        
+
+  }//end main
+}//end class Thread01
+//=======================================================//
+
+class <B>DoNothing</B>{
+//This class exists only to be inherited by the MyThread 
+// class to prevent that class from being able to inherit
+// the Thread class, thus requiring it to implement the 
+// Runnable interface instead.
+}//end class DoNothing
+//=======================================================//
+
+class <B>MyThread extends DoNothing implements Runnable</B>{
+  public void run(){
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>As you can see, this 
+      program defines a new class named <B>MyThread</B> which <I>extends</I> a 
+      class named <B>DoNothing</B> and <I>implements</I> the <B>Runnable</B> 
+      interface. 
+      <P>We <I>override </I>the <B>run()</B> method in the class named 
+      <B>MyThread</B> to display information about the thread implemented by an 
+      object of the <B>MyThread</B> class. 
+      <P>The <U>only reason</U> for extending <B>DoNothing</B> in this simple 
+      example is to consume the one and only inheritance path available to a 
+      Java class. The purpose is to <U>simulate</U> a situation where you 
+      <U>must extend</U> some other class. Extending another class is <U>not a 
+      requirement</U>, and this approach <U>works equally well</U> when you 
+      <U>don't</U> <I>extend </I>any other class. 
+      <P>Code in <B>main()</B> instantiates two objects of type <B>Thread 
+      </B>using one of several available <B>Thread </B>constructors as shown 
+      below. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>Thread myThreadA = new Thread(new MyThread(),"threadA");</PRE></TD></TR></TBODY></TABLE>This 
+      particular constructor requires <U>two parameters</U>. The first parameter 
+      is an <U>object</U> of any <U>class that implements</U> the 
+      <B>Runnable</B> interface. 
+      <P>The second parameter is a string which specifies a <U>name</U> for the 
+      thread. (Note that the name given to the thread is independent of the name 
+      of the reference variable which references the <B>Thread </B>object.) 
+      <P>Various methods are available which allow for manipulation of the 
+      thread status by referring to it by name. 
+      <P>Additional code in <B>main()</B> <U>starts</U> the two threads running 
+      by invoking the <B>start()</B> method on each of the thread objects. The 
+      threads stop and the program terminates when the threads have nothing more 
+      to do (this was not the case in JDK 1.0.2.). 
+      <P>Another thing to notice is that <B>main</B> <U>is itself a thread</U> 
+      which is <U>started by the interpreter</U>. 
+      <P>Code in the <B>run()</B> method causes the names of each of the threads 
+      (along with some other information) to be <U>displayed</U> for both of the 
+      two threads instantiated and started within the program. 
+      <P>Code in <B>main()</B> causes <U>similar information to be displayed</U> 
+      for the <B>main</B> thread as well. 
+      <P>The <B>sleep()</B> method is invoked on the <B>main</B> thread to 
+      implement a one-second delay. The <B>sleep()</B> method and a number of 
+      other <B>Thread</B> methods will be discussed in later sections. 
+      <P>This program illustrates the <U>first of two alternative approaches</U> 
+      to instantiate and run threads in a Java program. This is the approach 
+      which <U>must be used</U> whenever the class being used to instantiate the 
+      thread object <U>is required to <I>extend</I></U> some other class. 
+      <P>As mentioned above, this approach can <U>also be used</U> in those 
+      cases where it is <U>not necessary</U> to <I>extend</I> some other class 
+      just as well. This is the <U>most general</U> of the two approaches being 
+      discussed. 
+      <P>The <U>next approach</U> can be used when the class being used to 
+      instantiate the thread object is not required to <I>extend</I> some other 
+      class, and therefore, can <I>extend</I> the <B>Thread</B> class. 
+      <CENTER>
+      <H3><A name="extend the thread class"></A><FONT color=#ff0000>Extend the 
+      Thread Class</FONT></H3></CENTER><FONT color=#000000>Let's look at 
+      essentially the same simple program which <I>extends </I>(inherits from) 
+      the <B>Thread </B>class rather than to <I>implement </I>the <B>Runnable 
+      </B>interface.</FONT> 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Thread02.java  Copyright 1997, R.G.Baldwin
+Illustrates instantiation and running of threads by 
+extending the Thread class instead of implementing the 
+Runnable class as was the case in the program named 
+Thread01.java
+
+Tested using JDK 1.1.3 under Win95.
+
+<B>The output is:
+Thread[threadA,5,main]
+Thread[threadB,5,main]
+Thread[main,5,main]
+
+</B>
+**********************************************************/
+
+class Thread02{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+<B>    Thread myThreadA = 
+      new Thread(new MyThread(),"threadA");
+    Thread myThreadB = 
+      new Thread(new MyThread(),"threadB");
+
+</B>    //Start them running
+<B>    myThreadA.start();
+    myThreadB.start();
+</B>    
+    try{//delay for one second
+      Thread.currentThread().sleep(1000);
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread());        
+
+  }//end main
+}//end class Thread02
+//=======================================================//
+
+class <B>MyThread extends Thread</B>{
+  public void run(){
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE><FONT 
+      color=#000000>With this approach, the new class named 
+      <B>MyThread</B><I>extends</I> the <B>Thread</B> class and does <U>not</U> 
+      <I>implement</I> the <B>Runnable</B> interface directly. (The 
+      <B>Thread</B> class implements <B>Runnable</B> so that <B>MyClass</B> 
+      actually implements <B>Runnable</B> indirectly.)</FONT> 
+      <P><FONT color=#000000>Otherwise, this program behaves essentially the 
+      same as the previous program.</FONT> 
+      <CENTER>
+      <H3><A name="another approach which extends the thread class"></A><FONT 
+      color=#ff0000>Another Approach which Extends the Thread 
+      Class</FONT></H3></CENTER><FONT color=#000000>The following program also 
+      extends the <B>Thread</B> class but is <U>somewhat simpler</U> than the 
+      previous program. See if you can spot the difference.</FONT> 
+      <P><FONT color=#000000>Hint: Look closely at the names of the individual 
+      threads and notice that they have default names. This program uses a 
+      different version of the <B>Thread</B> constructor which doesn't require 
+      any arguments.</FONT> 
+      <P><FONT color=#000000>Thus, the statements to instantiate the 
+      <B>Thread</B> objects are a <U>little less complex</U>. Otherwise, it is 
+      essentially the same as the previous program. This is the syntax that you 
+      will <U>most often see</U> in Java books and articles which discuss 
+      <I>multithreading</I>.</FONT> 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Thread06.java  Copyright 1997, R.G.Baldwin
+Illustrates another way to instantiate and run 
+threads by extending the Thread class instead of 
+implementing the Runnable class as was the case in 
+the program named Thread01.java</PRE><PRE>Tested using JDK 1.1.3 under Win95.
+
+The output is:
+<B>Thread[Thread-1,5,main]
+Thread[Thread-2,5,main]
+Thread[main,5,main]
+
+</B>**********************************************************/
+
+class Thread06{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+<B>    Thread myThreadA = new MyThread();
+    Thread myThreadB = new MyThread();
+
+</B>    //Start them running
+   <B> myThreadA.start();
+    myThreadB.start();
+</B>    
+    try{//delay for one second
+      Thread.currentThread().sleep(1000);
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread());
+    }//end main()        
+
+}//end class Thread06
+//=======================================================//
+
+class <B>MyThread extends Thread</B>{
+  public void run(){
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="stopping threads"></A><FONT color=#ff0000>Stopping 
+      Threads</FONT></H3></CENTER><FONT color=#000000>As mentioned earlier, the 
+      threads stop and the program terminates when all of the threads have 
+      nothing else to do. This was not the case in JDK 1.0.2, and it was 
+      sometimes necessary to invoke the <B>stop()</B> methods to cause the 
+      threads to stop.</FONT> 
+      <CENTER>
+      <H3><A name="daemon threads - 1"></A><FONT color=#ff0000>Daemon 
+      Threads</FONT></H3></CENTER><FONT color=#000000>According to <U>Java 
+      Primer Plus</U>, if you set a thread as a <I>daemon</I> thread using 
+      <B>setDaemon() </B>method, you are specifying that the thread belongs to 
+      the system and not to the process that spawned it.</FONT> 
+      <P><FONT color=#000000>Daemon threads are useful if you want a thread to 
+      run in the background for extended periods of time.</FONT> 
+      <P><FONT color=#000000>According to Deitel and Deitel, <U>Java, How to 
+      Program</U>, "A <I>daemon thread</I> is a thread that runs for the benefit 
+      of other threads."</FONT> 
+      <P><FONT color=#000000>Daemon threads run in the background and do not 
+      prevent a program from terminating. For example, the <I>garbage 
+      collector</I> is a daemon thread.</FONT> 
+      <P><FONT color=#000000>A program can include a mixture of daemon and 
+      non-daemon threads. The Java virtual machine will exit when only daemon 
+      threads remain in a program.</FONT> 
+      <CENTER>
+      <H3><A name=synchronization></A><FONT 
+      color=#ff0000>Synchronization</FONT></H3></CENTER><FONT color=#000000>Once 
+      you start two or more threads running, unless you specify otherwise, they 
+      run <U>asynchronously</U> and <U>independently</U> of one another.</FONT> 
+      <P><FONT color=#000000>However, what if two or more of the threads share 
+      some resource such as an array containing data. You must <U>keep one 
+      thread from corrupting the data while it is being processed by another 
+      thread</U>.</FONT> 
+      <P><FONT color=#000000>This is known as <U>synchronization</U>, and we 
+      will discuss how to do it in detail with examples.</FONT> 
+      <CENTER>
+      <H3><A name="thread priority-1"></A><FONT color=#ff0000>Thread 
+      Priority</FONT></H3></CENTER><FONT color=#000000>Java allows you to 
+      specify the priority of each thread <U>relative to other threads</U>. 
+      Those threads having higher priority get <U>greater access to available 
+      resources</U> when such resources are needed.</FONT> 
+      <P><FONT color=#000000>Some authors indicate that this is one area that is 
+      <U>not</U> totally platform independent, in that some platforms provide a 
+      greater degree of control over <I>relative priority</I> than other 
+      platforms.</FONT> 
+      <CENTER>
+      <H3><A name="sharing resources at the same priority"></A><FONT 
+      color=#ff0000>Sharing Resources at the Same 
+      Priority</FONT></H3></CENTER><FONT color=#000000><U>Not all</U> 
+      implementations of the JVM <U>behave the same</U> with respect to how two 
+      or more threads at the <U>same priority level</U> share available 
+      resources.</FONT> 
+      <P><FONT color=#000000>Some implementations automatically <I>time 
+      slice</I> the available resources making certain that all threads at the 
+      same priority get their fair share of available resources.</FONT> 
+      <P><FONT color=#000000>Other implementations will allow one thread to 
+      <U>hog all the resources</U> until it no longer needs resources.</FONT> 
+      <P><FONT color=#000000>Your program can cause a thread to purposely 
+      <B>yield()</B> resources to other threads at the same priority 
+      level.</FONT> 
+      <P><FONT color=#000000>A thread can be <I>suspended </I>during which time 
+      it consumes no resources, and can later <I>resume</I> its 
+      activities.</FONT> 
+      <P><FONT color=#000000><I>Synchronized</I> methods can implement a form of 
+      communication based on <B>wait()</B> and <B>notify()</B> or 
+      <B>notifyAll()</B>.</FONT> 
+      <P><FONT color=#000000>These methods are commonly used to <U>coordinate 
+      the activities</U> of threads which share a common resource. In many such 
+      cases, some threads are <I>producers</I> of data and other threads are 
+      <I>consumers</I>.</FONT> 
+      <P><FONT color=#000000>Note that <B>wait()</B>, <B>notify()</B>, and 
+      <B>notifyAll()</B> are not methods of the <B>Thread</B> class, but rather 
+      are methods of the <B>Object</B> class.</FONT> 
+      <P><FONT color=#000000>Now that you have an overview of how it all fits 
+      together, let's get into the details.</FONT> 
+      <CENTER>
+      <H2><A name="technical details"></A><FONT color=#ff0000>Technical 
+      Details</FONT></H2></CENTER><U>The Java Tutorial</U>, by Campione and 
+      Walrath defines a thread as follows: 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"A thread -- sometimes known as an <I>execution contex</I>t or a 
+            <I>lightweight process -- is</I> a single sequential flow of control 
+            within a process."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="a slightly more substantive sample program"></A><FONT 
+      color=#ff0000>A Slightly More Substantive Sample 
+      Program</FONT></H3></CENTER>Let's modify one of the previous sample 
+      programs to cause the threads to do something a little more substantive so 
+      that you can actually see some evidence of concurrent operation. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Thread03.java  Copyright 1997, R.G.Baldwin
+Illustrates instantiation and running of threads using the 
+runnable interface.  Each of two threads counts from zero
+to four and displays the count, sleeping a random amount 
+of time between counts.</PRE><PRE>Tested using JDK 1.1.3 under Win95.
+
+The output is:
+
+<B>Thread[thrdA,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 1
+Thread[threadB,5,main] cnt is 2
+Thread[thrdA,5,main] cnt is 1
+Thread[thrdA,5,main] cnt is 2
+Thread[threadB,5,main] cnt is 3
+Thread[thrdA,5,main] cnt is 3
+Thread[threadB,5,main] cnt is 4
+Thread[thrdA,5,main] cnt is 4
+
+</B>**********************************************************/
+
+class Thread03{
+  static public void main(String[] args){
+    //Instantiate two new thread objects with names of 
+    // different lengths which helps when viewing the 
+    // output.
+<B>    Thread threadA = new Thread(new MyThread(),"thrdA");
+    Thread threadB = new Thread(new MyThread(),"threadB");
+
+</B>    //Start them running
+<B>    threadA.start();
+    threadB.start();
+</B>    
+    try{//delay for one second
+      Thread.currentThread().sleep(1000);
+    }catch(InterruptedException e){}
+
+  }//end main
+}//end class Thread03
+//=======================================================//
+
+class <B>MyThread implements Runnable</B>{
+  public void run(){
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println(Thread.currentThread() + 
+                                        " cnt is " + cnt);
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+                              (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>This program 
+      instantiates two independent <B>Thread</B> objects and starts them running 
+      <U>asynchronously</U>. 
+      <P>Each thread <U>counts</U> from zero to four and <U>displays</U> the 
+      count along with its name for each count. 
+      <P>Each thread also <U>sleeps</U> a <U>random</U> amount of time between 
+      counts. Because of the use of a random sleep time, the <U>output</U> from 
+      every run <U>will be different</U>. The output from one run is shown in 
+      the comments at the beginning of the program. 
+      <P>You can see how each thread 
+      <UL>
+        <LI>activates, 
+        <LI>counts, 
+        <LI>displays, and 
+        <LI>sleeps, </LI></UL><U>independently</U> of the activities of the other 
+      thread (except that they must share available resources when both are 
+      awake). 
+      <P>The output from each thread is <U>intermingled</U> with the output from 
+      the other. This is because the two threads are running <U>concurrently and 
+      asynchronously</U>. 
+      <P>Both <B>run()</B> methods are 
+      <UL>
+        <LI><U>running</U> at the same time, 
+        <LI><U>competing</U> for resources if not sleeping, and 
+        <LI><U>displaying</U> their output whenever they have something to 
+        display and can gain control of the standard output stream. </LI></UL>A 
+      Java program can have many threads, and those threads can run 
+      concurrently, either asynchronously or synchronously. 
+      <CENTER>
+      <H3><A name="thread attributes"></A><FONT color=#ff0000>Thread 
+      Attributes</FONT></H3></CENTER>As explained earlier, Java <U>threads are 
+      objects</U> of the <B>Thread</B> class, which is part of the 
+      <B>java.lang</B> package. 
+      <P>The <B>Thread</B> class implements a <U>platform independent</U> 
+      definition of Java threads. 
+      <P>However, the <U>actual implementation</U> of concurrent operation is 
+      provided by a <U>system-specific implementation</U> built into the Java 
+      Virtual Machine for a specific platform. 
+      <P>For our purposes, the <U>underlying implementation doesn't matter</U>. 
+      We will ignore the underlying implementation and program at the level of 
+      the thread API. 
+      <CENTER>
+      <H3><A name="where the action is"></A><FONT color=#ff0000>Where the Action 
+      Is, the run() Method</FONT></H3></CENTER>When you implement a threaded 
+      program, you will <I>override </I>the <B>run()</B> method of the 
+      <B>Thread</B> class and <U>build the functionality</U> of your threaded 
+      program <U>into</U> the <B>run()</B> method. 
+      <P>Of course, the <B>run()</B> method can <U>invoke other methods</U>. 
+      <P>You will <U>start a thread running</U> by invoking the <B>start()</B> 
+      method on your <B>Thread</B> object. 
+      <P>The <B>start()</B> method invokes the <B>run()</B> method (and takes 
+      care of a few other necessary tasks in the background as well). 
+      <P>Notice that <U>neither</U> of these methods <U>take any parameters</U>. 
+
+      <P>You are <U>not restricted</U> to the use of a <U>single</U> 
+      <B>run()</B> method in a threaded program. 
+      <P>You can <U>define a variety of classes</U> in your program which either 
+      <I>extend</I><B>Thread</B> or <I>implement</I> <B>Runnable</B>. You can 
+      instantiate multiple <B>Thread</B> objects from each of these classes. 
+      <P>Each of these classes has its <U>own overridden</U> <B>run()</B> method 
+      which is <U>independent</U> of the <B>run()</B> methods in the other 
+      classes. 
+      <P>The following program <U>upgrades</U> one of the <U>previous 
+      programs</U> slightly by defining <U>two different classes</U> from which 
+      <B>Thread</B> objects are instantiated. 
+      <P>Each class has its <U>own</U> <B>run()</B> method which is 
+      <U>different</U> from the <B>run()</B> method in the other class (although 
+      they do similar things in order to make it easier to view the results). 
+      <P>Two <B>Thread </B>objects of each class are instantiated and started. 
+      As before, they run <U>asynchronously</U> relative to one another, and the 
+      <U>output</U> that they produce is <U>intermingled</U> on the screen. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Thread04.java  Copyright 1997, R.G.Baldwin
+Illustrates instantiation and running of threads using the 
+runnable interface where two different classes are defined
+each of which uses the Runnable interface.  The run() 
+method in one class is different from the run() method in 
+the other class.
+
+Two Thread objects are instantiated and started for each of
+the two thread classes.
+
+Each of the threads counts from zero to four and displays 
+the count, sleeping a random amount of time between counts.
+The format of the display is different between the two 
+thread classes.
+
+Tested using JDK 1.1.3 under Win95.
+
+The output is for one particular run was:
+
+<B>Thread[thrdA,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 0
+The actual cnt is 0 Thread[Xthrd,5,main]
+The actual cnt is 0 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 1
+Thread[threadB,5,main] cnt is 1
+Thread[thrdA,5,main] cnt is 2
+The actual cnt is 1 Thread[Ythread,5,main]
+The actual cnt is 1 Thread[Xthrd,5,main]
+Thread[threadB,5,main] cnt is 2
+The actual cnt is 2 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 3
+The actual cnt is 3 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 4
+The actual cnt is 2 Thread[Xthrd,5,main]
+The actual cnt is 4 Thread[Ythread,5,main]
+Thread[threadB,5,main] cnt is 3
+The actual cnt is 3 Thread[Xthrd,5,main]
+The actual cnt is 4 Thread[Xthrd,5,main]
+Thread[threadB,5,main] cnt is 4
+
+</B>**********************************************************/
+
+class Thread04{
+  static public void main(String[] args){
+    //Instantiate two new thread objects of one type
+<B>    Thread threadA = new Thread(
+                            new OneThreadClass(),"thrdA");
+    Thread threadB = new Thread(
+                          new OneThreadClass(),"threadB");
+</B>    
+    //Instantiate two new thread objects on another type
+<B>    Thread Xthread = new Thread(
+                        new AnotherThreadClass(),"Xthrd");
+    Thread Ythread = new Thread(
+                      new AnotherThreadClass(),"Ythread");
+
+</B>    //Start them running
+<B>    threadA.start();
+    threadB.start();
+    Xthread.start();
+    Ythread.start();
+</B>    
+    try{//delay for one second
+      Thread.currentThread().sleep(1000);
+    }catch(InterruptedException e){}
+  }//end main
+}//end class Thread04
+//=======================================================//
+
+class <B>OneThreadClass implements Runnable</B>{
+  public void run(){
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println(Thread.currentThread() + 
+                                        " cnt is " + cnt);
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+                              (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class OneThreadClass
+//=======================================================//
+
+class <B>AnotherThreadClass implements Runnable</B>{
+  public void run(){
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println("The actual cnt is " + cnt + 
+                             " " + Thread.currentThread());
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+                               (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class AnotherThreadClass</PRE></TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="thread state"></A><FONT color=#ff0000>Thread 
+      State</FONT></H3></CENTER>A Java thread is always in one of several 
+      <I>states</I>. 
+      <P>It's <I>state </I>indicates what it is <U>currently doing</U> and what 
+      it is <U>capable of doing at that time</U>. For example, it may be 
+      running, sleeping, dead, etc. 
+      <P><U>The Java Tutorial</U>, by Campione and Walrath, as well as numerous 
+      other good books, provide diagrams which help you visualize the various 
+      possible states of a thread. 
+      <P>I recommend that you review one or more of those books and form a 
+      mental picture of the diagrams that they provide. (As of the original date 
+      of this writing, 2/1/97, many good Java books are currently available 
+      on-line at JavaSoft, Sams Publishing, Que Publishing, and probably at 
+      other sites as well.) 
+      <P>Campione and Walrath indicate in their diagram on page 295 that a 
+      thread can be in any of the following states: 
+      <UL>
+        <LI>New Thread 
+        <LI>Runnable 
+        <LI>Not Runnable 
+        <LI>Dead </LI></UL>They point out that their diagram also illustrates 
+      which method calls cause a transition to another state, and they state: 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"This diagram is not a complete finite state diagram, but rather 
+            an overview of the more interesting and common facets of a thread's 
+            life."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="new thread"></A><FONT color=#ff0000>New 
+      Thread</FONT></H3></CENTER>According to their definition, the 
+      instantiation of a <B>Thread</B> object creates a new thread but does not 
+      start it running. This is the state that they refer to as a <I>New 
+      Thread</I>. 
+      <P>In our program from above, the instantiation statement was as follows: 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><TT>Thread threadA = new Thread(new <B>OneThreadClass(),"thrdA</B>");</TT></PRE></TD></TR></TBODY></TABLE>Paraphrasing 
+      Campione and Walrath, when a thread is in this state, you can only start 
+      the thread or stop it. Calling any method besides <B>start()</B> or 
+      <B>stop()</B> causes an <B>IllegalThreadStateException</B>. 
+      <CENTER>
+      <H3><A name=runnable></A><FONT 
+      color=#ff0000>Runnable</FONT></H3></CENTER>Campione and Walrath tell us 
+      that invoking the <B>start()</B> method on an instantiated <B>Thread</B> 
+      object 
+      <UL>
+        <LI>creates the system resources necessary to run the thread, 
+        <LI>schedules the thread to run, and 
+        <LI>calls the thread's <B>run()</B> method. </LI></UL>This puts the thread 
+      in what they call the <I>Runnable</I> state. They are careful to call this 
+      state <I>Runnable</I> rather than <I>Running</I> because the thread 
+      <U>might not actually be running</U> when it is in this state (it may not 
+      be winning in the competition for computer resources). 
+      <P>Because many computers have a single CPU, making it impossible to run 
+      all <I>Runnable</I> threads at the same time, the Java runtime system 
+      implements a <U>scheduling scheme</U> that <U>shares the processor</U> 
+      between all <I>Runnable</I> threads. A <I>Runnable</I> thread may actually 
+      be <U>running</U>, or may be <U>awaiting its turn</U> to run. 
+      <CENTER>
+      <H3><A name="not runnable"></A><FONT color=#ff0000>Not 
+      Runnable</FONT></H3></CENTER>According to Campione and Walrath, a thread 
+      becomes <I>Not Runnable</I> when one of the following four events occurs: 
+      <UL>
+        <LI>Someone invokes its <B>sleep()</B> method. 
+        <LI>Someone invokes its <B>suspend()</B> method. 
+        <LI>The thread uses its <B>wait()</B> method to wait on a <I>condition 
+        variable</I> (which will be explained later). 
+        <LI>The thread is <I>blocking </I>on I/O. </LI></UL>You have already seen 
+      several examples of putting a thread into this state by invoking its 
+      <B>sleep()</B> method. One of them follows: 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>Thread.currentThread().<B>sleep</B>(1000);</PRE></TD></TR></TBODY></TABLE>In 
+      this particular case, the <B>run()</B> method put itself to sleep for one 
+      second and became <I>Not Runnable</I> during that period. 
+      <P>During the one-second period period of sleep, the thread will <U>not 
+      run</U> <U>even if the processor is available</U>. (A thread can be 
+      awakened by invoking the <B>interrupt() </B>method on the sleeping thread 
+      object. Otherwise, it will not awaken until it has slept for the 
+      prescribed period of time.) 
+      <P>At the end of the prescribed interval, the thread automatically becomes 
+      <I>Runnable</I> again. Whether or not it will actually start running 
+      depends on its priority and the availability of the CPU. 
+      <P>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"For each of the entrances into the "Not Runnable" state ... 
+            there is a specific and distinct escape route that returns the 
+            thread to the "Runnable" state. An escape route <U>only works for 
+            its corresponding entrance</U>. For example, if a thread has been 
+            put to sleep, then the specified number of milliseconds must elapse 
+            before the thread becomes "Runnable" again. Calling resume() on a 
+            sleeping thread has no effect."</TD></TR></TBODY></TABLE>Campione and 
+      Walrath provide the following list of entrances to <I>Not Runnable</I> and 
+      the corresponding <I>escape route</I>. 
+      <UL>
+        <LI>If a thread has been put to <I>sleep</I>, then the specified number 
+        of milliseconds must elapse (or it must be interrupted). 
+        <LI>If a thread has been <I>suspended</I>, then someone must call its 
+        <B>resume()</B> method. 
+        <LI>If a thread is <I>waiting </I>on a condition variable, whatever 
+        object owns the variable must relinquish it by calling either 
+        <B>notify()</B> or <B>notifyAll()</B>. 
+        <LI>If a thread is <I>blocked </I>on I/O, then the I/O must complete. 
+        </LI></UL>
+      <CENTER>
+      <H3><A name=dead></A><FONT color=#ff0000>Dead</FONT></H3></CENTER>Just 
+      like its human counterpart, a thread can die in two ways: 
+      <UL>
+        <LI>from natural causes, or 
+        <LI>by being killed (stopped). </LI></UL>Campione and Walrath tell us that 
+      a thread <I>dies naturally</I> when its <U>run()</U> method exits 
+      normally. 
+      <P>You can also <I>kill a thread</I> at any time by calling its 
+      <B>stop()</B> method. 
+      <P>The following interesting terminology comes from Campione and Walrath: 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The <B>stop()</B> method throws a <B>ThreadDeath </B>object at 
+            the thread to kill it. Thus when a thread is killed in this manner 
+            it dies asynchronously. The thread will die when it actually 
+            receives the <B>ThreadDeath </B>exception."</TD></TR></TBODY></TABLE>You 
+      may recall from the lesson on exception handling that, according to 
+      <U>Java in a Nutshell</U> by David Flanagan, <B>ThreadDeath</B> is 
+      actually derived from the <B>Error</B> class rather than the 
+      <B>Exception</B> class. Flanagan tells us, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"An Error generally signals that a non-recoverable error has 
+            occurred. They should not be caught and usually cause the Java 
+            interpreter to display a message an exit. An exception (to this 
+            rule) is the <B>ThreadDeath</B> error which causes the thread in 
+            which it is thrown to stop running, but which does not print an 
+            error message or affect other threads."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="threads that apparently refuse to die"></A><FONT 
+      color=#ff0000>Threads that Apparently Refuse to Die</FONT></H3></CENTER>I 
+      had hoped by now (January 1998) that JDK 1.0.2 would no longer be in use. 
+      However, due to the fact that browsers continue to linger behind in their 
+      support of JDK 1.1, that is not the case. 
+      <P>When I was using JDK 1.0.2, I encountered strange behavior when 
+      compiling and executing threaded programs using JDK 1.02 in a DOS box 
+      under Windows 95. In particular, some threads appeared to <U>refuse to 
+      die</U>. At least they <U>refused to return control to the operating 
+      system</U> when they do die. 
+      <P>Fortunately, this problem seems to have been resolved in JDK 1.1.1. 
+      <CENTER>
+      <H3><A name=illegalthreadstateexception></A><FONT 
+      color=#ff0000>IllegalThreadStateException</FONT></H3></CENTER>The runtime 
+      system throws an <B>IllegalThreadStateException</B> when you call a method 
+      on a thread and that thread's state does not allow for that method call. 
+      <P>As is the case for all "checked" exceptions, when you call a thread 
+      method that can throw an exception, you must either <I>specify or 
+      catch</I> the exception. This is illustrated in the calls to the 
+      <B>sleep()</B> method in the above sample programs. 
+      <CENTER>
+      <H3><A name="the isalive() method"></A><FONT color=#ff0000>The isAlive() 
+      Method</FONT></H3></CENTER>The Thread class includes a method called 
+      <B>isAlive()</B>. The <B>isAlive()</B> method returns <I>true </I>if the 
+      thread has been started and not stopped (<I>runnable</I> or <I>not 
+      runnable</I> according to the earlier description of states). 
+      <P>According to Campione and Walrath 
+      <UL>
+        <LI>If the <B>isAlive()</B> method returns <I>false</I> you know that 
+        the thread is either a "New Thread" or "Dead". 
+        <LI>If the <B>isAlive()</B> method returns <I>true</I>, you know that 
+        the thread is either "Runnable" or "Not Runnable". 
+        <LI>You <U>cannot differentiate</U> between a "New Thread" and a "Dead" 
+        thread; <U>nor can you differentiate</U> between a "Runnable" thread and 
+        a "Not Runnable" thread. </LI></UL>
+      <CENTER>
+      <H3><A name="thread priority"></A><FONT color=#ff0000>Thread 
+      Priority</FONT></H3></CENTER>As mentioned earlier, the priority of a 
+      thread can be adjusted <U>relative to the priority of other threads</U>. 
+      The priority of a specific thread tells the Java thread scheduler <U>when 
+      this thread should run in relation to other threads</U>. 
+      <P>Because all computers have a limited number of CPUs, all threads <U>do 
+      not always run concurrently</U>. Most computers have only one CPU, so 
+      threads <U>usually run one at a time</U> in such a way as to produce an 
+      illusion of concurrency. 
+      <P>The Java runtime supports a scheduling algorithm known as <I>fixed 
+      priority scheduling</I>. This algorithm schedules threads based on their 
+      priority relative to other "Runnable" threads. 
+      <P>A Java thread <U>inherits its priority</U> from the thread that created 
+      it. 
+      <P>You can <U>modify a thread's priority</U> at any time after its 
+      creation using the <B>setPriority()</B> method. 
+      <P>The following integer constants are defined in the <B>Thread </B>class: 
+
+      <UL>
+        <LI>MIN_PRIORITY 
+        <LI>MAX_PRIORITY </LI></UL>The priority of an individual thread can be set 
+      to <U>any integer value between and including</U> these two extremes. The 
+      higher the integer value, the <U>higher</U> the priority. 
+      <P>When two or more threads are ready to be executed and system resource 
+      becomes available to execute a thread, the runtime system <U>chooses</U> 
+      the <I>Runnable</I> thread with the <U>highest priority</U> for execution. 
+
+      <P>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Only when that thread <I>stops</I>, <I>yields</I>, or becomes 
+            <I>Not Runnable</I> for some reason will a lower priority thread 
+            start executing."</TD></TR></TBODY></TABLE>Further according to Campione 
+      and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"If two threads of the <U>same priority</U> are waiting for the 
+            CPU, the scheduler chooses one of them to run in a 
+            <I>round-robin</I> fashion. The chosen thread will run until one of 
+            the following conditions is true: 
+            <UL>
+              <LI>a <U>higher priority</U> thread becomes <I>Runnable</I> 
+              <LI>it <I>yields</I>, or its <B>run()</B> method exits 
+              <LI>on systems that support <I>time-slicing</I>, its time 
+              allotment has <U>expired</U> </LI></UL>Then the second thread is 
+            given a chance to run, and so on, until the interpreter 
+        exits."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="preemptive scheduling"></A><FONT color=#ff0000>Preemptive 
+      Scheduling</FONT></H3></CENTER>If a thread with a higher priority than all 
+      other <I>Runnable</I> threads becomes <I>Runnable</I>, the runtime system 
+      will <I>preempt </I>the running thread and <U>choose the new higher 
+      priority thread for execution</U>. 
+      <CENTER>
+      <H3><A name="selfish threads"></A><FONT color=#ff0000>Selfish 
+      Threads</FONT></H3></CENTER>On systems which do not provide <I>time 
+      slicing</I> among threads of equal priority, one thread can acquire and 
+      hog the CPU, essentially <U>preventing other threads of equal priority 
+      from having an opportunity to execute</U>. 
+      <CENTER>
+      <H3><A name=time-slicing></A><FONT 
+      color=#ff0000>Time-Slicing</FONT></H3></CENTER>On some systems, Windows 95 
+      for example, a strategy known as <I>time-slicing</I> is implemented to 
+      prevent a selfish thread from preventing other threads of equal priority 
+      from running. 
+      <P>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"A time-sliced system <U>divides the CPU into time slots</U> and 
+            iteratively gives each of the equal-and-highest priority threads a 
+            time slot in which to run. The time-sliced system iterates through 
+            the equal-and-highest priority threads, allowing each one a bit of 
+            time to run, until one or more of them finishes or until a higher 
+            priority thread preempts them. Notice that time-slicing makes <U>no 
+            guarantees</U> as to how often or in what order threads are 
+            scheduled to run."</TD></TR></TBODY></TABLE>Also, according to Campione 
+      and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The <U>Java runtime does not implement</U> (and therefore does 
+            not guarantee) time-slicing. However, some systems on which you can 
+            run Java do support time-slicing. Your Java programs <U>should not 
+            rely</U> on time-slicing as it may produce different results on 
+            different systems."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="the yield() method"></A><FONT color=#ff0000>The yield() 
+      Method</FONT></H3></CENTER>A thread can <I>voluntarily yield</I> the CPU 
+      by calling the <B>yield()</B> method. The <B>yield()</B> method gives 
+      other threads of the <U>same priority</U> a chance to run. If there are no 
+      equal priority threads in the "Runnable" state, then the yield is ignored. 
+
+      <CENTER>
+      <H3><A name="daemon threads"></A><FONT color=#ff0000>Daemon 
+      Threads</FONT></H3></CENTER>As mentioned earlier, a <I>Daemon </I>thread 
+      is one which <U>belongs to the system</U> rather than to the process that 
+      spawned it. Daemon threads often provide a service for other threads in 
+      the system. <U>Any Java thread can be a daemon thread</U>. 
+      <P>To specify that a thread is a <I>Daemon</I> thread, call the 
+      <B>setDaemon()</B> method with the argument true. 
+      <P>To determine if a thread is a <I>Daemon</I> thread, use the accessor 
+      method <B>isDaemon()</B>. 
+      <CENTER>
+      <H3><A name="thread group"></A><FONT color=#ff0000>Thread 
+      Group</FONT></H3></CENTER>This is our <U>first mention</U> of thread 
+      groups and we won't spend a lot of time on the topic. 
+      <P><U>All</U> threads belong to a thread group. 
+      <P>The <B>ThreadGroup </B>class which is a member of the <B>java.lang</B> 
+      package, <U>defines and implements the capabilities of a group of related 
+      threads</U>. 
+      <P>Thread groups make it possible for you to <U>collect various threads 
+      into a single object and manipulate them as a group</U> rather than 
+      individually. For example, you could suspend all the threads within a 
+      group with a single statement. A variety of methods are available to 
+      manipulate threads as a group. 
+      <P>When a new thread is constructed, it is put into a thread group. 
+      <P>You can 
+      <UL>
+        <LI>allow the system to put the new thread in a <U>default</U> group or 
+        <LI>you can explicitly <U>set</U> the new thread's group. </LI></UL>You 
+      <U>cannot move</U> a thread to a new group after the thread has been 
+      created. 
+      <CENTER>
+      <H3><A name="the default thread group"></A><FONT color=#ff0000>The Default 
+      Thread Group</FONT></H3></CENTER>If you <U>don't specify</U> its group in 
+      the constructor, the system places a new thread in the <U>same group as 
+      the thread that created it</U>. 
+      <P>When a Java application starts, the system creates a <B>ThreadGroup</B> 
+      named "main". 
+      <P><U>Unless specified otherwise</U>, all new threads become members of 
+      the "main" thread group. 
+      <P>This is evidenced by the output from the very first sample program in 
+      this lesson which is repeated below for convenience. We haven't discussed 
+      the format of that output yet. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><B>Thread[threadA,5,main]
+Thread[threadB,5,main]
+Thread[main,5,main]</B></PRE></TD></TR></TBODY></TABLE>When you use 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE><FONT color=#000000><TT>System.out.println(Thread.currentThread())</TT> </FONT></PRE></TD></TR></TBODY></TABLE>to 
+      display information about a thread, as was the case in the sample program, 
+      what you get is 
+      <UL>
+        <LI>the name of the thread, 
+        <LI>the priority of the thread, and 
+        <LI>the name of the group to which it belongs. </LI></UL>In the case of 
+      our sample program, all three threads belonged to the <B>main</B> group as 
+      shown above. 
+      <P>The <B>Thread</B> class provides <U>constructors</U> that you can use 
+      to <U>specify the group</U> for a thread when you instantiate it. 
+      <P>You can <U>determine the group</U> to which a thread belongs by calling 
+      its <B>getThreadGroup()</B> method. 
+      <P>Once you have that information, methods are available which allow you 
+      to <U>query the group</U> for other information such as what other threads 
+      belong to the group. 
+      <P>A great deal of capability surrounds the <B>ThreadGroup</B> class which 
+      we will not discuss here. You would be well-advised to familiarize 
+      yourself with those capabilities. 
+      <CENTER>
+      <H3><A name="synchronizing threads"></A><FONT color=#ff0000>Synchronizing 
+      Threads</FONT></H3></CENTER>Up to this point we have assumed that all the 
+      threads were running <I>asynchronously </I>and <I>independently </I>of the 
+      others. However, <U>often this is not the case</U>. 
+      <P>There will often be <U>two or more threads</U> which must <U>share the 
+      same resource</U> such as a variable or an array. 
+      <P>Typically this means that the <U>behavior</U> of the two threads 
+      <U>must be synchronized</U> so that the action of one thread won't damage 
+      the other. 
+      <CENTER>
+      <H3><A name="fairness, starvation, and deadlock"></A><FONT 
+      color=#ff0000>Fairness, Starvation, and 
+      Deadlock</FONT></H3></CENTER>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"If you write a program in which several concurrent threads are 
+            competing for resources, you must take precautions to ensure 
+            fairness. A system is <U>fair when each thread gets enough access to 
+            limited resource to make reasonable 
+      progress</U>.</TD></TR></TBODY></TABLE>Continuing with Campione and 
+      Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"A fair system prevents <I>starvation </I>and <I>deadlock</I>. 
+            Starvation occurs when one or more threads in your program is 
+            blocked from gaining access to a resource and thus cannot make 
+            progress. Deadlock is the <U>ultimate form of starvation</U>; it 
+            occurs when two or more threads are waiting on a condition that 
+            cannot be satisfied. Deadlock most often occurs when two (or more) 
+            threads are each waiting for the other(s) to do 
+        something."</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="the producer/consumer model"></A><FONT color=#ff0000>The 
+      Producer/Consumer Model</FONT></H3></CENTER>Just about every book on Java 
+      programming explains the use of <I>synchronized</I> methods using a 
+      program that implements the <I>producer/consumer </I>model. 
+      <P>In this model, one thread is a <I>producer </I>of data while another 
+      thread is a <I>consumer </I>of the same data. There is a <U>common data 
+      storage area</U> where the <I>producer </I>puts the data and the 
+      <I>consumer </I>gets it. 
+      <P>In order to prevent problems, it is necessary to prevent the 
+      <I>consumer </I>from trying to get data from the common storage area while 
+      the <I>producer </I>is putting data into the storage area. 
+      <P>It is also necessary to prevent the <I>producer </I>from trying to put 
+      data into the common storage area when the <I>consumer </I>is getting data 
+      from the storage area. 
+      <P>We will follow the lead of others and <U>illustrate thread 
+      synchronization</U> by presenting a sample program that implements the 
+      <I>producer/consumer</I> model. 
+      <P>Our sample program will use a standard FIFO <U>queue</U> as the 
+      <U>common data storage area</U>. 
+      <P>Although the source code for the queue is given, we will assume that it 
+      is generally understood by everyone, and won't spend time discussing it, 
+      other than to state that a <U>queue is a data structure commonly used in 
+      data processing where the first data element put into the structure is the 
+      first element taken out</U>. 
+      <P>Many programming textbooks describe the <U>checkout line at a 
+      supermarket</U> as a <I>queue</I> (assuming that no one cuts the line). 
+      The first person to get in line is the first person to get checked out, 
+      the next person in line checks out next, etc. 
+      <P>We will instantiate a <I>producer </I>thread which puts data into the 
+      queue, and a <I>consumer </I>thread that gets data out of the queue, one 
+      byte at a time in both cases. 
+      <P>We will cause each of the threads to <B>sleep()</B> for a random period 
+      of time between attempts to <I>put </I>or <I>get </I>data. 
+      <P>We will write a <B>QueueManager</B> class that manages the <I>putting 
+      </I>of data into the queue and the <I>getting </I>of data out of the queue 
+      in a way that <U>implements the producer/consumer model</U>. 
+      <P>You might think of the <B>QueueManager</B> as a <U>traffic cop</U> 
+      directing traffic at a busy intersection, trying to <U>prevent two cars 
+      from meeting in the middle of the intersection</U>. 
+      <P>The programming equivalent of two cars meeting in the middle of the 
+      intersection often results in a condition commonly referred to as a 
+      <I>race condition</I>. Most Java books contain example programs that 
+      illustrate <I>race conditions</I>. You would be well-advised to review one 
+      of them. 
+      <P>The <B>QueueManager</B> will use the <B>wait()</B> and <B>notify()</B> 
+      methods to prevent collisions. 
+      <P>When the queue is <U>full</U>, the <I>producer </I>will be required to 
+      <B>wait() </B>until notified by the <I>consumer </I>that space is 
+      available in the queue. 
+      <P>When the queue is <U>empty</U>, the <I>consumer </I>will be required to 
+      <B>wait()</B> until notified by the <I>producer </I>that new data is 
+      available in the queue. 
+      <P>Each time the <I>producer </I>puts a byte in the queue, it will 
+      <B>notify()</B> the <I>consumer </I>of the availability of new data, just 
+      in case the <I>consumer </I>is in a <B>wait()</B> state due to an empty 
+      queue. 
+      <P>Similarly, each time the <I>consumer </I>gets a byte from the queue, it 
+      will <B>notify()</B> the <I>producer </I>that space is now available in 
+      the queue just in case the <I>producer </I>is in the <B>wait()</B> state 
+      due to a full queue. 
+      <P>Invoking the <B>notify()</B> method has no effect if there are no 
+      threads in the <B>wait()</B> state. 
+      <P>The program is allowed to <U>run for one second</U> and then 
+      terminates. 
+      <P>The program <U>does not display the actual data flow into and out of 
+      the queue</U>. That would require several pages to reproduce. 
+      <P>Rather, the program displays a <U>message</U> whenever the <I>producer 
+      </I>finds the queue <U>full</U>, or the <I>consumer </I>finds the queue 
+      <U>empty</U>. 
+      <P>Because of the random delays between <I>get </I>and <I>put 
+      </I>attempts, the program produces a different output every time it is 
+      run. One such output is shown in the comments at the beginning of the 
+      program. 
+      <P>Note that the queue was made <U>very small</U> in order to 
+      <U>better-illustrate</U> the issues surrounding <U>full</U> and 
+      <U>empty</U> queues. 
+      <P>In a real programming situation, the queue would probably be made quite 
+      large in an attempt to <U>prevent</U> the occurrence of a <U>full 
+      queue</U> or an <U>empty queue</U>. Up to a point, with a problem of this 
+      sort, the probability of encountering a full or empty queue decreases with 
+      the overall size of the queue. 
+      <P>Our sample program follows. This program illustrates <U>synchronization 
+      of threads</U> which is an extremely <U>important</U> concept. 
+      <P>Except for the code for the Queue class, your instructor will 
+      <U>explain the operation of the program</U>. Again, it is assumed that all 
+      students in the class understand the operation of a standard FIFO queue. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File Synch01.java  Copyright 1997, R.G.Baldwin
+This program illustrates the Producer/Consumer model using
+wait() and notify()
+  
+Tested using JDK 1.1.3 under Win95.  
+
+The output for one particular run of the program was:
+<B>Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue full, waiting
+Queue full, waiting
+Queue full, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Queue empty, waiting
+Terminating Consumer run method
+Terminating Producer run method
+
+
+</B>**********************************************************/
+
+class Synch01{
+  //Instantiate a class object named QueueManager which 
+  // will manage the producer/consumer model.
+  static QueueManager queueManager =<B> new QueueManager()</B>;
+  
+  //used to tell the threads to terminate
+  static boolean <B>running = true</B>;
+  
+  public static void main(String[] args){
+    //instantiate and start two threads
+ <B>   Thread producer = new Producer();
+    Thread consumer = new Consumer();
+    producer.start();    
+    consumer.start();
+</B>    
+    try{ //delay two seconds
+      Thread.currentThread().sleep(2000);
+    }catch(InterruptedException e){};
+
+    running = false;//signal the threads to terminate
+  }//end main
+
+}//end class Synch01
+//=======================================================//
+
+class <B>Producer extends Thread</B> { //producer thread
+  public void run() { //run method for Producer thread
+    byte byteToStore; //used to store data to be enqueued
+      
+    //Loop until running goes false
+    while (Synch01.running){
+      //get a data byte
+      byteToStore = (byte)(Math.random()*128);
+      //Invoke the synchronized method to put the byte 
+      // in the queue        
+      <B>Synch01.queueManager.putByteInQueue(byteToStore)</B>;
+      //delay a random period of time
+      try{ 
+        Thread.currentThread().sleep(
+                                (int)(Math.random()*100));
+      }catch(InterruptedException e){};        
+    }//end while statement
+    System.out.println("Terminating Producer run method");
+  }//end run method
+}//end class producer  
+//=======================================================//
+
+class <B>Consumer extends Thread </B>{ //consumer thread
+  public void run() { //run method for Consumer thread
+
+    //used to store the data read from the queue
+    byte dataFromQueue; 
+    
+    //Loop until running goes false
+    while (Synch01.running) {
+      //Invoke the synchronized method to get a byte 
+      // from the queue        
+      dataFromQueue = 
+                  <B>Synch01.queueManager.getByteFromQueue()</B>;
+                  
+      //delay a random amount of time              
+      try{ 
+        Thread.currentThread().sleep(
+                                (int)(Math.random()*100));
+      }catch(InterruptedException e){};        
+    }//end while statement
+    System.out.println("Terminating Consumer run method");
+  }//end run method
+}//end class consumer  
+//=======================================================//
+
+//This class implements the Producer/Consumer model by 
+// managing a queue as a shared resource.  
+class <B>QueueManager</B>{
+  Queue queue;
+//-------------------------------------------------------//
+  
+  QueueManager(){//constructor
+    queue = new Queue();//instantiate a queue object
+  }//end constructor
+//-------------------------------------------------------//
+
+  synchronized void <B>putByteInQueue(byte</B> incomingByte){
+    //This synchronized method places a byte in the queue
+    // If the queue is full, wait(). If still full when 
+    // wait() terminates, wait again. Called by the 
+    // producer thread to put a byte in the queue.
+    try{
+      while(queue.isFull()){
+        System.out.println("Queue full, waiting");
+        <B>wait</B>();
+      }//end while loop
+    }catch (InterruptedException E){
+      System.out.println("InterruptedException: " + E);
+    }//end catch block
+
+    //put the byte into the queue
+    <B>queue.enQueue(incomingByte)</B>;
+
+    //wake up getByteFromQueue() if it has invoked wait().
+    <B>notify</B>();
+  }//end method putByteInQueue()
+  //-----------------------------------------------------//
+
+  public synchronized byte <B>getByteFromQueue</B>(){
+    //This synchronized method removes a byte from the 
+    // queue. If the queue is empty, wait(). If still 
+    // empty when wait() terminates, wait again. Called by
+    // consumer thread to get a byte from the queue
+    try{
+      while(queue.isEmpty()){
+        System.out.println("Queue empty, waiting");
+        <B>wait</B>();
+      }// end while
+    }catch (InterruptedException E){
+      System.out.println("InterruptedException: " + E);
+    }//end catch block
+    
+    //get the byte from the queue
+    <B>byte data = queue.deQueue()</B>;
+
+    //wake up putByteInQueue() if it has invoked wait().
+    <B>notify</B>();
+    return <B>data</B>;
+  }//end getByteFromQueue()
+  
+}//end class QueueManager  
+//=======================================================//
+
+//This is a standard FIFO queue class.
+class Queue{
+    //constant defining maximum queue size
+    static final int MAXQUEUE = 4;
+    byte[] queue = new byte[MAXQUEUE];
+    int front, rear;
+    
+    Queue(){//constructor
+      front = rear = 0;
+    }//end constructor
+    
+    void enQueue(byte item){
+      queue[rear] = item;
+      rear = next(rear);
+    }//end method enQueue
+    
+    byte deQueue(){
+      byte temp = queue[front];
+      front = next(front);
+      return temp;
+    }//end method deQueue
+
+    boolean isEmpty(){
+      return front == rear;
+    }//end isEmpty
+    
+    boolean isFull(){
+      return (next(rear) == front);
+    }//end isFull
+    
+    int next(int index){
+      return (index+1 &lt; MAXQUEUE ? index+1 : 0);
+    }//end next
+
+}//end Queue class
+//=======================================================//</PRE></TD></TR></TBODY></TABLE>. 
+
+      <P>We will also be discussing parts of this program throughout the 
+      remainder of this lesson. 
+      <CENTER>
+      <H3><A name=monitors></A><FONT 
+      color=#ff0000>Monitors</FONT></H3></CENTER>There is a long-standing 
+      computer science concept known as a <I>monitor</I> as described below. 
+      <P>Objects such as the queue in the above example that are shared between 
+      threads and whose access must be synchronized are known as <I>condition 
+      variables</I>. 
+      <P>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The Java language and runtime system support thread 
+            synchronization through the use of <I>monitors</I>, which were first 
+            outlined in C. A. R. Hoare's article Communicating Sequential 
+            Processes (Communications of the ACM, Vol. 21, No. 8, August 1978, 
+            pp. 666-677). In general, a monitor is associated with a specific 
+            data item (a <I>condition variable</I>) and functions as a 
+            <U>lock</U> on that data. When a thread holds the monitor for some 
+            data item, other threads are <U>locked out</U> and cannot inspect or 
+            modify the data."</TD></TR></TBODY></TABLE>If two or more threads have 
+      code that access the same data, that code is known as a <I>critical 
+      section.</I> In Java, you use the <I>synchronized</I> keyword to <U>mark 
+      critical sections of code</U>. 
+      <P>You will <U>usually mark entire methods</U> as critical sections using 
+      the <I>synchronized</I> keyword. It is also possible to mark smaller code 
+      segments as synchronized. 
+      <P>However, according to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"this violates object-oriented paradigms and leads to confusing 
+            code that is difficult to debug and maintain. For the majority of 
+            your Java programming purposes, it's best to use <I>synchronized 
+            </I>only at the method level."</TD></TR></TBODY></TABLE>A <U>unique 
+      monitor</U> is associated with <U>every object</U> that has a 
+      <U>synchronized method</U>. 
+      <P>Had we instantiated <U>more than one object</U> of the QueueManager 
+      class, <U>every object</U> of that class would have had its <U>own unique 
+      monitor</U>. 
+      <P>There is a very important point that is explained in the book, <U>Java 
+      Primer Plus</U> by Tyma, Torok, and Downing, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"Each object has only one lock. Therefore, if an object has 
+            three synchronized methods, a thread entering any of the methods 
+            will set the lock. After that, <U>no thread can enter any of the 
+            synchronized methods</U> until the first exits the method it was 
+            executing and frees the lock."</TD></TR></TBODY></TABLE>They caution that 
+      because of this, you will want to be very careful as to how you group 
+      synchronized methods in classes. You should not put two or more 
+      synchronized methods in the same class unless it is acceptable for all of 
+      them to be locked whenever a thread enters any one of them. 
+      <P>They also point out that <I>static</I> methods can be synchronized, and 
+      <I>static</I> methods use the lock <U>belonging to the class</U> rather 
+      than a lock belonging to any particular object. 
+      <P>To summarize, when <U>control enters</U> a synchronized method, the 
+      <U>thread</U> that called the method <U>acquires the lock</U> on the 
+      object. Other threads <U>cannot invoke any synchronized method</U> on the 
+      <U>same object</U> until the lock is released. 
+      <P>In our sample program, when the <I>producer </I>invokes the 
+      <B>putByteInQueue()</B> method to put data into the queue, this <U>locks 
+      the queue</U> and prevents the <I>consumer </I>from being able to invoke 
+      the <B>getByteFromQueue()</B> method to get data from the queue. 
+      <P>In our case, this is what we want to happen so having both methods in 
+      the same object with a common lock meets our requirements. 
+      <P>If a thread has a lock on an object and invokes the <B>wait()</B> 
+      method, the lock is <U>temporarily released</U> thereby allowing another 
+      thread to gain access to the object. 
+      <P>In our example, the <I>producer </I>invokes <B>wait()</B> on a <U>full 
+      queue</U>, temporarily releasing the lock and allowing access by the 
+      <I>consumer </I>(who will get a byte to make it <I>not full</I>). 
+      <P>Also in our example, the <I>consumer </I>invokes <B>wait()</B> on an 
+      <U>empty queue</U>, temporarily releasing the lock to allow access by the 
+      <I>producer </I>(who will put a byte into the queue to make it <I>not 
+      empty</I>). 
+      <P>During normal <I>(non-full)</I> operation, when the <B>putByteInQueue() 
+      </B>method returns, the <I>producer </I>releases the lock on the queue. 
+      <P>When the <I>consumer </I>calls the <B>getByteFromQueue() </B>method, 
+      the <I>consumer</I> acquires a lock on the queue preventing the 
+      <I>producer</I> from calling the <B>putByteInQueue()</B> method. 
+      <CENTER>
+      <H3><A name="java monitors are re-entrant"></A><FONT color=#ff0000>Java 
+      Monitors Are Re-entrant</FONT></H3></CENTER>According to Campione and 
+      Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The Java runtime system allows a thread to re-acquire a monitor 
+            that it already holds because Java monitors are re-entrant. 
+            Re-entrant monitors are important because they eliminate the 
+            possibility of a single thread deadlocking itself on a monitor that 
+            it already holds."</TD></TR></TBODY></TABLE>They also provide an example 
+      program which illustrates the value of this feature if you are interested 
+      in pursuing it further. 
+      <CENTER>
+      <H3><A name="the notify() and wait() methods"></A><FONT color=#ff0000>The 
+      notify() and wait() Methods</FONT></H3></CENTER>The sample program uses 
+      the <B>notify()</B> and <B>wait()</B> methods of the <B>Object</B> class 
+      to <U>coordinate the activities</U> of the <I>producer </I>and the 
+      <I>consumer</I>. 
+      <P>The <B>QueueManager</B> uses <B>notify()</B> and <B>wait()</B> to 
+      <U>prevent collisions</U> in the attempts of the <I>producer</I> to put 
+      data into the queue, and the attempts of the <I>consumer</I> to get data 
+      from the queue. 
+      <P>Only the <I>producer</I> or the <I>consumer</I> <U>but not both</U> is 
+      allowed to access the queue at any given time. That is the essence of a 
+      <I>monitor</I>. Only one thread can be in a <I>monitor</I> at any given 
+      time. 
+      <P>The <B>notify()</B> and <B>wait()</B> methods are members of the 
+      <B>java.lang.Object</B> class. 
+      <P>These methods can be invoked <U>only</U> from within a <I>synchronized 
+      method</I> or within a <I>synchronized block or statement.</I> 
+      <CENTER>
+      <H3><A name="the notify() method"></A><FONT color=#ff0000>The notify() 
+      method</FONT></H3></CENTER>The <B>getByteFromQueue()</B> method calls 
+      <B>notify()</B> at the end of the method. 
+      <P>The <B>notify()</B> method chooses a <I>waiting</I> thread and wakes it 
+      up. 
+      <P>In the case of our sample program, the <I>consumer</I> holds the lock 
+      on the queue during the execution of the <B>getByteFromQueue()</B> method. 
+      Immediately before termination, the <B>getByteFromQueue() </B>method call 
+      <B>notify()</B> to wake up the <I>producer </I>if it is <I>waiting</I>. If 
+      it is not waiting, the call to <B>notify()</B> is simply ignored. 
+      <P>As an aside, according to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"If multiple threads are waiting for a monitor, the Java runtime 
+            system chooses one of the waiting threads, <U>making no commitments 
+            or guarantees</U> about which thread will be 
+      chosen."</TD></TR></TBODY></TABLE>Similarly, the <I>producer</I> holds the 
+      lock on the queue during the execution of the <B>putByteInQueue()</B> 
+      method which calls <B>notify() </B>before it terminates to wake up the 
+      <I>consumer</I> if it is waiting. 
+      <P>According to Campione and Walrath, 
+      <TABLE bgColor=#80ffff border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD>"The <B>Object </B>class has another method -- notifyAll() -- 
+            that wakes up all the threads waiting on the same monitor. In this 
+            situation, the awakened threads compete for the monitor. One thread 
+            gets the monitor and the others go back to waiting. 
+      "</TD></TR></TBODY></TABLE>. 
+      <CENTER>
+      <H3><A name="the wait() method"></A><FONT color=#ff0000>The wait() 
+      Method</FONT></H3></CENTER>You can use <B>wait()</B> and <B>notify()</B> 
+      to coordinate the activities of multiple threads using the same resources. 
+
+      <P>The <B>wait()</B> method causes the current thread to wait until 
+      another thread notifies it of a <I>condition change</I>. 
+      <P>In our program, if the <B>getByteFromQueue() </B>method finds the queue 
+      empty, it 
+      <UL>
+        <LI>invokes the <B>wait()</B> method, 
+        <LI>releases its lock on the queue, and 
+        <LI>waits for the <B>putByteInQueue()</B> method to invoke 
+        <B>notify()</B> to wake it up. </LI></UL>Releasing the lock allows the 
+      <B>putByteInQueue()</B> method to put a new byte in the queue making it 
+      <I>no longer empty</I>. <B>putByteInQueue()</B> then invokes <B>notify() 
+      </B>to awaken <B>getByteFromQueue()</B>. 
+      <P>Similarly, if the <B>putByteInQueue</B> method finds the queue full, it 
+
+      <UL>
+        <LI>invokes the <B>wait()</B> method, 
+        <LI>releases its lock on the queue, and 
+        <LI>waits for the <B>getByteFromQueue()</B> method to invoke the 
+        <B>notify()</B> method. </LI></UL>Releasing the lock allows the 
+      <B>getByteFromQueue()</B> method to get a byte from the queue, making it 
+      <I>no longer full</I>. <B>getByteFromQueue()</B> then invokes <B>notify() 
+      </B>to awaken <B>putByteInQueue()</B>. 
+      <P>When a thread enters the <B>wait()</B> method the <U>monitor is 
+      released</U>, and when the thread exits the <B>wait()</B> method, the 
+      <U>monitor is acquired again</U>. 
+      <P>In our example, this gives the other thread an opportunity to 
+      <U>acquire the lock</U> on the queue and <U>correct the problem</U> which 
+      caused the first thread to enter the <B>wait()</B> method (<I>full 
+      </I>queue or <I>empty </I>queue) in the first place. 
+      <CENTER>
+      <H3><A name="other versions of the wait() method"></A><FONT 
+      color=#ff0000>Other Versions of the wait() method</FONT></H3></CENTER>The 
+      Object class contains two other versions of the wait() method which wake 
+      up automatically (do not wait indefinitely for notification): 
+      <UL>
+        <LI><B>wait(long timeout)</B> waits for notification or until the 
+        timeout period has elapsed--timeout is measured in milliseconds. 
+        <LI><B>wait(long timeout, int nanos)</B> waits for notification or until 
+        timeout milliseconds plus nanos nanoseconds have elapsed. </LI></UL>
+      <CENTER>
+      <H3><A name=deadlock></A><FONT 
+      color=#ff0000>Deadlock</FONT></H3></CENTER>Despite all of this, it is 
+      possible to have programs that become <I>deadlocked</I> when each thread 
+      is waiting on a resource that cannot become available. 
+      <P>The simplest form of deadlock is when two threads are each waiting on a 
+      resource that is locked by the other thread. 
+      <P>Campione and Walrath provide a good explanation of a classic deadlock 
+      situation commonly called the <I>Dining Philosophers</I> along with some 
+      suggestions as to how to prevent deadlock. You are encouraged to study 
+      that material. The on-line version includes an applet that allows you to 
+      experiment with certain parameters that impact the potential for deadlock. 
+
+      <CENTER>
+      <H2><A name=review></A><FONT color=#ff0000>Review</FONT></H2></CENTER>Q - 
+      What is the definition of multi-threaded programming according to Patrick 
+      Naughton? 
+      <P><FONT color=#0000ff><FONT size=-1>A - According to <U>The Java 
+      Handbook</U>, by Patrick Naughton,</FONT></FONT> 
+      <P><FONT color=#0000ff><FONT size=-1>"Multi-threaded programming is a 
+      conceptual paradigm for programming where you divide programs into <U>two 
+      or more processes</U> which can be <U>run in parallel</U>."</FONT></FONT> 
+      <P><I>Q - Multithreading </I>refers to two or more programs executing, 
+      "apparently" concurrently, under control of the operating system. The 
+      programs need have no relationship with each other, other than the fact 
+      that you want to start and run them all concurrently. True or False? If 
+      false, explain why. 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. That is a description of 
+      <I>multiprocessing</I>, not <I>multithreading</I>. <I>Multithreading</I> 
+      refers to <U>two or more tasks</U> executing, "apparently" concurrently, 
+      <U>within a single program</U>.</FONT></FONT> 
+      <P>Q - According to current terminology, the term <I>blocked</I> means 
+      that the thread is waiting for something to happen and is not consuming 
+      computer resources. True or False? If false, explain why. 
+      <P><FONT color=#0000ff><FONT size=-1>A - True.</FONT></FONT> 
+      <P>Q - What are the two ways to create threaded programs in Java? 
+      <P><FONT color=#0000ff><FONT size=-1>A - In Java, there are <U>two 
+      ways</U> to create threaded programs:</FONT></FONT> 
+      <UL>
+        <LI><FONT color=#0000ff><FONT size=-1><I>Implement</I> the 
+        <B>Runnable</B> interface</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1><I>Extend</I> the <B>Thread</B> 
+        class</FONT></FONT> </LI></UL>Q - What two steps are required to spawn a 
+      thread in Java? 
+      <P><FONT color=#0000ff><FONT size=-1>A - The two steps necessary to 
+      <I>spawn</I> a thread in Java are:</FONT></FONT> 
+      <UL>
+        <LI><FONT color=#0000ff><FONT size=-1>instantiate an object of type 
+        <B>Thread</B> and</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>invoke its <B>run()</B> 
+        method.</FONT></FONT> </LI></UL>Q - How do you start a thread actually 
+      running in Java? 
+      <P><FONT color=#0000ff><FONT size=-1>A - Invoke the <B>start()</B> method 
+      on object of the <B>Thread </B>class or of a subclass of the <B>Thread 
+      </B>class.</FONT></FONT> 
+      <P>Q - It is always possible to extend the <B>Thread</B> class in your 
+      Java applications and applets. True or False? If false, explain why. 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. Sometimes it is <U>not 
+      possible to <I>extend</I></U><I> </I>the <B>Thread</B> class, because you 
+      must <I>extend </I>some other class and Java does not support multiple 
+      inheritance.</FONT></FONT> 
+      <P>Q - Although multithreaded programming in Java is possible, it is also 
+      possible to write Java programs that do not involve threads: True or 
+      False? If false, explain why. 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. The <B>main</B> method 
+      itself runs in a thread which is started by the interpreter.</FONT></FONT> 
+
+      <P>Q - What is the name of the method that can be used to determine if a 
+      thread is alive? 
+      <P><FONT color=#0000ff><FONT size=-1>A - The name of the method is 
+      <B>isAlive()</B>.</FONT></FONT> 
+      <P><FONT color=#000000>Q - Once you start two or more threads running, 
+      unless you specify otherwise, they run synchronously and independently of 
+      one another: True or False? If false, explain why.</FONT> 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. Once you start two or more 
+      threads running, unless you specify otherwise, they run 
+      <U>asynchronously</U> and independently of one another.</FONT></FONT> 
+      <P><FONT color=#000000>Q - The process of keeping one thread from 
+      corrupting the data while it is being processed by another thread is known 
+      as synchronization: True or False? If false, explain why.</FONT> 
+      <P><FONT color=#0000ff><FONT size=-1>A - True.</FONT></FONT> 
+      <P><FONT color=#000000>Q - Java allows you to specify the absolute 
+      priority of each thread: True or False? If false, explain why.</FONT> 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. Java allows you to specify 
+      the priority of each thread <U>relative to other threads</U> but not on an 
+      absolute basis.</FONT></FONT> 
+      <P><FONT color=#000000>Q - Thread synchronization can be achieved using 
+      <B>wait()</B>, <B>notify()</B>, and <B>notifyAll()</B> which are methods 
+      of the <B>Thread</B> class: True or False? If false, explain why.</FONT> 
+      <P><FONT color=#0000ff><FONT size=-1>A - False. <B>wait()</B>, 
+      <B>notify()</B>, and <B>notifyAll()</B> are not methods of the 
+      <B>Thread</B> class, but rather are methods of the <B>Object</B> 
+      class.</FONT></FONT> 
+      <P>Q - When you implement a threaded program, you will always <I>override 
+      </I>the _____________ method of the <B>Thread</B> class and build the 
+      functionality of your threaded program into that method. What is the name 
+      of the method? 
+      <P><FONT color=#0000ff><FONT size=-1>A - The <B>run()</B> 
+      method.</FONT></FONT> 
+      <P>Q - In a multithreaded program, you will start a thread running by 
+      invoking the __________ method on your <B>Thread</B> object which will in 
+      turn invoke the ___________ method. What are the names of the missing 
+      methods, and what are the required parameters for each method? 
+      <P><FONT color=#0000ff><FONT size=-1>A - In a multithreaded program, you 
+      will start a thread running by invoking the <B><U>start()</U></B> method 
+      on your <B>Thread</B> object which will in turn invoke the 
+      <B><U>run()</U></B> method. Neither method takes any 
+      parameters.</FONT></FONT> 
+      <P>Q - What do Campione and Walrath list as the four possible states of a 
+      thread? 
+      <P><FONT color=#0000ff><FONT size=-1>A - Campione and Walrath list the 
+      following possible states for a thread:</FONT></FONT> 
+      <UL>
+        <LI><FONT color=#0000ff><FONT size=-1>New Thread</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>Runnable</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>Not Runnable</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>Dead</FONT></FONT> </LI></UL>Q - 
+      What methods can be invoked on a thread object which is in the state that 
+      Campione and Walrath refer to as a <I>New Thread</I> and what will happen 
+      if you invoke any other method on the thread? 
+      <P><FONT color=#0000ff><FONT size=-1>A - When a thread is in this state, 
+      you can only start the thread or stop it. Calling any method other than 
+      <B>start()</B> or <B>stop()</B> will cause an 
+      <B>IllegalThreadStateException</B>.</FONT></FONT> 
+      <P>Q - What, according to Campione and Walrath, will cause a thread to 
+      become <B>Not Runnable</B>? 
+      <P><FONT color=#0000ff><FONT size=-1>A - According to Campione and 
+      Walrath, a thread becomes <B>Not Runnable</B> when one of the following 
+      four events occurs:</FONT></FONT> 
+      <UL>
+        <LI><FONT color=#0000ff><FONT size=-1>Someone invokes its <B>sleep()</B> 
+        method.</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>Someone invokes its 
+        <B>suspend()</B> method.</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>The thread uses its <B>wait()</B> 
+        method to wait on a <I>condition variable</I>.</FONT></FONT> 
+        <LI><FONT color=#0000ff><FONT size=-1>The thread is <B><I>blocking 
+        </I></B>on I/O.</FONT></FONT> </LI></UL>Q - Write a program that meets the 
+      following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg104.java from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates the instantiation and running 
+of two threads by implementing the runnable interface (as
+opposed to extending the Thread class).
+
+Use a version of constructor that allows you to specify
+a name for the new thread.
+
+The output displays information about the running threads
+and should be similar to the following:
+  
+Thread[threadA,5,main]
+Thread[threadB,5,main]
+Thread[main,5,main]
+===========================================================
+*/
+
+class SampProg104{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+    Thread threadA = new Thread(new MyThread(),"threadA");
+    Thread threadB = new Thread(new MyThread(),"threadB");
+
+    //Start them running
+    threadA.start();
+    threadB.start();
+    
+    try{
+      Thread.currentThread().sleep(1000);//delay one second
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread());        
+
+    //stop the two threads which were started above
+    threadA.stop();
+    threadB.stop();
+  }//end main
+}//end class SampProg104
+
+class MyThread implements Runnable{
+  public void run(){//override run method
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>Q - Write a program 
+      that meets the following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg105.java  from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates the instantiation and running 
+of two threads by extending the Thread class (as opposed
+to implementing the Runnable class).
+
+Use a version of constructor that allows you to specify
+a name for the new thread.
+
+The output should display information about the running
+threads and should be similar to the following:
+  
+Thread[threadA,5,main]
+Thread[threadB,5,main]
+Thread[main,5,main]
+===========================================================
+*/
+
+class SampProg105{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+    Thread threadA = new Thread(new MyThread(),"threadA");
+    Thread threadB = new Thread(new MyThread(),"threadB");
+
+    //Start them running
+    threadA.start();
+    threadB.start();
+    
+    try{
+      Thread.currentThread().sleep(1000);//delay one second
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread());        
+
+    //stop the two threads which were started above
+    threadA.stop();
+    threadB.stop();
+  }//end main
+}//end class SampProg105
+
+class MyThread extends Thread{
+  public void run(){//override run method
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>Q - Write a program 
+      that meets the following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg106.java from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates the instantiation and running
+of two threads by extending the Thread class.
+
+Use a version of the thread constructor that doesn't
+take any arguments.
+
+The output should be similar to the following:
+Thread[Thread-1,5,main]
+Thread[Thread-2,5,main]
+Thread[main,5,main]
+===========================================================
+*/
+
+class SampProg106{
+  static public void main(String[] args){
+    //Instantiate two new thread objects
+    Thread threadA = new MyThread();
+    Thread threadB = new MyThread();
+
+    //Start them running
+    threadA.start();
+    threadB.start();
+    
+    try{
+      Thread.currentThread().sleep(1000);//delay one second
+    }catch(InterruptedException e){}
+
+    //Display info about the main thread    
+    System.out.println(Thread.currentThread());        
+
+    //stop the two threads which were started above
+    threadA.stop();
+    threadB.stop();
+  }//end main
+}//end class SampProg106
+
+class MyThread extends Thread{
+  public void run(){
+    //Display info about this particular thread
+    System.out.println(Thread.currentThread());
+  }//end run
+}//end class MyThread</PRE></TD></TR></TBODY></TABLE>Q - Write a program 
+      that meets the following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg107.java from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates the instantiation and running 
+of two threads using the runnable interface.  Cause each of
+two threads to count from zero to four, displaying the 
+count, and sleeping a random amount of time between counts.
+
+The output should be similar to the following:
+
+Thread[thrdA,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 1
+Thread[threadB,5,main] cnt is 2
+Thread[thrdA,5,main] cnt is 1
+Thread[thrdA,5,main] cnt is 2
+Thread[threadB,5,main] cnt is 3
+Thread[thrdA,5,main] cnt is 3
+Thread[threadB,5,main] cnt is 4
+Thread[thrdA,5,main] cnt is 4
+===========================================================
+*/
+
+class SampProg107{
+  static public void main(String[] args){
+    //Instantiate two new thread objects with names of 
+    // different lengths which helps when viewing the 
+    // output.
+    Thread threadA = new Thread(new MyThread(),"thrdA");
+    Thread threadB = new Thread(new MyThread(),"threadB");
+
+    //Start them running
+    threadA.start();
+    threadB.start();
+    
+    try{
+      Thread.currentThread().sleep(1000);//delay one second
+    }catch(InterruptedException e){}
+
+    //stop the two threads which were started above
+    threadA.stop();
+    threadB.stop();
+  }//end main
+}//end class SampProg107
+
+
+class MyThread implements Runnable{
+  public void run(){//override the run method
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println(Thread.currentThread() 
+        + " cnt is " + cnt);
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+          (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class MyThread
+//end program</PRE></TD></TR></TBODY></TABLE>Q - Write a program that 
+      meets the following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg108.java from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates the instantiation and running
+of four different threads using the runnable interface 
+where two different thread classes are defined each of 
+which uses the Runnable interface.  The run() method in one
+class is different from the run() method in the other 
+class.
+
+Two Thread objects are instantiated and started for each of
+the two thread classes, resulting in four different threads
+running.
+
+Each of the threads counts from zero to four and displays 
+the count, sleeping a random amount of time between counts.
+Make the format of the display different between the two 
+thread classes.
+
+The output should be similar to the following:
+  
+
+Thread[thrdA,5,main] cnt is 0
+Thread[threadB,5,main] cnt is 0
+The actual cnt is 0 Thread[Xthrd,5,main]
+The actual cnt is 0 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 1
+Thread[threadB,5,main] cnt is 1
+Thread[thrdA,5,main] cnt is 2
+The actual cnt is 1 Thread[Ythread,5,main]
+The actual cnt is 1 Thread[Xthrd,5,main]
+Thread[threadB,5,main] cnt is 2
+The actual cnt is 2 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 3
+The actual cnt is 3 Thread[Ythread,5,main]
+Thread[thrdA,5,main] cnt is 4
+The actual cnt is 2 Thread[Xthrd,5,main]
+The actual cnt is 4 Thread[Ythread,5,main]
+Thread[threadB,5,main] cnt is 3
+The actual cnt is 3 Thread[Xthrd,5,main]
+The actual cnt is 4 Thread[Xthrd,5,main]
+Thread[threadB,5,main] cnt is 4
+===========================================================
+*/
+
+class SampProg108{
+  static public void main(String[] args){
+    //Instantiate two new thread objects of one type
+    Thread threadA = new Thread(
+      new OneThreadClass(),"thrdA");
+    Thread threadB = new Thread(
+      new OneThreadClass(),"threadB");
+    
+    //Instantiate two new thread objects on another type
+    Thread Xthread = new Thread(
+      new AnotherThreadClass(),"Xthrd");
+    Thread Ythread = new Thread(
+      new AnotherThreadClass(),"Ythread");    
+
+    //Start them running
+    threadA.start();
+    threadB.start();
+    Xthread.start();
+    Ythread.start();
+    
+    try{
+      Thread.currentThread().sleep(1000);//delay one second
+    }catch(InterruptedException e){}
+
+    //stop the four threads which were started above
+    threadA.stop();
+    threadB.stop();
+    Xthread.stop();
+    Ythread.stop();
+  }//end main
+}//end class SampProg108
+
+
+class OneThreadClass implements Runnable{
+  public void run(){
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println(Thread.currentThread() 
+        + " cnt is " + cnt);
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+          (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class OneThreadClass
+
+class AnotherThreadClass implements Runnable{
+  public void run(){
+    for(int cnt = 0; cnt &lt; 5; cnt++){
+      System.out.println("The actual cnt is " 
+        + cnt + " " + Thread.currentThread());
+      try{//delay a random amount of time
+        Thread.currentThread().sleep(
+          (int)(Math.random() * 100));
+      }catch(InterruptedException e){}
+    }//end for-loop
+  }//end run
+}//end class AnotherThreadClass
+//end program</PRE></TD></TR></TBODY></TABLE>Q - Write a program that 
+      meets the following specifications. 
+      <TABLE bgColor=#ffff80 border=1 width=480>
+        <TBODY>
+        <TR>
+          <TD><PRE>/*File SampProg109.java from lesson 58
+Copyright 1997, R.G.Baldwin
+Without viewing the solution that follows, write a Java
+application that illustrates thread synchronization by
+implementing the Producer/Consumer model using wait() 
+and notify().
+
+Then view the following solution and compare it with your
+solution to confirm that you have properly synchronized
+your threads using the Producer/Consumer model.
+
+**********************************************************/
+
+class SampProg109{
+  //instantiate a class object named QueueManager which 
+  // will manage the producer/consumer model.
+  static QueueManager queueManager = new QueueManager();
+  //Following variable is used later to to tell the 
+  // threads to terminate
+  static boolean running = true;
+  
+  public static void main(String[] args){
+    //instantiate and start two threads
+    Thread producer = new Producer();
+    Thread consumer = new Consumer();
+    producer.start();    
+    consumer.start();
+    
+    try{ 
+      Thread.currentThread().sleep(2000);//delay two sec
+    }catch(InterruptedException e){};
+
+    running = false;//signal the threads to terminate
+    
+  }//end main
+
+}//end class SampProg109
+//========================================================
+
+class Producer extends Thread { //producer thread
+  public void run() { //override run method 
+    byte byteToStore; //used to store data to be enqueued
+    //loop until running goes false
+    while (SampProg109.running) {
+      byteToStore = (byte)(Math.random()*128);//get data
+      //Invoke the synchronized method to put the byte 
+      // in the queue        
+      SampProg109.queueManager.putByteInQueue(
+        byteToStore);
+      //delay a random period of time
+      try{ 
+        Thread.currentThread().sleep(
+          (int)(Math.random()*100));
+      }catch(InterruptedException e){};
+    }//end while statement
+    System.out.println(
+      "Terminating Producer run method");
+  }//end run method
+}//end class producer  
+//=========================================================
+
+class Consumer extends Thread { //consumer thread
+  public void run() { //override run method
+    //Variable used to store the data read from the queue
+    byte dataFromQueue; 
+    //loop until running goes false 
+    while (SampProg109.running) {            
+      //Invoke the synchronized method to get a byte from
+      // the queue        
+      dataFromQueue = 
+        SampProg109.queueManager.getByteFromQueue();
+      //delay a random amount of time
+      try{ Thread.currentThread().sleep(
+        (int)(Math.random()*100));
+      }catch(InterruptedException e){};
+    }//end while statement
+    System.out.println("Terminating Consumer run method");
+  }//end run method
+}//end class consumer  
+//=========================================================
+
+//This class implements the Producer/Consumer model by 
+// managing a queue as a shared resource.  
+class QueueManager{
+  Queue queue;
+ 
+  QueueManager(){//constructor
+    queue = new Queue();//instantiate a queue object
+  }//end constructor
+
+  synchronized void putByteInQueue(byte incomingByte){
+    //This synchronized method places a byte in the queue
+    // If the queue is full, wait(). If still full when 
+    // wait() terminates, wait again. Called by the 
+    // producer thread to put a byte in the queue.
+    try{
+      while(queue.isFull()){
+        System.out.println("Queue full, waiting");
+        wait();
+      }//end while loop
+    }catch (InterruptedException E){
+      System.out.println("InterruptedException: " + E);
+    }//end catch
+    //put the byte into the queue
+    queue.enQueue(incomingByte);
+    
+    //Wake up getByteFromQueue() if it has invoked wait().
+    notify();
+  }//end method putByteInQueue()
+//--------------------------------
+  public synchronized byte getByteFromQueue(){
+    //This synchronized method removes a byte from the 
+    // queue. If the queue is empty, wait(). If still 
+    // empty when wait() terminates, wait again. Called by
+    // consumer thread to get a byte from the queue
+    try{
+      while(queue.isEmpty()){
+        System.out.println("Queue empty, waiting");
+        wait();
+      }// end while
+    }catch (InterruptedException E){
+      System.out.println("InterruptedException: " + E);
+    }//end catch
+    
+    //get the byte from the queue
+    byte data = queue.deQueue();
+    
+    //Wake up putByteInQueue() if it has invoked wait().
+    notify();
+    return data;
+  }//end getByteFromQueue()
+}//end class QueueManager  
+//=========================================================
+
+//This is a standard FIFO queue class.
+class Queue{
+  //constant defining maximum queue size
+  static final int MAXQUEUE = 4;
+  byte[] queue = new byte[MAXQUEUE];
+  int front, rear;
+    
+  Queue(){//constructor
+    front = rear = 0;
+  }//end constructor
+    
+  void enQueue(byte item){
+    queue[rear] = item;
+    rear = next(rear);
+  }//end method enQueue
+   
+  byte deQueue(){
+    byte temp = queue[front];
+    front = next(front);
+    return temp;
+  }//end method deQueue
+
+  boolean isEmpty(){
+    return front == rear;
+  }//end isEmpty
+    
+  boolean isFull(){
+    return (next(rear) == front);
+  }//end isFull
+    
+  int next(int index){
+    return (index+1 &lt; MAXQUEUE ? index+1 : 0);
+  }//end next
+
+}//end Queue class
+//=========================================================
+</PRE></TD></TR></TBODY></TABLE>-end-
+      <CENTER>
+      <P>[<A 
+      href="http://www.geocities.com/Athens/7077/scoop/onjava.html">Home</A>] 
+      [<A href="http://home.att.net/~baldwin.r.g/scoop/toc.htm">Table of 
+      Contents</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/download.htm">Download this 
+      Tutorial</A>] [<A 
+      href="http://home.att.net/~baldwin.r.g/scoop/alphaindex.htm">Alphabetical 
+      Index</A>]</CENTER></P>
+      <P>
+      <HR width=300>
+
+      <P></P>
+      <P><FONT size=-2>These tutorials were developed by Richard Baldwin and are 
+      the copyrighted property of Richard Baldwin. You have permission to print 
+      one copy for your own use, but may not, without written permission from 
+      Richard Baldwin, redistribute the tutorial documents. 
+      <P></P>The base material in these lessons is believed by the author to be 
+      in the public domain. If you use these lessons for any purpose, you are 
+      using them at your own risk, and this author assumes no responsibility or 
+      liability for any damages that you may incur. </FONT>
+      <P></P>
+      <P><FONT size=-2>Java, Sun, HotJava and various other related symbols and 
+      names are registered trademarks of Sun Microsystems, Inc. Macintosh is a 
+      registered trademark of Apple Computer, Inc. OS/2 is a registered 
+      trademark of International Business Machines Corporation. Microsoft, 
+      MS-DOS, Visual Basic, Windows, Windows NT, Internet Explorer and Visual 
+      J++ are registered trademarks of Microsoft Corporation. Netscape and 
+      JavaScript are trademarks of Netscape Communications Corporation. All 
+      other trademarks and service marks that may have been inadvertently used 
+      in these lessons without proper credit being given are the property of 
+      their respective owners. If you feel that your trademark or copyright has 
+      been compromised, please notify this author immediately, and an 
+      appropriate correction to the document will be issued.</FONT></P>
+      <P>
+      <HR width=300>
+
+      <P></P>
+      <P>© 1996, 1997, 1998, 1999 Richard G. Baldwin</P>
+      <CENTER>
+      <P><A href="http://java.miningco.com/"><IMG 
+      alt="alt=The Mining Company's 'Focus on Java' Best of the Net Award border=0></a><p>" 
+      border=0 height=72 
+      src="Threads of Control - by Richard G Baldwin_files/BON_JUL.gif" 
+      width=83></A></P></CENTER><BR>
+      <CENTER><A href="http://software.pagecount.com/soft/map1/34114"><IMG isMap 
+      src="Threads of Control - by Richard G Baldwin_files/counter.gif"></A> 
+      </CENTER><BR>
+      <CENTER>
+      <P><!--LINE1--><IMG height=11 
+      src="Threads of Control - by Richard G Baldwin_files/red_thick_line_1.gif" 
+      width=300></P></CENTER></TD></TR></TBODY></TABLE></BODY></HTML>

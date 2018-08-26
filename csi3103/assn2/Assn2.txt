@@ -1,0 +1,64 @@
+CSI3103 - Fall 2000 - Assignment 2 
+CSI3103 
+Assignment 2 - October 25, 2000 
+1) NetSight Analyst is a tool for observing what is happening on an Ethernet. It 
+uses a special card attached to the PC's bus that monitors the Ethernet to which 
+it is attached in the so-called "promiscuous" mode. When operating in this mode, 
+it monitors all packets on the Ethernet that satisfy certain user-specified 
+criteria and will display their contents on the screen of the PC in a number of 
+different ways 
+It is invoked by using the special PC in the Cube, presently the one in the 
+corner, manufactured by Digital. Just turn the PC on by opening the small door 
+at the top of the tower and pushing the button. During the boot sequence you 
+will be asked to enter a password. After the password has been entered, follow 
+the instructions on the screen to start NetSight Analyst. 
+a) From the window choose the Capture Packets option. The screen will fill with 
+packet information. If you wish you can use the Filter Packets function to 
+specify which packets you wish to capture. The default is all packets. 
+b) After a few seconds press ESC to stop the capture. Select the View Captured 
+Packets option. You can scroll through the captured packets with the "up arrow" 
+and "down arrow" keys. Each packet is shown in an abbreviated form in columns 
+labeled "Frame", "Time", "Dest Address", "Src Address", and "Description" 
+c) Choose a packet with the IPX designation in the "Description" column. Press 
+ENTER to inspect it in detail. The Hex values in the packet as well as an 
+interpretation are shown on the screen. You can see the entire interpretation by 
+scrolling. 
+d) Identify all the fields you can within the packet. On a sheet of paper write 
+down the contents of the packet and the interpretation of the contents of its 
+fields. Who manufactured the source and destination NICs? 
+e) Repeat sections (3) and (4) after choosing an IP type packet. 
+f) Repeat sections (3) and (4) after choosing an ARP type packet. 
+g) When finished, return to DOS by pressing ESC and shut down the machine. 
+A help screen can be called by typing <F1>. 
+2) Suppose that an error detecting scheme using the generating polynomial, P(x) 
+= x 4 + x 3 + 1 is to be used in a data channel. 
+(a) If the message, M(x), is 00011111000 , calculate the value of the 
+transmitted message, T(x). 
+(b) Assume that the 7th bit transmitted in T(x) is in error by the time it gets 
+to the receiver. Show in detail how the detection algorithm, executed at the 
+receiver, can detect the error. 
+3) Consider an Idle RQ channel (stop-and-wait), transmitted via a low orbit 
+satellite, with the following parameters: 
+  propagation time (end to end) = 0.1 s. 
+  channel capacity = 10 7 bps 
+  bit error rate = 5 * 10 - 6 
+If you must use this channel for data transmission, you would want to set the 
+frame width (in bits) such that the channel utilization, U, is a maximum. 
+(a) Plot a graph of the channel utilization, U, vs. the frame length, L. 
+Consider only the range (1000 <= L <= 1000000) and use the semi-log graph paper 
+in the notes to plot your graph. 
+(b) What is the maximum value of U possible for this channel? 
+(c) What value of the frame length, L, gives this value? 
+(d) What is the value of the parameter, a, when U is a maximum? 
+(e) If, for some reason beyond your control, you can only use a frame width of 
+64000 bits, what is the value of U? 
+4) Consider the following bit sequence as it appears on the wire used in a bit 
+oriented protocol such as HDLC. The frame delimiters are included. 
+011111101011101011110101010011111011111010100110101000111111001... 
+If this sequence is valid, what is the actual transmitted message? 
+5) Stallings P. 224 Q. 7.2. 
+6) Stallings P. 224 Q. 7.4. 
+7) Stallings P. 224 Q. 7.21. 
+This assignment is due at 23:00 on Nov. 6, 2000.
+An assignment submitted late will still be marked but will be subject to a 
+penalty of 0.95 n where n is the number of days late. 

@@ -1,0 +1,132 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (Win98; U) [Netscape]">
+   <meta name="Author" content="Mario Marchand">
+   <title>CSI 3310/3710, Assignment 1</title>
+<!-- saved from url=(0022)http://internet.e-mail -->
+</head>
+<body bgcolor="#FFFFFF">
+
+<center>
+<h1>
+Assignment 1, a banking system</h1></center>
+
+<center>
+<hr WIDTH=70%></center>
+
+<li>
+<b>Introduction:</b></li>
+
+<ul>This assignment consists of two programming exercises. For each exercise,
+you will simulate a very simple banking system by using threads. The use
+of synchronized methods is forbidden for this assignment. Hence, some threads
+might obtain inconsistent views of the shared data.
+<p>For each exercise, please return a folder that contain all your .java
+source files for that exercise and a short text file (called discussion.txt)
+of at most one page that will discuss briefly the results obtained for
+your simulations. You must follow <font color="#FF0000">precisely </font>these <a href="..\assns.html">
+directives</a> to submit your assignment.
+<p>For the CSI 3310 class: submit your assignment to <a href="mailto:nhadibi@site.uottawa.ca">Nabila
+Hadibi</a>
+<br>For the CSI 3710 class: submit your assignment to <a href="mailto:ngorse@site.uottawa.ca">Nicolas
+Gorse</a>
+<p><b><font color="#FF0000">Due date: June 2, 2000 at 16:00. That due date
+is FIRM</font></b></ul>
+
+<li>
+<b>Exercise 1, bank accounts</b></li>
+
+<ul>Your program must provide an implementation of a bank account. Four
+persons will be using this bank account: two persons will periodically
+deposit money into the account and the other two persons will periodically
+withdraw money from the account.
+<p>Your program must contain (at least) four classes: one class for the
+account, one class for the persons making deposits, one class for the persons
+making withdrawals, and one class containing the <i>main</i> method and
+the necessary start up code.
+<p><b><i>- The Account class :</i></b>
+<ul>This class contains the actual balance (i.e. the amount remaining)
+(initialized to 500$) of that account, a method to see (or read) the actual
+balance, and methods to deposit and withdraw money. The withdraw method
+must refuse to withdraw an amount that exceeds the actual balance.</ul>
+
+<p><br><b><i>- The Provider class :</i></b>
+<ul>This class must inherit from the <i>Thread</i> class. A provider performs
+an infinite number of times the following loop. First it makes a deposit
+of a random amount (between $1 and $100) and then reads the new balance.
+Then it writes a message on the screen that indicates the amount of the
+deposit and the new balance of the account. Then it sleeps for a period
+of time (randomly chosen between 10 and 40 msec), and repeats. Example
+of a message: "Provider x has made a deposit of $36 and the new balance
+is $54".</ul>
+
+<p><br><b><i>- The Withdrawer class :</i></b>
+<ul>This class must inherit from the <i>Thread</i> class.&nbsp; A withdrawer
+performs an infinite number of times the following loop. First it examines
+the actual balance, sleeps for 20 msec, and then withdraws an amount chosen
+randomly between $1 and the actual balance. Then it reads the new balance
+and writes a message on the screen that indicates the amount of the withdrawal
+and the new balance of the account.&nbsp; Then it sleeps for a period of
+time (randomly chosen between 10 and 40 msec), and repeats. Example of
+a message: "Withdrawer x has withdrawn $21 and the new balance is $74".
+<br>&nbsp;</ul>
+This program will run forever. Type &lt;ctrl-c> to end the execution. Also,
+you can use the ">" to redirect output to a file as in:
+<p>java Ass1_1 > out.txt
+<p><b>Discussion on inconsistent views:</b> A withdrawer always attempts
+to withdraw an amount less or equal to the actual balance. Then, can it
+happen that a withdraw request be rejected? (explain) Is it possible, in
+theory, to obtain other types of inconsistent views? (If so, explain and
+give an example)</ul>
+
+<li>
+<b>Exercise 2, credit cards</b></li>
+
+<ul>Your program implements three bank accounts and a person that is the
+owner of these three bank accounts. The owner periodically transfers money
+between bank accounts. Your program also implements a credit card service
+that periodically computes the total sum of money contained in these three
+accounts and accepts to deliver a credit card to the owner if and only
+if this total sum exceeds or equals a specified amount.
+<p>Your program must (at least) contain these classes : one class for the
+accounts, one class for the owner, one class for the credit card service,
+and one class that contains the <i>main</i> method and the necessary start
+up code.
+<p><b><i>- The Account class :</i></b>
+<ul>This class contains the actual balance (i.e. the amount remaining)
+(each initialized to 100$) of an account, a method to see (or read) the
+actual balance, and methods to deposit and withdraw money. The withdraw
+method must refuse to withdraw an amount that exceeds the actual balance.
+<br>&nbsp;</ul>
+<b><i>- The Owner class :</i></b>
+<ul>This class must inherit from the <i>Thread</i> class. The owner performs
+infinitely often the following loop. First it chooses a pair (source, destination)
+of accounts randomly among the three accounts. Then it reads the balance
+of the source account. It chooses randomly an amount between $1 and the
+balance of the source account. Then it subtracts that amount from the source
+account, sleeps for 20 msec, and then add this amount to the destination
+account (to complete the transfer). After this operation it writes on the
+screen a message like this: "Owner has transferred amount $x from account
+A to account B". Then sleeps for a period of time (randomly chosen between
+10 and 40 msec), and repeats.
+<br>&nbsp;</ul>
+<b><i>- The CreditCardService class :</i></b>
+<ul>This class must inherit from the <i>Thread</i> class. The credit card
+service performs infinitely often the following loop. The service computes
+the total sum of money present in all of the owner's accounts. If this
+sum is greater or equal to $280. then it accepts to deliver a credit card
+to the owner (and indicates that fact on the screen). Otherwise, it refuses
+to deliver the credit card to the owner (and indicates that fact on the
+screen). Then sleeps for a period of time (randomly chosen between 10 and
+40 msec), and repeats.
+<br>&nbsp;</ul>
+<b>Discussion on inconsistent views:</b> The credit card service should
+always accept to deliver a credit card. Does this always happens? (explain).
+Is it possible, in theory, to obtain other types of inconsistent views?
+(If so, explain and give an example)</ul>
+
+<p><br><b>Good luck!</b>
+</body>
+</html>

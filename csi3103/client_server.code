@@ -1,0 +1,280 @@
+OBJ = udpstuff.o UDPclient.o UDPserver.o
+CC=cc
+
+UDPclient:	$(OBJ)
+	$(CC) -o UDPclient udpstuff.o UDPclient.o
+
+UDPserver:	$(OBJ)
+	$(CC) -o UDPserver udpstuff.o UDPserver.o
+
+clean:	
+	rm -f *.o *.bak
+
+==========================================================================
+
+/* This is UDPserver.c */
+
+#include <sys/types.h>
+#include <stdio.h>
+#include <netinet/in.h>         /* SIC */
+#include <sys/socket.h>
+
+#define	UNIXEPOCH	2208988800	/* UNIX epoch in UCT sec */
+
+extern	int	errno;
+extern	char	*sys_errlist[];
+
+time_t  time();
+
+/*----------------------------------------------------------------------- 
+   This is: passiveUDP
+   It creates a passive socket for use in a UDP server
+  -----------------------------------------------------------------------*/
+
+int	passiveUDP(service)
+  char	*service;
+ {
+   return passivesock(service, "udp", 0);
+ }
+
+/*-----------------------------------------------------------------------
+  main - UDP service for TIME service that prints the resulting time
+         returns nothing
+  -----------------------------------------------------------------------*/
+ 
+int	main(argc, argv)
+  int argc;
+  char *argv[];
+ {
+  struct sockaddr_in fsin;		/* client address */
+  char	*service	= "time";	/* default service */
+  char  *buf[1];			/* input buffer */
+  int sock;				/* server socket */
+  time_t	now;			/* 32 bit integer for time	*/
+  int	alen;				/* from-address length */
+
+				/* analyse arguments	*/
+
+  switch(argc) {
+  case 1: break;
+  case 2: service = argv[1]; break;
+  default: errexit("usage: UDPserver [port]\n");
+  }
+
+  sock = passiveUDP(service);
+  while (1) {
+    alen = sizeof(fsin);
+    if (recvfrom(sock, buf, sizeof(buf), 0,
+         (struct sockaddr *)&fsin, &alen) < 0)
+        errexit("recvfrom: %s\n", sys_errlist[errno]);
+    (void) time(&now);
+    now = htonl((u_long)(now + UNIXEPOCH));
+    (void) sendto(sock, (char *)&now, sizeof(now), 0,
+                    (struct sockaddr *)&fsin, sizeof(fsin));
+    }
+ }
+
+============================================================================
+
+/* This is UDPclient.c */
+
+#include <stdio.h>
+#include <sys/types.h>
+
+#define	UNIXEPOCH	2208988800	/* UNIX epoch in UCT sec */
+#define MSG		"What time is it?\n"
+
+extern	int	errno;
+extern	char	*sys_errlist[];
+
+char	*ctime();
+u_long	ntohl();
+
+/*----------------------------------------------------------------------- 
+   This is: int connectUDP(host, service)
+   This function connects a specified UDP service on a specified host
+  -----------------------------------------------------------------------*/
+
+int	connectUDP(host, service)
+  char	*host;
+  char	*service;
+ {
+   return connectsock(host, service, "udp");
+ }
+
+/*-----------------------------------------------------------------------
+  main - UDP client for TIME service that prints the resulting time
+         returns 0 if successful, 1 on failure
+  -----------------------------------------------------------------------*/
+ 
+int	main(argc, argv)
+  int argc;
+  char *argv[];
+ {
+  char	*host		= "localhost";	/* default host    */ 
+  char	*service	= "time";	/* default service */
+  time_t	now;			/* 32 bit integer for time	*/
+  int	s, n;				/* socket descripter, read count*/
+
+
+				/* analyse arguments	*/
+
+  switch(argc) {
+  case 1: host = "localhost";	break;
+  case 3: service = argv[2];		/* FALL THROUGH */
+  case 2: host = argv[1];	break;
+  default: fprintf(stderr, "usage: UDPclient [host [port]]\n");
+           exit(1);
+  }
+			  	/* connect to service on host via UDP */
+  s = connectUDP(host, service);
+				/* send message to service */
+  (void) write (s, MSG, strlen(MSG));
+				/* accept response from service */
+  n = read(s, (char *)&now, sizeof(now));
+				/* see if it worked */
+  if (n < 0) errexit("read failed: %s\n", sys_errlist[errno]);
+				/* put in host byte order */
+  now = ntohl((u_long)now);
+				/* convert UCT to UNIX epoch */
+  now -= UNIXEPOCH;
+				/* print result at host */
+  printf("%s", ctime(&now));
+				/* return 0 and exit */
+  exit(0);
+ }
+
+=========================================================================
+
+/* This is UDPstuff.c */
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <varargs.h>
+
+#define INADDR_NONE 0xffffffff
+
+extern	int	errno;
+extern	char	*sys_errlist[];
+
+u_long	inet_addr();
+u_short	portbase = 10000;	/* This permits testing	*/
+
+/*--------------------------------------------------------------------- 
+   This is: int errexit(format, variable_list)
+   It prints an error message and exits
+   It is UNIX specific.
+  ---------------------------------------------------------------------*/
+
+int	errexit(format, va_alist)
+ char	*format;
+ va_dcl
+ {
+  va_list	args;
+  va_start(args);
+  _doprnt(format, args, stderr);
+  va_end(args);
+  exit(1);
+ }
+
+/*------------------------------------------------------------------
+  This is:	connectsock(host, service, protocol)
+  It creates a socket to a service on a port using UTP or TCP
+  ------------------------------------------------------------------*/
+
+int connectsock(host, service, protocol)
+  char	*host;		/* name of host computer	*/
+  char	*service;	/* service desired		*/
+  char	*protocol;	/* protocol used ("tcp" or "udp"*/
+ {
+   struct	hostent	*phe;	/* pointer to host information entry	*/
+   struct	servent	*pse;   /* pointer to service inf. entry	*/
+   struct	protoent	*ppe;	/* pointer to protocol entry	*/
+   struct	sockaddr_in	sin;	/* an Internet endpoint address	*/
+   int		s, type;	/* socket descriptor and socket type	*/
+
+   bzero((char *)&sin, sizeof(sin));
+   sin.sin_family = AF_INET;
+
+		/* map service name to port number			*/
+   if (pse = getservbyname(service, protocol)) sin.sin_port = pse->s_port;
+       else if ((sin.sin_port = htons((u_short) atoi(service))) == 0)
+               errexit("can't get \"%s\" service entry\n", service);
+
+		/* map host name to IP address, allowing for dot. decimal*/
+   if (phe = gethostbyname(host))
+                  bcopy(phe->h_addr, (char *)&sin.sin_addr, phe->h_length);
+       else if ((sin.sin_addr.s_addr = inet_addr(host)) == INADDR_NONE)
+                  errexit("can't get \"%s\" host entry\n", host);
+         
+		/* map protocol name to protocol number		*/
+   if ((ppe = getprotobyname(protocol)) == 0)
+               errexit("can't get \"%s\" protocol entry\n", protocol);
+
+		/* use protocol to choose a socket type		*/
+   if (strcmp(protocol, "udp") == 0) type = SOCK_DGRAM;
+                  else               type = SOCK_STREAM;
+
+		/* allocate a socket				*/
+   s = socket(PF_INET, type, ppe->p_proto);
+   if (s < 0) errexit("can't create socket: %s\n", sys_errlist[errno]);
+
+#ifdef DEBUG
+printf("%d  %d  %X\n", sin.sin_family, sin.sin_port, ntohl(sin.sin_addr.s_addr));
+#endif
+
+		/* connect the socket				*/
+   if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
+     errexit("can't connect to %s.%s: %s\n", host, service, sys_errlist[errno]);
+   return s;
+  }
+
+/*------------------------------------------------------------------
+  This is:	passivesock(service, protocol, qlen)
+  It allocates and binds a server socket using UTP or TCP
+  ------------------------------------------------------------------*/
+
+int passivesock(service, protocol, qlen)
+  char	*service;	/* service desired			*/
+  char	*protocol;	/* protocol used ("tcp" or "udp")	*/
+  int	qlen;		/* max length of server request queue	*/
+ {
+   struct	servent	*pse;   /* pointer to service inf. entry	*/
+   struct	protoent	*ppe;	/* pointer to protocol entry	*/
+   struct	sockaddr_in	sin;	/* an Internet endpoint address	*/
+   int		s, type;	/* socket descriptor and socket type	*/
+
+   bzero((char *)&sin, sizeof(sin));
+   sin.sin_family = AF_INET;
+   sin.sin_addr.s_addr = INADDR_ANY;
+
+		/* map service name to port number			*/
+   if (pse = getservbyname(service, protocol))
+       sin.sin_port = htons(ntohs((u_short)pse->s_port) + portbase);
+         else if ((sin.sin_port = htons((u_short) atoi(service))) == 0)
+               errexit("can't get \"%s\" service entry\n", service);
+         
+		/* map protocol name to protocol number		*/
+   if ((ppe = getprotobyname(protocol)) == 0)
+               errexit("can't get \"%s\" protocol entry\n", protocol);
+
+		/* use protocol to choose a socket type		*/
+   if (strcmp(protocol, "udp") == 0) type = SOCK_DGRAM;
+                  else               type = SOCK_STREAM;
+
+		/* allocate a socket				*/
+   s = socket(PF_INET, type, ppe->p_proto);
+   if (s < 0) errexit("can't create socket: %s\n", sys_errlist[errno]);
+
+		/* bind the socket				*/
+   if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
+       errexit("can't bind to %s port: %s\n", service, sys_errlist[errno]);
+
+   if (type == SOCK_STREAM && listen(s, qlen) < 0)
+       errexit("can't listen on %s port: %s\n", service,sys_errlist[errno]);
+
+   return s;
+  }

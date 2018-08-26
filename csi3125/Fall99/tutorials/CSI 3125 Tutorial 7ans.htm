@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0072)http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/tut07answers.html -->
+<HTML><HEAD><TITLE>CSI 3125 Tutorial 7</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY bgColor=white link=#800060 vLink=#800060>
+<TABLE border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=right bgColor=gray colSpan=8 vAlign=center><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/index.html"><IMG 
+      align=left alt="CSI 3125 Home" border=0 
+      src="CSI 3125 Tutorial 7ans_files/3125.gif" valign="center"></A><FONT 
+      color=white size=+3>CSI 3125 Tutorial 7</FONT></TD></TR>
+  <TR bgColor=#e0e0e0>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/3125outline.html"><IMG 
+      alt=Syllabus border=0 
+      src="CSI 3125 Tutorial 7ans_files/course.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html"><IMG 
+      alt=FAQ border=0 
+      src="CSI 3125 Tutorial 7ans_files/faq.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/dates.html"><IMG 
+      alt="Important Dates" border=0 
+      src="CSI 3125 Tutorial 7ans_files/dates.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/rosters.html"><IMG 
+      alt="Class lists" border=0 
+      src="CSI 3125 Tutorial 7ans_files/rosters.gif"></A><BR></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/marks.html"><IMG 
+      alt=Marks border=0 
+      src="CSI 3125 Tutorial 7ans_files/marks.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/news.html"><IMG 
+      alt=News border=0 
+      src="CSI 3125 Tutorial 7ans_files/news.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/goodies.html"><IMG 
+      alt=Stuff border=0 
+      src="CSI 3125 Tutorial 7ans_files/gift.gif"></A></CENTER></FONT></TD>
+    <TD vAlign=top><FONT color=white>
+      <CENTER><A 
+      href="http://www.site.uottawa.ca/ftppub/courses/Fall/csi3125/faq.html#when_to_email_prof"><IMG 
+      alt="email the prof" border=0 
+      src="CSI 3125 Tutorial 7ans_files/kenny.gif"></A></CENTER></FONT></TD></TR></TBODY></TABLE>
+<P>Tutorial 7 is a review quiz for the final exam. I've tried to cover most of 
+the major areas since the midterm with these questions. But just because 
+something doesn't appear here doesn't mean it won't be on the exam!
+<P>The exam is: 
+<UL>
+  <LI>on Tuesday, December 14, 1999 
+  <LI>at 09:30 
+  <LI>in GYM C 
+  <LI>180 minutes long 
+  <LI>mandatory 
+  <LI>worth 45 marks toward the final mark for the course 
+  <LI><I>closed</I> book, <I>closed</I> notes, <I>closed</I> everything else 
+  <LI>free of calculations (meaning calculators aren't allowed) </LI></UL>
+<HR>
+
+<P>
+<OL>
+  <LI>What is a data type?
+  <P><FONT color=green>a set of data objects and the operations permitted on 
+  those data objects</FONT>
+  <P></P>
+  <LI>What is an abstract data type?
+  <P><FONT color=green>a data type with the following "extras": 
+  <UL>
+    <LI>a systematic way of defining the type 
+    <LI>a systematic way of associating the permitted operations with the type 
+    <LI>some mechanism for hiding implementation details 
+    <LI>some mechanism for communicating information between the data type and 
+    its clients (programs that use the abstract data type) </LI></UL></FONT>
+  <P></P>
+  <LI>What is encapsulation?
+  <P><FONT color=green>grouping subprograms and their data in a separate program 
+  unit (usually a separate file); allows information hiding, software reuse, 
+  control of recompiling</FONT>
+  <P></P>
+  <LI>What are the three parts of an abstract data type?
+  <P><FONT color=green>
+  <OL>
+    <LI>specification (names of visible data types, subprogram headers 
+    (signatures)) 
+    <LI>representation (definition of the details of the data types) 
+    <LI>implementation (definition of the details of the operations (subprogram 
+    bodies)) </LI></OL></FONT>
+  <P></P>
+  <LI>What are exports and imports?
+  <P><FONT color=green>
+  <UL>
+    <LI>an abstract data type <I>exports</I> the information that clients are 
+    allowed to see; usually this is just the stuff in the specification (data 
+    type names and subprogram signatures) 
+    <LI>a client <I>imports</I> a subset of the exports of an abstract data 
+    type: only those exports that the client is going to use </LI></UL></FONT>
+  <P></P>
+  <LI>What is a parametric abstract data type?
+  <P><FONT color=green>a complex abstract data type whose component types may be 
+  left unspecified; clients can then specify the component types (for example, a 
+  tree ADT whose node types are left unspecified; the client can then request a 
+  tree of integers, or a tree of chars, etc.)</FONT>
+  <P></P>
+  <LI>What are the three main features of object-oriented programming?
+  <P><FONT color=green>
+  <OL>
+    <LI>encapsulation 
+    <LI>polymorphism 
+    <LI>inheritance </LI></OL></FONT>
+  <P></P>
+  <LI>What is a class?
+  <P><FONT color=green>an abstract data type in an object-oriented language that 
+  fits into a hierarchy of other abstract data types.</FONT>
+  <P></P>
+  <LI>What derived classes and base classes?
+  <P><FONT color=green>in the hierarchy of classes, a superclass is called a 
+  base class; a subclass is called a derived class and inherits certain data and 
+  methods (subprograms) from its base class.</FONT>
+  <P></P>
+  <LI>What are the five kinds of methods normally found in classes?
+  <P><FONT color=green>
+  <OL>
+    <LI>constructor 
+    <LI>destructor 
+    <LI>reads (request information from the class) 
+    <LI>writes (request modifications to information in the class) 
+    <LI>iterators (methods to traverse collections of data) </LI></OL></FONT>
+  <P></P>
+  <LI>What is an object?
+  <P><FONT color=green>an instance of a class.</FONT>
+  <P></P>
+  <LI>How can an object be created?
+  <P><FONT color=green>
+  <UL>
+    <LI>explicitly and statically (as a local object declaration) 
+    <LI>explicitly and dynamically (as a "new" at runtime) 
+    <LI>implicitly and dynamically (as a formal parameter in a method) 
+  </LI></UL></FONT>
+  <P></P>
+  <LI>What is a constructor?
+  <P><FONT color=green>a method called automatically when an object of a class 
+  is created.</FONT>
+  <P></P>
+  <LI>What is a destructor?
+  <P><FONT color=green>a method called automatically when at the end of the 
+  lifetime of an object.</FONT>
+  <P></P>
+  <LI>What are the three kinds of access to class members?
+  <P><FONT color=green>
+  <UL>
+    <LI>public (all potential clients have access to the member) 
+    <LI>private (access to the member is restricted to within the class itself) 
+    <LI>protected (immediate derived classes have access to the member) 
+  </LI></UL></FONT>
+  <P></P>
+  <LI>What is overriding?
+  <P><FONT color=green>a method in a base class is redefined in a derived class; 
+  the derived class method "overrides" the base class method (which normally it 
+  would inherit).</FONT>
+  <P></P>
+  <LI>What is an abstract method?
+  <P><FONT color=green>a method in a base class with no definition (body); 
+  derived classes must provide definitions for the method.</FONT>
+  <P></P>
+  <LI>In C++ what kind of objects can a pointer to a class point to?
+  <P><FONT color=green>a pointer to a class can point to objects of that class 
+  or to objects of any of its derived classes.</FONT>
+  <P></P>
+  <LI>When do you need a virtual function in C++?
+  <P><FONT color=green><B><I>when</I></B> you have a base class C and its 
+  derived class D<BR><B><I>and</I></B> there is a method M in C that is 
+  overriden in D<BR><B><I>and</I></B> you have a pointer to class C that is 
+  pointing to an object of class D<BR><B><I>and</I></B> you want the pointer to 
+  use the definition of M in D instead of the definition of M in 
+  C<BR><B><I>then</I></B> you must declare M virtual in class C.</FONT>
+  <P>the variable through its name</FONT>
+  <P></P>
+  <LI>What is a friend in C++?
+  <P><FONT color=green>when a class A declares class B to be a friend, all of 
+  class A's private members are visible to B.</FONT>
+  <P></P>
+  <LI>What is functional programming?</FONT>
+  <P><FONT color=green>a style of programming emphasizing the evaluation of 
+  expressions rather than the execution of commands.</FONT>
+  <P></P>
+  <LI>What does it mean for a function to be a first-class object?
+  <P><FONT color=green>if a function is a first-class object in a language it 
+  can appear anyhwere a data object can appear: as a parameter to a function, 
+  returned by a function, etc.</FONT>
+  <P></P>
+  <LI>What is a side effect?
+  <P><FONT color=green>when a function changes the value of variable passed as 
+  an actual parameter.</FONT>
+  <P></P>
+  <LI>What is referential transparency?
+  <P><FONT color=green>the property of a function always returning the same 
+  return value for the same parameter (for a given x, f(x) always returns the 
+  same y); if functions have side effects, they may not be referentially 
+  transparent.</FONT>
+  <P></P>
+  <LI>What is static scoping?
+  <P><FONT color=green>the name X refers to the local object having that name; 
+  if there is no local object with name X, X refers to the object with name X in 
+  the environment enclosing the local environment.</FONT>
+  <P></P>
+  <LI>What is dynamic scoping?
+  <P><FONT color=green>the name X refers to the local object having that name; 
+  if there is no local object with name X, X refers to the object with name X in 
+  the environment that called the local environment.</FONT>
+  <P></P>
+  <LI>What is a lambda expression in Scheme?
+  <P><FONT color=green>a lambda expression is a form that returns a function 
+  with no name.</FONT>
+  <P></P>
+  <LI>What does the lambda expression (lambda (x) (+ x 2)) evaluate to?
+  <P><FONT color=green>the expression evaluates to the function that takes one 
+  parameter and adds two to it.</FONT>
+  <P></P>
+  <LI>What does the expression ((lambda (x) (+ x 2)) 5) evaluate to?
+  <P><FONT color=green>this expression applies the function returned by the 
+  lamdba expression to the argument 5, which evaluates to 7; if we had given the 
+  function the name plustwo, the expression would be identical to (plustwo 
+  5).</FONT>
+  <P></P>
+  <LI>What does the expression (lambda (f) (lambda (x) (/ 1 (f x)))) evaluate 
+to?
+  <P><FONT color=green>the expression evaluates to a function; the function 
+  takes one argument f and returns a new function; the new function takes one 
+  argument x and returns the value 1 divided by f(x); for example, if we applied 
+  this expression to the square function, we would get a new function that is 1 
+  divided by the square.</FONT>
+  <P></P>
+  <LI>When is a function tail recursive?
+  <P><FONT color=green>when the recursive call is the last thing done inside the 
+  function.</FONT>
+  <P></P>
+  <LI>What is lazy evaluation?
+  <P><FONT color=green>expressions are not evaluated until their value is 
+  required; for example, with lazy evaluation, actual arguments are not 
+  evaluated before being passed to a function... the unevaluated actual argument 
+  is passed to the function where it will get evaluated only if its value is 
+  needed.</FONT>
+  <P></P>
+  <LI>What can't you do with Haskell?
+  <P><FONT color=green>get a job at Nortel!</FONT>
+  <P></P></LI></OL>
+<P><B><I>
+<CENTER>Good Luck!</CENTER></I></B>
+<P>
+<TABLE bgColor=gray border=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT size=-5>&nbsp;</FONT></TD></TR></TBODY></TABLE><FONT 
+size=-2><I>(last update November 27, 1999)</I></FONT> </P></BODY></HTML>

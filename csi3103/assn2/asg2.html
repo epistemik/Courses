@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<TITLE>CSI3103 - Fall 2000 - Assignment 2</TITLE>
+</HEAD>
+
+<BODY>
+
+<P ALIGN=CENTER>
+<IMG WIDTH=550 HEIGHT=110 SRC="site_hdr.gif"
+ ALT="Universit&eacute; d'Ottawa - &Eacute;ITI / University of Ottawa - SITE">
+</P>
+
+<CENTER>
+<H1> CSI3103 </H1>
+
+<H3>Assignment 2 - October 25, 2000
+</H3>
+</CENTER>
+
+1) NetSight Analyst is a tool for observing what is happening on an
+Ethernet. It uses a special card attached to the PC's bus that monitors
+the Ethernet to which it is attached in the so-called "promiscuous"
+mode. When operating in this mode, it monitors <em>all</em> packets on
+the Ethernet that satisfy certain user-specified criteria and will
+display their contents on the screen of the PC in a number of different
+ways
+
+<P>
+
+It is invoked by using the special PC in the Cube, presently the one in
+the corner, manufactured by Digital. Just turn the PC on by opening the
+small door at the top of the tower and pushing the button. During the
+boot sequence you will be asked to enter a password. After the password
+has been entered, follow the instructions on the screen to start
+NetSight Analyst.
+
+<P>
+
+a) From the window choose the <em>Capture Packets</em> option. The
+screen will fill with packet information. If you wish you can use
+the <em>Filter Packets</em> function to specify which packets you
+wish to capture. The default is <em>all packets</em>.
+
+<P>
+
+b) After a few seconds press ESC to stop the capture. Select the View
+Captured Packets option. You can scroll through the captured packets
+with the "up arrow" and  "down arrow" keys. Each packet is shown in an
+abbreviated form in columns labeled "Frame", "Time", "Dest Address",
+"Src Address", and "Description"
+
+<P>
+
+c) Choose a packet with the IPX designation in the "Description"
+column. Press ENTER to inspect it in detail. The Hex values in the
+packet as well as an interpretation are shown on the screen. You can
+see the entire interpretation by scrolling.
+
+<P>
+
+d) Identify all the fields you can within the packet. On a sheet of
+paper write down the contents of the packet and the interpretation of
+the contents of its fields. Who manufactured the source and destination
+NICs?
+
+<P>
+
+e) Repeat sections (3) and (4) after choosing an IP type packet.
+
+<P>
+
+f) Repeat sections (3) and (4) after choosing an ARP type packet.
+
+<P>
+
+g) When finished, return to DOS by pressing ESC and shut down
+the machine.
+
+<P>
+
+A help screen can be called by typing &#60;F1&#62;.
+
+<P>
+
+2) Suppose that an error detecting scheme using the generating
+polynomial, <EM> P(x) = x <sup> 4 </sup> + x <sup> 3 </sup> + 1 </EM> is to be used in
+a data channel. 
+<BR>
+(a) If the message, <EM>M(x)</EM>, is <B> 00011111000 </B>,
+calculate the value of the transmitted message, <EM>T(x)</EM>.
+<BR>
+(b) Assume that the 7th bit transmitted in <EM>T(x)</EM> is in error by
+the time it gets to the receiver. Show in detail how the detection
+algorithm, executed at the receiver, can detect the error.
+
+<P>
+
+3) Consider an Idle RQ channel (stop-and-wait), transmitted via a low
+orbit satellite, with the following parameters:
+<UL>
+<LI> propagation time (end to end) = 0.1 s.
+<LI> channel capacity = 10 <sup>7 </sup> bps
+<LI> bit error rate = 5 * 10 <sup> - 6 </sup>
+</UL>
+If you must use this channel for data transmission, you would
+want to set the frame width (in bits) such that the channel
+utilization, <EM>U</EM>, is a maximum.
+<BR>
+(a) Plot a graph of the channel utilization, <EM>U</EM>, vs. the frame
+length, <EM>L</EM>. Consider only the range <EM>(1000 <= L
+ <= 1000000)</EM> and use the semi-log graph paper in the
+notes to plot your graph.
+<BR>
+(b) What is the maximum value of <EM>U</EM> possible for this channel?
+<BR>
+(c) What value of the frame length, <EM>L</EM>, gives this value?
+<BR>
+(d) What is the value of the parameter, <EM>a</EM>, when <EM>U</EM> is a
+maximum?
+<BR>
+(e) If, for some reason beyond your control, you can only use a frame
+width of 64000 bits, what is the value of <EM>U</EM>?
+
+<P>
+
+4) Consider the following bit sequence <EM> as it appears on the
+wire</EM> used in a bit oriented protocol such as HDLC. The frame
+delimiters are included.
+<BR>
+<B>011111101011101011110101010011111011111010100110101000111111001...
+</B>
+<BR>
+If this sequence is valid, what is the actual transmitted
+message?
+
+<P>
+
+5) Stallings P. 224 Q. 7.2.
+
+<P>
+
+6) Stallings P. 224 Q. 7.4.
+
+<P>
+
+7) Stallings P. 224 Q. 7.21.
+<CENTER>
+<h2>This assignment is due at 23:00 on Nov. 6, 2000.</h2>
+</CENTER>
+<P>
+
+An assignment submitted late will still be marked but will be
+subject to a penalty of <em>0.95 <sup> n </sup> </em>  where <em>
+n </em> is the number of days late.
+
+</BODY>
+</HTML>
+

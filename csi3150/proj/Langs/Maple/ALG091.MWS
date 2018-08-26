@@ -1,0 +1,234 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 192 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "M
+aple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 
+0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 
+-1 "" 0 1 0 0 20 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 
+}}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 410 "# POWER METHOD ALGORITHM 9.1\n#\n#
+ To approximate the dominant eigenvalue and an associated\n# eigenvect
+or of the n by n matrix A given a nonzero vector x:\n#\n# INPUT:   Dim
+ension n; matrix A; vector x; tolerance TOL; maximum\n#          numbe
+r of iterations N.\n#\n# OUTPUT:  Approximate eigenvalue MU; approxima
+te eigenvector x\n#          or a message that the maximum number of i
+terations was\n#          exceeded. " }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 105 "alg091 := proc() local OK, AA, NAME, INP, N, I, J, A, X, TOL, N
+N, FLAG, OUP, K, LP, AMAX, Y, YMU, ERR, T;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`This is the Power Method.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 67 "printf(`The array will be input from a text file in the order:\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "printf(`A(1,1), A(1,2), ...
+, A(1,n), A(2,1), A(2,2), ..., A(2,n),\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "printf(`..., A(n,1), A(n,2), ..., A(n,n)\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place as many entries as de
+sired on each line, but separate `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 25 "printf(`entries with\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 
+"printf(`at least one blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+72 "printf(`The initial approximation should follow in same format.\\n
+\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input \+
+file been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 
+"printf(`Input the file name in the form - drive:\\\\name.ext\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for example:   A:\\\\\\DAT
+A.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[
+1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 35 "printf(`Input the dimension n.\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f
+or I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(IN
+P, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I f
+rom 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "X[I-1] := fscanf(I
+NP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf
+(`Input the tolerance.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL
+ := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 t
+hen" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf
+(`Tolerance must be positive number.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 46 "printf(`Input maximum number of iterations `);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 23 "printf(`- integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "NN := scanf(`%d`)[1];" }}{PARA 0 "" 0 "" {TEXT -1 12 
+"use NN for N" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NN > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Num
+ber must be positive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The
+ dimension must be a positive integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+67 "printf(`The program will end so the input file can be created.\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for example   A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, `POWER METHOD\\
+n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "fprintf(OUP, `iter  appr
+ox       approx eigenvector\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+35 "fprintf(OUP, `      eigenvalue\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LP := 1;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "AMAX := abs(X[0]);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "for I from 2 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "if abs(X[I-1]) > AMAX then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "AMAX := abs(X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 8 "LP := I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 22 "X[I-1] := X[I-1]/AMAX;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 30 "while K <= NN and OK = TRUE do" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I \+
+from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "Y[I-1] := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 39 "Y[I-1] := Y[I-1] + A[I-1,J-1] * X[J-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "YMU := Y[LP-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LP := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "AMAX := abs(Y[0]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "if abs(
+Y[I-1]) > AMAX then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "AMAX := abs(
+Y[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "LP := I;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+17 "if AMAX <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`0 \+
+eigenvalue - select another `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "
+printf(`initial vector and begin again\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "ERR := 0;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "T := Y[I-1]/Y[LP-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 27 "if abs(X[I-1]-T) > ERR then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "ERR := abs(X[I-1]-T);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "X[I-1] := T;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP,
+ `%d    %12.8f`, K, YMU);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I \+
+from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %1
+1.8f`, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 0 "" 
+{TEXT -1 7 "STEP 10" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if ERR <= TO
+L then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `\\n\\nThe e
+igenvalue := %12.8f`,YMU);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprin
+tf(OUP, ` to tolerance := %.10e\\n`, TOL);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "fprintf(OUP, `obtained on iteration number := %d\\n\\
+n`, K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "fprintf(OUP, `Unit eigen
+vector is :\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from \+
+1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`
+, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "K := K+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if K \+
+> NN then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Method did not
+ converge within %d iterations\\n`, NN);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg091G:6\"66%#OKG%#AAG%%NAMEG%$INPG%\"NG%\"IG%\"JG%
+\"AG%\"XG%$TOLG%#NNG%%FLAGG%$OUPG%\"KG%#LPG%%AMAXG%\"YG%$YMUG%$ERRG%\"
+TGF&F&C0-%'printfG6#%;This~is~the~Power~Method.|+G>8$%&FALSEG-F>6#%XTh
+e~array~will~be~input~from~a~text~file~in~the~order:|+G-F>6#%enA(1,1),
+~A(1,2),~...,~A(1,n),~A(2,1),~A(2,2),~...,~A(2,n),|+G-F>6#%C...,~A(n,1
+),~A(n,2),~...,~A(n,n)|+|+G-F>6#%gnPlace~as~many~entries~as~desired~on
+~each~line,~but~separate~G-F>6#%.entries~with|+G-F>6#%5at~least~one~bl
+ank.|+G-F>6#%enThe~initial~approximation~should~follow~in~same~format.
+|+|+|+G-F>6#%RHas~the~input~file~been~created?~-~enter~Y~or~N.|+G>8%&-
+%&scanfG6#%#%cG6#\"\"\"@%5/Fgn84/Fgn%\"yGC(-F>6#%SInput~the~file~name~
+in~the~form~-~drive:\\name.ext|+G-F>6#%<for~example:~~~A:\\DATA.DTA|+G
+>8&&-Fjn6#%#%sGF]o>8'-%&fopenG6%F]p%%READG%%TEXTG>FBFC?(F&F^oF^oF&/FBF
+CC%-F>6#%8Input~the~dimension~n.|+G>8(&-Fjn6#%#%dGF]o@%2\"\"!FaqC(?(8)
+F^oF^oFaq%%trueG?(8*F^oF^oFaqF\\r>&8+6$,&F[rF^o!\"\"F^o,&F^rF^oFdrF^o&
+-%'fscanfG6$Fcp%#%fGF]o?(F[rF^oF^oFaqF\\r>&8,6#FcrFfr-%'fcloseG6#Fcp?(
+F&F^oF^oF&F[qC%-F>6#%6Input~the~tolerance.|+G>8-&-Fjn6#FjrF]o@%2FhqFis
+>FB%%TRUEG-F>6#%DTolerance~must~be~positive~number.|+G>FBFC?(F&F^oF^oF
+&F[qC&-F>6#%DInput~maximum~number~of~iterations~G-F>6#%,-~integer.|+G>
+8.Fbq@%2FhqF^u>FBF`t-F>6#%BNumber~must~be~positive~integer.|+G-F>6#%KT
+he~dimension~must~be~a~positive~integer.|+G-F>6#%XThe~program~will~end
+~so~the~input~file~can~be~created.|+G@$/FBF`tC3-F>6#%:Choice~of~output
+~method:|+G-F>6#%51.~Output~to~screen|+G-F>6#%82.~Output~to~text~file|
++G-F>6#%6Please~enter~1~or~2.|+G>8/Fbq@%/F[w\"\"#C&Ffo-F>6#%=for~examp
+le~~~A:\\OUTPUT.DTA|+G>F]pF^p>80-Fep6%F]p%&WRITEGFhp>Few%(defaultG-%(f
+printfG6$Few%/POWER~METHOD|+|+G-F\\x6$Few%Giter~~approx~~~~~~~approx~e
+igenvector|+G-F\\x6$Few%2~~~~~~eigenvalue|+G>81F^o>82F^o>83-%$absG6#&F
+^s6#Fhq?(F[rF^wF^oFaqF\\r@$2Fjx-F\\y6#F]sC$>FjxFcy>FhxF[r?(F[rF^oF^oFa
+qF\\r>F]s*&F]sF^oFjxFdr?(F&F^oF^oF&31FfxF^uF\\vC/?(F[rF^oF^oFaqF\\rC$>
+&FboF_sFhq?(F^rF^oF^oFaqF\\r>Fbz,&FbzF^o*&F`rF^o&F^s6#FerF^oF^o>85&Fbo
+6#,&FhxF^oFdrF^o>FhxF^o>Fjx-F\\y6#&FboF_y?(F[rF^wF^oFaqF\\r@$2Fjx-F\\y
+6#FbzC$>FjxFf[l>FhxF[r@%1FjxFhqC%-F>6#%?0~eigenvalue~-~select~another~
+G-F>6#%@initial~vector~and~begin~again|+G>FBFCF&>86Fhq?(F[rF^oF^oFaqF
+\\rC%>87*&FbzF^oF[[lFdr@$2Ff\\l-F\\y6#,&F]sF^oFj\\lFdr>Ff\\lF^]l>F]sFj
+\\l-F\\x6&Few%-%d~~~~%12.8fGFfxFjz?(F[rF^oF^oFaqF\\r-F\\x6%Few%(~%11.8
+fGF]s-F\\x6$Few%\"|+G@$1Ff\\lFisC)-F\\x6%Few%;|+|+The~eigenvalue~:=~%1
+2.8fGFjz-F\\x6%Few%8~to~tolerance~:=~%.10e|+GFis-F\\x6%Few%Eobtained~o
+n~iteration~number~:=~%d|+|+GFfx-F\\x6$Few%8Unit~eigenvector~is~:|+|+G
+?(F[rF^oF^oFaqF\\rFg]lFj]l>FBFC>Ffx,&FfxF^oF^oF^o@$2F^uFfx-F>6$%NMetho
+d~did~not~converge~within~%d~iterations|+GF^u@$0FewFjwC$-Fas6#Few-F>6$
+%COutput~file~%s~created~sucessfullyGF]p-%'RETURNGF_yF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg091();" }}{PARA 6 "" 1 "" {TEXT 
+-1 372 "This is the Power Method.\nThe array will be input from a text
+ file in the order:\nA(1,1), A(1,2), ..., A(1,n), A(2,1), A(2,2), ...,
+ A(2,n),\n..., A(n,1), A(n,2), ..., A(n,n)\n\nPlace as many entries as
+ desired on each line, but separate entries with\nat least one blank.
+\nThe initial approximation should follow in same format.\n\n\nHas the
+ input file been created? - enter Y or N." }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "Input the file nam
+e in the form - drive:\\name.ext\nfor example:   A:\\DATA.DTA" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg091.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 22 "Input the dimension n." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" {TEXT -1 20 "Input th
+e tolerance." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}
+{PARA 6 "" 1 "" {TEXT -1 45 "Input maximum number of iterations - inte
+ger." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "30" }}{PARA 6 "" 1 "
+" {TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Outpu
+t to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 1085 "POWER METHOD\n\nit
+er  approx       approx eigenvector\n      eigenvalue\n1     10.000000
+00  1.00000000   .80000000   .10000000\n2      7.20000000  1.00000000 \+
+  .75000000 -.11111111\n3      6.50000000  1.00000000   .73076923 -.18
+803418\n4      6.23076923  1.00000000   .72222222 -.22085048\n5      6
+.11111111  1.00000000   .71818181 -.23591470\n6      6.05454546  1.000
+00000   .71621621 -.24309494\n7      6.02702703  1.00000000   .7152466
+3 -.24658756\n8      6.01345291  1.00000000   .71476510 -.24830578\n9 \+
+     6.00671141  1.00000000   .71452514 -.24915656\n10      6.00335196
+  1.00000000   .71440536 -.24957942\n11      6.00167505  1.00000000   \+
+.71434552 -.24979007\n12      6.00083729  1.00000000   .71431561 -.249
+89515\n13      6.00041858  1.00000000   .71430066 -.24994761\n14      \+
+6.00020927  1.00000000   .71429318 -.24997381\n15      6.00010463  1.0
+0000000   .71428945 -.24998691\n16      6.00005231  1.00000000   .7142
+8758 -.24999345\n\n\nThe eigenvalue :=   6.00005231 to tolerance := 1.
+0000000000e-05\nobtained on iteration number := 16\n\nUnit eigenvector
+ is :\n\n  1.00000000   .71428758 -.24999345" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}
+}}{MARK "4 0 0" 18 }{VIEWOPTS 1 1 0 1 1 1803 }

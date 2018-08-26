@@ -1,0 +1,23 @@
+
+CSI 3103 
+Assignment 1 - September 22, 2000 
+
+1) A satellite in a geosynchronous orbit does not require movable tracking antennas at the ground stations. On the other hand, the delay from end to end is about 0.25 seconds. To reduce this delay, the satellite can be placed in a lower orbit. However, the tracking stations may have to use movable antennas. 
+a) If the end-to-end delay (from the source station on earth to the destination station on earth) is to be 0.10 seconds, calculate the value of the satellite's orbital radius. Assume that the signal has no delay in passing through the satellite. 
+b) What is its altitude above the earth's surface? 
+c) How many orbits will it make around the earth in a day? 
+
+2) Stallings: P 100, Q 3.13 
+
+3) Stallings: P 100, Q 3.17 
+
+4) Stallings: P 100, Q 3.18 
+
+5) The character "U" is represented in ASCII as 0x55 (even parity). This is a worst case character because its binary representation is 01010101, an alternating sequence of 1s and 0s. If a series of such characters is to be 
+transmitted through a voice grade telephone channel at the rate of 600 bps and is encoded using the NRZ-L encoding scheme (see P. 134 and Figure 3.7), calculate the Fourier coefficients A0, An and Bn. 
+
+6) If the bandwidth of the channel is 3000 Hz (from 250 Hz to 3250 Hz), sketch the form of the signal as it arrives at the receiver. Assume there is no attenuation, delay or noise. 
+
+7) Calculate the value of the power received at the receiver. 
+
+This assignment is due at 23:00 on Oct 6.

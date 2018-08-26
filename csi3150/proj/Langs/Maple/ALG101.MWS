@@ -1,0 +1,245 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 422 "# NEWTON'S METHOD FOR SYSTEMS ALGO
+RITHM 10.1\n#\n# To approximate the solution of the nonlinear system F
+(X)=0 given\n# an initial approximation X:\n#\n# INPUT:   Number n of \+
+equations and unknowns; initial approximation\n#          X=(X(1),...,
+X(n)); tolerance TOL; maximum number of\n#          iterations N.\n#\n
+# OUTPUT:  Approximate solution X=(X(1),...,X(n)) or a message\n#     \+
+     that the number of iterations was exceeded." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 87 "alg101 := proc() local LINSYS, OK, N, I, F, J, P, TOL
+, NN, X, FLAG, NAME, OUP, K, A, R;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+60 "LINSYS := proc(N,OK,A,Y) local K, I, Z, IR, IA, J, C, L, JA;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "K := N-1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I :=
+ 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "while OK = TRUE and I <= K d
+o" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "Z := abs(A[I-1,I-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "IR := I;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "IA := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for \+
+J from IA to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if abs(A[J-1,I
+-1]) > Z then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "IR := J;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "Z := abs(A[J-1,I-1]);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "if Z <= 1.0e-20 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if IR <> I then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from I to N+1 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "C := A[I-1,J-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "A[I-1,J-1] := A[IR-1,J-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "A[IR-1,J-1] := C;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for J from IA to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 26 "C :=A[J-1,I-1]/A[I-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+25 "if abs(C) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "C :
+= 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "for L from I to N+1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 38 "A[J-1,L-1] := A[J-1,L-1]-C*A[I-1,L-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "I
+ := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "if OK = TRUE" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "
+then if abs(A[N-1,N-1]) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "Y[N-1] := A[N-1,N]/A[N-1,N-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to K do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 9 "J := N-I;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 
+"JA := J+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "C := A[J-1,N];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for L from JA to N do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 25 "C := C-A[J-1,L-1]*Y[L-1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "Y[J-1] := \+
+C/A[J-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 38 "printf(`Linear system is singular\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`This is the Ne
+wton Method for Nonlinear Systems.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Input \+
+the number n of equations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if N >= 2 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "prin
+tf(`N must be an integer greater than 1.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 83 "printf(`Input the function F[%d](X[1] ... X[%d]) in
+ terms of x1 ... x%d` ,I ,N ,N);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 
+"F[I] := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "P[I,J] := diff(F[I],evaln(x.J));" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 42 "P[I,J] := unapply(P[I,J],evaln(x.(1..N)));" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "F[I] := unapply(F[I],evaln(x.(1..N
+)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Input \+
+the Tolerance.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scan
+f(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Tol
+erance must be positive.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Input \+
+the maximum number of iterations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 21 "NN := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if
+ NN > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 40 "printf(`Must be a positive integer.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 50 "printf(`Input initial approximation X(%d).\\n`
+, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "X[I-1] := scanf(`%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "printf(`Select output destination\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive\\\\:name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for example   A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of out
+put\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermedit
+ate approximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(
+`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scan
+f(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fprintf(OUP, `NEWTON
+S METHOD FOR NONLINEAR SYSTEMS\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf
+(OUP, `Iteration, Approximation, Error\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while OK = TRUE and K <= NN do
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for
+ J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "A[I-1,J-1] := \+
+evalf(P[I,J](seq(X[i],i=0..N-1)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "A[I-1,N] := evalf(-F[I](s
+eq(X[i],i=0..N-1)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+17 "LINSYS(N,OK,A,Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TR
+UE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "R := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fr
+om 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(Y[I-1]) > R \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "R := abs(Y[I-1]);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "
+X[I-1] := X[I-1]+Y[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 24 "fprintf(OUP, ` %2d`, K);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "fprintf(OUP, ` %11.8f`, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprintf(OUP, `\\n%12.
+6e\\n`, R);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if R < TOL \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 52 "fprintf(OUP, `Iteration %d gives solution:\\n
+\\n`, K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`, X[I-1]);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "fprintf(OUP, `\\n\\nto within tolerance %.10e\\n`, TO
+L);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "K := K+1;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 14 "if K > NN then" }}{PARA 0 "" 0 "" {TEXT -1 5 "STEP
+ " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "fprintf(OUP, `Procedure does n
+ot converge in %d iterations\\n`, NN);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default the
+n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 
+20 "6#>%'alg101G:6\"62%'LINSYSG%#OKG%\"NG%\"IG%\"FG%\"JG%\"PG%$TOLG%#N
+NG%\"XG%%FLAGG%%NAMEG%$OUPG%\"KG%\"AG%\"RGF&F&C0>8$:6&F*F)F6%\"YG6+F5F
++%\"ZG%#IRG%#IAGF-%\"CG%\"LG%#JAGF&F&C(>F:,&9$\"\"\"!\"\"FI>9%%%TRUEG>
+8%FI?(F&FIFIF&3/FLFM1FOF:C(>8&-%$absG6#&9&6$,&FOFIFJFIFgn>8'FO>8(,&FOF
+IFIFI?(8)F[oFIFH%%trueG@$2FV-FX6#&Fen6$,&F^oFIFJFIFgnC$>FinF^o>FVFbo@%
+1FV\"\"!>FL%&FALSEGC$@$0FinFO?(F^oFOFI,&FHFIFIFIF_oC%>8*&Fen6$FgnFfo>F
+gp&Fen6$,&FinFIFJFIFfo>FjpFfp?(F^oF[oFIFHF_oC%>Ffp*&FdoFIFZFJ@$1-FX6#F
+fpF\\p>FfpF\\p?(8+FOFIFcpF_o>&Fen6$Ffo,&FhqFIFJFI,&FjqFI*&FfpFI&Fen6$F
+gnF\\rFIFJ>FOF\\o@$FR@%1-FX6#&Fen6$FGFGF\\p>FLF^pC$>&9'6#FG*&&Fen6$FGF
+HFIFgrFJ?(FOFIFIF:F_oC'>F^o,&FHFIFOFJ>8,,&F^oFIFIFI>Ffp&Fen6$FfoFH?(Fh
+qFgsFIFHF_o>Ffp,&FfpFI*&FjqFI&F]s6#F\\rFIFJ>&F]s6#Ffo*&FfpFI&Fen6$FfoF
+foFJ@$/FLF^p-%'printfG6#%;Linear~system~is~singular|+GF&F&-F[u6#%RThis
+~is~the~Newton~Method~for~Nonlinear~Systems.|+G>FOF^p?(F&FIFIF&/FOF^pC
+%-F[u6#%BInput~the~number~n~of~equations.|+G>FV&-%&scanfG6#%#%dG6#FI@%
+1\"\"#FV>FOFM-F[u6#%FN~must~be~an~integer~greater~than~1.|+G?(FinFIFIF
+VF_oC$-F[u6&%jnInput~the~function~F[%d](X[1]~...~X[%d])~in~terms~of~x1
+~...~x%dGFinFVFV>&F[o6#Fin&-F[v6#%#%aGF^v?(FinFIFIFVF_o?(F^oFIFIFVF_oC
+$>&Ffp6$FinF^o-%%diffG6$F\\w-%&evalnG6#(%\"xGF^o>Ffw-%(unapplyG6$Ffw-F
+\\x6#(F_x;FIFV?(FinFIFIFVF_o>F\\w-Fbx6$F\\wFdx>FOF^p?(F&FIFIF&FcuC%-F[
+u6#%6Input~the~Tolerance.|+G>Fhq&-F[v6#%#%fGF^v@%2F\\pFhq>FOFM-F[u6#%=
+Tolerance~must~be~positive.|+G>FOF^p?(F&FIFIF&FcuC%-F[u6#%IInput~the~m
+aximum~number~of~iterations.|+G>FgsFiu@%2F\\pFgs>FOFM-F[u6#%=Must~be~a
+~positive~integer.|+G?(FinFIFIFVF_oC$-F[u6$%DInput~initial~approximati
+on~X(%d).|+GFin>&8-6#F\\qFcy@$/FOFMC3-F[u6#%;Select~output~destination
+|+G-F[u6#%+1.~Screen|+G-F[u6#%.2.~Text~file|+G-F[u6#%.Enter~1~or~2|+G>
+8.Fiu@%/Fc\\lFavC&-F[u6#%SInput~the~file~name~in~the~form~-~drive\\:na
+me.ext|+G-F[u6#%=for~example~~~A:\\OUTPUT.DTA|+G>8/&-F[v6#%#%sGF^v>80-
+%&fopenG6%F^]l%&WRITEG%%TEXTG>Fd]l%(defaultG-F[u6#%9Select~amount~of~o
+utput|+G-F[u6#%01.~Answer~only|+G-F[u6#%E2.~All~intermeditate~approxim
+ations|+GF_\\l>Fc\\lFiu-%(fprintfG6$Fd]l%GNEWTONS~METHOD~FOR~NONLINEAR
+~SYSTEMS|+|+G@$Fe\\l-Fg^l6$Fd]l%AIteration,~Approximation,~Error|+G>81
+FI?(F&FIFIF&3Fd[l1F__lFgsC%?(FinFIFIFVF_oC$?(F^oFIFIFVF_o>&82F[q-%&eva
+lfG6#-Ffw6#-%$seqG6$&Fa[l6#%\"iG/Fd`l;F\\p,&FVFIFJFI>&Fi_l6$F\\qFV-F[`
+l6#,$-F\\wF^`lFJ-F:6&FVFOFi_lF=@$Fd[lC&>83F\\p?(FinFIFIFVF_oC$@$2Fdal-
+FX6#&F=Fb[l>FdalFial>F`[l,&F`[lFIF[blFI@$Fe\\lC%-Fg^l6%Fd]l%%~%2dGF__l
+?(FinFIFIFVF_o-Fg^l6%Fd]l%(~%11.8fGF`[l-Fg^l6%Fd]l%)|+%12.6e|+GFdal@%2
+FdalFhqC&>FOF^p-Fg^l6%Fd]l%?Iteration~%d~gives~solution:|+|+GF__l?(Fin
+FIFIFVF_oFebl-Fg^l6%Fd]l%=|+|+to~within~tolerance~%.10e|+GFhq>F__l,&F_
+_lFIFIFI@$2FgsF__l-Fg^l6%Fd]l%NProcedure~does~not~converge~in~%d~itera
+tions|+GFgs@$0Fd]lF[^lC$-%'fcloseG6#Fd]l-F[u6$%COutput~file~%s~created
+~sucessfullyGF^]l-%'RETURNG6#F\\pF&F&" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "alg101();" }}{PARA 6 "" 1 "" {TEXT -1 81 "This is the \+
+Newton Method for Nonlinear Systems.\nInput the number n of equations.
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" 
+{TEXT -1 60 "Input the function F[1](X[1] ... X[3]) in terms of x1 ...
+ x3" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "3*x1-cos(x2*x3)-.5" 
+}}{PARA 6 "" 1 "" {TEXT -1 60 "Input the function F[2](X[1] ... X[3]) \+
+in terms of x1 ... x3" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "x1
+^2-81*(x2+.1)^2+sin(x3)+1.06" }}{PARA 6 "" 1 "" {TEXT -1 60 "Input the
+ function F[3](X[1] ... X[3]) in terms of x1 ... x3" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 29 "exp(-x1*x2)+20*x3+(10*Pi-3)/3" }}{PARA 6 
+"" 1 "" {TEXT -1 20 "Input the Tolerance." }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 6 ".00001" }}{PARA 6 "" 1 "" {TEXT -1 39 "Input the max
+imum number of iterations." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+2 "25" }}{PARA 6 "" 1 "" {TEXT -1 33 "Input initial approximation X(1)
+." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 ".1" }}{PARA 6 "" 1 "" 
+{TEXT -1 33 "Input initial approximation X(2)." }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 2 ".1" }}{PARA 6 "" 1 "" {TEXT -1 33 "Input initia
+l approximation X(3)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "-.1
+" }}{PARA 6 "" 1 "" {TEXT -1 61 "Select output destination\n1. Screen
+\n2. Text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Select amount of output\n1. Ans
+wer only\n2. All intermeditate approximations\nEnter 1 or 2" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 432 "NEWTONS METHOD FOR NONLINEAR SYSTEMS\n\nIteration, Approximati
+on, Error\n  1   .49986967   .01946684 -.52152047\n4.215204e-01\n  2  \+
+ .50001424   .00158859 -.52355696\n1.787825e-02\n  3   .50000011   .00
+001244 -.52359845\n1.576146e-03\n  4   .50000000   .00000000 -.5235987
+7\n1.244402e-05\n  5   .50000000  -.00000000 -.52359877\n8.035430e-10
+\nIteration 5 gives solution:\n\n   .50000000  -.00000000 -.52359877\n
+\nto within tolerance 1.0000000000e-05" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "
+1 183 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

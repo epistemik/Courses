@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Arrays</title>
+<meta name="description" content="Arrays,
+taken from the course notes for the Introduction to Java Programming, 
+taught at Polytechnic University, Spring, 1997">
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h1>Arrays</h1>
+
+An array is a collection of variables of the same type.<P>
+
+The <CODE>args[]</CODE> array of a <CODE>main()</CODE> method is an array
+of Strings.<P>
+
+Consider a class which counts the occurrences of the digits 0-9. For example you might wish to test the randomness of a random number generator. If a random number generator is truly random, all digits should occur with equal frequency over a sufficiently long period of time.<P>
+
+You will do this by creating an array of ten ints called <CODE>ndigit</CODE>. The zeroth component of <CODE>ndigit</CODE> will track the number of zeros; the first component will track the numbers of ones and so forth. The RandomTest
+program below tests Java's random number generator to see if it produces apparently random numbers.<P>
+
+
+<PRE><CODE>import java.util.Random;
+
+class RandomTest {
+
+  public static void main (String args[]) {
+  
+    int[] ndigits = new int[10];
+    double x;
+    int n;
+    
+    Random myRandom = new Random();
+  
+    // Initialize the array 
+    for (int i = 0; i &lt; 10; i++) {
+      ndigits[i] = 0;
+    }
+
+    // Test the random number generator a whole lot
+    for (long i=0; i &lt; 100000; i++) {
+      // generate a new random number between 0 and 9
+      x = myRandom.nextDouble() * 10.0;
+      n = (int) x;
+      //count the digits in the random number
+      ndigits[n]++;
+    }
+    
+    // Print the results
+    for (int i = 0; i &lt; 10; i++) {
+      System.out.println(i+": " + ndigits[i]);
+    }
+  }
+  
+}</CODE></PRE>
+
+Below is one possible output from this program. If you run it your results should be slightly different. After all this is supposed to be random. These results are pretty much what you would expect from a reasonably random generator. If you have a fast CPU and some time to spare, try bringing the number of tests up to a billion or so, and see if the counts for the different digits get any closer to each other.<P>
+
+<PRE><tt>% javac RandomTest.java
+% java RandomTest
+0: 10171
+1: 9724
+2: 9966
+3: 10065
+4: 9989
+5: 10132
+6: 10001
+7: 10158
+8: 9887
+9: 9907
+%
+</tt></PRE>
+There are three <CODE>for</CODE> loops in this program, one to initialize the array, one to perform the desired calculation, and a final one to print out the results. This is quite common in code that uses arrays.<P>
+
+
+<hr>
+<A HREF="27.5.html">Previous</A> | <A HREF="exercises.html">Next</A> | <A HREF="index.html">Top</A>
+<hr><font size="-1">
+Last Modified July 27, 1997<br>
+Copyright 1997 Elliotte Rusty Harold<br>
+<A HREF="mailto:elharo@metalab.unc.edu">elharo@metalab.unc.edu</A>
+</font>
+</body>
+</html>

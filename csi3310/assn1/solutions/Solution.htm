@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/Ass1sol.html -->
+<HTML><HEAD><TITLE>Solution</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Mario Marchand" name=Author>
+<META content="MSHTML 5.00.2314.1000" name=GENERATOR></HEAD>
+<BODY>
+<H3>Assignment #1</H3>
+<H4>Programming Exercise 1</H4>See the source file <A 
+href="http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/Ass1_1.java">Ass1_1.java</A> 
+
+<P>Discussion: 
+<P>A withdrawer always attempts to withdraw an amount which is lower or equal to 
+the balance of the account. However, in the process of withdrawing, the 
+withdrawer first reads the balance and then sleeps (for 20 msec) before 
+withdrawing. In the mean time another withdrawer can be scheduled to execute and 
+complete its withdraw operation. Hence the first withdrawer has the wrong 
+balance value when it finally gets scheduled and then may attempt to withdraw an 
+amount larger than the new balance value. For example, I have obtained the 
+following output sequence: 
+<P>Provider 1 made a deposit of $6 and the new balance is $506 <BR>Provider 2 
+made a deposit of $95 and the new balance is $601 <BR>Withdrawer 2 has withdrawn 
+$465 and the new balance is $136 <BR>Attempt to withdraw $237 by Withdrawer 1 is 
+rejected <BR>Balance remains at $136 
+<P>Other types of inconsistent views are possible in principle since, in 
+principle, a thread can be interrupted anywhere. For example, a provider thread 
+could be interrupted while executing the Account.deposit() method just before 
+the balance value gets changed. Indeed the statement "balance += amount" is not 
+atomic and consists of several instructions (processor instructions are atomic, 
+not high-level language statements). Hence the previous balance value might be 
+in a register when a provider thread gets interrupted. Now if a new thread 
+provider thread gets scheduled and increases the balance value then that deposit 
+will be lost when the first threads resumes execution since that thread will use 
+the old (and incorrect) balance value for its deposit operation. Hence other 
+inconsistent views are possible but they did not show up (in my case) because a 
+thread got interrupted only when performing a sleep() or an I/O operation (why? 
+I guess that the code present between any two sleep() or I/O was simply too 
+short in our program to get a chance to be interrupted by the timer). <BR>&nbsp; 
+
+<H4>Programming Exercise 2:</H4>See the source file <A 
+href="http://www.csi.uottawa.ca/~marchand/teaching/CSI3310/Ass1_2.java">Ass1_2.java</A> 
+
+<P>Discussion: The credit card service does not always accept to deliver a 
+credit card (as it should). This occurs when the credit card service is 
+scheduled when the owner thread sleeps (ie: after the withdraw operation and 
+before doing the deposit operation). In that case the sum computed by the credit 
+card service is less than $300 and the credit card will be refused when the sum 
+is less than $280. For example, I have obtained the following output sequence: 
+<P>Owner has transferred $146 from account 1 to account 0 <BR>Total funds = $300 
+-- accept to deliver card <BR>Total funds = $274 -- card refused! <BR>Owner has 
+transferred $26 from account 2 to account 0 
+<P>Here we see that the credit card was refused after the owner had withdrawn 
+$26 from account 2 and before it had deposit that amount into account 0. The 
+message of the owner gets printed only after the message of the credit card 
+service...&nbsp; 
+<P>Are other types of inconsistent views possible? In principle, the threads can 
+be interrupted anywhere but now we have only a single owner thread and a single 
+credit card service thread. <BR>Because of this, other types of inconsistent 
+views (as mentioned in programming exercise 1) do not happen by considering any 
+other point of interruption. <BR>&nbsp; <BR>&nbsp; </P></BODY></HTML>

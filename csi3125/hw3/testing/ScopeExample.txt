@@ -1,0 +1,17 @@
+program P;
+var X: integer;
+procedure A;
+begin
+X := X + 1;
+print(X);
+end;
+procedure B;
+var X: integer;
+begin
+X := 17;
+A;
+end;
+begin
+X := 23;
+B;
+end;

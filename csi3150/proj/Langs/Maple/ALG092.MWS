@@ -1,0 +1,246 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+32 61 32 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 79 75 32 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 
+0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 429 "# SYMMETRIC POWER METHOD ALGORITHM
+ 9.2\n#\n# To approximate the dominant eigenvalue and an associated\n#
+ eigenvector of the n by n symmetric matrix A given a nonzero vector x
+:\n#\n# INPUT:   Dimension n; matrix A; vector x; tolerance TOL;\n#   \+
+       maximum number of iterations N.\n#\n# OUTPUT:  Approximate eige
+nvalue MU; approximate eigenvector x or\n#          a message that the
+ maximum number of iterations was\n#          exceeded." }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 99 "alg092 := proc() local OK, AA, NAME, INP, N, I
+, J, A, Y, X, TOL, NN, FLAG, OUP, K, XL, ERR, T, YMU;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 48 "printf(`This is the Symmetric Power Method.\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 67 "printf(`The array will be input from a text file
+ in the order:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "printf(`A(1
+,1), A(1,2), ..., A(1,n), A(2,1), A(2,2), ..., A(2,n),\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`..., A(n,1), A(n,2), ..., A(n,n)
+\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place as many \+
+entries as desired on each line, but separate `);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`at least one blank.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 72 "printf(`The initial approximation should follow in \+
+same format.\\n\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(
+`Has the input file been created? - enter Y or N.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`for exampl
+e:  A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME :=
+ scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NA
+ME,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "while OK = FALSE do printf(`Input t
+he dimension n.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf
+(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 68 "The initial input is into Y and X is init
+ialized at the zero vector." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for \+
+I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "Y[I-1] := fscan
+f(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "X[I-1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 33 "printf(`Input the tolerance.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if TOL > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TR
+UE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "printf(`Tolerance must be positive number.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "printf(`Input maximum number of iterations `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "printf(`- integer.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "NN := scanf(`%d`)[1];" }}{PARA 0 "" 0 "" 
+{TEXT -1 49 "use NN for N for the maximun number of iterations" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NN > 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "el
+se" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Number must be positi
+ve integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The dimension must be \+
+a positive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The program wi
+ll end so the input file can be created.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = TRUE
+ then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output \+
+method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output \+
+to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Outpu
+t to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Ple
+ase enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := \+
+scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in \+
+the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+41 "printf(`for example   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fi;fprintf(OUP, `SYMMETRIC \+
+POWER METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fprintf(OU
+P, `iter  approx        approx eigenvector\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "fprintf(OUP, `     eigenvalue\\n`);   " }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K := 1;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "XL := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 23 "XL := XL+Y[I-1]*Y[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 11 "2-norm of Y" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "XL := sqrt(XL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "
+ERR := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if XL > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 15 "T := Y[I-1]/XL;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 33 "ERR := ERR+(X[I-1]-T)*(X[I-1]-T);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "X[I-1] := T;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 21 "X has a 2-norm of 1.0" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 17 "ERR := sqrt(ERR);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`A h
+as a zero eigenvalue - select new vector and begin again\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "while K <= NN and OK = TRUE do" }}{PARA 0 "" 0 "" 
+{TEXT -1 13 "STEPS 3 AND 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "YMU :=
+ 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "Y[I-1] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 35 "Y[I-1] := Y[I-1]+A[I-1,J-1]*X[J-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "YMU := YMU+X
+[I-1]*Y[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 
+0 "" {TEXT -1 13 "STEPS 5 and 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "X
+L := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "XL := XL+Y[I-1]*Y[I-1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 11 "2-norm o
+f Y" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "XL := sqrt(XL);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 9 "ERR := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "if XL > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 \+
+to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "T := Y[I-1]/XL;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "ERR := ERR+(X[I-1]-T)*(X[I-1]-T);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "X[I-1] := T;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 21 "X has a 2-norm o
+f 1.0" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "ERR := sqrt(ERR);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 72 "printf(`A has a zero eigenvalue - select new vector and begin \+
+again\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 34 "fprintf(OUP, `%d %12.8f`, K, YMU);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "fprintf(OUP, ` %11.8f`, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if  ER
+R < TOL then" }}{PARA 0 "" 0 "" {TEXT -1 31 "procedure completed succe
+ssfuly" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `\\n\\nThe e
+igenvalue := %12.8f`,YMU);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprin
+tf(OUP, ` to tolerance := %.10e\\n`, TOL);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 58 "fprintf(OUP, `obtained on iteration number := %d\\n\\
+n`, K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "fprintf(OUP, `Unit eigen
+vector is :\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from \+
+1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`
+, X[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "K := K+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 14 "if K > NN then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`N
+o convergence within %d iterations\\n`, NN);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 
+"printf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg092G:6\"
+65%#OKG%#AAG%%NAMEG%$INPG%\"NG%\"IG%\"JG%\"AG%\"YG%\"XG%$TOLG%#NNG%%FL
+AGG%$OUPG%\"KG%#XLG%$ERRG%\"TG%$YMUGF&F&C0-%'printfG6#%EThis~is~the~Sy
+mmetric~Power~Method.|+G>8$%&FALSEG-F=6#%XThe~array~will~be~input~from
+~a~text~file~in~the~order:|+G-F=6#%enA(1,1),~A(1,2),~...,~A(1,n),~A(2,
+1),~A(2,2),~...,~A(2,n),|+G-F=6#%C...,~A(n,1),~A(n,2),~...,~A(n,n)|+|+
+G-F=6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~separate~G
+-F=6#%.entries~with|+G-F=6#%5at~least~one~blank.|+G-F=6#%enThe~initial
+~approximation~should~follow~in~same~format.|+|+|+G-F=6#%RHas~the~inpu
+t~file~been~created?~-~enter~Y~or~N.|+G>8%&-%&scanfG6#%#%cG6#\"\"\"@%5
+/Ffn8,/Ffn%\"yGC(-F=6#%SInput~the~file~name~in~the~form~-~drive:\\name
+.ext|+G-F=6#%;for~example:~~A:\\DATA.DTA|+G>8&&-Fin6#%#%sGF\\o>8'-%&fo
+penG6%F\\p%%READG%%TEXTG>FAFB?(F&F]oF]oF&/FAFBC%-F=6#%8Input~the~dimen
+sion~n.|+G>8(&-Fin6#%#%dGF\\o@%2\"\"!F`qC)?(8)F]oF]oF`q%%trueG?(8*F]oF
+]oF`qF[r>&8+6$,&FjqF]o!\"\"F]o,&F]rF]oFcrF]o&-%'fscanfG6$Fbp%#%fGF\\o?
+(FjqF]oF]oF`qF[r>&Fao6#FbrFer?(FjqF]oF]oF`qF[r>&8-F]sFgq-%'fcloseG6#Fb
+p?(F&F]oF]oF&FjpC%-F=6#%6Input~the~tolerance.|+G>8.&-Fin6#FirF\\o@%2Fg
+qF[t>FA%%TRUEG-F=6#%DTolerance~must~be~positive~number.|+G>FAFB?(F&F]o
+F]oF&FjpC&-F=6#%DInput~maximum~number~of~iterations~G-F=6#%,-~integer.
+|+G>8/Faq@%2FgqF`u>FAFbt-F=6#%BNumber~must~be~positive~integer.|+G-F=6
+#%KThe~dimension~must~be~a~positive~integer.|+G-F=6#%XThe~program~will
+~end~so~the~input~file~can~be~created.|+G@$/FAFbtC3-F=6#%:Choice~of~ou
+tput~method:|+G-F=6#%51.~Output~to~screen|+G-F=6#%82.~Output~to~text~f
+ile|+G-F=6#%6Please~enter~1~or~2.|+G>80Faq@%/F]w\"\"#C&Feo-F=6#%=for~e
+xample~~~A:\\OUTPUT.DTA|+G>F\\pF]p>81-Fdp6%F\\p%&WRITEGFgp>Fgw%(defaul
+tG-%(fprintfG6$Fgw%9SYMMETRIC~POWER~METHOD|+|+G-F^x6$Fgw%Hiter~~approx
+~~~~~~~~approx~eigenvector|+G-F^x6$Fgw%2~~~~~~eigenvalue|+G>82F]o>83Fg
+q?(FjqF]oF]oF`qF[r>Fjx,&FjxF]o*$F\\sF`wF]o>Fjx-%%sqrtG6#Fjx>84Fgq@%2Fg
+qFjxC$?(FjqF]oF]oF`qF[rC%>85*&F\\sF]oFjxFcr>Fdy,&FdyF]o*$,&F`sF]oF[zFc
+rF`wF]o>F`sF[z>Fdy-Fay6#FdyC$-F=6#%gnA~has~a~zero~eigenvalue~-~select~
+new~vector~and~begin~again|+G>FAFB@$F^vC$?(F&F]oF]oF&31FhxF`uF^vC->86F
+gq?(FjqF]oF]oF`qF[rC%>F\\sFgq?(F]rF]oF]oF`qF[r>F\\s,&F\\sF]o*&F_rF]o&F
+as6#FdrF]oF]o>Fa[l,&Fa[lF]o*&F`sF]oF\\sF]oF]o>FjxFgq?(FjqF]oF]oF`qF[r>
+FjxF]y>FjxF`y>FdyFgq@%FfyC$?(FjqF]oF]oF`qF[rC%>F[zF\\z>FdyF^z>F`sF[z>F
+dyFczC$Ffz>FAFB-F^x6&Fgw%*%d~%12.8fGFhxFa[l?(FjqF]oF]oF`qF[r-F^x6%Fgw%
+(~%11.8fGF`s-F^x6$Fgw%\"|+G@$F^v@%2FdyF[tC)-F^x6%Fgw%;|+|+The~eigenval
+ue~:=~%12.8fGFa[l-F^x6%Fgw%8~to~tolerance~:=~%.10e|+GF[t-F^x6%Fgw%Eobt
+ained~on~iteration~number~:=~%d|+|+GFhx-F^x6$Fgw%8Unit~eigenvector~is~
+:|+|+G?(FjqF]oF]oF`qF[rFa]lFd]l>FAFB>Fhx,&FhxF]oF]oF]o@$2F`uFhx-F=6$%E
+No~convergence~within~%d~iterations|+GF`u@$0FgwF\\xC$-Fcs6#Fgw-F=6$%CO
+utput~file~%s~created~sucessfullyGF\\p-%'RETURNG6#FgqF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg092();" }}{PARA 6 "" 1 "" {TEXT 
+-1 382 "This is the Symmetric Power Method.\nThe array will be input f
+rom a text file in the order:\nA(1,1), A(1,2), ..., A(1,n), A(2,1), A(
+2,2), ..., A(2,n),\n..., A(n,1), A(n,2), ..., A(n,n)\n\nPlace as many \+
+entries as desired on each line, but separate entries with\nat least o
+ne blank.\nThe initial approximation should follow in same format.\n\n
+\nHas the input file been created? - enter Y or N." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 75 "Input the \+
+file name in the form - drive:\\name.ext\nfor example:  A:\\DATA.DTA" 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg092.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 22 "Input the dimension n." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" {TEXT -1 20 "Input th
+e tolerance." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}
+{PARA 6 "" 1 "" {TEXT -1 45 "Input maximum number of iterations - inte
+ger." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "25" }}{PARA 6 "" 1 "
+" {TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Outpu
+t to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 1149 "SYMMETRIC POWER ME
+THOD\n\niter  approx        approx eigenvector\n      eigenvalue\n1   \+
+4.00000000   .94280904 -.23570226   .23570226\n2   4.99999999   .81649
+658 -.40824829   .40824829\n3   5.66666666   .71066905 -.49746833   .4
+9746833\n4   5.90909090   .64699663 -.53916386   .53916386\n5   5.9767
+4418   .61283647 -.55876267   .55876267\n6   5.99415204   .59524715 -.
+56819046   .56819046\n7   5.99853587   .58633558 -.57280476   .5728047
+6\n8   5.99963383   .58185194 -.57508621   .57508621\n9   5.99990845  \+
+ .57960333 -.57622043   .57622043\n10   5.99997711   .57847735 -.57678
+590   .57678590\n11   5.99999427   .57791395 -.57706822   .57706822\n1
+2   5.99999857   .57763214 -.57720928   .57720928\n13   5.99999964   .
+57749121 -.57727978   .57727978\n14   5.99999991   .57742074 -.5773150
+2   .57731502\n15   5.99999997   .57738550 -.57733264   .57733264\n16 \+
+  5.99999999   .57736788 -.57734145   .57734145\n17   6.00000000   .57
+735907 -.57734586   .57734586\n18   6.00000000   .57735467 -.57734806 \+
+  .57734806\n\n\nThe eigenvalue :=   6.00000000 to tolerance := 1.0000
+000000e-05\nobtained on iteration number := 18\n\nUnit eigenvector is \+
+:\n\n   .57735467 -.57734806   .57734806" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "
+1 168 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

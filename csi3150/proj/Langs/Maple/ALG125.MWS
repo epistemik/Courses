@@ -1,0 +1,722 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4328 "# Finite Element Algorithm 12.5\n
+#\n# To approximate the solution to an elliptic partial-differential\n
+# equation subject to Dirichlet, mixed, or Neumann boundary\n# conditi
+ons:\n#\n# Input:   see STEP 0\n#\n# Output:  description of triangles
+, nodes, line integrals, basis\n#          functions, linear system to
+ be solved, and the\n#          coefficients of the basis functions\n#
+\n#\n# Step 0\n# General outline\n#\n#    1. Triangles numbered: 1 to \+
+K for triangles with no edges on\n#       Script-S-1 or Script-S-2, K+
+1 to N for triangles with\n#       edges on script-S-2, N+1 to M for r
+emaining triangles.\n#       Note: K=0 implies that no triangle is int
+erior to D.\n#       Note: M=N implies that all triangles have edges o
+n\n#       script-S-2.\n#\n#    2. Nodes numbered: 1 to LN for interio
+r nodes and nodes on\n#       script-S-2, LN+1 to LM for nodes on scri
+pt-S-1.\n#       Note: LM and LN represent lower case m and n resp.\n#
+       Note: LN=LM implies that script-S-1 contains no nodes.\n#      \+
+ Note: If a node is on both script-S-1 and script-S-2, then\n#       i
+t should be treated as if it were only on script-S-1.\n#\n#    3. NL=n
+umber of line segments on script-S-2\n#       line(I,J) is an NL by 2 \+
+array where\n#       line(I,1)= first node on line I and\n#       line
+(I,2)= second node on line I taken\n#       in positive direction alon
+g line I\n#\n#    4. For the node labelled KK,KK=1,...,LM we have:\n# \+
+      A) coordinates XX(KK),YY(KK)\n#       B) number of triangles in \+
+which KK is a vertex= LL(KK)\n#       C) II(KK,J) labels the triangles
+ KK is in and\n#       NV(KK,J) labels which vertex node KK is for\n# \+
+      each J=1,...,LL(KK)\n#\n#    5. NTR is an M by 3 array where\n# \+
+      NTR(I,1)=node number of vertex 1 in triangle I\n#       NTR(I,2)
+=node number of vertex 2 in triangle I\n#       NTR(I,3)=node number o
+f vertex 3 in triangle I\n#\n#    6. Function subprograms:\n#       A)
+ P,Q,R,F,G,G1,G2 are the functions specified by\n#          the partic
+ular differential equation\n#       B) RR is the integrand\n#         \+
+ R*N(J)*N(K) on triangle I in step 4\n#       C) FFF is the integrand \+
+F*N(J) on triangle I in step 4\n#       D) GG1=G1*N(J)*N(K)\n#        \+
+  GG2=G2*N(J)\n#          GG3=G2*N(K)\n#          GG4=G1*N(J)*N(J)\n# \+
+         GG5=G1*N(K)*N(K)\n#          integrands in step 5\n#       E)
+ QQ(FF) computes the double integral of any\n#          integrand FF o
+ver a triangle with vertices given by\n#          nodes J1,J2,J3 - the
+ method is an O(H**2) approximation\n#          for triangles\n#      \+
+ F) SQ(PP) computes the line integral of any integrand PP\n#          \+
+along the line from (XX(J1),YY(J1)) to (XX(J2),YY(J2))\n#          by \+
+using a parameterization given by:\n#          X=XX(J1)+(XX(J2)-XX(J1)
+)*T\n#          Y=YY(J1)+(YY(J2)-YY(J1))*T\n#          for 0 <= t <= 1
+\n#          and applying Simpson's composite method with H=.01\n#\n# \+
+   7. Arrays:\n#       A) A,B,C are M by 3 arrays where the basis func
+tion N\n#          for the Ith triangle, Jth vertex is\n#          N(X
+,Y)=A(I,J)+B(I,J)*X+C(I,J)*Y\n#          for J=1,2,3 and i=1,2,...,M\n
+#       B) XX,YY are LM by 1 arrays to hold coordinates of nodes\n#   \+
+    C) line,LL,II,NV,NTR have been explained above\n#       D) Gamma a
+nd Alpha are clear\n#\n#    8. Note that A,B,C,XX,YY,I,I1,I2,J1,J2,J3,
+Delta are reserved\n#       storage so that in any subprogram we know \+
+that\n#       triangle I has vertices (XX(J1),YY(J1)),(XX(J2),YY(J2)),
+\n#       (XX(J3),YY(J3)). That is, vertex 1 is node J1, vertex 2 is\n
+#       node J2, vertex 3 is node J3 unless a line integral is\n#     \+
+  involved in which case the line integral goes from node J1\n#       \+
+to node J2 in triangle I or unless vertex I1 is node J1\n#       A(I,I
+1)+B(I,I1)*X+C(I,I1)**Y for vertex I1 in triangle I\n#       and A(I,I
+2)+B(I,I2)*X+C(I,I2)*Y for vertex I2 in triangle I\n#       delta is 1
+/2 the area of triangle I\n#\n#  To change problems:\n#    1) change f
+unction subprograms P,Q,R,F,G,G1,G2\n#    2) change data input for K,N
+,M,LN,LM,NL.\n#    3) change data input for XX,YY,LLL,II,NV.\n#    4) \+
+change data input for line.\n#    5) change definition statements to r
+ead :\n#       A(M,3),B(M,3),C(M,3),XX(LM),YY(LM)\n#       definition \+
+LINE(NL,2),LL(LM),II(LM,MAX LL(LM)),\n#            NV(LM,MAX LL(LM))\n
+#       definition NTR(M,3),GAMMA(LM),ALPHA(LN,LN+1), use\n#       the
+ appropriate numbers for the variables M, LM,\n#       NL." }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 310 "alg125 := proc()  local OK, AA, NAME, INP,
+ K, N, M, LN1, LM, NL, KK, XX, YY, LLL, J, II, NV, LL, N1, N2, NTR, I,
+ LINE, FLAG, OUP, K1, L, GAMMA, ALPHA, J1, J2, J3, DELTA, A, B, C, I1,
+ JJ1, I2, JJ2, ZZ, HH, JI, XJ, XJ1, XJ2, XI1, XI2, INN, CCC; global P,
+Q,R,F,G,G1,G2,G3,G4,G5,RR,FFF,GG1,GG2,GG3,GG4,GG5,QQ,SQ,S;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 24 "#P := proc(X,Y) local p;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 8 "#p := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "#RET
+URN(p);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "#Q := proc(X,Y) local q;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "#q := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "#RETURN(q);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "#R \+
+:= proc(X,Y) local r;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "#r := 0;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "#RETURN(r);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "#F := proc(X,Y) local f;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "#f := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "#RETURN
+(f);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "#G := proc(X,Y) local g;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "#g :=  4;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "#RETURN(g);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "#end
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "#G1 := proc(X,Y) local g1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "#g1 :=  0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "#RETURN(g1);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "#en
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "G2 := proc(X,Y) local T, Z1, \+
+g2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "T := 1.0E-05;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 8 "Z1 := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "
+if 0.2-T <= X and X <= 0.4+T and abs(Y-0.2) <= T then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 8 "Z1 := X;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "if 0.5-T <= X and X <= (0.6+T) \+
+and abs(Y-0.1) <= T then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "Z1 := X;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 50 "if -T <= Y and Y <= 0.1+T and abs(X-0.6) <= T then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "Z1 := Y;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "if -T <= X a
+nd X <= 0.2+T and abs(Y+X-0.4) <= T then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "Z1 := (X+Y)/sqrt(2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "if 0.4 -T <= X and X <=
+ 0.5+T and abs(Y+X-0.6) <= T then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "Z1 := (X+Y)/sqrt(2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "g2 := Z1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "RETURN(g2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "RR := proc(X,Y,A,B,C,I,I1,I2) l
+ocal rr;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 97 "rr := R(X,Y)*(A[I-1,I1-
+1]+B[I-1,I1-1]*X+C[I-1,I1-1]*Y)*(A[I-1,I2-1]+B[I-1,I2-1]*X+C[I-1,I2-1]
+*Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "RETURN(rr);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "FFF \+
+:= proc(X,Y,A,B,C,I,I1) local fff;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+56 "fff := F(X,Y)*(A[I-1,I1-1]+B[I-1,I1-1]*X+C[I-1,I1-1]*Y);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 12 "RETURN(fff);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "GG1 := proc
+(X,Y,A,B,C,I,I1,I2) local gg1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 99 "g
+g1 := G1(X,Y)*(A[I-1,I1-1]+B[I-1,I1-1]*X+C[I-1,I1-1]*Y)*(A[I-1,I2-1]+B
+[I-1,I2-1]*X+C[I-1,I2-1]*Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "RET
+URN(gg1);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 38 "GG2 := proc(X,Y,A,B,C,I,I1) local gg2;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 57 "gg2 := G2(X,Y)*(A[I-1,I1-1]+B[I-1,I1-1]*X+C
+[I-1,I1-1]*Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "RETURN(gg2);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 38 "GG3 := proc(X,Y,A,B,C,I,I2) local gg3;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 57 "gg3 := G2(X,Y)*(A[I-1,I2-1]+B[I-1,I2-1]*X+C[I-1,I2-1]
+*Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "RETURN(gg3);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "GG4 \+
+:= proc(X,Y,A,B,C,I,I1) local gg4;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+99 "gg4 := G1(X,Y)*(A[I-1,I1-1]+B[I-1,I1-1]*X+C[I-1,I1-1]*Y)*(A[I-1,I1
+-1]+B[I-1,I1-1]*X+C[I-1,I1-1]*Y);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "RETURN(gg4);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 38 "GG5 := proc(X,Y,A,B,C,I,I2) local gg5;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 99 "gg5 := G1(X,Y)*(A[I-1,I2-1]+B[I-1,I
+2-1]*X+C[I-1,I2-1]*Y)*(A[I-1,I2-1]+B[I-1,I2-1]*X+C[I-1,I2-1]*Y);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "RETURN(gg5);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 93 "QQ := proc(
+L,XX,YY,DELTA,J1,J2,J3,I1,I2,A,B,C)  local X, Y, I, T1, T2, T3, QQQ, q
+q; global S;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "X[0] := XX[J1-1];" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "Y[0] := YY[J1-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 17 "X[1] := XX[J2-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "Y[1] := YY[J2-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+17 "X[2] := XX[J3-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "Y[2] := YY
+[J3-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "X[3] := 0.5*(X[0]+X[1]);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "Y[3] := 0.5*(Y[0]+Y[1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "X[4] := 0.5*(X[0]+X[2]);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 24 "Y[4] := 0.5*(Y[0]+Y[2]);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 24 "X[5] := 0.5*(X[1]+X[2]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "Y[5] := 0.5*(Y[1]+Y[2]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "X[6] := (X[0]+X[1]+X[2])/3.0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "Y[6] := (Y[0]+Y[1]+Y[2])/3.0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "if L = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f
+or I from 1 to 7 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "S[I-1] := P(
+X[I-1],Y[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "od;\011 " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if L = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to 7 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "S[I-1] := Q(X[I-1],Y[I-
+1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "od;\011 " }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if L = 3 t
+hen" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to 7 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "S[I-1] := RR(X[I-1],Y[I-1],A,B,C,I,
+I1,I2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "od;\011 " }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if L = \+
+4 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to 7 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "S[I-1] := FFF(X[I-1],Y[I-1],A,B,C,I
+,I1);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "od;\011 " }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "T1 := 0;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to 3 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "T1 := T1+S[I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "T2 := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 4 to 6 do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 16 "T2 := T2+S[I-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "T3 := S[6];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "QQQ := 0.5*(T1/20+2*T2/15+9*T3/
+20)*abs(DELTA);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "qq := QQQ;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "RETURN(qq);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 114 "SQ := proc
+(L,XX,YY,J1,J2,I,I1,I2,A,B,C)  local X1, Y1, X2, Y2, H, T1, T2, T3, K,
+ X, Q3, Q1, Q2, SSQ, sq; global S;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+15 "X1 := XX[J1-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "Y1 := YY[J1-
+1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "X2 := XX[J2-1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 15 "Y2 := YY[J2-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "H := 0.01;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "T1 :
+= X2-X1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "T2 := Y2-Y1;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 24 "T3 := sqrt(T1*T1+T2*T2);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "for K from 1 to 101 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "X := (K-1)*H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "i
+f L = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "S[K-1] := T3*GG1(T1
+*X+X1,T2*X+Y1,A,B,C,I,I1,I2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if L = 2 then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 45 "S[K-1] := T3*GG2(T1*X+X1,T2*X+Y1,A,B,C,I,I1);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 13 "if L = 3 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "S[K-1] := \+
+T3*GG3(T1*X+X1,T2*X+Y1,A,B,C,I,I2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if L = 4 then" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 45 "S[K-1] := T3*GG4(T1*X+X1,T2*X+Y1,A,B,C,I,I1
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "if L = 5 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "S
+[K-1] := T3*GG5(T1*X+X1,T2*X+Y1,A,B,C,I,I2);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 18 "Q3 := S[0]+S[100];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "Q1 := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "Q2 := S
+[99];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to 49 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "Q1 := Q1+S[2*K];" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 18 "Q2 := Q2+S[2*K-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "SSQ := (Q3+2*Q1+4*Q2)
+*H/3;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "sq := SSQ;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "RETURN(sq);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`This is the Fini
+te Element Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "printf(`The input will be \+
+from a text file in the following form:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`K  N  M  n  m  nl\\n\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 44 "printf(`Each of the above is an integer -`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`separate with at least one \+
+blank.\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Follow w
+ith the input for each node in the form:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 62 "printf(`x-coor., y-coord., number of triangles in whi
+ch the`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(` node is a ver
+tex.\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "printf(`Continue w
+ith the triangle number and vertex number for\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 57 "printf(`each triangle in which the node is a verte
+x.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Separate each e
+ntry with at least one blank.\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 70 "printf(`After all nodes have been entered follow with informat
+ion\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "printf(`on the lines o
+ver which line integrals must be computed.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 67 "printf(`The format of this data will be the node numb
+er of the\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "printf(`starting
+ node, followed by the node number of the ending\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 65 "printf(`node for each line, taken in the posit
+ive direction.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "printf(`The
+re should be 2 * nl such entries, each an integer\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 36 "printf(`separated by a blank.\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Functions can be input or c
+oded as procedures.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf
+(`The example has G2 as a procedure and the rest\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 22 "printf(`as input.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 64 "printf(`Have the functions P,Q,R,F,G,G1,G2 been creat
+ed and\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`has the inp
+ut file been created?  Answer Y or N.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "AA := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 52 "printf(`Input function P(X) in terms of x and y\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "P := scanf(`%a`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "P := unapply(P,x,y);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 52 "printf(`Input function Q(X) in terms of x and y\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "Q := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "Q := unapply(Q,x,y);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 52 "printf(`Input function R(X) in terms of x and \+
+y\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "R := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "R := unapply(R,x,y);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 52 "printf(`Input function F(X) in terms of x and \+
+y\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := unapply(F,x,y);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 46 "printf(`Input function G(X) in terms of x\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "G := scanf(`%a`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 18 "G := unapply(G,x);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "printf(`Input function G1(X) in terms of x\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "G1 := scanf(`%a`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 20 "G1 := unapply(G1,x);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 48 "#printf(`Input function G2(X) in terms of x\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "#G2 := scanf(`%a`)[1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "#G2 := unapply(G2,x);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`for exampl
+e:  A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME :=
+ scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NA
+ME,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "K := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "N := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "M := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "LN1 := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "LM := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "NL := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for KK from 1 to LM do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 33 "XX[KK-1] := fscanf(INP, `%f`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 33 "YY[KK-1] := fscanf(INP, `%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "LLL := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to LLL do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 37 "II[KK-1,J-1] := fscanf(INP, `%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "NV[KK-1,J-1] := fscanf(INP, `%d`)[1
+];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "LL[KK-1] := LLL;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "for J from 1 to LLL do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "N1 :=
+ II[KK-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "N2 := NV[KK-1,J-1
+];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NTR[N1-1,N2-1] := KK;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NL > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 1 to NL do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 20 "for J from 1 to 2 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "LINE[I-1,J-1] := fscanf(INP, `%d`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`The program will end so tha
+t the input file can be created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text
+ file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter
+ 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "
+printf(`for example:  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 44 "fprintf(OUP, `FINITE ELEMENT METHOD\\n\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "K1 := K+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "N1 := LN1+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fp
+rintf(OUP, `Vertices and Nodes of Triangles\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 57 "fprintf(OUP, `Trinagle-node number for vertex 1 to \+
+3\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "fprintf(OUP, ` %5d`, I);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to 3 do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 35 "fprintf(OUP, ` %4d`, NTR[I-1,J-1]);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprin
+tf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `x and y coordinates of nodes\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for KK from 1 to LM do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "fprintf(OUP, `%5d %11.8f %11.8f\\n`
+, KK, XX[KK-1], YY[KK-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "fprintf(OUP, `Lines of the Domain
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for KK from 1 to NL do" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "fprintf(OUP, `%5d %4d %4d\\n`, KK,
+ LINE[KK-1,0], LINE[KK-1,1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 17 "if LM <> LN1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for L \+
+from N1 to LM do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "GAMMA[L-1] := G
+(XX[L-1],YY[L-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 70 "STEP 2
+ - initialization of ALPHA - note that ALPHA[I,LN1+1] := BETA[I]" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I from 1 to LN1 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "for J from 1 to N1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "ALPHA[I-1,J-1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 45 "STEPS 3, 4, and 6-12 are within the next loop" }}{PARA 0 
+"" 0 "" {TEXT -1 88 "for each triangle I let node J1 be vertex 1, node
+ J2 be vertex 2 and node J3 be vertex 3" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "J1 := NTR[I-1,0];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 17 "J2 := NTR[I-1,1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 17 "J3 := NTR[I-1,2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "DELTA :
+= " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 74 "XX[J2-1]*YY[J3-1]-XX[J3-1]*YY
+[J2-1]-XX[J1-1]*(YY[J3-1]-YY[J2-1])+YY[J1-1]*" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "(XX[J3-1]-XX[J2-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 56 "A[I-1,0] := (XX[J2-1]*YY[J3-1]-YY[J2-1]*XX[J3-1])/DELTA;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "B[I-1,0] := (YY[J2-1]-YY[J3-1])/DEL
+TA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "C[I-1,0] := (XX[J3-1]-XX[J2-
+1])/DELTA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "A[I-1,1] := (XX[J3-1]
+*YY[J1-1]-YY[J3-1]*XX[J1-1])/DELTA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "B[I-1,1] := (YY[J3-1]-YY[J1-1])/DELTA;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "C[I-1,1] := (XX[J1-1]-XX[J3-1])/DELTA;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 56 "A[I-1,2] := (XX[J1-1]*YY[J2-1]-YY[J1-1]*XX[J2-
+1])/DELTA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "B[I-1,2] := (YY[J1-1]
+-YY[J2-1])/DELTA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "C[I-1,2] := (X
+X[J2-1]-XX[J1-1])/DELTA;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}
+{PARA 0 "" 0 "" {TEXT -1 39 "I1 = J for STEP 4 and I1 = K for STEP 7" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I1 from 1 to 3 do" }}{PARA 0 
+"" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "JJ1 :
+= NTR[I-1,I1-1];" }}{PARA 0 "" 0 "" {TEXT -1 39 "I2 = K for STEP 4 and
+ I2 = J for STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I2 from 1
+ to I1 do" }}{PARA 0 "" 0 "" {TEXT -1 18 "STEP 4 and STEP 10" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "JJ2 := NTR[I-1,I2-1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 171 "ZZ := B[I-1,I1-1]*B[I-1,I2-1]*QQ(1,XX,YY,DELTA,J1,
+J2,J3,I1,I2,A,B,C)+C[I-1,I1-1]*C[I-1,I2-1]*QQ(2,XX,YY,DELTA,J1,J2,J3,I
+1,I2,A,B,C)-QQ(3,XX,YY,DELTA,J1,J2,J3,I1,I2,A,B,C);" }}{PARA 0 "" 0 "
+" {TEXT -1 15 "STEPS 11 and 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "i
+f JJ1 <= LN1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if JJ2 <= LN1 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "ALPHA[JJ1-1,JJ2-1] := ALPHA
+[JJ1-1,JJ2-1]+ZZ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if JJ1 <> JJ2 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "ALPHA[JJ2-1,JJ1-1] := ALPHA
+[JJ2-1,JJ1-1]+ZZ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "A
+LPHA[JJ1-1,N1-1] := ALPHA[JJ1-1,N1-1]-ZZ*GAMMA[JJ2-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if JJ2 <= LN1 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 55 "ALPHA[JJ2-1,N1-1] := ALPHA[JJ2-1,N1-1]-ZZ*GAMM
+A[JJ1-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "HH := -QQ(4,XX,YY,DELTA,J1,J2,J3,I1
+,I2,A,B,C);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if JJ1 <= LN1 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "ALPHA[JJ1-1,N1-1] := ALPHA[JJ1-1,
+N1-1]+HH;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 26 "output the bsais functions" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 34 "fprintf(OUP, `Basis Functions\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 54 "fprintf(OUP, `Triangle - Vertex - Node - \+
+Function\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to M
+ do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to 3 do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "fprintf(OUP, `%4d %3d %3d %13.8f %1
+3.8f %13.8f\\n`, I, J, NTR[I-1,J-1], " }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 35 "A[I-1,J-1],B[I-1,J-1], C[I-1,J-1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "" 0 "" {TEXT -1 155 "for each
+ line segment JI = 1 ,..., NL and for each triangle I, I = K1 ,..., N \+
+which may contain line JI search all 3 vertices for possible correspon
+dences." }}{PARA 0 "" 0 "" {TEXT -1 22 "STEP 5 and STEPS 13-19" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "if NL <> 0 and N <> K then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for JI from 1 to NL do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 21 "for I from K1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for I1 from 1 to 3 do" }}{PARA 0 "" 0 "" {TEXT -1 37 
+"I1 = J in STEP 5 and I1 = K in STEP14" }}{PARA 0 "" 0 "" {TEXT -1 7 "
+STEP 15" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "J1 := NTR[I-1,I1-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if LINE[JI-1,0] = J1 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "for I2 from 1 to 3 do" }}{PARA 0 "" 0 "" 
+{TEXT -1 38 "I2 = K in STEP 5 and I2 = J in STEP 16" }}{PARA 0 "" 0 "
+" {TEXT -1 7 "STEP 17" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "J2 := NTR[
+I-1,I2-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if LINE[JI-1,1] = J2 \+
+then" }}{PARA 0 "" 0 "" {TEXT -1 137 "There is a correspondence of ver
+tex I1 in triangle I with node J1 as the start of line JI an vertex I2
+ with node J2 as the end of line JI" }}{PARA 0 "" 0 "" {TEXT -1 6 "STE
+P 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "XJ := SQ(1,XX,YY,J1,J2,I,I1,
+I2,A,B,C);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "XJ1 := SQ(4,XX,YY,J1,
+J2,I,I1,I2,A,B,C);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "XJ2 := SQ(5,X
+X,YY,J1,J2,I,I1,I2,A,B,C);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "XI1 :
+= SQ(2,XX,YY,J1,J2,I,I1,I2,A,B,C);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+39 "XI2 := SQ(3,XX,YY,J1,J2,I,I1,I2,A,B,C);" }}{PARA 0 "" 0 "" {TEXT 
+-1 14 "STEPS 8 and 19" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if J1 <= L
+N1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if J2 <= LN1 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "ALPHA[J1-1,J1-1] := ALPHA[J1-1,J1-1
+]+XJ1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "ALPHA[J1-1,J2-1] := ALPHA
+[J1-1,J2-1]+XJ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "ALPHA[J2-1,J2-1]
+ := ALPHA[J2-1,J2-1]+XJ2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "ALPHA[
+J2-1,J1-1] := ALPHA[J2-1,J1-1]+XJ;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+41 "ALPHA[J1-1,N1-1] := ALPHA[J1-1,N1-1]+XI1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 41 "ALPHA[J2-1,N1-1] := ALPHA[J2-1,N1-1]+XI2;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "A
+LPHA[J1-1,N1-1] := ALPHA[J1-1,N1-1]-XJ*GAMMA[J2-1]+XI1;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 41 "ALPHA[J1-1,J1-1] := ALPHA[J1-1,J1-1]+XJ1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if J2 <= LN1 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "ALPHA[J2-1,N1-1] := ALPHA[J2-1,N1-1
+]-XJ*GAMMA[J1-1]+XI2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "ALPHA[J2-1
+,J2-1] := ALPHA[J2-1,J2-1]+XJ2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "" 0 "" {TEXT -1 12 "output ALPHA" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+40 "fprintf(OUP, `Matrix ALPHA follows:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "for I from 1 to LN1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 29 "fprintf(OUP, `Row %4d\\n`, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 21 "for J from 1 to N1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "fp
+rintf(OUP, ` %13.10e\\n `, evalf(ALPHA[I-1,J-1]));" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "" 
+0 "" {TEXT -1 7 "STEP 20" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if LN1 \+
+> 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "INN := LN1-1;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 22 "for I from 1 to INN do" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 10 "I1 := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "f
+or J from I1 to LN1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "CCC := AL
+PHA[J-1,I-1]/ALPHA[I-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "for
+ J1 from I1 to N1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "ALPHA[J-1,J
+1-1] := ALPHA[J-1,J1-1]-CCC*ALPHA[I-1,J1-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "ALPHA[J-1,I-
+1] := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "GAMMA[LN1-1] := ALPHA[LN1-1,N1-1]/A
+LPHA[LN1-1,LN1-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if LN1 > 1 th
+en" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I from 1 to INN do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "J := LN1-I;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "CCC := ALPHA[J-1,N1-1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "J1 := J+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "for \+
+KK from J1 to LN1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "CCC := CCC-
+ALPHA[J-1,KK-1]*GAMMA[KK-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "GAMMA[J-1] := CCC/ALPHA[J-1,J-1
+];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 21" }}{PARA 0 
+"" 0 "" {TEXT -1 12 "output gamma" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+51 "fprintf(OUP, `Coefficients of Basis Functions:\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "for I from 1 to LM do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "LLL := LL[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 
+"fprintf(OUP, `%3d %13.8f %d`, I, evalf(GAMMA[I-1]), I);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 22 "for J from 1 to LLL do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 34 "fprintf(OUP, ` %4d`, II[I-1,J-1]);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(O
+UP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 23" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RE
+TURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "
+" {XPPMATH 20 "6#>%'alg125G:6\"6T%#OKG%#AAG%%NAMEG%$INPG%\"KG%\"NG%\"M
+G%$LN1G%#LMG%#NLG%#KKG%#XXG%#YYG%$LLLG%\"JG%#IIG%#NVG%#LLG%#N1G%#N2G%$
+NTRG%\"IG%%LINEG%%FLAGG%$OUPG%#K1G%\"LG%&GAMMAG%&ALPHAG%#J1G%#J2G%#J3G
+%&DELTAG%\"AG%\"BG%\"CG%#I1G%$JJ1G%#I2G%$JJ2G%#ZZG%#HHG%#JIG%#XJG%$XJ1
+G%$XJ2G%$XI1G%$XI2G%$INNG%$CCCGF&F&CH>%#G2G:6$%\"XG%\"YG6%%\"TG%#Z1G%#
+g2GF&F&C+>8$$\"#5!\"'>8%\"\"!@$331,&$\"\"#!\"\"\"\"\"FaoF_p9$1Fap,&$\"
+\"%F_pF`pFaoF`p1-%$absG6#,&9%F`p$!\"#F_pF`pFao>FfoFap@$331,&$\"\"&F_pF
+`pFaoF_pFap1Fap,&$\"\"'F_pF`pFaoF`p1-Fhp6#,&F[qF`p$F_pF_pF`pFao>FfoFap
+@$331,$FaoF_pF[q1F[q,&$F`pF_pF`pFaoF`p1-Fhp6#,&FapF`p$FdoF_pF`pFao>Ffo
+F[q@$331FdrFap1Fap,&F]pF`pFaoF`p1-Fhp6#,(F[qF`pFapF`p$!\"%F_pF`pFao>Ff
+o*&,&FapF`pF[qF`pF`p-%%sqrtG6#F^pF_p@$331,&FdpF`pFaoF_pFap1Fap,&FdqF`p
+FaoF`p1-Fhp6#,(F[qF`pFapF`pF\\sF`pFao>FfoF[t>8&Ffo-%'RETURNG6#F]uF&F&>
+%#RRG:6*FinFjnFIFJFKF=FLFN6#%#rrGF&F&C$>Fao*(-%\"RG6$FapF[qF`p,(&9&6$,
+&9)F`pF_pF`p,&9*F`pF_pF`pF`p*&&9'F`vF`pFapF`pF`p*&&9(F`vF`pF[qF`pF`pF`
+p,(&F_v6$Fav,&9+F`pF_pF`pF`p*&&FgvF]wF`pFapF`pF`p*&&FjvF]wF`pF[qF`pF`p
+F`p-F_u6#FaoF&F&>%$FFFG:6)FinFjnFIFJFKF=FL6#%$fffGF&F&C$>Fao*&-%\"FGF
+\\vF`pF]vF`pFdwF&F&>%$GG1G:Fdu6#%$gg1GF&F&C$>Fao*(-%#G1GF\\vF`pF]vF`pF
+[wF`pFdwF&F&>%$GG2G:Fiw6#%$gg2GF&F&C$>Fao*&-FfnF\\vF`pF]vF`pFdwF&F&>%$
+GG3G:6)FinFjnFIFJFKF=FN6#%$gg3GF&F&C$>FaoFbyFdwF&F&>%$GG4G:Fiw6#%$gg4G
+F&F&C$>Fao*&FixF`pF]vF^pFdwF&F&>%$GG5G:Fgy6#%$gg5GF&F&C$>FaoFczFdwF&F&
+>%#QQG:6.FBF3F4FHFEFFFGFLFNFIFJFK6*FinFjnF=%#T1G%#T2G%#T3G%$QQQG%#qqGF
+&F&C<>&Fao6#Fgo&F[q6#,&FjvF`pF_pF`p>&FfoFh[l&F_vFj[l>&Fao6#F`p&F[q6#Fa
+v>&FfoFa\\l&F_vFc\\l>&FaoF_t&F[q6#Fcv>&FfoF_t&F_vFj\\l>&Fao6#\"\"$,&Fg
+[lFdqF`\\lFdq>&FfoF`]l,&F]\\lFdqFe\\lFdq>&Fao6#Fep,&Fg[lFdqFh\\lFdq>&F
+foFh]l,&F]\\lFdqF\\]lFdq>&Fao6#Feq,&F`\\lFdqFh\\lFdq>&FfoF_^l,&Fe\\lFd
+qF\\]lFdq>&Fao6#Fiq,(Fg[l$\"+LLLLL!#5F`\\lFh^lFh\\lFh^l>&FfoFf^l,(F]\\
+lFh^lFe\\lFh^lF\\]lFh^l@$/FapF`p?(F]uF`pF`p\"\"(%%trueG>&%\"SG6#,&F]uF
+`pF_pF`p-%\"PG6$&FaoFf_l&FfoFf_l@$/FapF^p?(F]uF`pF`pFa_lFb_l>Fd_l-%\"Q
+GFj_l@$/FapFa]l?(F]uF`pF`pFa_lFb_l>Fd_l-Fbu6*F[`lF\\`l9-9.9/F]uF_w9,@$
+/FapFep?(F]uF`pF`pFa_lFb_l>Fd_l-Fgw6)F[`lF\\`lFi`lFj`lF[alF]uF_w>8'Fgo
+?(F]uF`pF`pFa]lFb_l>Fdal,&FdalF`pFd_lF`p>8(Fgo?(F]uFepF`pFiqFb_l>Fial,
+&FialF`pFd_lF`p>8)&Fe_lFf^l>8*,$*&,(Fdal#F`p\"#?Fial#F^p\"#:F^bl#\"\"*
+FfblF`p-Fhp6#FgvF`pFdq>8+Fabl-F_u6#F^clF&6#Fe_l>%#SQG:6-FBF3F4FEFFF=FL
+FNFIFJFK61%#X1G%#Y1G%#X2G%#Y2G%\"HGF`[lFa[lFb[lF,Fin%#Q3G%#Q1G%#Q2G%$S
+SQG%#sqGF&F&C2>Fao&F[q6#,&FgvF`pF_pF`p>Ffo&F_vFddl>F]uFi[l>FdalF^\\l>F
+ial$F`pF]q>F^bl,&F]uF`pFaoF_p>Fabl,&FdalF`pFfoF_p>F^cl-F^t6#,&*$F^blF^
+pF`p*$FablF^pF`p?(8,F`pF`p\"$,\"Fb_lC(>8-*&,&FgelF`pF_pF`pF`pFialF`p@$
+F__l>&Fe_l6#F]fl*&F^clF`p-Fbx6*,&*&F^blF`pF[flF`pF`pFaoF`p,&*&FablF`pF
+[flF`pF`pFfoF`pF\\alFi`lFj`lFbvFdvF_wF`p@$F^`l>F`fl*&F^clF`p-F\\y6)Fef
+lFgflF\\alFi`lFj`lFbvFdvF`p@$Fd`l>F`fl*&F^clF`p-Fey6)FeflFgflF\\alFi`l
+Fj`lFbvF_wF`p@$F^al>F`fl*&F^clF`p-F]zF]glF`p@$/FapFeq>F`fl*&F^clF`p-Fe
+zFbglF`p>8.,&&Fe_lFh[lF`p&Fe_l6#\"$+\"F`p>8/Fgo>80&Fe_l6#\"#**?(FgelF`
+pF`p\"#\\Fb_lC$>Fdhl,&FdhlF`p&Fe_l6#,$FgelF^pF`p>Ffhl,&FfhlF`p&Fe_l6#,
+&FgelF^pF_pF`pF`p>81,$*&,(F]hlF`pFdhlF^pFfhlFepF`pFialF`p#F`pFa]l>82Fh
+il-F_u6#F^jlF&Facl-%'printfG6#%DThis~is~the~Finite~Element~Method.|+G>
+Fao%&FALSEG-Fbjl6#%enThe~input~will~be~from~a~text~file~in~the~followi
+ng~form:|+G-Fbjl6#%4K~~N~~M~~n~~m~~nl|+|+G-Fbjl6#%BEach~of~the~above~i
+s~an~integer~-G-Fbjl6#%Dseparate~with~at~least~one~blank.|+|+G-Fbjl6#%
+RFollow~with~the~input~for~each~node~in~the~form:|+G-Fbjl6#%Tx-coor.,~
+y-coord.,~number~of~triangles~in~which~theG-Fbjl6#%5~node~is~a~vertex.
+|+|+G-Fbjl6#%YContinue~with~the~triangle~number~and~vertex~number~for|
++G-Fbjl6#%Neach~triangle~in~which~the~node~is~a~vertex.|+G-Fbjl6#%OSep
+arate~each~entry~with~at~least~one~blank.|+|+G-Fbjl6#%enAfter~all~node
+s~have~been~entered~follow~with~information|+G-Fbjl6#%Zon~the~lines~ov
+er~which~line~integrals~must~be~computed.|+G-Fbjl6#%XThe~format~of~thi
+s~data~will~be~the~node~number~of~the|+G-Fbjl6#%Zstarting~node,~follow
+ed~by~the~node~number~of~the~ending|+G-Fbjl6#%Vnode~for~each~line,~tak
+en~in~the~positive~direction.|+G-Fbjl6#%VThere~should~be~2~*~nl~such~e
+ntries,~each~an~integer|+G-Fbjl6#%8separated~by~a~blank.|+|+G-Fbjl6#%P
+Functions~can~be~input~or~coded~as~procedures.|+G-Fbjl6#%PThe~example~
+has~G2~as~a~procedure~and~the~rest|+G-Fbjl6#%*as~input|+G-Fbjl6#%UHave
+~the~functions~P,Q,R,F,G,G1,G2~been~created~and|+G-Fbjl6#%Rhas~the~inp
+ut~file~been~created?~~Answer~Y~or~N.|+G>Ffo&-%&scanfG6#%$|+%cGFa\\l@%
+5/FfoFjn/Ffo%\"yGCB-Fbjl6#%IInput~function~P(X)~in~terms~of~x~and~y|+G
+>Fi_l&-F\\_m6#%#%aGFa\\l>Fi_l-%(unapplyG6%Fi_l%\"xGFc_m-Fbjl6#%IInput~
+function~Q(X)~in~terms~of~x~and~y|+G>Fb`lFi_m>Fb`l-F_`m6%Fb`lFa`mFc_m-
+Fbjl6#%IInput~function~R(X)~in~terms~of~x~and~y|+G>F[vFi_m>F[v-F_`m6%F
+[vFa`mFc_m-Fbjl6#%IInput~function~F(X)~in~terms~of~x~and~y|+G>F`xFi_m>
+F`x-F_`m6%F`xFa`mFc_m-Fbjl6#%CInput~function~G(X)~in~terms~of~x|+G>%\"
+GGFi_m>F[bm-F_`m6$F[bmFa`m-Fbjl6#%DInput~function~G1(X)~in~terms~of~x|
++G>FjxFi_m>Fjx-F_`m6$FjxFa`m-Fbjl6#%SInput~the~file~name~in~the~form~-
+~drive:\\name.ext|+G-Fbjl6#%;for~example:~~A:\\DATA.DTA|+G>F]u&-F\\_m6
+#%#%sGFa\\l>Fdal-%&fopenG6%F]u%%READG%%TEXTG>Fao%%TRUEG>Fial&-%'fscanf
+G6$Fdal%#%dGFa\\l>F^blFjcm>FablFjcm>F^clFjcm>FgelFjcm>F[flFjcm?(F]hlF`
+pF`pFgelFb_lC(>&Fdhl6#,&F]hlF`pF_pF`p&-F\\dm6$Fdal%#%fGFa\\l>&FfhlFhdm
+Fjdm>FhilFjcm?(F^jlF`pF`pFhilFb_lC$>&836$Fidm,&F^jlF`pF_pF`pFjcm>&84Ff
+emFjcm>&85FhdmFhil?(F^jlF`pF`pFhilFb_lC%>86Fdem>87Fiem>&886$,&FafmF`pF
+_pF`p,&FcfmF`pF_pF`pF]hl@$2FgoF[fl?(89F`pF`pF[flFb_l?(F^jlF`pF`pF^pFb_
+l>&8:6$,&F]gmF`pF_pF`pFgemFjcm-%'fcloseG6#Fdal-Fbjl6#%gnThe~program~wi
+ll~end~so~that~the~input~file~can~be~created.|+G@$/FaoFhcmCB-Fbjl6#%:C
+hoice~of~output~method:|+G-Fbjl6#%51.~Output~to~screen|+G-Fbjl6#%82.~O
+utput~to~text~file|+G-Fbjl6#%6Please~enter~1~or~2.|+G>8;&-F\\_m6#F^dmF
+a\\l@%/FjhmF^pC&Ffbm-Fbjl6#%=for~example:~~A:\\OUTPUT.DTA|+G>F]uF]cm>8
+<-Fccm6%F]u%&WRITEGFfcm>Ffim%(defaultG-%(fprintfG6$Ffim%9FINITE~ELEMEN
+T~METHOD|+|+|+G>8=,&FialF`pF`pF`p>Fafm,&F^clF`pF`pF`p-F]jm6$Ffim%AVert
+ices~and~Nodes~of~Triangles|+G-F]jm6$Ffim%HTrinagle-node~number~for~ve
+rtex~1~to~3|+G?(F]gmF`pF`pFablFb_lC%-F]jm6%Ffim%%~%5dGF]gm?(F^jlF`pF`p
+Fa]lFb_l-F]jm6%Ffim%%~%4dG&FffmFbgm-F]jm6$Ffim%\"|+G-F]jm6$Ffim%>x~and
+~y~coordinates~of~nodes|+G?(F]hlF`pF`pFgelFb_l-F]jm6'Ffim%3%5d~%11.8f~
+%11.8f|+GF]hlFgdmF_em-F]jm6$Ffim%5Lines~of~the~Domain|+G?(F]hlF`pF`pF[
+flFb_l-F]jm6'Ffim%-%5d~%4d~%4d|+GF]hl&Fagm6$FidmFgo&Fagm6$FidmF`p@$0Fg
+elF^cl?(8>FafmF`pFgelFb_l>&8?6#,&F]]nF`pF_pF`p-F[bm6$&FdhlFa]n&FfhlFa]
+n?(F]gmF`pF`pF^clFb_l?(F^jlF`pF`pFafmFb_l>&8@FbgmFgo?(F]gmF`pF`pFablFb
+_lC0>8A&Fffm6$FcgmFgo>8B&Fffm6$FcgmF`p>8C&Fffm6$FcgmF^p>8D,**&&Fdhl6#,
+&Fc^nF`pF_pF`pF`p&Ffhl6#,&Fg^nF`pF_pF`pF`pF`p*&&FdhlFb_nF`p&FfhlF__nF`
+pF_p*&&Fdhl6#,&F_^nF`pF_pF`pF`p,&Fa_nF`pFf_nF_pF`pF_p*&&FfhlFi_nF`p,&F
+e_nF`pF^_nF_pF`pF`p>&8EFa^n*&,&F]_nF`pFd_nF_pF`pF[_nF_p>&8FFa^n*&,&Ff_
+nF`pFa_nF_pF`pF[_nF_p>&8GFa^n*&F^`nF`pF[_nF_p>&Fa`nFe^n*&,&*&Fe_nF`pF]
+`nF`pF`p*&Fa_nF`pFh_nF`pF_pF`pF[_nF_p>&Ff`nFe^n*&,&Fa_nF`pF]`nF_pF`pF[
+_nF_p>&F[anFe^n*&,&Fh_nF`pFe_nF_pF`pF[_nF_p>&Fa`nFi^n*&,&*&Fh_nF`pFf_n
+F`pF`p*&F]`nF`pF^_nF`pF_pF`pF[_nF_p>&Ff`nFi^n*&,&F]`nF`pFf_nF_pF`pF[_n
+F_p>&F[anFi^n*&,&F^_nF`pFh_nF_pF`pF[_nF_p?(8HF`pF`pFa]lFb_lC&>8I&Fffm6
+$Fcgm,&FjbnF`pF_pF`p?(8JF`pF`pFjbnFb_lC%>8K&Fffm6$Fcgm,&FbcnF`pF_pF`p>
+8L,(*(&Ff`nF_cnF`p&Ff`nFgcnF`p-F\\[l6.F`pFdhlFfhlF[_nF_^nFc^nFg^nFjbnF
+bcnFa`nFf`nF[anF`pF`p*(&F[anF_cnF`p&F[anFgcnF`p-F\\[l6.F^pFdhlFfhlF[_n
+F_^nFc^nFg^nFjbnFbcnFa`nFf`nF[anF`pF`p-F\\[l6.Fa]lFdhlFfhlF[_nF_^nFc^n
+Fg^nFjbnFbcnFa`nFf`nF[anF_p@%1F]cnF^cl@%1FecnF^clC$>&F[^n6$,&F]cnF`pF_
+pF`p,&FecnF`pF_pF`p,&F^enF`pFjcnF`p@$0F]cnFecn>&F[^n6$FaenF`en,&FfenF`
+pFjcnF`p>&F[^n6$F`enFhfm,&FjenF`p*&FjcnF`p&F`]n6#FaenF`pF_p@$F[en>&F[^
+n6$FaenFhfm,&FbfnF`p*&FjcnF`p&F`]n6#F`enF`pF_p>8M,$-F\\[l6.FepFdhlFfhl
+F[_nF_^nFc^nFg^nFjbnFbcnFa`nFf`nF[anF_p@$Fidn>Fjen,&FjenF`pFifnF`p-F]j
+m6$Ffim%1Basis~Functions|+G-F]jm6$Ffim%ETriangle~-~Vertex~-~Node~-~Fun
+ction|+G?(F]gmF`pF`pFablFb_l?(F^jlF`pF`pFa]lFb_l-F]jm6*Ffim%B%4d~%3d~%
+3d~%13.8f~%13.8f~%13.8f|+GF]gmF^jlFd[n&Fa`nFbgm&Ff`nFbgm&F[anFbgm@$30F
+[flFgo0F^blFial?(8NF`pF`pF[flFb_l?(F]gmFajmF`pF^blFb_l?(FjbnF`pF`pFa]l
+Fb_lC$>F_^nF^cn@$/&Fagm6$,&FchnF`pF_pF`pFgoF_^n?(FbcnF`pF`pFa]lFb_lC$>
+Fc^nFfcn@$/&Fagm6$F\\inF`pFc^nC(>8O-Fccl6-F`pFdhlFfhlF_^nFc^nF]gmFjbnF
+bcnFa`nFf`nF[an>8P-Fccl6-FepFdhlFfhlF_^nFc^nF]gmFjbnFbcnFa`nFf`nF[an>8
+Q-Fccl6-FeqFdhlFfhlF_^nFc^nF]gmFjbnFbcnFa`nFf`nF[an>8R-Fccl6-F^pFdhlFf
+hlF_^nFc^nF]gmFjbnFbcnFa`nFf`nF[an>8S-Fccl6-Fa]lFdhlFfhlF_^nFc^nF]gmFj
+bnFbcnFa`nFf`nF[an@%1F_^nF^cl@%1Fc^nF^clC(>&F[^n6$Fj_nFj_n,&F_[oF`pFji
+nF`p>&F[^n6$Fj_nF`_n,&Fc[oF`pFfinF`p>&F[^n6$F`_nF`_n,&Fg[oF`pF^jnF`p>&
+F[^n6$F`_nFj_n,&F[\\oF`pFfinF`p>&F[^n6$Fj_nFhfm,&F_\\oF`pFbjnF`p>&F[^n
+6$F`_nFhfm,&Fc\\oF`pFfjnF`pC$>F_\\o,(F_\\oF`p*&FfinF`p&F`]nF__nF`pF_pF
+bjnF`p>F_[oFa[o@$F\\[oC$>Fc\\o,(Fc\\oF`p*&FfinF`p&F`]nFi_nF`pF_pFfjnF`
+p>Fg[oFi[o-F]jm6$Ffim%7Matrix~ALPHA~follows:|+G?(F]gmF`pF`pF^clFb_lC$-
+F]jm6%Ffim%)Row~%4d|+GF]gm?(F^jlF`pF`pFafmFb_l-F]jm6%Ffim%+~%13.10e|+~
+G-%&evalfG6#Fj]nFe[n@$2F`pF^clC$>8T,&F^clF`pF_pF`p?(F]gmF`pF`pFf^oFb_l
+C$>Fjbn,&F]gmF`pF`pF`p?(F^jlFjbnF`pF^clFb_lC%>8U*&&F[^n6$FgemFcgmF`p&F
+[^n6$FcgmFcgmF_p?(F_^nFjbnF`pFafmFb_l>&F[^n6$FgemFj_n,&Fg_oF`p*&F__oF`
+p&F[^n6$FcgmFj_nF`pF_p>Fa_oFgo>&F`]n6#Fg^o*&&F[^n6$Fg^oFhfmF`p&F[^n6$F
+g^oFg^oF_p@$Fc^o?(F]gmF`pF`pFf^oFb_lC'>F^jl,&F^clF`pF]gmF_p>F__o&F[^n6
+$FgemFhfm>F_^n,&F^jlF`pF`pF`p?(F]hlF_^nF`pF^clFb_l>F__o,&F__oF`p*&&F[^
+n6$FgemFidmF`p&F`]nFhdmF`pF_p>&F`]n6#Fgem*&F__oF`p&F[^n6$FgemFgemF_p-F
+]jm6$Ffim%BCoefficients~of~Basis~Functions:|+G?(F]gmF`pF`pFgelFb_lC&>F
+hil&F]fm6#Fcgm-F]jm6'Ffim%.%3d~%13.8f~%dGF]gm-F`^o6#&F`]nFdboF]gm?(F^j
+lF`pF`pFhilFb_l-F]jm6%FfimFc[n&FeemFbgmFe[n@$0FfimF[jmC$-Fegm6#Ffim-Fb
+jl6$%COutput~file~%s~created~sucessfullyGF]u-F_uFh[lF&66Fi_lFb`lF[vF`x
+F[bmFjxFfn%#G3G%#G4G%#G5GFbuFgwFbxF\\yFeyF]zFezF\\[lFcclFe_l" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg125();" }}{PARA 6 "" 1 "" 
+{TEXT -1 1006 "This is the Finite Element Method.\nThe input will be f
+rom a text file in the following form:\nK  N  M  n  m  nl\n\nEach of t
+he above is an integer -separate with at least one blank.\n\nFollow wi
+th the input for each node in the form:\nx-coor., y-coord., number of \+
+triangles in which the node is a vertex.\n\nContinue with the triangle
+ number and vertex number for\neach triangle in which the node is a ve
+rtex.\nSeparate each entry with at least one blank.\n\nAfter all nodes
+ have been entered follow with information\non the lines over which li
+ne integrals must be computed.\nThe format of this data will be the no
+de number of the\nstarting node, followed by the node number of the en
+ding\nnode for each line, taken in the positive direction.\nThere shou
+ld be 2 * nl such entries, each an integer\nseparated by a blank.\n\nF
+unctions can be input or coded as procedures.\nThe example has G2 as a
+ procedure and the rest\nas input\nHave the functions P,Q,R,F,G,G1,G2 \+
+been created and\nhas the input file been created?  Answer Y or N." }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT 
+-1 39 "Input function P(X) in terms of x and y" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "1.0" }}{PARA 6 "" 1 "" {TEXT -1 39 "Input funct
+ion Q(X) in terms of x and y" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "1.0" }}{PARA 6 "" 1 "" {TEXT -1 39 "Input function R(X) in terms \+
+of x and y" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0.0" }}{PARA 
+6 "" 1 "" {TEXT -1 39 "Input function F(X) in terms of x and y" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0.0" }}{PARA 6 "" 1 "" {TEXT 
+-1 33 "Input function G(X) in terms of x" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "4.0" }}{PARA 6 "" 1 "" {TEXT -1 34 "Input function G1(
+X) in terms of x" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0.0" }}
+{PARA 6 "" 1 "" {TEXT -1 75 "Input the file name in the form - drive:
+\\name.ext\nfor example:  A:\\DATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "c:\\data\\alg125.dta" }}{PARA 6 "" 1 "" {TEXT -1 88 "
+Choice of output method:\n1. Output to screen\n2. Output to text file
+\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1
+" }}{PARA 6 "" 1 "" {TEXT -1 3493 "FINITE ELEMENT METHOD\n\n\nVertices
+ and Nodes of Triangles\nTrinagle-node number for vertex 1 to 3\n     \+
+1    1    9    3\n     2    3   10    2\n     3    6    7    1\n     4
+    1    3    2\n     5    2   10    4\n     6    4   11    5\n     7 \+
+   7    8    1\n     8    8    9    1\n     9    9   10    3\n    10  \+
+ 10   11    4\nx and y coordinates of nodes\n    1   .20000000   .2000
+0000\n    2   .40000000   .20000000\n    3   .30000000   .10000000\n  \+
+  4   .50000000   .10000000\n    5   .60000000   .10000000\n    6  0.0
+0000000   .40000000\n    7  0.00000000   .20000000\n    8  0.00000000 \+
+ 0.00000000\n    9   .20000000  0.00000000\n   10   .40000000  0.00000
+000\n   11   .60000000  0.00000000\nLines of the Domain\n    1    1   \+
+ 6\n    2    2    1\n    3    4    2\n    4    5    4\n    5   11    5
+\nBasis Functions\nTriangle - Vertex - Node - Function\n   1   1   1  \+
+  1.00000000  -5.00000000    5.00000000\n   1   2   9    2.00000000  -
+5.00000000  -5.00000000\n   1   3   3  -2.00000000   10.00000000    0.
+00000000\n   2   1   3    4.00000000 -10.00000000    0.00000000\n   2 \+
+  2  10  -1.00000000    5.00000000  -5.00000000\n   2   3   2  -2.0000
+0000    5.00000000    5.00000000\n   3   1   6  -1.00000000    0.00000
+000    5.00000000\n   3   2   7    2.00000000  -5.00000000  -5.0000000
+0\n   3   3   1    0.00000000    5.00000000    0.00000000\n   4   1   \+
+1    1.00000000  -5.00000000    5.00000000\n   4   2   3    2.00000000
+    0.00000000 -10.00000000\n   4   3   2  -2.00000000    5.00000000  \+
+  5.00000000\n   5   1   2    2.00000000  -5.00000000    5.00000000\n \+
+  5   2  10    3.00000000  -5.00000000  -5.00000000\n   5   3   4  -4.
+00000000   10.00000000    0.00000000\n   6   1   4    6.00000000 -10.0
+0000000    0.00000000\n   6   2  11    1.00000000    0.00000000 -10.00
+000000\n   6   3   5  -6.00000000   10.00000000   10.00000000\n   7   \+
+1   7    0.00000000  -5.00000000    5.00000000\n   7   2   8    1.0000
+0000    0.00000000  -5.00000000\n   7   3   1    0.00000000    5.00000
+000    0.00000000\n   8   1   8    1.00000000  -5.00000000    0.000000
+00\n   8   2   9    0.00000000    5.00000000  -5.00000000\n   8   3   \+
+1    0.00000000    0.00000000    5.00000000\n   9   1   9    2.0000000
+0  -5.00000000  -5.00000000\n   9   2  10  -1.00000000    5.00000000  \+
+-5.00000000\n   9   3   3    0.00000000    0.00000000   10.00000000\n \+
+ 10   1  10    3.00000000  -5.00000000  -5.00000000\n  10   2  11  -2.
+00000000    5.00000000  -5.00000000\n  10   3   4    0.00000000    0.0
+0000000   10.00000000\nMatrix ALPHA follows:\nRow    1\n 2.5000000000e
++00\n  0.0000000000e-01\n  -1.0000000000e+00\n  0.0000000000e-01\n  0.
+0000000000e-01\n  6.0667218950e+00\n Row    2\n 0.0000000000e-01\n  1.
+5000000000e+00\n  -1.0000000000e+00\n  -5.0000000000e-01\n  0.00000000
+00e-01\n  6.3349509360e-02\n Row    3\n -1.0000000000e+00\n  -1.000000
+0000e+00\n  4.0000000000e+00\n  0.0000000000e-01\n  0.0000000000e-01\n
+  8.0000000000e+00\n Row    4\n 0.0000000000e-01\n  -5.0000000000e-01
+\n  0.0000000000e-01\n  2.5000000000e+00\n  -5.0000000000e-01\n  6.056
+6414210e+00\n Row    5\n 0.0000000000e-01\n  0.0000000000e-01\n  0.000
+0000000e-01\n  -5.0000000000e-01\n  1.0000000000e+00\n  2.0315000000e+
+00\n \nCoefficients of Basis Functions:\n  1    4.03833918 1    3    4
+    7    8    1\n  2    4.07816503 2    4    5    2\n  3    4.02912605
+ 3    4    1    9    2\n  4    4.04954397 4    5    6   10\n  5    4.0
+5627198 5    6\n  6    4.00000000 6    3\n  7    4.00000000 7    3    \+
+7\n  8    4.00000000 8    7    8\n  9    4.00000000 9    8    1    9\n
+ 10    4.00000000 10    5    9    2   10\n 11    4.00000000 11    6   \+
+10" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 0 "" }}}}{MARK "10 0 0" 7 }{VIEWOPTS 1 1 0 1 1 1803 }

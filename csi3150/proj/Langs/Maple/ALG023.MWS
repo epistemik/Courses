@@ -1,0 +1,144 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 200 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "M
+aple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 
+0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 
+-1 "" 0 1 0 0 160 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 
+0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 260 "# NEWTON-RAPHSON ALGORITHM 2.3\n#
+\n# To find a solution to f(x) = 0 given an\n# initial approximation p
+0:\n#\n# INPUT:   initial approximation p0; tolerance TOL;\n#         \+
+ maximum number of iterations NO.\n#\n# OUTPUT:  approximate solution \+
+p or a message of failure" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 78 "alg023
+ := proc() local F, FP, OK, P0, TOL, NO, FLAG, NAME, OUP, F0, I, FP0, \+
+D;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`This is Newton's Meth
+od\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the funct
+ion F(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "pri
+ntf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F :=
+ scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "FP := unapply(d
+iff(F,x),x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 40 "printf(`Input initial approximation\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "P0 := scanf(`%f`)[1]; " }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "printf(`Input tolerance\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(
+`Tolerance must be positive\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 
+"else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 66 "printf(`Input maximum number of iterations - no decimal point
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NO := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if NO <= 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 37 "printf(`Must be positive integer\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "O
+K := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = T
+RUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`Select output d
+estination\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "printf(`1. Scre
+en\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`2. Text file\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`A:\\\\OUTP
+UT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEX
+T);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of out
+put\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermedit
+ate approximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(
+`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scan
+f(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "fprintf(OUP, `Newton
+'s Method\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `  I   P          \+
+       F(P)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 12 "F0 := F(P0);" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "OK := TRUE;        " }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "while I <= NO and OK =
+ TRUE do  " }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "" 
+{TEXT -1 12 "compute P(I)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "FP0 :=
+ FP(P0);\n" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "D := F0/FP0;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+15 "P0 := P0 - D;  " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "F0 := F(P0);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 47 "fprintf(OUP,`%3d   %14.8e   %14.7e\\n`,I,P0,F0
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "if abs(D) < TOL the
+n" }}{PARA 0 "" 0 "" {TEXT -1 31 "procedure completed sucessfully" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "fprintf(OUP,`\\nApproximate solutio
+n = %.10e\\n`,P0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "fprintf(OUP,`
+with F(P) = %.10e\\n`,F0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "fprin
+tf(OUP,`Number of iterations = %d\\n`,I);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 39 "fprintf(OUP,`Tolerance = %.10e\\n`,TOL);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "" 0 "" {TEXT -1 6 "
+STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}
+{PARA 0 "" 0 "" {TEXT -1 34 "procedure completed unsuccessfully" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "fprintf(OUP,`\\nIteration number %d
+`,NO);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprintf(OUP,` gave approx
+imation %.10e\\n`,P0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 70 "fprintf(O
+UP,`with F(P) = %.10e not within tolerance  %.10e\\n`,F0,TOL);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fcl
+ose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s
+ created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;
+" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg023G:6\"6/%\"FG%#FPG%#OKG%#P
+0G%$TOLG%#NOG%%FLAGG%%NAMEG%$OUPG%#F0G%\"IG%$FP0G%\"DGF&F&C0-%'printfG
+6#%9This~is~Newton's~Method|+G-F76#%GInput~the~function~F(x)~in~terms~
+of~x|+G-F76#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\">8%-%(un
+applyG6$-%%diffG6$FA%\"xGFQ>FA-FLFP>8&%&FALSEG-F76#%=Input~initial~app
+roximation|+G>8'&-FD6#%#%fGFG?(F&FHFHF&/FUFVC%-F76#%1Input~tolerance|+
+G>8(Ffn@%1Fao\"\"!-F76#%<Tolerance~must~be~positive|+G>FU%%TRUEG>FUFV?
+(F&FHFHF&F[oC%-F76#%WInput~maximum~number~of~iterations~-~no~decimal~p
+oint|+G>8)&-FD6#%#%dGFG@%1FapFdo-F76#%:Must~be~positive~integer|+G>FUF
+io@$/FUFioC5-F76#%;Select~output~destination|+G-F76#%+1.~Screen|+G-F76
+#%.2.~Text~file|+G-F76#%.Enter~1~or~2|+G>8*Fbp@%/F\\r\"\"#C&-F76#%SInp
+ut~the~file~name~in~the~form~-~drive:\\name.ext|+G-F76#%/A:\\OUTPUT.DT
+A|+G>8+&-FD6#%#%sGFG>8,-%&fopenG6%Fhr%&WRITEG%%TEXTG>F^s%(defaultG-F76
+#%9Select~amount~of~output|+G-F76#%01.~Answer~only|+G-F76#%E2.~All~int
+ermeditate~approximations|+GFhq>F\\rFbp-%(fprintfG6$F^s%1Newton's~Meth
+od|+G@$F^r-Fat6$F^s%>~~I~~~P~~~~~~~~~~~~~~~~~F(P)|+G>8--FA6#Fen>8.FH>F
+UFio?(F&FHFHF&31F]uFapF]qC(>8/-FJF[u>80*&FitFHFdu!\"\">Fen,&FenFHFguFi
+u>FitFjt@$F^r-Fat6'F^s%7%3d~~~%14.8e~~~%14.7e|+GF]uFenFit@%2-%$absG6#F
+guFaoC'-Fat6%F^s%?|+Approximate~solution~=~%.10e|+GFen-Fat6%F^s%3with~
+F(P)~=~%.10e|+GFit-Fat6%F^s%;Number~of~iterations~=~%d|+GF]u-Fat6%F^s%
+3Tolerance~=~%.10e|+GFao>FUFV>F]u,&F]uFHFHFH@$F]qC%-Fat6%F^s%5|+Iterat
+ion~number~%dGFap-Fat6%F^s%;~gave~approximation~%.10e|+GFen-Fat6&F^s%O
+with~F(P)~=~%.10e~not~within~tolerance~~%.10e|+GFitFao@$0F^sFesC$-%'fc
+loseG6#F^s-F76$%COutput~file~%s~created~sucessfullyGFhr-%'RETURNG6#Fdo
+F&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg023();" }}{PARA 
+6 "" 1 "" {TEXT -1 81 "This is Newton's Method\nInput the function F(x
+) in terms of x\nFor example: cos(x)" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "cos(x)-x" }}{PARA 6 "" 1 "" {TEXT -1 27 "Input initial
+ approximation" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 11 ".78539816
+35" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 5 ".0005" }}{PARA 6 "" 1 "" {TEXT -1 53 "Input \+
+maximum number of iterations - no decimal point" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 2 "15" }}{PARA 6 "" 1 "" {TEXT -1 61 "Select outpu
+t destination\n1. Screen\n2. Text file\nEnter 1 or 2" }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Select a
+mount of output\n1. Answer only\n2. All intermeditate approximations\n
+Enter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 
+6 "" 1 "" {TEXT -1 245 "Newton's Method\n  I   P                 F(P)
+\n  1   7.39536133e-01   -7.5487470e-04\n  2   7.39085178e-01   -7.510
+0000e-08\n\nApproximate solution = 7.3908517810e-01\nwith F(P) = -7.51
+00000000e-08\nNumber of iterations = 2\nTolerance = 5.0000000000e-04" 
+}}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "0 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

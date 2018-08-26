@@ -1,0 +1,106 @@
+============
+
+{ n > 0 }
+f := n; j := n - 1;
+while j <> 0 do
+begin
+    f := f * j;
+    j := j - 1;
+end;
+{ f = n! }
+
+The invariant here, as in any loop controlled by a single counter,
+should be the generalization of the postcondition. We have j = 0 and
+f = n!, and we can easily see that we maintain f = n!/j! in the loop.
+It is, naturally, established by initialization. (The invariant will
+also include n > 0.)
+
+The two assignment statements in the loop adjust and readjust the
+invariant in a way very similar to what we see in the proof for the
+factorial program that goes up rather than down.
+
+Loop termination is proven in the usual way.
+
+============
+
+{ N >= 0 }
+X := 0;
+Y := 0;
+J := 0;
+while J <> N do
+begin
+    J := J + 1;
+    Y := Y + J;
+    X := X + Y;
+end;
+{ X = N * (N + 1) * (N + 2) / 6 }
+
+Again, we seek a generalization of the final situation. Here, since J
+climbs to N, the invariant should characterize X and Y. We can work
+it out: X = J*(J+1)*(J+2)/6 & Y = J*(J+1)/2, and N >= 0 should be
+included to prove termination.
+
+Initialization is obvious. The steps inside the loop are fairly
+straightforward.
+
+X = J*(J+1)*(J+2)/6 & Y = J*(J+1)/2 is the same as
+X = ((J+1)-1)*(J+1)*((J+1)+1)/6 & Y = ((J+1)-1)*(J+1)/2
+
+J := J + 1 gives this:
+
+X = (J-1)*J*(J+1)/6 & Y = (J-1)*J/2, which is the same as
+X = (J-1)*J*(J+1)/6 & Y + J = (J-1)*J/2 + J = J*(J+1)/2
+
+Y := Y + J gives this:
+
+X = (J-1)*J*(J+1)/6 & Y = J*(J+1)/2, which can be rewritten as
+X + Y = (J-1)*J*(J+1)/6 + J*(J+1)/2 = J*(J+1)*(J+2)/6 & Y = J*(J+1)/2
+
+X := X + Y gives, at last, this:
+
+X = J*(J+1)*(J+2)/6 & Y = J*(J+1)/2
+
+============
+
+{ n >= 2 }
+x  :=  n - 2;
+ff :=  n;
+while  x <> 0 and x <> 1  do
+begin
+    ff :=  ff * x;
+    x  :=  x - 2;
+end;
+{ ff = n!! }
+
+        The function n!! is defined as follows:
+
+        0!! = 1
+        1!! = 1
+        n!! = n*(n-2)*...*2  for even n >= 2
+        n!! = n*(n-2)*...*1  for  odd n >= 3
+
+For the invariant, consider n!!/x!! = (x+2)*(x+4)*...*(n-2)*n.
+
+The proof can be done in two complementary parts: for odd n and for
+even n separately. Each part is quite similar to the proof you need
+for the first program in this handout.
+
+============
+
+{n > 0}
+i := 1;
+k := 0;
+while 2*i =< n do
+begin
+    i := 2*i;
+    k := k + 1
+end;
+{2^k =< n < 2^(k+1)}
+
+[^ denotes exponentiation.]
+
+Here the invariant should describe i (the growing powers of 2) and k
+(the growing exponents). Initially and throughout the loop, we have
+i = 2^k, and we stop when 2*i = 2*2^k > n, that is, when n < 2^(k+1).
+
+============

@@ -1,0 +1,262 @@
+<HTML>
+<HEAD>
+<TITLE> Database Design </TITLE>
+</HEAD>
+<BODY>
+
+<H1> CSI3317 Winter </H1>
+
+<HR>
+
+<H2> Normalization </H2>
+
+<PRE>
+Note that some results will be left to the reader to confirm.
+
+1. Consider a scheme R = {A,B,C,D,E} and the set F of FDs:
+F = { AB rightarrow CDE, A rightarrow DE, D rightarrow E }.
+
+(i) Using the definition of 2NF, explain whether R is in 2NF or not.
+
+Defn: A relation scheme R is in 2NF with respect to a set F
+of FDs if it is in 1NF and every nonprime attribute is fully dependent
+on every candidate key of R.
+
+Thereby, R is not in 2NF since nonprime attributes D and E
+are partially dependent upon the candidate key AB.
+
+(ii) Decompose R into 2NF, and not 3NF, preserving all dependencies.
+
+If we normalize R = {A,B,C,D,E} using the problem FD
+A rightarrow DE, we obtain
+R_1 = {A,D,E} and R_2 = {A,B,C}.
+The set F_1 of FDs over R_1 is 
+F_1 = { A rightarrow DE, D rightarrow E }.
+The set F_2 of FDs over R_2 is 
+F_1 = { AB rightarrow C }.
+Notice that we have preserved all the dependencies
+since F_1 cup F_2 equiv F.
+It can be verified that R_1 and R_2 are in 2NF.
+
+2. Using the database scheme {R_1,R_2,ldots,R_n} and the corresponding
+sets F_1,F_2,ldots,F_n of FDs obtained from question (1.ii):
+
+(i) Using the definition of 3NF, explain whether each R_i is in 
+3NF or not.
+
+Defn: A relation scheme R is in 3NF with respect to a set F
+of FDs if no nonprime attribute is transitively dependent
+upon a candidate key of R.
+
+Defn: Given a relation scheme R, a subset X of R,
+an attribute A in R, and a set F of FDs.
+Attribute A is transitively dependent upon X
+in R if there is a subset Y of R with
+X rightarrow Y, Y notrightarrow X, Y rightarrow A,
+under F and A notin XY. 
+
+Thereby, R_1 = {A,D,E} is not in 3NF since
+A rightarrow D, D notrightarrow A, D rightarrow E,
+under F and E notin AD.
+It can be verified that R_2 is in 3NF.
+
+(ii) Decompose the database scheme into 3NF preserving all dependencies.
+
+If we normalize R_1 = {A,D,E} using the FD D rightarrow E,
+we obtain R_{11} = {D,E} and R_{12} = {A,D}.
+The set F_{11} of FDs over R_{11} is
+F_{11} = { D rightarrow E }.
+The set F_{12} of FDs over R_{12} is
+F_{12} = { A rightarrow D }.
+Notice that we have preserved all FDs since
+F_{11} cup F_{12} equiv F_1 or
+F_{11} cup F_{12} cup F_1 equiv F.
+It can be verified that R_{11} and R_{12} are in 3NF.
+
+3. Consider a scheme R = {A,B,C,D,E} and the set F of FDs:
+F = { A rightarrow BCDE, CD rightarrow E, EC rightarrow B }.
+
+
+(i) Decompose R into 3NF preserving all dependencies.
+(Hint: notice that E is transitively upon the CK A, as is B.)
+
+
+Scheme R = {A,B,C,D,E} is not in 3NF with respect to F since
+E is transitively upon the CK A, as is B.
+
+Suppose we eliminate the transitive dependency of
+E upon A via CD using the FD CD rightarrow E.
+We obtain R_1 = {C,D,E} and R_2 = {A,B,C,D}.
+The set F_1 of FDs over R_1 is F_1 = { CD rightarrow E }.
+The set F_2 of FDs over R_2 is F_2 = { A rightarrow BCD }.
+However, this decomposition does not preserve the dependencies.
+F_1 cup F_2 notequiv F since
+F_1 cup F_2 notmodels EC rightarrow B.
+In other words, we have lost the FD EC rightarrow B.
+
+Thereby, let us eliminate the transitive dependence of B
+upon A via EC using the FD EC rightarrow B.
+We obtain R_1 = {B,C,E} and R_2 = {A,C,D,E}.
+The set F_1 of FDs over R_1 is F_1 = { EC rightarrow B }.
+The set F_2 of FDs over R_2 is 
+F_2 = { A rightarrow CDE, CDrightarrow E }.
+Notice that we have preserved all FDs since
+F_1 cup F_2 equiv F.
+It can be verified that
+R_1 is in 3NF with respect to F_1.
+However, R_2 = {A,B,C,D} is not in 3NF
+with respect to F_2 since E is still
+transitive dependent upon CK A via CD.
+If we eliminate this transitive dependency
+using the FD CD rightarrow E,
+we obtain R_{21} = {C,D,E} and R_22 = {A,C,D}.
+The set F_21 of FDs over R_21 is F_21 = { CD rightarrow E }.
+The set F_22 of FDs over R_22 is F_22 = { A rightarrow CD }.
+Notice that we have preserved all FDs since
+F_{21} cup F_{22} equiv F_2 or
+F_{21} cup F_{22} cup F_{2} equiv F.
+It can be verified that R_21 and R_{22} are in 3NF
+with respect to F_21 and F_22, respectively. 
+
+
+4. Consider a scheme R = {A,B,C} and the set F of FDs:
+F = { AB rightarrow C, C rightarrow B }.
+
+
+(i) Using the definition of BCNF, explain whether R is in BCNF or not. 
+
+Defn: A relation scheme R is in BCNF with respect to a set F
+of FDs if no attribute is transitively dependent
+upon any candidate key of R.
+
+Thereby, R = {A,B,C} is not in BCNF with respect to F
+since B is transitively dependent upon CK AB.
+
+(ii) Decompose R into BCNF preserving all dependencies. 
+
+This is not possible! 
+
+If we normalize R = {A,B,C} using the FD
+AB rightarrow C, we obtain
+R_1 = {A,B,C} and R_2 = {A,C}.
+The set F_1 of FDs over R_1 is
+F_1 = { AB rightarrow C }.
+Obviously, R_1 and F_1 are identical to R and F.
+Hence normalizing R using the FD AB rightarrow C
+does not benefit us.
+
+If we normalize R = {A,B,C} using the FD
+C rightarrow B, we obtain
+R_1 = {C,B} and R_2 = {A,C}.
+The set F_1 of FDs over R_1 is
+F_1 = { C rightarrow B }.
+The set F_2 of FDs over R_2 is
+F_2 = { AC rightarrow AC }.
+However, this decomposition does not preserve dependencies.
+F_{1} cup F_{2} notequiv F since
+F_{1} cup F_{2} notmodels AB rightarrow C.
+In other words, even though R_1 is in BCNF with respect to
+F_1 and R_2 is in BCNF with respect to F_2,
+we have lost the FD AB rightarrow C.
+This example demonstrates that forcing the database scheme
+into BCNF may result in some dependencies being lost. 
+
+
+5. For this question we are {em only} concerned with 4NF.
+No MVD axioms are required in determining the answer.
+Consider a scheme R = {A,B,C,D,E,I} and the set MF of MVDs and FDs:
+MF = { A rightarrowrightarrow BCD, B rightarrow AC, C rightarrow D }.
+
+
+(i) Explain whether the MVD A rightarrowrightarrow BCD is trivial with
+respect to R.  
+
+
+Defn: Let X,Y subseteq R. An MVD X rightarrowrightarrow Y is
+trivial if either (or both) of the following conditions hold:
+(i) Y subseteq X,
+(ii) XY=R.
+
+The MVD A rightarrowrightarrow BCD is not trivial with
+respect to R = {A,B,C,D,E,I} since
+BCD notsubseteq A and ABCD neq ABCDEI.
+
+
+(ii) Decompose R into 4NF. To test your understanding, I insist
+that you use the MVD A rightarrowrightarrow BCD first. 
+
+
+Defn: A relation scheme R is in 4NF if for every MVD
+X rightarrowrightarrow Y, either the MVD is trivial
+or X contains a CK for R. 
+
+If we normalize R using the MVD A rightarrowrightarrow BCD,
+we obtain
+R_1 = {A,B,C,D} and R_2 = {A,E,I}.
+
+Theorem 1 in the class notes indicates that an FD X rightarrow Y
+is also the MVD X rightarrowrightarrow Y.
+The set MF_1 of MVDs and FDs over R_1 is
+MF_1 = { A rightarrowrightarrow BCD,
+B rightarrowrightarrow AC,
+C rightarrowrightarrow D,
+B rightarrow AC,
+C rightarrow D }.
+The set MF_2 of MVDs and FDs over R_2 is
+(for our purposes here) MF_2 = { AEI rightarrow AEI }.
+
+Let us check if R_1 is in 4NF with respect to MF_1.
+The MVD A rightarrowrightarrow BCD is a trivial
+MVD by condition (ii) since ABCD = R.
+The MVD B rightarrowrightarrow AC is not a trivial MVD.
+However, B is a CK for R_1 since B^+ = BACD = R_1.
+Therefore, we do not normalize R_1 with it. The MVD
+C rightarrowrightarrow D is not a trivial MVD.
+C is not a CK for R_1 since C^+ = CD neq R_1.
+Therefore, R_1 is not in 4NF since the MVD
+C rightarrowrightarrow D is not trivial and C
+is not a CK.
+On the other hand, R_2 is in 4NF with respect to
+MF_2 = { AEI rightarrow AEI }. 
+
+Normalizing R_1 using C rightarrowrightarrow D,
+we obtain R_{11} = {C,D} and R_{12} = {A,B,C}.
+The set MF_{11} of MVDs and FDs over R_{11} is
+MF_{11} = { C rightarrowrightarrow D, C rightarrow D }.
+The set MF_{12} of MVDs and FDs over R_{12} is
+MF_{12} = { B rightarrowrightarrow AC,~ B rightarrow AC }.
+It can be verified that R_{11} and R_{12} are in 4NF, respectively. 
+
+
+6. Prove that any relation scheme R in 3NF with respect to a
+set F of FDs must be in 2NF with respect to F.
+(Hint: prove by contrapositive, namely, show that a partial dependency
+implies a transitive dependency.)
+
+
+Proof: We assume that R is in 3NF. We will assume
+that a partial dependency holds and derive a contradiction.
+
+Assume that nonprime attribute A in R is
+partially dependent upon a CK K of R. In other words,
+there is a proper subset K^prime of K such that
+K^prime rightarrow A holds.
+
+First of all, we know that K^prime notrightarrow K;
+as otherwise K^prime rightarrow K would mean that
+K^prime is a CK contradicting the initial
+assumption that K is a CK.
+
+Second, we know that A notin K since K is a CK and
+A is nonprime. (Clearly, A notin K^prime as well.)
+
+Then we have
+K rightarrow K^prime,~K^prime notrightarrow K,~
+K^prime rightarrow A,~A notin K.
+
+By definition, A is transitively dependent upon CK K.
+Therefore, R is not in 3NF contradicting our initial assumption.
+</PRE>
+
+</BODY>
+</HTML>

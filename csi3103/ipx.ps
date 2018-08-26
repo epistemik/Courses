@@ -1,0 +1,1627 @@
+%!PS-Adobe-2.0
+%%Title: PubTeX output 1998.11.13:1205
+%%Creator: Pubps,       ArborText, Inc.
+%%BoundingBox: (atend)
+%%Pages: (atend)
+%%DocumentFonts: (atend)
+%%EndComments
+
+%! 
+%  Dvips.pro - included prolog for DviLaser-generated PostScript files.
+% 
+%  Copyright (c) 1986-89, ArborText, Inc.
+%  Permission to copy is granted so long as the PostScript code
+%  is not resold or used in a commercial product.
+%
+%  $Header: pubps.pro,v 1.17 90/08/06 17:20:42 jsg Exp $
+
+systemdict /setpacking known  % use array packing mode if its available
+  {/savepackingmode currentpacking def 
+   true setpacking}
+  if
+ 
+/$DviLaser 400 dict def
+ 
+% Begin document
+/BeginDviLaserDoc {
+  vmstatus pop pop 0 eq 
+    { $DviLaser begin 
+      InitializeState }
+    { /DviLaserJob save def
+      $DviLaser begin
+      InitializeState
+      /DviLaserFonts save def }
+    ifelse
+} bind def
+ 
+% End document
+/EndDviLaserDoc {
+  vmstatus pop pop 0 eq 
+    { end }
+    { DviLaserFonts restore
+      end
+      DviLaserJob restore }
+    ifelse
+} bind def
+ 
+$DviLaser begin
+
+/tempstr 64 string def
+/tempint 0 def
+/tempmatrix matrix def
+ 
+%
+%  Debugging routines
+%
+/DebugMode false def
+
+/PrintInt {
+  tempstr cvs print
+} bind def
+
+/PrintLn {
+  (\n) print flush
+} bind def
+ 
+/PrintVMStats {
+  print
+  PrintLn
+  (VM status - ) print
+  vmstatus
+  3 copy
+  PrintInt (\(total\), ) print
+  PrintInt (\(used\), ) print
+  pop
+  exch sub 
+  PrintInt (\(remaining\), ) print
+  PrintInt (\(level\)) print
+  PrintLn
+} bind def
+ 
+/VMS /PrintVMStats load def 
+ 
+/VMSDebug {
+  DebugMode
+    {PrintVMStats}
+    {pop}
+    ifelse
+} bind def
+ 
+(beginning of common prolog) VMSDebug 
+
+% Make it easy to bind definitions.
+/bdef { bind def } bind def
+/xdef { exch def } bdef
+
+% Begin page
+/BP {
+  /Magnification xdef
+  /DviLaserPage save def
+  (beginning of page) VMSDebug 
+} bdef
+ 
+% End page
+/EP {
+  DviLaserPage restore
+} bdef
+ 
+% Exit page (temporarily) to add fonts/characters.
+/XP {
+  % Save current point information so it can be reset later. 
+  /Xpos where {pop Xpos} {0} ifelse
+  /Ypos where {pop Ypos} {0} ifelse
+  /currentpoint cvx stopped {0 0 moveto currentpoint} if 
+  /DviLaserPage where {pop DviLaserPage restore} if
+  moveto
+  /Ypos xdef
+  /Xpos xdef
+} bdef
+ 
+% Resume page
+/RP {
+  /DviLaserPage save def
+} bdef
+ 
+% Purge all fonts to reclaim memory space. 
+/PF {
+  GlobalMode
+  LocalMode
+} bdef
+ 
+% Switch to base save/restore level, saving state information. 
+/GlobalMode {
+  /UserSave where {pop UserSave} if  % invoke "UserSave" if available
+  PortraitMode 
+  PaperWidth 
+  PaperHeight 
+  PxlResolution 
+  Resolution 
+  Magnification
+  Ymax
+  RasterScaleFactor
+  % Save current point information so it can be reset later. 
+  /currentpoint cvx stopped {0 0 moveto currentpoint} if 
+  /DviLaserPage where {pop DviLaserPage restore} if
+  DviLaserFonts restore
+  RecoverState
+} bdef
+ 
+% Preserve state at the base level.
+/RecoverState {
+  10 copy
+  /Ypos xdef
+  /Xpos xdef
+  /RasterScaleFactor xdef
+  /Ymax xdef
+  /Magnification xdef
+  /Resolution xdef
+  /PxlResolution xdef
+  /PaperHeight xdef
+  /PaperWidth xdef
+  /PortraitMode xdef
+  DoInitialScaling
+  PortraitMode not {PaperWidth 0 SetupLandscape} if
+  Xpos Ypos moveto
+} bdef
+
+% Initialize state variables to default values.
+/InitializeState {
+  /Resolution 3600.0 def
+  /PxlResolution 300.0 def
+  /RasterScaleFactor PxlResolution Resolution div def
+  /PortraitMode true def
+  11.0 Resolution mul /PaperHeight xdef
+  8.5 Resolution mul /PaperWidth xdef
+  /Ymax PaperHeight def
+  /Magnification 1000.0 def
+  /Xpos 0.0 def
+  /Ypos 0.0 def
+  /InitialMatrix matrix currentmatrix def
+} bdef
+
+% Switch from base save/restore level, restoring state information. 
+/LocalMode {
+  /Ypos xdef
+  /Xpos xdef
+  /RasterScaleFactor xdef
+  /Ymax xdef
+  /Magnification xdef
+  /Resolution xdef
+  /PxlResolution xdef
+  /PaperHeight xdef
+  /PaperWidth xdef
+  /PortraitMode xdef
+  DoInitialScaling
+  PortraitMode not {PaperWidth 0 SetupLandscape} if
+  Xpos Ypos moveto
+  /UserRestore where {pop UserRestore} if  % invoke "UserRestore" if available
+  /DviLaserFonts save def
+  /DviLaserPage save def
+} bdef
+ 
+% Abbreviations 
+/S /show load def
+/SV /save load def
+/RST /restore load def
+ 
+/Yadjust {Ymax exch sub} bdef
+ 
+% (x,y) position absolute, just set Xpos & Ypos, don't move.
+/SXY {
+  Yadjust 
+  /Ypos xdef /Xpos xdef
+} bdef
+ 
+% (x,y) position absolute
+/XY {
+  Yadjust 
+  2 copy /Ypos xdef /Xpos xdef
+  moveto
+} bdef
+ 
+% (x,0) position absolute
+/X {
+  currentpoint exch pop 
+  2 copy /Ypos xdef /Xpos xdef
+  moveto
+} bdef
+ 
+% (0,y) position absolute
+/Y {
+  currentpoint pop exch Yadjust 
+  2 copy /Ypos xdef /Xpos xdef
+  moveto
+} bdef
+ 
+% (x,y) position relative
+/xy {
+  neg rmoveto
+  currentpoint /Ypos xdef /Xpos xdef
+} bdef
+ 
+% (x,0) position relative
+/x {
+  0.0 rmoveto
+  currentpoint /Ypos xdef /Xpos xdef
+} bdef
+ 
+% (0,y) position relative
+/y {
+  0.0 exch neg rmoveto
+  currentpoint /Ypos xdef /Xpos xdef
+  } bdef
+ 
+% Print a rule.  In order to get correct pixel size and positioning,
+% we usually create a temporary font in which the rule is the only character.
+% When the rule is large, however, we fill a rectangle instead.
+/R {
+  /ht xdef
+  /wd xdef
+  ht 1950 le wd 1950 le and PxlResolution 400 le and
+    {save
+    /tfd 6 dict def
+    tfd begin
+      /FontType 3 def
+      /FontMatrix [1 0 0 1 0 0] def
+      /FontBBox [0 0 wd ht] def
+      /Encoding 256 array dup 97 /a put def
+      /BuildChar {
+        pop   % ignore character code
+        pop   % ignore font dict, too
+        wd 0 0 0 wd ht setcachedevice
+        wd ht true
+        [1 0 0 -1 0 ht] {<FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF>} imagemask
+        } def
+      end % tfd
+    /tf tfd definefont setfont
+    (a) show
+    restore
+    }
+    {gsave
+    0 setgray
+    currentpoint
+    newpath
+      moveto
+      0.0 ht rlineto
+      wd 0.0 rlineto
+      0.0 ht neg rlineto
+      wd neg 0.0 rlineto
+    closepath fill
+    grestore
+    }
+  ifelse
+  wd 0.0 rmoveto
+  currentpoint /Ypos xdef /Xpos xdef
+} bdef
+
+%
+%  <PXL-file resolution(pix/inch)> <resolution(pix/inch)> RES
+%
+/RES {
+  /Resolution xdef
+  /PxlResolution xdef
+  /RasterScaleFactor PxlResolution Resolution div def
+  DoInitialScaling
+} bdef
+
+%
+% Do initial scaling.
+%
+/DoInitialScaling {
+  InitialMatrix setmatrix
+  72.0 Resolution div dup scale   
+} bdef
+ 
+%
+%  <paper-height(pix)> <paper-width(pix)> PM 
+%
+/PM { 
+  XP
+  /PaperWidth xdef 
+  /PaperHeight xdef
+  /Ymax PaperHeight def
+  /PortraitMode true def
+  DoInitialScaling
+  RP
+} bdef  
+ 
+%
+%  <paper-height(pix)> <paper-width(pix)> LM 
+%
+/LM {
+  XP
+  /PaperWidth xdef 
+  /PaperHeight xdef
+  /Ymax PaperWidth def
+  /PortraitMode false def
+  DoInitialScaling
+  PaperWidth 0 SetupLandscape
+  RP
+} bdef  
+  
+% Change magnification setting
+/MAG {
+  XP
+  /Magnification xdef
+  RP
+} bdef
+ 
+%
+%  Switch to landscape mode
+%
+/SetupLandscape {
+  translate
+  90.0 rotate
+} bdef
+ 
+%
+%  <mode> SPB - begin "\special" mode
+%
+%  This is the PostScript procedure used to transfer from the internal
+%  environment used for the DVI translation code emitted by DVIPS to
+%  a standard PostScript environment.
+%
+%  Parameters: 0 - Local
+%              1 - Global
+%              2 - Inline
+%
+/SPB {
+  /spc_mode xdef
+  spc_mode 0 eq spc_mode 2 eq or
+    {XP}
+    {spc_mode 1 eq {GlobalMode} if} 
+    ifelse
+  Resolution 72.0 div dup scale        % Restore default scaling...
+  Magnification 1000.0 div dup scale   % Adjust for any magnification...
+  /Xpos Xpos 72.0 Resolution div mul 1000.0 Magnification div mul def
+  /Ypos Ypos 72.0 Resolution div mul 1000.0 Magnification div mul def
+} bdef
+ 
+%
+%  <mode> SPE - end "\special" mode
+%
+%  This is the PostScript procedure used to reenter the internal
+%  environment used for the DVI translation code emitted by DVIPS from 
+%  the standard PostScript environment provided for processing user-supplied
+%  PostScript code.
+%
+%  Parameters: 0 - Local
+%              1 - Global
+%              2 - Inline
+%
+/SPE {
+  /spc_mode xdef
+  1000.0 Magnification div dup scale   % Un-adjust for any magnification...
+  72.0 Resolution div dup scale        % Restore default internal scaling...
+  spc_mode 0 eq spc_mode 2 eq or
+    {RP}
+    {spc_mode 1 eq {LocalMode} if} 
+    ifelse
+} bdef
+ 
+%
+%  <num-copies> PP
+%
+/PP {
+  /#copies xdef
+  showpage
+  /#copies 1 def
+} bdef
+ 
+%
+%  /font-name <point-size(pix)> DMF
+%
+/DMF {
+  /psz xdef
+  /nam xdef
+  nam findfont psz scalefont setfont
+} bdef
+ 
+%
+%  /abcd (xxx) str-concat  ==> /abcdxxx
+%
+/str-concatstr 64 string def
+
+/str-concat {
+  /xxx xdef
+  /nam xdef
+  /namstr nam str-concatstr cvs def
+  /newnam namstr length xxx length add string def
+  newnam 0 namstr putinterval
+  newnam namstr length xxx putinterval
+  newnam cvn 
+} bdef
+ 
+%
+%  /abcdef 2 str-strip ==> /cdef
+%
+/str-strip {
+  /num xdef
+  /nam xdef
+  /namstr nam tempstr cvs def
+  /newlen namstr length num sub def
+  namstr num newlen getinterval
+  cvn
+} bdef
+ 
+%
+%  <old-dict> copydict ==> new-dict on stack
+%
+/copydict {
+  dup length 1 add dict /newdict xdef
+    {1 index /FID ne
+      {newdict 3 1 roll put}
+      {pop pop}
+     ifelse
+    } forall 
+  newdict
+} bdef
+ 
+%
+%  <font-type> DefineCMEncoding
+%
+/DefineCMEncoding {
+  /EncodeType xdef
+ 
+  /CMEncoding 256 array def
+  /Times-Roman findfont /Encoding get aload pop CMEncoding astore pop
+ 
+  EncodeType 11 eq {Do-CM-rm-encoding} if
+  EncodeType 12 eq {Do-CM-it-encoding} if
+  EncodeType 13 eq {Do-CM-tt-encoding} if
+} bdef
+ 
+%
+%  Do special mappings for the various CM-font types.  Characters that
+%  get "covered up" are repositioned in the range (128,128+32).
+%
+/Do-standard-CM-encodings {
+  CMEncoding
+  dup 0 /.notdef put
+  dup 1 /.notdef put
+  dup 2 /.notdef put
+  dup 3 /.notdef put
+  dup 4 /.notdef put
+  dup 5 /.notdef put
+  dup 6 /.notdef put
+  dup 7 /.notdef put
+ 
+  dup 8 /.notdef put
+  dup 9 /.notdef put
+  dup 10 /.notdef put
+  dup 11 /.notdef put
+  dup 12 /fi put
+  dup 13 /fl put
+  dup 14 /.notdef put
+  dup 15 /.notdef put
+ 
+  dup 16 /dotlessi put
+  dup 17 /.notdef put
+  dup 18 /grave put
+  dup 19 /acute put
+  dup 20 /caron put
+  dup 21 /breve put
+  dup 22 /macron put
+  dup 23 /ring put
+ 
+  dup 24 /cedilla put
+  dup 25 /germandbls put
+  dup 26 /ae put
+  dup 27 /oe put
+  dup 28 /oslash put
+  dup 29 /AE put
+  dup 30 /OE put
+  dup 31 /Oslash put
+
+  dup 127 /dieresis put
+
+  dup 128 /space put
+  dup 129 /quotedbl put
+  dup 130 /sterling put
+  dup 131 /dollar put
+  dup 132 /less put
+  dup 133 /greater put
+  dup 134 /backslash put
+  dup 135 /asciicircum put
+
+  dup 136 /underscore put
+  dup 137 /braceleft put
+  dup 138 /bar put
+  dup 139 /braceright put
+  dup 140 /asciitilde put
+  pop
+} bdef
+ 
+/Do-CM-rm-encoding {
+  Do-standard-CM-encodings
+  CMEncoding
+  dup 32 /.notdef put
+  dup 34 /quotedblright put
+  dup 60 /exclamdown put
+  dup 62 /questiondown put
+  dup 92 /quotedblleft put
+  dup 94 /circumflex put
+  dup 95 /dotaccent put
+  dup 123 /endash put
+  dup 124 /emdash put
+  dup 125 /hungarumlaut put
+  dup 126 /tilde put
+  pop
+} bdef
+ 
+/Do-CM-it-encoding {
+  Do-standard-CM-encodings
+  CMEncoding
+  dup 32 /.notdef put
+  dup 34 /quotedblright put
+  dup 36 /sterling put
+  dup 60 /exclamdown put
+  dup 62 /questiondown put
+  dup 92 /quotedblleft put
+  dup 94 /circumflex put
+  dup 95 /dotaccent put
+  dup 123 /endash put
+  dup 124 /emdash put
+  dup 125 /hungarumlaut put
+  dup 126 /tilde put
+  pop
+} bdef
+ 
+/Do-CM-tt-encoding {
+  Do-standard-CM-encodings
+  CMEncoding
+  dup 12 /.notdef put
+  dup 13 /quotesingle put
+  dup 14 /exclamdown put
+  dup 15 /questiondown put
+  dup 94 /circumflex put
+  dup 126 /tilde put
+  pop
+} bdef
+
+%
+% Routines to handle packing/unpacking numbers.
+%
+%  <target> <pos> <num> PackHW --> <new target>
+%
+/PackHW {
+  /num xdef
+  /pos xdef
+  /target xdef
+  num 16#0000FFFF and 1 pos sub 16 mul bitshift
+    target or
+} bdef
+
+%
+%  <target> <pos> <num> PackByte --> <new target>
+%
+/PackByte {
+  /num xdef
+  /pos xdef
+  /target xdef
+  num 16#000000FF and 3 pos sub 8 mul bitshift
+    target or
+} bdef
+
+%
+%  <pos> <num> UnpkHW --> <unpacked value>
+%
+/UnpkHW {
+  /num xdef
+  /pos xdef
+  num 1 pos sub -16 mul bitshift 16#0000FFFF and
+  dup 16#00007FFF gt {16#00010000 sub} if
+} bdef
+
+%
+%  <pos> <num> UnpkByte --> <unpacked value>
+%
+/UnpkByte {
+  /num xdef
+  /pos xdef
+  num 3 pos sub -8 mul bitshift 16#000000FF and
+  dup 16#0000007F gt {16#00000100 sub} if
+} bdef
+
+%
+%  <int-font-name> <ext-font-name> <pt-sz(pix)> <type> <loaded-fg> DefineCMFont
+%
+%    type 10: "as-is" PostScript font
+%    type 11: CM-mapped PostScript font - roman
+%    type 12: CM-mapped PostScript font - text italic 
+%    type 13: CM-mapped PostScript font - typewriter type 
+%
+/int-dict-name {int (-dict) str-concat} bdef
+/int-dict {int (-dict) str-concat cvx load} bdef
+
+/DF {
+  true  % signal that the font is already loaded
+  DefineCMFont
+} bdef
+ 
+/DNF {
+  false  % signal that the font is not already loaded
+  DefineCMFont
+} bdef
+
+/DefineCMFont {
+  /loaded xdef
+  /typ xdef
+  /psz xdef
+  /ext xdef
+  /int xdef
+ 
+  typ 10 ne 
+    { % font_type = 11, 12, 13
+    loaded not
+      { /fnam ext 3 str-strip def
+        fnam findfont copydict /newdict xdef 
+        typ DefineCMEncoding
+        newdict /Encoding CMEncoding put
+        ext newdict definefont pop
+      } if
+    int-dict-name ext findfont psz scalefont def
+    currentdict int [int-dict /setfont cvx] cvx put
+    }
+    { % font_type = 10
+    /fnam ext def
+    int-dict-name fnam findfont psz scalefont def
+    currentdict int [int-dict /setfont cvx] cvx put
+    }
+  ifelse
+} bdef 
+ 
+%
+%  <int-font-name> <ext-font-name> <pt-sz(pix)> <PXL mag> <num-chars>
+%      [llx lly urx ury] <newfont-fg> DefinePXLFont
+%
+
+/PXLF {
+  true  % signal that the font is already loaded
+  DefinePXLFont
+} bdef
+ 
+/PXLNF {
+  false  % signal that the font is not already loaded
+  DefinePXLFont
+} bdef
+
+/PXLBuildCharDict 17 dict def
+ 
+/CMEncodingArray 256 array def
+0 1 255 {CMEncodingArray exch dup tempstr cvs cvn put} for
+
+/RasterConvert {RasterScaleFactor div} bdef
+ 
+/TransformBBox {
+  aload pop
+ 
+  /BB-ury xdef
+  /BB-urx xdef
+  /BB-lly xdef
+  /BB-llx xdef
+ 
+  [BB-llx RasterConvert BB-lly RasterConvert 
+   BB-urx RasterConvert BB-ury RasterConvert]
+} bdef
+
+/DefinePXLFont {
+  /newfont xdef
+  /bb xdef
+  /num xdef
+  /psz xdef
+  /dsz xdef
+  /pxlmag xdef
+  /ext xdef
+  /int xdef
+ 
+  /fnam ext (-) str-concat pxlmag tempstr cvs str-concat def
+ 
+  newfont not {
+    int-dict-name 13 dict def
+   
+    int-dict begin
+      /FontType 3 def
+      /FontMatrix [1 dsz div 0 0 1 dsz div 0 0] def
+      /FontBBox bb TransformBBox def
+      /Encoding CMEncodingArray def
+      /CharDict 1 dict def
+      CharDict begin
+        /Char-Info num array def
+        end
+  
+      /BuildChar
+        { 
+          PXLBuildCharDict begin
+            /char xdef
+            /fontdict xdef
+   
+            fontdict /CharDict get /Char-Info get char get aload pop
+   
+            /rasters xdef
+            /PackedWord1 xdef
+   
+            0 PackedWord1 UnpkHW 16#7FFF ne
+              { /PackedWord2 xdef
+                /wx 0 PackedWord1 UnpkHW def
+                /rows 2 PackedWord1 UnpkByte def
+                /cols 3 PackedWord1 UnpkByte def
+                /llx 0 PackedWord2 UnpkByte def
+                /lly 1 PackedWord2 UnpkByte def
+                /urx 2 PackedWord2 UnpkByte def
+                /ury 3 PackedWord2 UnpkByte def }
+              { /PackedWord2 xdef
+                /PackedWord3 xdef
+                /PackedWord4 xdef
+                /wx 1 PackedWord1 UnpkHW def
+                /rows 0 PackedWord2 UnpkHW def
+                /cols 1 PackedWord2 UnpkHW def
+                /llx 0 PackedWord3 UnpkHW def
+                /lly 1 PackedWord3 UnpkHW def
+                /urx 0 PackedWord4 UnpkHW def
+                /ury 1 PackedWord4 UnpkHW def }
+               ifelse
+
+            rows 0 lt
+              { /rows rows neg def
+                /runlength 1 def }
+              { /runlength 0 def }
+             ifelse
+ 
+            wx 0 
+            llx RasterConvert lly RasterConvert 
+            urx RasterConvert ury RasterConvert setcachedevice
+            rows 0 ne
+              {
+              gsave
+                cols rows true 
+                RasterScaleFactor 0 0 RasterScaleFactor neg llx neg ury 
+                  tempmatrix astore
+                {GenerateRasters} imagemask
+              grestore
+              } if
+            end
+        } def
+      end
+   
+      fnam int-dict definefont pop 
+    } if 
+ 
+  int-dict-name fnam findfont psz scalefont def
+  currentdict int [int-dict /setfont cvx] cvx put
+} bdef 
+ 
+%
+%  <int-font-name> <code> <wx> <llx> <lly> <urx> <ury> <rows> <cols> <runlength> <rasters> PXLC
+%
+/PXLC {
+ 
+  /rasters xdef
+  /runlength xdef
+  /cols xdef
+  /rows xdef
+  /ury xdef
+  /urx xdef
+  /lly xdef
+  /llx xdef
+  /wx xdef
+  /code xdef
+  /int xdef
+ 
+  % See if the long or short format is required
+  true cols CKSZ rows CKSZ ury CKSZ urx CKSZ lly CKSZ llx CKSZ 
+    TackRunLengthToRows
+    { int-dict /CharDict get /Char-Info get code 
+        [0 0 llx PackByte 1 lly PackByte 2 urx PackByte 3 ury PackByte
+         0 0 wx PackHW 2 rows PackByte 3 cols PackByte
+         rasters] put}
+    { int-dict /CharDict get /Char-Info get code 
+        [0 0 urx PackHW 1 ury PackHW
+         0 0 llx PackHW 1 lly PackHW
+         0 0 rows PackHW 1 cols PackHW
+         0 0 16#7FFF PackHW 1 wx PackHW
+         rasters] put} 
+    ifelse
+} bdef
+ 
+/CKSZ {abs 127 le and} bdef
+/TackRunLengthToRows {runlength 0 ne {/rows rows neg def} if} bdef
+ 
+%
+%  <wx> <dsz> <psz> <llx> <lly> <urx> <ury> <rows> <cols> <runlength> <rasters> PLOTC
+%
+/PLOTC {
+  /rasters xdef
+  /runlength xdef
+  /cols xdef
+  /rows xdef
+  /ury xdef
+  /urx xdef
+  /lly xdef
+  /llx xdef
+  /psz xdef
+  /dsz xdef
+  /wx xdef
+ 
+  % "Plot" a character's raster pattern.
+  rows 0 ne
+    {
+    gsave
+      currentpoint translate
+      psz dsz div dup scale
+      cols rows true 
+      RasterScaleFactor 0 0 RasterScaleFactor neg llx neg ury 
+        tempmatrix astore
+      {GenerateRasters} imagemask
+    grestore
+    } if
+  wx x
+} bdef
+ 
+% Routine to generate rasters for "imagemask".
+/GenerateRasters {
+  rasters
+  runlength 1 eq {RunLengthToRasters} if
+} bdef
+ 
+% Routine to convert from runlength encoding back to rasters.
+/RunLengthToRasters {
+  % ...not done yet...
+} bdef
+ 
+%
+%  These procedures handle bitmap processing.
+%
+%  <bitmap columns> <bitmap rows> <bitmap pix/inch> <magnification> BMbeg
+%
+/BMbeg {
+  /BMmagnification xdef
+  /BMresolution xdef
+  /BMrows xdef
+  /BMcols xdef
+
+  /BMcurrentrow 0 def
+  gsave
+    0.0 setgray
+    Resolution BMresolution div dup scale
+    currentpoint translate
+    BMmagnification 1000.0 div dup scale
+    0.0 BMrows moveto
+    BMrows dup scale
+    currentpoint translate
+    /BMCheckpoint save def
+  } bdef
+
+/BMend {
+  BMCheckpoint restore
+  grestore
+  } bdef
+
+%
+%  <hex raster bitmap> <rows> BMswath 
+%
+/BMswath {
+  /rows xdef
+  /rasters xdef
+
+  BMcols rows true
+  [BMrows 0 0 BMrows neg 0 BMcurrentrow neg]
+  {rasters}
+  imagemask
+
+  /BMcurrentrow BMcurrentrow rows add def
+  BMcurrentrow % save this on the stack around a restore...
+  BMCheckpoint restore
+  /BMcurrentrow xdef
+  /BMCheckpoint save def
+  } bdef
+
+%
+%  Procedures for implementing the "rotate <theta>" special:
+%  <theta> ROTB -
+%        - ROTE -
+
+/ROTB {
+  XP
+  gsave
+  Xpos Ypos translate
+  rotate % using <theta> from the stack
+  Xpos neg Ypos neg translate
+  RP
+  } bdef
+
+/ROTE {XP grestore RP} bdef
+
+%
+%  Procedures for implementing the "epsfile <filename> [<mag>]" special:
+%  <llx> <lly> <mag> EPSB -
+%  - EPSE -
+
+/EPSB {
+  0 SPB
+  save
+  4 1 roll % push the savelevel below the parameters
+  /showpage {} def
+  Xpos Ypos translate
+  1000 div dup scale % using <mag> from the stack
+  neg exch neg exch translate % using <llx> <lly> from the stack
+  } bdef
+
+/EPSE {restore 0 SPE} bdef
+
+%
+%  Procedure for implementing revision bars:
+%  <bary1> <bary2> <barx> <barw> REVB -
+%  The bar is a line of width barw drawn from (barx,bary1) to (barx,bary2).
+
+/REVB {
+  /barw xdef
+  /barx xdef
+  /bary2 xdef
+  /bary1 xdef
+  gsave
+    barw setlinewidth
+    barx bary1 Yadjust moveto
+    barx bary2 Yadjust lineto
+    stroke
+  grestore
+  } bdef
+
+%  
+%  A small array and two procedures to facilitate The Publisher's
+%  implementation of gray table cells:
+%                               <ptnum> GRSP -
+%  <ultpnum> <lrptnum> <graylev> <freq> GRFB -
+%  
+%  GRSP saves the current DVI location so that it can be retrieved later
+%  by the index <ptnum>.  GRFB fills a box whose corners are given by the
+%  indexes <ultpnum> and <lrptnum> with a halftone gray with the given
+%  level and frequency.  The array GRPM holds the coordinates of points
+%  marking the corners of gray table cells.
+
+/GRPM 40 dict def
+
+/GRSP {GRPM exch [Xpos Ypos] put} bdef
+
+/GRFB {
+  /GRfreq xdef
+  /GRgraylev xdef
+  GRPM exch get aload pop /GRlry xdef /GRlrx xdef
+  GRPM exch get aload pop /GRuly xdef /GRulx xdef
+  gsave
+    % set the screen frequency if it isn't zero
+    GRfreq 0 ne
+      {currentscreen
+      3 -1 roll pop GRfreq 3 1 roll
+      setscreen}
+    if
+    % set the gray level
+    GRgraylev setgray
+    % draw and fill the path
+    GRulx GRuly moveto
+    GRlrx GRuly lineto
+    GRlrx GRlry lineto
+    GRulx GRlry lineto
+    closepath
+    fill
+  grestore
+  } bdef
+
+
+%
+%  Procedures for implementing the "paper <source>" option:
+%  <name> <eop> SPS          -
+%         <eop> paper-manual -
+%  etc.  The boolean <eop> is passed so that a paper source procedure
+%  knows if it is being called at the beginning (false) or end
+%  (true) of a page.
+
+/SPS {
+  /eop xdef
+  /name xdef
+  name where {pop eop name cvx exec} if
+  } bdef
+
+/paper-manual {
+    {statusdict /manualfeed known
+      {statusdict /manualfeed true put}
+    if}
+  if
+  } bdef
+
+/paper-automatic {
+    {statusdict /manualfeed known
+      {statusdict /manualfeed false put}
+    if}
+  if
+  } bdef
+
+/paper-top-tray {
+    {}
+    {statusdict /setpapertray known
+      {statusdict begin gsave 0 setpapertray grestore end}
+    if}
+  ifelse
+  } bdef
+
+/paper-bottom-tray {
+    {}
+    {statusdict /setpapertray known
+      {statusdict begin gsave 1 setpapertray grestore end}
+    if}
+  ifelse
+  } bdef
+
+/paper-both-trays {
+    {}
+    {statusdict /setpapertray known
+      {statusdict begin gsave 2 setpapertray grestore end}
+    if}
+  ifelse
+  } bdef
+
+(end of common prolog) VMSDebug 
+
+end
+ 
+systemdict /setpacking known 
+  {savepackingmode setpacking}
+  if
+
+% 
+% End of included prolog section.
+%
+
+%%EndProlog
+%%BeginSetup
+BeginDviLaserDoc
+300 300 RES
+%%EndSetup
+
+
+%%PageBoundingBox: (atend)
+%%BeginPageSetup
+647 BP 2550 3300 LM /paper-automatic false SPS 98 0 XY
+%%EndPageSetup
+XP /F46 /CM-Times-Bold 88.630 11 DNF RP
+98 158 XY F46(IPX)S 36 x(Packet)S 37 x(Format)S
+XP /F44 /CM-Times-Roman 42.972 11 DNF RP
+98 240 XY F44(The)S 14 x(proprietary)S 13 x(Novell)S 14 x(Net)S 14 x
+(system)S 14 x(uses)S 13 x(the)S 14 x(following)S 14 x(packet)S 14 x
+(structure)S 14 x(for)S 14 x(its)S 14 x(main)S 51 y 130 X(network)S
+19 x(layer)S 19 x(protocol.)S 98 1187 XY 72.000000 72.000000 1000 EPSB
+%%BeginDocument: layer3-ipx/00000gr0.ps
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: /a/infoaf/usr4/dept/white/publisher/CSI3103/CSI3103/layer3-ipx/ipx.vec
+%%Creator: white
+%%CreationDate: Fri Nov 13 12:07:54 1998
+%%Pages: 1
+%%BoundingBox: 72 72 593.24 393.489
+%%EndComments
+/draw_initial_state save def
+/displaylistdict 80 dict def
+displaylistdict begin
+
+% catch nocurrentpoint error for:
+% pathbbox
+    /ncpoint errordict /nocurrentpoint get def
+    errordict begin
+    /nocurrentpoint
+    {
+	dup /pathbbox load eq
+	{ pop 0 0 1 1 }
+	{ ncpoint }
+	ifelse
+    } bind def
+    end
+
+    /image_raster { % sw sh dw dh xs ys
+	translate scale /sh exch def /sw exch def
+	/imagebuf sw 7 add 8 idiv string def
+	sw sh 1 [sw 0 0 sh 0 0] { currentfile imagebuf readhexstring pop }
+	image
+    } bind def
+    /m {moveto} bind def
+    /l {lineto} bind def
+
+% pattern stuff
+    /BPSIDE 32 def	% pixels per pattern side
+    /PATFREQ 3.0 def	% pattern pixels per mm
+
+    /drawpat_mat [PATFREQ 0 0 PATFREQ 0 0] def
+    /drawpat_pw BPSIDE def	% pattern pixel width
+    /drawpat_ph BPSIDE def	% pattern pixel height
+    /drawpat_w drawpat_pw PATFREQ div def	% pattern mm width
+    /drawpat_h drawpat_ph PATFREQ div def	% pattern mm height
+    /drawpat_bs 1 def		% pattern bits per pixel
+
+    /savemat matrix def
+    /topmat matrix def
+    /patmat matrix def
+
+    /start_display_list
+    {	
+	0	setlinecap
+	10	setmiterlimit
+    } bind def
+
+    /patpath {
+	topmat setmatrix
+	pathbbox	% get lo - hi indecies
+	/hy exch drawpat_h div floor cvi def
+	/hx exch drawpat_w div floor cvi def
+	/ly exch drawpat_h div floor cvi def
+	/lx exch drawpat_w div floor cvi def
+	lx 1 hx {
+	    drawpat_w mul
+	    ly 1 hy {
+		drawpat_h mul
+		exch dup 3 1 roll exch
+		patmat currentmatrix pop
+		translate
+		drawpat_pw drawpat_ph drawpat_bs
+		drawpat_mat drawpat_proc image
+		patmat setmatrix
+	    } for
+	    pop
+	} for
+    } bind def
+%! Sun SUNWRITE prolog Version 1.1
+%%
+/BLACK { 0.0 } bind def
+/CP {closepath} bind def
+/FI {eofill} bind def
+/E {exch} bind def
+/FF {findfont} bind def
+/GR {grestore} bind def
+/GS {gsave} bind def
+/MF {makefont} bind def
+/NP {newpath} bind def
+/RO {rotate} bind def
+/ST {stroke} bind def
+/SC {scale} bind def
+/SF {setfont} bind def
+/SG {setgray} bind def
+/SLC {setlinecap} bind def
+/SLJ {setlinejoin} bind def
+/SLW {setlinewidth} bind def
+/TR {translate} bind def
+/WHITE { 1.0 } bind def
+/m {moveto} bind def
+/r {rmoveto} bind def
+/l {lineto} bind def
+/sp {x 0 rmoveto} bind def
+/rl {rlineto} bind def
+/s {show} bind def
+/box { NP m l l l CP } bind def
+/pageboundary { NP m l l l CP } bind def
+/BS {   % black stroke
+GS SLJ SLW BLACK SG ST GR
+} bind def
+/WS {   % white stroke
+GS SLJ SLW WHITE SG ST GR
+} bind def
+/badfont null def
+/badfont_trap {
+badfont null ne {
+2 dict begin
+gsave
+.9 setgray
+clippath pathbbox /h exch def /w exch def
+0 h translate 1 -1 scale
+/Times-Roman findfont 17 50 mul scalefont setfont
+w 20 div h 3 mul 7 div moveto
+badfont show (:) show
+/Times-Roman findfont 25 50 mul scalefont setfont
+w 20 div h 2 mul 7 div moveto
+(Font not available) show
+w 20 div h 1 mul 7 div moveto
+(on this printer.) show
+grestore
+end
+/badfont null store
+} if
+} def
+/reencode_small_dict 12 dict def
+/ReencodeSmall {
+reencode_small_dict begin
+/new_codes_and_names E def
+/new_font_name E def
+/base_font_name E def
+/base_font_dict base_font_name FF def
+
+base_font_dict /FontName get base_font_name ne {
+/badfont base_font_name 30 string cvs store
+} if
+/newfont base_font_dict maxlength dict def
+base_font_dict {
+E dup /FID ne
+{ dup /Encoding eq
+{ E dup length array copy newfont 3 1 roll put }
+{ E newfont 3 1 roll put }
+ifelse
+}
+{ pop pop }
+ifelse
+} forall
+newfont /FontName new_font_name put
+new_codes_and_names aload pop
+new_codes_and_names length 2 idiv
+{ newfont /Encoding get 3 1 roll put }
+repeat
+new_font_name newfont definefont pop
+end     %reencode_small_dict
+} def
+/extended_Zapf [
+8#223 /a89
+8#224 /a90
+8#225 /a93
+8#226 /a94
+8#227 /a91
+8#230 /a92
+8#231 /a205
+8#232 /a85
+8#233 /a206
+8#234 /a86
+8#235 /a87
+8#236 /a88
+8#237 /a95
+8#240 /a96
+] def
+/extended_Standard [
+128 /Acircumflex
+129 /Adieresis
+130 /Agrave
+131 /Aring
+132 /Atilde
+133 /Ccedilla
+134 /Eacute
+135 /Ecircumflex
+136 /Edieresis
+137 /Egrave
+138 /Iacute
+139 /Icircumflex
+140 /Idieresis
+141 /Igrave
+142 /Ntilde
+143 /Oacute
+144 /Ocircumflex
+145 /Odieresis
+146 /Ograve
+147 /Otilde
+148 /Scaron
+149 /Uacute
+150 /Ucircumflex
+151 /Udieresis
+152 /Ugrave
+153 /Ydieresis
+154 /Zcaron
+155 /aacute
+156 /acircumflex
+157 /adieresis
+158 /agrave
+159 /aring
+160 /atilde
+209 /ccedilla
+210 /copyright
+211 /eacute
+212 /ecircumflex
+213 /edieresis
+214 /egrave
+215 /iacute
+216 /icircumflex
+217 /idieresis
+218 /igrave
+219 /logicalnot
+220 /minus
+221 /ntilde
+222 /oacute
+223 /ocircumflex
+224 /odieresis
+228 /ograve
+229 /otilde
+230 /registered
+231 /scaron
+236 /trademark
+237 /uacute
+238 /ucircumflex
+239 /udieresis
+240 /ugrave
+242 /ydieresis
+243 /zcaron
+244 /Aacute
+] def
+/extended_Symbol [
+] def
+/extend_font {  % stack: fontname newfontname
+E dup (ZapfDingbats) eq
+{ cvn E cvn extended_Zapf ReencodeSmall }
+{ dup (Symbol) eq
+{ cvn E cvn extended_Symbol ReencodeSmall }
+{ cvn E cvn extended_Standard ReencodeSmall }
+ifelse
+}
+ifelse
+} bind def
+/getfont {
+/f E def f cvn where
+{ begin f cvx cvn exec SF end }
+{ f 0 f length 8 sub getinterval (LocalFont) extend_font
+/LocalFont FF
+/xsz f f length 4 sub 4 getinterval cvi def
+/ysz f f length 8 sub 4 getinterval cvi def
+[ xsz 0 0 ysz neg 0 0 ] MF dup f cvn E def
+SF
+}
+ifelse
+} bind def
+/ul { % space drop thickness
+GS currentpoint currentlinewidth 
+currentpoint NP m 6 -3 roll 
+SLW 0 E r
+0 rl ST SLW m
+GR 
+} bind def
+/ss { currentpoint pop E m } bind def
+/image_raster { % sw sh dw dh xs ys
+TR SC /sh E def /sw E def
+/imagebuf sw 7 add 8 idiv string def
+sw sh 1 [sw 0 0 sh 0 0] { currentfile imagebuf readhexstring pop }
+image
+} bind def
+/nx { /x E def } bind def
+0. nx
+%%EndFixedProlog
+%%EndProlog
+
+%%Page: 1 1
+gsave 2.83465 -2.83465 scale
+newpath
+25.4 -25.4 moveto
+0 -113.414 rlineto
+183.882 0 rlineto
+0 113.414 rlineto
+closepath clip
+17.265 -146.949 translate
+topmat currentmatrix pop
+start_display_list
+
+% text
+0 setgray
+/complex_color true def
+savemat currentmatrix pop [1 0 0 1 12.5307 16.5947] concat
+25.4 1440 div dup scale 0 0 m
+
+0 5600 m 0 ss (Times-Roman02400240) getfont (Checksum) s 0 0 m 280 ss 0 280 m
+560 ss (Length) s 0 560 m 840 ss 0 840 m 1120 ss (Transport Control) s 0 1120 m
+1400 ss 0 1400 m 1680 ss (Packet Type) s 0 1680 m 1960 ss 0 1960 m 2240 ss (Destination Network) s
+0 2240 m 2520 ss 0 2520 m 2800 ss (Destination Host) s 0 2800 m 3080 ss 0 3080 m
+3360 ss (Destination Socket) s 0 3360 m 3640 ss 0 3640 m 3920 ss (Source Network) s
+0 3920 m 4200 ss 0 4200 m 4480 ss (Source Host) s 0 4480 m 4760 ss 0 4760 m
+5040 ss (Source Socket) s 0 5040 m 5320 ss 0 5320 m 5600 ss (Data) s
+savemat setmatrix
+
+% irpoly2
+0 setlinejoin
+0.05 setlinewidth
+gsave
+newpath 10.16 10.16 m
+70.104 10.16 l
+70.104 19.9813 l
+10.16 19.9813 l
+closepath
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 10.16 19.9813 m
+10.16 119.549 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 10.16 30.1413 m
+70.104 30.1413 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.104 30.1413 m
+70.104 19.9813 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 10.16 39.9627 m
+44.3653 39.9627 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 10.4987 50.1227 m
+44.0267 50.1227 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 44.0267 50.1227 m
+44.0267 30.1413 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 44.0267 50.1227 m
+130.048 50.1227 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 50.4613 m
+130.048 59.944 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 59.944 m
+10.4987 59.944 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 59.944 m
+189.992 59.944 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 189.992 59.944 m
+189.992 70.104 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 189.992 70.104 m
+10.16 70.104 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.4427 79.9253 m
+10.4987 79.9253 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.4427 79.9253 m
+70.4427 70.104 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.7813 79.9253 m
+130.387 79.9253 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 79.9253 m
+130.048 90.0853 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 90.0853 m
+10.16 90.0853 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 130.048 90.0853 m
+189.992 90.0853 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 189.992 90.0853 m
+189.992 99.568 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 189.992 99.568 m
+10.4987 99.568 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.4427 99.568 m
+70.4427 110.067 l
+stroke
+grestore
+
+% polyline2
+gsave
+newpath 70.4427 110.067 m
+10.4987 110.067 l
+stroke
+grestore
+showpage
+grestore
+
+%%Trailer
+end
+draw_initial_state restore
+
+
+%%EndDocument 
+EPSE 71 y F44(Checksum)S 18 x(\320)S 18 x(2)S 17 x(bytes)S 18 x
+(\320)S 18 x(set)S 17 x(to)S
+XP /F47 /CM-Times-Bold 42.972 11 DF RP
+684 1258 XY F47(FFFF)S 71 y 98 X F44(Length)S 17 x(\320)S 18 x(2)S
+18 x(bytes)S 18 x(\320)S 17 x(length)S 17 x(of)S 17 x(IPX)S 17 x
+(packet)S 18 x([30..576].)S 28 x(If)S 18 x(packet)S 17 x(is)S 17 x
+(not)S 18 x(routed,)S 51 y 130 X(there)S 19 x(is)S 19 x(no)S 19 x
+(maximum.)S 70 y 98 X(T)S -2 x(ransport)S 16 x(Control)S 15 x(\320)S
+15 x(1)S 15 x(byte)S 15 x(\320)S 15 x(\(hop)S 15 x(counter\))S 15 x
+(set)S 15 x(to)S 15 x(0)S 16 x(by)S 16 x(source)S 15 x(and)S 15 x
+(incremented)S 51 y 130 X(each)S 17 x(time)S 18 x(the)S 17 x(packet)S
+17 x(passes)S 17 x(through)S 17 x(a)S 17 x(router.)S 71 y 98 X
+(Packet)S 14 x(T)S -3 x(ype)S 14 x(\320)S 15 x(1)S 15 x(byte)S 14 x
+(\320)S 14 x(identi\014es)S 14 x(upper-layer)S 14 x(protocol)S 14 x
+(used.)S 51 y 130 X(0)S 14 x(\320)S 14 x(unknown)S 15 x(packet)S 
+14 x(type)S 51 y 130 X(4)S 14 x(\320)S 14 x(packet)S 15 x(exchange)S
+14 x(protocol)S 51 y 130 X(5)S 14 x(\320)S 14 x(sequenced)S 15 x
+(packet)S 14 x(exchange)S 15 x(protocol,)S 14 x(SPX)S 51 y 130 X(17)S
+19 x(\320)S 18 x(NetW)S -3 x(are)S 17 x(core)S 19 x(protocol)S 71 y 
+98 X(Destination)S 19 x(Network)S 19 x(\320)S 18 x(4)S 18 x(bytes)S
+18 x(\320)S 19 x(set)S 18 x(to)S 18 x(0)S 18 x(when)S 19 x(source)S
+18 x(and)S 18 x(destination)S 18 x(are)S 51 y 130 X(on)S 20 x(same)S
+20 x(LAN.)S 70 y 98 X(Destination)S 16 x(Host)S 16 x(\320)S 16 x(6)S
+15 x(bytes)S 16 x(\320)S 16 x(destination's)S 16 x(physical)S 16 x
+(address.)S 71 y 98 X(Destination)S 15 x(Socket)S 15 x(\320)S 15 x
+(2)S 15 x(bytes)S 14 x(\320)S 15 x(destination's)S 15 x(upper-layer)S
+15 x(process)S 14 x(\(socket\).)S
+XP /F6 /CM-Times-Roman 26.858 11 DF RP
+819 2154 XY F6(1)S
+XP RP
+647 MAG 2550 3300 LM /paper-automatic false SPS 1748 141 XY F44
+(Source)S 17 x(Network)S 16 x(\320)S 16 x(4)S 16 x(bytes)S 16 x
+(\320)S 16 x(network)S 16 x(address)S 16 x(of)S 16 x(source.)S 72 y 
+1748 X(Source)S 17 x(Host)S 17 x(\320)S 16 x(6)S 16 x(bytes)S 17 x
+(\320)S 16 x(source's)S 16 x(physical)S 17 x(address.)S 73 y 1748 X
+(Source)S 16 x(Socket)S 15 x(\320)S 16 x(2)S 16 x(bytes)S 15 x(\320)S
+16 x(source's)S 15 x(upper-layer)S 16 x(process)S 15 x(\(socket\).)S
+72 y 1748 X(Data)S 16 x(\320)S 16 x(variable)S 16 x(length)S 16 x
+(\320)S 16 x(data)S 16 x(for)S 16 x(the)S 16 x(upper-layer)S 16 x
+(process.)S 2154 Y 2469 X F6(2)S
+%%PageTrailer
+/paper-automatic true SPS 1 PP EP
+%%PageBoundingBox: 420 93 706 586
+
+%%Trailer
+EndDviLaserDoc
+
+%%BoundingBox: 24 93 706 586
+%%Pages: 2
+%%DocumentFonts: Times-Bold Times-Roman

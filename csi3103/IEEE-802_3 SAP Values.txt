@@ -1,0 +1,55 @@
+CSI3103 
+=======
+IEEE-802.3 SAP Values
+List of IEEE-802.3 Link Service Access Protocol (LSAP) 
+DSAP/SSAP (destination/source Service Access Points) Values currently in use. 
+Note that NOT ALL of these values are officially sanctioned or approved by the 
+IEEE Standards Office. 
+								
+HEX   BINARY(MSB)  DECIMAL          DESCRIPTION
+
+00    0000 0000     0               NULL SAP  
+02    0000 0010     2               LLC individual Mgt  
+03    0000 0011     3               LLC group Mgt (Not on the JTC1 list)
+04    0000 0100     4               IBM SNA Path control  
+06    0000 0110     6               DOD - IP  
+0E    0000 1110     14              PROWAY-LAN
+0A    0000 1010     10              IEEE-802.10 Secure Data Exchange
+42    0100 0010     66              Bridge Spanning Tree 
+4E    0100 1110     78              EIA -RS- 511 
+5E    0101 1110     94              ISI-IP     
+6C    0110 1100     108             INTEL Multimedia Multicast Technology,  DTN  
+80    1000 0000     128             3-COM 
+8E    1000 1110     142             PROWAY-LAN 
+A6    1010 0110     166             LLC (Amendment 5) Route Determination Entity 
+AA    1010 1010     170             IEEE-802-SNAP 
+BC    1011 1100     188             Banyan Vines 
+E0    1110 0000     224             Novell IPX/SPX 
+F0    1111 0000     240             IBM PCN-2 NetBIOS 
+F4    1111 0100     244             IBM 
+F8    1111 1000     248             IBM
+FC    1111 1100     252             IBM PCN-2  RPL 
+FE    1111 1110     254             ISO OSI CNLS Net 
+FF    1111 1111     255             Global broadcast SAP 
+
+
+In the 802.2 formats the DSAP/SSAP bytes (which are in the order DSAP, SSAP) are 
+followed by one or two "control bytes". It appears that the second control byte 
+is present if and only if the two lowest-order bits in the first control byte 
+are not both set. 
+For the SNAP format, the value of the first (and only) control byte is 0x03. 
+Some protocol ID's: 
+Ethernet II ethertypes, also used by 802.2 SNAP format if OUI = 0x000000 
+
+	IPX		0x8137
+	XNS		0x0600
+	AARP		0x80F3
+	Appletalk	0x809B
+	ARP		0x0806
+	RARP		0x8035
+	IP		0x0800
+
+802.2 DSAP/SSAP bytes: 
+	IPX		0xE0
+	SNA		0x04
+

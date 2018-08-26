@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0086)http://www.scs.carleton.ca/~ldnel/305f2000/notes/class_lecture_notes/normal_forms.html -->
+<HTML><HEAD><TITLE>normal_forms</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="Louis Nel" name=Author>
+<META content="MSHTML 5.00.3019.2500" name=GENERATOR></HEAD>
+<BODY><FONT color=#009900><FONT size=+2>Definitions for Normal 
+Forms</FONT></FONT> <BR><FONT size=+1>The following set of definitions can be 
+used to define and test for the normal forms. We will use these for assignments 
+and tests</FONT> <BR>
+<HR width="100%">
+<BR><FONT color=#009900><FONT size=+1>Prime Attribute:</FONT></FONT> <BR><FONT 
+size=+1>If R=(A1,A2,...An) is a table, attribute Ai is prime if there exists a 
+key K of R such that Ai is an element of K. A non-prime attribute is one that is 
+not prime.</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>Trivial Dependency:</FONT></FONT> <BR><FONT 
+size=+1>A dependency X-&gt;Y is trivial if Y is a subset of X.</FONT><FONT 
+size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>Closure of F:</FONT></FONT> <BR><FONT 
+size=+1>If F is a set of functional dependencies, the closure of F, denoted F+, 
+is {X-&gt;Y | F logically implies X-&gt;Y}.</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>Partial Dependency:</FONT></FONT> <BR><FONT 
+size=+1>Suppose X is a key of table R and Y is a proper subset of X, and A is an 
+attribute not in Y. Then Y-&gt;A is a partial dependency</FONT><FONT 
+size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>2nd Normal Form:</FONT></FONT> <BR><FONT 
+size=+1>A table R with associated functional dependencies F is in 2nd Normal 
+Form if F+ contains no partial dependencies Y-&gt;A where A is 
+non-prime.</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>Transitive Dependency:</FONT></FONT> 
+<BR><FONT size=+1>Let Y be a set of attributes from table R and A be an 
+attribute not contained in Y. The functional dependency Y-&gt;A is a transitive 
+dependency if Y is neither a superkey of R nor a proper subset of a key of 
+R.</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>3rd Normal Form:</FONT></FONT> <BR><FONT 
+size=+1>A table with dependencies F is in 3rd Normal Form if it is in 2nd Normal 
+Form and if F+ contains no transitive dependencies Y-&gt;A where A is non-prime. 
+(Equivalently, a table is in 3rd Normal Form if for each non-trivial dependency 
+Y-&gt;A, Y is a superkey or A is prime)</FONT><FONT size=+1></FONT> 
+<P><FONT color=#009900><FONT size=+1>Boyce-Codd Normal Form:</FONT></FONT> 
+<BR><FONT size=+1>A table, with dependencies F, is in BCNF if F+ contains no 
+partial or transitive dependencies. (Equivalently, a table is in BCNF if the 
+left side of each non-trivial dependency in F+ is a superkey.)</FONT> 
+</P></BODY></HTML>

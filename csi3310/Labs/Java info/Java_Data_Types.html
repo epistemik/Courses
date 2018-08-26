@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>Variables and Data Types</title>
+<meta name="description" content="Variables and Data Types,
+taken from the course notes for the Introduction to Java Programming, 
+taught at Polytechnic University, Spring, 1997">
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h1>Variables and Data Types</h1>
+
+There are eight primitive data types in Java:<P>
+
+<CODE><UL TYPE=DISC>
+	<LI><B>boolean</B>
+	<LI>byte
+	<LI>short
+	<LI><B>int</B>
+	<LI><i>long</i>
+	<LI><I>float</I>
+	<LI><B>double</B>
+	<LI><B>char</B>
+</UL>
+</CODE>
+However there are only seven kinds of literals,
+and one of those is not a primitive data type:<P>
+
+<UL TYPE=DISC>
+	<LI><CODE>boolean</CODE>: true or false
+	<LI><CODE>int</CODE>: 89, -945, 37865
+	<LI><CODE>long</CODE>: 89L, -945L, 5123567876L
+	<LI><CODE>float</CODE>: 89.5f, -32.5f,
+	<LI><CODE>double</CODE>: 89.5, -32.5, 87.6E45
+	<LI><CODE>char</CODE>: 'c', '9', 't'
+	<LI><CODE>String</CODE>: "This is a string literal"
+</UL>
+
+There are no <CODE>short</CODE> or <CODE>byte</CODE> literals.<P>
+
+Strings are a <DFN>reference</DFN> or <DFN>object</DFN> type, not a primitive type.
+However the Java compiler has special support for strings
+so this sometimes appears not to be the case.<P>
+
+<pre><code>class Variables {
+
+  public static void main (String args[]) {
+  
+    boolean b = true;
+    int low = 1;
+    long high = 76L;
+    long middle = 74;
+    float pi = 3.1415292f;
+    double e = 2.71828;
+    String s = "Hello World!";
+    
+  }
+   
+}</code></pre>
+
+
+<hr>
+<A HREF="18.html">Previous</A> | <A HREF="20.html">Next</A> | <A HREF="index.html">Top</A>
+<hr><font size="-1">
+Last Modified February 3, 1999<br>
+Copyright 1997, 1999 Elliotte Rusty Harold<br>
+<A HREF="mailto:elharo@metalab.unc.edu">elharo@metalab.unc.edu</A>
+</font>
+</body>
+</html>

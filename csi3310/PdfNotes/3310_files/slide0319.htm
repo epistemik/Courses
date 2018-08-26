@@ -1,0 +1,141 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../3310.html">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Lecture CSI3310</title>
+<meta name=Description content="20-Jan-00: Inverted Page Table">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0319.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><o:shapelayout v:ext="edit">
+ <o:idmap v:ext="edit" data="405"/>
+</o:shapelayout>
+</head>
+
+<body lang=EN-US style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#009999,#010000,#336699,#CCECFF,#FFFFCC,#FF9966,#FFFFCC"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s3073"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s3074"/><![if !vml]><img border=0
+ v:shapes="_x0000_s3074" src="master04_image003.gif" style='position:absolute;
+ top:12.25%;left:0%;width:11.61%;height:88.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s3078"/>
+ <div v:shape="_x0000_s3078" class=O style='text-align:center;position:absolute;
+ top:95.25%;left:.74%;width:7.67%;height:3.25%'><span style='font-family:Arial;
+ font-size:58%;color:#FF9966;mso-color-index:6'>Chap 0</span></div>
+ <p:shaperange href="master04.xml#_x0000_s3079"/>
+ <div v:shape="_x0000_s3079" class=O>
+ <div style='text-align:right;position:absolute;top:95.25%;left:94.0%;
+ width:5.24%;height:3.25%'><span style='font-family:Arial;font-size:58%;
+ color:#FF9966;mso-color-index:6;mso-field-code:meta16'>319</span><span
+ style='font-family:Arial;font-size:58%;color:#FF9966;mso-color-index:6;
+ mso-special-format:lastCR;display:none'>&#13;</span></div>
+ </div>
+ <![endif]><p:shaperange href="master04.xml#_x0000_m3075"/><v:shape id="_x0000_s414722"
+  type="#_x0000_m3075" style='position:absolute;left:204pt;top:18pt;width:390pt;
+  height:42pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m3076"/><v:shape id="_x0000_s414723" type="#_x0000_m3076"
+  style='position:absolute;left:78pt;top:96pt;width:618pt;height:420pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <o:lock v:ext="edit" text="f"/>
+  <p:placeholder type="body" position="1"/></v:shape>
+ <div v:shape="_x0000_s414722" class=T style='position:absolute;top:2.25%;
+ left:29.4%;width:52.24%;height:8.75%'>Inverted Page Table</div>
+ <div v:shape="_x0000_s414723">
+ <div class=B><span style='position:absolute;top:18.75%;left:15.54%;width:94.56%'><span
+ style='font-size:86%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-3.96%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:86%'>Another solution (PowerPC, IBM Risk 6000) to the </span></span><span
+ style='position:absolute;top:24.0%;left:15.54%;width:95.5%'><span
+ style='font-size:86%'>problem of maintaining large page tables is to use </span></span><span
+ style='position:absolute;top:29.5%;left:15.54%;width:80.14%'><span
+ style='font-size:86%'>an </span><span style='font-size:86%;color:#FF9966;
+ mso-color-index:6'>Inverted Page Table (IPT)</span><span style='font-size:
+ 86%'><span style='mso-tab-count:1;width:2.05%'> </span>&#13;</span></span></div>
+ <div class=B><span style='position:absolute;top:35.75%;left:15.54%;width:85.95%'><span
+ style='font-size:86%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-4.35%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:86%'>We generally have only one IPT for the whole </span></span><span
+ style='position:absolute;top:41.0%;left:15.54%;width:80.14%'><span
+ style='font-size:86%'>system&#13;</span></span></div>
+ <div class=B><span style='position:absolute;top:47.5%;left:15.54%;width:87.64%'><span
+ style='font-size:86%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-4.27%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:86%'>There is only one IPT entry per physical frame </span></span><span
+ style='position:absolute;top:52.75%;left:15.54%;width:80.14%'><span
+ style='font-size:86%'>(rather than one per virtual page)&#13;</span></span></div>
+ <div class=B1><span style='position:absolute;top:59.0%;left:20.03%;width:84.26%'><span
+ style='font-size:85%'><span style='mso-special-format:bullet;color:#336699;
+ mso-color-index:3;position:absolute;left:-3.77%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>u</span></span><span style='font-size:85%'>this reduces a lot
+ the amount of memory needed for </span></span><span style='position:absolute;
+ top:64.0%;left:20.03%;width:75.84%'><span style='font-size:85%'>page
+ tables&#13;</span></span></div>
+ <div class=B><span style='position:absolute;top:70.0%;left:15.54%;width:91.76%'><span
+ style='font-size:86%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-4.08%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:86%'>The 1st entry of the IPT is for frame #1 ... the nth </span></span><span
+ style='position:absolute;top:75.25%;left:15.54%;width:92.88%'><span
+ style='font-size:86%'>entry of the IPT is for frame #n and each of these </span></span><span
+ style='position:absolute;top:80.5%;left:15.54%;width:80.14%'><span
+ style='font-size:86%'>entries contains the virtual page number&#13;</span></span></div>
+ <div class=B style='position:absolute;top:87.0%;left:11.79%;width:84.08%;
+ height:5.25%'><span style='position:absolute;top:0%;left:4.45%;width:95.32%'><span
+ style='font-size:86%;font-weight:normal'><span style='mso-special-format:bullet;
+ color:#FF9966;mso-color-index:6;position:absolute;left:-4.67%;top:.91em;
+ font-family:"Monotype Sorts";font-size:50%'>n</span></span><span
+ style='font-size:86%'>Thus this table is inverted</span></span></div>
+ </div>
+</p:slide></div>
+
+</body>
+
+</html>

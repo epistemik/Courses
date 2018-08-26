@@ -1,0 +1,278 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 95 136 64 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 
+}}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 423 "# CHEBYSHEV RATIONAL APPROXIMATION
+ ALGORITHM 8.2\n#\n# To obtain the rational approximation\n#\n# rT(x) \+
+= (p0*T0 + p1*T1 +...+ Pn*Tn) / (q0*T0 + q1*T1 +...+ qm*Tm)\n#\n# for \+
+a given function f(x):\n#\n# INPUT  nonnegative integers m and n.\n#\n
+# OUTPUT  coefficients q0, q1, ... , qm, p0, p1, ... , pn.\n#\n# The c
+oefficients of the Chebyshev expansion a0, a1,  ... could\n# be calcul
+ated instead of input as is assumed in this program." }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 171 "alg082 := proc() local OK, LM, LN, BN, FLAG, I,
+ AA, AAA, NAME, INP, N, M, NROW, NN, Q, J, A, PP, IMAX, AMAX, JJ, IP, \+
+JP, NCOPY, I1, J1, XM, K, N1, N2, SUM, KK, LL, P, OUP;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 47 "printf(`This is Chebyshev Approximation.\\n\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "printf(`Input m and n separated by a space\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "LM := scanf(`%d`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "LN := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "BN := LM+LN;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if
+ LM >= 0 and LN >= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := \+
+TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "else printf(`m and n must \+
+both be nonnegative.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if LM = 0 and LN = 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 41 "printf(`Not both m and n can be zero\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "o
+d;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 64 "printf(`The Chebyshev coefficients a[0], a[1], ... , \+
+a[N+m]\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`are to be i
+nput.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Choice of in
+put method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`1. Inp
+ut entry by entry from keyboard\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 43 "printf(`2. Input data from a text file\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 33 "printf(`Choose 1 or 2 please\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "if FLAG = 1 or FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+42 "printf(`Input in order a[0] to a[N+m]\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "for I from 0 to BN+LM do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 27 "printf(`Input A[%d]\\n`, I);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "AA[I] := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 54 "printf(`The text file may contain as many entries\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "printf(`per line as desired e
+ach separated by blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "pr
+intf(`Has such a text file been created?\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 24 "AAA := scanf(`\\n%c`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "if AAA = Y or AAA = y then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 45 "printf(`Input the file name in the form - `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.
+DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "for I from 0 to BN+LM do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "AA[I] := fscanf(INP, `%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "od;fclose(INP);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`P
+lease create the input file.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+54 "printf(`The program will end so the input file can `);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 24 "printf(`be created.\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP
+ 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "N := BN;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "M := N+1;" }}{PARA 0 "" 0 "" {TEXT -1 27 "STEP 2 - per
+formed on input" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to \+
+N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "NROW[I] := I;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 22 "initialize
+ row pointer" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "NN := N-1;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "Q[0] := 1.0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "" 
+0 "" {TEXT -1 49 "set up a linear system with matrix A instead of B" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 0 to N do" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J \+
+from 0 to I do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if J <= LN then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "A[I,J] := 0;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+15 "if I <= LN then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "A[I,I] := 1.
+0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "for J from I+1 to L
+N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "A[I,J] := 0;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "for J from LN+1 to N do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 14 "if I <> 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "PP := I-J+LN;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "i
+f PP < 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "PP := -PP;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 35 "A[I,J] := -(AA[I+J-LN]+AA[PP])/2.0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "A[I,J] := -
+AA[J-LN]/2.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "A[I,N
++1] := AA[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "A[0,N+1]
+ := A[0,N+1]/2.0;" }}{PARA 0 "" 0 "" {TEXT -1 59 "STEPS 10 -21 solve t
+he linear system using partial pivoting" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 10 "I := LN+1;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 30 "while OK = TRUE and I <= NN do" }}{PARA 0 "
+" 0 "" {TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "IMAX \+
+:= NROW[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "AMAX := abs(A[IMAX,I
+]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "IMAX := I;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 
+"for IP from JJ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "JP := NR
+OW[IP];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if abs(A[JP,I]) > AMAX t
+hen" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AMAX := abs(A[JP,I]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "IMAX := IP;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if
+ AMAX <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := fals
+e;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT 
+-1 7 "STEP 13" }}{PARA 0 "" 0 "" {TEXT -1 24 "simulate row interchange
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "if NROW[I] <> NROW[IMAX] then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "NCOPY := NROW[I];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 22 "NROW[I] := NROW[IMAX];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "NROW[IMAX] := NCOPY;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "I1 := NROW[I];" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEP 14" }}{PARA 0 "" 0 "" {TEXT -1 19 "pe
+rform elimination" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for J from JJ \+
+to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "J1 := NROW[J];" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 15" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "XM
+ := A[J1,I]/A[I1,I];" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 16" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "for K from JJ to M do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 30 "A[J1,K] := A[J1,K]-XM*A[I1,K];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 17" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 13 "A[J1,I] := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEP 18" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "N1 := NROW[N];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "if abs(A[N1,N
+]) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := false;
+" }}{PARA 0 "" 0 "" {TEXT -1 29 "system has no unique solution" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 7 "
+STEP 19" }}{PARA 0 "" 0 "" {TEXT -1 27 "start backward substitution" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if LM > 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 25 "Q[LM] := A[N1,M]/A[N1,N];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "A[N1,M] := Q[LM];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "PP := 1;" }}{PARA 0 "" 0 "
+" {TEXT -1 7 "STEP 20" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "for K from
+ LN+1 to NN do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "I := NN-K+LN+1;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "N2 := NROW[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "
+SUM := A[N2,N+1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for KK from JJ
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "LL := NROW[KK];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "SUM := SUM - A[N2,KK] * A[LL,M];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 25 "A[N2,M] := SUM / A[N2,I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "Q[LM-PP] := A[N2,M];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "PP := P
+P+1;od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 21" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for K from 0 to LN do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 10 "I := LN-K;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "N2 := NROW[I]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "SUM := A[N2,N+1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 24 "for KK from LN+1 to N do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 15 "LL := NROW[KK];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+28 "SUM := SUM-A[N2,KK]*A[LL,M];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "A[N2,M] := SUM;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "P[LN-K] := A[N2,M];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 22" }}{PARA 0 
+"" 0 "" {TEXT -1 32 "procedure completed successfully" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`for exampl
+e:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME
+ := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen
+(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "fprintf(OUP,
+ `CHEBYSHEV RATIONAL APPROXIMATION\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 60 "fprintf(OUP, `Denominator Coefficients Q[0], ..., Q[M
+] \\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 0 to LM do" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f`, Q[I]);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fpr
+intf(OUP, `Numerator Coefficients P[0], ..., P[N]\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 21 "for I from 0 to LN do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "fprintf(OUP, ` %11.8f`, P[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP,
+ `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NAME);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 43 "printf(`System has no unique solution\\n`); " }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'al
+g082G:6\"6E%#OKG%#LMG%#LNG%#BNG%%FLAGG%\"IG%#AAG%$AAAG%%NAMEG%$INPG%\"
+NG%\"MG%%NROWG%#NNG%\"QG%\"JG%\"AG%#PPG%%IMAXG%%AMAXG%#JJG%#IPG%#JPG%&
+NCOPYG%#I1G%#J1G%#XMG%\"KG%#N1G%#N2G%$SUMG%#KKG%#LLG%\"PG%$OUPGF&F&C+-
+%'printfG6#%CThis~is~Chebyshev~Approximation.|+|+G>8$%&FALSEG?(F&\"\"
+\"FTF&/FQFRC(-FM6#%DInput~m~and~n~separated~by~a~space|+G>8%&-%&scanfG
+6#%#%dG6#FT>8&Ffn>8',&FenFTF]oFT@%31\"\"!Fen1FdoF]o>FQ%%TRUEG-FM6#%Cm~
+and~n~must~both~be~nonnegative.|+G@$3/FenFdo/F]oFdoC$>FQFR-FM6#%>Not~b
+oth~m~and~n~can~be~zero|+G>FQFR?(F&FTFTF&FUC*-FM6#%UThe~Chebyshev~coef
+ficients~a[0],~a[1],~...~,~a[N+m]|+G-FM6#%2are~to~be~input.|+G-FM6#%9C
+hoice~of~input~method:|+G-FM6#%G1.~Input~entry~by~entry~from~keyboard|
++G-FM6#%@2.~Input~data~from~a~text~file|+G-FM6#%6Choose~1~or~2~please|
++G>8(Ffn@$5/FjqFT/Fjq\"\"#>FQFgo@$F]rC$-FM6#%?Input~in~order~a[0]~to~a
+[N+m]|+G?(8)FdoFT,&F_oFTFenFT%%trueGC$-FM6$%-Input~A[%d]|+GFgr>&8*6#Fg
+r&-Fhn6#%#%fGF[o@$F^rC(-FM6#%KThe~text~file~may~contain~as~many~entrie
+s|+G-FM6#%Nper~line~as~desired~each~separated~by~blank.|+G-FM6#%DHas~s
+uch~a~text~file~been~created?|+G-FM6#%.Enter~Y~or~N|+G>8+&-Fhn6#%$|+%c
+GF[o@%5/Fet%\"YG/Fet%\"yGC)-FM6#%CInput~the~file~name~in~the~form~-~G-
+FM6#%1drive:\\name.ext|+G-FM6#%<for~example:~~~A:\\DATA.DTA|+G>8,&-Fhn
+6#%#%sGF[o>8--%&fopenG6%F[v%%READG%%TEXTG?(FgrFdoFTFhrFir>F_s&-%'fscan
+fG6$FavFesF[o-%'fcloseG6#FavC&-FM6#%?Please~create~the~input~file.|+G-
+FM6#%LThe~program~will~end~so~the~input~file~can~G-FM6#%-be~created.|+
+G>FQFR@$/FQFgoC->8.F_o>8/,&F_xFTFTFT?(FgrFdoFTF_xFir>&80FasFgr>81,&F_x
+FT!\"\"FT>&826#Fdo$\"#5Fjx?(FgrFdoFTF_xFirC'?(83FdoFTFgrFir@$1FdyF]o>&
+846$FgrFdyFdo@$1FgrF]o>&Fiy6$FgrFgrF_y?(Fdy,&FgrFTFTFTFTF]oFir>FhyFdo?
+(Fdy,&F]oFTFTFTFTF_xFir@%0FgrFdoC%>85,(FgrFTFdyFjxF]oFT@$2FizFdo>Fiz,$
+FizFjx>Fhy,&&F`s6#,(FgrFTFdyFTF]oFjx$!+++++]!#5&F`s6#FizFd[l>Fhy,$&F`s
+6#,&FdyFTF]oFjxFd[l>&Fiy6$FgrFbxF_s>&Fiy6$FdoFbx,$Fb\\l$\"+++++]Ff[l>F
+grFdz?(F&FTFTF&3F\\x1FgrFhxC)>86Fex>87-%$absG6#&Fiy6$F]]lFgr>F]]lFgr>8
+8Faz?(89Fg]lFTF_xFirC$>8:&Ffx6#Fi]l@$2F_]l-Fa]l6#&Fiy6$F\\^lFgrC$>F_]l
+Fa^l>F]]lFi]l@%1F_]lFdo>FQ%&falseGC%@$0Fex&Ffx6#F]]lC%>8;Fex>FexF__l>F
+__lFc_l>8<Fex?(FdyFg]lFTFaxFirC&>8=&Ffx6#Fdy>8>*&&Fiy6$F[`lFgrFT&Fiy6$
+Fg_lFgrFjx?(8?Fg]lFTFaxFir>&Fiy6$F[`lFf`l,&Fh`lFT*&F_`lFT&Fiy6$Fg_lFf`
+lFTFjx>Fa`lFdo>FgrFaz@$F\\xC$>8@&Ffx6#F_x@%1-Fa]l6#&Fiy6$FcalF_xFdo>FQ
+F[_lC4@$2FdoFenC$>&F]y6#Fen*&&Fiy6$FcalFaxFTFjalFjx>FeblFbbl>FizFT?(Ff
+`lFdzFTFhxFirC*>Fgr,*FhxFTFf`lFjxF]oFTFTFT>Fg]lFaz>8AFex>8B&Fiy6$F_clF
+bx?(8CFg]lFTF_xFirC$>8D&Ffx6#Fecl>Facl,&FaclFT*&&Fiy6$F_clFeclFT&Fiy6$
+FhclFaxFTFjx>&Fiy6$F_clFax*&FaclFT&Fiy6$F_clFgrFjx>&F]y6#,&FenFTFizFjx
+Fcdl>Fiz,&FizFTFTFT?(Ff`lFdoFTF]oFirC(>Fgr,&F]oFTFf`lFjx>F_clFex>FaclF
+bcl?(FeclFdzFTF_xFirC$>FhclFicl>FaclF\\dl>FcdlFacl>&8E6#FaelFcdl-FM6#%
+:Choice~of~output~method:|+G-FM6#%51.~Output~to~screen|+G-FM6#%82.~Out
+put~to~text~file|+G-FM6#%.Enter~1~or~2|+G>FjqFfn@%F^rC&-FM6#%SInput~th
+e~file~name~in~the~form~-~drive:\\name.ext|+G-FM6#%>for~example:~~~A:
+\\OUTPUT.DTA|+G>F[vF\\v>8F-Fcv6%F[v%&WRITEGFfv>Fdgl%(defaultG-%(fprint
+fG6$Fdgl%CCHEBYSHEV~RATIONAL~APPROXIMATION|+|+G-F[hl6$Fdgl%KDenominato
+r~Coefficients~Q[0],~...,~Q[M]~|+G?(FgrFdoFTFenFir-F[hl6%Fdgl%(~%11.8f
+G&F]yFas-F[hl6$Fdgl%\"|+G-F[hl6$Fdgl%HNumerator~Coefficients~P[0],~...
+,~P[N]|+G?(FgrFdoFTF]oFir-F[hl6%FdglFdhl&F[flFasFfhl@$0FdglFiglC$-F^w6
+#Fdgl-FM6$%COutput~file~%s~created~sucessfullyGF[v@$FU-FM6#%?System~ha
+s~no~unique~solution|+G-%'RETURNGF^yF&F&" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "alg082();" }}{PARA 6 "" 1 "" {TEXT -1 68 "This is Cheb
+yshev Approximation.\n\nInput m and n separated by a space" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "2 3" }}{PARA 6 "" 1 "" {TEXT -1 182 
+"The Chebyshev coefficients a[0], a[1], ... , a[N+m]\nare to be input.
+\nChoice of input method:\n1. Input entry by entry from keyboard\n2. I
+nput data from a text file\nChoose 1 or 2 please" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 134 "The text fi
+le may contain as many entries\nper line as desired each separated by \+
+blank.\nHas such a text file been created?\nEnter Y or N" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "In
+put the file name in the form - drive:\\name.ext\nfor example:   A:\\D
+ATA.DTA" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg082
+.dta" }}{PARA 6 "" 1 "" {TEXT -1 80 "Choice of output method:\n1. Outp
+ut to screen\n2. Output to text file\nEnter 1 or 2" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 199 "CHEBYSHEV
+ RATIONAL APPROXIMATION\n\nDenominator Coefficients Q[0], ..., Q[M] \n
+  1.00000000   .37833059   .02221579\nNumerator Coefficients P[0], ...
+, P[N]\n  1.05526479 -.61301701   .07747850  -.00450556" }}{PARA 11 "
+" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}}{MARK "1 202 0" 3 }{VIEWOPTS 1 1 0 1 1 1803 }

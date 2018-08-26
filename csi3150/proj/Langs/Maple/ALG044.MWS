@@ -1,0 +1,139 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 257 "# DOUBLE INTEGAL ALGORITHM 4.4\n#
+\n# To approximate I = double integral ( ( f(x,y) dy dx ) ) with limit
+s\n# of integration from a to b for x and from c(x) to d(x) for y:\n#
+\n# INPUT:    endpoints a, b; positive integers m, n.\n#\n# OUTPUT:   \+
+approximation J to I. " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 117 "alg044 :
+= proc() local F, C, D, OK, A, B, N, M, NN, MM, H, AN, AE, AO, I, X, Y
+A, YB, HX, BN, BE, BO, J, Y, Z, A1, AC;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 60 "printf(`This is Simpsons Method for double integrals.\\n\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 97 "printf(`Input the functions F(X
+,Y), C(X), and D(X) in terms of x and y separated by a space.\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`For example: cos(x+y) x^3 \+
+x`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := unapply(F,x,y);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "C := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "C := unapply(C,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "D := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "D := un
+apply(D,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "printf(`Input lower limit of integration and `
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 39 "printf(`upper limit of integr
+ation\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`separated by
+ a blank\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[
+1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if A > B then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 54 "printf(`Lower limit must be less than upper limit\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Input \+
+two positive integers N, M ; there will`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 42 "printf(` be 2N subintervals for outer\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`integral and 2M subintervals for \+
+inner `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`integral - sep
+arate with blank\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scan
+f(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "M := scanf(`%d`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if M <= 0 or N <= 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`Integers must be positive\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+10 "NN := 2*N;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "MM := 2*M-1;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "H := (B-A)/NN;" }}{PARA 0 "" 0 "" {TEXT -1 42 "use AN, AE, AO, for
+ J(1), J(2), J(3) resp." }}{PARA 0 "" 0 "" {TEXT -1 9 "end terms" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "AN := 0;" }}{PARA 0 "" 0 "" {TEXT 
+-1 10 "even terms" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "AE := 0;" }}
+{PARA 0 "" 0 "" {TEXT -1 9 "odd terms" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 8 "AO := 0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 21 "for I from 0 to NN do" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 3" }}{PARA 0 "" 0 "" {TEXT -1 32 "Composite Simpson's Method f
+or X" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "X := A+I*H;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "YA := C(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+11 "YB := D(X);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "HX := (YB-YA)/(2
+*M);" }}{PARA 0 "" 0 "" {TEXT -1 41 "use BN, BE, BO for K(1), K(2), K(
+3) resp." }}{PARA 0 "" 0 "" {TEXT -1 9 "end terms" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 22 "BN := F(X,YA)+F(X,YB);" }}{PARA 0 "" 0 "" {TEXT -1 
+10 "even terms" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "BE := 0;" }}{PARA 
+0 "" 0 "" {TEXT -1 9 "odd terms" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "B
+O := 0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for J from 1 to MM do" }}{PARA 0 "" 0 "" {TEXT -1 6 "
+STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "Y := YA+J*HX;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 13 "Z := F(X, Y);" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "if J mod 2 = 0 then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "BE := BE+Z;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "BO := BO+Z;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "
+" 0 "" {TEXT -1 103 "use A1 for L, which is the integral of F(X(I), Y)
+ from C(X(I)) to D(X(I)) by Composite Simpson's Method" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 26 "A1 := (BN+2*BE+4*BO)*HX/3;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if I = 0 or I
+ = NN then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "AN := AN+A1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 19 "if I mod 2 = 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "AE :
+= AE + A1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 14 "AO := AO + A1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 
+0 "" 0 "" {TEXT -1 12 "Use AC for J" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+36 "AC := (AN + 2 * AE + 4 * AO) * H /3;" }}{PARA 0 "" 0 "" {TEXT -1 
+7 "STEP 10" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`\\nThe integr
+al of F from %12.8f to %12.8f is\\n`, A, B);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "printf(`%12.8f`, AC);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 55 "printf(` obtained with N := %3d and M := %3d\\n`, N, M);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 
+12 "" 1 "" {XPPMATH 20 "6#>%'alg044G:6\"6=%\"FG%\"CG%\"DG%#OKG%\"AG%\"
+BG%\"NG%\"MG%#NNG%#MMG%\"HG%#ANG%#AEG%#AOG%\"IG%\"XG%#YAG%#YBG%#HXG%#B
+NG%#BEG%#BOG%\"JG%\"YG%\"ZG%#A1G%#ACGF&F&C1-%'printfG6#%PThis~is~Simps
+ons~Method~for~double~integrals.|+|+G-FE6#%`pInput~the~functions~F(X,Y
+),~C(X),~and~D(X)~in~terms~of~x~and~y~separated~by~a~space.|+G-FE6#%<F
+or~example:~cos(x+y)~x^3~xG>8$&-%&scanfG6#%#%aG6#\"\"\">FO-%(unapplyG6
+%FO%\"xG%\"yG>8%FP>Fhn-FY6$FhnFen>8&FP>F]o-FY6$F]oFen>8'%&FALSEG?(F&FV
+FVF&/FboFcoC(-FE6#%FInput~lower~limit~of~integration~and~G-FE6#%<upper
+~limit~of~integration|+G-FE6#%6separated~by~a~blank|+G>8(&-FR6#%#%fGFU
+>8)Fbp@%2FgpFap-FE6#%KLower~limit~must~be~less~than~upper~limit|+G>Fbo
+%%TRUEG>FboFco?(F&FVFVF&FeoC)-FE6#%NInput~two~positive~integers~N,~M~;
+~there~willG-FE6#%?~be~2N~subintervals~for~outer|+G-FE6#%Hintegral~and
+~2M~subintervals~for~inner~G-FE6#%@integral~-~separate~with~blank|+G>8
+*&-FR6#%#%dGFU>8+F`r@%51Fer\"\"!1F_rFir-FE6#%;Integers~must~be~positiv
+e|+G>FboF^q@$/FboF^qC->8,,$F_r\"\"#>8-,&FerFes!\"\"FV>8.*&,&FgpFVFapFi
+sFVFcsFis>8/Fir>80Fir>81Fir?(82FirFVFcs%%trueGC,>83,&FapFV*&FetFVF[tFV
+FV>84-Fhn6#Fit>85-F]oF_u>86,$*&,&FauFVF]uFisFVFerFis#FVFes>87,&-FO6$Fi
+tF]uFV-FO6$FitFauFV>88Fir>89Fir?(8:FVFVFgsFftC%>8;,&F]uFV*&FevFVFduFVF
+V>8<-FO6$FitFhv@%/-%$modG6$FevFesFir>Fav,&FavFVF\\wFV>Fcv,&FcvFVF\\wFV
+>8=,$*&,(FjuFVFavFesFcv\"\"%FVFduFV#FV\"\"$@%5/FetFir/FetFcs>F_t,&F_tF
+VFiwFV@%/-Fbw6$FetFesFir>Fat,&FatFVFiwFV>Fct,&FctFVFiwFV>8>,$*&,(F_tFV
+FatFesFctF]xFVF[tFVF^x-FE6%%M|+The~integral~of~F~from~%12.8f~to~%12.8f
+~is|+GFapFgp-FE6$%'%12.8fGF_y-FE6%%F~obtained~with~N~:=~%3d~and~M~:=~%
+3d|+GF_rFer-%'RETURNG6#FirF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "alg044();" }}{PARA 6 "" 1 "" {TEXT -1 159 "This is Simpsons Met
+hod for double integrals.\n\nInput the functions F(X,Y), C(X), and D(X
+) in terms of x and y separated by a space.\nFor example: cos(x+y) x^3
+ x" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "exp(y/x) x^3 x^2" }}
+{PARA 6 "" 1 "" {TEXT -1 84 "Input lower limit of integration and uppe
+r limit of integration\nseparated by a blank" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 5 ".1 .5" }}{PARA 6 "" 1 "" {TEXT -1 144 "Input two \+
+positive integers N, M ; there will be 2N subintervals for outer\ninte
+gral and 2M subintervals for inner integral - separate with blank" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "5 5" }}{PARA 6 "" 1 "" {TEXT 
+-1 104 "\nThe integral of F from    .10000000 to    .50000000 is\n   .
+03330546 obtained with N :=   5 and M :=   5" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}
+}}{MARK "3 1 0" 84 }{VIEWOPTS 1 1 0 1 1 1803 }

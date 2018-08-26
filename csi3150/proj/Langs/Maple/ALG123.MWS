@@ -1,0 +1,170 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 446 "# CRANK-NICOLSON ALGORITHM 12.3\n#
+\n# To approximate the solution of the parabolic partial-differential
+\n# equation subject to the boundary conditions\n#            u(0,t) =
+ u(l,t) = 0, 0 < t < T = max t\n# and the initial conditions\n#       \+
+      u(x,0) = F(x), 0 <= x <= l:\n#\n# INPUT:   endpoint l; maximum t
+ime T; constant ALPHA; integers m, N:\n#\n# OUTPUT:  approximations W(
+I,J) to u(x(I),t(J)) for each\n#          I = 1,..., m-1 and J = 1,...
+, N." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 113 "alg123 := proc() local F, \+
+OK, FX, FT, ALPHA, M, N, M1, M2, H, K, VV, V, I, L, U, J, T, Z, I1, FL
+AG, NAME, OUP, X;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`This i
+s the Crank-Nicolson Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+51 "printf(`Input the function F(X) in terms of x.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+54 "printf(`The lefthand endpoint on the X-axis is 0.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "OK :=FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 56 "printf(`Input the righthand endpoint on the X-axis.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FX := scanf(`%f`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 15 "if FX <= 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Must be positive number.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK :
+= TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the maximum value of the time
+ variable T.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FT := scanf(`
+%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if FT <= 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive number.\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`Input the constant alpha.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "
+while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Inpu
+t integer m = number of intervals on X-axis\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 69 "printf(`and N = number of time intervals - separate
+d by a blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Note
+ that m must be 3 or larger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := sc
+anf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if M <= 2 or N <= \+
+0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Numbers are not w
+ithin correct range.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "M1 := M-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "M2 :
+= M-2;" }}{PARA 0 "" 0 "" {TEXT -1 5 "STEP1" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "H := FX/M;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "K :=
+ FT/N;" }}{PARA 0 "" 0 "" {TEXT -1 21 "VV is used for lambda" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 22 "VV := ALPHA^2*K/(H^2);" }}{PARA 0 "" 0 "
+" {TEXT -1 12 "set V(M) = 0" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "V[M-
+1] := 0;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for I from 1 to M1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 24 "V[I-1] := evalf(F(I*H));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "" {TEXT -1 
+72 "STEPS 3 through 11 solve a tridiagonal linear system using Algorit
+hm 6.7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "L[0] := 1+VV;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 21 "U[0] := -VV/(2*L[0]);" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 2 \+
+to M2 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "L[I-1] := 1+VV+VV*U[I-2
+]/2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "U[I-1] := -VV/(2*L[I-1]);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "L[M1-1] := 1+VV+0.5*VV*U
+[M2-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 7" }}{PARA 0 "" 0 "" {TEXT -1 9 "current t" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "T := J*K;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "Z[0] :
+= ((1-VV)*V[0]+VV*V[1]/2)/L[0];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 2 to M1 do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 61 "Z[I-1] := ((1-VV)*V[I-1]+0.5*VV*(V[I]+V[I
+-2]+Z[I-2]))/L[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+19 "V[M1-1] := Z[M1-1];" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I1 from 1 to M2 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 13 "I := M2-I1+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 29 "V[I-1] := Z[I-1]-U[I-1]*V[I];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choi
+ce of output method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "print
+f(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "pri
+ntf(`2. Output to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+33 "printf(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "
+if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input t
+he file name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 41 "printf(`for example:  A:\\\\OUTPUT.DTA\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OU
+P := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 42 "fprintf(OUP, `CRANK-NICOLSON METHOD\\n\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "fprintf(OUP, `  I     X(I)       \+
+  W(X(I),%12.6e)\\n`, FT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I
+ from 1 to M1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "X := I*H;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `%3d %11.8f %13.8f\\n`
+, I, X, V[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RE
+TURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "
+" {XPPMATH 20 "6#>%'alg123G:6\"6:%\"FG%#OKG%#FXG%#FTG%&ALPHAG%\"MG%\"N
+G%#M1G%#M2G%\"HG%\"KG%#VVG%\"VG%\"IG%\"LG%\"UG%\"JG%\"TG%\"ZG%#I1G%%FL
+AGG%%NAMEG%$OUPG%\"XGF&F&C1-%'printfG6#%DThis~is~the~Crank-Nicolson~Me
+thod.|+G-FB6#%HInput~the~function~F(X)~in~terms~of~x.|+G>8$&-%&scanfG6
+#%#%aG6#\"\"\">FI-%(unapplyG6$FI%\"xG-FB6#%KThe~lefthand~endpoint~on~t
+he~X-axis~is~0.|+G>8%%&FALSEG?(F&FPFPF&/FZFenC%-FB6#%MInput~the~righth
+and~endpoint~on~the~X-axis.|+G>8&&-FL6#%#%fGFO@%1F]o\"\"!-FB6#%:Must~b
+e~positive~number.|+G>FZ%%TRUEG>FZFen?(F&FPFPF&FgnC%-FB6#%QInput~the~m
+aximum~value~of~the~time~variable~T.|+G>8'F^o@%1FapFdoFeo>FZFio-FB6#%;
+Input~the~constant~alpha.|+G>8(F^o>FZFen?(F&FPFPF&FgnC(-FB6#%QInput~in
+teger~m~=~number~of~intervals~on~X-axis|+G-FB6#%Zand~N~=~number~of~tim
+e~intervals~-~separated~by~a~blank.|+G-FB6#%BNote~that~m~must~be~3~or~
+larger.|+G>8)&-FL6#%#%dGFO>8*Fhq@%51Fgq\"\"#1F]rFdo-FB6#%GNumbers~are~
+not~within~correct~range.|+G>FZFio@$/FZFioC8>8+,&FgqFP!\"\"FP>8,,&FgqF
+P!\"#FP>8-*&F]oFPFgqF]s>8.*&FapFPF]rF]s>8/*(FipFarFfsFPFcsFas>&806#F\\
+sFdo?(81FPFPF[s%%trueG>&F]t6#,&F`tFPF]sFP-%&evalfG6#-FI6#*&F`tFPFcsFP>
+&826#Fdo,&FPFPFisFP>&83F_u,$*&FisFPF]uF]s#F]sFar?(F`tFarFPF_sFatC$>&F^
+uFdt,(FPFPFisFP*&FisFP&Fcu6#,&F`tFPFasFPFP#FPFar>&FcuFdt,$*&FisFPFjuF]
+sFfu>&F^u6#,&F[sFPF]sFP,(FPFPFisFP*&FisFP&Fcu6#,&F_sFPF]sFPFP$\"\"&F]s
+?(84FPFPF]rFatC'>85*&FawFPFfsFP>&86F_u*&,&*&,&FPFPFisF]sFP&F]tF_uFPFP*
+&FisFP&F]tFOFPF`vFPF]uF]s?(F`tFarFPF[sFat>&FhwFdt*&,&*&F\\xFPFctFPFP*&
+FisFP,(&F]t6#F`tFP&F]tF^vFP&FhwF^vFPFPF^wFPFjuF]s>&F]tFgv&FhwFgv?(87FP
+FPF_sFatC$>F`t,(F_sFPF`yF]sFPFP>Fct,&FbxFP*&FbvFPFhxFPF]s-FB6#%:Choice
+~of~output~method:|+G-FB6#%51.~Output~to~screen|+G-FB6#%82.~Output~to~
+text~file|+G-FB6#%6Please~enter~1~or~2.|+G>88Fhq@%/FdzFarC&-FB6#%SInpu
+t~the~file~name~in~the~form~-~drive:\\name.ext|+G-FB6#%=for~example:~~
+A:\\OUTPUT.DTA|+G>89&-FL6#%#%sGFO>8:-%&fopenG6%F_[l%&WRITEG%%TEXTG>Fe[
+l%(defaultG-%(fprintfG6$Fe[l%8CRANK-NICOLSON~METHOD|+|+G-F^\\l6%Fe[l%E
+~~I~~~~~X(I)~~~~~~~~~W(X(I),%12.6e)|+GFap?(F`tFPFPF[sFatC$>8;F[u-F^\\l
+6'Fe[l%3%3d~%11.8f~%13.8f|+GF`tFg\\lFct@$0Fe[lF\\\\lC$-%'fcloseG6#Fe[l
+-FB6$%COutput~file~%s~created~sucessfullyGF_[l-%'RETURNGF_uF&F&" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg123();" }}{PARA 6 "" 1 "" 
+{TEXT -1 73 "This is the Crank-Nicolson Method.\nInput the function F(
+X) in terms of x." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "sin(Pi*
+x)" }}{PARA 6 "" 1 "" {TEXT -1 85 "The lefthand endpoint on the X-axis
+ is 0.\nInput the righthand endpoint on the X-axis." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 47 "Input th
+e maximum value of the time variable T." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 ".5" }}{PARA 6 "" 1 "" {TEXT -1 25 "Input the constant \+
+alpha." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 
+"" {TEXT -1 137 "Input integer m = number of intervals on X-axis\nand \+
+N = number of time intervals - separated by a blank.\nNote that m must
+ be 3 or larger." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "10 50" }
+}{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output to s
+creen\n2. Output to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 334 "CRANK-N
+ICOLSON METHOD\n\n  I     X(I)         W(X(I),5.000000e-01)\n  1   .10
+000000     .00230512\n  2   .20000000     .00438460\n  3   .30000000  \+
+   .00603489\n  4   .40000000     .00709444\n  5   .50000000     .0074
+5953\n  6   .60000000     .00709444\n  7   .70000000     .00603489\n  \+
+8   .80000000     .00438460\n  9   .90000000     .00230512" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 0 "" }}}}{MARK "1 113 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

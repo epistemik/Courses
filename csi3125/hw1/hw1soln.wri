@@ -1,0 +1,223 @@
+                    CSI3125, Fall 2000, Homework 1
+
+# Problem 1
+# 
+# You want to design a new general-purpose programming language. To what
+# features would you pay most attention? Explain your answer in detail.
+
+I have no model answer for this problem -- as expected.
+
+
+# Problem 2
+# 
+# Compare two programming languages on all criteria discussed in the class
+# notes and in the textbook. One of the languages is Prolog, the other is
+# either C++ or Java -- your choice.
+
+See my solution of problem 1 (:>).
+
+
+# Problem 3
+# 
+# Directed graphs can be represented as nested lists, for example: [...]
+# 
+# ( (A (B D)) (B (D E)) (C (B)) (E (C)) )
+# 
+# Write a grammar of such nested lists. Assume that nodes can only be
+# single capital letters: A, B, C, D, E, F, G, H.
+
+A list representing a graph is a sequence of zero or more bundles. A
+bundle is a pair (node children). A list of children can be only not
+empty if we follow the example, but assuming it can also be empty is
+quite okay. Every child is a node, and nodes are single letters. All
+this is expressed in the following grammar:
+
+    <graph list>  -->   ( { <bundle> } )
+    <bundle>      -->   ( <node>  <children> )
+    <children>    -->   ( <node>  { <node> } )
+    <node>        -->   A  |  B  |  C  |  D  |  E  |  F  |  G  |  H
+
+
+# Problem 4
+# 
+# The syntax of the _monkey_ language is quite simple, yet only monkeys
+# can speak it without making mistakes. [...]
+# 
+# Three speakers have been recorded, saying this:
+# 
+# Andy said         ba^babadda^bad^dabbada
+# Bill said         dad^da^baddabda^badadbadda
+# Carl said         baddabdabbada^bababa
+# 
+# Which of these speakers is a secret agent in monkey disguise?
+
+The language consists of sentences that are free sequences of words.
+Each word is an odd-length sequence of syllables. A syllable can be
+ba, da, bab, bad, dab or dad.
+
+Andy's sentence has only odd-length words, and so does Carl's. Bill's
+last word has _four_ syllables, so he is the spy.
+
+Please note how my answer does _not_ present low-level arguments. I
+could have shown three derivations, one of them provably incomplete,
+but it would not be a smart explanation. It is always advisable to
+to look for regularities in a grammar, and in the language this
+grammar generates.
+
+
+# Problem 5
+# 
+# Consider this grammar of lists: [...]
+# 
+# Please find _all_ lists that are written with less than five terminal
+# symbols [...]
+
+        <list>     -->   ( { <element> } )
+        <element>  -->   <atom>  |  <list>
+        <atom>     -->   <letter> { <letter> }
+        <letter>   -->   k  |  p
+
+This is quite straightforward. A list must have two parentheses. If
+it has two sets of parentheses, there is no room for atoms. This
+gives us () and (()). Other than that, we have ("something"), and
+this something can have one or two symbols. No embedded list is now
+possible, so we have only to enumerate all atoms of one or two
+letters. That's it.
+
+()   (k)   (p)   (())   (kk)   (kp)   (pk)   (pp)
+
+To be quite exact, each of kk, kp, pk, pp is either one two-letter
+atom, or two single-letter atoms. They look the same when written,
+since blank spaces are not taken care of in my grammar, but they
+fundamentally differ. To achieve kk, for example, we have to have
+these steps in a derivation:
+
+<list>
+( <element> <element> )
+( <atom> <atom> )
+( <letter> <letter> )
+( k k )
+
+or we have to have these steps:
+
+<list>
+( <element> )
+( <atom> )
+( <letter> <letter> )
+( k k )
+
+
+# Problem 6
+# 
+# Using axiomatic semantics, prove _formally_ the correctness of the
+# following fragment of a program. [...]
+
+I will make this proof _very_ formal, but any _logical_ though
+informal proof that you submit may be accepted.
+
+The if-then rule says:
+
+    ASSUME THAT
+         { P  &  B }  S  { R }
+    and
+         P  &  not B   ==>  R
+    CONCLUDE THAT
+         { P } if B then S { R }
+
+Since P = true, we can simplify this rule:
+
+    ASSUME THAT
+         { B } S { R }
+    and
+         not B  ==> R
+    CONCLUDE THAT
+         { true } if B then S { R }
+
+The symbols B, R, S have this interpretation in our problem:
+
+    B       x > y
+    R       y >= x
+    S       z := x;  x := y;  y := z;
+
+(We can happily ignore "begin" and "end" since they only delimit
+the sequence of assignment statements.)
+
+The second assumption:
+
+    not x > y  ==>  y >= x
+
+is obviously true.
+
+Now we will need the rules for narrowing and widening:
+
+    ASSUME THAT                    ASSUME THAT
+    P' ==> P                       { P } S { R }
+    and                            and
+    { P } S { R }                  R ==> R'
+    CONCLUDE THAT                  CONCLUDE THAT
+    { P' } S { R }                 { P } S { R' }
+
+Recall the proof for the first "diversion" in the class notes:
+
+    { x = X  &  y = Y } z := x;
+    { z = X  &  y = Y } x := y;
+    { z = X  &  x = Y } y := z;
+    { y = X  &  x = Y }
+
+We will modify this proof for our purposes. Recall that adding
+unrelated true conjuncts does not change the truth value of a
+formula, so we can add x = X and y = Y.
+
+    { x > y } ==>
+    { x > y  &  x = X  &  y = Y } z := x;
+    { z > y  &  z = X  &  y = Y } x := y;
+    { z > x  &  z = X  &  x = Y } y := z;
+    { y > x  &  y = X  &  x = Y }
+    ==> { y > x }
+    ==> { y >= x }
+
+The last step is a simple consequence of the properties of linear
+ordering relations ">" and ">=".
+
+Note that a proof without the added conjuncts is also acceptable,
+though it does not show the change of values so neatly:
+
+    { x > y } ==>
+    { x > y } z := x;
+    { z > y } x := y;
+    { z > x } y := z;
+    { y > x }
+    ==> { y > x }
+    ==> { y >= x }
+
+We have just shown that the first assumption of the if-then rule
+is also true:
+
+    { x > y } S { y >= x }
+
+By the if-then rule we can conclude that
+
+    { true } if x > y then S { y >= x }
+
+Bingo.
+
+
+# Problem 7
+# 
+# Using axiomatic semantics, prove _formally_ the correctness of the
+# following fragment of a program. [...]
+
+This will not be so formal...
+
+The invariant is {s = k*k}. After initialization we get k = 1 & s = 1,
+so indeed we have s = k*k}.
+
+The body of the loop preserves the invariant, because we first get
+s = k*k + 2*k + 1 = (k + 1)*(k + 1) and then we replace k + 1 with k
+to get again s = k*k.
+
+Upon termination, we have not k <> n, that is, we have k = n. Thus,
+s = n*n.
+
+The loop terminates because n - k decreases to 0.
+

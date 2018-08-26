@@ -1,0 +1,310 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 4 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 69 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 623 "# QR ALGORITHM 9.6\n#\n# To obtain
+ the eigenvalues of a symmetric, tridiagonal n by n matrix\n#\n#      \+
+    a(1)   b(2)\n#          b(2)   a(2)   b(3)\n#             .      .
+      .\n#               .      .      .\n#                 .      .  \+
+    .\n#                 b(n-1)  a(n-1)  b(n)\n#                      \+
+      b(n)   a(n)\n#\n# INPUT:   n; A(1),...,A(n) (diagonal of A); B(2
+),...,B(n)\n#          (off-diagonal of A); maximum number of iteratio
+ns M, \n#          tolerance TOL.\n#\n# OUTPUT:  Eigenvalues of A or r
+ecommended splitting of A, or a \n#          message that the maximum \+
+number of iterations was \n#          exceeded." }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 136 "alg096 := proc() local OK, AA, NAME, INP, N, I, A, B
+, TOL, L, FLAG, OUP, SHIFT, K, J, M, B1, C1, D1, X1, X2, D, X, Y, Z, C
+, S, Q, R, MM;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`This is t
+he QR Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "printf(`The tridiagonal symmetr
+ic array A will be input from `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "printf(`a text file in the order:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 48 "printf(` (diagonal): A(1), A(2), ..., A(n),\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "printf(` (subdiagonal): B(2), B(3),
+ ..., B(n).\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Pla
+ce as many entries as desired on each line, but separate `);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 36 "printf(`at least one blank.\\n\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input file been cre
+ated? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA :
+= scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or A
+A = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the fil
+e name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 39 "printf(`for example:  A:\\\\DATA.DTA\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 
+"while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`Inp
+ut the dimension n.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := s
+canf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 1 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 31 "A[I-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I
+ from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "B[I-1] := fscanf
+(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "printf(`Dimension must
+ be greater then 1.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FA
+LSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Input the toleran
+ce.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if TOL > 0 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`Tolerance must b
+e a positive real number.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "f
+i;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Input \+
+the maximum number of iterations.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "L := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if \+
+L > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 
+"printf(`The number must be a positive integer.\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The
+ program will end so the input file can be created.\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if \+
+OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of
+ output method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1.
+ Output to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`
+2. Output to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "pri
+ntf(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "
+FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG \+
+= 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file \+
+name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "printf(`for example  A:\\\\OUTPUT.DTA\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP :=
+ default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 30 "fprintf(OUP, `QR METHOD\\n\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 11 "# STEP 1 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "
+SHIFT := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K := 1;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 11 "# STEP 2 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 29 "while K <= L and OK = TRUE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+51 "fprintf(OUP, `Iteration number %d N = %d\\n`, K, N);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 49 "fprintf(OUP, `The array A is now as follows:
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "fprintf(OUP, `Diagonal:\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "fprintf(OUP, ` %11.8f`, A[I-1]);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 34 "fprintf(OUP, `\\nOff diagonal:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "for I from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "fprintf(OUP, ` %11.8f`, B[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "# Steps 3-7 test for success  *
+/" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 3  */" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 26 "if abs(B[N-1]) <= TOL then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "A[N-1] := A[N-1] + SHIFT;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 46 "fprintf(OUP, `Eigenvalue = %12.8f\\n`, A[N-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "N := N-1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "# STEP 4*/" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if abs(B[1]) <= TOL then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "A[0] := A[0]+SHIFT;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 44 "fprintf(OUP, `Eigenvalue = %12.8f\\n`, A[0]);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "N := N-1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "A[0] := A[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f
+or J from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "A[J-1] := A[
+J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "B[J-1] := B[J];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 5  */" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 13 "if N = 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 10 "# STEP 6*/" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "A[0] := A[0]
+ + SHIFT;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP,`Eigenvalu
+e = %12.8f\\n`, A[0]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "# STEP 7  */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if
+ OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N-1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if M >= 2 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 20 "for I from 2 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 26 "if abs(B[I-1]) <= TOL then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "J := I;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "fprintf(OUP, `Split the matrix into
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I from 1 to J-1 do" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "fprintf(OUP,`%11.8f`,A[I-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "fprintf(OUP,`\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I \+
+from 2 to J-1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "fprintf(OUP,`%1
+1.8f`,B[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 25 "fprintf(OUP,`\\n and \\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 20 "for I from J to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "fprintf(OUP,`%11.8f`,A[I-1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "fprintf(OUP,
+`\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I from J+1 to N do" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "fprintf(OUP,`%11.8f`,B[I-1]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 18 "fprintf(OUP,`\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "# STEP 8 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "# compute shift */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+23 "B1 := -(A[N-1]+A[N-2]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "C1 :
+= A[N-1]*A[N-2]-B[N-1]*B[N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "D
+1 := B1*B1-4*C1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if D1 < 0 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "fprintf(OUP, `Problem with comp
+lex roots, D1 = %.8e\\n`, D1);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "O
+K := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 15 "D1 := sqrt(D1);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "#  STEP 9*/" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if B1 > 0 then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "X1 := -2*C1/(B1+D1);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "X2 := -(B1+D1)/2;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "X1 := (D1-B
+1)/2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "X2 := 2*C1/(D1-B1);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 56 "# if N := 2 then the 2 eigenvalues have been computed */" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "#  STEP 10  */" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 13 "if N = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 
+"X1 := X1+SHIFT;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "X2 := X2+SHIFT;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "fprintf(OUP, `The last two eige
+nvalues are: %12.8f%11.8f\\n`,X1, X2);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 11 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 39 "if abs(A[N-1]-X1) > abs(A[N-1]-X2) then" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 9 "X1 := X2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 
+"fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 12 */" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 21 "# accumulate shift */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "SHIFT := SHIFT+X1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+11 "# STEP 13*/" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "# perform shift \+
+*/" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "D[I-1] := A[I-1]-X1;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "# STE
+P 14 and 15 compute R(K) */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# ST
+EP 14 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "X[0] := D[0];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 13 "Y[0] := B[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "# STEP 15 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "fo
+r J from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "Z[J-2] := sqr
+t((X[J-2]*X[J-2])+(B[J-1]*B[J-1]));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+24 "C[J-1] := X[J-2]/Z[J-2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "S[J
+-1] := B[J-1]/Z[J-2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "Q[J-2] := \+
+C[J-1]*Y[J-2]+S[J-1]*D[J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "X[J
+-1] := C[J-1]*D[J-1]-S[J-1]*Y[J-2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+14 "if J <> N then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "R[J-2] := S[J
+-1]*B[J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "Y[J-1] := C[J-1]*B[J];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N-1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "MM := N-2;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "# Steps 16-18 compute A(K+1) */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "# STEP 16 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "Z[
+N-1] := X[N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "A[0] := C[1]*Z[0
+]+S[1]*Q[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "B[1] := S[1]*Z[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 17 */" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 13 "if N > 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for J from 2 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "A[J-1] \+
+:= C[J]*C[J-1]*Z[J-1]+S[J]*Q[J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+18 "B[J] := S[J]*Z[J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 12 "# STEP 18 */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "A[N-1] := C[N
+-1]*Z[N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 19 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "K := K+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "# STEP 20 */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 27 "if OK = TRUE and K > L then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 57 "fprintf(OUP, `Maximum Number of Iterations Exceeded.
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "# the process is complete */" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Out
+put file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "en
+d;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg096G:6\"6@%#OKG%#AAG%%NAME
+G%$INPG%\"NG%\"IG%\"AG%\"BG%$TOLG%\"LG%%FLAGG%$OUPG%&SHIFTG%\"KG%\"JG%
+\"MG%#B1G%#C1G%#D1G%#X1G%#X2G%\"DG%\"XG%\"YG%\"ZG%\"CG%\"SG%\"QG%\"RG%
+#MMGF&F&C0-%'printfG6#%8This~is~the~QR~Method.|+G>8$%&FALSEG-FH6#%VThe
+~tridiagonal~symmetric~array~A~will~be~input~from~G-FH6#%;a~text~file~
+in~the~order:|+G-FH6#%E~(diagonal):~A(1),~A(2),~...,~A(n),|+G-FH6#%I~(
+subdiagonal):~B(2),~B(3),~...,~B(n).|+|+G-FH6#%gnPlace~as~many~entries
+~as~desired~on~each~line,~but~separate~G-FH6#%.entries~with|+G-FH6#%7a
+t~least~one~blank.|+|+|+G-FH6#%RHas~the~input~file~been~created?~-~ent
+er~Y~or~N.|+G>8%&-%&scanfG6#%#%cG6#\"\"\"@%5/Fao8;/Fao%\"yGC--FH6#%SIn
+put~the~file~name~in~the~form~-~drive:\\name.ext|+G-FH6#%;for~example:
+~~A:\\DATA.DTA|+G>8&&-Fdo6#%#%sGFgo>8'-%&fopenG6%Fgp%%READG%%TEXTG>FLF
+M?(F&FhoFhoF&/FLFMC%-FH6#%8Input~the~dimension~n.|+G>8(&-Fdo6#%#%dGFgo
+@%2FhoF[rC%?(8)FhoFhoF[r%%trueG>&8*6#,&FdrFho!\"\"Fho&-%'fscanfG6$F]q%
+#%fGFgo?(Fdr\"\"#FhoF[rFer>&8+FirF\\s>FL%%TRUEG-FH6#%CDimension~must~b
+e~greater~then~1.|+G>FLFM?(F&FhoFhoF&FeqC%-FH6#%6Input~the~tolerance.|
++G>8,&-Fdo6#F`sFgo@%2\"\"!Fbt>FLFgs-FH6#%KTolerance~must~be~a~positive
+~real~number.|+G>FLFM?(F&FhoFhoF&FeqC%-FH6#%IInput~the~maximum~number~
+of~iterations.|+G>8-F\\r@%2FhtFdu>FLFgs-FH6#%HThe~number~must~be~a~pos
+itive~integer.|+G-%'fcloseG6#F]q-FH6#%XThe~program~will~end~so~the~inp
+ut~file~can~be~created.|+G@$/FLFgsC.-FH6#%:Choice~of~output~method:|+G
+-FH6#%51.~Output~to~screen|+G-FH6#%82.~Output~to~text~file|+G-FH6#%6Pl
+ease~enter~1~or~2.|+G>8.F\\r@%/FawFbsC&F`p-FH6#%<for~example~~A:\\OUTP
+UT.DTA|+G>FgpFhp>8/-F_q6%Fgp%&WRITEGFbq>Fjw%(defaultG-%(fprintfG6$Fjw%
+,QR~METHOD|+|+G>80Fht>81Fho?(F&FhoFhoF&31FgxFduFbvC0-Fax6&Fjw%<Iterati
+on~number~%d~N~=~%d|+GFgxF[r-Fax6$Fjw%@The~array~A~is~now~as~follows:|
++G-Fax6$Fjw%+Diagonal:|+G?(FdrFhoFhoF[rFer-Fax6%Fjw%(~%11.8fGFgr-Fax6$
+Fjw%0|+Off~diagonal:|+G?(FdrFbsFhoF[rFer-Fax6%FjwFhyFds-Fax6$Fjw%\"|+G
+@$1-%$absG6#&Fes6#,&F[rFhoF[sFhoFbtC%>&FhrFhz,&F\\[lFhoFexFho-Fax6%Fjw
+%5Eigenvalue~=~%12.8f|+GF\\[l>F[rFiz@$1-Fez6#&FesFgoFbtC'>&Fhr6#Fht,&F
+i[lFhoFexFho-Fax6%FjwF`[lFi[l>F[rFiz>Fi[l&FhrFgo?(82FbsFhoF[rFerC$>&Fh
+r6#,&Fb\\lFhoF[sFho&Fhr6#Fb\\l>&FesFf\\l&FesFi\\l@$/F[rFht>FLFM@$/F[rF
+hoC%>Fi[lF[\\lF\\\\l>FLFM@$FbvC$>83Fiz@$1FbsFh]lC$?(FdrFbsFhoFh]lFer@$
+1-Fez6#FdsFbtC$>FLFM>Fb\\lFdr@$FeqC+-Fax6$Fjw%7Split~the~matrix~into|+
+G?(FdrFhoFhoFg\\lFer-Fax6%Fjw%'%11.8fGFgrF_z?(FdrFbsFhoFg\\lFer-Fax6%F
+jwF\\_lFds-Fax6$Fjw%(|+~and~|+G?(FdrFb\\lFhoF[rFerFj^lF_z?(Fdr,&Fb\\lF
+hoFhoFhoFhoF[rFerF^_lF_z@$FbvC&>84,&F\\[lF[s&Fhr6#,&F[rFho!\"#FhoF[s>8
+5,&*&F\\[lFhoF[`lFhoFho*$FgzFbsF[s>86,&*$Fi_lFbsFhoF``l!\"%@%2Fe`lFhtC
+$-Fax6%Fjw%GProblem~with~complex~roots,~D1~=~%.8e|+GFe`l>FLFMC%>Fe`l-%
+%sqrtG6#Fe`l@%2FhtFi_lC$>87,$*&F``lFho,&Fi_lFhoFe`lFhoF[sF^`l>88,&Fi_l
+#F[sFbsFe`lF`blC$>Fial,&Fe`l#FhoFbsFi_lF`bl>F^bl,$*&F``lFho,&Fe`lFhoFi
+_lF[sF[sFbs@%/F[rFbsC&>Fial,&FialFhoFexFho>F^bl,&F^blFhoFexFho-Fax6&Fj
+w%LThe~last~two~eigenvalues~are:~%12.8f%11.8f|+GFialF^bl>FLFMC/@$2-Fez
+6#,&F\\[lFhoF^blF[s-Fez6#,&F\\[lFhoFialF[s>FialF^bl>FexF]cl?(FdrFhoFho
+F[rFer>&89Fir,&FgrFhoFialF[s>&8:Fj[l&FbdlFj[l>&F\\pFj[lFf[l?(Fb\\lFbsF
+hoF[rFerC(>&8<6#,&Fb\\lFhoF^`lFho-Fcal6#,&*$&FfdlF_elFbsFho*$F[]lFbsFh
+o>&8=Ff\\l*&FeelFhoF]elF[s>&8>Ff\\l*&F[]lFhoF]elF[s>&8?F_el,&*&FhelFho
+&F\\pF_elFhoFho*&F\\flFho&FbdlFf\\lFhoFho>&FfdlFf\\l,&*&FhelFhoFfflFho
+Fho*&F\\flFhoFdflFhoF[s@$0Fb\\lF[rC$>&8@F_el*&F\\flFhoF\\]lFho>&F\\pFf
+\\l*&FhelFhoF\\]lFho>Fh]lFiz>8AF]`l>&F^elFhz&FfdlFhz>Fi[l,&*&&FielFgoF
+ho&F^elFj[lFhoFho*&&F]flFgoFho&FaflFj[lFhoFho>Ff[l*&FbhlFho&F^elFgoFho
+@$2FbsF[r?(Fb\\lFbsFhoFh]lFerC$>Fe\\l,&*(&FielFi\\lFhoFhelFho&F^elFf\\
+lFhoFho*&&F]flFi\\lFho&FaflFf\\lFhoFho>F\\]l*&FailFho&F^elFi\\lFho>F\\
+[l*&&FielFhzFhoFjglFho>Fgx,&FgxFhoFhoFho@$3Fbv2FduFgx-Fax6$Fjw%HMaximu
+m~Number~of~Iterations~Exceeded.|+G@$0FjwF_xC$-F\\v6#Fjw-FH6$%COutput~
+file~%s~created~sucessfullyGFgp-%'RETURNGFj[lF&F&" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 9 "alg096();" }}{PARA 6 "" 1 "" {TEXT -1 321 "Th
+is is the QR Method.\nThe tridiagonal symmetric array A will be input \+
+from a text file in the order:\n (diagonal): A(1), A(2), ..., A(n),\n \+
+(subdiagonal): B(2), B(3), ..., B(n).\n\nPlace as many entries as desi
+red on each line, but separate entries with\nat least one blank.\n\n\n
+Has the input file been created? - enter Y or N." }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 75 "Input the fi
+le name in the form - drive:\\name.ext\nfor example:  A:\\DATA.DTA" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg096.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 22 "Input the dimension n." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" {TEXT -1 20 "Input th
+e tolerance." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}
+{PARA 6 "" 1 "" {TEXT -1 39 "Input the maximum number of iterations." 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "30" }}{PARA 6 "" 1 "" 
+{TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Output \+
+to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 658 "QR METHOD\n\nIterat
+ion number 1 N = 3\nThe array A is now as follows:\nDiagonal:\n  3.000
+00000  3.00000000  3.00000000\nOff diagonal:\n  1.00000000  1.00000000
+\nIteration number 2 N = 3\nThe array A is now as follows:\nDiagonal:
+\n -2.00000000 -1.00000000  0.00000000\nOff diagonal:\n   .70710678   \+
+.70710678\nIteration number 3 N = 3\nThe array A is now as follows:\nD
+iagonal:\n -2.67202771 -1.47360803   .04755953\nOff diagonal:\n   .375
+97448   .03039696\nIteration number 4 N = 3\nThe array A is now as fol
+lows:\nDiagonal:\n -2.79971251 -1.44288525   .00002145\nOff diagonal:
+\n   .19938643   .00000044\nEigenvalue =   4.41421356\nThe last two ei
+genvalues are:   2.99999999 1.58578643" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "
+4 0 0" 18 }{VIEWOPTS 1 1 0 1 1 1803 }

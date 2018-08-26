@@ -1,0 +1,198 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 62 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Ma
+ple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 
+0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 
+-1 "" 0 1 16 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 
+}}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 525 "# SOR ALGORITHM 7.3\n#\n# To solve
+ Ax = b given the parameter w and an initial approximation\n# x(0):\n#
+\n# INPUT:   the number of equations and unknowns n; the entries\n#   \+
+       A(I,J), 1<=I, J<=n, of the matrix A; the entries\n#          B(
+I), 1<=I<=n, of the inhomogeneous term b; the\n#          entries XO(I
+), 1<=I<=n, of x(0); tolerance TOL;\n#          maximum number of iter
+ations N; parameter w (omega).\n#\n# OUTPUT:  the approximate solution
+ X(1),...,X(n) or a message\n#          that the number of iterations \+
+was exceeded." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 91 "alg073 := proc() l
+ocal OK, AA, NAME, INP, N, I, J, A, X1, TOL, NN, W, K, ERR, S, FLAG, O
+UP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 55 "printf(`This is the SOR Meth
+od for Linear Systems.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK \+
+:= FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "printf(`The array will
+ be input from a text file in the order:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 60 "printf(`A(1,1), A(1,2), ..., A(1,n+1), A(2,1), A(2,2)
+, ..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "A(2,n+1),\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 49 "printf(`..., A(n,1), A(n,2), ..., A
+(n,n+1)\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place a
+s many entries as desired on each line, but separate `);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 45 "printf(`entries with at least one blank.\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`The initial approximat
+ion should follow in same format.\\n\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 61 "printf(`Has the input file been created? - enter Y or
+ N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA = Y or AA = y then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "
+printf(`for example:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "wh
+ile OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "printf(`Input \+
+the number of equations - an integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for J from 1 to N+1 do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)
+[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "X1[I-1] := fscanf(INP, \+
+`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 13 "use X1 for X0" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK :=
+ TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "pr
+intf(`The number must be a positive integer.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "printf(`Input the tolerance.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "if TOL > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TR
+UE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 49 "printf(`Tolerance must be a positive number.\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "printf(`Input maximum number of iterations.\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NN := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if NN > 0 then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "el
+se" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`Number must be a posi
+tive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "
+printf(`Input parameter w (omega)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "W := scanf(`%f`)[1];" }}{PARA 0 "" 0 "" {TEXT -1 15 "use W for
+ omega" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 67 "printf(`The program will end so the input file can be
+ created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" {TEXT 
+-1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K
+ := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "
+" 0 "" {TEXT -1 6 "STEP 2" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "while OK = FALSE and K <= NN do" }}{PARA 0 "" 0 "" 
+{TEXT -1 60 "err is used to test accuracy - it measures the infinity n
+orm" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "ERR := 0;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 3" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := 0
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 26 "S := S-A[I-1,J-1]*X1[J-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "S := \+
+W*(S+A[I-1,N])/A[I-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "if ab
+s(S) > ERR then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "ERR := abs(S);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 21 "X1[I-1] := X1[I-1]+S;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }{MPLTEXT 1 0 0 "" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "if ERR <= TOL then " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "" 0 "" {TEXT -1 19 "process is complete" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "K := K+1;" }}{PARA 0 "" 0 "" {TEXT -1 54 "STEP 6 - is not used \+
+since only one vector is required" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK =
+ FALSE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`Maximum Numb
+er of Iterations Exceeded.\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 5 "STEP \+
+" }{MPLTEXT 1 0 1 "7" }}{PARA 0 "" 0 "" {TEXT -1 34 "procedure complet
+ed unsuccessfully" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of outp
+ut method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Outp
+ut to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Ou
+tput to text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`
+Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG \+
+:= scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 t
+hen" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name \+
+in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 42 "printf(`for example:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "OUP := fopen(NAME, WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 60 "fprintf(OUP, `SOR ITERATIVE METHOD FOR LINEAR SYSTEMS
+\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "fprintf(OUP, `The solu
+tion vector is :\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fro
+m 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "fprintf(OUP, ` %11.8
+f`, X1[I-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 48 "fprintf(OUP, `\\nusing %d iterations with\\n`,
+ K);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "fprintf(OUP, `Tolerance  %.
+10e in infinity-norm\\n`, TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "
+fprintf(OUP, `with Parameter %.10e\\n`, W);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Out
+put file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg073G:6\"63%#OKG%#AAG%%NAMEG%$INPG%\"NG%\"IG%\"JG%
+\"AG%#X1G%$TOLG%#NNG%\"WG%\"KG%$ERRG%\"SG%%FLAGG%$OUPGF&F&C/-%'printfG
+6#%LThis~is~the~SOR~Method~for~Linear~Systems.|+G>8$%&FALSEG-F;6#%XThe
+~array~will~be~input~from~a~text~file~in~the~order:|+G-F;6#%jnA(1,1),~
+A(1,2),~...,~A(1,n+1),~A(2,1),~A(2,2),~...,~|+A(2,n+1),|+G-F;6#%E...,~
+A(n,1),~A(n,2),~...,~A(n,n+1)|+|+G-F;6#%gnPlace~as~many~entries~as~des
+ired~on~each~line,~but~separate~G-F;6#%Bentries~with~at~least~one~blan
+k.|+G-F;6#%enThe~initial~approximation~should~follow~in~same~format.|+
+|+|+G-F;6#%RHas~the~input~file~been~created?~-~enter~Y~or~N.|+G>8%&-%&
+scanfG6#%#%cG6#\"\"\"@%5/FW%\"YG/FW%\"yGC.-F;6#%SInput~the~file~name~i
+n~the~form~-~drive:\\name.ext|+G-F;6#%<for~example:~~~A:\\DATA.DTA|+G>
+8&&-FZ6#%#%sGFgn>8'-%&fopenG6%Fgo%%READG%%TEXTG>F?F@?(F&FhnFhnF&/F?F@C
+%-F;6#%MInput~the~number~of~equations~-~an~integer.|+G>8(&-FZ6#%#%dGFg
+n@%2\"\"!F[qC&?(8)FhnFhnF[q%%trueG?(8*FhnFhn,&F[qFhnFhnFhnFfq>&8+6$,&F
+eqFhn!\"\"Fhn,&FhqFhnF_rFhn&-%'fscanfG6$F]p%#%fGFgn?(FeqFhnFhnF[qFfq>&
+8,6#F^rFar>F?%%TRUEG-%'fcloseG6#F]p-F;6#%HThe~number~must~be~a~positiv
+e~integer.|+G>F?F@?(F&FhnFhnF&FepC%-F;6#%6Input~the~tolerance.|+G>8-&-
+FZ6#FerFgn@%2FbqFjs>F?F\\s-F;6#%FTolerance~must~be~a~positive~number.|
++G>F?F@?(F&FhnFhnF&FepC%-F;6#%EInput~maximum~number~of~iterations.|+G>
+8.F\\q@%2FbqF[u>F?F\\s-F;6#%DNumber~must~be~a~positive~integer.|+G-F;6
+#%;Input~parameter~w~(omega)|+G>8/F[t-F;6#%XThe~program~will~end~so~th
+e~input~file~can~be~created.|+G@$/F?F\\sC&>80Fhn>F?F@?(F&FhnFhnF&3Fep1
+F^vF[uC&>81Fbq?(FeqFhnFhnF[qFfqC'>82Fbq?(FhqFhnFhnF[qFfq>Fiv,&FivFhn*&
+F[rFhn&Fir6#F`rFhnF_r>Fiv*(FfuFhn,&FivFhn&F\\r6$F^rF[qFhnFhn&F\\r6$F^r
+F^rF_r@$2Fev-%$absG6#Fiv>FevFiw>Fhr,&FhrFhnFivFhn@$1FevFjs>F?F\\s>F^v,
+&F^vFhnFhnFhn@%FepC$-F;6#%HMaximum~Number~of~Iterations~Exceeded.|+G\"
+\"(C/-F;6#%:Choice~of~output~method:|+G-F;6#%51.~Output~to~screen|+G-F
+;6#%82.~Output~to~text~file|+G-F;6#%6Please~enter~1~or~2.|+G>83F\\q@%/
+Fhy\"\"#C&F`o-F;6#%>for~example:~~~A:\\OUTPUT.DTA|+G>FgoFho>84-F_p6%Fg
+o%&WRITEGFbp>Fbz%(defaultG-%(fprintfG6$Fbz%JSOR~ITERATIVE~METHOD~FOR~L
+INEAR~SYSTEMS|+|+G-Fiz6$Fbz%:The~solution~vector~is~:|+G?(FeqFhnFhnF[q
+Ffq-Fiz6%Fbz%(~%11.8fGFhr-Fiz6%Fbz%;|+using~%d~iterations~with|+GF^v-F
+iz6%Fbz%CTolerance~~%.10e~in~infinity-norm|+GFjs-Fiz6%Fbz%6with~Parame
+ter~%.10e|+GFfu@$0FbzFgzC$-F^s6#Fbz-F;6$%COutput~file~%s~created~suces
+sfullyGFgo-%'RETURNG6#FbqF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 9 "alg073();" }}{PARA 6 "" 1 "" {TEXT -1 396 "This is the SOR Method
+ for Linear Systems.\nThe array will be input from a text file in the \+
+order:\nA(1,1), A(1,2), ..., A(1,n+1), A(2,1), A(2,2), ..., \nA(2,n+1)
+,\n..., A(n,1), A(n,2), ..., A(n,n+1)\n\nPlace as many entries as desi
+red on each line, but separate entries with at least one blank.\nThe i
+nitial approximation should follow in same format.\n\n\nHas the input \+
+file been created? - enter Y or N." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "Input the file name \+
+in the form - drive:\\name.ext\nfor example:   A:\\DATA.DTA" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg073.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 43 "Input the number of equations - an intege
+r." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "3" }}{PARA 6 "" 1 "" 
+{TEXT -1 20 "Input the tolerance." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 6 ".00001" }}{PARA 6 "" 1 "" {TEXT -1 35 "Input maximum n
+umber of iterations." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "30" 
+}}{PARA 6 "" 1 "" {TEXT -1 25 "Input parameter w (omega)" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "1.25" }}{PARA 6 "" 1 "" {TEXT -1 88 
+"Choice of output method:\n1. Output to screen\n2. Output to text file
+\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1
+" }}{PARA 6 "" 1 "" {TEXT -1 204 "SOR ITERATIVE METHOD FOR LINEAR SYST
+EMS\n\nThe solution vector is :\n  2.99999931  4.00000005 -4.99999961
+\nusing 13 iterations with\nTolerance  1.0000000000e-05 in infinity-no
+rm\nwith Parameter 1.2500000000e+00" }}{PARA 11 "" 1 "" {XPPMATH 20 "6
+#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "4 0 0
+" 7 }{VIEWOPTS 1 1 0 1 1 1803 }

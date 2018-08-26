@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)http://www.javaworld.com/jw-07-1997/f_jw-07-hood.html -->
+<HTML><HEAD><TITLE>How the Java virtual machine performs thread synchronization - JavaWorld July 1997</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="How the Java virtual machine performs thread synchronization" 
+name=description>
+<META content=1997-07 name=date>
+<META 
+content="JavaWorld, Java, JavaWorld, Java, JVM, Java virtual machine, thread synchronization" 
+name=keywords>
+<META content="Bill Venners" name=author>
+<META content="MSHTML 5.00.3018.900" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#0000ff text=#000000 vLink=#551a8b><!-- table 1 -->
+<TABLE bgColor=#336699 border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG align=bottom alt="" border=0 height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/ul-blue.gif" 
+      width=8></TD>
+    <TD align=middle vAlign=center>&nbsp; 
+      <TABLE border=0 cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click 
+            here!</FONT><BR><NOLAYER><IFRAME frameBorder=0 height=60 
+            marginHeight=0 marginWidth=0 scrolling=no 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=468x60.htm" 
+            width=468><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=468x60" height="60" width="468"></A></IFRAME></NOLAYER><ILAYER 
+            id=ph1 width="468" height="60" 
+        visibility="hide"></ILAYER></TD></TR></TBODY></TABLE>&nbsp; </TD>
+    <TD align=right vAlign=top width="1%"><IMG alt="" border=0 height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/ur-blue.gif" 
+      width=8></TD></TR></TBODY></TABLE><!-- end table 1 -->
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#336699><IMG align=bottom border=0 height=1 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=2></TD>
+    <TD bgColor=#cccccc vAlign=top><IMG align=top border=0 height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/blue-grey-ul.gif" 
+      width=8></TD>
+    <TD bgColor=#cccccc vAlign=top><FONT face=Arial,Helvetica,Sans-serif><IMG 
+      border=0 height=6 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=1><BR>
+      <CENTER><STRONG>July 1997</STRONG><BR><A 
+      href="http://www.javaworld.com/javaworld/home.html"><IMG border=0 
+      height=41 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/jwlogo-132.gif" 
+      vspace=5 width=132></A><BR><FONT size=-1><STRONG>FUELING 
+      INNOVATION</STRONG> </FONT></CENTER>
+      <P>
+      <TABLE border=0 cellPadding=2 cellSpacing=0 width=125>
+        <TBODY>
+        <TR>
+          <TD align=middle><A 
+            href="http://www.javaworld.com/javaworld/home.html"><IMG 
+            align=bottom border=0 height=14 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/house.gif" 
+            width=14></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/home.html">Home</A> 
+          </FONT></TD></TR>
+        <TR>
+          <TD align=middle><A 
+            href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=How%20the%20Java%20virtual%20machine%20performs%20thread%20synchronization&amp;author=Bill%20Venners&amp;summary=All%20Java%20programs%20are%20compiled%20into%20class%20files%2C%20which%20contain%0Abytecodes%2C%20the%20machine%20language%20of%20the%20Java%20virtual%20machine.%20This%0Aarticle%20takes%20a%20look%20at%20how%20thread%20synchronization%20is%20handled%20by%20the%0AJava%20virtual%20machine%2C%20including%20the%20relevant%20bytecodes.%20%3CEM%3E%281%2C750%0Awords%29%3C%2FEM%3E%0A"><IMG 
+            border=0 height=9 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/envelope.gif" 
+            width=14></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=How%20the%20Java%20virtual%20machine%20performs%20thread%20synchronization&amp;author=Bill%20Venners&amp;summary=All%20Java%20programs%20are%20compiled%20into%20class%20files%2C%20which%20contain%0Abytecodes%2C%20the%20machine%20language%20of%20the%20Java%20virtual%20machine.%20This%0Aarticle%20takes%20a%20look%20at%20how%20thread%20synchronization%20is%20handled%20by%20the%0AJava%20virtual%20machine%2C%20including%20the%20relevant%20bytecodes.%20%3CEM%3E%281%2C750%0Awords%29%3C%2FEM%3E%0A">Mail&nbsp;this&nbsp;Article</A> 
+            </FONT></TD></TR>
+        <TR>
+          <TD align=middle vAlign=top><A 
+            href="http://www.javaworld.com/jw-07-1997/"><IMG align=bottom 
+            border=0 height=16 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/printer.gif" 
+            width=16></A></TD>
+          <TD><FONT face=Arial,Helvetica,Sans-serif><A 
+            href="http://www.javaworld.com/javaworld/jw-07-1997/jw-07-hood_p.html">Printer-Friendly 
+            Version</A> </FONT></TD></TR></TBODY></TABLE>
+      <P><FONT 
+      face=Arial,Helvetica,Sans-serif><STRONG><U>Search</U></STRONG></FONT> 
+      <FORM action=http://search.itworld.com:8765/query.html method=get 
+      name=seek>
+      <TABLE border=0 cellPadding=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD><INPUT name=col size=-1 type=hidden value=jw> <!-- This is the text box for search terms --><!--See above--><INPUT 
+            maxLength=2047 name=qt size=12> <INPUT alt=GO border=0 height=25 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/button_blue.gif" 
+            type=image value=search width=27> </TD></TR></TBODY></TABLE></FORM>
+      <P><STRONG><A 
+      href="http://www.javaworld.com/javaworld/topicalindex/jw-ti-index.html">Topical&nbsp;index</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-netnews.html">Net&nbsp;News&nbsp;Central</A><BR><A 
+      href="http://www.javaworld.com/javaworld/tools/">Developer&nbsp;Tools&nbsp;Guide</A><BR><A 
+      href="http://www.javaworld.com/javaworld/books/">Book&nbsp;Catalog</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-guidelines.html">Writers&nbsp;Guidelines</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-privacy.html">Privacy&nbsp;Policy</A><BR><A 
+      href="http://www.javaworld.com/javaworld/common/jw-copyright.html">Copyright</A><BR><A 
+      href="http://www.itcareers.com/">ITcareers</A> </STRONG>
+      <P>
+      <DIV align=left><A 
+      href="http://www.javaworld.com/javaworld/common/jw-subscribe.html"><IMG 
+      align=bottom border=0 height=25 hspace=3 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/jw-subscribe.gif" 
+      width=120></A><BR></DIV>
+      <P><STRONG><U>Advertisement</U></STRONG><BR><NOLAYER><IFRAME frameBorder=0 
+      height=125 marginHeight=0 marginWidth=0 scrolling=no 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=125x125;tile=1.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=1"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=1" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph2 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=125x125;tile=2.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=2"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=2" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph3 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=125x125;tile=3.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=3"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=3" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph4 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=125x125;tile=4.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=4"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=4" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph5 width="125" height="125" visibility="hide"></ILAYER>
+      <P><NOLAYER><IFRAME frameBorder=0 height=125 marginHeight=0 marginWidth=0 
+      scrolling=no 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=125x125;tile=5.htm" 
+      width=125><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=125x125;tile=5"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=125x125;tile=5" height="125" width="125"></A></IFRAME></NOLAYER><ILAYER 
+      id=ph6 width="125" height="125" visibility="hide"></ILAYER>
+      <P></FONT></P></TD>
+    <TD align=right bgColor=#cccccc vAlign=top><IMG align=top border=0 
+      height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/blue-grey-ur.gif" 
+      width=8></TD>
+    <TD bgColor=#336699><IMG align=bottom border=0 height=1 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=2></TD>
+    <TD vAlign=top><IMG align=bottom border=0 height=4 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/white-blue-bl4.gif" 
+      width=4></TD>
+    <TD rowSpan=2 vAlign=top><BR>Under the Hood 
+      <H1 align=center>How the Java virtual machine performs thread 
+      synchronization </H1>
+      <H3 align=center>The last in a series on Java bytecode, this article 
+      covers threads, shared data, locks, and more! </H3>
+      <BLOCKQUOTE><STRONG>Summary</STRONG><BR>All Java programs are compiled 
+        into class files, which contain bytecodes, the machine language of the 
+        Java virtual machine. This article takes a look at how thread 
+        synchronization is handled by the Java virtual machine, including the 
+        relevant bytecodes. <EM>(1,750 words)</EM> </BLOCKQUOTE><STRONG>By Bill 
+      Venners</STRONG> 
+      <P><IMG height=2 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/blue.gif" 
+      width="100%"> 
+      <P><!-- begin body text --><IMG align=left alt=T height=29 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/T.gif" 
+      width=24>his month's <STRONG>Under The Hood</STRONG> looks at thread 
+      synchronization in both the Java language and the Java virtual machine 
+      (JVM). This article is the last in the long series of bytecode articles I 
+      began last summer. It describes the only two opcodes directly related to 
+      thread synchronization, the opcodes used for entering and exiting 
+      monitors. 
+      <P><FONT size=+1><STRONG>Threads and shared data</STRONG></FONT><BR>One of 
+      the strengths of the Java programming language is its support for 
+      multithreading at the language level. Much of this support centers on 
+      coordinating access to data shared among multiple threads. 
+      <P>The JVM organizes the data of a running Java application into several 
+      runtime data areas: one or more Java stacks, a heap, and a method area. 
+      For a backgrounder on these memory areas, see the first <STRONG>Under the 
+      Hood</STRONG> article: <A 
+      href="http://www.javaworld.com/javaworld/jw-06-1996/jw-06-vm.html">"The 
+      lean, mean virtual machine"</A>. 
+      <P>Inside the Java virtual machine, each thread is awarded a <EM>Java 
+      stack</EM>, which contains data no other thread can access, including the 
+      local variables, parameters, and return values of each method the thread 
+      has invoked. The data on the stack is limited to primitive types and 
+      object references. In the JVM, it is not possible to place the image of an 
+      actual object on the stack. All objects reside on the heap. 
+      <P>There is only one <EM>heap</EM> inside the JVM, and all threads share 
+      it. The heap contains nothing but objects. There is no way to place a 
+      solitary primitive type or object reference on the heap -- these things 
+      must be part of an object. Arrays reside on the heap, including arrays of 
+      primitive types, but in Java, arrays are objects too. 
+      <P>Besides the Java stack and the heap, the other place data may reside in 
+      the JVM is the <EM>method area</EM>, which contains all the class (or 
+      static) variables used by the program. The method area is similar to the 
+      stack in that it contains only primitive types and object references. 
+      Unlike the stack, however, the class variables in the method area are 
+      shared by all threads. 
+      <P><FONT size=+1><STRONG>Object and class locks</STRONG></FONT><BR>As 
+      described above, two memory areas in the Java virtual machine contain data 
+      shared by all threads. These are: 
+      <P>
+      <UL>
+        <LI>The heap, which contains all objects 
+        <P></P>
+        <LI>The method area, which contains all class variables </LI></UL>
+      <P>If multiple threads need to use the same objects or class variables 
+      concurrently, their access to the data must be properly managed. 
+      Otherwise, the program will have unpredictable behavior. 
+      <P>To coordinate shared data access among multiple threads, the Java 
+      virtual machine associates a <EM>lock</EM> with each object and class. A 
+      lock is like a privilege that only one thread can "possess" at any one 
+      time. If a thread wants to lock a particular object or class, it asks the 
+      JVM. At some point after the thread asks the JVM for a lock -- maybe very 
+      soon, maybe later, possibly never -- the JVM gives the lock to the thread. 
+      When the thread no longer needs the lock, it returns it to the JVM. If 
+      another thread has requested the same lock, the JVM passes the lock to 
+      that thread. 
+      <P>Class locks are actually implemented as object locks. When the JVM 
+      loads a class file, it creates an instance of class 
+      <CODE>java.lang.Class</CODE>. When you lock a class, you are actually 
+      locking that class's <CODE>Class</CODE> object. 
+      <P>Threads need not obtain a lock to access instance or class variables. 
+      If a thread does obtain a lock, however, no other thread can access the 
+      locked data until the thread that owns the lock releases it. 
+      <P><FONT size=+1><STRONG>Monitors</STRONG></FONT><BR>The JVM uses locks in 
+      conjunction with <EM>monitors</EM>. A monitor is basically a guardian in 
+      that it watches over a sequence of code, making sure only one thread at a 
+      time executes the code. 
+      <P>Each monitor is associated with an object reference. When a thread 
+      arrives at the first instruction in a block of code that is under the 
+      watchful eye of a monitor, the thread must obtain a lock on the referenced 
+      object. The thread is not allowed to execute the code until it obtains the 
+      lock. Once it has obtained the lock, the thread enters the block of 
+      protected code. 
+      <P>When the thread leaves the block, no matter how it leaves the block, it 
+      releases the lock on the associated object. 
+      <P><FONT size=+1><STRONG>Multiple locks</STRONG></FONT><BR>A single thread 
+      is allowed to lock the same object multiple times. For each object, the 
+      JVM maintains a count of the number of times the object has been locked. 
+      An unlocked object has a count of zero. When a thread acquires the lock 
+      for the first time, the count is incremented to one. Each time the thread 
+      acquires a lock on the same object, a count is incremented. Each time the 
+      thread releases the lock, the count is decremented. When the count reaches 
+      zero, the lock is released and made available to other threads. 
+      <P><FONT size=+1><STRONG>Synchronized blocks</STRONG></FONT><BR>In Java 
+      language terminology, the coordination of multiple threads that must 
+      access shared data is called <EM>synchronization</EM>. The language 
+      provides two built-in ways to synchronize access to data: with 
+      synchronized statements or synchronized methods. 
+      <P><STRONG>Synchronized statements</STRONG><BR>To create a synchronized 
+      statement, you use the <CODE>synchronized</CODE> keyword with an 
+      expression that evaluates to an object reference, as in the 
+      <CODE>reverseOrder()</CODE> method below: 
+      <P><CODE>class KitchenSync {<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;private int[] 
+      intArray = new int[10];<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;void reverseOrder() 
+      {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized (this) 
+      {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      halfWay = intArray.length / 
+      2;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for 
+      (int i = 0; i &lt; halfWay; ++i) 
+      {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      upperIndex = intArray.length - 1 - 
+      i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      save = 
+      intArray[upperIndex];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intArray[upperIndex] 
+      = 
+      intArray[i];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intArray[i] 
+      = 
+      save;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR><BR></CODE>
+      <P>In the case above, the statements contained within the synchronized 
+      block will not be executed until a lock is acquired on the current object 
+      (<CODE>this</CODE>). If instead of a <CODE>this</CODE> reference, the 
+      expression yielded a reference to another object, the lock associated with 
+      that object would be acquired before the thread continued. 
+      <P>Two opcodes, <CODE>monitorenter</CODE> and <CODE>monitorexit</CODE>, 
+      are used for synchronization blocks within methods, as shown in the table 
+      below. 
+      <P>
+      <CENTER>
+      <TABLE border=1 cellPadding=5>
+        <CAPTION align=top>
+        <CENTER><STRONG>MONITORS</STRONG></CENTER></CAPTION>
+        <TBODY>
+        <TR bgColor=#ffffcc>
+          <TH>
+            <CENTER><STRONG>Opcode</STRONG></CENTER></TH>
+          <TH>
+            <CENTER><STRONG>Operand(s)</STRONG></CENTER></TH>
+          <TH>
+            <CENTER><STRONG>Description</STRONG></CENTER></TH></TR>
+        <TR bgColor=#7fbb00>
+          <TD align=middle>
+            <CENTER><CODE>monitorenter</CODE></CENTER></TD>
+          <TD align=middle>
+            <CENTER>none</CENTER></TD>
+          <TD>pop objectref, acquire the lock associated with objectref</TD></TR>
+        <TR bgColor=#7fbb00>
+          <TD align=middle>
+            <CENTER><CODE>monitorexit</CODE></CENTER></TD>
+          <TD align=middle>
+            <CENTER>none</CENTER></TD>
+          <TD>pop objectref, release the lock associated with 
+        objectref</TD></TR></TBODY></TABLE></CENTER>
+      <P>When <CODE>monitorenter</CODE> is encountered by the Java virtual 
+      machine, it acquires the lock for the object referred to by objectref on 
+      the stack. If the thread already owns the lock for that object, a count is 
+      incremented. Each time <CODE>monitorexit</CODE> is executed for the thread 
+      on the object, the count is decremented. When the count reaches zero, the 
+      monitor is released. 
+      <P>Here is the <A 
+      href="http://www.javaworld.com/javaworld/jw-07-1997/hood/example.html">bytecode 
+      sequence</A> generated by the <CODE>reverseOrder()</CODE> method of the 
+      <CODE>KitchenSync</CODE> class. 
+      <P>Note that a catch clause ensures the locked object will be unlocked 
+      even if an exception is thrown from within the synchronized block. No 
+      matter how the synchronized block is exited, the object lock acquired when 
+      the thread entered the block definitely will be released. 
+      <P><STRONG>Synchronized methods</STRONG><BR>To synchronize an entire 
+      method, you just include the <CODE>synchronized</CODE> keyword as one of 
+      the method qualifiers, as in: 
+      <P><CODE>class HeatSync {<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;private int[] 
+      intArray = new int[10];<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;synchronized void 
+      reverseOrder() {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      halfWay = intArray.length / 
+      2;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i 
+      &lt; halfWay; ++i) 
+      {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      upperIndex = intArray.length - 1 - 
+      i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int 
+      save = 
+      intArray[upperIndex];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intArray[upperIndex] 
+      = 
+      intArray[i];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intArray[i] 
+      = 
+      save;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>}<BR><BR></CODE>
+      <P>The JVM does not use any special opcodes to invoke or return from 
+      synchronized methods. When the JVM resolves the symbolic reference to a 
+      method, it determines whether the method is synchronized. If it is, the 
+      JVM acquires a lock before invoking the method. For an instance method, 
+      the JVM acquires the lock associated with the object upon which the method 
+      is being invoked. For a class method, it acquires the lock associated with 
+      the class to which the method belongs. After a synchronized method 
+      completes, whether it completes by returning or by throwing an exception, 
+      the lock is released. 
+      <P><FONT size=+1><STRONG>Next month</STRONG></FONT><BR>Now that I have 
+      gone through the entire bytecode instruction set, I will be broadening the 
+      scope of this column to include various aspects or applications of Java 
+      technology, not just the Java virtual machine. Next month, I'll begin a 
+      multi-part series that gives an in-depth overview of Java's security 
+      model. <IMG height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dingbat.gif" 
+      width=8> <!-- end body text -->
+      <P><A name=bio>
+      <TABLE border=0 cellPadding=0 cellSpacing=3>
+        <TBODY>
+        <TR>
+          <TD vAlign=center></TD>
+          <TD bgColor=#000000><IMG align=bottom border=0 height=1 
+            src="D:\My_Docs\CSI_3310\JavaWorld\How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files\dot_clear(1).gif" 
+            width=2></TD>
+          <TD vAlign=top><STRONG><FONT face=Arial,Helvetica,Sans-serif 
+            size=-1>About the author </FONT></STRONG><BR>bill.venners Bill 
+            Venners has been writing software professionally for 12 years. Based 
+            in Silicon Valley, he provides software consulting and training 
+            services under the name <A href="http://www.artima.com/">Artima 
+            Software Company</A>. Over the years he has developed software for 
+            the consumer electronics, education, semiconductor, and life 
+            insurance industries. He has programmed in many languages on many 
+            platforms: assembly language on various microprocessors, C on Unix, 
+            C++ on Windows, Java on the Web. He is author of the book: <A 
+            href="http://www.artima.com/insidejvm/blurb.html"><EM>Inside the 
+            Java Virtual Machine</EM></A>, published by McGraw-Hill. 
+        </TD></TR></TBODY></TABLE><BR><BR></A></P></TD></TR>
+  <TR>
+    <TD bgColor=#336699 width=2><IMG align=bottom alt="" border=0 height=1 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=2></TD>
+    <TD bgColor=#cccccc vAlign=bottom><IMG align=bottom border=0 height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/blue-grey-bl.gif" 
+      width=8></TD>
+    <TD bgColor=#cccccc vAlign=bottom><BR>
+      <P>
+      <FORM action=/javaworld/cgi-bin/jw-mini-survey.cgi?1997-jw-07-hood.html 
+      method=post><A name=mini-ditka>
+      <TABLE border=3 cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#336699><FONT color=#ffffff 
+            face=Arial,Helvetica,Sans-serif><STRONG>Feedback</STRONG> 
+        </FONT></TD></TR>
+        <TR>
+          <TD bgColor=#cccccc><FONT face=Arial,Helvetica,Sans-serif 
+            size=-1><STRONG>Tell&nbsp;us&nbsp;what&nbsp;you<BR>thought&nbsp;of&nbsp;this&nbsp;story</STRONG> 
+
+            <P><INPUT name=worth type=radio value=3>-Very worth 
+            reading<BR><INPUT name=worth type=radio value=2>-Worth 
+            reading<BR><INPUT name=worth type=radio value=1>-Not worth reading 
+            <P><INPUT name=length type=radio value=3>-Too long<BR><INPUT 
+            name=length type=radio value=2>-Just right<BR><INPUT name=length 
+            type=radio value=1>-Too short 
+            <P><INPUT name=tech type=radio value=3>-Too technical<BR><INPUT 
+            name=tech type=radio value=2>-Just right<BR><INPUT name=tech 
+            type=radio value=1>-Not technical enough 
+            <P><TEXTAREA cols=15 name=comments rows=3 wrap=VIRTUAL>Comments: </TEXTAREA><BR>Name:<BR><INPUT 
+            name=comments size=15><BR>Email:<BR><INPUT name=comments 
+            size=15><BR>Company Name:<BR><INPUT name=comments size=15><BR><INPUT type=submit value="Send data"> 
+        </FONT></P></TD></TR></TBODY></TABLE></A></FORM></P></TD>
+    <TD align=right bgColor=#cccccc vAlign=bottom><IMG align=bottom border=0 
+      height=8 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/blue-grey-br.gif" 
+      width=8></TD>
+    <TD bgColor=#336699><IMG align=bottom alt="" border=0 height=1 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=1></TD>
+    <TD bgColor=#ffffff vAlign=bottom>&nbsp;&nbsp;<BR><IMG align=bottom 
+      border=0 height=4 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/white-blue-ul4.gif" 
+      width=4></TD></TR>
+  <TR>
+    <TD bgColor=#336699 colSpan=7 height=6><IMG align=bottom border=0 height=1 
+      src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/dot_clear.gif" 
+      width=1></TD></TR></TBODY></TABLE>
+<P>
+<DIV align=center><FONT face=Arial,Helvetica,Sans-serif><A 
+href="http://www.javaworld.com/javaworld/home.html">Home</A> | <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailToFriend.cgi?head=How%20the%20Java%20virtual%20machine%20performs%20thread%20synchronization&amp;author=Bill%20Venners&amp;summary=All%20Java%20programs%20are%20compiled%20into%20class%20files%2C%20which%20contain%0Abytecodes%2C%20the%20machine%20language%20of%20the%20Java%20virtual%20machine.%20This%0Aarticle%20takes%20a%20look%20at%20how%20thread%20synchronization%20is%20handled%20by%20the%0AJava%20virtual%20machine%2C%20including%20the%20relevant%20bytecodes.%20%3CEM%3E%281%2C750%0Awords%29%3C%2FEM%3E%0A">Mail&nbsp;this&nbsp;Story</A> 
+| <!-- print --><A 
+href="http://www.javaworld.com/javaworld/jw-07-1997/jw-07-hood_p.html">Printer-Friendly&nbsp;Version</A> 
+| <!-- end_print --><A 
+href="http://www.javaworld.com/jw-07-1997/f_jw-07-hood.html#resources">Resources&nbsp;and&nbsp;Related&nbsp;Links</A> 
+</FONT></DIV>
+<P>
+<TABLE bgColor=#336699 border=0 cellPadding=5 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=middle>
+      <TABLE border=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><FONT color=#cccccc face=Arial,Helvetica,Sans-serif 
+            size=-1>Advertisement: Support JavaWorld, click 
+            here!</FONT><BR><NOLAYER><IFRAME frameBorder=0 height=60 
+            marginHeight=0 marginWidth=0 scrolling=no 
+            src="How the Java virtual machine performs thread synchronization - JavaWorld July 1997_files/archives;sz=468x60.htm" 
+            width=468><A HREF="http://ad.doubleclick.net/jump/idg.jw.com/archives;sz=468x60"><IMG SRC="http://ad.doubleclick.net/ad/idg.jw.com/archives;sz=468x60" height="60" width="468"></A></IFRAME></NOLAYER><ILAYER 
+            id=ph7 width="468" height="60" 
+        visibility="hide"></ILAYER></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P align=center><A 
+href="http://www.javaworld.com/javaworld/common/jw-copyright.html">(c) Copyright 
+1997 ITworld.com, Inc., an IDG Communications company</A> </P>
+<P><A name=resources><STRONG>Resources</STRONG></A> 
+<UL>
+  <LI>The book <A href="http://www.aw.com/cp/lindholm-yellin.html"><EM>The Java 
+  virtual machine Specification 
+  </EM></A>(http://www.aw.com/cp/lindholm-yellin.html), by Tim Lindholm and 
+  Frank Yellin (ISBN&nbsp;0-201-63452-X), part of <A 
+  href="http://www.aw.com/cp/javaseries.html">The Java Series</A> 
+  (http://www.aw.com/cp/javaseries.html), from Addison-Wesley, is the definitive 
+  Java virtual machine reference. </LI></UL><STRONG>Previous "Under The Hood" 
+articles:</STRONG>
+<UL>
+  <LI>"<A href="http://www.javaworld.com/javaworld/jw-06-1996/jw-06-vm.html">The 
+  Lean, Mean Virtual Machine</A>" Gives an introduction to the Java virtual 
+  machine. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-07-1996/jw-07-classfile.html">The 
+  Java Class File Lifestyle</A>" Gives an overview to the Java class file, the 
+  file format into which all Java programs are compiled. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-08-1996/jw-08-gc.html">Java's 
+  Garbage-Collected Heap</A>" Gives an overview of garbage collection in general 
+  and the garbage-collected heap of the Java virtual machine in particular.
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-09-1996/jw-09-bytecodes.html">Bytecode 
+  Basics</A>" Introduces the bytecodes of the Java virtual machine, and 
+  discusses primitive types, conversion operations, and stack operations in 
+  particular. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-10-1996/jw-10-hood.html">Floating 
+  Point Arithmetic</A>" Describes the Java virtual machine's floating-point 
+  support and the bytecodes that perform floating point operations. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-11-1996/jw-11-hood.html">Logic and 
+  Arithmetic</A>" Describes the Java virtual machine's support for logical and 
+  integer arithmetic, and the related bytecodes. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-12-1996/jw-12-hood.html">Objects 
+  and Arrays</A>" Describes how the Java virtual machine deals with objects and 
+  arrays, and discusses the relevant bytecodes. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-01-1997/jw-01-hood.html">Exceptions</A>" 
+  Describes how the Java virtual machine deals with exceptions, and discusses 
+  the relevant bytecodes. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-02-1997/jw-02-hood.html">Try-Finally</A>" 
+  Describes how the Java virtual machine implements try-finally clauses, and 
+  discusses the relevant bytecodes. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-03-1997/jw-03-hood.html">Control 
+  Flow</A>" Describes how the Java virtual machine implements control flow and 
+  discusses the relevant bytecodes. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-04-1997/jw-04-hood.html">The 
+  Architecture of Aglets</A>" Describes the inner workings of Aglets, IBM's 
+  autonomous Java-based software agent technology. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-05-1997/jw-05-hood.html">The Point 
+  of Aglets</A>" Analyzes the real-world utility of mobile agents such as 
+  Aglets, IBM's autonomous Java-based software agent technology. 
+  <LI>"<A 
+  href="http://www.javaworld.com/javaworld/jw-06-1997/jw-06-hood.html">Method 
+  Invocation and Return</A>" Explains how the Java virtual machine invokes and 
+  returns from methods, including the relevant bytecodes. </LI></UL>Feedback: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?jweditors@javaworld.com+/javaworld/jw-07-1997/jw-07-hood.html+jweditors" 
+name=jweditors>jweditors@javaworld.com</A><BR>Technical difficulties: <A 
+href="http://www.javaworld.com/javaworld/cgi-bin/jw-mailto.cgi?webmaster@javaworld.com+/javaworld/jw-07-1997/jw-07-hood.html+webmaster" 
+name=webmaster>webmaster@javaworld.com</A><BR>URL: 
+http://www.javaworld.com/jw-07-1997/jw-07-hood.html <BR>Last modified: Tuesday, 
+April 18, 2000 <LAYER visibility="hide" 
+onload="moveToAbsolute(ph1.pageX, ph1.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=468x60"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph2.pageX, ph2.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=1"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph3.pageX, ph3.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=2"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph4.pageX, ph4.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=3"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph5.pageX, ph5.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=4"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph6.pageX, ph6.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=125x125;tile=5"></LAYER><LAYER 
+visibility="hide" 
+onload="moveToAbsolute(ph7.pageX, ph7.pageY);visibility='show';" 
+src="http://ad.doubleclick.net/adl/idg.jw.com/archives;sz=468x60"></LAYER></BODY></HTML>

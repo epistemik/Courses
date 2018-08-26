@@ -1,0 +1,71 @@
+% TUPLE RELATIONAL CALCULUS---------------------------------------------
+
+% ----- query 1 -----;
+% Retrieve the name and address of all employees who work for the 'Research' department.
+
+trc1:=
+  {T.fname, T.lname, T.address | 
+    employee(T) and 
+    (exists D) 
+      (department (D) and D.dname='Research' and D.dnumber=T.dno)};
+
+% ----- query 2 -----;
+% For every project located in 'Stafford', list the project number, the controlling 
+% department number, and the department manager's last name, address, and birthdate.
+
+trc2:=
+  {P.pnumber, P.dnum, M.lname, M.bdate, M.address | 
+    projects(P) and employee(M) and P.plocation='Stafford' and 
+    (exists D) 
+      (department(D) and P.dnum=D.dnumber and D.mgrssn=M.ssn)};
+
+% ----- query 3 -----;
+% Find the names of employees who work on all the projects controlled by department number 5.
+
+trc3:=
+  {E.lname, E.fname | 
+  employee(E) and 
+  (forall X) 
+    ( not (projects(X) and (X.dnum=5)) or (exists W) (works_on(W) and W.essn=E.ssn and X.pnumber=W.pno) ) };
+
+% ----- query 4 -----;
+% Make a list of project numbers for projects that involve an employee whose last name is 'Smith', 
+% either as a worker or as a manager of the department that controls the project.
+
+trc4:=
+  {P.pnumber | 
+    projects(P) and 
+    ((exists E,W) 
+      (employee(E) and works_on(W) and W.pno=P.pnumber and E.lname='Smith' and E.ssn=W.essn)
+     or 
+    (exists M,D) 
+      (employee(M) and department(D) and P.dnum=D.dnumber and D.mgrssn=M.ssn and M.lname='Smith'))};
+
+% ----- query 5 -----;
+% List the names of all employees with two or more dependents.
+
+trc5:=
+  {E.lname, E.fname | 
+  employee(E) and 
+  (exists D1,D2) 
+    (dependent(D1) and dependent(D2) and 
+     D1.essn=E.ssn and D2.essn=E.ssn and 
+     D1.dependent_name<>D2.dependent_name)};
+
+% ----- query 6 -----;
+% Retrieve the names of employees who have no dependents.
+
+trc6:=
+  {E.lname, E.fname | 
+  employee(E) and 
+  not(exists D) 
+       (dependent(D) and E.ssn=D.essn)};
+
+% ----- query 7 -----;
+% List the names of managers who have at least one dependent.
+
+trc7:=
+  {E.lname, E.fname | 
+   employee(E) and 
+   (exists D,P)
+     (department(D) and dependent(P) and E.ssn=D.mgrssn and P.essn=E.ssn)};

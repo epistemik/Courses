@@ -1,0 +1,815 @@
+<HTML>
+<HEAD>
+<META VALUE="keyword" CONTENTS="javaworld">
+<TITLE>Accelerate your Java apps!  - JavaWorld - September 1998</TITLE>
+<META NAME="description" content="Accelerate your Java apps!  -- JavaWorld, September 1998">
+<META NAME="keywords" content="JavaWorld, Java, performance, benchmarking, I/0, JIT">
+<META NAME="author" content="Mark Roulo">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#551a8b">
+
+<!--#config timefmt="%A, %B %d, %Y"-->
+
+<center>
+<table width="525" cellpadding="2" border="0">
+<tr>
+<td colspan="2" align="left" valign="center">
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+September 1998
+</font></strong>
+</td> <td align="center" valign="bottom">
+ 
+<IMG width="65" height="20" SRC="javaworld_logo.gif" ALT="JavaWorld">
+ 
+</td> <td colspan="2" align="right" valign="center">
+ 
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+<a href="jw-subscribe.html?article">Get FREE JW e-mail alerts</a>
+</font></strong>
+ 
+</td>
+</tr>
+<tr>
+<td align="center"><a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a></td>
+<td><a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a></td>
+<td><a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a></td>
+<td><a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a></td>
+<td><a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a></td>
+</tr>
+<tr>
+<td align="center" colspan="5">
+<BR CLEAR="ALL">
+</td>
+</tr>
+</table>
+</center>
+<CENTER><IMG SRC="green.gif" HEIGHT="4" WIDTH="468" ALT=""></CENTER>
+<H1 ALIGN="CENTER">
+Accelerate your Java apps! 
+</H1>
+<H3 ALIGN="CENTER">
+Where does the time go? Find out with these speed benchmarks
+</H3>
+<BLOCKQUOTE>
+<STRONG>Summary</STRONG><BR>
+There are two basic types of benchmarking: benchmarking to discover
+relative speeds or bottlenecks; and benchmarking to understand
+performance characteristics and thus where to expect bottlenecks. This
+article provides benchmarks for the second purpose, and it measures and
+interprets the cost of various common language operations on different
+hardware platforms. This information can help you look for performance
+bottlenecks and avoid accidentally building bottlenecks into your
+applications. It also helps you avoid the sin of premature
+optimization: if a simple, clean algorithm is expected to run fast
+enough, wait to optimize until after the need is clear. <em>(3,200
+words)</em>
+
+<p><font size=-1><strong>Note:</strong> The <strong>Arrays</strong> section
+of this article was updated 9/3/98 to correct some benchmark
+numbers, which were flawed due to a bug in the benchmark code, which
+produced inaccurate results. The significant updated portion appears
+in bold below.</font>
+
+
+</BLOCKQUOTE>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER><P>
+<STRONG>By Mark Roulo</STRONG><P>
+<table align="right" cellpadding="0" cellspacing="10" border="0">
+<tr><td colspan="2" align="center">
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+</font>
+<P>
+<BR>
+</td>
+</tr>
+<tr>
+<td width="1" align="center" bgcolor="#000000">
+</td>
+<td>
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+<p>
+
+<P>
+<P>
+<P>
+<P>
+
+</font>
+<P>
+<P>
+</td></tr></table>
+
+<!-- begin body text -->
+
+As a Java programmer, knowing the performance characteristics of
+different Java environments running on different operating systems is
+crucial. Having this information at hand can prepare you for potential
+bottlenecks, and it can save you from building bottlenecks into your
+apps accidentally.  This article tests six different Java environments
+-- some with a just-in-time (JIT) compiler, some without -- running on
+four OS's and provides valuable benchmarks that can help you out with
+your Java development efforts.
+
+<P>
+<FONT SIZE="+1"><STRONG>The testing process</STRONG></FONT><BR>
+To understand performance characteristics and therefore where to expect
+bottlenecks, I ran benchmark tests on the following typical Java
+language constructs:  method call, try/catch set-up, object creation,
+array creation, and array accessing. I didn't run tests of network I/O, 
+disk I/O, or AWT performance -- the focus was purely on Java language
+performance.  The tests were designed to avoid paging to disk.
+
+<P>
+Most of the tests required no garbage collection, so general system
+performance cannot be inferred by simply adding the results from the
+various tests together.  I ran no general computation tests like "Tower
+of Hanoi" or "Sieve of Erastothenes."  I omitted general computational
+tests because they're dedicated to showing relative speeds on differing platforms, 
+and rarely show <em>where</em> bottlenecks are.
+
+<P>
+<FONT SIZE="+1"><STRONG>Target systems and environments</STRONG></FONT><BR>
+The benchmark tests I ran for this article were performed on a
+range of hardware systems and Java environments. The Java environments
+were:
+
+<P>
+<TABLE WIDTH="50%" BORDER="1" BGCOLOR="FFFF99">
+<CAPTION><FONT SIZE="+1">Java Environments</FONT></CAPTION>
+<TR BGCOLOR="CCCCFF"><TD><strong>Description</strong></TD><TD><strong>JIT</strong></TD></TR>
+<TR><TD>Netscape Navigator 4.05 for Windows NT/95</TD><TD>Symantec Java! ByteCode Compiler Version 210.065</TD></TR>
+<TR><TD>Netscape Navigator 4.05 for Power Macintosh</TD><TD>Yes</TD></TR>
+<TR><TD>Internet Explorer 4.0 for Windows NT/95</TD><TD>Yes</TD></TR>
+<TR><TD>Symantec Visual Cafe PDE 2.1a for Windows NT/95 JDK 1.1.4</TD><TD>Symantec Java! ByteCode Compiler Version i300.009</TD></TR>
+<TR><TD>Netscape Navigator 4.05 for SPARC</TD><TD>No</TD></TR>
+<TR><TD>Netscape Navigator 4.05 for Linux</TD><TD>No</TD></TR>
+</TABLE>
+
+<P>
+The hardware/OS platforms were:
+
+<P>
+<TABLE WIDTH="50%" BORDER="1" BGCOLOR="FFFF99">
+<CAPTION><FONT SIZE="+1">Hardware/OS Systems</FONT></CAPTION>
+<TR BGCOLOR="CCCCFF"><TD><strong>OS</strong>              </TD><TD><strong>CPU (MegaHertz = MHz)</strong></TD><TD>      <strong>RAM (megabytes = MB)</strong></TD></TR>
+<TR><TD>Windows NT SP3</TD>    <TD>Pentium Pro 200 MHz</TD>      <TD>128 MB</TD></TR>
+<TR><TD>Macintosh 7.6.1</TD>   <TD>PowerPC 604e 180 MHz</TD>     <TD>&nbsp;</TD></TR>
+<TR><TD>Solaris 2.5.1</TD>     <TD>UltraSPARC-1 167 MHz</TD>     <TD>128 MB</TD></TR>
+<TR><TD>Red Hat Linux 5.1</TD> <TD>Pentium-II 266 MHz</TD>       <TD>128 MB</TD></TR>
+<TR><TD>Windows NT </TD>       <TD>Dual Pentium Pro 180 MHz</TD> <TD>32 MB</TD></TR>
+</TABLE>
+
+<P>
+To compare the various systems, I converted the time it took to perform
+the various operations into clock cycles.  Why? This conversion makes
+it possible to compare machines running CPUs at different speeds.  In
+general, comparing different CPUs to each other in such a crude way can
+be dangerous, because the amount of work that can be done in a single clock
+cycle can vary a lot from CPU to CPU.  The 80486, for example, averages
+about 2 clock cycles per instruction, while the Pentium executes
+closer to 1.  Fortunately, the PowerPC 604e, UltraSPARC, Pentium Pro,
+and Pentium-II are roughly comparable.  While cache behavior could be
+different between the various systems, this seems not to affect the
+performance much.  All the tests ran without paging to disk.
+
+<P>
+<strong>Special resources</strong><br>
+For information relating to the benchmark testing, I've provided the 
+following links:
+
+<P>
+<ul>
+<li>An HTML page with an <A HREF="speed/Applet/index.html">applet</a> that runs the tests
+
+<P>
+<li>The <A HREF="speed/Main.java">source code</a> for the applet
+
+<P>
+<li>The <A HREF="speed/Main.cpp">source code</a> for the C/C++
+
+<P>
+<li>An Excel 95 <A HREF="speed/Performance.xls">spreadsheet</a> with all the data
+</ul>
+
+<P>
+<FONT SIZE="+1"><STRONG>Method calls</STRONG></FONT><BR>
+The ability to write and call methods (or functions) is a critical tool for
+building and maintaining large systems.  Methods allow programs to
+be broken into smaller, more easily handled chunks. However, if method
+calls slow down a running program, programmers will design systems with
+bigger parts and fewer method calls.
+
+<P>
+Object-oriented programming increases the number of method calls when
+compared to equivalent procedural programs because
+it encourages more <em>data encapsulation</em> (among other things).  Compare these
+two lines of code and notice the extra method call in the line showing
+encapsulation:
+
+<P>
+<CENTER>
+<TABLE>
+<TR>
+<TD><strong>Without encapsulation:</strong></TD><TD>int x = someObject.x;</TD>
+</TR>
+<TR>
+<TD><strong>With encapsulation:</strong></TD><TD>int x = someObject.getX();</TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<P>
+Encapsulation increases the number of method calls in a program, so it
+is essential that those method calls execute quickly.  If method calls
+don't execute quickly, programmers often attempt to speed up their
+programs by avoiding encapsulating the data in their programs.
+Examples of this lack of encapsulation can be seen in some of the
+standard Java classes.  The class <code>java.awt.Dimension</code>, for
+example, is written with both of its data members public.  A better
+design would have hidden the data members by making them private and
+providing public accessor methods:
+
+<P>
+<pre>
+       private int height;
+       private int width;
+
+       public int getHeight()
+       {
+           return height;
+       }
+
+       public int getWidth()
+       {
+           return width;
+       }
+
+</pre>
+
+<P>
+Because the early Java environments shipped without JIT compilers,
+method calls were much slower than current Java environments.  The
+encapsulation shown above may have been unacceptably slow to run in those
+early environments, with the result that the data is public.
+
+<P>
+Fortunately, today's JIT-enabled Java environments perform method calls
+much faster than earlier non-JIT-enabled environments.  There is less
+of a need to make speed-versus-encapsulation tradeoffs in these
+environments.  With the best JIT, static methods returning nothing and
+taking no arguments execute in 2 clock cycles. Non-static method
+calls returning integer quantities execute in 7 clock cycles.
+Non-static method calls returning floating-point numbers execute in
+8 clock cycles.
+
+<P>
+By making these accessor methods <code>final</code>, you can expect to
+reduce these times by one clock cycle.  When running in a Java
+environment without a JIT, method calls take anywhere between 280 and
+500 clock cycles. A good JIT can speed up method calls by a factor of
+more than 100 -- so in target environments with a good JIT, you can
+have both encapsulation and speed.  In environments without a JIT or
+with a poor JIT, programmers must decide on a case-by-case basis
+whether speed or encapsulation is more important.  A good JIT can make
+this decision unnecessary.
+
+<P>
+The graph below shows the effect adding parameters has on the time
+a method call takes under various JIT-enabled Java runtimes.  While the
+time a method call takes to execute varies considerably from one
+runtime to another, adding parameters to a method call frequently
+increases the time required to execute the method call.  Often, adding
+one parameter does not increase the time required to execute a method
+call.  Only rarely does adding a parameter speed up a method call. Also
+note that, regardless of the number of parameters, there is some
+general overhead in setting up a method call.  Once a decision has been
+made to call a method, adding a few parameters will have little impact
+on the time it takes to make the call.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="422" HEIGHT="363" SRC="FunctionCallTime.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Notice that the JIT for Netscape Navigator on the Macintosh runs 25 
+percent as fast as the JITs on Windows.  I have no numbers for JIT-enabled 
+runtimes on Solaris.  If you expect to support Macintosh and Windows clients, 
+be sure to do your performance benchmarking on Macintoshes as well as on
+Windows clients.
+
+<P>
+Several popular environments do not yet come with a JIT.  The graph
+below shows the effects of adding parameters to the time a method call
+takes under two non-JIT-enabled Java runtimes.  You'll see that the
+cost of adding parameters is still mostly monotonic but that the
+general overhead of setting up a function call is very high.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="430" HEIGHT="361" SRC="FunctionCallTime2.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Both Linux and Solaris have Java environments with JITs, but not under
+Navigator.  I did not have access to these environments and have no data
+for them.
+
+<P>
+Finally, this graph compares the best Java time with C/C++.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="390" HEIGHT="306" SRC="FunctionCallTime3.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Java seems to be only about 1 clock cycle slower than C++.
+
+<P>
+<strong>Recommendations</strong><br>
+If you expect to run with a reasonable JIT, method calls are no more
+expensive in Java than they are in C or C++.  If you expect to run on a
+system without a JIT or without a very good one, this is something
+you'll have to pay attention to in the speed-critical portions of your
+application.
+
+<P>
+<FONT SIZE="+1"><STRONG>Object creation</STRONG></FONT><BR>
+Modern microprocessors run at speeds of up to 600 MHz. Unfortunately,
+modern DRAM runs considerably slower.  In burst mode, a modern SDRAM
+runs at about 100 MHz.  If programs accessed memory in a truly random
+fashion, CPUs would spend most of their time waiting for DRAM.
+Fortunately, programs don't access memory in a random fashion.  If a
+memory location has been accessed recently, it is quite likely to be
+accessed again soon.  This property is called <em>locality of
+reference.</em>
+
+<P>
+Unfortunately, the locality of reference for Java programs can be worse
+than it is in equivalent C or C++ programs.  This is due to object
+creation. Object creation in a Java program is fundamentally different
+than that in an equivalent C or C++ program.  Many of the small
+temporary objects that C or C++ would create on the stack are created
+on the heap in Java.
+
+<P>
+In C and C++, when these objects are discarded at the end of a method
+call, the space is available for more temporary objects, and the stack
+area is almost always in the on-board Level 1 cache.
+
+<P>
+In Java, the objects are discarded, but the space typically is not
+reclaimed until the next garbage collection -- which usually doesn't
+happen until the heap memory is exhausted.  The space for the
+<em>next</em> temporary object in a Java program always comes off the
+heap. The space for the new temporary object is rarely in a cache, and
+so the initial use of the temporary object should run slower than the
+initial use of a temporary object in a C or C++ program.
+
+<P>
+With the current Java runtimes, performance is also affected because
+creating a new object is roughly as costly as a <code>malloc</code> in
+C or a <code>new</code> operation in C++.  Creating a new object in any
+of these ways takes hundreds or even thousands of clock cycles.  In C
+and C++, creating an object on the stack takes about 20 clock cycles.
+C and C++ programs create many temporary objects on the stack, but Java
+programs don't have this option.
+
+<P>
+The graph below shows the cost of creating objects of various sizes
+under different JIT-enabled Java runtimes.  The fastest time is 1.2
+microseconds running under Microsoft Internet Explorer (IE) 4.0 on a 200-MHz
+Pentium Pro. The time would likely be cut to about 0.6 microseconds on 
+a 400-MHz Pentium-II.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="424" HEIGHT="386" SRC="ObjectCreationTime.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Netscape Navigator on Macintosh, IE on Windows NT, and Symantec on Windows NT 
+all show reasonable profiles: the time required to create an object
+increases as the object size increases.
+
+<P>
+Navigator on Windows, however, shows very different behavior.  The time
+it takes to create objects of different sizes cycles up and down.
+Objects containing 4 integers ("ints") and objects containing 12 ints
+are created fastest.  A similar profile appears under Navigator for
+Solaris as well.  I have no explanation for this profile, but there is
+a solution. When running applets under Navigator, padding object sizes
+should result in a faster-running applet if object creation proves to
+be a performance bottleneck.
+
+<P>
+The graph below shows object-creation times for objects of different
+sizes when running under non-JIT-enabled systems.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="431" HEIGHT="362" SRC="ObjectCreationTime2.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+One important thing to notice is that a JIT does not speed up object
+creation time nearly as much as it speeds up method calls.  The
+bottlenecks for the same program running under a JIT-enabled
+environment and running under a non-JIT-enabled environment might well
+be different -- if only subtly -- because of this.  While profiling a
+Java application, you should bear in mind whether or not the profiler
+has performance characteristics similar to the expected runtime
+environment or environments.
+
+<P>
+Finally, the following graph shows the Java object-creation time in the
+best environment, compared to C/C++ object creation on the stack.  The
+speed difference is about 10 to 12 times.  Certain shortcuts can speed
+up C/C++ object creation on the stack slightly more than these
+already-fast times, but the shortcuts can reduce the maintainability of
+the C/C++ code. Java doesn't give you the option of taking these
+shortcuts.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="419" HEIGHT="308" SRC="ObjectCreationTime3.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+<strong>Recommendations</strong><br>
+In all Java runtime environments, object creation can become a
+performance bottleneck.  Here JITs don't help very much!  Object
+creation is something you must pay attention to for all Java programs.
+This doesn't mean you should avoid object creation at all cost --
+simply be aware of where you are creating lots of objects, and watch
+for bottlenecks there.
+
+<P>
+<FONT SIZE="+1"><STRONG>Synchronization</STRONG></FONT><BR>
+Correct, nontrivial, multithreaded environments require some degree of
+synchronization.  The chart below shows the times required for various
+monitor operations in clock cycles.
+
+<P>
+<TABLE BORDER="1" BGCOLOR="99CCCC">
+<CAPTION><FONT SIZE="+1">Cost of synchronized operation both with and without monitor on object and class</FONT></CAPTION>
+<TR BGCOLOR="FFCC99"><TD><strong>System</strong></TD> <TD><strong>Object synch w/o monitor</strong></TD>  <TD><strong>Object synch w/ monitor</strong></TD>  <TD><strong>Class synch w/o monitor</strong></TD>  <TD><strong>Class synch w/ monitor</strong></TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Windows NT</strong></TD>            <TD>589</TD>   <TD>259</TD>  <TD>571</TD>  <TD>289</TD>  </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under MacOS</strong></TD>                 <TD>1209</TD>  <TD>1116</TD> <TD>1195</TD> <TD>1193</TD> </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Internet Explorer 4 under Windows NT</strong></TD>   <TD>39</TD>    <TD>41</TD>   <TD>255</TD>  <TD>236</TD>  </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Symantec with JIT under Windows NT</strong></TD>     <TD>92</TD>    <TD>36</TD>   <TD>88</TD>   <TD>32</TD>   </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Solaris</strong></TD>               <TD>371</TD>   <TD>258</TD>  <TD>465</TD>  <TD>352</TD>  </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Linux</strong></TD>                 <TD>488</TD>   <TD>417</TD>  <TD>519</TD>  <TD>429</TD>  </TR>
+</TABLE>
+
+<P>
+Several things are worth noting:
+
+<P>
+First, synchronizing on an already-acquired monitor is usually, but not
+always, cheaper than acquiring and releasing the monitor.
+
+<P>
+Second, the time required for the same operation when executed by
+different Java runtimes can vary by a ratio of almost 40 to 1! The
+bottlenecks on various systems may well be different if there is a
+significant amount of synchronization.  Profiling for performance
+bottlenecks should, if at all possible, be achieved on a runtime 
+similar to the target runtime.
+
+<P>
+Third, on some systems the cost of synchronizing a class is
+significantly higher than the cost of synchronizing an object.  This
+suggests using a single global object instead of static class methods.
+
+<P>
+Fourth, the overhead of synchronization makes the cost of calling a
+synchronized method significantly more expensive than calling a
+nonsynchronized method.  This can make synchronization prohibitive for
+accessor functions. A nonsynchronized accessor that takes 7 to 10 clock
+cycles could take 500 clock cycles if it is synchronized.  This does
+not suggest writing thread-unsafe code, but does suggest that designing
+the program to require little or no synchronization might be a good
+strategy for speed-critical portions of the program.
+
+<P>
+<strong>Recommendations</strong><br>
+With a good Java runtime environment, synchronizing is more expensive
+than method calls but much less expensive than object creation.  In
+this case, the only thing to worry about is synchronization operations
+in tight inner loops.  When running in a poor Java runtime,
+synchronization can become more of a bottleneck in general.
+
+<P>
+<FONT SIZE="+1"><STRONG>Exception overhead</STRONG></FONT><BR>
+Since exceptions are the chosen mechanism for handling errors in Java,
+it makes sense to ask how expensive setting up a <code>try/catch</code>
+block is.  The answer is:  0 to 3 clock cycles on JIT-enabled systems,
+and 30 to 40 on non-JIT-enabled systems.  The runtime cost of
+<code>try/catch</code> blocks is close to zero.  If
+<code>try/catch</code> blocks don't appear inside speed-critical inner
+loops, they should have no impact on application performance.
+
+<P>
+The primary alternative to exceptions is to use status-return codes.
+Because using exceptions reduces the number of parameters needed in
+method calls, using exceptions in Java programs can actually speed up
+the program when compared to an equivalent program using status codes.
+
+<P>
+The cost of throwing an exception is higher than the cost of setting up
+a <code>try/catch</code> block.  Since exception handling shouldn't be
+done on a speed-critical path, this doesn't bother me and I haven't
+benchmarked it.
+
+<P>
+<strong>Recommendations</strong><br>
+The use of exceptions to handle error conditions in a Java program should
+run the non-error case faster than using status return codes!  Setting
+up <code>try/catch</code> blocks is fast.
+
+<P>
+<FONT SIZE="+1"><STRONG>Arrays <EM><font size=-1>(updated 9/3/98)</font></EM></STRONG></FONT><BR>
+Java, unlike C and C++, implements arrays as true objects with
+defined behavior, including range checking. This language difference
+imposes overhead on a Java application using arrays that is missing
+in equivalent C and C++ programs. Creating an array is object
+creation. Further, using an array involves the overhead of checking
+the array object for null and then range-checking the array index. C
+and C++ omit the checks for null and the range checks, and thus
+should run faster.
+
+<P>
+<strong>
+The benchmark program measures the cost of accessing array elements for
+various sized arrays.  Unfortunately, a bug in the benchmark program
+reports the results for short arrays incorrectly, so only the results
+for the largest array size should be considered valid. (The bug also affects
+the other results, but only a few percentage points at most, and this is
+as accurate as I expect for tests as simple as these).  Because I
+don't have easy access to the most of the systems on which the test were
+run, I can't rerun the tests with the bug fixed.
+
+<P>
+This table shows the cost of accessing each array element for 
+the largest array size, which is relatively uneffected by the error.
+</strong>
+
+<P>
+The times in clock cycles are:
+
+<P>
+<TABLE BORDER="1" BGCOLOR="99CCCC">
+<TR BGCOLOR="FFCC99"><TD><strong>Runtime</strong></TD> <TD><strong>Member variable</strong></TD> <TD><strong>int[512000]</strong></TD>   </TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 on NT</strong></TD><TD>6</TD>    <TD>16</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 on Macintosh</strong></TD><TD>25</TD>  <TD>40</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>IE 4</strong></TD><TD>7</TD><TD>11</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Symantec 2.1 JIT on NT</strong></TD><TD>2</TD>  <TD>2</TD>   </TR>
+</TABLE>
+
+<P>
+In general, array access is 2 or 3 times as expensive as accessing
+non-array elements, even for large arrays when the range checking can
+be amortized over many accesses.  Only the Symantec JIT compiler is
+successful in optimizing most of this overhead, and this may occur only 
+in the case of large arrays.
+
+<P>
+Array access for non-JIT-enabled environments is about one-tenth 
+as fast as JIT-enabled environments.
+
+<P>
+Finally, because Java doesn't have arrays of objects but only arrays
+of object references, the relative cost of creating a Java array of
+objects compared to a C or C++ array of objects goes up as the array
+gets longer.
+
+<P>
+<strong>Recommendations</strong><br>
+Array access is slower than accessing atomic variables.  If you expect
+to access a few elements in an array many times each, copying them to
+atomic variables can speed things up.
+
+<P>
+<FONT SIZE="+1"><STRONG>Casting</STRONG></FONT><BR>
+The Java programming language does not have templates. Because of this,
+Java collection classes -- queues, stacks, dictionaries, and so on --
+typically store references to type <code>java.lang.Object</code>.
+Before using a reference retrieved from a collection class, the
+reference must be converted from a reference to a
+<code>java.lang.Object</code> into a reference to the underlying
+object's type.  Converting a reference to a Java object from one type
+to another is called <em>casting.</em>  Casting from a type at the top
+of an inheritance hierarchy (<code>java.lang.Object</code> is at the
+very top) to a type further down the inheritance hierarchy is called
+<em>downcasting.</em>  Casting is more necessary in Java programs than
+in equivalent C++ programs, and therefore the speed of casting is more
+important, too.
+
+<P>
+Another major use of casting is for accessing interfaces. Using
+interfaces in function signatures makes for more flexible program
+architectures, but applications using interfaces generally run slightly
+slower than applications using classes in function signatures.
+
+<P>
+The times for various cast operations are shown below.
+
+<P>
+<TABLE BORDER="1" BGCOLOR="99CCCC">
+<CAPTION><FONT SIZE="+1">Cost of cast operations in clock cycles</FONT></CAPTION>
+<TR BGCOLOR="FFCC99"><TD><strong>System</strong></TD> <TD><strong>Shallow downcast</strong></TD>  <TD><strong>Deep downcast</strong></TD>  <TD><strong>Accessing 1st interface</strong></TD>  <TD><strong>Accessing 18th interface</strong></TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Windows NT</strong></TD>            <TD>46</TD>   <TD>45</TD>  <TD>160</TD>  <TD>84</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under MacOS</strong></TD>                 <TD>603</TD>  <TD>658</TD> <TD>779</TD> <TD>803</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Internet Explorer 4 under Windows NT</strong></TD>   <TD>14</TD>    <TD>14</TD>   <TD>305</TD>  <TD>152</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Symantec with JIT under Windows NT</strong></TD>     <TD>2</TD>    <TD>2</TD>   <TD>2</TD>   <TD>2</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Solaris</strong></TD>               <TD>56</TD>   <TD>39</TD>  <TD>91</TD>  <TD>61</TD></TR>
+<TR><TD BGCOLOR="FFCC99"><strong>Navigator 4 under Linux</strong></TD>                 <TD>79</TD>   <TD>75</TD>  <TD>230</TD>  <TD>111</TD></TR>
+</TABLE>
+
+<P>
+Symantec has the best cast performance and has reduced the cost of
+casts to almost nothing. The Macintosh executes casts especially
+slowly. Finally, for most environments, casting an object reference to
+the <em>last</em> declared interface is faster than casting to the
+first declared interface. Declaring the most commonly used interface
+last will speed things up marginally with little or no loss of program
+clarity.
+
+<P>
+<strong>Recommendations</strong><br>
+With a good Java runtime, casting runs very fast.  If you expect to run
+in an environment with a good Java runtime, you can use interfaces with
+almost no performance penalty.  You can also use collection classes
+with almost no performance penalty.
+
+<P>
+<FONT SIZE="+1"><STRONG>Conclusions</STRONG></FONT><BR>
+The results of the benchmarking tests discussed above do not lead to
+any grand, unifying conclusion.  But it is instructive to list a number
+of unrelated conclusions.
+
+<P>
+<UL>
+<LI>Object creation time is quite a bit more expensive in Java than it
+is in C or C++. With a good JIT and runtime, it is 10 to 12 times as
+expensive; with a poor runtime, it is about 25 times as expensive.
+JITs improve this situation, but not nearly as much as  they improve
+things like method-call speed.  For performance in Java programming,
+the most important thing to pay attention to -- but not panic over --
+usually is the amount of object creation. Netscape Navigator has very 
+strange object-creation behavior on some platforms.
+
+<P>
+<LI><code>try/catch</code> blocks are cheap -- a lot cheaper than I
+expected.
+
+<P>
+<LI>Declaring the most commonly-used interface for a class last will
+result in a small speed increase. Symantec, which
+doesn't care, and Navigator under the Macintosh, which is already very
+slow anyway, are exceptions to this rule.
+
+<P>
+<LI>With a JIT, method calls are about as fast in Java as in C or C++.
+
+<P>
+<LI>Synchronization is several times more expensive than a method call,
+but still not as expensive as object creation.  The cost of
+synchronization varies a lot between the various Java runtimes.
+
+<P>
+<LI>Array access is 2 or 3 times as expensive as member variable
+access.  A good JIT can almost eliminate this overhead for large
+arrays.
+
+<P>
+<LI>The <em>relative</em> speed of different activities varies a lot
+from platform to platform and between JIT-enabled and non-JIT-enabled
+systems.  To find the bottlenecks in your program you must profile your
+application on a system with performance characteristics similar to the
+systems on which you expect your application to run.  The bottlenecks
+when running on a Macintosh may differ from the bottlenecks when
+running on Linux.
+</UL>
+
+<P>
+<FONT SIZE="+1"><STRONG>Acknowledgments</STRONG></FONT><BR>
+Generating and analyzing the data in this article involved valuable
+effort on the part of many people. I would like to thank:
+
+<P>
+<UL>
+<LI>Forrest Bennett, Stanford University, who contributed conjectures
+for some of the odd things I found.
+
+<P>
+<LI>Greg Dougherty, Molecular Software, who helped find a Macintosh
+environment that would run all the tests without crashing.
+
+<P>
+<LI>Eric Enders, Netscape, who provided Solaris data.
+
+<P>
+<LI>Dara Golden, my favorite wife, who provided Windows data.
+
+<P>
+<LI>Dee and Rayna Golden, T-Square Design, who provided more Macintosh
+support
+
+<P>
+<li>Eric Roulo, who contributed Windows data.
+
+<P>
+<LI>Bob Scott, Broderbund, who contributed the Linux numbers.
+
+<P>
+<LI>Bernie Su, UC San Diego, who provided Windows data.
+
+<P>
+<LI>Sal Zaragoza, who provided Solaris data.
+</UL>
+
+<!-- end body text -->
+
+<P>
+<CENTER><table cellpadding="0" border="0">
+<tr><td>
+</td></tr></table></CENTER>
+
+<P>
+<P>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<A NAME="resources"><STRONG>Resources</STRONG></a>
+<UL>
+<LI>There isn't much information about HotSpot available (as of mid-July 1998), but one Web page with some data claims "Short lived object benchmark: 18 secs classic VM, 8 sec's on Jview, 6 secs malloc/free C, 2 secs HotSpot". If these numbers are representative, we should expect to see object creation time drop to about 3 times greater than C/C++ stack allocation, down from 10 to 12 times greater. <BR>
+<A HREF="http://java.sun.com/javaone/javaone98/keynotes/panel/bullets.htm">http://java.sun.com/javaone/javaone98/keynotes/panel/bullets.htm</a>
+
+<LI>An interesting theoretical paper on object creation is "Garbage collection can be faster than stack allocation" by Andrew Appel.  The paper is about object creation in Lisp, not Java, but still is relevant.  It provides some ammunition for the position that in theory, Java object allocation on the heap can be faster than C/C++ object creation on the stack.<BR>
+<A HREF="http://www.cs.princeton.edu/fac/appel/papers/45.ps">http://www.cs.princeton.edu/fac/appel/papers/45.ps</a>
+        
+<LI>A really good book on garbage collection is <em>Garbage Collection: Algorithms for Automatic Dynamic Memory Management</em> by Richard Jones and Rafael Lins. I recommend this book to all serious Java programmers.<BR>
+<A HREF="http://www.cs.ukc.ac.uk/people/staff/rej/gcbook/gcbook.html">http://www.cs.ukc.ac.uk/people/staff/rej/gcbook/gcbook.html</a>
+        
+<LI>The article "Optimizing NET Compilers for Improved Java Performance" in the June 1997 issue of <em>Computer</em> compares some actual programs under various Java environments and also under C/C++.  It provides a good starting point for answering the question, How fast is Java compared to C++? (as of mid-1997).<BR>
+<A HREF=""></a>
+             
+<LI>SPEC announced its JVM98 benchmark suite August 19 (just after we published this article)<BR>
+<A HREF="http://www.spec.org/osg/jvm98/">http://www.spec.org/osg/jvm98/</a>
+
+<LI>A "FAQs (Frequently Asked Questions) About the Multimedia Benchmarking Committee (MBC)" document notes in part: "SPECjava will benchmark Java performance, which means essentially benchmarking the computing platform, as well as the Java virtual machine, the browser, and perhaps the just-in-time compiler."<BR>
+<A HREF="http://www.specbench.org/gpc/Dec97/mbc.static/mbcfaq~1.html">http://www.specbench.org/gpc/Dec97/mbc.static/mbcfaq~1.html</a>
+
+<LI>See <em>JavaWorld</em>'s article "HotSpot: A new breed of virtual machine"<BR>
+<A HREF="http://www.javaworld.com/jw-03-1998//jw-03-hotspot.html">http://www.javaworld.com/jw-03-1998/jw-03-hotspot.html</a>
+</UL>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<STRONG>About the author</STRONG><BR>
+
+Mark programmed using C and C++ for eight years.  He has been using
+Java professionally for the last two years.  His main programming
+interests are portable, distributed, concurrent software as well as
+software engineering.
+<BR CLEAR="ALL")
+
+<P>
+<P>
+<center>
+<a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a>
+<a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a>
+<a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a>
+<a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a>
+<a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a>
+</center>
+<P>
+<CENTER><A HREF="jw-copyright98.html"><IMG BORDER="0" width="338" height="20" SRC="b-copyright98.gif" ALT="[(c) Copyright 1998 Web Publishing Inc., an IDG Communications company]"></a></CENTER>
+<P>
+If you have problems with this magazine, contact
+<BR>
+URL: http://www.javaworld.com/javaworld/jw-09-1998/jw-09-speed.html
+<BR>
+Last modified: <!--#echo var="LAST_MODIFIED"-->
+</BODY>
+</HTML>
+

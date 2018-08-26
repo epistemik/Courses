@@ -1,0 +1,162 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+115 32 67 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 196 136 15 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 
+-1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 387 "# CROUT FACTORIZATION FOR TRIDIAGO
+NAL LINEAR SYSTEMS ALGORITHM 6.7\n#\n# To solve the n x n linear syste
+m\n#\n# E1:  A[1,1] X[1] + A[1,2] X[2]                  = A[1,n+1]\n# \+
+E2:  A[2,1] X[1] + A[2,2] X[2] + A[2,3] X[3]    = A[2,n+1]\n# :\n# .\n
+# E(n):          A[n,n-1] X[n-1] + A[n,n] X[n]    = A[n,n+1]\n#\n# INP
+UT:   the dimension n; the entries of A.\n#\n# OUTPUT:  the solution X
+(1), ..., X(N)." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 85 "alg067 := proc()
+ local AA, OK, NAME, INP, N, I, A, B, NN, C, BB, Z, X, II, FLAG, OUP;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "printf(`This is Crout Method fo
+r tridiagonal linear systems.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+67 "printf(`The array will be input from a text file in the order:\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "printf(`all diagonal entries,
+ all lower sub-diagonal entries, all `);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "printf(`upper sub-diagonal\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 43 "printf(`entries, inhomogeneous term.\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(`Place as many entries as de
+sired on each line, but separate `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 25 "printf(`entries with\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 
+"printf(`at least one blank.\\n\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 61 "printf(`Has the input file been created? - enter Y or
+ N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "AA := scanf(`%c`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 28 "if AA = `Y` or AA = `y` then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\\\n
+ame.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for exampl
+e:   A:\\\\DATA.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME :
+= scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(N
+AME,READ,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 56 "printf(`Input the number of equations - an int
+eger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := scanf(`%d`)[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 42 "# A(I,I) is stored in A(I), 1 <= I <= n */" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 31 "A[I-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "# the
+ lower sub-diagonal A(I,I-1) is stored" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 24 "#in B(I), 2 <= I <= n */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"for I from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "B[I-1] := \+
+fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "# the upper sub-diagonal A(I,I+1) i
+s stored" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "#in C(I), 1 <= I <= n-1
+ */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "NN := N-1;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 21 "for I from 1 to NN do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "C[I-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "# A(I,N+1) i
+s stored in BB(I), 1 <= I <= n */" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "for I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "BB[I-1]
+ := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`The number must be a p
+ositive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "printf(`The program wi
+ll end so the input file can be created.\\n`)" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE
+ then" }}{PARA 0 "" 0 "" {TEXT -1 33 "Steps 1-3 set up and solve LZ = \+
+B" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "" 0 "" {TEXT -1 
+62 "the entries of U overwrite C and the entries of  L overwrite A" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "C[0] := C[0]/A[0];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 19 "Z[0] := BB[0]/A[0];" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from 2 to NN do
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "A[I-1] := A[I-1]-B[I-1]*C[I-2];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "C[I-1] := C[I-1]/A[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "Z[I-1] := (BB[I-1]-B[I-1]*Z[I-2])/A
+[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "A[N-1] := A[N
+-1]-B[N-1]*C[N-2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "Z[N-1] := (BB
+[N-1]-B[N-1]*Z[N-2])/A[N-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}
+{PARA 0 "" 0 "" {TEXT -1 23 "STEPS 4, 5 solve UX = Z" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 17 "X[N-1] := Z[N-1];" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for II from 1 to NN do" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "I := NN-II+1;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 29 "X[I-1] := Z[I-1]-C[I-1]*X[I];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:
+\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`for e
+xample:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 
+"NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := \+
+fopen(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 64 "fprintf(OU
+P, `CROUT METHOD FOR TRIDIAGONAL LINEAR SYSTEMS\\n\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 34 "fprintf(OUP, `The solution is\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1 to N do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 33 "fprintf(OUP, `  %12.8f`, X[I-1]);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "fprintf
+(OUP, `\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created sucessfully`,NA
+ME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 
+20 "6#>%'alg067G:6\"62%#AAG%#OKG%%NAMEG%$INPG%\"NG%\"IG%\"AG%\"BG%#NNG
+%\"CG%#BBG%\"ZG%\"XG%#IIG%%FLAGG%$OUPGF&F&C0-%'printfG6#%VThis~is~Crou
+t~Method~for~tridiagonal~linear~systems.|+G-F:6#%XThe~array~will~be~in
+put~from~a~text~file~in~the~order:|+G-F:6#%enall~diagonal~entries,~all
+~lower~sub-diagonal~entries,~all~G-F:6#%4upper~sub-diagonal|+G-F:6#%?e
+ntries,~inhomogeneous~term.|+|+G-F:6#%gnPlace~as~many~entries~as~desir
+ed~on~each~line,~but~separate~G-F:6#%.entries~with|+G-F:6#%7at~least~o
+ne~blank.|+|+|+G-F:6#%RHas~the~input~file~been~created?~-~enter~Y~or~N
+.|+G>8$&-%&scanfG6#%#%cG6#\"\"\">8%%&FALSEG@%5/FV%\"YG/FV%\"yGC(-F:6#%
+SInput~the~file~name~in~the~form~-~drive:\\name.ext|+G-F:6#%<for~examp
+le:~~~A:\\DATA.DTA|+G>8&&-FY6#%#%sGFfn>8'-%&fopenG6%Fio%%READG%%TEXTG>
+FinFjn?(F&FgnFgnF&/FinFjnC%-F:6#%MInput~the~number~of~equations~-~an~i
+nteger.|+G>8(&-FY6#%#%dGFfn@%2\"\"!F]qC)?(8)FgnFgnF]q%%trueG>&8*6#,&Fg
+qFgn!\"\"Fgn&-%'fscanfG6$F_p%#%fGFfn?(Fgq\"\"#FgnF]qFhq>&8+F\\rF_r>8,,
+&F]qFgnF^rFgn?(FgqFgnFgnFjrFhq>&8-F\\rF_r?(FgqFgnFgnF]qFhq>&8.F\\rF_r>
+Fin%%TRUEG-%'fcloseG6#F_p-F:6#%HThe~number~must~be~a~positive~integer.
+|+G-F:6#%XThe~program~will~end~so~the~input~file~can~be~created.|+G@$/
+FinFesC4>&F_s6#Fdq*&FctFgn&F[rFdtF^r>&8/Fdt*&&FcsFdtFgnFftF^r?(FgqFerF
+gnFjrFhqC%>Fjq,&FjqFgn*&FgrFgn&F_s6#,&FgqFgn!\"#FgnFgnF^r>F^s*&F^sFgnF
+jqF^r>&FitF\\r*&,&FbsFgn*&FgrFgn&FitFbuFgnF^rFgnFjqF^r>&F[r6#F[s,&F^vF
+gn*&&FhrF_vFgn&F_s6#,&F]qFgnFduFgnFgnF^r>&FitF_v*&,&&FcsF_vFgn*&FbvFgn
+&FitFdvFgnF^rFgnF^vF^r>&80F_vFgv?(81FgnFgnFjrFhqC$>Fgq,(FjrFgnFawF^rFg
+nFgn>&F_wF\\r,&FhuFgn*&F^sFgn&F_w6#FgqFgnF^r-F:6#%:Choice~of~output~me
+thod:|+G-F:6#%51.~Output~to~screen|+G-F:6#%82.~Output~to~text~file|+G-
+F:6#%6Please~enter~1~or~2.|+G>82F^q@%/FhxFerC&Fbo-F:6#%>for~example:~~
+~A:\\OUTPUT.DTA|+G>FioFjo>83-Fap6%Fio%&WRITEGFdp>Fay%(defaultG-%(fprin
+tfG6$Fay%NCROUT~METHOD~FOR~TRIDIAGONAL~LINEAR~SYSTEMS|+|+G-Fhy6$Fay%1T
+he~solution~is|+G?(FgqFgnFgnF]qFhq-Fhy6%Fay%)~~%12.8fGFfw-Fhy6$Fay%\"|
++G@$0FayFfyC$-Fgs6#Fay-F:6$%COutput~file~%s~created~sucessfullyGFio-%'
+RETURNGFdtF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg067();
+" }}{PARA 6 "" 1 "" {TEXT -1 358 "This is Crout Method for tridiagonal
+ linear systems.\nThe array will be input from a text file in the orde
+r:\nall diagonal entries, all lower sub-diagonal entries, all upper su
+b-diagonal\nentries, inhomogeneous term.\n\nPlace as many entries as d
+esired on each line, but separate entries with\nat least one blank.\n
+\n\nHas the input file been created? - enter Y or N." }}}{EXCHG {PARA 
+0 "> " 0 "" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "Input th
+e file name in the form - drive:\\name.ext\nfor example:   A:\\DATA.DT
+A" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg067.dta" 
+}}{PARA 6 "" 1 "" {TEXT -1 43 "Input the number of equations - an inte
+ger." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "
+" {TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Outpu
+t to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 117 "CROUT METHOD FOR TR
+IDIAGONAL LINEAR SYSTEMS\n\nThe solution is\n    1.00000000    1.00000
+000    1.00000000    1.00000000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"
+\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 101 0
+" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

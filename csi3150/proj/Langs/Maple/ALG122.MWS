@@ -1,0 +1,174 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+255 136 5 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Warning" 2 7 1 {CSTYLE "" -1 -1 "" 0 1 0 0 255 1 0 0 0 0 0 0 
+1 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Maple Output" 0 11 1 
+{CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 
+0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 "" 0 1 0 0 231 0 
+0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 475 "# HEAT EQUATION BACKWARD-DIFFERENC
+E ALGORITHM 12.2\n#\n# To approximate the solution to the parabolic pa
+rtial-differential\n# equation subject to the boundary conditions\n#  \+
+              u(0,t) = u(l,t) = 0, 0 < t < T = max t,\n# and the initi
+al conditions\n#                u(x,0) = F(x), 0 <= x <= l:\n#\n# INPU
+T:   endpoint l; maximum time T; constant ALPHA; integers m, N.\n#\n# \+
+OUTPUT:  approximations W(I,J) to u(x(I),t(J)) for each\n#          I \+
+= 1, ..., m-1 and J = 1, ..., N." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+117 "alg122 := proc() local F, OK, FX, FT, ALPHA, M, N, M1, M2, N1, H,
+ K, VV, I, W, L, U, J, T, Z, I1, FLAG, NAME, OUP, X;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 70 "printf(`This is the Backward-Difference Method f
+or Heat Equation.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "printf(`
+Input the function F(X) in terms of x.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 36 "printf(`For example:  sin(Pi*x)\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "F := unapply(F,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+54 "printf(`The lefthand endpoint on the X-axis is 0.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 56 "printf(`Input the righthand endpoint on the X-axis.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FX := scanf(`%f`)[1];" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 15 "if FX <= 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "printf(`Must be positive number.\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK :
+= TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 60 "printf(`Input the maximum value of the time
+ variable T.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "FT := scanf(`
+%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if FT <= 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive number.\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`Input the constant alpha.\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 24 "ALPHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "
+while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "printf(`Inpu
+t integer m = number of intervals on X-axis\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 69 "printf(`and N = number of time intervals - separate
+d by a blank.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "printf(`Note
+ that m must be 3 or larger.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "N := sc
+anf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if M <= 2 or  N <=
+ 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Numbers are not \+
+within correct range.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 10 "M1 := M-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 
+"M2 := M-2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "N1 := N-1;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "H :
+= FX/M;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "K := FT/N;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 26 "VV := ALPHA*ALPHA*K/(H*H);" }}{PARA 0 "" 0 "
+" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I from \+
+1 to M1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "W[I-1] := F(I*H);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 3" }}{PARA 0 "" 0 "" {TEXT -1 72 "STEPS 3 through 11 solve a tridi
+agonal linear system using Algorithm 6.7" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "L[0] := 1+2*VV;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 
+"U[0] := -VV/L[0];" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "for I from 2 to M2 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 27 "L[I-1] := 1+2*VV+VV*U[I-2];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "U[I-1] := -VV/L[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "L[M1-1] := 1+2*VV+VV*U[M2-1];" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 \+
+to N do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "" 0 "" 
+{TEXT -1 9 "current t" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "T := J*K;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "Z[0] := W[0]/L[0];" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for I fr
+om 2 to M1 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "Z[I-1] := (W[I-1]+
+VV*Z[I-2])/L[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "W[M
+1-1] := evalf(Z[M1-1]);" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for I1 from 1 to M2 do" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 13 "I := M2-I1+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 36 "W[I-1] := evalf(Z[I-1]-U[I-1]*W[I]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "" 0 "" {TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "pr
+intf(`Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 35 "printf(`2. Output to text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`for example:  A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "fprintf(OUP, `BACKWARD-DIFFE
+RENCE METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "fprintf(OU
+P, `  I         X(I)     W(X(I),%12.6e)\\n`, FT);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 21 "for I from 1 to M1 do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "X := I*H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprint
+f(OUP, `%3d %11.8f %14.8f\\n`, I, X, W[I-1]);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 
+"printf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 7 "" 0 "" {TEXT 
+-1 38 "ning, `F` is implicitly declared local" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg122G:6\"6;%\"FG%#OKG%#FXG%#FTG%&ALPHAG%\"MG%\"NG%
+#M1G%#M2G%#N1G%\"HG%\"KG%#VVG%\"IG%\"WG%\"LG%\"UG%\"JG%\"TG%\"ZG%#I1G%
+%FLAGG%%NAMEG%$OUPG%\"XGF&F&C3-%'printfG6#%enThis~is~the~Backward-Diff
+erence~Method~for~Heat~Equation.|+G-FC6#%HInput~the~function~F(X)~in~t
+erms~of~x.|+G-FC6#%9For~example:~~sin(Pi*x)|+G>8$&-%&scanfG6#%#%aG6#\"
+\"\">FM-%(unapplyG6$FM%\"xG-FC6#%KThe~lefthand~endpoint~on~the~X-axis~
+is~0.|+G>8%%&FALSEG?(F&FTFTF&/FhnFinC%-FC6#%MInput~the~righthand~endpo
+int~on~the~X-axis.|+G>8&&-FP6#%#%fGFS@%1Fao\"\"!-FC6#%:Must~be~positiv
+e~number.|+G>Fhn%%TRUEG>FhnFin?(F&FTFTF&F[oC%-FC6#%QInput~the~maximum~
+value~of~the~time~variable~T.|+G>8'Fbo@%1FepFhoFio>FhnF]p-FC6#%;Input~
+the~constant~alpha.|+G>8(Fbo>FhnFin?(F&FTFTF&F[oC(-FC6#%QInput~integer
+~m~=~number~of~intervals~on~X-axis|+G-FC6#%Zand~N~=~number~of~time~int
+ervals~-~separated~by~a~blank.|+G-FC6#%BNote~that~m~must~be~3~or~large
+r.|+G>8)&-FP6#%#%dGFS>8*F\\r@%51F[r\"\"#1FarFho-FC6#%GNumbers~are~not~
+within~correct~range.|+G>FhnF]p@$/FhnF]pC7>8+,&F[rFT!\"\"FT>8,,&F[rFT!
+\"#FT>8-,&FarFTFasFT>8.*&FaoFTF[rFas>8/*&FepFTFarFas>80*(F]qFerF]tFTFj
+sFes?(81FTFTF_s%%trueG>&826#,&FctFTFasFT-FM6#*&FctFTFjsFT>&836#Fho,&FT
+FTF`tFer>&84F`u,$*&F`tFTF^uFasFas?(FctFerFTFcsFdtC$>&F_uFht,(FTFTF`tFe
+r*&F`tFT&Fdu6#,&FctFTFesFTFTFT>&FduFht,$*&F`tFTFjuFasFas>&F_u6#,&F_sFT
+FasFT,(FTFTF`tFer*&F`tFT&Fdu6#,&FcsFTFasFTFTFT?(85FTFTFarFdtC'>86*&F^w
+FTF]tFT>&87F`u*&&FgtF`uFTF^uFas?(FctFerFTF_sFdt>&FewFht*&,&FftFT*&F`tF
+T&FewF^vFTFTFTFjuFas>&FgtFfv-%&evalfG6#&FewFfv?(88FTFTFcsFdtC$>Fct,(Fc
+sFTFfxFasFTFT>Fft-Fbx6#,&FjwFT*&FavFT&Fgt6#FctFTFas-FC6#%:Choice~of~ou
+tput~method:|+G-FC6#%51.~Output~to~screen|+G-FC6#%82.~Output~to~text~f
+ile|+G-FC6#%6Please~enter~1~or~2.|+G>89F\\r@%/F^zFerC&-FC6#%SInput~the
+~file~name~in~the~form~-~drive:\\name.ext|+G-FC6#%=for~example:~~A:\\O
+UTPUT.DTA|+G>8:&-FP6#%#%sGFS>8;-%&fopenG6%Fiz%&WRITEG%%TEXTG>F_[l%(def
+aultG-%(fprintfG6$F_[l%=BACKWARD-DIFFERENCE~METHOD|+|+G-Fh[l6%F_[l%E~~
+I~~~~~~~~~X(I)~~~~~W(X(I),%12.6e)|+GFep?(FctFTFTF_sFdtC$>8<F\\u-Fh[l6'
+F_[l%3%3d~%11.8f~%14.8f|+GFctFa\\lFft@$0F_[lFf[lC$-%'fcloseG6#F_[l-FC6
+$%COutput~file~%s~created~sucessfullyGFiz-%'RETURNGF`uF&F&" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg122();" }}{PARA 6 "" 1 "" {TEXT 
+-1 120 "This is the Backward-Difference Method for Heat Equation.\nInp
+ut the function F(X) in terms of x.\nFor example:  sin(Pi*x)" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "sin(Pi*x)" }}{PARA 6 "" 1 "" 
+{TEXT -1 85 "The lefthand endpoint on the X-axis is 0.\nInput the righ
+thand endpoint on the X-axis." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 47 "Input the maximum value of the \+
+time variable T." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0.5" }}
+{PARA 6 "" 1 "" {TEXT -1 25 "Input the constant alpha." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 137 "I
+nput integer m = number of intervals on X-axis\nand N = number of time
+ intervals - separated by a blank.\nNote that m must be 3 or larger." 
+}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "10 50" }}{PARA 6 "" 1 "" 
+{TEXT -1 88 "Choice of output method:\n1. Output to screen\n2. Output \+
+to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 348 "BACKWARD-DIFFERENCE
+ METHOD\n\n  I         X(I)     W(X(I),5.000000e-01)\n  1   .10000000 \+
+     .00289801\n  2   .20000000      .00551235\n  3   .30000000      .
+00758710\n  4   .40000000      .00891917\n  5   .50000000      .009378
+17\n  6   .60000000      .00891917\n  7   .70000000      .00758710\n  \+
+8   .80000000      .00551235\n  9   .90000000      .00289801" }}{PARA 
+11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 0 "" }}}}{MARK "1 112 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

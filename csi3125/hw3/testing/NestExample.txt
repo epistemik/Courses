@@ -1,0 +1,12 @@
+program P;
+  var X: integer;
+  procedure A;
+    var Y: char;
+    procedure B;
+      var Z: Boolean;
+      begin SB end;
+    begin SA end;
+  procedure C;
+    var Z: integer;
+    begin SC end;
+  begin SP end;

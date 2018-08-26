@@ -1,0 +1,119 @@
+
+Write grammars for four languages: phrases, sentences, lists, gardens.
+
+================
+
+A long phrase
+-------------
+
+the dog
+
+the dog that chased the cat
+
+the dog that chased the cat
+    that caught the mouse
+
+the dog that chased the cat
+    that caught the mouse that chewed the shoe
+
+the dog that chased the cat
+    that caught the mouse that chewed the shoe
+    that squashed the fruit
+
+the dog that chased the cat
+    that caught the mouse that chewed the shoe
+    that squashed the fruit that stained the chair
+
+and so on...
+
+##      <long phrase>   -->
+##         the  <noun>
+##         [  that  <verb>  <long phrase>  ]
+##      
+##      <noun>   -->
+##         cat   |   chair   |   dog   |
+##         fruit   |   mouse   |   shoe   |   ...
+##      
+##      <verb>   -->
+##         caught   |   chased   |   chewed   |
+##         squashed   |   stained   |   ...
+
+================
+
+A sentence
+----------
+
+the dog that chased the cat
+    that caught the mouse that chewed the shoe
+    that squashed the fruit that stained the chair
+    grabbed the sausage that tempted the wolf
+    that fought the fox that scared the squirrel
+    that bit the twig that cracked the nut
+    that hit the boy that lifted the hat
+
+##      <sentence>   -->
+##         <long phrase>  <verb>  <long phrase>
+##      
+##      <long phrase>   -->
+##         the  <noun>
+##         [  that  <verb>  <long phrase>  ]
+##      
+##      <noun>   -->   boy   |   cat   |   ...
+##      
+##      <verb>   -->   bit   |   caught   |   ...
+
+================
+
+A Lisp list
+-----------
+
+A list is either empty:
+
+        ()
+
+or it is a sequence of elements, all enclosed in parentheses:
+
+        ( element ... element )
+
+Each element is either a list, or an atom. Atoms are identifiers made
+up of letters. We assume that a scanner converts a text on input into
+a sequence of tokens-atoms and parentheses.
+
+Example: ( abc ( xyz foo ) () ( bar ) yeah )
+
+##      <list>     -->   (  {  <element>  }  )
+##      
+##      <element>  -->   <atom>   |   <list>
+##      
+##      <atom>     -->   <letter>  {  <letter>  }
+
+Note: If a list is written in a file, elements have to separated by
+blank spaces. A lexical analyzer groups letters into atoms because
+it recognizes spaces. We need not worry about all this in a grammar.
+
+================
+
+A flower garden
+---------------
+
+We have four kinds of things in our garden:
+
+        W     wall
+        B     big flower
+        S     small flower
+        H     house
+
+A garden has a wall, then some big flowers, another wall, some small
+flowers (more than we have big ones) and finally a house.
+
+##      <garden>   -->
+##         W  <big and small>  <more small>  H
+##      
+##      <big and small>   -->
+##         B  W  S   |
+##         B  <big and small>  S
+##      
+##      <more small>   -->
+##         S  {  S  }
+
+================

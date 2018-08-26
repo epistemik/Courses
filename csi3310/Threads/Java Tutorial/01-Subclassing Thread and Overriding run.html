@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://java.sun.com/docs/books/tutorial/essential/threads/simple.html -->
+<HTML><HEAD><TITLE>Subclassing Thread and Overriding run</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="00-What Is a Thread.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26></A> <A 
+      href="02-Implementing the Runnable Interface.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+<BR><B>Lesson</B>: Doing Two or More Tasks At Once: Threads </FONT>
+<H2>Subclassing Thread and Overriding run </H2>
+<BLOCKQUOTE>The first way to customize what a thread does when it is running 
+  is to subclass <CODE>Thread</CODE> (itself a <CODE>Runnable</CODE> object) and 
+  override its empty <CODE>run</CODE> method so that it does something. Let's 
+  look at the <CODE>SimpleThread</CODE> class, the first of two classes in this 
+  example, which does just that: 
+  <BLOCKQUOTE><PRE>public class SimpleThread extends Thread {
+    public SimpleThread(String str) {
+        super(str);
+    }
+    public void run() {
+        for (int i = 0; i &lt; 10; i++) {
+            System.out.println(i + " " + getName());
+            try {
+                sleep((long)(Math.random() * 1000));
+            } catch (InterruptedException e) {}
+        }
+        System.out.println("DONE! " + getName());
+    }
+}
+</PRE></BLOCKQUOTE>The first method in the <CODE>SimpleThread</CODE> class is 
+  a constructor that takes a <CODE>String</CODE> as its only argument. This 
+  constructor is implemented by calling a superclass constructor and is 
+  interesting to us only because it sets the <CODE>Thread</CODE>'s name, which 
+  is used later in the program. 
+  <P>The next method in the <CODE>SimpleThread</CODE> class is the 
+  <CODE>run</CODE> method. The <CODE>run</CODE> method is the heart of any 
+  <CODE>Thread</CODE> and where the action of the <CODE>Thread</CODE> takes 
+  place. The <CODE>run</CODE> method of the <CODE>SimpleThread</CODE> class 
+  contains a <CODE>for</CODE> loop that iterates ten times. In each iteration 
+  the method displays the iteration number and the name of the 
+  <CODE>Thread</CODE>, then sleeps for a random interval of up to 1 second. 
+  After the loop has finished, the <CODE>run</CODE> method prints 
+  <CODE>DONE!</CODE> along with the name of the thread. That's it for the 
+  <CODE>SimpleThread</CODE> class. 
+  <P>The <CODE>TwoThreadsTest</CODE> class provides a <CODE>main</CODE> method 
+  that creates two <CODE>SimpleThread</CODE> threads: one is named "Jamaica" and 
+  the other is named "Fiji". (If you can't decide on where to go for vacation 
+  you can use this program to help you decide--go to the island whose thread 
+  prints "DONE!" first.) 
+  <BLOCKQUOTE><PRE>public class TwoThreadsTest {
+    public static void main (String[] args) {
+        new SimpleThread("Jamaica").start();
+        new SimpleThread("Fiji").start();
+    }
+}
+</PRE></BLOCKQUOTE>The <CODE>main</CODE> method also starts each thread 
+  immediately following its construction by calling the <CODE>start</CODE> 
+  method. To save you from typing in this program, click here for the source 
+  code to the <A 
+  href="example/SimpleThread.java" 
+  target=source><FONT color=#bb000f><CODE>SimpleThread</CODE></FONT></A><A 
+  href="example/SimpleThread.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> 
+  class and here for the source code to the <A 
+  href="example/TwoThreadsTest.java" 
+  target=source><FONT color=#bb000f><CODE>TwoThreadsTest</CODE></FONT></A><A 
+  href="example/TwoThreadsTest.java"><IMG 
+  align=absMiddle alt="(in a .java source file)" border=0 height=11 
+  src="Thread_files/sourceIcon.gif" width=11></A> 
+  program. Compile and run the program and watch your vacation fate unfold. You 
+  should see output similar to the following: 
+  <BLOCKQUOTE><PRE>0 Jamaica
+0 Fiji
+1 Fiji
+1 Jamaica
+2 Jamaica
+2 Fiji
+3 Fiji
+3 Jamaica
+4 Jamaica
+4 Fiji
+5 Jamaica
+5 Fiji
+6 Fiji
+6 Jamaica
+7 Jamaica
+7 Fiji
+8 Fiji
+9 Fiji
+8 Jamaica
+DONE! Fiji
+9 Jamaica
+DONE! Jamaica
+</PRE></BLOCKQUOTE>(Looks like I'm going to Fiji!!) Notice how the output from 
+  each thread is intermingled with the output from the other. This is because 
+  both <CODE>SimpleThread</CODE> threads are running concurrently. Thus, both 
+  <CODE>run</CODE> methods are running at the same time and each thread is 
+  displaying its output at the same time as the other. 
+  <P>
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Try This:</STRONG>&nbsp; Change the main program so that it creates 
+    a third thread with the name "Bora Bora". Compile and run the program again. 
+    Does this change the island of choice for your vacation? Here's the code for 
+    the new main program, which is now named <A 
+    href="example/ThreeThreadsTest.java" 
+    target=source><FONT color=#bb000f><CODE>ThreeThreadsTest</CODE></FONT></A><A 
+    href="example/ThreeThreadsTest.java"><IMG 
+    align=absMiddle alt="(in a .java source file)" border=0 height=11 
+    src="Thread_files/sourceIcon.gif" 
+    width=11></A>. 
+    <HR>
+  </BLOCKQUOTE>
+  <P>Now, let's look at another example, the <CODE>Clock</CODE> applet, that 
+  uses the other technique for providing a <CODE>run</CODE> method to a 
+  <CODE>Thread</CODE>. </P></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="00-What Is a Thread.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26></A> <A 
+      href="02-Implementing the Runnable Interface.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

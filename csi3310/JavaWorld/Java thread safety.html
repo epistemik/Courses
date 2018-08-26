@@ -1,0 +1,1537 @@
+<HTML>
+<HEAD>
+<META VALUE="keyword" CONTENTS="javaworld">
+<TITLE>Design for thread safety - JavaWorld - August 1998</TITLE>
+<META NAME="description" content="Design for thread safety -- JavaWorld, August 1998">
+<META NAME="keywords" content="JavaWorld, Java, design, Java design, Java exceptions">
+<META NAME="author" content="Bill Venners">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#551a8b">
+
+<!--#config timefmt="%A, %B %d, %Y"-->
+
+<center>
+<table width="525" cellpadding="2" border="0">
+<tr>
+<td colspan="2" align="left" valign="center">
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+August 1998
+</font></strong>
+</td> <td align="center" valign="bottom">
+ 
+<IMG width="65" height="20" SRC="javaworld_logo.gif" ALT="JavaWorld">
+ 
+</td> <td colspan="2" align="right" valign="center">
+ 
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+<a href="jw-subscribe.html?article">Get FREE JW e-mail alerts</a>
+</font></strong>
+ 
+</td>
+</tr>
+<tr>
+<td align="center"><a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a></td>
+<td><a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a></td>
+<td><a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a></td>
+<td><a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a></td>
+<td><a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a></td>
+</tr>
+<tr>
+<td align="center" colspan="5">
+<BR CLEAR="ALL">
+</td>
+</tr>
+</table>
+</center>
+<CENTER><IMG SRC="green.gif" HEIGHT="4" WIDTH="468" ALT=""></CENTER>
+<H1 ALIGN="CENTER">
+Design for thread safety
+</H1>
+<H3 ALIGN="CENTER">
+Design tips on when and how to use synchronization, immutable objects, and thread-safe wrappers
+</H3>
+<BLOCKQUOTE>
+<STRONG>Summary</STRONG><BR>
+This installment of the <strong>Design Techniques</strong> column gives
+you design guidelines that pertain to thread safety. It provides a
+background on the concept of thread safety and shows several examples
+of objects that are and are not thread-safe, including two illustrative
+applets. In addition, the article offers guidelines to help you decide
+when thread safety is appropriate and how best to achieve it.
+<EM>(3,000 words)</EM>
+
+</BLOCKQUOTE>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER><P>
+<STRONG>By Bill Venners</STRONG><P>
+<table align="right" cellpadding="0" cellspacing="10" border="0">
+<tr><td colspan="2" align="center">
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+</font>
+<P>
+<BR>
+</td>
+</tr>
+<tr>
+<td width="1" align="center" bgcolor="#000000">
+</td>
+<td>
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+<p>
+
+<P>
+<P>
+<P>
+<P>
+
+</font>
+<P>
+<P>
+</td></tr></table>
+
+<!-- begin body text -->
+
+<IMG ALIGN="LEFT" width="20" height="29" SRC="S.gif" ALT="S">ix months ago I began a series of articles about designing classes and
+objects.  In this month's <strong>Design Techniques</strong> column,
+I'll continue that series by looking at design principles that concern
+thread safety. This article tells you what thread safety is, 
+why you need it, when you need it, and how to go about getting it.
+
+<P>
+<FONT SIZE="+1"><STRONG>What is thread safety?</STRONG></FONT><BR>
+Thread safety simply means that the fields of an object or class always
+maintain a valid state, as observed by other objects and classes, even
+when used concurrently by multiple threads.
+
+<P>
+One of the first guidelines I proposed in this column (see "<a
+href="http://www.javaworld.com/jw-03-1998//jw-03-techniques.html">Designing object initialization</a>") is that you should design classes
+such that objects maintain a valid state, from the beginning of their
+lifetimes to the end. If you follow this advice and create objects
+whose instance variables all are private and whose methods only make
+proper state transitions on those instance variables, you're in good
+shape in a single-threaded environment. But you may get into trouble
+when more threads come along.
+
+<P>
+Multiple threads can spell trouble for your object because often, while
+a method is in the process of executing, the state of your object can
+be temporarily invalid. When just one thread is invoking the object's
+methods, only one method at a time will ever be executing, and each
+method will be allowed to finish before another method is invoked.
+Thus, in a single-threaded environment, each method will be given a
+chance to make sure that any temporarily invalid state is changed into
+a valid state before the method returns.
+
+<P>
+Once you introduce multiple threads, however, the JVM may interrupt the
+thread executing one method while the object's instance variables are
+still in a temporarily invalid state. The JVM could then give a
+different thread a chance to execute, and that thread could call a
+method on the same object. All your hard work to make your instance
+variables private and your methods perform only valid state
+transformations will not be enough to prevent this second thread from
+observing the object in an invalid state.
+
+<P>
+Such an object would not be thread-safe, because in a multithreaded
+environment, the object could become corrupted or be observed to have
+an invalid state. A thread-safe object is one that always maintains a
+valid state, as observed by other classes and objects, even in a
+multithreaded environment.
+
+<P>
+<FONT SIZE="+1"><STRONG>Why worry about thread safety?</STRONG></FONT><BR>
+There are two big reasons you need to think about thread safety when
+you design classes and objects in Java:
+
+<P>
+<ol>
+<li>Support for multiple threads is built into the Java language and
+API
+
+<P>
+<li>All threads inside a Java virtual machine (JVM) share the same heap
+and method area
+</ol>
+
+<P>
+Because multithreading is built into Java, it is possible that any
+class you design eventually may be used concurrently by multiple
+threads. You needn't (and shouldn't) make every class you design
+thread-safe, because thread safety doesn't come for free.  But you
+should at least <em>think</em> about thread safety every time you
+design a Java class. You'll find a discussion of the costs of thread
+safety and guidelines concerning when to make classes thread-safe later
+in this article.
+
+<P>
+Given the architecture of the JVM, you need only be concerned with
+instance and class variables when you worry about thread safety.
+Because all threads share the same heap, and the heap is where all
+instance variables are stored, multiple threads can attempt to use the
+same object's instance variables concurrently. Likewise, because all
+threads share the same method area, and the method area is where all
+class variables are stored, multiple threads can attempt to use the
+same class variables concurrently.  When you do choose to make a class
+thread-safe, your goal is to guarantee the integrity -- in a
+multithreaded environment -- of instance and class variables declared
+in that class.
+
+<P>
+You needn't worry about multithreaded access to local variables, method
+parameters, and return values, because these variables reside on the
+Java stack. In the JVM, each thread is awarded its own Java stack. No
+thread can see or use any local variables, return values, or parameters
+belonging to another thread.
+
+<P>
+Given the structure of the JVM, local variables, method parameters, and
+return values are inherently "thread-safe."  But instance variables and
+class variables will only be thread-safe if you design your class
+appropriately.
+
+<P>
+<FONT SIZE="+1"><STRONG>RGBColor #1: Ready for a single thread</STRONG></FONT><BR>
+As an example of a class that is <em>not</em> thread-safe, consider the
+<code>RGBColor</code> class, shown below. Instances of this class
+represent a color stored in three private instance variables:
+<code>r</code>, <code>g</code>, and <code>b</code>. Given the class
+shown below, an <code>RGBColor</code> object would begin its life in a
+valid state and would experience only valid-state transitions, from the
+beginning of its life to the end -- but only in a single-threaded
+environment.
+
+<P>
+<pre>
+// In file threads/ex1/RGBColor.java
+// Instances of this class are NOT thread-safe.
+public class RGBColor {
+
+    private int r;
+    private int g;
+    private int b;
+
+    public RGBColor(int r, int g, int b) {
+
+        checkRGBVals(r, g, b);
+
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    public void setColor(int r, int g, int b) {
+
+        checkRGBVals(r, g, b);
+
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    /**
+    * returns color in an array of three ints: R, G, and B
+    */
+    public int[] getColor() {
+
+        int[] retVal = new int[3];
+        retVal[0] = r;
+        retVal[1] = g;
+        retVal[2] = b;
+
+        return retVal;
+    }
+
+    public void invert() {
+
+        r = 255 - r;
+        g = 255 - g;
+        b = 255 - b;
+    }
+
+    private static void checkRGBVals(int r, int g, int b) {
+
+        if (r < 0 || r > 255 || g < 0 || g > 255 ||
+            b < 0 || b > 255) {
+
+            throw new IllegalArgumentException();
+        }
+    }
+}
+</pre>
+
+<P>
+Because the three instance variables, <code>int</code>s <code>r</code>,
+<code>g</code>, and <code>b</code>, are private, the only way other
+classes and objects can access or influence the values of these
+variables is via <code>RGBColor</code>'s constructor and methods.  The
+design of the constructor and methods guarantees that:
+
+<P>
+<ol>
+<li><code>RGBColor</code>'s constructor will always give the variables
+proper initial values
+
+<P>
+<li>Methods <code>setColor()</code> and <code>invert()</code> will
+always perform valid state transformations on these variables
+
+<P>
+<li>Method <code>getColor()</code> will always return a valid view of
+these variables
+</ol>
+
+<P>
+Note that if bad data is passed to the constructor or the
+<code>setColor()</code> method, they will complete abruptly with an
+<code>InvalidArgumentException</code>. The <code>checkRGBVals()</code>
+method, which throws this exception, in effect defines what it means
+for an  <code>RGBColor</code> object to be valid: the values of all
+three variables, <code>r</code>, <code>g</code>, and <code>b</code>,
+must be between 0 and 255, inclusive. In addition, in order to be
+valid, the color represented by these variables must be the most recent
+color either passed to the constructor or <code>setColor()</code>
+method, or produced by the <code>invert()</code> method.
+
+<P>
+If, in a single-threaded environment, you invoke <code>setColor()</code>
+and pass in blue, the <code>RGBColor</code> object will be blue when
+<code>setColor()</code> returns. If you then invoke
+<code>getColor()</code> on the same object, you'll get blue. In a
+single-threaded society, instances of this <code>RGBColor</code> class
+are well-behaved.
+
+<P>
+<FONT SIZE="+1"><STRONG>Throwing a concurrent wrench into the works</STRONG></FONT><BR>
+Unfortunately, this happy picture of a well-behaved
+<code>RGBColor</code> object can turn scary when other threads enter
+the picture. In a multithreaded environment, instances of the
+<code>RGBColor</code> class defined above are susceptible to two kinds
+of bad behavior: write/write conflicts and read/write conflicts.
+
+<P>
+<strong>Write/write conflicts</strong><br>
+Imagine you have two threads, one thread named "red" and another named
+"blue." Both threads are trying to set the color of the same
+<code>RGBColor</code> object: The red thread is trying to set the color
+to red;  the blue thread is trying to set the color to blue.
+
+<P>
+Both of these threads are trying to write to the same object's instance
+variables concurrently. If the thread scheduler interleaves these two
+threads in just the right way, the two threads will inadvertently
+interfere with each other, yielding a write/write conflict. In the
+process, the two threads will corrupt the object's state.
+
+<P>
+<strong>The <em>Unsynchronized <code>RGBColor</code></em> applet</strong><br>
+The following applet, named <em>Unsynchronized RGBColor</em>,
+demonstrates one sequence of events that could result in a corrupt
+<code>RGBColor</code> object.  The red thread is innocently trying to
+set the color to red while the blue thread is innocently trying to set
+the color to blue. In the end, the <code>RGBColor</code> object
+represents neither red nor blue but the unsettling color, magenta.
+
+<P>
+<strong>APPLET NOT AVAILABLE</strong>
+<P>
+
+To step through the sequence of events that lead to a corrupted
+<code>RGBColor</code> object, press the applet's Step button. Press
+Back to back up a step, and Reset to back up to the beginning. As you
+go, a line of text at the bottom of the applet will explain what's
+happening during each step.
+
+<P>
+For those of you who can't run the applet, here's a table that shows
+the sequence of events demonstrated by the applet:
+
+<P>
+<center>
+<table>
+<tr>
+<td>Thread</td>
+<td>Statement</td>
+<td>r</td>
+<td>g</td>
+<td>b</td>
+<td>Color</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents green</td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread invokes setColor(0, 0, 255)</font></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>checkRGBVals(0, 0, 255);</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.r = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.g = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue gets preempted</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread invokes setColor(255, 0, 0)</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>checkRGBVals(255, 0, 0);</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.r = 255;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.g = 0;</font></code></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.b = 0;</font></code></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread returns</font></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>later, blue thread continues</font></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.b = 255</font></code></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread returns</font></td>
+<td>255</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#FF00FF">&nbsp;</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents magenta</code></td>
+<td>255</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#FF00FF">&nbsp;</td>
+</tr>
+</table>
+</center>
+
+<P>
+As you can see from this applet and table, the <code>RGBColor</code>
+is corrupted because the thread scheduler interrupts the blue thread
+while the object is still in a temporarily invalid state. When the red
+thread comes in and paints the object red, the blue thread is only
+partially finished painting the object blue. When the blue thread
+returns to finish the job, it inadvertently corrupts the object.
+
+<P>
+<FONT SIZE="+1"><STRONG>Read/write conflicts</STRONG></FONT><BR>
+Another kind of misbehavior that may be exhibited in a multithreaded
+environment by instances of this <code>RGBColor</code> class is
+read/write conflicts. This kind of conflict arises when an object's
+state is read and used while in a temporarily invalid state due to the
+unfinished work of another thread.
+
+<P>
+For example, note that during the blue thread's execution of the
+<code>setColor()</code> method above, the object at one point finds
+itself in the temporarily invalid state of black. Here, black is a
+temporarily invalid state because:
+
+<P>
+<ol>
+<li>It is temporary: Eventually, the blue thread intends to set the
+color to blue.
+
+<P>
+<li>It is invalid: No one asked for a black <code>RGBColor</code>
+object.  The blue thread is supposed to turn a green object into blue.
+</ol>
+
+<P>
+If the blue thread is preempted at the moment the object represents
+black by a thread that invokes <code>getColor()</code> on the same
+object, that second thread would observe the <code>RGBColor</code>
+object's value to be black.
+
+<P>
+Here's a table that shows a sequence of events that could lead to just
+such a read/write conflict:
+
+<P>
+<center>
+<table>
+<tr>
+<td>Thread</td>
+<td>Statement</td>
+<td>r</td>
+<td>g</td>
+<td>b</td>
+<td>Color</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents green</td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread invokes setColor(0, 0, 255)</font></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>checkRGBVals(0, 0, 255);</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.r = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.g = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue gets preempted</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread invokes getColor()</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>int[] retVal = new int[3];</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>retVal[0] = 0;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>retVal[1] = 0;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>retVal[2] = 0;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>return retVal;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread returns black</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>later, blue thread continues</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.b = 255</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread returns</font></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents blue</code></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+</table>
+</center>
+
+<P>
+As you can see from this table, the trouble begins when the blue thread
+is interrupted when it has only partially finished painting the object
+blue. At this point the object is in a temporarily invalid state of
+black, which is exactly what the red thread sees when it invokes
+<code>getColor()</code> on the object.
+
+<P>
+<FONT SIZE="+1"><STRONG>Three ways to make an object thread-safe</STRONG></FONT><BR>
+There are basically three approaches you can take to make an object
+such as <code>RGBThread</code> thread-safe:
+
+<P>
+<ol>
+<li>Synchronize critical sections
+<li>Make it immutable
+<li>Use a thread-safe wrapper
+</ol>
+
+<P>
+<FONT SIZE="+1"><STRONG>Approach 1: Synchronizing the critical sections</STRONG></FONT><BR>
+The most straightforward way to correct the unruly behavior exhibited
+by objects such as <code>RGBColor</code> when placed in a multithreaded
+context is to synchronize the object's critical sections. An object's
+<em>critical sections</em> are those methods or blocks of code within
+methods that must be executed by only one thread at a time. Put another
+way, a critical section is a method or block of code that must be
+executed atomically, as a single, indivisible operation. By using
+Java's <code>synchronized</code> keyword, you can guarantee that only
+one thread at a time will ever execute the object's critical sections.
+
+<P>
+To take this approach to making your object thread-safe, you must
+follow two steps: you must make all relevant fields private, and you
+must identify and synchronize all the critical sections.
+
+<P>
+<strong>Step 1: Make fields private</strong><br>
+Synchronization means that only one thread at a time will be able to
+execute a bit of code (a critical section).
+ So even though it's <em>fields</em> you want to coordinate access to among
+multiple threads, Java's mechanism to do so actually coordinates access
+to <em>code.</em> This means that only if you make the data private will you be
+able to control access to that data by controlling access to the code
+that manipulates the data.
+
+<P>
+The first rule to follow when making a class thread-safe through
+synchronizing its critical sections, therefore, is to make its fields
+private. Any field that you need to coordinate multithreaded access to
+must be private, otherwise it may be possible for other classes and
+objects to ignore your critical sections and access the fields
+directly.
+
+<P>
+Not every field must be private -- only those that will be involved in
+any temporarily invalid states created by the object's or class's
+critical sections. For example, constants (static final variables)
+can't be corrupted by multiple threads, so they needn't be private.
+
+<P>
+<strong>Step 2: Identify and synchronize critical sections</strong><br>
+Once you've made the appropriate variables private, you need only mark
+the object's critical sections as synchronized. As mentioned above, a
+<em>critical section</em>is a bit of code that must be executed atomically,
+that is, as a single, indivisible operation. For example, the
+statements:
+
+<P>
+<blockquote>
+<pre>
+this.r = r;
+this.g = g;
+this.b = b;
+</pre>
+</blockquote>
+
+<P>
+must operate atomically for the <code>setColor()</code> method to
+behave as expected in a multithreaded environment. To ensure proper
+behavior, these three statements need to appear as if they were
+executed by a single, indivisible JVM instruction.
+
+<P>
+Note that reads and writes of primitive types and object references are
+atomic by definition, except for <code>long</code>s and
+<code>double</code>s. This means that if you have an <code>int</code>,
+for example, that is independent of any other fields in an object, you
+needn't synchronize code that accesses that field. If two threads were
+to attempt to write two different values to the <code>int</code>
+concurrently, the resulting value would be one or the other. The
+<code>int</code> would never end up with a corrupted value made up of
+some bits written by one thread and other bits written by the other
+thread.
+
+<P>
+The same is not necessarily true, however, for <code>long</code>s and
+<code>double</code>s.  If two different threads were to attempt to
+write two different values to a <code>long</code> concurrently, you
+might just end up with a corrupted value consisting of some bits
+written by one thread and other bits written by the other thread.
+Multithreaded access to <code>long</code>s and <code>double</code>s,
+therefore, should always be synchronized.
+
+<P>
+<strong>RGBColor # 2: Thread safety through synchronization</strong><br>
+Here's a revised version of the <code>RGBColor()</code> class. This
+version, which has its critical sections marked as synchronized, is
+thread-safe:
+
+<P>
+<pre>
+// In file threads/ex2/RGBColor.java
+// Instances of this class are thread-safe.
+public class RGBColor {
+
+    private int r;
+    private int g;
+    private int b;
+
+    public RGBColor(int r, int g, int b) {
+
+        checkRGBVals(r, g, b);
+
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    public void setColor(int r, int g, int b) {
+
+        checkRGBVals(r, g, b);
+
+        synchronized (this) {
+
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+    }
+
+    /**
+    * returns color in an array of three ints: R, G, and B
+    */
+    public int[] getColor() {
+
+        int[] retVal = new int[3];
+
+        synchronized (this) {
+
+            retVal[0] = r;
+            retVal[1] = g;
+            retVal[2] = b;
+        }
+
+        return retVal;
+    }
+
+    public synchronized void invert() {
+
+        r = 255 - r;
+        g = 255 - g;
+        b = 255 - b;
+    }
+
+    private static void checkRGBVals(int r, int g, int b) {
+
+        if (r < 0 || r > 255 || g < 0 || g > 255 ||
+            b < 0 || b > 255) {
+
+            throw new IllegalArgumentException();
+        }
+    }
+}
+</pre>
+
+<P>
+<strong>The <em>Synchronized <code>RGBColor</code></em> applet</strong><br>
+The following applet, named <em>Synchronized RGBColor</em>,
+demonstrates a similar sequence of events to the one that led to a
+corrupt <code>RGBColor</code> object in the previous demonstration
+applet. This applet, however, shows how the thread-safe version of
+<code>RGBColor</code> is able to maintain a valid state, even when
+multiple threads are attempting to write to the object. As before, a
+red thread is trying to set the color to red while a blue thread is
+trying to set the color to blue. In the end, this <code>RGBColor</code>
+object represents not the invalid color magenta, but the valid --
+and satisfying -- color red.
+
+<P>
+<strong>APPLET NOT AVAILABLE</strong>
+<P>
+
+To step through the sequence of events that led to a corrupted
+<code>RGBColor</code> object, press the applet's Step button. Press
+Back to back up a step, and Reset to back up to the beginning. As you
+go, a line of text at the bottom of the applet will explain what's
+happening during each step.
+
+<P>
+For those of you who can't run the applet, here's a table that shows
+the sequence of events demonstrated by the applet:
+
+<P>
+<center>
+<table>
+<tr>
+<td>Thread</td>
+<td>Statement</td>
+<td>r</td>
+<td>g</td>
+<td>b</td>
+<td>Color</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents green</td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread invokes setColor(0, 0, 255)</font></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread acquires lock</font></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>checkRGBVals(0, 0, 255);</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.r = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.g = 0;</font></code></td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+<td bgcolor="#00FF00">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue gets preempted</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread invokes setColor(255, 0, 0)</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread blocks because object locked</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>later, blue thread continues</font></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><code><font color=blue>this.b = 255</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=blue>blue</font></td>
+<td><font color=blue>blue thread returns and releases lock</font></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>later, red thread acquires lock and continues</font></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>checkRGBVals(255, 0, 0);</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.r = 255;</font></code></td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#0000FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.g = 0;</font></code></td>
+<td>255</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#FF00FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><code><font color=red>this.b = 0;</font></code></td>
+<td>255</td>
+<td>0</td>
+<td>255</td>
+<td bgcolor="#FF00FF">&nbsp;</td>
+</tr>
+<tr>
+<td><font color=red>red</font></td>
+<td><font color=red>red thread returns and releases lock</font></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+<tr>
+<td>none</td>
+<td>object represents red</code></td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+<td bgcolor="#FF0000">&nbsp;</td>
+</tr>
+</table>
+</center>
+
+<P>
+Note that this version of <code>RGBColor</code> still has temporarily
+invalid states from time to time. To be specific, at times during the
+sequence shown above this object's state does represent the invalid
+states black and magenta. The trick to synchronization is that while
+an object is having one of those temporarily invalid moments, no other
+classes or objects are allowed to use or observe the state of the
+object via other threads.
+
+<P>
+<FONT SIZE="+1"><STRONG>Approach 2: Immutable objects</STRONG></FONT><BR>
+An alternative way to make an object thread-safe is to make the object
+immutable.  An <em>immutable object</em> is one whose state can't be
+changed once the object is created.
+
+<P>
+Immutable objects are, by their very nature, thread-safe simply because
+threads have to be able to write to an object's instance variables to
+experience a read/write or write/write conflict.  Because no methods
+(only the constructor) of an immutable object actually write to the
+object's instance variables, the object is by definition thread-safe.
+
+<P>
+In this approach to making an object thread-safe, you don't mark
+critical sections as synchronized. Instead, you separate out the
+critical sections that read instance variables from those that write to
+instance variables. The critical sections that read are left as-is.
+The critical sections that write must be changed so that, instead of
+altering the current object's instance variables, they create a new
+object that embodies the new state and returns a reference to that
+object.
+
+<P>
+<FONT SIZE="+1"><STRONG>RGBColor # 3: Thread safety through immutability</STRONG></FONT><BR>
+Here's an immutable version of RGBColor:
+
+<P>
+<pre>
+// In file threads/ex3/RGBColor.java
+// Instances of this immutable class
+// are thread-safe.
+public class RGBColor {
+
+    private final int r;
+    private final int g;
+    private final int b;
+
+    public RGBColor(int r, int g, int b) {
+
+        checkRGBVals(r, g, b);
+
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    /**
+    * returns color in an array of three ints: R, G, and B
+    */
+    public int[] getColor() {
+
+        int[] retVal = new int[3];
+        retVal[0] = r;
+        retVal[1] = g;
+        retVal[2] = b;
+
+        return retVal;
+    }
+
+    public RGBColor invert() {
+
+        RGBColor retVal = new RGBColor(255 - r,
+            255 - g, 255 - b);
+
+        return retVal;
+    }
+
+    private static void checkRGBVals(int r, int g, int b) {
+
+        if (r < 0 || r > 255 || g < 0 || g > 255 ||
+            b < 0 || b > 255) {
+
+            throw new IllegalArgumentException();
+        }
+    }
+}
+</pre>
+
+<P>
+Note that the <code>setColor()</code> method is simply removed, as it
+doesn't make sense in an immutable <code>RGBColor</code> object.  The
+<code>getColor()</code> method, which reads the instance variables, is
+identical to what it has been, except now it doesn't have to be
+synchronized. The <code>invert()</code> method, which writes to the
+instance variables, is changed. Instead of inverting the current
+object's color, this new <code>invert()</code> creates a new
+<code>RGBColor</code> object that represents the inverse of the object
+upon which <code>invert()</code> is invoked, and returns a reference to
+that object.
+
+<P>
+<FONT SIZE="+1"><STRONG>Approach 3: Thread-safe wrappers</STRONG></FONT><BR>
+The third approach to making an object thread-safe is to embed that
+object in a thread-safe wrapper object. In this approach you leave the
+original class (which isn't thread-safe) unchanged and create a
+separate class that is thread-safe. Instances of the new class serve as
+thread-safe "front ends" to instances of the original class.
+
+<P>
+<strong>SafeRGBColor: A thread-safe wrapper</strong><br>
+Here's an example of this approach applied to the very first version of
+<code>RGBColor</code> presented in this article.
+
+<P>
+<pre>
+// In file threads/ex1/SafeRGBColor.java
+// Instances of this class are thread-safe
+// wrappers of RGBColor objects, which are
+// not thread-safe.
+public class SafeRGBColor {
+
+    private RGBColor color;
+
+    public SafeRGBColor(int r, int g, int b) {
+
+        color = new RGBColor(r, g, b);
+    }
+
+    public synchronized void setColor(int r, int g, int b) {
+
+        color.setColor(r, g, b);
+    }
+
+    /**
+    * returns color in an array of three ints: R, G, and B
+    */
+    public synchronized int[] getColor() {
+
+        return color.getColor();
+    }
+
+    public synchronized void invert() {
+
+        color.invert();
+    }
+}
+</pre>
+
+<P>
+<FONT SIZE="+1"><STRONG>Why not just synchronize everything?</STRONG></FONT><BR>
+As mentioned earlier in this article, you don't want to make every
+class you design thread-safe -- only classes whose instances will be
+used concurrently by multiple threads. The reason you don't want to
+make every class thread-safe is that thread safety may involve a
+performance penalty. For example:
+
+<P>
+<ul> 
+<li>Synchronized method invocations generally are going to be
+slower than non-synchronized method invocations. In Sun's current JVM,
+for example, synchronized method invocations are 4 to 6 times slower
+than non-synchronized method invocations. In the future, the speed of
+synchronized method invocations should improve, but they will likely
+never achieve parity with non-synchronized method invocations.
+
+<P>
+<li>Unnecessary synchronized method invocations (and synchronized
+blocks) can cause unnecessary blocking and unblocking of threads, which
+can hurt performance.
+
+<P>
+<li>Immutable objects tend to be instantiated more often, leading to
+greater numbers of often short-lived objects that can increase the work
+of the garbage collector.
+
+<P>
+<li>Synchronization gives rise to the possibility of deadlock, a severe
+performance problem in which your program appears to hang.
+</ul>
+
+<P>
+None of these performance setbacks are good excuses for neglecting to
+make classes that need to thread-safe so, but they do
+constitute good reasons not to make classes thread-safe unnecessarily.
+
+<P>
+<FONT SIZE="+1"><STRONG>Pros and cons of the three approaches to thread safety</STRONG></FONT><BR>
+<strong>Synchronizing critical sections</strong><br>
+Marking your code's critical sections as synchronized is the "normal"
+approach to making classes synchronized.  It is also the only way to
+use <code>wait()</code> and <code>notify()</code> to get threads to
+cooperate towards achieving some common goal. So the guideline
+concerning Approach 1 is simply:
+
+<P>
+<blockquote>Unless special circumstances make it appropriate to use an immutable or
+wrapper object, use Approach 1 to make your class thread-safe: Make
+sure the appropriate instance variables are private and mark the
+critical sections as synchronized.</blockquote>
+
+<P>
+<strong>Using immutable objects</strong><br> 
+Achieving thread safety by making objects immutable (Approach 2) works
+well when objects are small and represent values of a simple abstract
+data type. The Java API includes several examples of immutable objects,
+including <code>String</code> and the primitive type wrappers such as
+<code>Integer</code>, <code>Long</code>, <code>Float</code>,
+<code>Boolean</code>, <code>Character</code>, and so on.
+
+<P>
+It's worth noting that instances of the AWT's <code>Color</code> class
+are immutable. Likewise, the immutable approach may make sense for this
+article's <code>RGBColor</code> class, which is similar in
+functionality to the AWT's <code>Color</code> class, because
+<code>RGBColor</code> objects are small (they contain only 3
+<code>int</code>s) and conceptually represent values of a simple
+abstract data type.
+
+<P>
+Another benefit of immutable objects is that you can pass references to
+them to methods without worrying that the method will change the
+object's state.  In addition, if the overhead of immutability
+(excessive creation of short-lived objects) may at times be too
+inefficient, you can also define a mutable companion class that can be
+used when the immutable version isn't appropriate. An example of this
+design approach in the Java API is the <code>StringBuffer</code> class,
+which serves as a mutable companion to the immutable
+<code>String</code> class. Note that the <code>StringBuffer</code>
+class is also thread-safe, but it uses the "normal" approach: its
+instance variables are private and its critical sections are
+synchronized.
+
+<P>
+<strong>Using wrapper objects</strong><br>
+The wrapper object approach to thread safety (Approach 3) makes the
+most sense when you want to give clients a choice between a version of
+a class that is thread-safe and one that isn't. This approach also
+makes sense when you're a client of someone else's class that isn't
+thread-safe, but you need to use the class in a multithreaded
+environment. Once you define your own thread-safe wrapper for the
+class, you can safely use the class in a multithreaded environment by
+going through your wrapper.
+
+<P>
+A good example of this approach from the Java API comes from
+the 1.2 collections library. The 1.2 collections library defines a
+ hierarchy that includes classes that represent many kinds of
+collections -- none of which are thread-safe. But class
+<code>Collection</code> includes several class methods that will
+enclose a regular collection object in a thread-safe wrapper, so you
+can safely use the object in a multithreaded context.  This design
+gives users of the collections library a choice of using a collections
+object that is thread-safe and one that isn't.
+
+<P>
+Note that a common attribute of wrapper classes like those you would
+use to add thread safety to the enclosed object is that the wrapper
+accepts the same messages as the enclosed object. In other words, often
+a wrapper class will descend from a common superclass or superinterface
+with the enclosed class.  (For those of you familiar with the
+<em>Design Patterns</em> book by Gamma, et. al., this is the
+"decorator" pattern. See <a href="#resources">Resources</a> for more
+information on this book.) This decorator design approach to wrappers, 
+which is exhibited by the thread-safe wrappers of the 1.2 collections
+library, allows the thread safety to be dynamically added or removed
+from an object.
+
+<P>
+The advantage of the approach to wrapping taken by
+<code>SafeRGBColor</code> in this article is that thread safety is
+guaranteed when using a <code>SafeRGBColor</code> object, because the
+enclosed <code>RGBColor</code> object is created by
+<code>SafeRGBColor</code>'s constructor and never returned by its own
+methods or passed to another object's methods. The decorator design
+approach, because the enclosed object is instantiated by the client and
+passed to the constructor of the thread-safe wrapper, requires that
+clients create the enclosed objects themselves first. Thus, to achieve
+thread safety, the decorator approach requires that clients have the
+discipline not to use the enclosed object except through the
+thread-safe wrapper.
+
+<P>
+<FONT SIZE="+1"><STRONG>When to make classes thread-safe</STRONG></FONT><BR>
+When you are designing the classes that compose a Java applet or
+application, your thread-safety decision should be based simply on
+whether or not each class will be exposed to potential write/write or
+read/write conflicts by your programs.  To know whether or not such
+conflicts are possible, you just have to know how your program will
+work.
+
+<P>
+For example, I didn't choose thread safety for any of the classes that
+compose the two simulation applets included above in this article,
+because they won't be exposed to multiple threads. Once the
+<code>init()</code> method of the applet has returned, the only thread
+that will be coursing through the veins of this code is the GUI event
+handler thread -- and there is only one GUI event handler thread. As a
+result, even if a user frantically clicks the Reset button as quickly
+as possible after the Step button, the code of my applet will handle
+the Step button press completely before beginning to handle the Reset
+button press.
+
+<P>
+By contrast, I did make thread-safe certain classes that compose the
+JVM Simulation applets that are delivered on the CD-ROM of my JVM book
+(see <a href="#resources">Resources</a>). These applets have Run and
+Stop buttons as well as Step and Reset buttons.  When the user clicks
+Run, I fire off a thread that animates the applet, making the applet
+run as if the user were clicking Step about twice a second. When the
+user clicks Stop, the even handler thread comes in to stop the
+animation thread but mustn't be allowed to do so before the run thread
+completes its current step and puts the JVM simulator into a valid
+state.
+
+<P>
+If, instead of creating classes for an applet or application, you are
+creating classes for a library, either one that will be shared
+in-house or will serve as a product in its own right, you have a different
+problem. You may not know exactly how the classes will be used. In such
+cases, it may be a good idea to give clients a choice via the
+thread-safe wrapper approach.
+
+<P>
+<FONT SIZE="+1"><STRONG>Conclusion</STRONG></FONT><BR>
+The most important point to take away from this article is that when
+programming in Java, you should at least <em>think</em> about thread
+safety every time you design a class.
+
+<P>
+Here's a collection of the exception guidelines put forth by this
+article:
+
+<P>
+<ul> 
+<li>Given that thread safety can have a performance cost, don't
+make every class thread-safe -- only those classes that will actually
+be used concurrently by multiple threads
+
+<P>
+<li>Don't avoid making classes thread-safe that need to be thread-safe
+out of fear of a performance impact
+
+<P>
+<li>When making an object thread-safe via Approach 1, synchronize only
+the critical sections of the class
+
+<P>
+<li>Use an immutable object especially if the object is small or
+represents a fundamental data type
+
+<P>
+<li>If you can't change a non-thread-safe class, use a wrapper object
+
+<P>
+<li>If you are creating a library of classes that will be used in both
+thread-safe and non-thread-safe requirements, consider making wrappers
+an option
+</ul>
+
+<P>
+<FONT SIZE="+1"><STRONG>Next month</STRONG></FONT><BR>
+In next month's installment of <strong>Design Techniques</strong>, I'll continue the
+series of articles that focus on designing classes and objects.  Next
+month's article, the seventh of this series, will discuss design
+guidelines that pertain to making an object observable.
+
+<P>
+<FONT SIZE="+1"><STRONG>A request for reader participation</STRONG></FONT><BR>
+I encourage your comments, criticisms, suggestions, flames -- all kinds
+of feedback -- about the material presented in this column. If you
+disagree with something, or have something to add, please let me know.
+
+<P>
+You can either participate in a <a
+href="http://www.artima.com/flexiblejava/fjf/threadsafety/index.html">discussion
+forum</a> devoted to this material, enter a comment via the form at the
+bottom of the article, or e-mail me directly using the link provided in
+my bio below.
+<IMG HEIGHT="8" WIDTH="8" SRC="dingbat.gif">
+<P>
+
+<!-- end body text -->
+
+<P>
+<CENTER><table cellpadding="0" border="0">
+<tr><td>
+</td></tr></table></CENTER>
+
+<P>
+<EM><FONT SIZE=-1>The small print: &quot;Designing for Thread Safety&quot; Article Copyright
+(c) 1998 Bill Venners. All rights
+reserved. Synchronized RGBColor and Unsynchronized RGBColor applets Copyright
+(c) 1998 Bill Venners. All rights reserved.</FONT></EM>
+
+<P>
+<P>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<A NAME="resources"><STRONG>Resources</STRONG></a>
+<UL>
+
+<LI>The discussion forum devoted to the material presented in this article.<BR>
+<A HREF="http://www.artima.com/flexiblejava/fjf/threadsafety/index.html">http://www.artima.com/flexiblejava/fjf/threadsafety/index.html</a>
+
+<LI>Recommended books on Java design<BR>
+<A HREF="http://www.artima.com/designtechniques/booklist.html">http://www.artima.com/designtechniques/booklist.html</a>
+
+<LI>Source packet that contains the example code used in this article<BR>
+<A HREF="http://www.artima.com/flexiblejava/code.html">http://www.artima.com/flexiblejava/code.html</a>
+
+<LI>Source code for the JVM Simulator applets, which, as mentioned in the article, include some thread-safe classes. Look at <code>JVMSimulator</code> and <code>Method.java</code> and search for <code>sychronized</code>.<BR>
+<A HREF="http://www.artima.com/insidejvm/applets/sourcecode.html">http://www.artima.com/insidejvm/applets/sourcecode.html</a>
+
+<LI>Object orientation FAQ<BR>
+<A HREF="http://www.cyberdyne-object-sys.com/oofaq/">http://www.cyberdyne-object-sys.com/oofaq/</a>
+
+<LI>7237 Links on Object Orientation<BR>
+<A HREF="http://www.rhein-neckar.de/~cetus/software.html">http://www.rhein-neckar.de/~cetus/software.html</a>
+
+<LI>The Object-Oriented Page<BR>
+<A HREF="http://www.well.com/user/ritchie/oo.html">http://www.well.com/user/ritchie/oo.html</a>
+
+<LI>Collection of information on OO approach<BR>
+<A HREF="http://arkhp1.kek.jp:80/managers/computing/activities/OO_CollectInfor/OO_CollectInfo.html">http://arkhp1.kek.jp:80/managers/computing/activities/OO_CollectInfor/OO_CollectInfo.html</a>
+
+<LI>Design Patterns Home Page<BR>
+<A HREF="http://hillside.net/patterns/patterns.html">http://hillside.net/patterns/patterns.html</a>
+
+<LI>A Comparison of OOA and OOD Methods<BR>
+<A HREF="http://www.iconcomp.com/papers/comp/comp_1.html">http://www.iconcomp.com/papers/comp/comp_1.html</a>
+
+<LI>Object-Oriented Analysis and Design Methods: A Comparative Review<BR>
+<A HREF="http://wwwis.cs.utwente.nl:8080/dmrg/OODOC/oodoc/oo.html">http://wwwis.cs.utwente.nl:8080/dmrg/OODOC/oodoc/oo.html</a>
+
+<LI>Patterns discussion FAQ<BR>
+<A HREF="http://gee.cs.oswego.edu/dl/pd-FAQ/pd-FAQ.html">http://gee.cs.oswego.edu/dl/pd-FAQ/pd-FAQ.html</a>
+
+<LI>Implementing Basic Design Patterns in Java (Doug Lea)<BR>
+<A HREF="http://www.oswego.edu/dl/pats/ifc.html">http://www.oswego.edu/dl/pats/ifc.html</a>
+
+<LI>Patterns in Java AWT<BR>
+<A HREF="http://mordor.cs.hut.fi/tik-76.278/group6/awtpat.html">http://mordor.cs.hut.fi/tik-76.278/group6/awtpat.html</a>
+
+<LI>Software Technology's Design Patterns Page<BR>
+<A HREF="http://www.sw-technologies.com/dpattern/">http://www.sw-technologies.com/dpattern/</a>
+
+<LI>Previous <strong>Design Techniques</strong> articles<BR>
+<A HREF="http://www.javaworld.com/topicalindex/jw-ti-techniques.html">http://www.javaworld.com/topicalindex/jw-ti-techniques.html</a>
+</UL>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<STRONG>About the author</STRONG><BR>
+
+Bill Venners has been writing software professionally for 12 years.
+Based in Silicon Valley, he provides software consulting and <a
+href="http://www.artima.com/javaseminars/index.html">training</a>
+services under the name <A HREF="http://www.artima.com/">Artima
+Software Company</a>.  Over the years he has developed software for the
+consumer electronics, education, semiconductor, and life insurance
+industries. He has programmed in many languages on many platforms:
+assembly language on various microprocessors, C on Unix, C++ on
+Windows, Java on the Web.  He is author of the book:  <A
+HREF="http://www.artima.com/insidejvm/blurb.html"><EM>Inside the Java
+Virtual Machine</EM></a>, published by McGraw-Hill.
+
+<BR CLEAR="ALL")
+
+<P>
+<center>
+<a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a>
+<a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a>
+<a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a>
+<a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a>
+<a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a>
+</center>
+<P>
+<CENTER><A HREF="jw-copyright98.html"><IMG BORDER="0" width="338" height="20" SRC="b-copyright98.gif" ALT="[(c) Copyright 1998 Web Publishing Inc., an IDG Communications company]"></a></CENTER>
+<P>
+If you have problems with this magazine, contact
+<BR>
+URL: http://www.javaworld.com/javaworld/jw-08-1998/jw-08-techniques.html
+<BR>
+Last modified: <!--#echo var="LAST_MODIFIED"-->
+</BODY>
+</HTML>
+

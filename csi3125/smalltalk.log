@@ -1,0 +1,31 @@
+| addIndex index sum |
+sum := 0.
+index := 13.
+addIndex := [ sum := sum + index ].
+addIndex value.
+sum. 13
+
+| sum count |
+sum := 0.
+count := 1.
+[count <= 20]
+	whileTrue: [ sum := sum + count.
+			count := count + 1].
+sum. 210
+
+| sum |
+sum := 0.
+#(2 3 5 7 11) do:
+[:prime | sum := sum + (prime * prime)].
+sum. 208
+
+#(2 3 5 7 11) collect:
+[:prime | prime * prime ]. #(4 9 25 49 121)
+
+| collector |
+collector := [:prime | prime * prime ].
+collector value: #(2 3 5 7 11). >>ERROR!!
+
+[:prime | prime * prime ] value: #(2 3 5 7 11). >>ERROR!!
+
+[:prime | prime * prime ] value: 5. 25

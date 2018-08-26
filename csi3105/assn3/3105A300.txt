@@ -1,0 +1,165 @@
+ CSI 3105                    ASSIGNMENT 3                       Fall, 2000
+ ---------------------------------------------------------------------------
+
+ Due Date: Wednesday, November 15, 2000, by 12:00 (noon) in the appropriate
+           locked CSI 3105 hand-in box, third floor, MacDonald Hall.
+
+ On your assignment and all future assignments, you MUST include the
+ following (failure to do so will result in an immediate LOSS OF 5 MARKS):
+ i)    Your name in the form FIRST NAME followed by LAST NAME.
+ ii)   Your Student ID number at University of Ottawa.
+ iii)  The section in which you are REGISTERED, which I would like you to
+       list as CSI 3105A (even though the section is actually 3105) or
+       CSI 3105B. The CSI 3105A students have the tues/fri. classes, and
+       the CSI 3105B students have the mon/wed. classes.
+       
+ Please be sure to explain all of your solutions carefully and clearly.
+ To be complete, any worst case analysis you do must state the input size,
+ the basic operations being counted, and an input which gives the worst case
+ (you should state these things in your solution, even
+ if some of them are given in the question).
+
+ This assignment will be marked out of 60.
+
+1.  [15 marks]
+    Consider the following problem.  You have an endless supply of 5 cent,
+    4 cent and 1 cent stamps.  You need to send a letter, and it will cost
+    you N cents.  You really dislike licking the stamps, so you wish to
+    figure out which stamps to use so that you use as few stamps as possible
+    and such that the amount on the letter is exactly N.
+
+    For example:
+    If N=27, then there several ways to get N, such as:
+    * 5 of the 5 cent stamps, 2 of the 1 cent stamps, for a total of 7
+      stamps
+    * 4 of the 5 cent stamps, 1 of the 4 cent stamps and 3 of the 1 cent
+      stamps, for a total of 8 stamps
+    * 3 of the 5 cent stamps, 3 of 4 cent stamps, for a total of 6 stamps
+      (which turns out to be the best solution, using the fewest stamps)
+
+   a)  Design and describe a dynamic programming algorithm for this problem
+       for a general value of N.
+       Here is my hint:  Suppose the last stamp I lick has value k.  Then the
+       best solution will be the best solution for value N - k, plus 1 for the
+       last stamp. Of course, I have to consider the fact that I have 3 values
+       for k to check.
+
+   b)  Illustrate your algorithm for the example above (i.e. for N = 27)
+
+   c)  Do a complexity analysis of your algorithm, counting the number of
+       comparisons.  Use N as your input size (even though N doesn't
+       really represent the size of the data).
+
+
+2.  [12 marks]
+    Suppose you are given a directed graph G=(V,E), and a specific node
+    k in V.  You wish to answer the following question:  Does node k
+    have the same number of in-neighbours as out-neighbours (i.e. does
+    node k have the same in-degree and out-degree)? Discuss CLEARLY what
+    the complexity would be to answer this question for each of the
+    following data structures for G (which were discussed in class).  Note
+    that while discussing the complexity, you will need to give some
+    desciption regarding HOW you would solve this problem in each case (this
+    description does not have to be detailed pseudocode, but instead
+    should be a clear description in English regarding what part of the
+    data structure you need to scan and why--enough that you can
+    talk about the complexity).  For your analysis, count the number of
+    "looks" you make in the data structures.
+
+    a)  Edge list
+    b)  Adjacency matrix
+    c)  Adjacency list (where it is the out-neighbours listed)
+
+3.  [10 marks]
+    Consider the following adjacency matrix for a graph G=(V,E) whose nodes
+    are labelled v1, v2,..., v7 (I have used the symbol * to denote infinity):
+       
+        0  1  *  6  *  7  *
+        1  0  5  9  *  8  *
+        *  5  0  2  4  *  *
+ W =    6  9  2  0  *  9  9
+        *  *  4  *  0  *  9
+        7  8  *  9  *  0  3
+        *  *  *  9  9  3  0
+
+a)  Draw (as nicely as you can) the graph G associated with W.
+
+b)  Using Prim's algorithm as taught in class, find a MST for G.  Your
+    solution must include the following:
+
+    i)  The values for the Nearest and Distance arrays for each iteration
+        0, 1, ..., 7 of the repeat loop (note that iteration 0 represents the
+        initial values).
+
+   ii)  A list stating the order the nodes were added to the tree (starting
+        with node v1, of course).
+
+   iii) A drawing of your MST on the graph G, plus a statement regarding the
+        cost of that MST.
+
+
+4.  [5 marks]
+    Using Dijkstra's algorithm, as discussed in class, solve the shortest
+    path problem for the digraph which is shown on page 255 in your text
+    (use node v1 as the root). For each of the n stages of the algorithm,
+    show a picture of the digraph, and the current shortest path tree and node
+    labels for the algorithm.
+
+5.  [5 marks]
+    Consider the Matrix Chain Multiplication problem, for which we learned
+    a dynamic programming algorithm.  Suppose that we found that this
+    algorithm was too painful for words, and so we decided to try to
+    design a greedy algorithm for this problem instead.  Let the matrix chain
+    consist of matrices A1*A2*A3*...*An, where each matrix Ai has dimensions
+    di-1 x di (this is the same notation we used in class).  Consider the
+    following idea for a greedy algorithm:
+
+    First multiply the two matrices whose common dimension di is the smallest,
+    and continue with this idea. 
+
+    Show that this greedy algorithm does not always work by providing an
+    example of a matrix chain problem with three matrices for which the
+    above greedy algorithm fails.  You must also provide the two solutions,
+    i.e. the one from the greedy algorithm, and the optimal solution, to
+    demonstrate that the algorithm fails for your example.
+
+6.  [5 marks]
+    Using the algorithm provided in class, solve the following stable
+    marriage problem where, of course, the ladies do the asking (you do not
+    need to show your work for this question, just your final solution):
+
+    Women    Preverence List         Men     Preference List
+    -----    ---------------        -----    ---------------
+      K      (B, A, D, C)             A       (L, N, K, M)
+      L      (D, C, A, B)             B       (M, K, N, L)  
+      M      (A, D, C, B)             C       (L, M, K, N)
+      N      (B, A, D, C)             D       (N, K, M, L)
+
+
+7.  [8 marks]
+    Consider the following problem:
+
+    At a small but growing airport, the local airline company is purchasing
+    a new tractor to bring luggage to and from the airplanes.
+    A new mechanized luggage system will be installed in 3 years, so the
+    tractor will not be needed after that.  However, because it will receive
+    heavy use, and maintenance costs are high, it may still be more
+    economical to replace the tractor after 1 or 2 years.  The following table
+    gives the total net discounted cost associated with purchasing a tractor
+    in year i and trading it in in year j (where year 0 is now):
+
+          i \ j |    1    2   3
+          ----------------------
+            0   |    8   18   31
+                |
+            1   |   --   10   21
+                |
+            2   |   --   --   12
+
+    The problem is to determine at what times the tractor should be replaced
+    (if ever) to minimize the total costs for tractors.
+
+    The above problem can be formulated as a shortest path problem.  Describe
+    how, and show the shortest path problem (i.e. the weighted digraph) for
+    this problem.  Note that I DO NOT WANT YOU TO SOLVE this problem, only
+    show me the model.

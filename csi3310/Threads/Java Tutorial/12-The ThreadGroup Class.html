@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://java.sun.com/docs/books/tutorial/essential/threads/threadgroup.html -->
+<HTML><HEAD><TITLE>The ThreadGroup Class</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="11-Grouping Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="13-Threads Summary.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>The ThreadGroup Class </H2>
+<BLOCKQUOTE>The <A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+  target=apidoc><FONT color=#8800bb><CODE>ThreadGroup</CODE></FONT></A><A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+  target=apidoc><IMG align=absMiddle alt="(in the API reference documentation)" 
+  border=0 height=11 src="Thread_files/apiIcon.gif" 
+  width=11></A> class manages groups of threads for Java applications. A 
+  <CODE>ThreadGroup</CODE> can contain any number of threads. The threads in a 
+  group are generally related in some way, such as who created them, what 
+  function they perform, or when they should be started and stopped. 
+  <P><CODE>ThreadGroup</CODE>s can contain not only threads but also other 
+  <CODE>ThreadGroup</CODE>s. The top-most thread group in a Java application is 
+  the thread group named <CODE>main</CODE>. You can create threads and thread 
+  groups in the <CODE>main</CODE> group. You can also create threads and thread 
+  groups in subgroups of <CODE>main</CODE>. The result is a root-like hierarchy 
+  of threads and thread groups: 
+  <P>
+  <CENTER><IMG align=bottom alt="" height=249 
+  src="Thread_files/18thread.gif" width=371 
+  NATURALSIZEFLAG="3"></CENTER>
+  <P></P>The <CODE>ThreadGroup</CODE> class has methods that can be categorized 
+  as follows: 
+  <UL>
+    <LI><A 
+    href="#collection">Collection 
+    Management Methods</A>--Methods that manage the collection of threads and 
+    subgroups contained in the thread group. 
+    <LI><A 
+    href="#group">Methods 
+    That Operate on the Group</A>--These methods set or get attributes of the 
+    <CODE>ThreadGroup</CODE> object. 
+    <LI><A 
+    href="#groupcommand">Methods 
+    That Operate on All Threads within a Group</A>--This is a set of methods 
+    that perform some operation, such as start or resume, on all the threads and 
+    subgroups within the <CODE>ThreadGroup</CODE>. 
+    <LI><A 
+    href="#accessrestrictions">Access 
+    Restriction Methods</A>--<CODE>ThreadGroup</CODE> and <CODE>Thread</CODE> 
+    allow the security manager to restrict access to threads based on group 
+    membership. </LI></UL><A name=collection></BLOCKQUOTE>
+<H3>Collection Management Methods</H3></A>
+<BLOCKQUOTE>The <CODE>ThreadGroup</CODE> provides a set of methods that manage 
+  the threads and subgroups within the group and allow other objects to query 
+  the <CODE>ThreadGroup</CODE> for information about its contents. For example, 
+  you can call <CODE>ThreadGroup</CODE>'s <CODE>activeCount</CODE> method to 
+  find out the number of active threads currently in the group. The 
+  <CODE>activeCount</CODE> method is often used with the <CODE>enumerate</CODE> 
+  method to get an array filled with references to all the active threads in a 
+  <CODE>ThreadGroup</CODE>. For example, the <CODE>listCurrentThreads</CODE> 
+  method in the following example fills an array with all of the active threads 
+  in the current thread group and prints their names: 
+  <BLOCKQUOTE><PRE>public class EnumerateTest {
+    public void listCurrentThreads() {
+        ThreadGroup currentGroup =
+                    Thread.currentThread().getThreadGroup();
+        int numThreads = currentGroup.activeCount();
+        Thread[] listOfThreads = new Thread[numThreads];
+
+        currentGroup.enumerate(listOfThreads);
+        for (int i = 0; i &lt; numThreads; i++)
+            System.out.println("Thread #" + i + " = " + 
+				listOfThreads[i].getName());
+    }
+}
+</PRE></BLOCKQUOTE>
+  <P>Other collection management methods provided by the 
+  <CODE>ThreadGroup</CODE> class include <CODE>activeGroupCount</CODE> and 
+  <CODE>list</CODE>. </P></BLOCKQUOTE><A name=group>
+<H3>Methods that Operate on the Group</H3></A>
+<BLOCKQUOTE>The <CODE>ThreadGroup</CODE> class supports several attributes 
+  that are set and retrieved from the group as a whole. These attributes include 
+  the maximum priority that any thread within the group can have, whether the 
+  group is a "daemon" group, the name of the group, and the parent of the group. 
+
+  <P>The methods that get and set <CODE>ThreadGroup</CODE> attributes operate at 
+  the group level. They inspect or change the attribute on the 
+  <CODE>ThreadGroup</CODE> object, but do not affect any of the threads within 
+  the group. The following is a list of <CODE>ThreadGroup</CODE> methods that 
+  operate at the group level: 
+  <UL>
+    <LI><CODE>getMaxPriority</CODE> and <CODE>setMaxPriority</CODE> 
+    <LI><CODE>getDaemon</CODE> and <CODE>setDaemon</CODE> 
+    <LI><CODE>getName</CODE> 
+    <LI><CODE>getParent</CODE> and <CODE>parentOf</CODE> 
+    <LI><CODE>toString</CODE> </LI></UL>For example, when you use 
+  <CODE>setMaxPriority</CODE> to change a group's maximum priority, you are only 
+  changing the attribute on the group object; you are not changing the priority 
+  of any of the threads within the group. Consider the following program that 
+  creates a group and a thread within that group: 
+  <BLOCKQUOTE><PRE>public class MaxPriorityTest {
+    public static void main(String[] args) {
+
+        ThreadGroup groupNORM = new ThreadGroup(
+                                    "A group with normal priority");
+        Thread priorityMAX = new Thread(groupNORM, 
+                                 "A thread with maximum priority");
+
+        // set Thread's priority to max (10)
+        priorityMAX.setPriority(Thread.MAX_PRIORITY);
+
+        // set ThreadGroup's max priority to normal (5)
+        groupNORM.setMaxPriority(Thread.NORM_PRIORITY);
+
+        System.out.println("Group's maximum priority = " +
+			   groupNORM.getMaxPriority());
+        System.out.println("Thread's priority = " +
+			   priorityMAX.getPriority());
+    }
+}
+</PRE></BLOCKQUOTE>When the <CODE>ThreadGroup</CODE> <CODE>groupNORM</CODE> is 
+  created, it inherits its maximum priority attribute from its parent thread 
+  group. In this case, the parent group priority is the maximum 
+  (<CODE>MAX_PRIORITY</CODE>) allowed by the Java runtime system. Next the 
+  program sets the priority of the <CODE>priorityMAX</CODE> thread to the 
+  maximum allowed by the Java runtime system. Then the program lowers the 
+  group's maximum to the normal priority (<CODE>NORM_PRIORITY</CODE>). The 
+  <CODE>setMaxPriority</CODE> method does not affect the priority of the 
+  <CODE>priorityMAX</CODE> thread, so that at this point, the 
+  <CODE>priorityMAX</CODE> thread has a priority of 10, which is greater than 
+  the maximum priority of its group, <CODE>groupNORM</CODE>. This is the output 
+  from the program: 
+  <BLOCKQUOTE><PRE>Group's maximum priority = 5
+Thread's priority = 10
+</PRE></BLOCKQUOTE>As you can see a thread can have a higher priority than the 
+  maximum allowed by its group as long as the thread's priority is set before 
+  the group's maximum priority is lowered. A thread group's maximum priority is 
+  used to limit a thread's priority when the thread is first created within a 
+  group or when you use <CODE>setPriority</CODE> to change the thread's 
+  priority. Note that <CODE>setMaxPriority</CODE> <EM>does</EM> change the 
+  maximum priority of all of its descendant-threadgroups. 
+  <P>Similarly, a group's daemon status applies only to the group. Changing a 
+  group's daemon status does not affect the daemon status of any of the threads 
+  in the group. Furthermore, a group's daemon status does not in any way imply 
+  the daemon status of its threads--you can put any thread within a daemon 
+  thread group. The daemon status of a thread group simply indicates that the 
+  group will be destroyed when all of its threads have been terminated. 
+</P></BLOCKQUOTE><A name=groupcommand>
+<H3>Methods that Operate on All Threads within a Group</H3></A>
+<BLOCKQUOTE>The <CODE>ThreadGroup</CODE> class has three methods that allow 
+  you to modify the current state of all the threads within that group: 
+  <UL>
+    <LI><CODE>resume</CODE> 
+    <LI><CODE>stop</CODE> 
+    <LI><CODE>suspend</CODE> </LI></UL>These methods apply the appropriate state 
+  change to every thread in the thread group and its subgroups. </BLOCKQUOTE><A 
+name=accessrestrictions>
+<H3>Access Restriction Methods</H3></A>
+<BLOCKQUOTE>The <CODE>ThreadGroup</CODE> class itself does not impose any 
+  access restrictions, such as allowing threads from one group to inspect or 
+  modify threads in a different group. Rather the <CODE>Thread</CODE> and 
+  <CODE>ThreadGroup</CODE> classes cooperate with security managers (subclasses 
+  of the <A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\SecurityManager.html" 
+  target=apidoc><FONT color=#8800bb><CODE>SecurityManager</CODE></FONT></A><A 
+  href="D:\Program Files\JDK_122\docs\api\java\lang\SecurityManager.html" 
+  target=apidoc><IMG align=absMiddle alt="(in the API reference documentation)" 
+  border=0 height=11 src="Thread_files/apiIcon.gif" 
+  width=11></A> class), which can impose access restrictions based on thread 
+  group membership. 
+  <P>The <CODE>Thread</CODE> and <CODE>ThreadGroup</CODE> class both have a 
+  method, <CODE>checkAccess</CODE>, which calls the current security manager's 
+  <CODE>checkAccess</CODE> method. The security manager decides whether to allow 
+  the access based on the group membership of the threads involved. If access is 
+  not allowed, the <CODE>checkAccess</CODE> method throws a 
+  <CODE>SecurityException</CODE>. Otherwise, <CODE>checkAccess</CODE> simply 
+  returns. 
+  <P>The following is a list of <CODE>ThreadGroup</CODE> methods that call 
+  <CODE>ThreadGroup</CODE>'s <CODE>checkAccess</CODE> before performing the 
+  action of the method. These are what are known as <EM>regulated accesses</EM>, 
+  that is, accesses that must be approved by the security manager before they 
+  can be completed. 
+  <UL>
+    <LI><CODE>ThreadGroup(ThreadGroup <EM>parent</EM>, String 
+    <EM>name</EM>)</CODE> 
+    <LI><CODE>setDaemon(boolean <EM>isDaemon</EM>)</CODE> 
+    <LI><CODE>setMaxPriority(int <EM>maxPriority</EM>)</CODE> 
+    <LI><CODE>stop</CODE> 
+    <LI><CODE>suspend</CODE> 
+    <LI><CODE>resume</CODE> 
+    <LI><CODE>destroy</CODE> </LI></UL>This is a list of the methods in the Thread 
+  class that call <CODE>checkAccess</CODE> before proceeding: 
+  <UL>
+    <LI>constructors that specify a thread group 
+    <LI><CODE>stop</CODE> 
+    <LI><CODE>suspend</CODE> 
+    <LI><CODE>resume</CODE> 
+    <LI><CODE>setPriority(int <EM>priority</EM>)</CODE> 
+    <LI><CODE>setName(String <EM>name</EM>)</CODE> 
+    <LI><CODE>setDaemon(boolean <EM>isDaemon</EM>)</CODE> </LI></UL>A stand-alone 
+  Java application does not have a security manager by default; no restrictions 
+  are imposed and any thread can inspect or modify any other thread, regardless 
+  of the group they are in. You can define and implement your own access 
+  restrictions for thread groups by subclassing <CODE>SecurityManager</CODE>, 
+  overriding the appropriate methods, and installing the 
+  <CODE>SecurityManager</CODE> as the current security manager in your 
+  application. For information about implementing a security manager, see the 
+  lesson <A 
+  href="http://java.sun.com/docs/books/tutorial/essential/system/security.html" 
+  target=_top>Providing Your Own Security Manager</A><A 
+  href="http://java.sun.com/docs/books/tutorial/essential/system/security.html" 
+  target=_top><IMG align=absMiddle alt="(in the Essential Java Classes trail)" 
+  border=0 height=11 src="Thread_files/tutorialIcon.gif" 
+  width=11></A>. 
+  <P>The HotJava Web browser is an example of an application that implements its 
+  own security manager. HotJava needs to ensure that applets are well-behaved 
+  and don't do nasty things to other applets running at the same time (such as 
+  lowering the priority of another applet's threads). HotJava's security manager 
+  does not allow threads in different groups to modify one another. Please note 
+  that access restrictions based on thread groups may vary from browser to 
+  browser and thus applets may behave differently in different browsers. For 
+  more information about access restrictions on thread groups within applets, 
+  see <A 
+  href="http://java.sun.com/docs/books/tutorial/applet/practical/security.html" 
+  target=_top>Security Restrictions</A><A 
+  href="http://java.sun.com/docs/books/tutorial/applet/practical/security.html" 
+  target=_top><IMG align=absMiddle alt="(in the Essential Java Classes trail)" 
+  border=0 height=11 src="Thread_files/tutorialIcon.gif" 
+  width=11></A>. </P></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="11-Grouping Threads.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="13-Threads Summary.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

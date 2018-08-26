@@ -1,0 +1,143 @@
+                    CSI3125, Fall 2000, Homework 1
+               handed out Sep. 28, due Oct. 5 at 17:30
+               (in class or in the CSI 3125 box in MCD)
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    #                           - - -                           #
+    # Please submit your paper in a manila envelope signed with #
+    # your name and student number, and the number of your DGD. #
+    #                           - - -                           #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+Problem 1 [2.0 marks]
+=====================
+
+You want to design a new general-purpose programming language. To what
+features would you pay most attention? Explain your answer in detail.
+
+(A general-purpose language is a language that is not special-purpose.
+See section 1.2.6 of the textbook if you have doubts.)
+
+[I expect an essay of at least 200 words.]
+
+
+Problem 2 [2.0 marks]
+=====================
+
+Compare two programming languages on all criteria discussed in the class
+notes and in the textbook. One of the languages is Prolog, the other is
+either C++ or Java -- your choice.
+
+
+Problem 3 [1.6 mark]
+====================
+
+Directed graphs can be represented as nested lists, for example:
+
+            A----->B<-----C
+            |     / \     ^
+            |    /   \    |
+            |   /     \   |
+            |  /       \  |
+            | /         \ |
+            vv           v|
+            D             E
+
+( (A (B D)) (B (D E)) (C (B)) (E (C)) )
+
+Write a grammar of such nested lists. Assume that nodes can only be
+single capital letters: A, B, C, D, E, F, G, H.
+
+A graph may be empty, and then we represent it as the empty list.
+
+Note:
+Blank spaces in the example are here only to increase readability.
+You do not have to worry about them in your grammar.
+
+You can use either BNF or EBNF, whichever you prefer.
+
+
+Problem 4 [1.2 mark]
+====================
+
+The syntax of the _monkey_ language is quite simple, yet only monkeys
+can speak it without making mistakes. The language has four terminal
+symbols:
+
+                a   b   d   ^
+
+There are five productions:
+
+    <sentence> -->  <word>  |  <sentence> ^ <word>
+    <word>     -->  <syllable>  |  <syllable> <word> <syllable>
+    <syllable> -->  <plosive>  |  <plosive> <stop>
+    <plosive>  -->  <stop> a
+    <stop>     -->  b  |  d
+
+Three speakers have been recorded, saying this:
+
+Andy said         ba^babadda^bad^dabbada
+Bill said         dad^da^baddabda^badadbadda
+Carl said         baddabdabbada^bababa
+
+Which of these speakers is a secret agent in monkey disguise? Explain
+your answer _very_ carefully.
+
+
+Problem 5 [1.2 mark]
+====================
+
+Consider this grammar of lists:
+
+        <list>     -->   ( { <element> } )
+        <element>  -->   <atom>  |  <list>
+        <atom>     -->   <letter> { <letter> }
+        <letter>   -->   k  |  p
+
+Please find _all_ lists that are written with less than five terminal
+symbols (letters and parentheses). Explain your reasoning, if you
+want to receive partial credit in case your answer is not perfect.
+
+
+Problem 6 [1.0 mark]
+====================
+
+Using axiomatic semantics, prove _formally_ the correctness of the
+following fragment of a program.
+
+        {true}
+        if x > y then
+        begin
+            z := x;
+            x := y;
+            y := z;
+        end;
+        {y >= x}
+
+You may want to look at page 77 of the class notes (:>).
+
+
+Problem 7 [1.0 mark]
+====================
+
+Using axiomatic semantics, prove _formally_ the correctness of the
+following fragment of a program. All variables are the type integer.
+
+        {n > 0}
+        k := 1;
+        s := 1;
+        while k <> n do
+        begin
+            s := s + 2*k + 1;
+            k := k + 1;
+        end;
+        {s = n*n}
+
+
+                        ##############
+                        #            #
+                        # Good luck! #
+                        #            #
+                        ##############
+

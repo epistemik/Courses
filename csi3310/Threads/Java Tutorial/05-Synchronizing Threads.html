@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0076)http://java.sun.com/docs/books/tutorial/essential/threads/multithreaded.html -->
+<HTML><HEAD><TITLE>Synchronizing Threads</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="04-Understanding Thread Priority.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="06-The Producer-Consumer Example.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>Synchronizing Threads </H2>
+<BLOCKQUOTE>So far, this lesson has contained examples with independent, 
+  asynchronous threads. That is, each thread contained all of the data and 
+  methods required for its execution and didn't require any outside resources or 
+  methods. In addition, the threads in those examples ran at their own pace 
+  without concern over the state or activities of any other concurrently running 
+  threads. 
+  <P>However, there are many interesting situations where separate, concurrently 
+  running threads do share data and must consider the state and activities of 
+  other threads. One such set of programming situations are known as 
+  producer/consumer scenarios where the producer generates a stream of data 
+  which then is consumed by a consumer. 
+  <P>For example, imagine a Java application where one thread (the producer) 
+  writes data to a file while a second thread (the consumer) reads data from the 
+  same file. Or, as you type characters on the keyboard, the producer thread 
+  places key events in an event queue and the consumer thread reads the events 
+  from the same queue. Both of these examples use concurrent threads that share 
+  a common resource: the first shares a file, the second shares an event queue. 
+  Because the threads share a common resource, they must be synchronized in some 
+  way. </P></BLOCKQUOTE>
+<H3><A 
+href="06-The Producer-Consumer Example.html">The 
+Producer/Consumer Example</A> </H3>
+<BLOCKQUOTE>This lesson teaches you about Java thread synchronization through 
+  a simple producer/consumer example. </BLOCKQUOTE>
+<H3><A 
+href="http://java.sun.com/docs/books/tutorial/essential/threads/monitors.html">Locking 
+an Object</A> </H3>
+<BLOCKQUOTE>The code segments within a program that access the same object 
+  from separate, concurrent threads are called <EM>critical sections</EM>. In 
+  the Java language, a critical section can be a block or a method and are 
+  identified with the <CODE>synchronized</CODE> keyword. The Java platform then 
+  associates a lock with every object that has synchronized code. </BLOCKQUOTE>
+<H3><A 
+href="http://java.sun.com/docs/books/tutorial/essential/threads/waitAndNotify.html">Using 
+the <CODE>notifyAll</CODE> and <CODE>wait</CODE> Methods</A> </H3>
+<BLOCKQUOTE>This section investigates the code in <CODE>CubbyHole</CODE>'s 
+  <CODE>put</CODE> and <CODE>get</CODE> methods that helps the 
+  <CODE>Producer</CODE> and <CODE>Consumer</CODE> coordinate their activities. 
+</BLOCKQUOTE>
+<H3><A 
+href="http://java.sun.com/docs/books/tutorial/essential/threads/deadlock.html">Avoid 
+Starvation and Deadlock</A></H3>
+<BLOCKQUOTE>If you write a program in which several concurrent threads are 
+  competing for resources, you must take precautions to ensure fairness. A 
+  system is fair when each thread gets enough access to limited resource to make 
+  reasonable progress. A fair system prevents <EM>starvation</EM> and 
+  <EM>deadlock</EM>. Starvation occurs when one or more threads in your program 
+  is blocked from gaining access to a resource and thus cannot make progress. 
+  Deadlock is the ultimate form of starvation; it occurs when two or more 
+  threads are waiting on a condition that cannot be satisfied. Deadlock most 
+  often occurs when two (or more) threads are each waiting for the other(s) to 
+  do something. 
+  <P>This section uses the dining philosophers problem to illustrate deadlock. 
+  It also discusses ways you can prevent deadlock. </P></BLOCKQUOTE><IMG 
+align=bottom height=8 src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="04-Understanding Thread Priority.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="06-The Producer-Consumer Example.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

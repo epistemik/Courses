@@ -1,0 +1,361 @@
+             CSI 3125, Fall 2000, Homework 4 -- solution
+
+
+Problem 1
+=========
+
+--------
+--------
+ Prolog
+--------
+--------
+
+pi(3.141592).
+
+unit_weight(liquor, 2.0)  :-  !.
+unit_weight(nut, 3.0)     :-  !.
+unit_weight(nougat, 4.0)  :-  !.
+unit_weight(_OtherSymbol, 0.0).   % an error
+
+% a measurement is represented as a pair (m1, m2)
+
+% in all surface_ functions, the wrong shape is an error: 0.0 is returned
+
+surface_round(round, (Radius, _Dummy), Result)  :-
+  pi(PI),
+  Result is PI * Radius * Radius,
+  !.
+surface_round(_Shape, (_Radius, _Dummy), 0.0).
+
+surface_rectangular(rectangular, (Side1, Side2), Result)  :-
+  Result is Side1 * Side2,
+  !.
+surface_rectangular(_Shape, (_Side1, _Side2), 0.0).
+
+surface_triangular(triangular, (Base, Height), Result)  :-
+  Result is 0.5 * Base * Height,
+  !.
+surface_triangular(_Shape, (_Base, _Height), 0.0).
+
+total_weight(Shape, Filling, Height, Surface_meas, Surface_p, Result)  :-
+  apply(Surface_p, Shape, Surface_meas, Area),
+  unit_weight(Filling, Weight),
+  Result is Area * Height * Weight.
+
+apply(Pred, Arg1, Arg2, Result)  :-
+  PredCall =.. [Pred, Arg1, Arg2, Result],
+  call(PredCall).
+
+/*
+?- total_weight(round, nut, 3.0, (4.0, 0.0), surface_round, Result).
+
+?- total_weight(rectangular, nougat, 3.0, (4.0, 2.0), surface_rectangular,
+   Result).
+
+?- total_weight(rectangular, nougat, 3.0, (4.0, 2.0), surface_round, Result).
+
+?- total_weight(triangular, liquor, 3.5, (4.0, 2.0), surface_triangular,
+   Result).
+*/
+
+--------
+--------
+ Scheme
+--------
+--------
+
+(define pi 3.141592)
+
+(define (unit_weight filling)
+  (cond ((eq? filling 'liquor) 2)
+        ((eq? filling 'nut) 3)
+        ((eq? filling 'nougat) 4)
+        (else 0)   ; this signals an error
+) )
+
+; a measurement is represented as a pair (m1 m2)
+
+; in all surface_ functions, the wrong shape is an error: 0 is returned
+
+(define (surface_round shape surface_meas)
+                       ; surface_meas = (radius dummy)
+  (if (eq? shape 'round)
+      (* pi (car surface_meas) (car surface_meas))
+      0   ; this signals an error
+) )
+
+(define (surface_rectangular shape surface_meas)
+                             ; surface_meas = (side1 side2)
+  (if (eq? shape 'rectangular)
+      (* (car surface_meas) (cadr surface_meas))
+      0   ; this signals an error
+) )
+
+(define (surface_triangular shape surface_meas)
+                            ; surface_meas = (base height)
+  (if (eq? shape 'triangular)
+      (* 0.5 (car surface_meas) (cadr surface_meas))
+      0   ; this signals an error
+) )
+
+(define (total_weight shape filling height surface_meas surface_f)
+  ; shape is used for data checking
+  (* (surface_f shape surface_meas) height (unit_weight filling))
+)
+
+(total_weight 'round 'nut 3 '(4 0) surface_round)
+
+(total_weight 'rectangular 'nougat 3 '(4 2) surface_rectangular)
+
+(total_weight 'rectangular 'nougat 3 '(4 2) surface_round)
+
+(total_weight 'triangular 'liquor 3.5 '(4 2) surface_triangular)
+
+--------
+--------
+   ML
+--------
+--------
+
+val pi = 3.141592;
+
+fun unit_weight "liquor" = 2.0 |
+    unit_weight "nut" = 3.0 |
+    unit_weight "nougat" = 4.0 |
+    unit_weight otherString = 0.0; (* an error *)
+
+(* a measurement is represented as a tuple (m1, m2) *)
+
+(* in all surface_ functions, the wrong shape is an error: 0.0 is returned *)
+
+fun surface_round(shape, (radius, dummy)) =
+    if shape = "round" then pi * radius * radius
+    else 0.0;
+
+fun surface_rectangular (shape, (side1, side2)) =
+    if shape = "rectangular" then side1 * side2
+    else 0.0;
+
+fun surface_triangular(shape, (base, height)) =
+    if shape = "triangular" then 0.5 * base * height
+    else 0.0;
+
+fun total_weight(shape, filling, height, surface_meas, surface_f) =
+    surface_f(shape, surface_meas) * height * (unit_weight filling);
+
+total_weight("round", "nut", 3.0, (4.0, 0.0), surface_round);
+
+total_weight("rectangular", "nougat", 3.0, (4.0, 2.0), surface_rectangular);
+
+total_weight("rectangular", "nougat", 3.0, (4.0, 2.0), surface_round);
+
+total_weight("triangular", "liquor", 3.5, (4.0, 2.0), surface_triangular);
+
+--------
+--------
+ Pascal
+--------
+--------
+
+program p1(input, output);
+const pi = 3.141592;
+      MaxLen = 20;
+type string = array [1..MaxLen] of char;
+     measure = record m1, m2: real end;
+
+var s1, s2: string;
+    meas: measure;
+
+function unit_weight(filling: string): real;
+begin
+  unit_weight := 0.0;
+  if filling = 'liquor' then unit_weight := 2.0 else
+  if filling = 'nut'    then unit_weight := 3.0 else
+  if filling = 'nougat' then unit_weight := 4.0;
+  (* it is an error if the shape is wrong: 0.0 stays *)
+end;
+
+(* in all surface_ functions, the wrong shape is an error: 0.0 is returned *)
+
+function surface_round(shape: string; surface_meas: measure): real;
+begin
+  if shape = 'round'
+     then surface_round := pi * surface_meas.m1 * surface_meas.m1
+     else surface_round := 0.0;
+end;
+
+function surface_rectangular(shape: string; surface_meas: measure): real;
+begin
+  if shape = 'rectangular'
+     then surface_rectangular := surface_meas.m1 * surface_meas.m2
+     else surface_rectangular := 0.0;
+end;
+
+function surface_triangular(shape: string; surface_meas: measure): real;
+begin
+  if shape = 'triangular'
+     then surface_triangular := 0.5 * surface_meas.m1 * surface_meas.m2
+     else surface_triangular := 0.0;
+end;
+
+function total_weight(
+           shape: string; filling: string; height: real; surface_meas: measure;
+           function surface_f(sh: string; s_m: measure): real): real;
+begin
+  total_weight := surface_f(shape, surface_meas) *
+                  height * unit_weight(filling);
+end;
+
+begin
+  meas.m1 := 4.0;  meas.m2 := 2.0;
+  writeln(total_weight('round', 'nut', 3.0, meas,
+          surface_round));
+  writeln(total_weight('rectangular', 'nougat', 3.0, meas,
+          surface_rectangular));
+  writeln(total_weight('rectangular', 'nougat', 3.0, meas,
+          surface_round));
+  writeln(total_weight('triangular', 'liquor', 3.5, meas,
+          surface_triangular));
+end.
+
+
+Problem 2
+=========
+
+--------
+--------
+ C/C++
+--------
+--------
+
+#include <stdio.h>
+int add1(int X){
+  X = X + 1;
+  printf( "In add1:      X = %d\n", X);
+  return X;
+}
+int subtract2(int X){
+  X = X - 2;
+  printf( "In subtract2: X = %d\n", X);
+  return X;
+}
+int double_(int X){
+  X = X * 2;
+  printf( "In double_:   X = %d\n", X);
+  return X;
+}
+int triple(int X){
+  X = X * 3;
+  printf( "In triple:    X = %d\n", X);
+  return X;
+}
+main(){
+  int X, Y;
+  scanf("%d\n", &X);
+  Y = triple(X) + subtract2(X) + add1(X) * double_(X) * X;
+  printf("Final X = %d\n", Y);
+}
+
+--------
+--------
+ Pascal
+--------
+--------
+
+program p2(input, output);
+var X, Y: integer;
+function add1(X: integer): integer;
+begin
+  X := X + 1;
+  writeln( 'In add1:      X = ', X: 3);
+  add1 := X;
+end;
+function subtract2(X: integer): integer;
+begin
+  X := X - 2;
+  writeln( 'In subtract2: X = ', X: 3);
+  subtract2 := X;
+end;
+function double_(X: integer): integer;
+begin
+  X := X * 2;
+  writeln( 'In double_:   X = ', X: 3);
+  double_ := X;
+end;
+function triple(X: integer): integer;
+begin
+  X := X * 3;
+  writeln( 'In triple:    X = ', X: 3);
+  triple := X;
+end;
+begin
+  readln(X);
+  Y := triple(X) + subtract2(X) + add1(X) * double_(X) * X;
+  writeln('Final X = ', Y: 3);
+end.
+
+
+Problem 3
+=========
+
+The fragment calculates F = A ^ B (exponentiation).
+The invariant is  X ^ Y  *  F  =  A ^ B.
+
+The same fragment rewritten using Dijkstra's do-od and if-fi:
+
+X, Y, F := A, B, 1;
+do
+   Y <> 0 -->
+              if odd( Y )     --> Y, F := Y - 1, F * X
+              []
+                 not odd( Y ) --> skip
+              fi;
+              Y, X := Y div 2, X * X
+od
+
+
+Bonus problem
+=============
+
+--------
+ Pascal
+--------
+
+Stmt1;
+while Cond1 do
+begin
+  repeat
+    Stmt2;
+    if Cond2 then Stmt4 else Stmt3;
+  until Cond3;
+  Stmt5;
+end;
+if not Cond4 then Stmt6;
+Stmt7;
+
+---------------------
+ Dijkstra's commands
+---------------------
+
+Stmt1;
+do Cond1 -->
+       Stmt2;
+       if Cond2     --> Stmt4
+          []
+          not Cond2 --> Stmt3
+       fi;
+       do not Cond3 --> 
+          Stmt2;
+          if Cond2     --> Stmt4
+             []
+             not Cond2 --> Stmt3
+          fi
+       od;
+       Stmt5;
+od;
+if not Cond4 --> Stmt6
+   []
+   Cond4     --> skip
+fi;
+Stmt7
+

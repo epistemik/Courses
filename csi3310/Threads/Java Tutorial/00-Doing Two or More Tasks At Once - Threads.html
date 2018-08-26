@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://java.sun.com/docs/books/tutorial/essential/threads/index.html -->
+<HTML><HEAD><TITLE>Doing Two or More Tasks At Once: Threads</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center>
+	<IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26> 
+	<IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26> <A 
+      href="00-What Is a Thread.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR><FONT size=-1><B>Trail</B>: Essential Java Classes 
+</FONT>
+<H2>Lesson: Doing Two or More Tasks At Once: Threads </H2>
+<BLOCKQUOTE>Below are three copies of an applet that animates different 
+  sorting algorithms. No, this lesson is not about sorting algorithms. But these 
+  applets do provide a visual aid to understanding a powerful capability of the 
+  Java language - threads. <PRE>                    <STRONG>Bi-Directional</STRONG>
+<STRONG>Bubble Sort</STRONG>         <STRONG>Bubble Sort</STRONG>        <STRONG>Quick Sort</STRONG>
+<APPLET code=SortItem.class codeBase=example height=100 width=100><PARAM NAME="alg" VALUE="BubbleSort"><PARAM NAME="code" VALUE="SortItem.class"><PARAM NAME="codeBase" VALUE="http://java.sun.com/docs/books/tutorial/essential/threads/example"><PARAM NAME="height" VALUE="100"><PARAM NAME="width" VALUE="100"></APPLET>     <APPLET code=SortItem.class codeBase=example height=100 width=100><PARAM NAME="alg" VALUE="BidirectionalBubbleSort"><PARAM NAME="code" VALUE="SortItem.class"><PARAM NAME="codeBase" VALUE="http://java.sun.com/docs/books/tutorial/essential/threads/example"><PARAM NAME="height" VALUE="100"><PARAM NAME="width" VALUE="100"></APPLET>     <APPLET code=SortItem.class codeBase=example height=100 width=100><PARAM NAME="alg" VALUE="QSort"><PARAM NAME="code" VALUE="SortItem.class"><PARAM NAME="codeBase" VALUE="http://java.sun.com/docs/books/tutorial/essential/threads/example"><PARAM NAME="height" VALUE="100"><PARAM NAME="width" VALUE="100"></APPLET>
+</PRE>Now start each of the applets, one by one, by clicking on them with the 
+  mouse. Notice anything? Yes! The applets are running side by side at the same 
+  time! Notice anything else? Yes! You can also scroll this page or bring up one 
+  of your browser's panels at the same time that the three sorting applets sort 
+  their data. All of this is due to the power of <EM>threads</EM>. </BLOCKQUOTE>
+<H3><A 
+href="00-What Is a Thread.html">What 
+Is a Thread?</A> </H3>
+<BLOCKQUOTE>A thread - sometimes called an <EM>execution context</EM> or a 
+  <EM>lightweight process</EM> - is a single sequential flow of control within a 
+  program. You use threads to isolate tasks. When you run one of these sorting 
+  applets, it creates a thread that performs the sort operation. Each thread is 
+  a sequential flow of control within the same program (the browser). Each sort 
+  operation runs independently from the others, but at the same time. 
+</BLOCKQUOTE>
+<H3><A 
+href="01-Subclassing Thread and Overriding run.html">Customizing 
+a Thread's <CODE>run</CODE> Method</A> </H3>
+<BLOCKQUOTE>First, you need to get a thread to do something by providing the 
+  <CODE>run</CODE> method for a thread. This section shows you two different 
+  ways to do this. </BLOCKQUOTE>
+<H3><A 
+href="03-The Life Cycle of a Thread.html">The 
+Life Cycle of a Thread</A> </H3>
+<BLOCKQUOTE>Once you know how to get a thread to do something, you need to 
+  understand the life cycle of a <CODE>Thread</CODE> </BLOCKQUOTE>
+<H3><A 
+href="04-Understanding Thread Priority.html">Understanding 
+Thread Priority</A> </H3>
+<BLOCKQUOTE>A thread's priority affects when it runs in relation to other 
+  threads. This section talks about how this affects your programs. </BLOCKQUOTE>
+<H3><A 
+href="05-Synchronizing Threads.html">Synchronizing 
+Threads</A> </H3>
+<BLOCKQUOTE>The first sample programs in this lesson use either one thread or 
+  multiple threads that run asynchronously. However, it is often useful to use 
+  multiple threads that share data and therefore must synchronize their 
+  activities. In this section you will learn how to synchronize threads and how 
+  to avoid problems such as starvation and deadlock. </BLOCKQUOTE>
+<H3><A 
+href="11-Grouping Threads.html">Grouping 
+Threads</A> </H3>
+<BLOCKQUOTE>This section shows you how to group threads and what you can do 
+  with a group of threads. </BLOCKQUOTE>
+<H3><A 
+href="13-Threads Summary.html">Summary</A> 
+</H3>
+<BLOCKQUOTE>When you've completed this lesson on threads, you will have toured 
+  the intricacies of Java threads including the life cycle of a Java thread (as 
+  represented by its state), scheduling, thread groups, and synchronization. The 
+  Java development environment supports multithreaded programs through the 
+  language, the libraries, and the runtime system. This summary page highlights 
+  the features in the Java development environment that support threads and 
+  gives you links to further documentation about those features. </BLOCKQUOTE><IMG 
+align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 
+NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" 
+      width=26> 
+	<IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" 
+      width=26> <A 
+      href="00-What Is a Thread.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" 
+      width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,37 @@
+ 1 (D) Support for abstraction makes a language more writable and more reliable.
+ 2 (A) * * * * *       and   * * * * * *
+ 3 (B) { A[J] <> X for J = N, N - 1, ..., I + 1 }
+ 4 (D) ((2 1) (4 3) (6 5))
+ 5 (C) [0, 1, 3, 4, 5, 7, 9]
+ 6 (E) 6.0  165.0
+ 7 (E) compile      run    compile     run     compile   compile
+ 8 (B) If we declare X: TypA Y: TypB; Z: TypC;
+        X and Y and Z are structure-compatible but not name-compatible.
+ 9 (D) 20         16
+10 (C) 14
+11 (A) 0011001
+12 (E) EXPR = 2 if operator precedence is *, +, div, -.
+13 (C) Rule1 and Rule3
+14 (B) program P;
+         procedure T; 
+         (*body of T*)
+         procedure U;
+           procedure W;
+           (*body of W*)
+         (*body of U*)
+       (*body of P*)
+15 (A) fn : string * string * int * (string * int) list -> (string * int) list
+16 (C) 20
+17 (D) ordered := false;
+       for I := 1 to 5 do if L[I] < L[I+1] then ordered := true;
+       if ordered then writeln('yes') else writeln('no');
+18 (A) i = 2, j = 6
+       i = 4, j = 12  
+       i = 16, j= 48
+19 (E) 6, 6, 6, 6, 6, 6, 6
+20 (D) (cons 'b '(c d))         (car '(c d))            (cdr '(c d))
+21 (B) 4      3      14
+22 (D) 50
+23 (E) 2       and      8         activation records
+24 (A) 100
+25 (C) 1, 4, 9, 16, 25, 36

@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://java.sun.com/docs/books/tutorial/essential/threads/summary.html -->
+<HTML><HEAD><TITLE>Summary</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!-- hide
+function openWin(term) {
+  url="../../information/glossary.html#" + term;
+  myWin= window.open(url, "Glossary",
+              "width=400,height=150,scrollbars=yes,status=no,toolbar=no,menubar=no");
+  myWin.focus();
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>The Java</FONT><SUP><FONT 
+size=-2>TM</FONT></SUP> <FONT size=-1>Tutorial</FONT></B> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="12-The ThreadGroup Class.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/io/index.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> 
+<BR><FONT size=-1><B>Trail</B>: Essential Java Classes <BR><B>Lesson</B>: Doing 
+Two or More Tasks At Once: Threads </FONT>
+<H2>Summary </H2>
+<BLOCKQUOTE>This lesson has provided a great deal of information about using 
+  threads in the Java development environment. Threads are supported by various 
+  components of the Java development environment, and it can be hard to find the 
+  features that you need. This section summarizes where in the Java environment 
+  you can find various classes, methods, and language features that participate 
+  in the Java threads story. </BLOCKQUOTE>
+<H3>Package Support of Threads</H3>
+<BLOCKQUOTE>
+  <DL>
+    <DT><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Thread.html" 
+    target=apidoc><FONT 
+    color=#8800bb><STRONG><CODE>java.lang.Thread</CODE></STRONG></FONT></A><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Thread.html" 
+    target=apidoc><IMG align=absMiddle 
+    alt="(in the API reference documentation)" border=0 height=11 
+    src="Thread_files/apiIcon.gif" width=11></A> 
+    <DD>In the Java development enviroment, threads are objects that derive from 
+    java.lang's <CODE>Thread</CODE> class. The <CODE>Thread</CODE> class defines 
+    and implements Java threads. You can subclass the <CODE>Thread</CODE> class 
+    to provide your own thread implementations or you can use the 
+    <CODE>Runnable</CODE> interface. 
+    <DT><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Runnable.html" 
+    target=apidoc><FONT 
+    color=#8800bb><STRONG><CODE>java.lang.Runnable</CODE></STRONG></FONT></A><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Runnable.html" 
+    target=apidoc><IMG align=absMiddle 
+    alt="(in the API reference documentation)" border=0 height=11 
+    src="Thread_files/apiIcon.gif" width=11></A> 
+    <DD>The Java language library also defines the <CODE>Runnable</CODE> 
+    interface, which allows any class to provide the body (the <CODE>run</CODE> 
+    method) for a thread. 
+    <DT><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Object.html" 
+    target=apidoc><FONT 
+    color=#8800bb><STRONG><CODE>java.lang.Object</CODE></STRONG></FONT></A><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\Object.html" 
+    target=apidoc><IMG align=absMiddle 
+    alt="(in the API reference documentation)" border=0 height=11 
+    src="Thread_files/apiIcon.gif" width=11></A> 
+    <DD>The root class, <CODE>Object</CODE>, defines three methods you can use 
+    to synchronize methods around a condition variable: <CODE>wait</CODE>, 
+    <CODE>notify</CODE>, and <CODE>notifyAll</CODE>. 
+    <DT><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+    target=apidoc><FONT 
+    color=#8800bb><STRONG><CODE>java.lang.ThreadGroup</CODE></STRONG></FONT></A><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadGroup.html" 
+    target=apidoc><IMG align=absMiddle 
+    alt="(in the API reference documentation)" border=0 height=11 
+    src="Thread_files/apiIcon.gif" width=11></A> 
+    <DD>All threads belong to a thread group, which typically contains related 
+    threads. The <CODE>ThreadGroup</CODE> class in the <CODE>java.lang</CODE> 
+    package implements groups of threads. 
+    <DT><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadDeath.html" 
+    target=apidoc><FONT 
+    color=#8800bb><STRONG><CODE>java.lang.ThreadDeath</CODE></STRONG></FONT></A><A 
+    href="D:\Program Files\JDK_122\docs\api\java\lang\ThreadDeath.html" 
+    target=apidoc><IMG align=absMiddle 
+    alt="(in the API reference documentation)" border=0 height=11 
+    src="Thread_files/apiIcon.gif" width=11></A>
+    <DD>A thread is normally killed by throwing a <CODE>ThreadDeath</CODE> 
+    object at it. Rarely, a thread might need to catch <CODE>ThreadDeath</CODE> 
+    to clean up before it dies. </DD></DL></BLOCKQUOTE>
+<H3>Language Support of Threads</H3>
+<BLOCKQUOTE>The Java language has two keywords related to the synchronization 
+  of threads: <CODE>volatile</CODE> (which is not implemented in JDK 1.0) and 
+  <CODE>synchronized</CODE>. Both of these language features help ensure the 
+  integrity of data that is shared between two concurrently running threads. <A 
+  href="05-Synchronizing Threads.html">Multithreaded 
+  Programs</A> discusses thread synchronization issues. </BLOCKQUOTE>
+<H3>Runtime Support of Threads</H3>
+<BLOCKQUOTE>The Java runtime system contains the scheduler, which is 
+  responsible for running all the existing threads. The Java scheduler uses a 
+  fixed priority scheduling algorithm which boils down to this simple rule of 
+  thumb: 
+  <BLOCKQUOTE>
+    <HR>
+    <STRONG>Rule of thumb:</STRONG>&nbsp; At any given time, the highest 
+    priority thread is running. However, this is not guaranteed. The thread 
+    scheduler may choose to run a lower priority thread to avoid starvation. For 
+    this reason, use priority only to affect scheduling policy for efficiency 
+    purposes. Do not rely on thread priority for algorithm correctness. 
+    <HR>
+  </BLOCKQUOTE></BLOCKQUOTE>
+<H3>Other Thread Information</H3>
+<BLOCKQUOTE>
+  <DL>
+    <DT><A 
+    href="http://java.sun.com/docs/books/tutorial/applet/practical/threads.html" 
+    target=_top>Threads in Applets</A><A 
+    href="http://java.sun.com/docs/books/tutorial/applet/practical/threads.html" 
+    target=_top><IMG align=absMiddle alt="(in the Essential Java Classes trail)" 
+    border=0 height=11 src="Thread_files/tutorialIcon.gif" 
+    width=11></A>
+    <DD>When you write applets that use threads, you may have to make special 
+    provisions, such as ensuring that your applet is well-behaved. Also, some 
+    browsers impose security restrictions for applets based on which thread 
+    group a thread is in. 
+    <DT><A href="http://java.sun.com/docs/books/cp/index.html" 
+    target=other><FONT color=#009bbb>Concurrent Programming in Java, Second 
+    Edition</FONT></A><A 
+    href="http://java.sun.com/docs/books/cp/index.html"><IMG align=absMiddle 
+    alt="(outside of the tutorial)" border=0 height=11 
+    src="Thread_files/otherIcon.gif" width=11></A>
+    <DD>For further information about threads programming, see Doug Lea's highly 
+    acclaimed book written for intermediate and advanced threads programmers. 
+    The second edition is available from <A 
+    href="http://www.amazon.com/exec/obidos/ISBN=0201310090/javasoftsunmicroA/" 
+    target=other><FONT color=#009bbb>amazon.com</FONT></A><A 
+    href="http://www.amazon.com/exec/obidos/ISBN=0201310090/javasoftsunmicroA/"><IMG 
+    align=absMiddle alt="(outside of the tutorial)" border=0 height=11 
+    src="Thread_files/otherIcon.gif" width=11></A>. 
+</DD></DL></BLOCKQUOTE><IMG align=bottom height=8 
+src="Thread_files/blueline.gif" width=550 NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  <TBODY>
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="12-The ThreadGroup Class.html" 
+      target=_top><IMG align=center alt="Previous Page" border=0 height=26 
+      src="Thread_files/PreviousArrow.gif" width=26></A> <A 
+      href="00-Doing Two or More Tasks At Once - Threads.html" 
+      target=_top><IMG align=center alt="Lesson Contents" border=0 height=26 
+      src="Thread_files/TOCIcon.gif" width=26></A> <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/io/index.html" 
+      target=_top><IMG align=center alt="Next Page" border=0 height=26 
+      src="Thread_files/NextArrow.gif" width=26></A></TD>
+    <TD align=middle vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/index.html" 
+      target=_top>Start of Tutorial</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/index.html" 
+      target=_top>Start of Trail</A> &gt; <A 
+      href="http://java.sun.com/docs/books/tutorial/essential/threads/index.html" 
+      target=_top>Start of Lesson</A> </FONT></TD>
+    <TD align=right vAlign=center><FONT size=-1><A 
+      href="http://java.sun.com/docs/books/tutorial/search.html" 
+      target=_top>Search</A> <BR><A 
+      href="http://java.sun.com/docs/books/tutorial/forms/sendusmail.html">Feedback 
+      Form</A> </FONT></TD></TR></TBODY></TABLE></BODY></HTML>

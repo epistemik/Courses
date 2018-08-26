@@ -1,0 +1,91 @@
+
+
+                                                 CSI 3105A,B / FALL 2000
+
+
+CSI 3105            DESIGN AND ANALYSIS OF ALGORITHMS
+                        (3 h.p.w.t., - 3 cr.) 
+
+Asymptotic time and space complexity of algorithms.  Introduction to
+average case analysis and lower bound theory.  Analysis of selected
+algorithms.  Algorithm design techniques, such as divide and conquer, the
+greedy method, balancing, dynamic programming.  Algorithms on graphs.
+Introduction to NP-completeness.  Prerequisite(s): CSI 2114, MAT 1361, MAT
+2343; (for honours mathematics students only, CSI 2114 and either MAT 2141
+or MAT 2143).
+
+
+TIME & LOCATION: CSI 3105 A   Tue.    11:30 - 13:00   FTX 147A
+                              Fri.    13:00 - 14:30   MRN AUD
+
+                 CSI 3105 B   Mon.    16:00 - 17:30   CBY C03
+                              Wed.    14:30 - 16:00   CBY C03
+
+PROFESSOR:  Dr. S. Boyd
+            MCD 333
+            Office Hours:   Tue.: 13:30 - 15:30
+            Email:          sylvia@site.uottawa.ca
+
+TEXTBOOK: Foundations of Algorithms Using C++ Pseudocode (Second Edition),
+          by  R. Neapolitan, K. Naimipour,  Jones and Bartlett Publishers
+          (Available at: Benjamin Books, 122 Osgoode St.)
+
+          Also, there will be class notes available at VCN 104
+
+
+COURSE EVALUATION:
+
+Assignments:  There will be 4-5 assignments.  These assignments are to be
+              placed in the locked hand-in box labelled CSI 3105 located on
+              the 3rd floor of MacDonald Hall by the due date.  Late
+              assignments will receive a grade of 0. Cheating on assignments
+              will not be tolerated, and ALL students involved will receive
+              a grade of 0.
+
+Class Test: There will be a closed book class test on
+            Saturday, October 28, 9:00-10:30, MRN AUD.
+            (If you are unavailable for this date, you must notify me
+             by September 19)
+
+Exam: There will be a closed book 3 hour final exam scheduled in December.
+
+Marking Scheme:
+
+	Let   A = average assignment mark
+          M = mark on class test
+	      X = mark on final exam
+          T = ( 2X + M )/ 3 (a combined test mark)
+
+        If (T >= A) or (T >= 70)
+                Final Mark = .75*T  + .25*A
+        Else
+                Final Mark = (1-R)*T + R*A
+                where R = .25*(max(0,T-50))/20.
+ 
+
+COURSE OBJECTIVES:
+
+1)	To learn various algorithm design techniques, and recognize when to
+      apply them.
+
+2)	To understand the importance of efficiency in algorithms.
+
+3)	To learn how to analyze and compare algorithms according to predicted
+      time and space requirements.
+
+
+COURSE OUTLINE:
+
+1)	Introduction
+
+2)	Algorithms: Efficiency, Analysis and Order
+
+3)	The Divide and Conquer Approach
+
+4)	The Dynamic Programming Approach
+
+5)	The Greedy Approach
+
+6)  Computational Complexity of a Problem:
+    An introduction to the Theory of NP and NP Completeness
+                             

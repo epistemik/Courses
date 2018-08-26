@@ -1,0 +1,234 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+188 136 109 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 77 65 88 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 
+0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 522 "# DIRECT FACTORIZATION ALGORITHM 6
+.4\n#\n# To factor the n by n matrix A = (A(I,J)) into the product of \+
+the\n# lower triangular matrix L = (L(I,J)) and U = (U(I,J)), that is
+\n# A = LU, where the main diagonal of either L or U consists of all o
+nes:\n#\n# INPUT:   dimension n; the entries A(I,J), 1<=I, J<=n, of A;
+\n#          the diagonal L(1,1), ..., L(N,N) of L or the diagonal\n# \+
+         U(1,1), ..., U(N,N) of U.\n#\n# OUTPUT:  the entries L(I,J), \+
+1<=J<=I, 1<=I<=n of L and the entries\n#          U(I,J), I<=J<=n, 1<=
+I<=n of U." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 94 "alg064 := proc() loca
+l AA, NAME, INP, OK, N, I, J, A, FLAG, ISW, XL, M, KK, S, K, JJ, SS, O
+UP;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 57 "printf(`This is the general \+
+LU factorization method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "p
+rintf(`The array will be input from a text file in the order:\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 58 "printf(`A(1,1), A(1,2), ..., A(1,N
+), A(2,1), A(2,2), ..., " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "A(2,N),
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`..., A(N,1), A(N,
+2), ..., A(N,N)\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 71 "printf(
+`Place as many entries as desired on each line, but separate `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`entries with\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`at least one blank.\\n\\n\\
+n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "printf(`Has the input file \+
+been created? - enter Y or N.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+21 "AA := scanf(`%c`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if AA \+
+= Y or AA = y then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input
+ the file name in the form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.DTA\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf
+(`Input the dimension n - an integer.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "N := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "if N > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I from 1
+ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to N do" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "A[I-1,J-1] := fscanf(INP, `%f`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 56 "else printf(`The number must be a positive integer
+.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Choi
+ce of diagonals:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 47 "printf(`1
+. Diagonal of L consists of ones\\n`); " }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 46 "printf(`2. Diagonal of U consists of ones\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 33 "printf(`Please enter 1 or 2.\\n`);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "ISW := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 9 "ISW := 1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "
+fi" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 67 "printf(`The program will end so the input file can be
+ created.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for I fr
+om 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "XL[I-1] := 1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 1" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "if abs(
+A[0,0]) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FA
+LSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" 
+{TEXT -1 312 "the entries below the main diagonal will be placed in th
+e corresponding entries of A; the entries of U above the main diagonal
+ will be placed in the corresponding entries of A; the main diagonal w
+hich was not input will become the main diagonal of A; the input main \+
+diagonal of L or U is, of course, placed in XL" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "A[0,0] := A[0,0]/XL[0];" }}{PARA 0 "" 0 "" {TEXT -1 
+6 "STEP 2" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for
+ J from 2 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if ISW = 0 the
+n" }}{PARA 0 "" 0 "" {TEXT -1 14 "first row of U" }{MPLTEXT 1 0 0 "" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "A[0,J-1] := A[0,J-1]/XL[0];" }}
+{PARA 0 "" 0 "" {TEXT -1 17 "first column of L" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "A[J-1,0] := A[J-1,0]/A[0,0];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 14 
+"first row of U" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+28 "A[0,J-1] := A[0,J-1]/A[0,0];" }}{PARA 0 "" 0 "" {TEXT -1 17 "first
+ column of L" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "
+A[J-1,0] := A[J-1,0]/XL[0];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT -1 6 
+"STEP 3" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "M := N
+-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 2;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 29 "while I <= M and OK = TRUE do" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 10 "KK := I-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for K from 1 to KK do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 29 "S := S-A[I-1,K-1]*A[K-1,I-1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "A[I-1
+,I-1] := (A[I-1,I-1]+S)/XL[I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 
+"if abs(A[I-1,I-1]) <= 1.0e-20 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 
+"" 0 "" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 10 "JJ := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for \+
+J from JJ to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "SS := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "S := 0;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for K from 1 to KK do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 31 "SS := SS-A[I-1,K-1]*A[K-1,J-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 29 "S := S-A[J-1,K-1]*A[K-1,I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if ISW = 0 then" }}
+{PARA 0 "" 0 "" {TEXT -1 12 "Ith row of U" }{MPLTEXT 1 0 0 "" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 38 "A[I-1,J-1] := (A[I-1,J-1]+SS)/XL[I-1];" }
+}{PARA 0 "" 0 "" {TEXT -1 15 "Ith column of L" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "A[J-1,I-1] := (A[J-1,I-1]+S)/A[I-1,
+I-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" 
+{TEXT -1 12 "Ith row of U" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 41 "A[I-1,J-1] := (A[I-1,J-1]+SS)/A[I-1,I-1];" }}{PARA 0 
+"" 0 "" {TEXT -1 15 "Ith column of L" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 37 "A[J-1,I-1] := (A[J-1,I-1]+S)/XL[I-1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 6" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 7 "S := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for K fr
+om 1 to M do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "S := S-A[N-1,K-1]*A
+[K-1,N-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 37 "A[N-1,N-1] := (A[N-1,N-1]+S)/XL[N-1];" }}{PARA 0 "
+" 0 "" {TEXT -1 57 "If A(N-1,N-1) = 0 then A = LU but the matrix is si
+ngular." }{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 59 "Process is \+
+complete, all entries of A have been determined." }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 37 "printf(`Choice of output method:\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`For example   A:\\\\OUT
+PUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TE
+XT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "fprintf(OUP, `GENERAL LU FAC
+TORIZATION\\n\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if ISW = 0 t
+hen " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "fprintf(OUP, `The diagonal \+
+of L consists of all entries = 1.0\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "fprintf(OUP
+, `The diagonal of U consists of all entries = 1.0\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "fpri
+ntf(OUP, `\\nEntries of L below/on diagonal and entries of U above`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "fprintf(OUP, `/on diagonal\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 56 "fprintf(OUP, `- output by rows
+ in overwrite format:\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for \+
+I from 1 to N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to
+ N do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, ` %11.8f`, A[
+I-1,J-1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "fprintf(OUP, `\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP <> de
+fault then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 42 "printf(`System has no unique solution\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%
+'alg064G:6\"64%#AAG%%NAMEG%$INPG%#OKG%\"NG%\"IG%\"JG%\"AG%%FLAGG%$ISWG
+%#XLG%\"MG%#KKG%\"SG%\"KG%#JJG%#SSG%$OUPGF&F&C.-%'printfG6#%NThis~is~t
+he~general~LU~factorization~method.|+G-F<6#%XThe~array~will~be~input~f
+rom~a~text~file~in~the~order:|+G-F<6#%fnA(1,1),~A(1,2),~...,~A(1,N),~A
+(2,1),~A(2,2),~...,~|+A(2,N),|+G-F<6#%C...,~A(N,1),~A(N,2),~...,~A(N,N
+)|+|+G-F<6#%gnPlace~as~many~entries~as~desired~on~each~line,~but~separ
+ate~G-F<6#%.entries~with|+G-F<6#%7at~least~one~blank.|+|+|+G-F<6#%RHas
+~the~input~file~been~created?~-~enter~Y~or~N.|+G>8$&-%&scanfG6#%#%cG6#
+\"\"\"@%5/FU%\"YG/FU%\"yGC.-F<6#%SInput~the~file~name~in~the~form~-~dr
+ive:\\name.ext|+G-F<6#%<for~example:~~~A:\\DATA.DTA|+G>8%&-FX6#%#%sGFe
+n>8&-%&fopenG6%Feo%%READG%%TEXTG>8'%&FALSEG?(F&FfnFfnF&/FbpFcpC%-F<6#%
+EInput~the~dimension~n~-~an~integer.|+G>8(&-FX6#%#%dGFen@%2\"\"!F[qC%?
+(8)FfnFfnF[q%%trueG?(8*FfnFfnF[qFfq>&8+6$,&FeqFfn!\"\"Ffn,&FhqFfnF^rFf
+n&-%'fscanfG6$F[p%#%fGFen>Fbp%%TRUEG-%'fcloseG6#F[p-F<6#%HThe~number~m
+ust~be~a~positive~integer.|+G-F<6#%6Choice~of~diagonals:|+G-F<6#%C1.~D
+iagonal~of~L~consists~of~ones|+G-F<6#%C2.~Diagonal~of~U~consists~of~on
+es|+G-F<6#%6Please~enter~1~or~2.|+G>8,F\\q@%/FjsFfn>8-Fbq>F^tFfnC$-F<6
+#%XThe~program~will~end~so~the~input~file~can~be~created.|+G>FbpFcp@$/
+FbpFfrC%?(FeqFfnFfnF[qFfq>&8.6#F]rFfn@%1-%$absG6#&F[r6$FbqFbqFbq>FbpFc
+pC(>Fbu*&FbuFfn&F[u6#FbqF^r?(Fhq\"\"#FfnF[qFfq@%/F^tFbqC$>&F[r6$FbqF_r
+*&F`vFfnFhuF^r>&F[r6$F_rFbq*&FdvFfnFbuF^rC$>F`v*&F`vFfnFbuF^r>Fdv*&Fdv
+FfnFhuF^r>8/,&F[qFfnF^rFfn>FeqF[v?(F&FfnFfnF&31FeqF]wFftC(>80F]r>81Fbq
+?(82FfnFfnFewFfq>Fgw,&FgwFfn*&&F[r6$F]r,&FiwFfnF^rFfnFfn&F[r6$F_xF]rFf
+nF^r>&F[r6$F]rF]r*&,&FcxFfnFgwFfnFfnFjtF^r@%1-F`u6#FcxFbq>FbpFcpC$>83,
+&FeqFfnFfnFfn?(FhqF^yFfnF[qFfqC&>84Fbq>FgwFbq?(FiwFfnFfnFewFfqC$>Fcy,&
+FcyFfn*&F]xFfn&F[r6$F_xF_rFfnF^r>Fgw,&FgwFfn*&&F[r6$F_rF_xFfnF`xFfnF^r
+@%F]vC$>Fjq*&,&FjqFfnFcyFfnFfnFjtF^r>&F[r6$F_rF]r*&,&FgzFfnFgwFfnFfnFc
+xF^rC$>Fjq*&FezFfnFcxF^r>Fgz*&FjzFfnFjtF^r>FeqF_y@$FftC2>FgwFbq?(FiwFf
+nFfnF]wFfq>Fgw,&FgwFfn*&&F[r6$F^wF_xFfn&F[r6$F_xF^wFfnF^r>&F[r6$F^wF^w
+*&,&F]\\lFfnFgwFfnFfn&F[u6#F^wF^r-F<6#%:Choice~of~output~method:|+G-F<
+6#%51.~Output~to~screen|+G-F<6#%82.~Output~to~text~file|+G-F<6#%5Pleas
+e~enter~1~or~2|+G>FjsF\\q@%/FjsF[vC&F^o-F<6#%=For~example~~~A:\\OUTPUT
+.DTA|+G>FeoFfo>85-F]p6%Feo%&WRITEGF`p>Fh]l%(defaultG-%(fprintfG6$Fh]l%
+;GENERAL~LU~FACTORIZATION|+|+G@%F]v-F_^l6$Fh]l%QThe~diagonal~of~L~cons
+ists~of~all~entries~=~1.0|+G-F_^l6$Fh]l%QThe~diagonal~of~U~consists~of
+~all~entries~=~1.0|+G-F_^l6$Fh]l%W|+Entries~of~L~below/on~diagonal~and
+~entries~of~U~aboveG-F_^l6$Fh]l%./on~diagonal|+G-F_^l6$Fh]l%G-~output~
+by~rows~in~overwrite~format:|+G?(FeqFfnFfnF[qFfqC$?(FhqFfnFfnF[qFfq-F_
+^l6%Fh]l%(~%11.8fGFjq-F_^l6$Fh]l%\"|+G@$0Fh]lF]^lC$-Fhr6#Fh]l-F<6$%COu
+tput~file~%s~created~sucessfullyGFeo@$Fep-F<6#%?System~has~no~unique~s
+olution|+G-%'RETURNGFiuF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "alg064();" }}{PARA 6 "" 1 "" {TEXT -1 336 "This is the general LU f
+actorization method.\nThe array will be input from a text file in the \+
+order:\nA(1,1), A(1,2), ..., A(1,N), A(2,1), A(2,2), ..., \nA(2,N),\n.
+.., A(N,1), A(N,2), ..., A(N,N)\n\nPlace as many entries as desired on
+ each line, but separate entries with\nat least one blank.\n\n\nHas th
+e input file been created? - enter Y or N." }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 1 "y" }}{PARA 6 "" 1 "" {TEXT -1 76 "Input the file nam
+e in the form - drive:\\name.ext\nfor example:   A:\\DATA.DTA" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "c:\\data\\alg064.dta" }}
+{PARA 6 "" 1 "" {TEXT -1 35 "Input the dimension n - an integer." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "4" }}{PARA 6 "" 1 "" {TEXT 
+-1 109 "Choice of diagonals:\n1. Diagonal of L consists of ones\n2. Di
+agonal of U consists of ones\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 87 "Choice of \+
+output method:\n1. Output to screen\n2. Output to text file\nPlease en
+ter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "
+" 1 "" {TEXT -1 371 "GENERAL LU FACTORIZATION\n\nThe diagonal of L con
+sists of all entries = 1.0\n\nEntries of L below/on diagonal and entri
+es of U above/on diagonal\n- output by rows in overwrite format:\n  6.
+00000000  2.00000000  1.00000000 -1.00000000\n   .33333333  3.33333333
+   .66666666   .33333333\n   .16666666   .20000000  3.70000000 -.90000
+000\n -.16666666   .10000000 -.24324324  2.58108108" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" 
+}}}}{MARK "1 51 0" 25 }{VIEWOPTS 1 1 0 1 1 1803 }

@@ -1,0 +1,117 @@
+Problem 1
+=========
+
+Build a "triangle" of length LEN, with LEN rows like this:
+
+      ( ( 1 )
+        ( 2 1 )
+        ( 3 2 1 )
+        ......
+        ( LEN LEN-1 ... 2 1 )
+      )
+
+Return the symbol wrong-length if LEN is negative,
+return () if LEN is zero.
+
+Here is the REQUIRED form of the function:
+
+( define ( triangle LEN )
+  ; your code goes here
+)
+
+And a few tests:
+
+> ( triangle -100 )
+wrong-length
+> ( triangle 0 )
+()
+> ( triangle 4 )
+((1) (2 1) (3 2 1) (4 3 2 1))
+
+I would have the top-level function take care of the special cases
+and then invoke an auxiliary function that builds a list of longer
+and longer rows. It's okay to build every row from scratch, if you
+find this approach easier to code; in that case you would probably
+have yet another auxiliary function to build one row. It is neater
+to use the last row and the current length to build the new row.
+
+
+Problem 2
+=========
+
+Is the argument a triangle-shaped list, like the lists created
+by ( triangle N )? [It doesn't matter what values the elements
+in the rows have, so long as the shape is triangular. A value,
+as illustrated by one of the tests, might even be a list!] 
+A non-list and an empty list are never triangle-shaped.
+
+The REQUIRED form of the function:
+
+( define ( triangle? LST )
+  ; your code goes here
+)
+ 
+And several tests:
+
+> ( triangle?  ' a )
+#f
+> ( triangle?  () )
+#f
+> ( triangle?  ' ( (a) (a a) (a a a) ) )
+#t
+> ( triangle?  ' ( (a) (a a) (a (a non-list here) a) ) )
+#t
+> ( triangle?  ( triangle 4 ) )
+#t
+> ( triangle?  ' ( (a) (a a) (a a a a) ) )
+#f
+> ( triangle?  ' ( (a) (a a a) (a a a) ) )
+#f
+
+I would again have the top-level function take care of the special
+cases (erroneous data), and then invoke an auxiliary function that
+checks if a given list (we now know it is a list!) contains longer
+and longer rows.
+
+
+Problem 3
+=========
+
+Are the two arguments identically shaped lists?
+If they are not two lists, the answers is "no". If they _are_
+lists, do they have lists and non-lists at the same positions?
+
+The REQUIRED form of the function:
+
+( define ( same-shape? LS1 LS2 )
+  ; your code goes here
+)
+
+And several tests:
+
+> ( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' ( (-100) (b c) (delta theta zero one) )
+)
+#t
+> ( same-shape?
+  ' ( (a a) rho (a a a a) )
+  ' ( (b c) 26 (delta theta zero one) )
+)
+#t
+> ( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' ( (-100) (b c) (delta theta zero) )
+)
+#f
+> ( same-shape?
+  ' ( (a) )
+  ()
+)
+#f
+> ( same-shape?
+  ' ( (a) (a a) (a a a a) )
+  ' delta
+)
+#f
+

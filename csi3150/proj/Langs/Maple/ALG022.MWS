@@ -1,0 +1,138 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 273 "# FIXED-POINT ALGORITHM 2.2\n#\n# \+
+To find a solution to p = g(p) given an\n# initial approximation p0\n#
+\n# INPUT:  initial approximation; tolerance TOL;\n#         maximum n
+umber of iterations NO.\n#\n# OUTPUT: approximate solution p or \n#   \+
+      a message that the method fails." }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 65 "alg022 := proc() local G, OK, P0, TOL, NO, FLAG, NAME, OUP, I,
+ P;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 44 "printf(`This is the Fixed-Po
+int Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input \+
+the function G(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 30 "printf(`For example: cos(x)`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "G := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "G := \+
+unapply(G,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Input initial approximation
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "P0 := scanf(`%f`)[1]; " }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 28 "printf(`Input tolerance\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+39 "printf(`Tolerance must be positive\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 66 "printf(`Input maximum number of iterations \+
+- no decimal point\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "NO := s
+canf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "if NO <= 0 then" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive integer
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+38 "printf(`Select output destination\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`A:\\\\OUTPUT.DTA\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,TEXT);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`Select amount of output\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "printf(`1. Answer only\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`2. All intermeditate ap
+proximations\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter
+ 1 or 2\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`
+)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `FIXED-POINT \+
+METHOD\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "fprintf(OUP, `  I    P\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 1" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "I := 1;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 12 "OK := TRUE; " }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "while I <= NO and OK = TRUE do
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "" 0 "" {TEXT -1 12 
+"compute P(I)" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "P := G(P0);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 37 "fprintf(OUP, `%3d   %15.8e\\n`, I, P);" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(P-P0) < TOL then" }}{PARA 
+0 "" 0 "" {TEXT -1 31 "procedure completed sucessfully" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 55 "fprintf(OUP, `\\nApproximate solution P = %12.
+8f\\n`, P);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 46 "fprintf(OUP, `Number
+ of iterations = %3d`, I);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 45 "fprin
+tf(OUP, `    Tolerance = %14.8e\\n`,TOL);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "els
+e" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }{MPLTEXT 1 0 0 "" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STE
+P 6" }}{PARA 0 "" 0 "" {TEXT -1 9 "update P0" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "P0 := P;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 7" }{MPLTEXT 1 0 0 "" }}{PARA 0 "" 0 "" {TEXT -1 33 "
+procedure completed unsucessfully" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+43 "fprintf(OUP, `\\nIteration number %3d`, NO);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 48 "fprintf(OUP, ` gave approximation %12.8f\\n`, P);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "fprintf(OUP, `not within tolerance \+
+%14.8e\\n`,TOL);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "pr
+intf(`Output file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 4 "end;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg022G:6\"6,%\"GG%#
+OKG%#P0G%$TOLG%#NOG%%FLAGG%%NAMEG%$OUPG%\"IG%\"PGF&F&C/-%'printfG6#%AT
+his~is~the~Fixed-Point~Method.|+G-F46#%GInput~the~function~G(x)~in~ter
+ms~of~x|+G-F46#%4For~example:~cos(x)G>8$&-%&scanfG6#%#%aG6#\"\"\">F>-%
+(unapplyG6$F>%\"xG>8%%&FALSEG-F46#%=Input~initial~approximation|+G>8&&
+-FA6#%#%fGFD?(F&FEFEF&/FLFMC%-F46#%1Input~tolerance|+G>8'FS@%1Fhn\"\"!
+-F46#%<Tolerance~must~be~positive|+G>FL%%TRUEG>FLFM?(F&FEFEF&FXC%-F46#
+%WInput~maximum~number~of~iterations~-~no~decimal~point|+G>8(&-FA6#%#%
+dGFD@%1FhoF[o-F46#%:Must~be~positive~integer|+G>FLF`o@$/FLF`oC4-F46#%;
+Select~output~destination|+G-F46#%+1.~Screen|+G-F46#%.2.~Text~file|+G-
+F46#%.Enter~1~or~2|+G>8)Fio@%/Fcq\"\"#C&-F46#%SInput~the~file~name~in~
+the~form~-~drive:\\name.ext|+G-F46#%/A:\\OUTPUT.DTA|+G>8*&-FA6#%#%sGFD
+>8+-%&fopenG6%F_r%&WRITEG%%TEXTG>Fer%(defaultG-F46#%9Select~amount~of~
+output|+G-F46#%01.~Answer~only|+G-F46#%E2.~All~intermeditate~approxima
+tions|+GF_q>FcqFio-%(fprintfG6$Fer%4FIXED-POINT~METHOD|+G@$Feq-Fhs6$Fe
+r%*~~I~~~~P|+G>8,FE>FLF`o?(F&FEFEF&31F`tFhoFdpC%>8--F>6#FR@$Feq-Fhs6&F
+er%.%3d~~~%15.8e|+GF`tFgt@%2-%$absG6#,&FgtFEFR!\"\"FhnC&-Fhs6%Fer%B|+A
+pproximate~solution~P~=~%12.8f|+GFgt-Fhs6%Fer%;Number~of~iterations~=~
+%3dGF`t-Fhs6%Fer%8~~~~Tolerance~=~%14.8e|+GFhn>FLFMC$>F`t,&F`tFEFEFE>F
+RFgt@$FdpC%-Fhs6%Fer%6|+Iteration~number~%3dGFho-Fhs6%Fer%<~gave~appro
+ximation~%12.8f|+GFgt-Fhs6%Fer%=not~within~tolerance~%14.8e|+GFhn@$0Fe
+rF\\sC$-%'fcloseG6#Fer-F46$%COutput~file~%s~created~sucessfullyGF_r-%'
+RETURNG6#F[oF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "alg022()
+;" }}{PARA 6 "" 1 "" {TEXT -1 89 "This is the Fixed-Point Method.\nInp
+ut the function G(x) in terms of x\nFor example: cos(x)" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "sqrt(10/(4+x))" }}{PARA 6 "" 1 "" 
+{TEXT -1 27 "Input initial approximation" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "1.5" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 ".0005" }}{PARA 6 "" 1 "" 
+{TEXT -1 53 "Input maximum number of iterations - no decimal point" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "25" }}{PARA 6 "" 1 "" {TEXT 
+-1 61 "Select output destination\n1. Screen\n2. Text file\nEnter 1 or \+
+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" 
+{TEXT -1 87 "Select amount of output\n1. Answer only\n2. All intermedi
+tate approximations\nEnter 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT -1 211 "FIXED-POINT METHOD
+\n  I    P\n  1    1.34839972e+00\n  2    1.36737637e+00\n  3    1.364
+95701e+00\n  4    1.36526474e+00\n\nApproximate solution P =   1.36526
+474\nNumber of iterations =   4    Tolerance = 5.00000000e-04" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{MARK "9 0 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 }

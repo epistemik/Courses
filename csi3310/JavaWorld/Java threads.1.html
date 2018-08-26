@@ -1,0 +1,647 @@
+<HTML>
+<HEAD>
+<META VALUE="keyword" CONTENTS="javaworld">
+<TITLE>Programming Java threads in the real world, Part 1 - JavaWorld - September 1998</TITLE>
+<META NAME="description" content="Programming Java threads in the real world, Part 1 -- JavaWorld, September 1998">
+<META NAME="keywords" content="JavaWorld, Java, threads, multithreading, AWT ">
+<META NAME="author" content="Allen Holub">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#551a8b">
+
+<!--#config timefmt="%A, %B %d, %Y"-->
+
+<center>
+<table width="525" cellpadding="2" border="0">
+<tr>
+<td colspan="2" align="left" valign="center">
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+September 1998
+</font></strong>
+</td> <td align="center" valign="bottom">
+ 
+<IMG width="65" height="20" SRC="javaworld_logo.gif" ALT="JavaWorld">
+ 
+</td> <td colspan="2" align="right" valign="center">
+ 
+<strong><font size="-1" face="Arial, Helvetica, Sans-serif">
+<a href="jw-subscribe.html?article">Get FREE JW e-mail alerts</a>
+</font></strong>
+ 
+</td>
+</tr>
+<tr>
+<td align="center"><a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a></td>
+<td><a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a></td>
+<td><a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a></td>
+<td><a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a></td>
+<td><a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a></td>
+</tr>
+<tr>
+<td align="center" colspan="5">
+<BR CLEAR="ALL">
+</td>
+</tr>
+</table>
+</center>
+<CENTER><IMG SRC="green.gif" HEIGHT="4" WIDTH="468" ALT=""></CENTER>
+<H1 ALIGN="CENTER">
+Programming Java threads in the real world, Part 1
+</H1>
+<H3 ALIGN="CENTER">
+A Java programmer's guide to threading architectures
+</H3>
+<BLOCKQUOTE>
+<STRONG>Summary</STRONG><BR>
+Programming Java threads isn't nearly as easy (or as
+platform-independent) as most books would have you believe, and all
+Java programs that use the AWT are multithreaded. This article is the first
+in a series that discusses the things you need to know to program
+threads in the real world.  The article assumes you understand the
+language-level support for threads (the <code>synchronized</code>
+keyword, how monitors work, the <code>wait()</code> and
+<code>notify()</code> methods, and so on) and focuses on the legion
+of problems that arise when you try to use these language features.
+<em>(3,400 words)</em>
+
+</BLOCKQUOTE>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER><P>
+<STRONG>By Allen Holub</STRONG><P>
+<table align="right" cellpadding="0" cellspacing="10" border="0">
+<tr><td colspan="2" align="center">
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+</font>
+<P>
+<BR>
+</td>
+</tr>
+<tr>
+<td width="1" align="center" bgcolor="#000000">
+</td>
+<td>
+<font size="-1" face="Arial, Helvetica, Sans-serif">
+<p>
+
+<P>
+<P>
+<P>
+<P>
+
+</font>
+<P>
+<P>
+</td></tr></table>
+
+<!-- begin body text -->
+
+<IMG ALIGN="LEFT" width="30" height="28" SRC="A.gif" ALT="A">ll Java programs other than simple console-based applications are
+multithreaded, whether you like it or not.  The problem is that the
+Abstract Windowing Toolkit (AWT) processes operating system (OS) events
+on its own thread, so your listener methods actually run on the AWT
+thread.  These same listener methods typically access objects that are
+also accessed from the main thread.  It may be tempting, 
+at this point, to bury your head in the sand and
+pretend you don't have to worry about threading issues, but you can't 
+usually get away with it. And, unfortunately, virtually none of 
+the books on Java addresses threading issues in sufficient depth. 
+(For a list of helpful books on 
+the topic, see <a href="#resources">Resources</a>.)
+
+<P>
+This article is the first in a series that will present real-world
+solutions to the problems of programming Java in a multithreaded
+environment. It's geared to Java programmers who understand the
+language-level stuff (the <code>synchronized</code> keyword and the
+various facilities of the <code>Thread</code> class), but want to learn
+how to use these language features effectively.
+
+<P>
+<FONT SIZE="+1"><STRONG>Platform dependence</STRONG></FONT><BR>
+Unfortunately, Java's promise of platform independence falls flat 
+on its face in the threads arena. Though it's possible
+to write a platform-independent multithreaded Java program, you have to
+do it with your eyes open.  This isn't really Java's fault;
+it's almost impossible to write a truly platform-independent threading
+system.  (Doug Schmidt's ACE [Adaptive Communication Environment] framework  
+is a good, though complex, attempt. See <a href="#resources">Resources</a> for a link to his
+program.) So, before I can talk about hard-core Java-programming issues
+in subsequent installments, I have to discuss the difficulties
+introduced by the platforms on which the Java virtual machine (JVM)
+might run.
+
+<P>
+<FONT SIZE="+1"><STRONG>Atomic energy</STRONG></FONT><BR>
+The first OS-level concept that's important to understand is <em>atomicity.</em> An
+atomic operation cannot be interrupted by another thread.  Java does
+define at least a few atomic operations. In particular, assignment to
+variables of any type except <code>long</code> or <code>double</code>
+is atomic. You don't have to worry about a thread preempting a
+method in the middle of the assignment.  In practice, this means that
+you never have to synchronize a method that does nothing but return the
+value of (or assign a value to) a <code>boolean</code> or
+<code>int</code> instance variable.  Similarly, a method that did a lot
+of computation using only local variables and arguments, and which
+assigned the results of that computation to an instance variable as the
+last thing it did, would not have to be synchronized. For example:
+
+<P>
+<pre>
+class some_class
+{   
+    int some_field;
+
+    void f( some_class arg ) // deliberately not synchronized
+    {
+        // Do lots of stuff here that uses local variables
+        // and method arguments, but does not access
+        // any fields of the class (or call any methods
+        // that access any fields of the class).
+        // ...
+
+        some_field = new_value;     // do this last.
+    }
+}
+</pre>
+
+<P>
+On the other hand, when executing <code>x=++y</code> or
+<code>x+=y</code>, you could be preempted after the increment but
+before the assignment.  To get atomicity in this situation,
+you'll need to use the keyword <code>synchronized</code>.
+
+<P>
+All this is important because the overhead of synchronization can be
+nontrivial, and can vary from OS to OS.  The following program
+demonstrates the problem. Each loop repetitively calls a method that
+performs the same operations, but one of the methods
+(<code>locking()</code>) is synchronized and the other
+(<code>not_locking()</code>) isn't. Using the JDK "performance-pack" VM
+running under Windows NT 4, the program reports a 1.2-second difference
+in runtime between the two loops, or about 1.2 microseconds per call.
+This difference may not seem like much, but it represent a 7.25-percent
+increase in calling time.  Of course, the percentage increase falls off
+as the method does more work, but a significant number of methods -- in
+my programs, at least -- are only a few lines of code.
+
+<P>
+<pre>
+import java.util.*;
+
+class synch
+{
+<strong>    synchronized int locking     (int a, int b){return a + b;}
+    int              not_locking (int a, int b){return a + b;}
+</strong>
+    private static final int ITERATIONS = 1000000;
+
+    static public void main(String[] args)
+    {
+        synch tester = new synch();
+
+        double start = new Date().getTime();
+<strong>       for(long i = ITERATIONS; --i >= 0 ;)
+            tester.locking(0,0);
+</strong>        double end = new Date().getTime();
+        double locking_time = end - start;
+
+        start = new Date().getTime();
+<strong>       for(long i = ITERATIONS; --i >= 0 ;)
+            tester.not_locking(0,0);
+</strong>        end = new Date().getTime();
+        double not_locking_time = end - start;
+
+        double time_in_synchronization = locking_time - not_locking_time;
+
+        System.out.println( "Time lost to synchronization (millis.): "
+                        + time_in_synchronization );
+
+        System.out.println( "Locking overhead per call: "
+                        + (time_in_synchronization / ITERATIONS) );
+
+        System.out.println(
+            not_locking_time/locking_time * 100.0 + "% increase" );
+    }
+}
+</pre>
+
+<P>
+Though the HotSpot VM is supposed to address the
+synchronization-overhead problem, HotSpot isn't a freebee -- you have
+to buy it.  Unless you license and ship HotSpot with your app, there's
+no telling what VM will be on the target platform, and of course you
+want as little as possible of the execution speed of your program to be
+dependent on the VM that's executing it.  Even if deadlock problems
+(which I'll discuss in the next installment of this series) didn't exist,
+the notion that you should "synchronize everything" is just plain
+wrong-headed.
+
+<P>
+<FONT SIZE="+1"><STRONG>Concurrency versus parallelism</STRONG></FONT><BR>
+The next OS-related issue (and the main problem when it comes to
+writing platform-independent Java) has to do with the notions of
+<em>concurrency</em> and <em>parallelism.</em>  Concurrent
+multithreading systems give the appearance of several tasks executing
+at once, but these tasks are actually split up into chunks that share
+the processor with chunks from other tasks.  The following figure
+illustrates the issues.  In parallel systems, two tasks are actually
+performed simultaneously.  Parallelism requires a multiple-CPU system.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="316" HEIGHT="276" SRC="concurrency.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+Unless you're spending a lot of time blocked, waiting for I/O
+operations to complete, a program that uses multiple concurrent threads
+will often run slower than an equivalent single-threaded program,
+although it will often be better organized than the equivalent
+single-thread version.  A program that uses multiple threads running in
+parallel on multiple processors will run much faster.
+
+<P>
+Though Java permits threading to be implemented
+entirely in the VM, at least in theory, this approach would 
+preclude any parallelism in your application. If no operating-system-level 
+threads were used, the OS would look at the VM instance as a single-threaded 
+application, which would most likely be scheduled to a single processor.  The net
+result would be that no two Java threads running under the same VM
+instance would ever run in parallel, even if you had multiple CPUs and
+your VM was the only active process.  Two instances of the VM
+running separate applications could run in parallel, of course, but I
+want to do better than that.  To get parallelism, the VM <em>must</em>
+map Java threads through to OS threads; so, you can't
+afford to ignore the differences between the various threading models
+if platform independence is important.
+
+<P>
+<FONT SIZE="+1"><STRONG>Get your priorities straight</STRONG></FONT><BR>
+I'll demonstrate the ways the issues I just discussed can
+impact your programs by comparing two operating systems: Solaris and
+Windows NT.
+
+<P>
+Java, in theory at least, provides ten priority levels for threads.  (If
+two or more threads are both waiting to run, the one with the highest
+priority level will execute.) In Solaris, which supports 2<sup>31</sup>
+priority levels, this is no problem (though Solaris priorities can be
+tricky to use -- more on this in a moment).  NT, on the other hand, has
+seven priority levels available, and these have to be mapped into
+Java's ten.  This mapping is undefined, so lots of possibilities
+present themselves. (For example, Java priority levels 1 and 2 might 
+both map to NT priority level 1, and Java priority levels 8, 9, and 
+10 might all map to NT level 7.)
+
+<P>
+NT's paucity of priority levels is a problem if you want to use
+priority to control scheduling. Things are made even more complicated
+by the fact that priority levels aren't fixed. NT provides a mechanism
+called <em>priority boosting,</em> which you can turn off with a C system
+call, but not from Java.  When priority boosting is enabled, NT boosts
+a thread's priority by an indeterminate amount for an indeterminate
+amount of time every time it executes certain I/O-related system
+calls.  In practice, this means that a thread's priority level could be
+higher than you think because that thread happened to perform an I/O
+operation at an awkward time.
+
+<P>
+The point of the priority boosting is to prevent threads that are doing
+background processing from impacting the apparent responsiveness of
+UI-heavy tasks. Other operating systems have more-sophisticated
+algorithms that typically lower the priority of background processes.
+The downside of this scheme, particularly when implemented on a
+per-thread rather than a per-process level, is that it's very difficult to use
+priority to determine when a particular thread will run.
+
+<P>
+It gets worse.
+
+<P>
+In Solaris, as is the case in all Unix systems, processes have priority
+as well as threads. The threads of high-priority processes can't be
+interrupted by the threads of low-priority processes.  Moreover, the
+priority level of a given process can be limited by a system
+administrator so that a user process won't interrupt critical OS
+processes.  NT supports none of this.  An NT process is just an address
+space.  It has no priority per se, and is not scheduled.  The system
+schedules threads; then, if a given thread is running under a process that
+isn't in memory, the process is swapped in.  NT thread priorities fall
+into various "priority classes," that are distributed across a
+continuum of actual priorities. The system looks like this:
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="533" HEIGHT="139" SRC="nt_priority.gif">
+<BR><FONT SIZE="-1"><STRONG>
+Windows NT's priority architecture 
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+
+<P>
+The columns are actual priority levels, only 22 of which must be shared
+by all applications.  (The others are used by NT itself.) The rows are
+priority classes. The threads running in a process pegged at the
+idle priority class are running at levels 1 through 6 and 15,
+depending on their assigned logical priority level.  The threads of a
+process pegged as normal priority class will run at levels 1, 6 through 10,
+or 15 if the process doesn't have the input focus.  If it does have the
+input focus, the threads run at levels 1, 7 through 11, or 15.  This means that
+a high-priority thread of an idle priority class process can preempt
+a low-priority thread of a normal priority class process, but only if
+that process is running in the background.  Notice that a process
+running in the "high" priority class only has six priority levels
+available to it. The other classes have seven.
+
+<P>
+NT provides no way to limit the priority class of a process.  Any
+thread on any process on the machine can take over control of the box
+at any time by boosting its own priority class; there is no
+defense against this.
+
+<P>
+The technical term I use to describe NT's priority is <em>unholy mess.</em> In
+practice, priority is virtually worthless under NT.
+
+<P>
+So what's a programmer to do?  Between NT's limited number of priority
+levels and it's uncontrollable priority boosting, there's no absolutely
+safe way for a Java program to use priority levels for scheduling.  One
+workable compromise is to restrict yourself to
+<code>Thread.MAX_PRIORITY</code>, <code>Thread.MIN_PRIORITY</code>, and
+<code>Thread.NORM_PRIORITY</code> when you call
+<code>setPriority()</code>.  This restriction at least avoids the
+10-levels-mapped-to-7-levels problem.  I suppose you could use the
+<code>os.name</code> system property to detect NT, and then call a
+native method to turn off priority boosting, but that won't work if
+your app is running under Internet Explorer unless you also use Sun's
+VM plug-in.  (Microsoft's VM uses a nonstandard native-method
+implementation.) In any event, I hate to use native methods.  I usually
+avoid the problem as much as possible by putting most threads at
+<code>NORM_PRIORITY</code> and using scheduling mechanisms other than
+priority.  (I'll discuss some of these in future installments of this series.)
+
+<P>
+<FONT SIZE="+1"><STRONG>Cooperate!</STRONG></FONT><BR>
+There are typically two threading models supported by operating
+systems: cooperative and preemptive. 
+
+<P>
+<strong>The cooperative multithreading model</strong><br>
+In a <em>cooperative</em> system, a thread retains control of its
+processor until it decides to give it up (which might be never). The
+various threads have to cooperate with each other or all but one of the
+threads will be "starved" (meaning, never given a chance to run).
+Scheduling in most cooperative systems is done strictly by priority
+level. When the current thread gives up control, the highest-priority
+waiting thread gets control.  (An exception to this rule is Windows
+3.x, which uses a cooperative model but doesn't have much of a
+scheduler. The window that has the focus gets control.)
+
+<P>
+The main advantage of cooperative multithreading is that it's very fast
+and has a very low overhead. For example, a <em>context swap</em> -- a
+transfer of control from one thread to another -- can be performed
+entirely by a user-mode subroutine library without entering the OS
+kernel.  (In NT, which is something of a worst-case, entering the
+kernel wastes 600 machine cycles. A user-mode context swap in a
+cooperative system does little more than a C <code>setjump/longjump</code> 
+call would do.) You can have thousands of
+threads in your applications significantly impacting performance. Since
+you don't lose control involuntarily in cooperative systems, you don't
+have to worry about synchronization either.  That is, you never have to
+worry about an atomic operation being interrupted.  The main
+disadvantage of the cooperative model is that it's very difficult to
+program cooperative systems.  Lengthy operations have to be manually
+divided into smaller chunks, which often must interact in complex
+ways.
+
+<P>
+<strong>The preemptive multithreading model</strong><br> The
+alternative to a cooperative model is a <em>preemptive</em> one, where
+some sort of timer is used by the operating system itself to cause a
+context swap. The interval between timer ticks is called a <em>time
+slice.</em>  Preemptive systems are less efficient than cooperative
+ones because the thread management must be done by the operating-system
+kernel, but they're easier to program (with the exception of
+synchronization issues) and tend to be more reliable since starvation
+is less of a problem.  The most important advantage to preemptive
+systems is parallelism.  Since cooperative threads are scheduled by a
+user-level subroutine library, not by the OS, the best you can get with
+a cooperative model is concurrency.  To get parallelism, the OS must do
+the scheduling.  Of course, four threads running in parallel will run
+much faster than the same four threads running concurrently.
+
+<P>
+Some operating systems, like Windows 3.1, only support cooperative
+multithreading. Others, like NT, support only preemptive threading. (You
+can simulate cooperative threading in NT with a user-mode library like
+the "fiber" library, but fibers aren't fully integrated into the OS.)
+Solaris provides the best (or worst) of all worlds by supporting both
+cooperative and preemptive models in the same program.
+
+<P>
+<FONT SIZE="+1"><STRONG>Mapping kernel threads to user processes</STRONG></FONT><BR>
+The final OS issue has to do with the way in which kernel-level threads
+are mapped into user-mode processes.  NT uses a one-to-one model,
+illustrated in the following picture.
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="318" HEIGHT="369" SRC="nt_threads.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+NT user-mode threads effectively <em>are</em> kernel threads. They are
+mapped by the OS directly onto a processor and they are always
+preemptive. All thread manipulation and synchronization are done via
+kernel calls (with a 600-machine-cycle overhead for every call).  This
+is a straightforward model, but is neither flexible nor efficient.
+
+<P>
+The Solaris model, pictured below, is more interesting.  Solaris adds
+to the notion of a thread, the notion of a <em>lightweight process</em>
+(LWP).  The LWP is a schedulable unit on which one or more threads can
+run.  Parallel processing is done on the LWP level.  Normally, LWPs
+reside in a pool, and they are assigned to particular processors as
+necessary.  An LWP can be "bound" to a specific processor if it's doing
+something particularly time critical, however, thereby preventing other
+LWPs from using that processor.
+
+<P>
+Up at the user level, you have a system of cooperative, or "green,"
+threads.  In a simple situation, a process will have one LWP shared by
+all the green threads.  The threads must yield control to each other
+voluntarily, but the single LWP the threads share can be preempted
+by an LWP in another process. This way the processes are preemptive
+with respect to each other (and can execute in parallel), but the
+threads within the process are cooperative (and execute concurrently).
+
+<P>
+A process isn't limited to a single LWP, however.  The green threads
+can share a pool of LWPs in a single process.  The green threads can be
+attached (or "bound") to an LWP in two ways:
+
+<P>
+<ol>
+<li>The programmer explicitly "binds" one or more threads to a specific
+LWP. In this case, the threads sharing a LWP must cooperate with each
+other, but they can preempt (or be preempted by) threads bound to a
+different LWP. If every green thread was bound to a single LWP, you'd
+have an NT-style preemptive system.
+
+<P>
+<li>The threads are bound to green threads by the user-mode scheduler.
+This is something of a worst case from a programming point of view
+because you can't assume a cooperative or a preemptive environment. You
+may have to yield to other threads if there's only one LWP in the pool,
+but you might also be preempted.
+</ol>
+
+<P>
+<CENTER>
+<TABLE CELLPADDING="5" BORDER="0"><TR><TD>
+<CENTER>
+<IMG VSPACE="3" WIDTH="488" HEIGHT="414" SRC="solaris_threads.gif">
+<BR><FONT SIZE="-1"><STRONG>
+</STRONG></FONT></CENTER>
+</TD></TR></TABLE>
+</CENTER>
+This threading model gives you an enormous amount of flexibility.  You
+can choose between an extremely fast (but strictly concurrent)
+cooperative system, a slower (but parallel) preemptive system, or any
+combination of the two.
+
+<P>
+So why does this matter to a Java programmer?  The main issue is that
+the choice of threading model is entirely up to the VM -- you have no
+control.  For example, early versions of the Solaris VM were strictly
+cooperative.  Java threads were all green threads sharing a single
+LWP.  The current version of the Solaris VM, however, uses several LWPs.
+Similarly, the NT VMs don't have the equivalent of green threads, so
+they're always preemptive.  In order to write platform-independent
+code, you must make two seemingly contradictory assumptions:
+
+<P>
+<ol>
+<li>You can be preempted by another thread at any time. You must use
+the <code>synchronized</code> keyword carefully to assure that
+non-atomic operations work correctly.
+
+<P>
+<li>You will never be preempted unless you give up control.  You must
+occasionally perform some operation that will give control to other
+threads so they can have a chance to run. Use <code>yield()</code>
+and <code>sleep()</code> in appropriate places (or make blocking I/O
+calls).  For example, you might want to consider calling
+<code>yield()</code> every one hundred iterations or so of a long loop,
+or voluntarily going to sleep for a few milliseconds every so often to
+give lower-priority threads a chance to run. (<code>yield()</code> will
+yield control only to threads running at your priority level or
+higher).
+</ol>
+
+<P>
+<FONT SIZE="+1"><STRONG>Wrapping it up</STRONG></FONT><BR>
+So, those are the main OS-level issues you must consider when
+you're writing a Java program. Since you can make no assumptions about
+your operating environment, you have to program for the worst case. For
+example, you have to assume you can be preempted at any time, so you
+must use <code>synchronized</code> appropriately, but you must also
+assume that you will never be preempted, so you must also use
+<code>yield()</code>, <code>sleep()</code>, or occasionally blocking
+I/O calls to permit other threads to run. You can't assume 
+priority levels 1 and 2 are different. They might not be after NT has
+mapped Java's 10 levels into its 7 levels.  You can't assume that a
+priority level 2 thread will always be higher priority than one that
+runs at level 1.
+
+<P>
+Subsequent articles will get into considerable detail about various
+thread-related programming problems and solutions.  Here's the roadmap 
+for the rest of the series:
+
+<P>
+<ol>
+<li>Deadlock, starvation, and nested-monitor lockout
+<li>Roll-your-own mutexes and a deadlock-handling lock manager
+<li>Counting semaphores, condition variables, and singletons
+<li>Event notification in a multithreaded environment (the mysteries of
+the <code>AWTEventMulticaster</code>)
+<li> Reader/writer locks
+<li>Timers
+<li>Synchronous-dispatching: multithreading without threads
+<li>Implementing the active-object pattern
+</ol>
+
+
+<!-- end body text -->
+
+<P>
+<CENTER><table cellpadding="0" border="0">
+<tr><td>
+</td></tr></table></CENTER>
+
+<P>
+<P>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<A NAME="resources"><STRONG>Resources</STRONG></a>
+<UL>
+
+<LI>There are several good books that discuss Java threading issues. The best of the batch as follows: <BLOCKQUOTE> For a great in-depth look at multithreading in general and the implementation of multithreading both in and with Java in particular, this one's a must. It's required reading if you're using threads heavily: Doug Lea, <em>Concurrent Programming in Java: Design Principles and Patterns</em> (Addison Wesley, 1997). <A HREF="http://java.sun.com/docs/books/cp/">http://java.sun.com/docs/books/cp/</a> <P> For an intro-level book on Java threading that is less technical but more readable than Lea's effort, see: Scott Oaks and Henry Wong, <em>Java Threads</em> (O'Reilly, 1997) <A HREF="http://www.oreilly.com/catalog/jthreads/">http://www.oreilly.com/catalog/jthreads/</a></BLOCKQUOTE>
+
+<LI>This book is good for those looking into the general subject of multithreading, but doesn't have a Java slant: Bill Lewis and Daniel J. Berg, <em>Threads Primer: A Guide to Multithreaded Programming</em> (Prentice Hall/SunSoft Press, ISBN 0-13-443698-9)<BR>
+<A HREF="http://www.sun.com/books/books/Lewis/Lewis.html">http://www.sun.com/books/books/Lewis/Lewis.html</a>
+
+<LI>Doug Schmidt's ACE framework  is a good, though complex, attempt at a truly platform-independent threading system<BR>
+<A HREF="http://www.cs.wustl.edu/~schmidt/">http://www.cs.wustl.edu/~schmidt/</a>
+
+</UL>
+<CENTER><IMG WIDTH="468" HEIGHT="4" SRC="green.gif"></CENTER>
+<P>
+<STRONG>About the author</STRONG><BR>
+
+Allen Holub has been working in the computer industry since 1979.  He
+is widely published in magazines (<em>Dr. Dobb's Journal,</em>
+<em>Programmers Journal,</em> <em>Byte,</em> and <em>MSJ,</em> among
+others).  He has seven books to his credit, and is currently working on
+an eighth that will present the complete sources for a Java compiler
+written in Java.  Allen abandoned C++ for Java in early 1996 and now
+looks at C++ as a bad dream, the memory of which is mercifully fading.
+He's been teaching programming (first C, then C++ and MFC, now
+OO-Design and Java) both on his own and for the University of
+California, Berkeley Extension, since 1982. Allen offers both public
+classes and in-house training in Java and object-oriented design
+topics. He also does object-oriented design consulting.  Get
+information, and contact Allen, via his Web site <a
+href="http://www.holub.com">http://www.holub.com</a>.
+<BR CLEAR="ALL")
+
+<P>
+<P>
+<center>
+<a href="index.html"><img border="0" width="74" height="21" src="b-home.gif" alt="[JavaWorld Main Page]"></a>
+<a href="search.html"><img border="0" width="107" height="21" src="b-search.gif" alt="[JavaWorld Search]"></a>
+<a href="index.html#nuts"><img border="0" width="107" height="21" src="b-nuts2.gif" alt="[Nuts & Bolts]"></a>
+<a href="index.html#news"><img border="0" width="107" height="21" src="b-news.gif" alt="[News & Views]"></a>
+<a href="index.html#res"><img border="0" width="107" height="21" src="b-jr.gif" alt="[Java Resources]"></a>
+</center>
+<P>
+<CENTER><A HREF="jw-copyright98.html"><IMG BORDER="0" width="338" height="20" SRC="b-copyright98.gif" ALT="[(c) Copyright 1998 Web Publishing Inc., an IDG Communications company]"></a></CENTER>
+<P>
+If you have problems with this magazine, contact
+<BR>
+URL: http://www.javaworld.com/javaworld/jw-09-1998/jw-09-threads.html
+<BR>
+Last modified: <!--#echo var="LAST_MODIFIED"-->
+</BODY>
+</HTML>
+

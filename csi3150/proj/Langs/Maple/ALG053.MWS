@@ -1,0 +1,191 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 
+179 136 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 
+0 0 0 0 0 0 }3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 
+{CSTYLE "" -1 -1 "" 0 1 187 136 68 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 
+-1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 453 "# RUNGE-KUTTA-FEHLBERG ALGORITHM 5
+.3\n#\n# TO APPROXIMATE THE SOLUTION OF THE INITIAL VALUE PROBLEM:\n# \+
+           Y' = F(T,Y), A<=T<=B, Y(A) = ALPHA,\n# WITH LOCAL TRUNCATIO
+N ERROR WITHIN A GIVEN TOLERANCE.\n#\n# INPUT:   ENDPOINTS A,B; INITIA
+L CONDITION ALPHA; TOLERANCE TOL;\n#          MAXIMUM STEPSIZE HMAX; M
+INIMUM STEPSIZE HMIN.\n#\n# OUTPUT:  T, W, H WHERE W APPROXIMATES Y(T)
+ AND STEPSIZE H WAS USED OR A MESSAGE THAT THE MINIMUM STEPSIZE WAS EX
+CEEDED. " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 119 "alg053 := proc() local
+ F, OK, A, B, ALPHA, TOL, HMIN, HMAX, FLAG, NAME, OUP, H, T, W, K1, K2
+, K3, K4, K5, K6, R, DELTA;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "prin
+tf(`This is the Runge-Kutta-Fehlberg Method.\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 58 "printf(`Input the function F(t,y) in terms of t and
+ y\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "printf(`For example: y-
+t^2+1`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(`%a`)[1];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := unapply(F,t,y);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "printf
+(`Input left and right endpoints separated by blank\\n`);" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 20 "A := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "B := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 15 "if A >= B then " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 59 "printf(`Le
+ft endpoint must be less than right endpoint\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRU
+E;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`Inpu
+t the initial condition\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "AL
+PHA := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FAL
+SE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "printf(`Input tolerance\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%f`)[1];" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 42 "printf(`Tolerance must be a positive.\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 
+"OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := F
+ALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 72 "printf(`Input minimum and maximum m
+esh spacing separated by a space\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 23 "HMIN := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "
+HMAX := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "if HMIN \+
+< HMAX and HMIN > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := T
+RUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 103 "printf(`Minimum mesh spacing must be a positive real
+ number and less than the maximum mesh spacing\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text file\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`Please enter 1 or 2\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 63 "printf(`Input the file name in the form - drive:\\
+\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 41 "printf(`For exa
+mple   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NA
+ME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fop
+en(NAME,WRITE,TEXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "fprintf(OU
+P, `RUNGE-KUTTA-FEHLBERG METHOD\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 67 "fprintf(OUP, `    T(I)           W(I)          H     \+
+      R\\n\\n`);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 10 "H := HMAX;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+7 "T := A;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "W := ALPHA;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 55 "fprintf(OUP, `%12.7f %11.7f    0         \+
+  0\\n`, T, W);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+28 "while T < B and OK = TRUE do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "K1 := H*F(T,W);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 60 "K2 := H*F(T+H/4,W+K1/4);K3 := H*F(T+3*H/8,W+(3
+*K1+9*K2)/32);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "K4 := H*F(T+12*H/
+13,W+(1932*K1-7200*K2+7296*K3)/2197);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 57 "K5 := H*F(T+H,W+439*K1/216-8*K2+3680*K3/513-845*K4/4104);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 67 "K6 := H*F(T+H/2,W-8*K1/27+2*K2-3544
+*K3/2565+1859*K4/4104-11*K5/40);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 4
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 61 "R := abs(K1/360-128*K3/4275-219
+7*K4/75240.0+K5/50+2*K6/55)/H;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if R <= TOL then" }}{PARA 0 "" 0 
+"" {TEXT -1 6 "STEP 6" }}{PARA 0 "" 0 "" {TEXT -1 22 "Approximation ac
+cepted" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "T := T+H;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 48 "W := W+25*K1/216+1408*K3/2565+2197*K4/4104-K5/5;
+" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 58 "fprintf(OUP, `%12.7f %11.7f %11.7f %11.7f\\n`, T, W, H, R);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "
+STEP 8" }}{PARA 0 "" 0 "" {TEXT -1 18 "To avoid underflow" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 19 "if R > 1.0E-20 then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 41 "DELTA := 0.84 * exp(0.25 * log(TOL / R));" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "D
+ELTA := 10.0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 
+0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "" 0 "" {TEXT -1 15 "Calculate new \+
+H" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "if DELTA <= 0.1 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 11 "H := 0.1*H;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "if DELTA >=
+ 4 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "H := 4.0 * H;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 
+"H := DELTA * H;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if H > HMAX then" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 10 "H := HMAX;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if H < HMIN then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 15 "if T+H > B then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if abs(B-T) < TOL then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 7 "T := B;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 9 "H := B-T;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 
+"fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 18 "if OK = FALSE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "fprintf(OUP, `Minimal H exceeded\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 12" }}
+{PARA 0 "" 0 "" {TEXT -1 19 "Process is complete" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 22 "if OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 12 "fclose(OUP):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Out
+put file %s created sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 10 "RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "en
+d;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%'alg053G:6\"68%\"FG%#OKG%\"AG%
+\"BG%&ALPHAG%$TOLG%%HMING%%HMAXG%%FLAGG%%NAMEG%$OUPG%\"HG%\"TG%\"WG%#K
+1G%#K2G%#K3G%#K4G%#K5G%#K6G%\"RG%&DELTAGF&F&C1-%'printfG6#%JThis~is~th
+e~Runge-Kutta-Fehlberg~Method.|+G-F@6#%OInput~the~function~F(t,y)~in~t
+erms~of~t~and~y|+G-F@6#%5For~example:~y-t^2+1G>8$&-%&scanfG6#%#%aG6#\"
+\"\">FJ-%(unapplyG6%FJ%\"tG%\"yG>8%%&FALSEG?(F&FQFQF&/FYFZC&-F@6#%SInp
+ut~left~and~right~endpoints~separated~by~blank|+G>8&&-FM6#%#%fGFP>8'F]
+o@%1FboF\\o-F@6#%PLeft~endpoint~must~be~less~than~right~endpoint|+G>FY
+%%TRUEG-F@6#%=Input~the~initial~condition|+G>8(F]o>FYFZ?(F&FQFQF&FfnC%
+-F@6#%1Input~tolerance|+G>8)F]o@%1Ffp\"\"!-F@6#%?Tolerance~must~be~a~p
+ositive.|+G>FYFio>FYFZ?(F&FQFQF&FfnC&-F@6#%gnInput~minimum~and~maximum
+~mesh~spacing~separated~by~a~space|+G>8*F]o>8+F]o@%32FeqFgq2FipFeq>FYF
+io-F@6#%fpMinimum~mesh~spacing~must~be~a~positive~real~number~and~less
+~than~the~maximum~mesh~spacing|+G@$/FYFioC2-F@6#%:Choice~of~output~met
+hod:|+G-F@6#%51.~Output~to~screen|+G-F@6#%82.~Output~to~text~file|+G-F
+@6#%5Please~enter~1~or~2|+G>8,&-FM6#%#%dGFP@%/F`s\"\"#C&-F@6#%SInput~t
+he~file~name~in~the~form~-~drive:\\name.ext|+G-F@6#%=For~example~~~A:
+\\OUTPUT.DTA|+G>8-&-FM6#%#%sGFP>8.-%&fopenG6%F`t%&WRITEG%%TEXTG>Fft%(d
+efaultG-%(fprintfG6$Fft%>RUNGE-KUTTA-FEHLBERG~METHOD|+|+G-F_u6$Fft%Q~~
+~~T(I)~~~~~~~~~~~W(I)~~~~~~~~~~H~~~~~~~~~~~R|+|+G>8/Fgq>80F\\o>81F^p-F
+_u6&Fft%@%12.7f~%11.7f~~~~0~~~~~~~~~~~0|+GFhuFju>FYFio?(F&FQFQF&32FhuF
+boFarC.>82*&FfuFQ-FJ6$FhuFjuFQ>83*&FfuFQ-FJ6$,&FhuFQFfu#FQ\"\"%,&FjuFQ
+FdvF^wFQ>84*&FfuFQ-FJ6$,&FhuFQFfu#\"\"$\"\"),(FjuFQFdv#Fhw\"#KFiv#\"\"
+*F\\xFQ>85*&FfuFQ-FJ6$,&FhuFQFfu#\"#7\"#8,*FjuFQFdv#\"%K>\"%(>#Fiv#!%+
+sF[yFbw#\"%'H(F[yFQ>86*&FfuFQ-FJ6$,&FhuFQFfuFQ,,FjuFQFdv#\"$R%\"$;#Fiv
+!\")Fbw#\"%!o$\"$8&F`x#!$X)\"%/TFQ>87*&FfuFQ-FJ6$,&FhuFQFfu#FQFgs,.Fju
+FQFdv#Fjy\"#FFivFgsFbw#!%WN\"%lDF`x#\"%f=F`zFay#!#6\"#SFQ>88*&-%$absG6
+#,,Fdv#FQ\"$g$Fbw#!$G\"\"%vUF`x$!+n$*)*>HFa[lFay#FQ\"#]Fbz#Fgs\"#bFQFf
+u!\"\"@$1Fd[lFfpC%>FhuFey>Fju,,FjuFQFdv#\"#DFiyFbw#\"%39F][lF`x#F[yF`z
+Fay#Fe\\l\"\"&-F_u6(Fft%=%12.7f~%11.7f~%11.7f~%11.7f|+GFhuFjuFfuFd[l@%
+2$\"#5!#@Fd[l>89,$-%$expG6#,$-%$logG6#*&FfpFQFd[lFe\\l$F]]l!\"#$\"#%)F
+g^l>F\\^l$\"$+\"Fe\\l@%1F\\^l$FQFe\\l>Ffu,$FfuF__l@%1F_wF\\^l>Ffu,$Ffu
+$Fb[lFe\\l>Ffu*&F\\^lFQFfuFQ@$2FgqFfu>FfuFgq@%2FfuFeq>FYFZ@$2FboFey@%2
+-Fg[l6#,&FboFQFhuFe\\lFfp>FhuFbo>FfuFe`l@$Ffn-F_u6$Fft%4Minimal~H~exce
+eded|+G@$0FftF]uC$-%'fcloseG6#Fft-F@6$%COutput~file~%s~created~sucessf
+ullyGF`t-%'RETURNG6#FipF&F&" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "alg053();" }}{PARA 6 "" 1 "" {TEXT -1 107 "This is the Runge-Kutta-
+Fehlberg Method.\nInput the function F(t,y) in terms of t and y\nFor e
+xample: y-t^2+1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "y-t^2+1" 
+}}{PARA 6 "" 1 "" {TEXT -1 49 "Input left and right endpoints separate
+d by blank" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "0 2" }}{PARA 
+6 "" 1 "" {TEXT -1 27 "Input the initial condition" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 2 ".5" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tol
+erance" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}{PARA 6 
+"" 1 "" {TEXT -1 59 "Input minimum and maximum mesh spacing separated \+
+by a space" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 7 ".01 .25" }}
+{PARA 6 "" 1 "" {TEXT -1 87 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text file\nPlease enter 1 or 2" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 559 "RUNGE-KUTT
+A-FEHLBERG METHOD\n\n    T(I)           W(I)          H           R\n
+\n   0.0000000    .5000000    0           0\n    .2500000    .9204886 \+
+   .2500000    .0000062\n    .4865524   1.3964916    .2365524    .0000
+044\n    .7293329   1.9537482    .2427804    .0000042\n    .9793329   \+
+2.5864254    .2500000    .0000037\n   1.2293329   3.2604599    .250000
+0    .0000024\n   1.4793329   3.9520949    .2500000    .0000007\n   1.
+7293329   4.6308262    .2500000    .0000014\n   1.9793329   5.2574855 \+
+   .2500000    .0000043\n   2.0000000   5.3054896    .0206670    .0000
+000" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 72 0" 5 }{VIEWOPTS 1 1 0 1 1 1803 
+}

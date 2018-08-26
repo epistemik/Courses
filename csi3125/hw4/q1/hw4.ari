@@ -1,0 +1,20 @@
+
+pi(3.14159).
+liquor(2).
+nuts(3).
+nougat(4).
+
+surface_round(Radius,Nought,Result) :- !, Result is pi * Radius * Radius.
+
+surface_rectangular(Side1,Side2,Result) :- !, Result is Side1 * Side2.
+
+surface_triangular(Base,Height,Result) :- !, Result is 0.5 * Base * Height.
+
+total_weight(Shape, Filling, Height, Dim1, Dim2, Subprog, Result) :- 
+                            Q =.. [Subprog,Dim1,Dim2,X], Q, 
+                            K =.. [Filling,W], K, Result is X * W * Height.
+
+candy(Shape, Filling, Height, Dim1, Dim2, Result) :-
+           (Shape = round, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_round, Result)) ;
+           (Shape = rectangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_rectangular, Result)) ;
+           (Shape = triangular, total_weight(Shape, Filling, Height, Dim1, Dim2, surface_triangular, Result)).

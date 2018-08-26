@@ -1,0 +1,202 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 2 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 105 111 112 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 
+0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 393 "# MULLER'S ALGORITHM 2.8\n#\n# To \+
+find a solution to f(x) = 0 given three approximations x0, x1\n# and x
+2:\n#\n# INPUT:  x0,x1,x2; tolerance TOL; maximum number of iterations
+ NO.\n#\n# OUTPUT: approximate solution p or message of failure.\n#\n#
+ This implementation allows for a switch to complex arithmetic.\n# The
+ coefficients are stored in the vector A, so the dimension\n# of A may
+ have to be changed." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 89 "alg028 := p
+roc() local P, OK, TOL, M, X, FLAG, NAME, OUP, F, H, DEL1, DEL, I, B, \+
+D, E, J;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "printf(`This is Mullers
+ Method.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Input the
+ Polynomial P(x) in terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 33 "printf(`For example: x^2-2*x+2`);" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "P := scanf(`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "P :
+= unapply(P,x);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "if degree(P(x)) = 1 then" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 33 "P := -tcoeff(P(x))/coeff(P(x),x);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 52 "printf(`Polynomial is linear: root \+
+is %11.8f\\n`, P);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALS
+E do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "printf(`Input tolerance\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "TOL := scanf(`%a`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if TOL <= 0 then" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 39 "printf(`Tolerance must be positive\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK :
+= FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 66 "printf(`Input maximum number of ite
+rations - no decimal point\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 
+"M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if M <= 0 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Must be positive in
+teger\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "else " }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 53 "printf(`Input the first of three starting values\\n`)
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[0] := scanf(`%f`)[1];" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`Input the second of three s
+tarting values\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[1] := sca
+nf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`Input the t
+hird starting value\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "X[2] :
+= scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "printf(`Select output destination\\n`);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 22 "printf(`1. Screen\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`2. Text file\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "printf(`Enter 1 or 2\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+63 "printf(`Input the file name in the form - drive:\\\\name.ext\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "printf(`For example:   A:\\\\OU
+TPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 30 "OUP := fopen(NAME,WRITE,T
+EXT);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 15 "OUP := default;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "
+fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "fprintf(OUP, `MULLER'S METHO
+D\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 65 "fprintf(OUP, `The output
+ is i, approximation x(i), f(x(i))\\n\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 67 "fprintf(OUP,`Three columns means the results are real
+ numbers,\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "fprintf(OUP,`Fiv
+e columns means the results are complex\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 63 "fprintf(OUP,`numbers with real and imaginary parts of
+ x(i)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 68 "fprintf(OUP,`followe
+d by real and imaginary parts of f(x(i)).\\n\\n`);" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "F[0] := P(X[0]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+16 "F[1] := P(X[1]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "F[2] := P(X
+[2]);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 1" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "H[0] := X[1]-X[0];" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 18 "H[1] := X[2]-X[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "DEL1[0] := (F[1]-F[0])/H[0];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 28 "DEL1[1] := (F[2]-F[1])/H[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 37 "DEL := (DEL1[1]-DEL1[0])/(H[1]+H[0]);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 7 "I := 3;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" 
+}}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "while I <= M and OK = TRUE do" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEPS 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "B := DEL1[1]+H[1]*DEL;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "D := \+
+B*B-4*F[2]*DEL;" }}{PARA 0 "" 0 "" {TEXT -1 28 "test to see if straigh
+t line" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 27 "if abs(DEL) <= 1.0e-20 th
+en" }}{PARA 0 "" 0 "" {TEXT -1 39 "straight line - test if horizontal \+
+line" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 31 "if abs(DEL1[1]) <= 1.0e-20 \+
+then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "printf(`Horizontal Line\\n`
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 32 "straight lin
+e but not horizontal" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "X[3] := (F[
+2]-DEL1[1]*X[2])/DEL1[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "H[2] :
+= X[3]-X[2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 19 "not a straig
+ht line" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "D := sqrt(D);" }}{PARA 
+0 "" 0 "" {TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "E :=
+ B+D;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "if abs(B-D) > abs(E) then
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "E := B-D;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 5" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 18 "H[2] := -2*F[2]/E;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 18 "X[3] := X[2]+H[2];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "F[3] := P(X[3]);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 42 "fprintf(OUP, `%d %a %a\\n`, I, X[3], F[3]);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "" 0 "" {TEXT -1 6 "S
+TEP 6" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "if abs(
+H[2]) < TOL then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, `
+\\nMethod Succeeds\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 53 "fprintf
+(OUP, `Approximation is within %.10e\\n`, TOL);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 38 "fprintf(OUP, `in %d iterations\\n`, I);" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 4 "else" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 7" }{MPLTEXT 1 0 0 "" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "for J from 1 to 2 do" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 15 "H[J-1] := H[J];" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 15 "X[J-1] := X[J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "F[J-1] :
+= F[J];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "X[2] := X[3];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "F
+[2] := F[3];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "DEL1[0] := DEL1[1];
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 28 "DEL1[1] := (F[2]-F[1])/H[1];" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "DEL := (DEL1[1]-DEL1[0])/(H[1]+H[0
+]);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 9 "I := I+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }{MPLTEXT 1 0 0 "" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 27 "if I > M and OK = TRUE then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 33 "fprintf (OUP, `Method Failed\\n`);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if OUP \+
+<> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created suce
+ssfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "RETU
+RN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>%'alg028G:6\"63%\"PG%#OKG%$TOLG%\"MG%\"XG%%FLAGG%%NAME
+G%$OUPG%\"FG%\"HG%%DEL1G%$DELG%\"IG%\"BG%\"DG%\"EG%\"JGF&F&C,-%'printf
+G6#%9This~is~Mullers~Method.|+G-F;6#%IInput~the~Polynomial~P(x)~in~ter
+ms~of~x|+G-F;6#%7For~example:~x^2-2*x+2G>8$&-%&scanfG6#%#%aG6#\"\"\">F
+E-%(unapplyG6$FE%\"xG>8%%%TRUEG@$/-%'degreeG6#-FE6#FQFLC%>FE,$*&-%'tco
+effGFYFL-%&coeffG6$FZFQ!\"\"F_o-F;6$%FPolynomial~is~linear:~root~is~%1
+1.8f|+GFE>FS%&FALSEG@$/FSFTC,>FSFdo?(F&FLFLF&/FSFdoC%-F;6#%1Input~tole
+rance|+G>8&FF@%1F`p\"\"!-F;6#%<Tolerance~must~be~positive|+G>FSFT>FSFd
+o?(F&FLFLF&FjoC%-F;6#%WInput~maximum~number~of~iterations~-~no~decimal
+~point|+G>8'&-FH6#%#%dGFK@%1F_qFcp-F;6#%:Must~be~positive~integer|+G>F
+SFT-F;6#%JInput~the~first~of~three~starting~values|+G>&8(6#Fcp&-FH6#%#
+%fGFK-F;6#%KInput~the~second~of~three~starting~values|+G>&F_rFKFar-F;6
+#%@Input~the~third~starting~value|+G>&F_r6#\"\"#Far@$FfoC:-F;6#%;Selec
+t~output~destination|+G-F;6#%+1.~Screen|+G-F;6#%.2.~Text~file|+G-F;6#%
+.Enter~1~or~2|+G>8)F`q@%/F`tF`sC&-F;6#%SInput~the~file~name~in~the~for
+m~-~drive:\\name.ext|+G-F;6#%>For~example:~~~A:\\OUTPUT.DTA|+G>8*&-FH6
+#%#%sGFK>8+-%&fopenG6%F[u%&WRITEG%%TEXTG>Fau%(defaultG-%(fprintfG6$Fau
+%1MULLER'S~METHOD|+G-Fju6$Fau%OThe~output~is~i,~approximation~x(i),~f(
+x(i))|+|+G-Fju6$Fau%SThree~columns~means~the~results~are~real~numbers,
+|+G-Fju6$Fau%LFive~columns~means~the~results~are~complex|+G-Fju6$Fau%O
+numbers~with~real~and~imaginary~parts~of~x(i)|+G-Fju6$Fau%Sfollowed~by
+~real~and~imaginary~parts~of~f(x(i)).|+|+G>&8,F`r-FE6#F^r>&F^wFK-FE6#F
+ir>&F^wF_s-FE6#F^s>&8-F`r,&FirFLF^rF_o>&F[xFK,&F^sFLFirF_o>&8.F`r*&,&F
+bwFLF]wF_oFLFjwF_o>&FbxFK*&,&FfwFLFbwF_oFLF^xF_o>8/*&,&FfxFLFaxF_oFL,&
+F^xFLFjwFLF_o>80\"\"$?(F&FLFLF&31F_yF_qFfoC(>81,&FfxFL*&F^xFLFjxFLFL>8
+2,&*$FfyF`sFL*&FfwFLFjxFL!\"%@%1-%$absG6#FjxFcp@%1-Fbz6#FfxFcpC$-F;6#%
+1Horizontal~Line|+G>FSFdoC$>&F_r6#F`y*&,&FfwFL*&FfxFLF^sFLF_oFLFfxF_o>
+&F[xF_s,&F_[lFLF^sF_oC'>Fjy-%%sqrtG6#Fjy>83,&FfyFLFjyFL@$2-Fbz6#F]\\l-
+Fbz6#,&FfyFLFjyF_o>F]\\lFe\\l>Fe[l,$*&FfwFLF]\\lF_o!\"#>F_[l,&F^sFLFe[
+lFL@$FfoC$>&F^wF`[l-FE6#F_[l-Fju6'Fau%*%d~%a~%a|+GF_yF_[lF`]l@%2-Fbz6#
+Fe[lF`pC&-Fju6$Fau%2|+Method~Succeeds|+G-Fju6%Fau%?Approximation~is~wi
+thin~%.10e|+GF`p-Fju6%Fau%2in~%d~iterations|+GF_y>FSFdoC(?(84FLFLF`s%%
+trueGC%>&F[x6#,&Fg^lFLF_oFL&F[x6#Fg^l>&F_rF\\_l&F_rF__l>&F^wF\\_l&F^wF
+__l>F^sF_[l>FfwF`]l>FaxFfx>FfxFgx>FjxF[y>F_y,&F_yFLFLFL@$32F_qF_yFfo-F
+ju6$Fau%/Method~Failed|+G@$0FauFhuC$-%'fcloseG6#Fau-F;6$%COutput~file~
+%s~created~sucessfullyGF[u-%'RETURNGF`rF&F&" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 9 "alg028();" }}{PARA 6 "" 1 "" {TEXT -1 86 "This is M
+ullers Method.\nInput the Polynomial P(x) in terms of x\nFor example: \+
+x^2-2*x+2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "16*x^4-40*x^3+
+5*x^2+20*x+6" }}{PARA 6 "" 1 "" {TEXT -1 15 "Input tolerance" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 6 ".00001" }}{PARA 6 "" 1 "" 
+{TEXT -1 53 "Input maximum number of iterations - no decimal point" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "30" }}{PARA 6 "" 1 "" {TEXT 
+-1 40 "Input the first of three starting values" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 2 ".5" }}{PARA 6 "" 1 "" {TEXT -1 41 "Input the se
+cond of three starting values" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "-.5" }}{PARA 6 "" 1 "" {TEXT -1 30 "Input the third starting valu
+e" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "0" }}{PARA 6 "" 1 "" 
+{TEXT -1 61 "Select output destination\n1. Screen\n2. Text file\nEnter
+ 1 or 2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 
+1 "" {TEXT -1 689 "MULLER'S METHOD\nThe output is i, approximation x(i
+), f(x(i))\n\nThree columns means the results are real numbers,\nFive \+
+columns means the results are complex\nnumbers with real and imaginary
+ parts of x(i)\nfollowed by real and imaginary parts of f(x(i)).\n\n3 \+
+-.5555555558+.5983516452*I -29.40070112-3.898724738*I\n4 -.4354502837+
+.1021012492*I 1.332224757-1.193096732*I\n5 -.3906314607+.1418522326*I \+
+.375057921-.670168358*I\n6 -.3576984287+.1699262689*I -.146750077-.744
+6233e-2*I\n7 -.3560506666+.1628560137*I -.1840221e-2+.538457e-3*I\n8 -
+.3560617023+.1627583074*I .1648e-5+.892e-6*I\n9 -.3560617618+.16275838
+28*I .1e-8-.1e-8*I\n\nMethod Succeeds\nApproximation is within 1.00000
+00000e-05\nin 9 iterations" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#\"\"!" }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "1 116 0" 13 }
+{VIEWOPTS 1 1 0 1 1 1803 }

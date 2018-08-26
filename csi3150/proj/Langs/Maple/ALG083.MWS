@@ -1,0 +1,260 @@
+{VERSION 2 3 "IBM INTEL NT" "2.3" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 0 128 0 128 1 0 1 0 
+0 1 0 0 0 0 }{CSTYLE "2D Math" -1 2 "Times" 0 1 186 136 0 0 0 0 2 0 0 
+0 0 0 0 }{CSTYLE "2D Output" 2 20 "" 0 0 0 128 128 1 0 0 0 0 0 0 0 0 
+0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "" 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Text Output" -1 2 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 0 0 0 0 0 1 3 0 0 }1 0 0 
+-1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 2 6 1 {CSTYLE "" -1 -1 "" 0 1 0 
+0 0 0 0 0 0 0 0 0 2 0 0 }0 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "Map
+le Output" 0 11 1 {CSTYLE "" -1 -1 "" 0 1 0 0 152 0 0 0 0 0 0 0 0 0 0 
+}3 3 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 
+"" 0 1 16 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 327 "# FAST FOURIER TRANSFORM ALGORITHM
+ 8.3\n#\n# To compute the coefficients in the discrete approximation\n
+# for the data (x(J),y(J)), 0<=J<=2m-1 where m=2*p and\n# x(J)=-pi+J*p
+i/m for 0<=J<=2m-1.\n#\n# INPUT:  m; y(0),y(1),...y(2m-1).\n#\n# OUTPU
+T: complex numbers c(0),...,c(2m-1); real numbers\n#         a(0),...,
+a(m); b(1),...,b(m-1)." }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 141 "alg083 :
+= proc() global IBR; local OK, FLAG, M, N, JJ, J, Y, A, NAME, INP, F, \+
+Z, OUP, TW, N2, C, NG, NU1, YY, WW, X, W, K, L, M1, NP, T1, T3;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "IBR := proc(J,NU) local J1, K, JJ, \+
+J2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "J1 := J;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 7 "K := 0;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for JJ
+ from 1 to NU do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "J2 := floor(J1/
+2);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "K := 2*K+J1-2*J2;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 9 "J1 := J2;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "RETURN(K); " }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "p
+rintf(`This is the Fast Fourier Transform.\\n\\n`);" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 49 "printf(`The user must make provisions if the\\n`);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 38 "printf(`interval is not [-pi,pi
+].\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 36 "printf(`Choice of input method:\\n`);" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 50 "printf(`1. Input entry by entry from keyboard
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 43 "printf(`2. Input data fro
+m a text file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "printf(`3. G
+enerate data using a function F\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 37 "printf(`Choose 1, 2, or 3 please\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "FLAG := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 40 "if FLAG = 1 or FLAG = 2 or FLAG = 3 then" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 1 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+12 "OK := FALSE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "while OK = FALS
+E do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "printf(`Input m\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "M := scanf(`%d`)[1];" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 13 "if M > 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 11 "OK := TRUE;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "N := 2*M;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for JJ from 1 to N do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 10 "J := JJ-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+28 "printf(`Input y(%d).\\n`, J);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+26 "Y[JJ-1] := scanf(`%f`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "printf(`Number must be a positive integer.\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+49 "printf(`Has a text file been created with the `);" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 37 "printf(`entries y(0),...,y(2m-1)\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 34 "printf(`separated by a blank?\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "printf(`Enter Y or N\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "A := scanf(`\\n%c`)[1];" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 22 "if A = Y or A = y then" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 45 "printf(`Input the file name in the form - `);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "printf(`drive:\\\\name.ext\\n`);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 40 "printf(`for example:   A:\\\\DATA.
+DTA\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1]
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 29 "INP := fopen(NAME,READ,TEXT);
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 19 "while OK = FALSE do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 28 "printf(`Input number m.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "N := 2
+*M;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 21 "for JJ from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 32 "Y[JJ-1] := fscanf(INP, `%f`)[1];" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(INP
+);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 52 "else printf(`Number must be a positive integer.
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "else" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 54 "printf(`The program will end so the
+ input file can `);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 24 "printf(`be c
+reated.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 3 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Input the function F(x) in \+
+terms of x\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "printf(`for exa
+mple:   cos(x)\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "F := scanf(
+`%a`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "F := unapply(F,x);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "OK := FALSE;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "while OK = FALSE" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+35 "do printf(`Input the number m.\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 20 "M := scanf(`%d`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 9 "N := 2*M;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "if N > 0 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for JJ from 1 to N do" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 21 "Z := -Pi+(JJ-1)*Pi/M;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "Y[JJ-1] := evalf(F(Z));" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "OK := TRUE;
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 51 "else printf(`Number must be a p
+ostive integer.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "od; " }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "if OK = TRUE then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "printf(`Choice of output method:\\n
+`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "printf(`1. Output to screen
+\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 35 "printf(`2. Output to text
+ file\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "printf(`Please enter
+ 1 or 2.\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "FLAG := scanf(`%d
+`)[1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "if FLAG = 2 then" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 63 "printf(`Input the file name in the \+
+form - drive:\\\\name.ext\\n`);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 42 "
+printf(`for example:   A:\\\\OUTPUT.DTA\\n`);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 23 "NAME := scanf(`%s`)[1];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 31 "OUP := fopen(NAME, WRITE,TEXT);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 4 "else" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "OUP := defa
+ult;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 43 "fprintf(OUP, `FAST FOURIER TRANSFORM\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "TW := ln(2);" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 1" }}{PARA 0 "" 0 "" {TEXT -1 46 "use N2 for m, NG fo
+r p, NU1 for q, WW for zeta" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "N2 :
+= floor(N/2);" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 2" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 21 "for JJ from 1 to N do" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "C[JJ-1] := Y[JJ-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "Z := N;" }}{PARA 0 "> " 
+0 "" {MPLTEXT 1 0 22 "NG := round(ln(Z)/TW);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "NU1 := NG-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "YY
+ := 2*Pi*I/N;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "WW := exp(YY);" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 3" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+22 "for JJ from 1 to N2 do" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "X := 1
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "YY := 1;" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 21 "for J from 1 to JJ do" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 11 "YY := X*WW;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "X := YY;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 13 "W[JJ-1] := X;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "W[N2+JJ-1] :
+= -X;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 4" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K := 0;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "W[-1] := 1;" }}{PARA 0 "" 0 "" 
+{TEXT -1 6 "STEP 5" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "for L from 1 \+
+to NG do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP 6" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "while K < N-1 do" }}{PARA 0 "" 0 "" {TEXT -1 6 "STEP \+
+7" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "for JJ from 1 to N2 do" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 8" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+17 "Z := exp(NU1*TW);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "M1 := roun
+d(Z);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 18 "M1 := floor(K/M1);" }}
+{PARA 0 "" 0 "" {TEXT -1 25 "IBR does the bit reversal" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 17 "NP := IBR(M1,NG);" }}{PARA 0 "" 0 "" {TEXT -1 
+9 "T1 is eta" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "T1 := C[K+N2];" }}
+{PARA 0 "" 0 "" {TEXT -1 6 "STEP 9" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+15 "if NP <> 0 then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "X := T1;" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "T1 := X*W[NP-1];" }}{PARA 0 "> " 0 
+"" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "C[K+N2] :
+= C[K]-T1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "C[K] := C[K]+T1;" }}
+{PARA 0 "" 0 "" {TEXT -1 7 "STEP 10" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+9 "K := K+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 
+"" {TEXT -1 7 "STEP 11" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "K := K+N2
+;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "" 0 "" {TEXT 
+-1 7 "STEP 12" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 7 "K := 0;" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 18 "N2 := floor(N2/2);" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "NU1 := NU1-1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od
+;" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 13" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 16 "while K < N-1 do" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP \+
+14" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "JJ := IBR(K,NG);" }}{PARA 0 "
+" 0 "" {TEXT -1 7 "STEP 15" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 14 "if JJ
+ > K then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 11 "T3 := C[K];" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 14 "C[K] := C[JJ];" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 12 "C[JJ] := T3;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;
+" }}{PARA 0 "" 0 "" {TEXT -1 7 "STEP 16" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 9 "K := K+1;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "
+" 0 "" {TEXT -1 15 "STEPS 17 and 18" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 
+53 "fprintf(OUP, `Coefficients c(0), ... , c(2m-1)\\n\\n`);" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 21 "for JJ from 1 to N do" }}{PARA 0 "> " 0 "
+" {MPLTEXT 1 0 19 "YY := -(JJ-1)*Pi*I;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 13 "X := exp(YY);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "YY := X*C[
+JJ-1];" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 36 "C[JJ-1] := evalc(evalf(YY
+/(0.5*N)));" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "K := JJ-1;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 37 "fprintf(OUP, `%3d %a\\n`, K, C[JJ-1]);" }
+}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 
+1 0 51 "fprintf(OUP, `\\nCoefficients a(0), ..., a(m)\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 23 "for JJ from 1 to M+1 do" }}{PARA 0 
+"> " 0 "" {MPLTEXT 1 0 36 "fprintf(OUP, `%.8f\\n`, Re(C[JJ-1]));" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 
+0 53 "fprintf(OUP, `\\nCoefficients b(1), ..., b(m-1)\\n\\n`);" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 62 "for JJ from 2 to M do fprintf(OUP, \+
+`%.8f\\n`, Im(C[JJ-1])); od;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "if \+
+OUP <> default then" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "fclose(OUP):
+" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 50 "printf(`Output file %s created \+
+sucessfully`,NAME);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 
+0 "> " 0 "" {MPLTEXT 1 0 3 "fi;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 10 "
+RETURN(0);" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 4 "end;" }}{PARA 12 "" 1 
+"" {XPPMATH 20 "6#>%'alg083G:6\"6>%#OKG%%FLAGG%\"MG%\"NG%#JJG%\"JG%\"Y
+G%\"AG%%NAMEG%$INPG%\"FG%\"ZG%$OUPG%#TWG%#N2G%\"CG%#NGG%$NU1G%#YYG%#WW
+G%\"XG%\"WG%\"KG%\"LG%#M1G%#NPG%#T1G%#T3GF&F&C->%$IBRG:6$F-%#NUG6&%#J1
+GF>F,%#J2GF&F&C&>8$9$>8%\"\"!?(8&\"\"\"FV9%%%trueGC%>8'-%&floorG6#,$FO
+#FV\"\"#>FR,(FRF[oFOFVFen!\"#>FOFen-%'RETURNG6#FRF&F&-%'printfG6#%FThi
+s~is~the~Fast~Fourier~Transform.|+|+G-Fdo6#%FThe~user~must~make~provis
+ions~if~the|+G-Fdo6#%;interval~is~not~[-pi,pi].|+G>FO%&FALSEG?(F&FVFVF
+&/FOF^pC)-Fdo6#%9Choice~of~input~method:|+G-Fdo6#%G1.~Input~entry~by~e
+ntry~from~keyboard|+G-Fdo6#%@2.~Input~data~from~a~text~file|+G-Fdo6#%E
+3.~Generate~data~using~a~function~F|+G-Fdo6#%:Choose~1,~2,~or~3~please
+|+G>FR&-%&scanfG6#%#%dG6#FV@$55/FRFV/FRF[o/FR\"\"$>FO%%TRUEG@$F[rC$>FO
+F^p?(F&FVFVF&F`pC%-Fdo6#%)Input~m|+G>FUFbq@%2FSFUC%>FOF`r>Fen,$FUF[o?(
+8(FVFVFenFXC%>8),&FasFV!\"\"FV-Fdo6$%.Input~y(%d).|+GFds>&8*6#Fes&-Fdq
+6#%#%fGFgq-Fdo6#%DNumber~must~be~a~positive~integer.|+G@$F\\rC(-Fdo6#%
+GHas~a~text~file~been~created~with~the~G-Fdo6#%:entries~y(0),...,y(2m-
+1)|+G-Fdo6#%7separated~by~a~blank?|+G-Fdo6#%.Enter~Y~or~N|+G>8+&-Fdq6#
+%$|+%cGFgq@%5/FduF\\t/Fdu%\"yGC)-Fdo6#%CInput~the~file~name~in~the~for
+m~-~G-Fdo6#%1drive:\\name.ext|+G-Fdo6#%<for~example:~~~A:\\DATA.DTA|+G
+>8,&-Fdq6#%#%sGFgq>8--%&fopenG6%Fiv%%READG%%TEXTG>FOF^p?(F&FVFVF&F`pC&
+-Fdo6#%1Input~number~m.|+G>FUFbq>FenF_s@%2FSFenC%?(FasFVFVFenFX>F[t&-%
+'fscanfG6$F_wFatFgq-%'fcloseG6#F_w>FOF`rFbtC%-Fdo6#%LThe~program~will~
+end~so~the~input~file~can~G-Fdo6#%-be~created.|+G>FOF^p@$F]rC(-Fdo6#%G
+Input~the~function~F(x)~in~terms~of~x|+G-Fdo6#%7for~example:~~~cos(x)|
++G>8.&-Fdq6#%#%aGFgq>F[z-%(unapplyG6$F[z%\"xG>FOF^p?(F&FVFVF&F`pC&-Fdo
+6#%5Input~the~number~m.|+G>FUFbq>FenF_s@%F^xC$?(FasFVFVFenFXC$>8/,&%#P
+iGFfs*(FesFVFd[lFVFUFfsFV>F[t-%&evalfG6#-F[z6#Fb[l>FOF`r-Fdo6#%CNumber
+~must~be~a~postive~integer.|+G@$/FOF`rC=-Fdo6#%:Choice~of~output~metho
+d:|+G-Fdo6#%51.~Output~to~screen|+G-Fdo6#%82.~Output~to~text~file|+G-F
+do6#%6Please~enter~1~or~2.|+G>FRFbq@%F\\rC&-Fdo6#%SInput~the~file~name
+~in~the~form~-~drive:\\name.ext|+G-Fdo6#%>for~example:~~~A:\\OUTPUT.DT
+A|+G>FivFjv>80-Faw6%Fiv%&WRITEGFdw>Fj]l%(defaultG-%(fprintfG6$Fj]l%9FA
+ST~FOURIER~TRANSFORM|+|+G>81-%#lnG6#F[o>82-Fgn6#,$FenFjn?(FasFVFVFenFX
+>&83F]tF[t>Fb[lFen>84-%&roundG6#*&-Fg^lF[\\lFVFe^lFfs>85,&Fd_lFVFfsFV>
+86,$*(%\"IGFVFd[lFVFenFfsF[o>87-%$expG6#F^`l?(FasFVFVFj^lFXC'>88FV>F^`
+lFV?(FdsFVFVFasFXC$>F^`l*&Fj`lFVFc`lFV>Fj`lF^`l>&89F]tFj`l>&Fcal6#,(Fj
+^lFVFasFVFfsFV,$Fj`lFfs>8:FS>&Fcal6#FfsFV?(8;FVFVFd_lFXC&?(F&FVFVF&2Fj
+al,&FenFVFfsFVC$?(FasFVFVFj^lFXC+>Fb[l-Fe`l6#*&F[`lFVFe^lFV>8<-Ff_lF[
+\\l>F\\cl-Fgn6#*&FjalFVF\\clFfs>8=-FF6$F\\clFd_l>8>&Fa_l6#,&FjalFVFj^l
+FV@$0FcclFSC$>Fj`lFgcl>Fgcl*&Fj`lFV&Fcal6#,&FcclFVFfsFVFV>Fhcl,&&Fa_l6
+#FjalFVFgclFfs>Ffdl,&FfdlFVFgclFV>Fjal,&FjalFVFVFV>FjalFjcl>FjalFS>Fj^
+l-Fgn6#,$Fj^lFjn>F[`l,&F[`lFVFfsFV?(F&FVFVF&FbblC%>Fas-FF6$FjalFd_l@$2
+FjalFasC%>8?Ffdl>Ffdl&Fa_l6#Fas>F_flF]fl>FjalF[el-Fa^l6$Fj]l%CCoeffici
+ents~c(0),~...~,~c(2m-1)|+|+G?(FasFVFVFenFXC(>F^`l,$*(Fa`lFVFesFVFd[lF
+VFfs>Fj`lFd`l>F^`l*&Fj`lFVF`_lFV>F`_l-%&evalcG6#-Fh[l6#,$*&F^`lFVFenFf
+s$\"+++++?!\"*>FjalFes-Fa^l6&Fj]l%(%3d~%a|+GFjalF`_l-Fa^l6$Fj]l%@|+Coe
+fficients~a(0),~...,~a(m)|+|+G?(FasFVFV,&FUFVFVFVFX-Fa^l6%Fj]l%&%.8f|+
+G-%#ReG6#F`_l-Fa^l6$Fj]l%B|+Coefficients~b(1),~...,~b(m-1)|+|+G?(FasF[
+oFVFUFX-Fa^l6%Fj]lFdhl-%#ImGFghl@$0Fj]lF_^lC$-Fgx6#Fj]l-Fdo6$%COutput~
+file~%s~created~sucessfullyGFiv-Fao6#FSF&6#FF" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 9 "alg083();" }}{PARA 6 "" 1 "" {TEXT -1 253 "This i
+s the Fast Fourier Transform.\n\nThe user must make provisions if the
+\ninterval is not [-pi,pi].\nChoice of input method:\n1. Input entry b
+y entry from keyboard\n2. Input data from a text file\n3. Generate dat
+a using a function F\nChoose 1, 2, or 3 please" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 7 "Input m" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "2" }}{PARA 6 "" 1 "" {TEXT 
+-1 11 "Input y(0)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "-1" }}
+{PARA 6 "" 1 "" {TEXT -1 11 "Input y(1)." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 2 "-1" }}{PARA 6 "" 1 "" {TEXT -1 11 "Input y(2)." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2 "-1" }}{PARA 6 "" 1 "" {TEXT 
+-1 11 "Input y(3)." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 1 "1" }}
+{PARA 6 "" 1 "" {TEXT -1 88 "Choice of output method:\n1. Output to sc
+reen\n2. Output to text file\nPlease enter 1 or 2." }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 1 "1" }}{PARA 6 "" 1 "" {TEXT -1 238 "FAST FOUR
+IER TRANSFORM\n\nCoefficients c(0), ... , c(2m-1)\n\n  0 -1.000000000
+\n  1 1.000000000*I\n  2 -1.000000000\n  3 -1.000000000*I\n\nCoefficie
+nts a(0), ..., a(m)\n\n-1.00000000\n0.00000000\n-1.00000000\n\nCoeffic
+ients b(1), ..., b(m-1)\n\n1.00000000" }}{PARA 11 "" 1 "" {XPPMATH 20 
+"6#\"\"!" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "9 1
+ 0" 160 }{VIEWOPTS 1 1 0 1 1 1803 }
