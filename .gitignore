@@ -17,9 +17,9 @@
 **/[Tt][Pp][Uu]/
 **/[Dd]eliv[123]/
 **/assn[34]/
-**/Debug/*
+**/Debug/
 **/[Dd]ependency*/
-**/Release/*
+**/Release/
 **/[Ww][Ii][Nn]32/
 **/[Cc][Ll][Aa][Ss][Ss]/
 **/*.class
