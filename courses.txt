@@ -23,3 +23,4 @@ mat2341	 Linear Algebra I					              Philip Scott                -       
 mat2343	 Elements of Discrete Mathematics			      Abdellah Sebbar             -               Winter 2000
 mat2371	 Intro to Probability					          Mahmoud Zarepour            -               Fall   1999
 mat2375	 Intro to Statistics					          Mahmoud Zarepour            -               Winter 2000
+
